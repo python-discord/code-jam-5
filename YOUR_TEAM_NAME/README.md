@@ -25,7 +25,7 @@ Once you have all of the required dependancies installed, it is time to boot up 
 To run the API, you can simply type the following into your terminal:
 
 ```bash
-pipenv run python practical_porcupines/ flask_API
+pipenv run python YOUR_TEAM_NAME/ flask_API
 ```
 
 This will automatically start the flask API in debug mode (as this project is not intended for production use)
@@ -47,7 +47,7 @@ export CLIENT_TOKEN=ct
 Insert the bot's token where `ct` is currently present. After you have completed this step, you may run the discord bot with the following command
 
 ```bash
-python practical_porcupines/ discord_bot
+python YOUR_TEAM_NAME/ discord_bot
 ```
 
 ### Running the WebPortal/WebUi
@@ -55,7 +55,7 @@ python practical_porcupines/ discord_bot
 To run the webportal, you can simply type the following into your terminal:
 
 ```bash
-pipenv run python practical_porcupines/ flask_webportal
+pipenv run python YOUR_TEAM_NAME/ flask_webportal
 ```
 
 This will automatically start the flask webportal in debug mode (as this project is not intended for production use)
