@@ -10,6 +10,7 @@ flake8 = "*"
 flask = "*"
 discord-py = "*"
 requests = "*"
+flask-restful = "*"
 
 [requires]
 python_version = "3.6"
