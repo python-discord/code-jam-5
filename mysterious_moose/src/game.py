@@ -14,7 +14,10 @@ class Main:
         self.state = 1
         self.exit_code = -1
         self.graphics = graphics
-        self.main_menu = menus.MainMenu()
+        self.main_menu = menus.MainMenu(graphics)
+        self.options_menu = menus.Options(graphics)
+        # when the window resolution is changed this list is updated
+        self.resolution_dependants = (self.main_menu, self.options_menu)
 
     def _end(self):
         """ handles main loop completion """
@@ -24,10 +27,10 @@ class Main:
         """ main code for loop """
         if self.state == 1:
             # main menu
-            self.exit_code = self.main_menu.display(self.events)
+            self.main_menu.display(self.events)
         elif self.state == 2:
             # options
-            pass
+            self.options_menu.display(self.events)
         elif self.state == 3:
             # game setup
             pass
