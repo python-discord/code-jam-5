@@ -17,7 +17,8 @@ class Graphics:
         if pygame_initialisation == (8, 0):
             log.info("PyGame Initialised")
         else:
-            log.critical("PyGame did not start correctly, attempting to continue as it could be fine?")
+            log.critical("PyGame did not start correctly, "
+                         "attempting to continue as it could be fine?")
 
         log.info("creating display object")
         self.display = pygame.display.set_mode((1900, 1000))
@@ -54,8 +55,12 @@ class Graphics:
                     rotation = element["rotation"] if "rotation" in element else int(0)
 
                     if element["type"] == "normal":
-                        self.fonts[element["font"]].render_to(self.display, (element["x"], element["y"]),
-                                                              element["text"], style=style,
-                                                              fgcolor=colour, bgcolor=bg_colour,
-                                                              rotation=rotation, size=element["size"])
+                        self.fonts[element["font"]].render_to(self.display,
+                                                              (element["x"], element["y"]),
+                                                              element["text"],
+                                                              style=style,
+                                                              fgcolor=colour,
+                                                              bgcolor=bg_colour,
+                                                              rotation=rotation,
+                                                              size=element["size"])
         pygame.display.update()
