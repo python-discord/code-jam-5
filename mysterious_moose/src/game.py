@@ -41,6 +41,17 @@ class Main:
             # executed every loop
             pygame.event.pump()  # execute pygame background tasks
             self.events = pygame.event.get()
+            log.debug("events: " + str(self.events))
+            for event in self.events:
+                if event.type == pygame.QUIT:
+                    log.info("Quit event received")
+                    self.exit_code = 0
+                elif event.type == pygame.VIDEORESIZE:
+                    pygame.display.set_mode((
+                        800 if event.w < 800 else event.w,
+                        600 if event.h < 600 else event.h
+                    ), pygame.RESIZABLE)
+
             # execute state dependant code
             self._state()
 

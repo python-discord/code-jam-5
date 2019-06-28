@@ -22,7 +22,7 @@ class Graphics:
             )
 
         log.info("creating display object")
-        self.display = pygame.display.set_mode((1900, 1000), pygame.RESIZABLE)
+        self.display = pygame.display.set_mode((1900, 960), pygame.RESIZABLE)
 
         # in this section the file path and file name are separated to make it easier to read
         log.info("loading fonts")
