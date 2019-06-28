@@ -1,6 +1,6 @@
 import logging
 import pygame
-
+import pygame.freetype
 
 # gets logger
 log = logging.getLogger("main.graphics")
@@ -26,7 +26,7 @@ class Graphics:
 
         # in this section the file path and file name are separated to make it easier to read
         log.info("loading fonts")
-        self.fonts = {"main": pygame.font.Font("assets/fonts/" + "Roboto-Regular.ttf", 20)}
+        self.fonts = {"main": pygame.freetype.Font("assets/fonts/" + "Roboto-Regular.ttf", 20)}
 
         log.info("loading images")
         self.images = {"example": pygame.image.load("assets/images/" + "example.jpg")}

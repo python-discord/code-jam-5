@@ -16,9 +16,6 @@ stream_handler.setFormatter(logging.Formatter(
 log.addHandler(stream_handler)
 log.info("Logging initialised")
 
-log.info("setting up pygame to use freetype")
-os.environ['PYGAME_FREETYPE'] = 'true'
-
 
 log.info("Initialising graphics")
 display = graphics.Graphics()
