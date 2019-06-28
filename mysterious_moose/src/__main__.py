@@ -12,7 +12,7 @@ log.setLevel(logging.INFO)
 stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(logging.Formatter(
     fmt='%(asctime)s - %(name)s - %(levelname)s : %(message)s',
-    datefmt='%Y-%j %H:%M:%S'))
+    datefmt='%H:%M:%S'))
 log.addHandler(stream_handler)
 log.info("Logging initialised")
 
