@@ -7,9 +7,11 @@ verify_ssl = true
 flake8 = "*"
 
 [packages]
+pyqt5 = "*"
 
 [requires]
 python_version = "3.7"
 
 [scripts]
 lint = "python -m flake8"
+start = "python -m only_otters"
