@@ -22,8 +22,13 @@ Because this is a free-for-all, you are free to make anything you want, as long 
 
 # Documentation
 
-- We've written a [How to get started with git](docs/git-how-to.md) guide to help you get started with `git` if you're unfamiliar with it.
-- If you're curious about how we judge code jam submissions, take a look at the [How does judging work?](docs/how-judging-works.md).
+We've written a couple of documents that may help you get started with the codejam
+
+- If you've never used git before, check out the [How to use git](https://github.com/python-discord/code-jam-5/wiki/How-to-use-git) in the repository wiki.
+
+- For information on how to correctly fork the repository and how to create a Pull Request, see [Opening a pull request](wiki/Opening-a-Pull-Request)
+
+- If you're curious about how we judge code jam submissions, take a look at the [How does judging work?](https://github.com/python-discord/code-jam-5/wiki/How-does-judging-work%3F).
 
 # Rules
 
