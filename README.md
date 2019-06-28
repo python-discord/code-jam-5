@@ -26,7 +26,7 @@ We've written a couple of documents that may help you get started with the codej
 
 - If you've never used git before, check out the [How to use git](https://github.com/python-discord/code-jam-5/wiki/How-to-use-git) in the repository wiki.
 
-- For information on how to correctly fork the repository and how to create a Pull Request, see [Opening a pull request](wiki/Opening-a-Pull-Request)
+- For information on how to correctly fork the repository and how to create a Pull Request, see [Opening a pull request](https://github.com/python-discord/code-jam-5/wiki/Opening-a-Pull-Request)
 
 - If you're curious about how we judge code jam submissions, take a look at the [How does judging work?](https://github.com/python-discord/code-jam-5/wiki/How-does-judging-work%3F).
 
