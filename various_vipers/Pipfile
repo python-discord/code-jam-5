@@ -15,6 +15,7 @@ pre-commit = "*"
 black = "*"
 
 [packages]
+pygame = "*"
 
 [requires]
 python_version = "3.7"
