@@ -20,6 +20,11 @@ Because this is a free-for-all, you are free to make anything you want, as long 
 - You may use any third party module that's available on PyPI, but you should then provide a `requirements.txt`, a `Pipfile` or some other form of dependency management list so that we can easily install these.
 - Absolutely all code should be inside of your team folder, not in the root level. This is to ensure we can merge your pull requests into this repo when the jam is over, which gives you GitHub contribution credit towards our organisation.
 
+# Documentation
+
+- We've written a [How to get started with git](docs/git-how-to.md) guide to help you get started with `git` if you're unfamiliar with it.
+- If you're curious about how we judge code jam submissions, take a look at the [How does judging work?](docs/how-judging-works.md).
+
 # Rules
 
 1. The majority of your project must be Python
