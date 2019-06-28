@@ -50,10 +50,12 @@ class Graphics:
                     log.debug("rendering text as follows: " + str(element))
 
                     colour = element["colour"] if "colour" in element else None
-                    log.debug("fg_colour: " + str(colour))
                     bg_colour = element["bg"] if "bg" in element else None
-                    style = element["style"] if "style" in element else None
+                    # 255 is the default style
+                    style = element["style"] if "style" in element else 255
                     rotation = element["rotation"] if "rotation" in element else int(0)
+                    log.debug("fg_colour: " + str(colour))
+                    log.debug("size: " + str(element["size"]))
                     self.fonts[element["font"]].render_to(
                         self.display,
                         (element["x"], element["y"]),
@@ -62,6 +64,6 @@ class Graphics:
                         fgcolor=colour,
                         bgcolor=bg_colour,
                         rotation=rotation,
-                        size=element["size"]
+                        size=50
                     )
         pygame.display.update()
