@@ -59,3 +59,27 @@ pipenv run python YOUR_TEAM_NAME/ flask_webportal
 ```
 
 This will automatically start the flask webportal in debug mode (as this project is not intended for production use)
+
+## Documentation
+
+All titles below are files or folders in a child-parent setup. *Please view this markdown in text format if the folders get too deep*. `x/` = folder, `x` = file.
+
+### `YOUR_TEAM_NAME/`
+
+Contains all of the mini-projects and the `cli.py` file to execute them.
+
+#### `cli.py`
+
+`cli.py` uses `click` to manage the commands to give an enriched experiance using this project. If you would like to see some examples of these in action, please view `Running the API` all the way up to `Running the WebPortal/WebUi`.
+
+#### `utils.py`
+
+`utils.py` contains a large `Config` class with various configs for all the mini-projects. All of them have been documented in-file with their respective [docstrings](https://pypi.org/project/docstring/).
+
+#### `__init__.py`
+
+An empty file to notify python that this is a module.
+
+#### `__main__.py`
+
+Simply imports the `base_group` from `cli.py` and runs it if python is running it directly (not a module call externally)
