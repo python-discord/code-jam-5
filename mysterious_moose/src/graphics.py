@@ -54,16 +54,14 @@ class Graphics:
                     bg_colour = element["bg"] if "bg" in element else None
                     style = element["style"] if "style" in element else None
                     rotation = element["rotation"] if "rotation" in element else int(0)
-
-                    if element["type"] == "normal":
-                        self.fonts[element["font"]].render_to(
-                            self.display,
-                            (element["x"], element["y"]),
-                            element["text"],
-                            style=style,
-                            fgcolor=colour,
-                            bgcolor=bg_colour,
-                            rotation=rotation,
-                            size=element["size"]
-                        )
+                    self.fonts[element["font"]].render_to(
+                        self.display,
+                        (element["x"], element["y"]),
+                        element["text"],
+                        style=style,
+                        fgcolor=colour,
+                        bgcolor=bg_colour,
+                        rotation=rotation,
+                        size=element["size"]
+                    )
         pygame.display.update()
