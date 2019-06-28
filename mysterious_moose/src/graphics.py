@@ -22,7 +22,7 @@ class Graphics:
             )
 
         log.info("creating display object")
-        self.display = pygame.display.set_mode((1900, 1000))
+        self.display = pygame.display.set_mode((1900, 1000), pygame.RESIZABLE)
 
         # in this section the file path and file name are separated to make it easier to read
         log.info("loading fonts")
@@ -38,7 +38,7 @@ class Graphics:
             for element in obj:
                 if element["type"] == "image":
                     self.display.blit(self.images[element["image"]], element["x"], element["y"])
-                elif element["type"] == "box":
+                elif element["type"] == "rect":
                     colour = element["colour"]
                     rect = (element["x"], element["y"], element["dx"], element["dy"])
                     if "edge_width" in element:
@@ -47,6 +47,7 @@ class Graphics:
                         self.display.fill(colour, rect)
 
                 elif element["type"] == "text":
+                    # render some text onto the display
                     log.debug("rendering text as follows: " + str(element))
 
                     colour = element["colour"] if "colour" in element else None
@@ -66,4 +67,12 @@ class Graphics:
                         rotation=rotation,
                         size=50
                     )
+
+                elif element["type"] == "surface":
+                    # draw a surface onto the display
+                    self.display.blit(element["surface"], element["dest"])
+
+                elif element["type"] == "bg":
+                    # fill the entire display with a colour
+                    self.display.fill(element["colour"])
         pygame.display.update()
