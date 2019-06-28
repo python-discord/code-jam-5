@@ -22,8 +22,9 @@ os.environ['PYGAME_FREETYPE'] = 'true'
 
 log.info("Initialising graphics")
 display = graphics.Graphics()
-
 log.info("Initialising main loop")
 game = game.Main(display)
+
+
 log.info("Starting game")
 game()

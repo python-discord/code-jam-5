@@ -1,6 +1,6 @@
 import logging
 import pygame
-
+import src.menus as menus
 
 log = logging.getLogger("main.game")
 log.setLevel(logging.INFO)
@@ -11,9 +11,10 @@ class Main:
     def __init__(self, graphics):
         """ initialises the program main loop """
         log.info("main loop initialising")
-        self.state = 0
+        self.state = 1
         self.exit_code = -1
         self.graphics = graphics
+        self.main_menu = menus.MainMenu()
 
     def _end(self):
         """ handles main loop completion """
@@ -23,7 +24,7 @@ class Main:
         """ main code for loop """
         if self.state == 1:
             # main menu
-            pass
+            self.exit_code = self.main_menu.display(self.events)
         elif self.state == 2:
             # options
             pass
@@ -39,7 +40,7 @@ class Main:
         while self.exit_code == -1:
             # executed every loop
             pygame.event.pump()  # execute pygame background tasks
-
+            self.events = pygame.event.get()
             # execute state dependant code
             self._state()
 
