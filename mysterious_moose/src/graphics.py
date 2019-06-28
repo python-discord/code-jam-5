@@ -42,7 +42,7 @@ class Graphics:
                     colour = element["colour"]
                     rect = (element["x"], element["y"], element["dx"], element["dy"])
                     if "edge_width" in element:
-                        pygame.draw.rect(self.lcd, colour, rect, element["edge_width"])
+                        pygame.draw.rect(self.display, colour, rect, element["edge_width"])
                     else:
                         self.display.fill(colour, rect)
 
