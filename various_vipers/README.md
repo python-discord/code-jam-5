@@ -11,9 +11,9 @@ Requires python 3.6+ (with pip)
 To prepare for development, run commands (from this directory):
 
 ```
-pip install pipenv
-pipenv install --dev
-pipenv run precommit
+$ pip install pipenv
+$ pipenv install --dev
+$ pipenv run precommit
 ```
 
 ## Troubleshooting
@@ -22,4 +22,6 @@ pipenv run precommit
 
 Your Pipenv lock file might be corrupt, try running command:
 
-`pipenv lock --pre --clear`
+```
+$ pipenv lock --pre --clear
+```
