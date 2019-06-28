@@ -22,7 +22,7 @@ Because this is a free-for-all, you are free to make anything you want, as long 
 
 # Documentation
 
-We've written a couple of documents that may help you get started with the codejam
+We've written a couple of documents that may help you get started with the codejam:
 
 - If you've never used git before, check out the [How to use git](https://github.com/python-discord/code-jam-5/wiki/How-to-use-git) in the repository wiki.
 
