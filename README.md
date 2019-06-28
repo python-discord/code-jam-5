@@ -6,7 +6,7 @@ Your theme for this code jam is **climate change**.
 Because this is a free-for-all, you are free to make anything you want, as long as it fits this theme. We'd love if you created something that might help raise awareness, but first and foremost, we want you to create something _fun_.
 
 # Getting Started
-1. Have your leader fork this repo. If your leader is unavailable, it's okay that someone else does it. 
+1. Have your leader fork this repo. If your leader is unavailable, it's okay that someone else does it.
 2. All team members should git clone the fork.
 3. **IMPORTANT: Change the folder name inside the repo from `YOUR_TEAM_NAME` to your actual teamname, e.g. `solar_seals`.**
 4. Now that you've changed the folder name, you can open a pull request from your fork's `master` branch to this repo's `master`.
@@ -14,8 +14,8 @@ Because this is a free-for-all, you are free to make anything you want, as long 
 6. The Pull Request will be automatically updated whenever you push code to `master` on your fork, so all you have to do is keep pushing code to it and make sure you are finished before the code jam ends!
 
 # Important considerations
-- You **must** write documentation. There is a README.md file inside of `YOUR_TEAM_FOLDER` which we expect you to fill with everything we need in order to test your software. Failure to provide this may lead to being docked points, or in extreme cases, disqualification.
-- All Pull Requests made to this repo will automatically be **linted**. If the build fails, we will not be able to merge your pull request. This means, we expect you to submit code that has code style which is in accordance with PEP8. Specifically, we need you to use a tool called `flake8` in order to lint the code. We have provided a `.flake8` file in your team folder which contains certain exceptions and stuff like acceptable linelength, and `flake8` will automatically use this when linting. 
+- You **must** write documentation. There is a README.md file inside of the `YOUR_TEAM_NAME` folder which we expect you to fill with everything we need in order to test your software. Failure to provide this may lead to being docked points, or in extreme cases, disqualification.
+- All Pull Requests made to this repo will automatically be **linted**. If the build fails, we will not be able to merge your pull request. This means, we expect you to submit code that has code style which is in accordance with PEP8. Specifically, we need you to use a tool called `flake8` in order to lint the code. We have provided a `.flake8` file in your team folder which contains certain exceptions and stuff like acceptable linelength, and `flake8` will automatically use this when linting.
 - If you wish to use `black` to automatically reformat your code to be PEP8 compliant, that is absolutely fine, but be aware that we make no guarantees that code that's been run through black will pass our `flake8` lint, so it's up to you to double check that.
 - You may use any third party module that's available on PyPI, but you should then provide a `requirements.txt`, a `Pipfile` or some other form of dependency management list so that we can easily install these.
 - Absolutely all code should be inside of your team folder, not in the root level. This is to ensure we can merge your pull requests into this repo when the jam is over, which gives you GitHub contribution credit towards our organisation.
@@ -35,4 +35,4 @@ Because this is a free-for-all, you are free to make anything you want, as long 
     - Make sure to pick something that all members of your team are comfortable with
     - You only have 9 days to work on your project, don't pick something that you won't be able to complete in time.
     - Please pick something that it will be feasible for us to demonstrate live on the judging stream.
-    
+
