@@ -6,10 +6,12 @@ class MainMenu:
     def __init__(self, renderer):
         self.renderer = renderer
         self.log = logging.getLogger("main.menu.MainMenu")
-        self.log.setLevel(logging.INFO)
+        self.log.setLevel(logging.DEBUG)
         self.graphics = [[
             {"type": "bg", "colour": (255, 255, 255)}
-        ]]
+        ],
+            []  # list edited by self.resolution_change()
+        ]
         self.resolution_change()
 
     def resolution_change(self):
@@ -21,9 +23,15 @@ class MainMenu:
         # title
         title = self.renderer.fonts["main"].render(
             text="Anthropodemics",
-            size=50
+            size=100
         )
-        title_size = title
+        title_size = title[1][2]
+
+        title = pygame.transform.scale(title[0], (resolution[0]//5*4, 50))
+
+        self.graphics[1] = [
+            {"type": "surface", "surface": title, "dest": (resolution[0]//10, 20)}
+        ]
         self.log.debug("Title size: " + str(title_size))
 
     def display(self, events):
