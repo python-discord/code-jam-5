@@ -54,6 +54,8 @@ class Main:
                         800 if event.w < 800 else event.w,
                         600 if event.h < 600 else event.h
                     ), pygame.RESIZABLE)
+                    for to_update in self.resolution_dependants:
+                        to_update.resolution_change()
 
             # execute state dependant code
             self._state()
