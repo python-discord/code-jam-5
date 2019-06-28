@@ -7,6 +7,9 @@ verify_ssl = true
 flake8 = "*"
 
 [packages]
+flask = "*"
+discord-py = "*"
+requests = "*"
 
 [requires]
 python_version = "3.6"
