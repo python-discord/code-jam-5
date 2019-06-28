@@ -1,6 +1,8 @@
 # practical-porcupines Documentation
 
-## Installing dependancies
+## Installation & Running
+
+### Installing dependancies
 
 This repo uses `pipenv` to install & easily manage dependancies. To install `pipenv`, please enter the following into a terminal:
 
