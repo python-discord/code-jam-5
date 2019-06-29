@@ -22,6 +22,16 @@ class ConfigApi:
     API_DOMAIN = config["api"]["domain"]  # Example: 0.0.0.0
     API_PORT = config["api"]["port"]  # Example: 8080
 
+    def __init__(self):
+        self.SECRET_KEY = self._get_secret_key()
+
+    def _get_secret_key(self):
+        """
+        Returns the secret key for flask_api
+        """
+
+        return os.environ["API_SECRET_KEY"]
+
 
 class ConfigWebPortal:
     """
