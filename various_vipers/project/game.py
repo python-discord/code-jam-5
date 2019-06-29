@@ -16,11 +16,11 @@ class Game:
         self.running = True
         self.playing = True
 
-        # Start new game
-        self.game_view = GameView()
-
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.clock = pg.time.Clock()
+
+        # Start new game
+        self.game_view = GameView(self.screen)
 
     def run(self):
         self.clock.tick(FPS)
@@ -37,5 +37,4 @@ class Game:
                 self.running = False
 
     def _draw(self):
-        self.screen.fill(Color.black)
         pg.display.flip()
