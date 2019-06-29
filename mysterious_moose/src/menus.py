@@ -76,7 +76,8 @@ class MainMenu:
         graphics = self.graphics
 
         for event in events:
-            pass
+            if event.type == pygame.MOUSEMOTION:
+                mouse = pygame.Rect(event.pos[0], event.pos[1], 1, 1)
         self.renderer.update(graphics)
 
 
