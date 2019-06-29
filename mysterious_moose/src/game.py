@@ -27,13 +27,13 @@ class Main:
         """ main code for loop """
         if self.state == 1:
             # main menu
-            new_state = self.main_menu.display(self.events)
-            self.state = new_state if new_state > 0 else 1
+            # when no value is return the state remains the same
+            self.state = self.main_menu.display(self.events) or 1
 
         elif self.state == 2:
             # options
-            new_state = self.options_menu.display(self.events)
-            self.state = new_state if new_state > 0 else 1
+            # when no value is return the state remains the same
+            self.state = self.options_menu.display(self.events) or 2
 
         elif self.state == 3:
             # game setup
