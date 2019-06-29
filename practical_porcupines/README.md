@@ -119,18 +119,110 @@ All titles below are files or folders in a child-parent setup. *Please view this
 
 Contains all of the mini-projects and the `cli.py` file to execute them.
 
-#### `cli.py`
+#### `practical_porcupines/cli.py`
 
 `cli.py` uses `click` to manage the commands to give an enriched experiance using this project. If you would like to see some examples of these in action, please view `Running the API` all the way up to `Running the WebPortal/WebUi`.
 
-#### `utils.py`
+#### `practical_porcupines/utils.py`
 
 `utils.py` contains a large `Config` class with various configs for all the mini-projects. All of them have been documented in-file with their respective [docstrings](https://pypi.org/project/docstring/).
 
-#### `__init__.py`
+#### `practical_porcupines/__init__.py`
 
 An empty file to notify python that this is a module.
 
-#### `__main__.py`
+#### `practical_porcupines/__main__.py`
 
 Simply imports the `base_group` from `cli.py` and runs it if python is running it directly (not a module call externally)
+
+#### `practical_porcupines/discord_bot/`
+
+Stores all the files for the Discord Bot mini-project. This mini-project is more of an extra to this, a nice-to-have if you have time to test.
+
+##### `practical_porcupines/discord_bot/__init__.py`
+
+Imports the bot object for easy access to `discord_bot` directly
+
+##### `practical_porcupines/discord_bot/bot.py`
+
+The main file for all of the bot. It does not use `discord.py cogs` but does use the reccomended `commands` method.
+
+#### `practical_porcupines/flask_api/`
+
+The api mini-project, storing the core of this project. It is a simple REST api built around a database, getting 2 times and returning the water level difference between the 2 over the api.
+
+##### `practical_porcupines/flask_api/__init__.py`
+
+Imports the flask objects for easy use importing
+
+##### `practical_porcupines/flask_api/app.py`
+
+Stores the flask app and general views/flask-restful responses. Also holds the `db` objecrt for `practical_porcupines/flask_api/models.py`
+
+##### `practical_porcupines/flask_api/models.py`
+
+Stores the `flask-sqlalchemy` tables (currently only 1) that contain the global water level differences & other items
+
+##### `practical_porcupines/flask_api/difference_calc.py`
+
+Stores the overlying logic behind the api, the calculator! It is one large object/function (not decided at the time of writing) that contains the mathmatical operations, hooking onto the `flask-sqlalchemy` made database
+
+#### `practical_porcupines/flask_webportal/`
+
+Contains the web-portal mini-project, the easiest to setup way to view the data from the flask_api mini-project.
+
+##### `practical_porcupines/flask_webportal/__init__.py`
+
+Imports the flask objects for easy use importing
+
+##### `practical_porcupines/flask_webportal/app.py`
+
+Stores the main logic for the webportal mini-project. Views and such
+
+##### `practical_porcupines/flask_webportal/api.py`
+
+Uses the `requests` library to hook onto the flask_api mini-project depending on the unified hostname/ports set in `config.json`
+
+##### `practical_porcupines/flask_webportal/templates/x`
+
+Stores all of the html templates
+
+##### `practical_porcupines/flask_webportal/static/x`
+
+Stores all static files (images, javascript, css) for the html templates shown above.
+
+### `YOUR_TEAM_NAME/`
+
+Stores nothing really due to a mistake made when making the `code-jam-5` project.
+
+### `.flake8`
+
+Some basic rights and wrongs for the `flake8` linter to follow
+
+### `.gitignore`
+
+Python-based gitignore with a couple of extra options added in
+
+### `azure-pipelines.yml`
+
+CI for project (can also be a webhook)
+
+### `config.json`
+
+Stores unified infomation on all projects, edit this for a custom configuration but *please do not use the same ports unless you want an unstable time*
+
+### `LICENSE`
+
+The MIT license file
+
+### `Pipfile`
+
+Stores the human-readable pipenv configurations to use and lock.
+
+### `Pipfile.lock`
+
+The computer-readable (I guess) json file for locking pipenv
+
+### `README.md`
+
+The basic `README.md` for the project, describing what to do and what **not** to do. Best not to change this.
