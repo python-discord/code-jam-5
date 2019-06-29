@@ -6,7 +6,14 @@ class Planet:
     """Track the planets health with key statistics"""
 
     def __init__(self):
-        """Track the stats as a net change from baseline"""
+        """Track the stats as a net change from baseline
+
+        bio diversity tracks the change in the total number of species
+        tempature is the change in C (celsius)
+        co2 is tracked in ppm (parts per million)
+        habitable land is in hectacres (100 acres)
+
+        """
         self.bio_diversity = 0
         self.temperature = 0
         self.co2 = 0
