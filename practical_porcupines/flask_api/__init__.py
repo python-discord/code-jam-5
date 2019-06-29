@@ -1,1 +1,1 @@
-from app import flask_api_app
+from flask_api.app import flask_api_app

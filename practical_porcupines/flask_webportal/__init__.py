@@ -1,1 +1,1 @@
-from app import flask_webportal_app
+from flask_webportal.app import flask_webportal_app
