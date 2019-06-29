@@ -1,5 +1,8 @@
 import pygame as pg
 from pygame.image import load
+from pygame.transform import scale
+
+from project.constants import TILE_WIDTH
 
 
 class Tile:
@@ -9,7 +12,9 @@ class Tile:
     Class holds information about tile type, its image, and available actions.
     """
 
-    bg_image: pg.image = None
+    image: pg.image = None
 
     def __init__(self, image: str):
-        self.bg_image = load(image)
+        self.image = load(image)
+        # scale image based on game screen size
+        self.image = scale(self.image, (TILE_WIDTH, TILE_WIDTH))

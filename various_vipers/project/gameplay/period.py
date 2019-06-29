@@ -1,6 +1,9 @@
 import logging
+from typing import List
 
-from .biome import BiomeDesert, BiomeFall, BiomeForest, BiomeGrass
+import pygame as pg
+
+from .biome import Biome, BiomeDesert, BiomeFall, BiomeForest, BiomeGrass
 from .earth import Earth
 
 
@@ -16,31 +19,30 @@ class Period(object):
     """
 
     # List of biomes, that will be looped through
-    biomes = [
-        BiomeDesert,
-        BiomeDesert,
-        BiomeDesert,
-        BiomeFall,
-        BiomeFall,
-        BiomeFall,
-        BiomeForest,
-        BiomeForest,
-        BiomeForest,
-        BiomeGrass,
-        BiomeGrass,
-        BiomeGrass,
+    biomes: List[Biome] = [
+        BiomeDesert(),
+        BiomeDesert(),
+        BiomeDesert(),
+        BiomeFall(),
+        BiomeFall(),
+        BiomeFall(),
+        BiomeForest(),
+        BiomeForest(),
+        BiomeForest(),
+        BiomeGrass(),
+        BiomeGrass(),
+        BiomeGrass(),
     ]
 
-    def __init__(self, screen):
+    def __init__(self, screen: pg.Surface):
         self.screen = screen
-        self.biomes = [biome() for biome in self.biomes]
         self.earth = Earth(self.screen, self.biomes)
 
-    def update(self):
+    def update(self) -> None:
         """Update gets called every game tick."""
         self.earth.update()
 
-    def draw(self):
+    def draw(self) -> None:
         """Draw gets called every game tick."""
         self.earth.draw()
 
