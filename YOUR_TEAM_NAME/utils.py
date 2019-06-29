@@ -21,6 +21,7 @@ class ConfigBase:
 
     CONFIG_PATH = "config.json"
     CONFIG = json.load(open(CONFIG_PATH, "r"))
+    SHOULD_DEBUG = CONFIG["should_debug"]
 
 
 class ConfigApi:
