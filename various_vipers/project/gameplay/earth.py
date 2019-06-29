@@ -30,9 +30,9 @@ class Earth(object):
     Includes logic for handling background and game tasks.
     """
 
-    cloud_layers_bg: List[pg.Surface] = []
+    cloud_layers_bg: List[pg.Surface]
     current_cloud_bg_pos: float = 0
-    cloud_layers_fg: List[pg.Surface] = []
+    cloud_layers_fg: List[pg.Surface]
     current_cloud_fg_pos: float = 0
 
     current_biome_pos: float = 0
@@ -43,6 +43,8 @@ class Earth(object):
         self.screen = screen
 
         self.biomes = biomes
+        self.cloud_layers_bg = []
+        self.cloud_layers_fg = []
 
         # Calculate max position by added the width of all bg images
         self.max_position = sum(biome.background.get_width() for biome in self.biomes)
@@ -65,13 +67,18 @@ class Earth(object):
         self.__draw_clouds()
         self.__draw_biomes()
 
-    def __prepare_draw_args(
+    def __prepare_draw_clouds(
         self,
         pool: List[pg.Surface],
         current_list: List[pg.Surface],
         x_pos: int,
         y_pos: int = 0,
     ) -> List[Any]:
+        """
+        Logic to handle drawing a single cloud plane.
+
+        Returns a list of Surface draw arguments to draw later.
+        """
         draw_args = []
         offset = x_pos
 
@@ -94,7 +101,7 @@ class Earth(object):
         return draw_args
 
     def __draw_clouds(self) -> None:
-        draw_bg_args = self.__prepare_draw_args(
+        draw_bg_args = self.__prepare_draw_clouds(
             CLOUD_LAYERS_BG,
             self.cloud_layers_bg,
             self.current_cloud_bg_pos,
@@ -103,7 +110,7 @@ class Earth(object):
         for draw in draw_bg_args:
             self.screen.blit(*draw)
 
-        draw_fg_args = self.__prepare_draw_args(
+        draw_fg_args = self.__prepare_draw_clouds(
             CLOUD_LAYERS_FG,
             self.cloud_layers_fg,
             self.current_cloud_fg_pos,
