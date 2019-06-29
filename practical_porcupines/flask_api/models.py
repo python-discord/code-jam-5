@@ -1,4 +1,4 @@
-from app import db
+from flask_api.app import db
 
 class LevelModel(db.Model):
     """

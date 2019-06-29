@@ -1,4 +1,4 @@
-from models import LevelModel
+from flask_api.models import LevelModel
 
 class WLDifference:
     def calculate(date_1, date_2):
