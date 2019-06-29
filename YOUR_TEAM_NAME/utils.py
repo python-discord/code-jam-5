@@ -19,9 +19,9 @@ class ConfigBase:
     Basic need-to-know info for all mini-projects
     """
 
-    CONFIG_PATH = "config.json"
-    CONFIG = json.load(open(CONFIG_PATH, "r"))
-    SHOULD_DEBUG = CONFIG["should_debug"]
+    CONFIG_PATH = "config.json"  # Where usually `config.json` is kept
+    CONFIG = json.load(open(CONFIG_PATH, "r"))  # Serialized dict from json
+    SHOULD_DEBUG = CONFIG["should_debug"]  # The `should_debug` key from the CONFIG dict
 
 
 class ConfigApi:
@@ -31,8 +31,8 @@ class ConfigApi:
 
     config = ConfigBase().CONFIG
 
-    API_DOMAIN = config["api"]["domain"]
-    API_PORT = config["api"]["port"]
+    API_DOMAIN = config["api"]["domain"]  # Example: 0.0.0.0
+    API_PORT = config["api"]["port"]  # Example: 8080
 
 
 class ConfigWebPortal:
@@ -42,8 +42,8 @@ class ConfigWebPortal:
 
     config = ConfigBase().CONFIG
 
-    API_DOMAIN = config["web_portal"]["domain"]
-    API_PORT = config["web_portal"]["port"]
+    API_DOMAIN = config["web_portal"]["domain"]  # Example: 0.0.0.0
+    API_PORT = config["web_portal"]["port"]  # Example: 8080
 
 
 class ConfigBot:
@@ -52,7 +52,7 @@ class ConfigBot:
     """
 
     def __init__(self):
-        self.TOKEN = self._get_bot_token()
+        self.TOKEN = self._get_bot_token()  # Gets the discord bot token from env var
 
     def _get_bot_token(self):
         """
