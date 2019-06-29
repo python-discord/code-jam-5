@@ -11,9 +11,10 @@ FPS = 60
 WIDTH = 1285
 HEIGHT = 725
 
-# Biomes and tile are transformed to squares
+# Biomes are transformed to squares
 # Width of a single biome (biomes can be chained together)
 BIOME_WIDTH: int = 600
+# Tile height is scaled based on how much the width scaled
 # Width of a single tile (BIOME_WIDTH should be divisable by TILE_WIDTH)
 TILE_WIDTH: int = 75
 # Number of tile columns per biome
@@ -73,7 +74,7 @@ GAME_BG_GRASS = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorGrass.png")
 # Tiles
 
 TILES_GRASS = list(Path(PATH_TILES).joinpath("grass").glob("*"))
-
+TILES_WATER = list(Path(PATH_TILES).joinpath("water").glob("*"))
 
 # UI assets
 

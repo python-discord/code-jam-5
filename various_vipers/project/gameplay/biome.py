@@ -13,6 +13,7 @@ from project.constants import (
     GAME_BG_FOREST,
     GAME_BG_GRASS,
     TILES_GRASS,
+    TILES_WATER,
     TILE_COLS,
     TILE_ROWS,
 )
@@ -40,7 +41,7 @@ class Biome(object):
     city_tiles_chance: float = 0.2
 
     # Tiles that have water sources
-    water_tiles: List[str] = []
+    water_tiles: List[str] = TILES_WATER
     water_tiles_chance: float = 0.2
 
     # -----------------------
