@@ -37,10 +37,76 @@ pipenv run python -m practical_porcupines flask-webportal
 
 ## Development Notes
 
+### General Notes
+
 - Using `%Y:%m:%d:%T` formatting (UNIX). An example of this is: `2019:06:29:23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech.
 - Autoformat using `black` and try to do a final sweep with the custom `flake8` rulings.
 - Document everything in docstrings. `>` means overview of passing in, `<` means overview of returning, `x` is the execption handling and `-` are the argument specifics (use these like bullet points with them symbols).
 - Error 1000 with discord_bot is a general aiohttp error
+
+### API schema
+
+#### API Response
+
+##### API Response Schema
+
+```none
+{
+    [STRING: META]: {
+        [KEY: STATUS CODE]: [STRING: SUCSESS/FAIL],
+        [ARRAY: DATES]: [
+            [STRING: 1ST DATE ARG],
+            [STRING: 2ND DATE ARG]
+        ]
+        [KEY: TIME SENT]: [STRING: TIME SENT]
+    }
+    [KEY: BODY]: {
+        [KEY: WATER_LEVEL]: [FLOAT: DIFFERENCE]
+    }
+}
+```
+
+##### API Response Example
+
+```json
+{
+    "meta": {
+        "status_code": 200,
+        "dates": [
+            "1995 12:25 15:03:29",
+            "2017 05:11 10:22:05"
+        ],
+        "time_sent": "2019 06:29 11:52:30"
+    },
+    "body": {
+        "wl_difference": 20.9
+    }
+}
+```
+
+#### API Ingress
+
+##### API Ingress Schema
+
+```none
+{
+    [ARRAY: TIMES]: [
+        [STRING: TIME_1],
+        [STRING: TIME_2]
+    ]
+}
+```
+
+#### API Ingress Example
+
+```json
+{
+    "times": [
+        "1995:02:10:13:14:00"
+        "2019:06:29:23:27:45"
+    ]
+}
+```
 
 ## Installation
 

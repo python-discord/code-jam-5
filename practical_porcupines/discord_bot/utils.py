@@ -10,3 +10,20 @@ def embed_generator(title, desc, colour, discord):
     embed.set_footer(text=f"Jilk.pw Bot, {datetime.datetime.now()}")
 
     return embed
+
+def decode_diff_resp(difference_obj):
+    """
+    > Gets api response
+    - difference_obj: aiohttp-made response object
+    < Returns mm difference
+    x Returns error message in place of mm
+    """
+
+    # If difference_obj is not a aiohttp response object
+    if difference_obj is dict:
+        error_code = difference_obj["status"]
+        return f"ERROR {error_code}: API not responding!"
+
+    decoded_obj = difference_obj.json()
+
+    return decoded_obj["body"]
