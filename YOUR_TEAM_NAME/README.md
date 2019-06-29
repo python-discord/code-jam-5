@@ -59,6 +59,20 @@ Once you have all of the required dependancies installed, it is time to boot up 
 
 ### Running the API
 
+First, please enter the pipenv sandboxed shell with the following command
+
+```bash
+pipenv shell
+```
+
+When you are in this sandboxed enviroment, please set an enviroment variable for `API_SECRET_KEY`. *Please note that this will be different depending on the operating system used*. An example of this is below (Linux):
+
+```bash
+export API_SECRET_KEY=sk
+```
+
+Insert the secret key where `sk` is currently present. After you have completed this step, you may run the discord bot with the following command
+
 To run the API, you can simply type the following into your terminal:
 
 ```bash
