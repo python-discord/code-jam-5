@@ -16,8 +16,12 @@ class Game:
         self.window = pygame.display.set_mode((self.width, self.height))
         self.caption = pygame.display.set_caption('Code jam')
         self.map = pygame.image.load(r'map_objects/earth2.png')
-        self.map = pygame.transform.scale(self.map, (self.width,
-                self.height))  # Resize image to fit in window
+
+        # Resize image to fit in window
+        self.map = pygame.transform.scale(
+            self.map,
+            (self.width, self.height)
+        )
 
         # Example latitude and longitude from Australia
 
