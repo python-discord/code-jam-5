@@ -46,6 +46,7 @@ class WindowState:
     game = "game"
     main_menu = "main_menu"
     options = "options"
+    credit = "credit"
     quited = "quit"
 
 
@@ -90,3 +91,6 @@ QUIT_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("quit-btn-test-hover.png")
 
 BACK_BTN = PurePath(PATH_BUTTONS).joinpath("back-btn-test.png")
 BACK_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("back-btn-test-hover.png")
+
+CREDITS_BTN = PurePath(PATH_BUTTONS).joinpath("credits-btn-test.png")
+CREDITS_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("credits-btn-test-hover.png")

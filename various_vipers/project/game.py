@@ -1,6 +1,7 @@
 """Game model."""
 import pygame as pg
 
+from project.UI.page.credits import Credits
 from project.UI.page.main_menu import MainMenu
 from project.UI.page.options import Options
 from project.constants import Color, FPS, HEIGHT, WIDTH, WindowState
@@ -28,6 +29,7 @@ class Game:
 
         self.main_menu = MainMenu(self.screen)
         self.options = Options(self.screen)
+        self.credits = Credits(self.screen)
         # Start new game
         self.game_view = GameView(self.screen)
 
@@ -58,15 +60,19 @@ class Game:
 
             if self.window_state == WindowState.game:
                 self.playing = True
-            elif self.window_state == WindowState.options:
-                self.window_state = self.options.draw(
-                    self.mouse_x, self.mouse_y, self.event
-                )
-            elif self.window_state == WindowState.quited:
-                self.running = False
             elif self.window_state == WindowState.main_menu:
                 self.window_state = self.main_menu.draw(
                     self.mouse_x, self.mouse_y, self.event
                 )
+            elif self.window_state == WindowState.options:
+                self.window_state = self.options.draw(
+                    self.mouse_x, self.mouse_y, self.event
+                )
+            elif self.window_state == WindowState.credit:
+                self.window_state = self.credits.draw(
+                    self.mouse_x, self.mouse_y, self.event
+                )
+            elif self.window_state == WindowState.quited:
+                self.running = False
 
         pg.display.flip()
