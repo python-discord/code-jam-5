@@ -9,10 +9,10 @@ bot_client = commands.Bot(command_prefix=config_bot.PREFIX)
 API_ENDPOINT = f"{config_api.API_DOMAIN}:{config_api.API_PORT}"
 
 
-@client.event
+@bot_client.event
 async def on_ready():
     """
     Runs when client boots
     """
 
-    print(f"{client.user.name} is online with the id of '{client.user.id}'!")
+    print(f"{bot_client.user.name} is online with the id of '{bot_client.user.id}'!")
