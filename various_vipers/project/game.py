@@ -39,7 +39,6 @@ class Game:
     def _get_events(self):
         self.mouse_x, self.mouse_y = pg.mouse.get_pos()
 
-        print(self.mouse_x, self.mouse_y)
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.running = False

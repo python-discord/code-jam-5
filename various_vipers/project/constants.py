@@ -16,7 +16,7 @@ BG_SCROLL_SPEED = 20
 
 
 class Color:
-    """Represent RGB color value."""
+    """Represent RGB color values."""
 
     black = (0, 0, 0)
 
@@ -25,6 +25,14 @@ class Color:
     red = (255, 0, 0)
 
     sky = (207, 239, 252)
+
+
+class Button:
+    """Represents buttons properties."""
+
+    main_btn_w = 400
+    main_btn_h = 100
+    btn_gap = 50
 
 
 PATH_PROJECT = PurePath(__file__).parent
