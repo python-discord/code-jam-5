@@ -24,6 +24,8 @@ class Color:
 
     red = (255, 0, 0)
 
+    aqua = (0, 255, 255)
+
     sky = (207, 239, 252)
 
 
@@ -38,6 +40,7 @@ class Button:
 PATH_PROJECT = PurePath(__file__).parent
 
 PATH_BACKGROUNDS = PurePath(PATH_PROJECT).joinpath("assets/images/background")
+PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/buttons")
 
 # Game assets
 
@@ -46,3 +49,16 @@ GAME_BG_DESERT = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorDesert.png"
 GAME_BG_FALL = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorFall.png")
 GAME_BG_FOREST = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorForest.png")
 GAME_BG_GRASS = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorGrass.png")
+
+
+# UI assets
+
+# Button images
+PLAY_BTN = PurePath(PATH_BUTTONS).joinpath("play-btn-test.png")
+PLAY_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("play-btn-test-hover.png")
+
+OPT_BTN = PurePath(PATH_BUTTONS).joinpath("opt-btn-test.png")
+OPT_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("opt-btn-test-hover.png")
+
+QUIT_BTN = PurePath(PATH_BUTTONS).joinpath("quit-btn-test.png")
+QUIT_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("quit-btn-test-hover.png")

@@ -48,7 +48,6 @@ class Game:
             self.screen.fill(Color.sky)
             self.game_view.draw()
         else:
-            self.screen.fill(Color.black)
-            self.main_menu.draw()
-
+            self.screen.fill(Color.aqua)
+            self.main_menu.draw(self.mouse_x, self.mouse_y, False)
         pg.display.flip()
