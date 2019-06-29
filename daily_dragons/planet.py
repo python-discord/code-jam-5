@@ -1,3 +1,6 @@
+from typing import Dict
+
+
 class Planet:
     def __init__(self):
         self.bio_diversity = 0
@@ -6,7 +9,7 @@ class Planet:
         self.habitable_land = 0
 
     @property
-    def scoreboard(self):
+    def scoreboard(self) -> Dict[str, str]:
         current_stats = {
             "bio_diversity": str(self.bio_diversity),
             "temperature": str(self.temperature),
@@ -16,7 +19,7 @@ class Planet:
 
         return current_stats
 
-    def __str__(self):
+    def __str__(self) -> str:
         current_stats = (
             f"bio_diversity: {str(self.bio_diversity)} \n"
             f"temperature: {str(self.temperature)} \n"
