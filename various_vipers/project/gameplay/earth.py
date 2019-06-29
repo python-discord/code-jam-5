@@ -4,13 +4,19 @@ import pygame as pg
 from pygame.image import load
 from pygame.transform import scale
 
-from project.constants import WIDTH, HEIGHT, BG_SCROLL_SPEED
+from project.constants import BG_SCROLL_SPEED, HEIGHT, WIDTH
 
 
 logger = logging.getLogger(__name__)
 
 
 class Earth(object):
+    """
+    Represent Earth class object.
+
+    Includes logic for handling background and game tasks.
+    """
+
     current_position = 0
 
     def __init__(self, screen, bg_images, tilemap):
@@ -27,6 +33,7 @@ class Earth(object):
         self.max_position = sum(image.get_width() for image in self.bg_images)
 
     def update(self):
+        """Update game logic with each game tick."""
         key_pressed = pg.key.get_pressed()
 
         if key_pressed[pg.K_a] or key_pressed[pg.K_LEFT]:
@@ -35,6 +42,10 @@ class Earth(object):
             self.__scroll_right()
 
     def draw(self):
+        """Draw all images related to the earth."""
+        self.__draw_background()
+
+    def __draw_background(self):
         i, image_x = self.__find_first_bg_image()
         # From the first BG image, draw new images to the right, until whole screen is filled
         while True:
@@ -52,7 +63,11 @@ class Earth(object):
             i += 1
 
     def __find_first_bg_image(self):
-        """Function returns index, and position of first BG image that should be drawn on the left."""
+        """
+        Function returns index, and position of first BG image that should be drawn on the left.
+
+        Screen and individual images widths are taken into account when finding the first image.
+        """
         _position = 0
         i = 0
         while i < len(self.bg_images):

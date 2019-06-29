@@ -13,15 +13,19 @@ class Period(object):
     background_images = [
         GAME_BG_DESERT,
         GAME_BG_DESERT,
+        GAME_BG_DESERT,
+        GAME_BG_FALL,
         GAME_BG_FALL,
         GAME_BG_FALL,
         GAME_BG_FOREST,
         GAME_BG_FOREST,
+        GAME_BG_FOREST,
+        GAME_BG_GRASS,
         GAME_BG_GRASS,
         GAME_BG_GRASS,
     ]
     # Map of tiles for current period
-    earth_tilemap = None
+    earth_tilemap = [[], [], [], []]
 
     def __init__(self, screen):
         self.screen = screen
