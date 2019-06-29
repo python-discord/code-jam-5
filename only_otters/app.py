@@ -110,10 +110,3 @@ class MusicPlayer(QMainWindow):
                 self.player.play()
             else:
                 self.playlist.addMedia(QMediaContent(url))
-            
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    gui = MusicPlayer()
-    sys.exit(app.exec_())
-    

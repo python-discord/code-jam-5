@@ -4,8 +4,8 @@ import sys
 
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    player = MusicPlayer()
-    player.show()
+    app = QApplication(sys.argv)
+    gui = MusicPlayer()
     sys.exit(app.exec_())
+    
 
