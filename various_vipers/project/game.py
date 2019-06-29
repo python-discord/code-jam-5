@@ -1,8 +1,8 @@
 """Game model."""
 import pygame as pg
 
-from project.UI.main_menu import MainMenu
-from project.UI.options import Options
+from project.UI.page.main_menu import MainMenu
+from project.UI.page.options import Options
 from project.constants import Color, FPS, HEIGHT, WIDTH, WindowState
 from project.gameplay.game_view import GameView
 

@@ -6,7 +6,7 @@ Handling input and creating new events.
 
 import pygame as pg
 
-from project.UI.button import generate_main_buttons
+from project.UI.element.button import generate_main_buttons
 from project.constants import (
     Button,
     OPT_BTN,
@@ -47,6 +47,7 @@ class MainMenu:
         self.buttons = [self.play_btn, self.opt_btn, self.quit_btn]
         self.states = [WindowState.game, WindowState.options, WindowState.quited]
         self.images = [
+            # normal state   &    hover state
             (self.play_btn_img, self.play_btn_img_h),
             (self.opt_btn_img, self.opt_btn_img_h),
             (self.quit_btn_img, self.quit_btn_img_h),

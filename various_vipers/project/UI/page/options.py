@@ -6,7 +6,7 @@ Handling input and making changes.
 
 import pygame as pg
 
-from project.UI.button import ButtonModel
+from project.UI.element.button import ButtonModel
 from project.constants import BACK_BTN, BACK_BTN_HOVER, Color, WindowState
 
 
