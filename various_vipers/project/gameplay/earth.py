@@ -1,10 +1,16 @@
 import logging
+import random
 from typing import Any, List, Tuple
 
 import pygame as pg
+from pygame.image import load
 
 from project.constants import (
+    BG_CLOUDS_SCROLL_SPEED,
     BG_SCROLL_SPEED,
+    CLOUD_LAYERS_BG,
+    CLOUD_LAYERS_FG,
+    FG_CLOUDS_SCROLL_SPEED,
     HEIGHT,
     TILE_COLS,
     TILE_ROWS,
@@ -24,7 +30,12 @@ class Earth(object):
     Includes logic for handling background and game tasks.
     """
 
-    current_position: float = 0
+    cloud_layers_bg: List[pg.Surface] = []
+    current_cloud_bg_pos: float = 0
+    cloud_layers_fg: List[pg.Surface] = []
+    current_cloud_fg_pos: float = 0
+
+    current_biome_pos: float = 0
     biomes: List[Biome]
     max_position: float
 
@@ -45,9 +56,61 @@ class Earth(object):
         if key_pressed[pg.K_d] or key_pressed[pg.K_RIGHT]:
             self.__scroll_right()
 
+        self.current_cloud_bg_pos += BG_CLOUDS_SCROLL_SPEED
+        self.current_cloud_fg_pos += FG_CLOUDS_SCROLL_SPEED
+        self.__update_positions()
+
     def draw(self) -> None:
         """Draw all images related to the earth."""
+        self.__draw_clouds()
         self.__draw_biomes()
+
+    def __prepare_draw_args(
+        self,
+        pool: List[pg.Surface],
+        current_list: List[pg.Surface],
+        x_pos: int,
+        y_pos: int = 0,
+    ) -> List[Any]:
+        draw_args = []
+        offset = x_pos
+
+        for i, cloud in enumerate(current_list):
+            draw_args.append([cloud, (offset, y_pos)])
+            offset += cloud.get_width()
+
+            # Remove clouds that are offscreen to the right
+            if offset > WIDTH:
+                current_list = current_list[:i]
+                break
+
+        # Add new clouds to fill the rest of the screen
+        while offset < WIDTH:
+            new_cloud = load(str(random.choice(pool)))
+            current_list.append(new_cloud)
+            draw_args.append([new_cloud, (offset, y_pos)])
+            offset += new_cloud.get_width()
+
+        return draw_args
+
+    def __draw_clouds(self) -> None:
+        draw_bg_args = self.__prepare_draw_args(
+            CLOUD_LAYERS_BG,
+            self.cloud_layers_bg,
+            self.current_cloud_bg_pos,
+            int(HEIGHT // 4),
+        )
+        for draw in draw_bg_args:
+            self.screen.blit(*draw)
+
+        draw_fg_args = self.__prepare_draw_args(
+            CLOUD_LAYERS_FG,
+            self.cloud_layers_fg,
+            self.current_cloud_fg_pos,
+            int(HEIGHT // 3),
+        )
+        for draw in draw_fg_args:
+            self.screen.blit(*draw)
 
     def __prepare_draw_biome(
         self, biome: Biome, biome_x: int
@@ -128,27 +191,41 @@ class Earth(object):
         while i < len(self.biomes):
             image = self.biomes[i].background
 
-            if _position - self.current_position + image.get_width() > 0:
+            if _position - self.current_biome_pos + image.get_width() > 0:
                 break
 
             _position += image.get_width()
             i += 1
 
-        return (i, _position - self.current_position)
+        return (i, _position - self.current_biome_pos)
 
     def __scroll_left(self) -> None:
         logger.debug("Scrolling LEFT.")
-        self.current_position -= BG_SCROLL_SPEED
-        self.__update_position()
+        self.current_biome_pos -= BG_SCROLL_SPEED
+        self.current_cloud_bg_pos += BG_CLOUDS_SCROLL_SPEED
+        self.current_cloud_fg_pos += FG_CLOUDS_SCROLL_SPEED
 
     def __scroll_right(self) -> None:
         logger.debug("Scrolling RIGHT.")
-        self.current_position += BG_SCROLL_SPEED
-        self.__update_position()
+        self.current_biome_pos += BG_SCROLL_SPEED
+        self.current_cloud_bg_pos -= BG_CLOUDS_SCROLL_SPEED * 2
+        self.current_cloud_fg_pos -= FG_CLOUDS_SCROLL_SPEED * 2
 
-    def __update_position(self) -> None:
+    def __update_positions(self) -> None:
         """Correct current position based on min and max values."""
-        if self.current_position > self.max_position:
-            self.current_position = 0
-        elif self.current_position < 0:
-            self.current_position = self.max_position
+        if self.current_biome_pos > self.max_position:
+            self.current_biome_pos = 0
+        elif self.current_biome_pos < 0:
+            self.current_biome_pos = self.max_position
+
+        # Cloud position will always be the position of first cloud (offscreen to the left)
+        if self.current_cloud_bg_pos > 0:
+            self.cloud_layers_bg = [
+                load(str(random.choice(CLOUD_LAYERS_BG)))
+            ] + self.cloud_layers_bg
+            self.current_cloud_bg_pos = -self.cloud_layers_bg[0].get_width()
+        if self.current_cloud_fg_pos > 0:
+            self.cloud_layers_fg = [
+                load(str(random.choice(CLOUD_LAYERS_FG)))
+            ] + self.cloud_layers_fg
+            self.current_cloud_fg_pos = -self.cloud_layers_fg[0].get_width()
