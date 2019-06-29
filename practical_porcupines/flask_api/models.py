@@ -1,4 +1,4 @@
-from flask_api.app import db
+from practical_porcupines.flask_api.app import db
 
 class LevelModel(db.Model):
     """

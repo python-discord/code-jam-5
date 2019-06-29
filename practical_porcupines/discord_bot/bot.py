@@ -1,5 +1,5 @@
 import discord
-from utils import ConfigApi
+from practical_porcupines.utils import ConfigApi
 
 config_api = ConfigApi()
 bot_client = None  # This should be discord
