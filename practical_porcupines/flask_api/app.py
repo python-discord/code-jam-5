@@ -5,8 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 flask_api_app = Flask(__name__)
 
-app.config["SECRET_KEY"] = ConfigApi().SECRET_KEY
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///waterlevel.sqlite3"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+flask_api_app.config["SECRET_KEY"] = ConfigApi().SECRET_KEY
+flask_api_app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///waterlevel.sqlite3"
+flask_api_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(flask_api_app)
