@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import pygame
+import json
+import math
 
 pygame.init()
 
@@ -26,13 +28,8 @@ class Game:
 
         self.clock = pygame.time.Clock()
 
-        # Example latitude and longitude from Australia
-        self.lat = -25.274398
-        self.lon = 133.775136
-
-        # Transforming directly to x and y
-        self.x = (180 + self.lon) / 360 * self.width
-        self.y = (90 + self.lat * -1) / 180 * self.height
+        with open('countries.json') as json_data:
+                self.data = json.load(json_data)
 
     def run(self):
         run = True
@@ -42,8 +39,32 @@ class Game:
             self.clock.tick(60)  # Set to 60 fps
             window.fill(self.bg_color)
             window.blit(self.map, (0, 0))
-            pygame.draw.circle(window, (0, 0, 0), (int(self.x),
-                               int(self.y)), 5)
+
+            closest_country = None
+            closest_distance = self.width
+            
+            mouse_x = pygame.mouse.get_pos()[0]
+            mouse_y = pygame.mouse.get_pos()[1]
+            
+            for country in self.data:
+
+                lat = country['latlng'][0]
+                lon = country['latlng'][1]
+                
+                x = (180 + lon) / 360 * self.width
+                y = (90 + lat * -1) / 180 * self.height
+
+                current_distance=math.sqrt( (x - mouse_x)**2 + (y - mouse_y)**2 )
+
+                if current_distance<closest_distance:
+                    closest_distance = current_distance
+                    closest_country = country
+
+                pygame.draw.circle(window, (0, 0, 255), (int(x), int(y)), 3)
+
+            if closest_country:
+                print (closest_country['name'])
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
