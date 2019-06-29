@@ -3,6 +3,7 @@ import pygame as pg
 
 from project.UI.main_menu import MainMenu
 from project.constants import Color, FPS, HEIGHT, WIDTH
+from project.gameplay.game_view import GameView
 
 
 class Game:
@@ -14,6 +15,10 @@ class Game:
         pg.display.set_caption("Various Vipers game in development")
 
         self.running = True
+        self.playing = True
+
+        # Start new game
+        self.game_view = GameView()
 
         self.mouse_x = self.mouse_y = int()
 
@@ -26,6 +31,10 @@ class Game:
         """Draw and get events."""
         self.clock.tick(FPS)
         self._get_events()
+
+        if self.playing and self.game_view:
+            self.game_view.update()
+
         self._draw()
 
     def _get_events(self):
