@@ -18,6 +18,7 @@ class Game:
         self.playing = start_game
 
         self.mouse_x = self.mouse_y = int()
+        self.event = None
 
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.clock = pg.time.Clock()
@@ -40,6 +41,7 @@ class Game:
         self.mouse_x, self.mouse_y = pg.mouse.get_pos()
 
         for event in pg.event.get():
+            self.event = event
             if event.type == pg.QUIT:
                 self.running = False
 
@@ -49,5 +51,12 @@ class Game:
             self.game_view.draw()
         else:
             self.screen.fill(Color.aqua)
-            self.main_menu.draw(self.mouse_x, self.mouse_y, False)
+            state = self.main_menu.draw(self.mouse_x, self.mouse_y, self.event)
+
+            if state == "PLAYING":
+                self.playing = True
+            elif state == "OPTIONS":
+                pass
+            elif state == "QUIT":
+                self.running = False
         pg.display.flip()

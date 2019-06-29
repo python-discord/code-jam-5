@@ -1,12 +1,12 @@
 """
-Main Menu page.
+Options page.
 
-Handling input and creating new events.
+Handling input and making changes.
 """
 
 import pygame as pg
 
-from project.UI.button import generate_main_buttons
+from project.UI.button import generate_buttons
 from project.constants import (
     Button,
     OPT_BTN,
@@ -34,7 +34,7 @@ class MainMenu:
         self.quit_btn_img = pg.image.load(str(QUIT_BTN)).convert_alpha()
         self.quit_btn_img_h = pg.image.load(str(QUIT_BTN_HOVER)).convert_alpha()
 
-        self.play_btn, self.opt_btn, self.quit_btn = generate_main_buttons(
+        self.play_btn, self.opt_btn, self.quit_btn = generate_buttons(
             btn_w=Button.main_btn_w,
             btn_h=Button.main_btn_h,
             btn_count=3,
