@@ -11,3 +11,5 @@ class MusicPlayer(QtWidgets.QMainWindow):
         label.setAlignment(QtCore.Qt.AlignCenter)
 
         self.setCentralWidget(label)
+
+#testing git
