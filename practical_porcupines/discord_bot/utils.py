@@ -24,6 +24,8 @@ def decode_diff_resp(difference_obj):
         error_code = difference_obj["status"]
         return f"ERROR {error_code}: API not responding!"
 
-    decoded_obj = difference_obj.json()
+    # TODO test below
+    # decoded_obj = await difference_obj.json()
+    # return decoded_obj["body"]["wl_difference"]
 
-    return decoded_obj["body"]
+    pass
