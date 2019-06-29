@@ -17,19 +17,19 @@ pipenv install
 Make a totally secure secret key and run the api in the background:
 
 ```bash
-pipenv run export API_SECRET_KEY=abc && YOUR_TEAM_NAME/ flask-api &
+pipenv run export API_SECRET_KEY=abc && practical_porcupines/ flask-api &
 ```
 
 Run the discord bot in the background where `x` is the bot's token:
 
 ```bash
-pipenv run export CLIENT_TOKEN=x && YOUR_TEAM_NAME/ discord-bot &
+pipenv run export CLIENT_TOKEN=x && practical_porcupines/ discord-bot &
 ```
 
 Run the web-portal in the background:
 
 ```bash
-pipenv run YOUR_TEAM_NAME/ flask-webportal
+pipenv run practical_porcupines/ flask-webportal
 ```
 
 - Please navigate to 0.0.0.0:8081 (or whatever else is set in `config.json`) to visit the web-portal mini-project.
@@ -76,7 +76,7 @@ Insert the secret key where `sk` is currently present. After you have completed 
 To run the API, you can simply type the following into your terminal:
 
 ```bash
-pipenv run python YOUR_TEAM_NAME/ flask-api
+pipenv run python practical_porcupines/ flask-api
 ```
 
 This will automatically start the flask API in debug mode (as this project is not intended for production use)
@@ -98,7 +98,7 @@ export CLIENT_TOKEN=ct
 Insert the bot's token where `ct` is currently present. After you have completed this step, you may run the discord bot with the following command
 
 ```bash
-python YOUR_TEAM_NAME/ discord-bot
+python practical_porcupines/ discord-bot
 ```
 
 ### Running the WebPortal/WebUi
@@ -106,7 +106,7 @@ python YOUR_TEAM_NAME/ discord-bot
 To run the webportal, you can simply type the following into your terminal:
 
 ```bash
-pipenv run python YOUR_TEAM_NAME/ flask-webportal
+pipenv run python practical_porcupines/ flask-webportal
 ```
 
 This will automatically start the flask webportal in debug mode (as this project is not intended for production use)
@@ -115,7 +115,7 @@ This will automatically start the flask webportal in debug mode (as this project
 
 All titles below are files or folders in a child-parent setup. *Please view this markdown in text format if the folders get too deep*. `x/` = folder, `x` = file.
 
-### `YOUR_TEAM_NAME/`
+### `practical_porcupines/`
 
 Contains all of the mini-projects and the `cli.py` file to execute them.
 
