@@ -1,6 +1,41 @@
 # practical-porcupines Documentation
 
-## Installation & Running
+## Quickstart (Please read this section to start up the application)
+
+Install pipenv:
+
+```bash
+pip3 install pipenv
+```
+
+Install dependancies:
+
+```bash
+pipenv install
+```
+
+Run the api in the background:
+
+```bash
+pipenv run YOUR_TEAM_NAME/ flask-api &
+```
+
+Run the discord bot in the background:
+
+```bash
+pipenv run YOUR_TEAM_NAME/ discord-bot &
+```
+
+Run the web-portal in the background:
+
+```bash
+pipenv run YOUR_TEAM_NAME/ flask-webportal
+```
+
+- Please navigate to 0.0.0.0:8081 (or whatever else is set in `config.json`) to visit the web-portal mini-project.
+- If you would like to run the Discord Bot as an extra, please add the bot tokens (please read the `Running the Discord Bot` section for more info).
+
+## Installation
 
 ### Installing dependancies
 
@@ -20,12 +55,14 @@ pipenv install
 
 Once you have all of the required dependancies installed, it is time to boot up a part of this repo. We use `click` to seperate our different mini-projects (An API, discord bot and web-portal/ui). Please select from the following items below to run that mini-project.
 
+## Running individually
+
 ### Running the API
 
 To run the API, you can simply type the following into your terminal:
 
 ```bash
-pipenv run python YOUR_TEAM_NAME/ flask_API
+pipenv run python YOUR_TEAM_NAME/ flask-api
 ```
 
 This will automatically start the flask API in debug mode (as this project is not intended for production use)
