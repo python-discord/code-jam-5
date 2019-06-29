@@ -45,10 +45,10 @@ class Game:
                 self.running = False
 
     def _draw(self):
+        self.screen.fill(Color.black)
         if self.playing and self.game_view:
             self.game_view.draw()
         else:
-            self.screen.fill(Color.black)
             self.main_menu.draw()
 
         pg.display.flip()

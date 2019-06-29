@@ -11,6 +11,9 @@ HEIGHT = 700
 
 LOG_LEVEL = logging.DEBUG
 
+# How many pixels the background is allowed to move in 1 game tick
+BG_SCROLL_SPEED = 10
+
 
 class Color:
     """Represent RGB color value."""
