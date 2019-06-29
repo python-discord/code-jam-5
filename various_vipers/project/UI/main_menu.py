@@ -15,6 +15,7 @@ from project.constants import (
     PLAY_BTN_HOVER,
     QUIT_BTN,
     QUIT_BTN_HOVER,
+    WindowState,
 )
 
 
@@ -41,14 +42,14 @@ class MainMenu:
             gap=Button.btn_gap,
         )
 
-    def draw(self, mouse_x: int, mouse_y: int, event):
+    def draw(self, mouse_x: int, mouse_y: int, event) -> str:
         """Hadle all main menu events."""
         # hover check for the play button
         if self.play_btn.rect.collidepoint(mouse_x, mouse_y):
             self.play_btn.draw(self.screen, self.play_btn_img_h)
 
             if event.type == pg.MOUSEBUTTONDOWN:
-                return "PLAYING"
+                return WindowState.game
         else:
             self.play_btn.draw(self.screen, self.play_btn_img)
 
@@ -57,7 +58,7 @@ class MainMenu:
             self.opt_btn.draw(self.screen, self.opt_btn_img_h)
 
             if event.type == pg.MOUSEBUTTONDOWN:
-                return "OPTIONS"
+                return WindowState.options
         else:
             self.opt_btn.draw(self.screen, self.opt_btn_img)
 
@@ -66,8 +67,8 @@ class MainMenu:
             self.quit_btn.draw(self.screen, self.quit_btn_img_h)
 
             if event.type == pg.MOUSEBUTTONDOWN:
-                return "QUIT"
+                return WindowState.quited
         else:
             self.quit_btn.draw(self.screen, self.quit_btn_img)
 
-        return None
+        return WindowState.main_menu

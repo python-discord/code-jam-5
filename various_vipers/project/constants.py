@@ -29,6 +29,15 @@ class Color:
     sky = (207, 239, 252)
 
 
+class WindowState:
+    """Represents windows states."""
+
+    game = "game"
+    main_menu = "main_menu"
+    options = "options"
+    quited = "quit"
+
+
 class Button:
     """Represents buttons properties."""
 

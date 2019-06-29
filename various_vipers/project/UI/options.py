@@ -7,7 +7,7 @@ Handling input and making changes.
 import pygame as pg
 
 from project.UI.button import ButtonModel
-from project.constants import BACK_BTN, BACK_BTN_HOVER, Color
+from project.constants import BACK_BTN, BACK_BTN_HOVER, Color, WindowState
 
 
 class Options:
@@ -28,7 +28,7 @@ class Options:
             self.back_btn.draw(self.screen, self.back_btn_img_h)
 
             if event.type == pg.MOUSEBUTTONDOWN:
-                return None
+                return WindowState.main_menu
         else:
             self.back_btn.draw(self.screen, self.back_btn_img)
-        return "OPTIONS"
+        return WindowState.options
