@@ -1,13 +1,22 @@
-from PyQt5 import QtWidgets, QtCore
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow
 
 
-class MusicPlayer(QtWidgets.QMainWindow):
+class MusicPlayer(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Music Player')
-        self.resize(1280, 720)
+        self.title = "Only Otters"
+        self.createUI()
 
-        label = QtWidgets.QLabel('Hello World')
-        label.setAlignment(QtCore.Qt.AlignCenter)
+    def createUI(self):
+        menubar = self.menuBar()
+        self.setWindowTitle(self.title)
+        self.setGeometry(250, 250, 250, 200)
+        self.show()
 
-        self.setCentralWidget(label)
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    ex = MusicPlayer()
+    sys.exit(app.exec_())
+    
