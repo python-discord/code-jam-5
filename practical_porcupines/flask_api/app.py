@@ -1,5 +1,6 @@
 from practical_porcupines.utils import ConfigApi
 from flask import Flask
+
 # from flask_restful import x # TODO add flask-restful
 from flask_sqlalchemy import SQLAlchemy
 

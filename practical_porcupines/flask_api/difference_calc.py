@@ -1,5 +1,6 @@
 from practical_porcupines.flask_api.models import LevelModel
 
+
 class WLDifference:
     def calculate(self, date_1, date_2):
         """

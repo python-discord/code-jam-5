@@ -21,7 +21,7 @@ def flask_webportal():
     flask_webportal_app.run(
         host=config_webportal.API_DOMAIN,
         port=config_webportal.API_PORT,
-        debug=ConfigBase().SHOULD_DEBUG
+        debug=ConfigBase().SHOULD_DEBUG,
     )
 
 
@@ -45,7 +45,7 @@ def flask_api():
     flask_api_app.run(
         host=config_api.API_DOMAIN,
         port=config_api.API_PORT,
-        debug=ConfigBase().SHOULD_DEBUG
+        debug=ConfigBase().SHOULD_DEBUG,
     )
 
 

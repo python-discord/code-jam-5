@@ -1,5 +1,6 @@
 from practical_porcupines.flask_api.app import db
 
+
 class LevelModel(db.Model):
     """
     Contains mean values from each year & the corrosponding global water level
@@ -11,4 +12,4 @@ class LevelModel(db.Model):
 
     def __init__(self, id):
         self.id = id
-    
+
