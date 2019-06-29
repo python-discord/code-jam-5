@@ -62,3 +62,6 @@ OPT_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("opt-btn-test-hover.png")
 
 QUIT_BTN = PurePath(PATH_BUTTONS).joinpath("quit-btn-test.png")
 QUIT_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("quit-btn-test-hover.png")
+
+BACK_BTN = PurePath(PATH_BUTTONS).joinpath("back-btn-test.png")
+BACK_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("back-btn-test-hover.png")
