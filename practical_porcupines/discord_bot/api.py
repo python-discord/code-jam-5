@@ -2,7 +2,7 @@ import aiohttp
 from practical_porcupines.utils import ConfigApi
 
 config_api = ConfigApi()
-aiohttp_session = aiohttp.ClientSession(auth=auth)
+aiohttp_session = aiohttp.ClientSession()
 
 API_ENDPOINT = f"{config_api.API_DOMAIN}:{config_api.API_PORT}/api"
 
@@ -17,6 +17,6 @@ async def get_difference(time_1, time_2):
     """
 
     try:
-        return await session.get(API_ENDPOINT, data={"times": [time_1, time_2]})
+        return await aiohttp_session.get(API_ENDPOINT, data={"times": [time_1, time_2]})
     except:
         return {"meta": {"status": 1000}}
