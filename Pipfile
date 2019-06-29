@@ -13,6 +13,7 @@ discord-py = "*"
 requests = "*"
 flask-restful = "*"
 flask-sqlalchemy = "*"
+aiohttp = "*"
 
 [requires]
 python_version = "3.6"

@@ -111,7 +111,19 @@ pipenv run python -m practical_porcupines flask-webportal
 
 This will automatically start the flask webportal in debug mode (as this project is not intended for production use)
 
-## Documentation
+## Dependancy breakdown
+
+- `pipenv`: Package manager
+- `flask`: Web Framework for flask_api and flask_webportal
+- `discord.py`: Python bindings/api for discord_bot
+- `flask-sqlalchemy`: Database abstraction for flask_api core maths (storing data on GMWL)
+- `flask-restful`: Consistant RESTful API building for flask_api
+- `aiohttp`: Asyncronous requests for discord_bot to prevent any "freezing" of it
+- `requests`: Syncronous, easy to use api requests for flask_webportal to contact flask_api. ***May not be used in favour of in-website javascript***
+- `flake8`: Linter specfic for `code-jam-5` (required for review)
+- `black`: Developer-used autolinter for sake of standardized clarity
+
+## File-by-file Overview
 
 All titles below are files or folders in a child-parent setup. *Please view this markdown in text format if the folders get too deep*. `x/` = folder, `x` = file.
 
