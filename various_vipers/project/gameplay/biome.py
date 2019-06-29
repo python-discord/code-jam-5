@@ -4,14 +4,18 @@ from typing import Generator, List
 
 import pygame as pg
 from pygame.image import load
+from pygame.transform import scale
 
 from project.constants import (
+    BIOME_WIDTH,
     GAME_BG_DESERT,
     GAME_BG_FALL,
     GAME_BG_FOREST,
     GAME_BG_GRASS,
+    TILES_GRASS,
+    TILE_COLS,
+    TILE_ROWS,
 )
-from project.constants import TILES_GRASS
 from .tile import Tile
 
 
@@ -48,8 +52,11 @@ class Biome(object):
     background: pg.image = None
 
     def __init__(self):
-        self.tilemap = self.__generate_tilemap(10, 4)
+        self.tilemap = self.__generate_tilemap(TILE_COLS, TILE_ROWS)
+
+        # scale background to 0.8 of screen height
         self.background = load(str(random.choice(self.background_images)))
+        self.background = scale(self.background, (BIOME_WIDTH, BIOME_WIDTH))
 
     def __choose_tiles(self, k: int = 1) -> Generator[Tile, None, None]:
         """Returns k number of random tiles based on set tile sprites and weights to spawn."""

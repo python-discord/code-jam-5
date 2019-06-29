@@ -11,6 +11,15 @@ HEIGHT = 725
 
 LOG_LEVEL = logging.DEBUG
 
+# Biomes and tile are transformed to squares
+# Width of a single biome (biomes can be chained together)
+BIOME_WIDTH: int = 600
+# Width of a single tile (BIOME_WIDTH should be divisable by TILE_WIDTH)
+TILE_WIDTH: int = 75
+
+TILE_COLS = int(BIOME_WIDTH // TILE_WIDTH)
+TILE_ROWS = 4
+
 # How many pixels the background is allowed to move in 1 game tick
 BG_SCROLL_SPEED = 20
 
