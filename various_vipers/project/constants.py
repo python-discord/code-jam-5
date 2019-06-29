@@ -6,13 +6,13 @@ from pathlib import PurePath
 
 FPS = 60
 
-WIDTH = 1200
-HEIGHT = 700
+WIDTH = 1280
+HEIGHT = 720
 
 LOG_LEVEL = logging.DEBUG
 
 # How many pixels the background is allowed to move in 1 game tick
-BG_SCROLL_SPEED = 10
+BG_SCROLL_SPEED = 20
 
 
 class Color:
@@ -23,6 +23,8 @@ class Color:
     white = (255, 255, 255)
 
     red = (255, 0, 0)
+
+    sky = (207, 239, 252)
 
 
 PATH_PROJECT = PurePath(__file__).parent
