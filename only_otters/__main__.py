@@ -7,5 +7,3 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     gui = MusicPlayer()
     sys.exit(app.exec_())
-    
-
