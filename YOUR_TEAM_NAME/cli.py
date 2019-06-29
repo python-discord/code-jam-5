@@ -1,4 +1,7 @@
 import click
+from discord_bot import bot_client
+from flask_api import flask_api_app
+from flask_webportal import flask_webportal_app
 
 
 @click.group()
