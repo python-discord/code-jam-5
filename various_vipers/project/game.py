@@ -1,17 +1,23 @@
 import pygame as pg
 
 from project.constants import WIDTH, HEIGHT, FPS, Color
+from project.gameplay.game_view import GameView
 
 
 class Game:
     """
     Represents main game class
     """
+
     def __init__(self):
         pg.init()
-        pg.display.set_caption('Various Vipers game in development')
+        pg.display.set_caption("Various Vipers game in development")
 
         self.running = True
+        self.playing = True
+
+        # Start new game
+        self.game_view = GameView()
 
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.clock = pg.time.Clock()
@@ -19,6 +25,10 @@ class Game:
     def run(self):
         self.clock.tick(FPS)
         self._get_events()
+
+        if self.playing and self.game_view:
+            self.game_view.update()
+
         self._draw()
 
     def _get_events(self):
