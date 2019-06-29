@@ -13,7 +13,6 @@ class MainMenu:
             []  # list edited by self.resolution_change()
         ]
         self.intersects = dict()
-        self.resolution_change()
 
         # button colours
         self.button_colour = (200, 100, 50)
@@ -22,6 +21,8 @@ class MainMenu:
 
         # True if the mouse is currently pressed
         self.pressed = False
+
+        self.resolution_change()
 
     def resolution_change(self):
         # get the display size
