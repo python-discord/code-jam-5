@@ -84,7 +84,10 @@ class MainMenu:
         # dict of intersects for the mouse
         self.intersects = {"play": play_button, "options": options_button}
 
-    def display(self, events):
+    def display(self):
+        # create events list for output
+        events = []
+
         # make a copy of graphics for editing
         graphics = self.graphics
 
@@ -123,6 +126,7 @@ class MainMenu:
             self.graphics[1][3]["colour"] = self.button_colour
 
         self.renderer.update(graphics)
+        return events
 
 
 class Options:
@@ -142,4 +146,6 @@ class Options:
         self.log.debug("resolution: " + str(resolution))
 
     def display(self):
-        pass
+        # create events list for output
+        events = []
+        return events

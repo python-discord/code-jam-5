@@ -28,12 +28,19 @@ class Main:
         if self.state == 1:
             # main menu
             # when no value is return the state remains the same
-            self.state = self.main_menu.display(self.events) or 1
+            mouse_events = self.main_menu.display()
+            for event in mouse_events:
+                if event == "play":
+                    self.state = 3
+                elif event == "options":
+                    self.state = 2
 
         elif self.state == 2:
             # options
             # when no value is return the state remains the same
-            self.state = self.options_menu.display(self.events) or 2
+            mouse_events = self.options_menu.display()
+            for event in mouse_events:
+                pass
 
         elif self.state == 3:
             # game setup
