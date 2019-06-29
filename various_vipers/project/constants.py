@@ -12,7 +12,7 @@ HEIGHT = 720
 LOG_LEVEL = logging.DEBUG
 
 # How many pixels the background is allowed to move in 1 game tick
-BG_SCROLL_SPEED = 10
+BG_SCROLL_SPEED = 20
 
 
 class Color:
@@ -25,6 +25,8 @@ class Color:
     red = (255, 0, 0)
 
     aqua = (0, 255, 255)
+
+    sky = (207, 239, 252)
 
 
 class Button:

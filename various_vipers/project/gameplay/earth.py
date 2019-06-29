@@ -2,8 +2,9 @@ import logging
 
 import pygame as pg
 from pygame.image import load
+from pygame.transform import scale
 
-from project.constants import BG_SCROLL_SPEED
+from project.constants import WIDTH, HEIGHT, BG_SCROLL_SPEED
 
 
 logger = logging.getLogger(__name__)
@@ -15,8 +16,10 @@ class Earth(object):
     def __init__(self, screen, bg_images, tilemap):
         self.screen = screen
         self.tilemap = tilemap
-        # preload all bg images
-        self.bg_images = [load(str(image)) for image in bg_images]
+        # preload and scale all bg images
+        self.bg_images = [
+            scale(load(str(image)), (HEIGHT, HEIGHT)) for image in bg_images
+        ]
 
         # Calculate max position by added the width of all bg images
         self.max_position = sum(image.get_width() for image in self.bg_images)
@@ -30,7 +33,10 @@ class Earth(object):
             self.__scroll_right()
 
     def draw(self):
-        self.screen.blit(self.bg_images[0], (self.current_position, 0))
+        _position = self.current_position
+        for image in self.bg_images:
+            self.screen.blit(image, (_position, HEIGHT // 5))
+            _position += image.get_width()
 
     def __scroll_left(self):
         logger.debug("Scrolling LEFT.")
@@ -43,4 +49,4 @@ class Earth(object):
         self.__update_position()
 
     def __update_position(self):
-        pass
+        logger.debug(self.current_position)
