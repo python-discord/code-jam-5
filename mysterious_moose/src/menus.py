@@ -161,7 +161,7 @@ class GameSetupOptions(Menu):
     def __init__(self, renderer):
         super(GameSetupOptions, self).__init__(renderer)
         self.log = logging.getLogger("main.menu.GameSetupMenu")
-        self.log.setLevel(logging.DEBUG)
+        self.log.setLevel(logging.INFO)
         self.graphics = [[
             {"type": "bg", "colour": (255, 10, 255)},
         ],
