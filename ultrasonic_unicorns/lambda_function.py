@@ -59,6 +59,15 @@ def get_codejame_response():
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
+def get_extreme_events(intent):
+    session_attributes = {}
+    print(intent)
+    card_title = "Extreme Weather"
+    speech_output = intent['slots']['state']['value'] + " has had some events test"
+    reprompt_text = "You never responded to the first test message. Sending another one."
+    should_end_session = False
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
 
 def get_welcome_response():
     """ If we wanted to initialize the session to have some attributes we could
@@ -115,6 +124,8 @@ def on_intent(intent_request, session):
         return get_test_response()
     elif intent_name == "codejam":
         return get_codejame_response()
+    elif intent_name == "extreme":
+        return get_extreme_events(intent)
     elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response()
     elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
