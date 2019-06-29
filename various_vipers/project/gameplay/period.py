@@ -1,10 +1,10 @@
-from project.constants import (
-    GAME_BG_DESERT,
-    GAME_BG_FALL,
-    GAME_BG_FOREST,
-    GAME_BG_GRASS,
-)
+import logging
+
+from .biome import BiomeDesert, BiomeFall, BiomeForest, BiomeGrass
 from .earth import Earth
+
+
+logger = logging.getLogger(__name__)
 
 
 class Period(object):
@@ -15,27 +15,26 @@ class Period(object):
       tile styles, tasks, images and chances to spawn cities.
     """
 
-    # List of background images, that will be looped through
-    background_images = [
-        GAME_BG_DESERT,
-        GAME_BG_DESERT,
-        GAME_BG_DESERT,
-        GAME_BG_FALL,
-        GAME_BG_FALL,
-        GAME_BG_FALL,
-        GAME_BG_FOREST,
-        GAME_BG_FOREST,
-        GAME_BG_FOREST,
-        GAME_BG_GRASS,
-        GAME_BG_GRASS,
-        GAME_BG_GRASS,
+    # List of biomes, that will be looped through
+    biomes = [
+        BiomeDesert,
+        BiomeDesert,
+        BiomeDesert,
+        BiomeFall,
+        BiomeFall,
+        BiomeFall,
+        BiomeForest,
+        BiomeForest,
+        BiomeForest,
+        BiomeGrass,
+        BiomeGrass,
+        BiomeGrass,
     ]
-    # Map of tiles for current period
-    earth_tilemap = [[], [], [], []]
 
     def __init__(self, screen):
         self.screen = screen
-        self.earth = Earth(self.screen, self.background_images, self.earth_tilemap)
+        self.biomes = [biome() for biome in self.biomes]
+        self.earth = Earth(self.screen, self.biomes)
 
     def update(self):
         """Update gets called every game tick."""

@@ -1,7 +1,7 @@
 """All game contstants."""
 
 import logging
-from pathlib import PurePath
+from pathlib import PurePath, Path
 
 
 FPS = 60
@@ -40,6 +40,7 @@ class Button:
 PATH_PROJECT = PurePath(__file__).parent
 
 PATH_BACKGROUNDS = PurePath(PATH_PROJECT).joinpath("assets/images/background")
+PATH_TILES = PurePath(PATH_PROJECT).joinpath("assets/images/tiles")
 PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/buttons")
 
 # Game assets
@@ -49,6 +50,10 @@ GAME_BG_DESERT = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorDesert.png"
 GAME_BG_FALL = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorFall.png")
 GAME_BG_FOREST = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorForest.png")
 GAME_BG_GRASS = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorGrass.png")
+
+# Tiles
+
+TILES_GRASS = list(Path(PATH_TILES).joinpath("grass").glob("*"))
 
 
 # UI assets

@@ -1,7 +1,6 @@
 import logging
 
 import pygame as pg
-from pygame.image import load
 from pygame.transform import scale
 
 from project.constants import BG_SCROLL_SPEED, HEIGHT, WIDTH
@@ -19,14 +18,13 @@ class Earth(object):
 
     current_position = 0
 
-    def __init__(self, screen, bg_images, tilemap):
+    def __init__(self, screen, biomes):
         self.screen = screen
-        self.tilemap = tilemap
 
         # preload and scale all bg images
         new_size = int(HEIGHT * 0.8)
         self.bg_images = [
-            scale(load(str(image)), (new_size, new_size)) for image in bg_images
+            scale(biome.get_bg(), (new_size, new_size)) for biome in biomes
         ]
 
         # Calculate max position by added the width of all bg images
@@ -96,4 +94,3 @@ class Earth(object):
             self.current_position = 0
         elif self.current_position < 0:
             self.current_position = self.max_position
-        # logger.debug(self.current_position)

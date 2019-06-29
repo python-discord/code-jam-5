@@ -1,4 +1,15 @@
-class Tile(object):
-    """Abstract Tile class for tiles on earth's surface."""
+import pygame as pg
+from pygame.image import load
 
-    pass
+
+class Tile:
+    """
+    Generic class for Earth tiles.
+
+    Class holds information about tile type, its image, and available actions.
+    """
+
+    bg_image: pg.image = None
+
+    def __init__(self, image: str):
+        self.bg_image = load(image)
