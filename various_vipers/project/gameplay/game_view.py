@@ -35,6 +35,9 @@ class GameView:
         if key_pressed[pg.K_d] or key_pressed[pg.K_RIGHT]:
             logger.debug("Scrolling RIGHT.")
 
+    def draw(self):
+        self.background.draw()
+
 
 class Background:
     """
@@ -53,4 +56,7 @@ class Background:
         self.screen = screen
 
     def update(self):
+        pass
+
+    def draw(self):
         self.screen.blit(load(str(self.images[0])), (0, 0))
