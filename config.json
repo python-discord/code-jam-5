@@ -7,5 +7,8 @@
         "domain": "0.0.0.0",
         "port": 8081
     },
+    "bot": {
+        "prefix": "?"
+    },
     "should_debug": true
 }

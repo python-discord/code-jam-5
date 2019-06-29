@@ -49,6 +49,10 @@ class ConfigBot:
     Infomation like the client token for discord_bot mini-project
     """
 
+    config = ConfigBase().CONFIG
+
+    PREFIX = config["bot"]["prefix"]  # Gets the prefix to use from CONFIG
+
     def __init__(self):
         self.TOKEN = self._get_bot_token()  # Gets the discord bot token from env var
 
