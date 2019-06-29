@@ -14,6 +14,8 @@ class GameView:
 
     def __init__(self, screen, difficulty=0):
         """
+        Initializer for GameView class.
+
         screen - parent screen to draw objects on
         difficulty - 0, 1, 2. Difficulty increases with number.
         """
@@ -29,7 +31,9 @@ class GameView:
             raise Exception(f"Unknown difficulty level passed: {difficulty}")
 
     def update(self):
+        """Update gets called every game tick."""
         self.period.update()
 
     def draw(self):
+        """Draw gets called every game tick."""
         self.period.draw()

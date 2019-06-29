@@ -1,6 +1,6 @@
 """All game contstants."""
-import logging
 
+import logging
 from pathlib import PurePath
 
 
