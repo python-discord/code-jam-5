@@ -34,7 +34,17 @@ class Config:
         base_config = Config.Base()
 
         API_DOMAIN = base_config.CONFIG["api"]["domain"]
-        API_PORT = base_config.CONFIG["api"]["port"] # NOTE cast to int with flask_api mini-project
+        API_PORT = base_config.CONFIG["api"]["port"]
+
+    class WebPortal:
+        """
+        WebPortal endpoints to connect to and host from
+        """
+
+        base_config = Config.Base()
+
+        API_DOMAIN = base_config.CONFIG["web_portal"]["domain"]
+        API_PORT = base_config.CONFIG["web_portal"]["port"]
 
     class Bot:
         """
