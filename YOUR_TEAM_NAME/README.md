@@ -14,16 +14,16 @@ Install dependancies:
 pipenv install
 ```
 
-Run the api in the background:
+Make a totally secure secret key and run the api in the background:
 
 ```bash
-pipenv run YOUR_TEAM_NAME/ flask-api &
+pipenv run export API_SECRET_KEY=abc && YOUR_TEAM_NAME/ flask-api &
 ```
 
-Run the discord bot in the background:
+Run the discord bot in the background where `x` is the bot's token:
 
 ```bash
-pipenv run YOUR_TEAM_NAME/ discord-bot &
+pipenv run export CLIENT_TOKEN=x && YOUR_TEAM_NAME/ discord-bot &
 ```
 
 Run the web-portal in the background:
