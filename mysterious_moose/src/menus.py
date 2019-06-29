@@ -31,12 +31,44 @@ class MainMenu:
             resolution[0]//5*4,
             int(resolution[0]//5*4*title_size[1]/title_size[0])
         ))
+        # get the new title size after transformation
+        title_rect = title.get_rect()
+        title_size = (title_rect.width, title_rect.height)
 
-        title_size = title.get_rect  # get the new title size after transformation
+        # menu buttons
+        # play
+        play_button = pygame.Rect(
+            resolution[0]//5*2,
+            title_size[1] + 40,
+            resolution[0]//5,
+            50
+        )
+        play_text = self.renderer.fonts["main"].render(
+            text="Play",
+            size=40
+        )[0]
+        play_text_loc = play_text.get_rect(center=(resolution[0]/2, title_size[1] + 65))
+
+        # options
+        options_button = pygame.Rect(
+            resolution[0] // 5 * 2,
+            title_size[1] + 100,
+            resolution[0] // 5,
+            50
+        )
+        options_text = self.renderer.fonts["main"].render(
+            text="Options",
+            size=40
+        )[0]
+        options_text_loc = options_text.get_rect(center=(resolution[0] / 2, title_size[1] + 125))
 
         # puts elements in graphics to be rendered
         self.graphics[1] = [
-            {"type": "surface", "surface": title, "dest": (resolution[0]//10, 20)}
+            {"type": "surface", "surface": title, "dest": (resolution[0]//10, 20)},
+            {"type": "rect", "rect": play_button, "colour": (234, 124, 176)},
+            {"type": "surface", "surface": play_text, "dest": play_text_loc},
+            {"type": "rect", "rect": options_button, "colour": (234, 124, 176)},
+            {"type": "surface", "surface": options_text, "dest": options_text_loc}
         ]
 
     def display(self, events):
