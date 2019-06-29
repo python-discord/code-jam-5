@@ -26,13 +26,13 @@ class MainMenu:
         self.screen = screen
 
         self.play_btn_img = pg.image.load(str(PLAY_BTN)).convert_alpha()
-        self.play_btn_img_h = pg.image.load(str(PLAY_BTN_HOVER))
+        self.play_btn_img_h = pg.image.load(str(PLAY_BTN_HOVER)).convert_alpha()
 
-        self.opt_btn_img = pg.image.load(str(OPT_BTN))
-        self.opt_btn_img_h = pg.image.load(str(OPT_BTN_HOVER))
+        self.opt_btn_img = pg.image.load(str(OPT_BTN)).convert_alpha()
+        self.opt_btn_img_h = pg.image.load(str(OPT_BTN_HOVER)).convert_alpha()
 
-        self.quit_btn_img = pg.image.load(str(QUIT_BTN))
-        self.quit_btn_img_h = pg.image.load(str(QUIT_BTN_HOVER))
+        self.quit_btn_img = pg.image.load(str(QUIT_BTN)).convert_alpha()
+        self.quit_btn_img_h = pg.image.load(str(QUIT_BTN_HOVER)).convert_alpha()
 
         self.play_btn, self.opt_btn, self.quit_btn = generate_buttons(
             btn_w=Button.main_btn_w,
@@ -41,11 +41,25 @@ class MainMenu:
             gap=Button.btn_gap,
         )
 
-    def draw(self, mouse_x: int, mause_y: int, mouse_click: bool):
+    def draw(self, mouse_x: int, mouse_y: int, mouse_click: bool):
         """Hadle all main menu events."""
-        self.play_btn.draw(self.screen, False, self.play_btn_img)
-        self.opt_btn.draw(self.screen, False, self.opt_btn_img)
-        self.quit_btn.draw(self.screen, False, self.quit_btn_img)
+        # hover check for the play button
+        if self.play_btn.rect.collidepoint(mouse_x, mouse_y):
+            self.play_btn.draw(self.screen, self.play_btn_img_h)
+        else:
+            self.play_btn.draw(self.screen, self.play_btn_img)
+
+        # hover check for the options button
+        if self.opt_btn.rect.collidepoint(mouse_x, mouse_y):
+            self.opt_btn.draw(self.screen, self.opt_btn_img_h)
+        else:
+            self.opt_btn.draw(self.screen, self.opt_btn_img)
+
+        # hover check for the quit button
+        if self.quit_btn.rect.collidepoint(mouse_x, mouse_y):
+            self.quit_btn.draw(self.screen, self.quit_btn_img_h)
+        else:
+            self.quit_btn.draw(self.screen, self.quit_btn_img)
 
     # def draw(self,):
     #     """Draw all main menu elements."""

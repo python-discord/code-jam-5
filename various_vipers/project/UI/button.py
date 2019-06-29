@@ -38,9 +38,6 @@ class ButtonModel:
 
         self.rect = Rect(self.left, self.top, self.width, self.height)
 
-    def draw(self, screen: pg.Surface, hover: bool, image) -> None:
+    def draw(self, screen: pg.Surface, image) -> None:
         """Draws the button on screen."""
-        if not hover:
-            screen.blit(image, self.rect)
-        else:
-            pass
+        screen.blit(image, self.rect)
