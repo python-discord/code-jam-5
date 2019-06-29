@@ -1,7 +1,7 @@
 """All game contstants."""
 
 import logging
-from pathlib import PurePath, Path
+from pathlib import Path, PurePath
 
 
 FPS = 60

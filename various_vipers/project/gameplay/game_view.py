@@ -28,7 +28,7 @@ class GameView:
         elif difficulty == 2:
             self.period = PeriodFuture(self.screen)
         else:
-            raise Exception(f"Unknown difficulty level passed: {difficulty}")
+            raise TypeError(f"Unknown difficulty level passed: {difficulty}")
 
     def update(self):
         """Update gets called every game tick."""

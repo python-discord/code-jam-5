@@ -17,23 +17,22 @@ class Period(object):
 
     # List of biomes, that will be looped through
     biomes = [
-        BiomeDesert,
-        BiomeDesert,
-        BiomeDesert,
-        BiomeFall,
-        BiomeFall,
-        BiomeFall,
-        BiomeForest,
-        BiomeForest,
-        BiomeForest,
-        BiomeGrass,
-        BiomeGrass,
-        BiomeGrass,
+        BiomeDesert(),
+        BiomeDesert(),
+        BiomeDesert(),
+        BiomeFall(),
+        BiomeFall(),
+        BiomeFall(),
+        BiomeForest(),
+        BiomeForest(),
+        BiomeForest(),
+        BiomeGrass(),
+        BiomeGrass(),
+        BiomeGrass(),
     ]
 
     def __init__(self, screen):
         self.screen = screen
-        self.biomes = [biome() for biome in self.biomes]
         self.earth = Earth(self.screen, self.biomes)
 
     def update(self):
