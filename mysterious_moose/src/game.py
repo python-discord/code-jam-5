@@ -38,8 +38,10 @@ class Main:
 
             for event in mouse_events:
                 if event == "play":
+                    log.info("Transitioning to Game Setup")
                     self.state = 3
                 elif event == "options":
+                    log.info("Transitioning to Options")
                     self.state = 2
 
         elif self.state == 2:
@@ -58,7 +60,9 @@ class Main:
             # events: - (there are currently no events)
 
             for event in mouse_events:
-                pass
+                if event == "play":
+                    log.info("Starting Game!")
+                    self.state = 4
 
         elif self.state == 4:
             # game running

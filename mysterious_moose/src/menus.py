@@ -106,14 +106,14 @@ class MainMenu(Menu):
         self.log.debug("mouse collision value: " + str(mouse_collision))
         self.log.debug("mouse_state: " + str(mouse_state))
         if mouse_collision > -1:
-            if mouse_state[0] is 1:
+            if mouse_state[0] == 1:
                 self.log.debug("pressed")
                 self.pressed = True
                 if mouse_collision == 0:
                     self.graphics[1][1]["colour"] = self.button_click_colour
                 elif mouse_collision == 1:
                     self.graphics[1][3]["colour"] = self.button_click_colour
-            elif mouse_state[0] is 0 and self.pressed is True:
+            elif mouse_state[0] == 0 and self.pressed is True:
                 self.log.debug("released")
                 self.pressed = False
                 if mouse_collision == 0:
@@ -211,12 +211,12 @@ class GameSetupOptions(Menu):
         self.log.debug("mouse collision value: " + str(mouse_collision))
         self.log.debug("mouse_state: " + str(mouse_state))
         if mouse_collision > -1:
-            if mouse_state[0] is 1:
+            if mouse_state[0] == 1:
                 self.log.debug("pressed")
                 self.pressed = True
                 if mouse_collision == 0:
                     self.graphics[1][0]["colour"] = self.button_click_colour
-            elif mouse_state[0] is 0 and self.pressed is True:
+            elif mouse_state[0] == 0 and self.pressed is True:
                 self.log.debug("released")
                 self.pressed = False
                 if mouse_collision == 0:

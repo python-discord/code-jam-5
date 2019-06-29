@@ -1,5 +1,4 @@
 import logging
-import os
 import src.game as game
 import src.graphics as graphics
 
