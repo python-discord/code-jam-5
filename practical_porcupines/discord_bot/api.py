@@ -11,8 +11,14 @@ async def get_difference(time_1, time_2):
     > Sends time_1 and time_2 to flask_api
     - time_1 = Start time (%Y:%m:%d:%T)
     - time_2 = End time (%Y:%m:%d:%T)
-    < Returns float of mm difference
-    x Returns error message as a string if aiohttp failed
+    < Returns aiohttp response
+    x Returns error code 1000 (custom) as in a dict if aiohttp failed
     """
 
     try:
+        return await session.get(
+            API_ENDPOINT,
+            data={"times": [time_1, time_2]}
+        )
+    except:
+        return {"meta": {"status": 1000}}
