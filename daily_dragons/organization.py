@@ -10,5 +10,6 @@ class Organization:
         self.planetary_effects = planetary_effects
 
     def __str__(self) -> str:
-        summary = f"{self.name}\n" f"{self.description}\n" f"Bio Diversity:"
+        summary = f"{self.name}\n{self.description}\n{str(self.planetary_effects})"
+
         return summary
