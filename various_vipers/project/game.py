@@ -3,7 +3,7 @@ import pygame as pg
 
 from project.UI.main_menu import MainMenu
 from project.UI.options import Options
-from project.constants import Color, FPS, HEIGHT, WIDTH
+from project.constants import Color, FPS, HEIGHT, WIDTH, WindowState
 from project.gameplay.game_view import GameView
 
 
@@ -24,7 +24,7 @@ class Game:
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.clock = pg.time.Clock()
 
-        self.page_state = None
+        self.window_state = WindowState.main_menu
 
         self.main_menu = MainMenu(self.screen)
         self.options = Options(self.screen)
@@ -56,16 +56,16 @@ class Game:
         else:
             self.screen.fill(Color.aqua)
 
-            if self.page_state == "PLAYING":
+            if self.window_state == WindowState.game:
                 self.playing = True
-            elif self.page_state == "OPTIONS":
-                self.page_state = self.options.draw(
+            elif self.window_state == WindowState.options:
+                self.window_state = self.options.draw(
                     self.mouse_x, self.mouse_y, self.event
                 )
-            elif self.page_state == "QUIT":
+            elif self.window_state == WindowState.quited:
                 self.running = False
-            else:
-                self.page_state = self.main_menu.draw(
+            elif self.window_state == WindowState.main_menu:
+                self.window_state = self.main_menu.draw(
                     self.mouse_x, self.mouse_y, self.event
                 )
 

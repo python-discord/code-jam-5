@@ -15,6 +15,7 @@ from project.constants import (
     PLAY_BTN_HOVER,
     QUIT_BTN,
     QUIT_BTN_HOVER,
+    WindowState,
 )
 
 
@@ -25,6 +26,8 @@ class MainMenu:
         """Set initial main menu values."""
         self.screen = screen
 
+        # load two types of images for the buttons
+        # normal state and hover state
         self.play_btn_img = pg.image.load(str(PLAY_BTN)).convert_alpha()
         self.play_btn_img_h = pg.image.load(str(PLAY_BTN_HOVER)).convert_alpha()
 
@@ -34,40 +37,29 @@ class MainMenu:
         self.quit_btn_img = pg.image.load(str(QUIT_BTN)).convert_alpha()
         self.quit_btn_img_h = pg.image.load(str(QUIT_BTN_HOVER)).convert_alpha()
 
+        # generates buttons objects
         self.play_btn, self.opt_btn, self.quit_btn = generate_main_buttons(
             btn_w=Button.main_btn_w,
             btn_h=Button.main_btn_h,
             btn_count=3,
             gap=Button.btn_gap,
         )
+        self.buttons = [self.play_btn, self.opt_btn, self.quit_btn]
+        self.states = [WindowState.game, WindowState.options, WindowState.quited]
+        self.images = [
+            (self.play_btn_img, self.play_btn_img_h),
+            (self.opt_btn_img, self.opt_btn_img_h),
+            (self.quit_btn_img, self.quit_btn_img_h),
+        ]
 
-    def draw(self, mouse_x: int, mouse_y: int, event):
-        """Hadle all main menu events."""
+    def draw(self, mouse_x: int, mouse_y: int, event) -> str:
+        """Hadles all main menu events and draw every elements."""
         # hover check for the play button
-        if self.play_btn.rect.collidepoint(mouse_x, mouse_y):
-            self.play_btn.draw(self.screen, self.play_btn_img_h)
-
-            if event.type == pg.MOUSEBUTTONDOWN:
-                return "PLAYING"
-        else:
-            self.play_btn.draw(self.screen, self.play_btn_img)
-
-        # hover check for the options button
-        if self.opt_btn.rect.collidepoint(mouse_x, mouse_y):
-            self.opt_btn.draw(self.screen, self.opt_btn_img_h)
-
-            if event.type == pg.MOUSEBUTTONDOWN:
-                return "OPTIONS"
-        else:
-            self.opt_btn.draw(self.screen, self.opt_btn_img)
-
-        # hover check for the quit button
-        if self.quit_btn.rect.collidepoint(mouse_x, mouse_y):
-            self.quit_btn.draw(self.screen, self.quit_btn_img_h)
-
-            if event.type == pg.MOUSEBUTTONDOWN:
-                return "QUIT"
-        else:
-            self.quit_btn.draw(self.screen, self.quit_btn_img)
-
-        return None
+        for i, button in enumerate(self.buttons):
+            if button.rect.collidepoint(mouse_x, mouse_y):
+                button.draw(self.screen, self.images[i][1])
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    return self.states[i]
+            else:
+                button.draw(self.screen, self.images[i][0])
+        return WindowState.main_menu

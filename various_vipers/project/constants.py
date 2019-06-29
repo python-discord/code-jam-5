@@ -6,8 +6,8 @@ from pathlib import PurePath, Path
 
 FPS = 60
 
-WIDTH = 1280
-HEIGHT = 720
+WIDTH = 1285
+HEIGHT = 725
 
 LOG_LEVEL = logging.DEBUG
 
@@ -27,6 +27,15 @@ class Color:
     aqua = (0, 255, 255)
 
     sky = (207, 239, 252)
+
+
+class WindowState:
+    """Represents windows states."""
+
+    game = "game"
+    main_menu = "main_menu"
+    options = "options"
+    quited = "quit"
 
 
 class Button:
