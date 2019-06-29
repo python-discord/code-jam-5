@@ -1,4 +1,4 @@
-from app import MusicPlayer
+from .app import MusicPlayer
 from PyQt5 import QtWidgets
 import sys
 
