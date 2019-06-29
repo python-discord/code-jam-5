@@ -1,6 +1,6 @@
 import logging
 
-import pygame as pg
+from .period import PeriodFuture, PeriodMedieval, PeriodModern
 
 
 logger = logging.getLogger(__name__)
@@ -9,18 +9,27 @@ logger = logging.getLogger(__name__)
 class GameView:
     """GameView hold the information about all things related to the main game."""
 
-    def __init__(self):
-        pass
+    # Background images that will be looping
+    BG_images = []
+
+    def __init__(self, screen, difficulty=0):
+        """
+        screen - parent screen to draw objects on
+        difficulty - 0, 1, 2. Difficulty increases with number.
+        """
+        self.screen = screen
+
+        if difficulty == 0:
+            self.period = PeriodMedieval(self.screen)
+        elif difficulty == 1:
+            self.period = PeriodModern(self.screen)
+        elif difficulty == 2:
+            self.period = PeriodFuture(self.screen)
+        else:
+            raise Exception(f"Unknown difficulty level passed: {difficulty}")
 
     def update(self):
-        """
-        Update is called every game tick.
+        self.period.update()
 
-        Function handles basic gameplay elements and inputs.
-        """
-        key_pressed = pg.key.get_pressed()
-
-        if key_pressed[pg.K_a] or key_pressed[pg.K_LEFT]:
-            logger.debug("Scrolling LEFT.")
-        if key_pressed[pg.K_d] or key_pressed[pg.K_RIGHT]:
-            logger.debug("Scrolling RIGHT.")
+    def draw(self):
+        self.period.draw()

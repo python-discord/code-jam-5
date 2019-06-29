@@ -9,16 +9,13 @@ from project.gameplay.game_view import GameView
 class Game:
     """Represents main game class."""
 
-    def __init__(self):
+    def __init__(self, start_game=False):
         """Set initial values."""
         pg.init()
         pg.display.set_caption("Various Vipers game in development")
 
         self.running = True
-        self.playing = True
-
-        # Start new game
-        self.game_view = GameView()
+        self.playing = start_game
 
         self.mouse_x = self.mouse_y = int()
 
@@ -26,6 +23,8 @@ class Game:
         self.clock = pg.time.Clock()
 
         self.main_menu = MainMenu(self.screen)
+        # Start new game
+        self.game_view = GameView(self.screen)
 
     def run(self):
         """Draw and get events."""
@@ -46,6 +45,9 @@ class Game:
 
     def _draw(self):
         self.screen.fill(Color.black)
-        self.main_menu.draw()
+        if self.playing and self.game_view:
+            self.game_view.draw()
+        else:
+            self.main_menu.draw()
 
         pg.display.flip()
