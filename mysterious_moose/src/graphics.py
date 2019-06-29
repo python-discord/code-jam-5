@@ -38,35 +38,18 @@ class Graphics:
             for element in obj:
                 if element["type"] == "image":
                     self.display.blit(self.images[element["image"]], element["x"], element["y"])
+
                 elif element["type"] == "rect":
-                    colour = element["colour"]
-                    rect = (element["x"], element["y"], element["dx"], element["dy"])
                     if "edge_width" in element:
-                        pygame.draw.rect(self.display, colour, rect, element["edge_width"])
+                        pygame.draw.rect(
+                            self.display,
+                            element["colour"],
+                            element["rect"],
+                            element["edge_width"]
+                        )
                     else:
-                        self.display.fill(colour, rect)
-
-                elif element["type"] == "text":
-                    # render some text onto the display
-                    log.debug("rendering text as follows: " + str(element))
-
-                    colour = element["colour"] if "colour" in element else None
-                    bg_colour = element["bg"] if "bg" in element else None
-                    # 255 is the default style
-                    style = element["style"] if "style" in element else 255
-                    rotation = element["rotation"] if "rotation" in element else int(0)
-                    log.debug("fg_colour: " + str(colour))
-                    log.debug("size: " + str(element["size"]))
-                    self.fonts[element["font"]].render_to(
-                        self.display,
-                        (element["x"], element["y"]),
-                        element["text"],
-                        style=style,
-                        fgcolor=colour,
-                        bgcolor=bg_colour,
-                        rotation=rotation,
-                        size=50
-                    )
+                        # fill is used over .draw.rect as it can be faster
+                        self.display.fill(element["colour"], element["rect"])
 
                 elif element["type"] == "surface":
                     # draw a surface onto the display
