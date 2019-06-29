@@ -41,8 +41,6 @@ class MainMenu:
             gap=Button.btn_gap,
         )
 
-        self.clicked = None
-
     def draw(self, mouse_x: int, mouse_y: int, event):
         """Hadle all main menu events."""
         # hover check for the play button
