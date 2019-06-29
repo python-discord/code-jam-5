@@ -1,3 +1,1 @@
-from flask import Flask
-
-flask_webportal_app = Flask(__name__)
+from app import flask_webportal_app
