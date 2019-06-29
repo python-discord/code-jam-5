@@ -37,7 +37,8 @@ class Graphics:
             log.debug("rendering: " + str(obj))
             for element in obj:
                 if element["type"] == "image":
-                    self.display.blit(self.images[element["image"]], element["x"], element["y"])
+                    # draws a loaded image onto the display
+                    self.display.blit(self.images[element["image"]], element["dest"])
 
                 elif element["type"] == "rect":
                     if "edge_width" in element:

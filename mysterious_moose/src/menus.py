@@ -34,10 +34,10 @@ class MainMenu:
 
         title_size = title.get_rect  # get the new title size after transformation
 
+        # puts elements in graphics to be rendered
         self.graphics[1] = [
             {"type": "surface", "surface": title, "dest": (resolution[0]//10, 20)}
         ]
-        self.log.debug("Title size: " + str(title_size))
 
     def display(self, events):
         # make a copy of graphics for editing
@@ -54,7 +54,7 @@ class Options:
         self.log = logging.getLogger("main.menu.OptionMenu")
         self.log.setLevel(logging.INFO)
         self.graphics = [[
-            {"type": "bg", "colour": (255, 255, 255)}
+            {"type": "bg", "colour": (255, 5, 255)}
         ]]
         self.resolution_change()
 
