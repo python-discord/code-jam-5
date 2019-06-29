@@ -33,12 +33,12 @@ class Button(pygame.sprite.Sprite):
         self.image = self.img_off
 
     def is_touching_mouse(self, mouse_pos: tuple) -> bool:
-    	'''
-    	Returns `True` if the mouse is on the button, else it returns `False`
+        '''
+        Returns `True` if the mouse is on the button, else it returns `False`
 
-    	param mouse_pos - The position of the mouse
-    	type mouse_pos  - tuple
-    	'''
+        param mouse_pos - The position of the mouse
+        type mouse_pos  - tuple
+        '''
         mouse_pos_in_button = (mouse_pos[0] - self.pos[0], mouse_pos[1] - self.pos[1])
         return bool(self.current_img.get_rect().collidepoint(*mouse_pos_in_button))
 
