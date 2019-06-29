@@ -1,4 +1,7 @@
 import logging
+from typing import List
+
+import pygame as pg
 
 from .period import PeriodFuture, PeriodMedieval, PeriodModern
 
@@ -10,9 +13,9 @@ class GameView:
     """GameView hold the information about all things related to the main game."""
 
     # Background images that will be looping
-    BG_images = []
+    BG_images: List[str] = []
 
-    def __init__(self, screen, difficulty=0):
+    def __init__(self, screen: pg.Surface, difficulty: int = 0):
         """
         Initializer for GameView class.
 
@@ -30,10 +33,10 @@ class GameView:
         else:
             raise TypeError(f"Unknown difficulty level passed: {difficulty}")
 
-    def update(self):
+    def update(self) -> None:
         """Update gets called every game tick."""
         self.period.update()
 
-    def draw(self):
+    def draw(self) -> None:
         """Draw gets called every game tick."""
         self.period.draw()
