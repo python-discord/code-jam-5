@@ -17,19 +17,19 @@ pipenv install
 Make a totally secure secret key and run the api in the background:
 
 ```bash
-pipenv run export API_SECRET_KEY=abc && practical_porcupines/ flask-api &
+pipenv run export API_SECRET_KEY=abc && python -m practical_porcupines flask-api &
 ```
 
 Run the discord bot in the background where `x` is the bot's token:
 
 ```bash
-pipenv run export CLIENT_TOKEN=x && practical_porcupines/ discord-bot &
+pipenv run export CLIENT_TOKEN=x && python -m practical_porcupines discord-bot &
 ```
 
 Run the web-portal in the background:
 
 ```bash
-pipenv run practical_porcupines/ flask-webportal
+pipenv run python -m practical_porcupines flask-webportal
 ```
 
 - Please navigate to 0.0.0.0:8081 (or whatever else is set in `config.json`) to visit the web-portal mini-project.
@@ -76,7 +76,7 @@ Insert the secret key where `sk` is currently present. After you have completed 
 To run the API, you can simply type the following into your terminal:
 
 ```bash
-pipenv run python practical_porcupines/ flask-api
+pipenv run python -m practical_porcupines flask-api
 ```
 
 This will automatically start the flask API in debug mode (as this project is not intended for production use)
@@ -98,7 +98,7 @@ export CLIENT_TOKEN=ct
 Insert the bot's token where `ct` is currently present. After you have completed this step, you may run the discord bot with the following command
 
 ```bash
-python practical_porcupines/ discord-bot
+python -m practical_porcupines discord-bot
 ```
 
 ### Running the WebPortal/WebUi
@@ -106,7 +106,7 @@ python practical_porcupines/ discord-bot
 To run the webportal, you can simply type the following into your terminal:
 
 ```bash
-pipenv run python practical_porcupines/ flask-webportal
+pipenv run python -m practical_porcupines flask-webportal
 ```
 
 This will automatically start the flask webportal in debug mode (as this project is not intended for production use)
