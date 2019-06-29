@@ -92,7 +92,7 @@ class MainMenu:
         mouse_pos = pygame.Rect(mouse_pos[0], mouse_pos[1], 1, 1)
         mouse_state = pygame.mouse.get_pressed()
 
-        if mouse_pos.collidelist(self.intersects):
+        if mouse_pos.collidelist(list(self.intersects.values())):
             over = mouse_pos.collidedict(self.intersects)[0]
             if mouse_state[0] is True:
                 self.pressed = True
