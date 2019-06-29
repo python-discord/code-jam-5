@@ -6,14 +6,13 @@ class MainMenu:
     def __init__(self, renderer):
         self.renderer = renderer
         self.log = logging.getLogger("main.menu.MainMenu")
-        self.log.setLevel(logging.INFO)
+        self.log.setLevel(logging.DEBUG)
         self.graphics = [[
             {"type": "bg", "colour": (255, 255, 255)}
         ],
             []  # list edited by self.resolution_change()
         ]
         self.intersects = dict()
-        self.resolution_change()
 
         # button colours
         self.button_colour = (200, 100, 50)
@@ -22,6 +21,8 @@ class MainMenu:
 
         # True if the mouse is currently pressed
         self.pressed = False
+
+        self.resolution_change()
 
     def resolution_change(self):
         # get the display size
@@ -91,26 +92,32 @@ class MainMenu:
         mouse_pos = pygame.Rect(mouse_pos[0], mouse_pos[1], 1, 1)
         mouse_state = pygame.mouse.get_pressed()
 
-        if mouse_pos.collidelist(self.intersects):
-            over = mouse_pos.collidedict(self.intersects)[0]
+        # collidelist is used here rather than collidedict as collidedict doesn't appear to
+        # function. In the future, it would be nice to exchange them.
+        mouse_collision = mouse_pos.collidelist(list(self.intersects.values()))
+        self.log.debug("mouse collision value: " + str(mouse_collision))
+        if mouse_collision > -1:
             if mouse_state[0] is True:
+                self.log.debug("pressed")
                 self.pressed = True
-                if over == "play":
+                if mouse_collision == 0:
                     self.graphics[1][1]["colour"] = self.button_click_colour
-                elif over == "options":
-                    self.graphics[1][1]["colour"] = self.button_click_colour
+                elif mouse_collision == 1:
+                    self.graphics[1][3]["colour"] = self.button_click_colour
             elif mouse_state[0] is False and self.pressed is True:
+                self.log.debug("released")
                 self.pressed = False
-                if over == "play":
+                if mouse_collision == 0:
                     return 3
-                elif over == "options":
+                elif mouse_collision == 1:
                     return 2
             else:
-                if over == "play":
+                if mouse_collision == 0:
                     self.graphics[1][1]["colour"] = self.button_hover_colour
-                if over == "options":
-                    self.graphics[1][1]["colour"] = self.button_hover_colour
+                if mouse_collision == 1:
+                    self.graphics[1][3]["colour"] = self.button_hover_colour
         else:
+            pressed = not mouse_state[0]
             self.graphics[1][1]["colour"] = self.button_colour
             self.graphics[1][3]["colour"] = self.button_colour
 
