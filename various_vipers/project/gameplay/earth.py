@@ -111,8 +111,9 @@ class Earth(object):
         new_tile_draws = []
         for y in range(TILE_ROWS):
             for x in range(TILE_COLS - 1):
-                offset = TILE_COLS * TILE_ROWS * x + TILE_COLS * y
-                new_tile_draws += tile_draws[offset : offset + TILE_COLS]
+                start = TILE_COLS * TILE_ROWS * x + TILE_COLS * y
+                end = start + TILE_COLS
+                new_tile_draws += tile_draws[start:end]
         for draw in new_tile_draws:
             self.screen.blit(*draw)
 

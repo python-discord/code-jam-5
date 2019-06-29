@@ -66,10 +66,10 @@ PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/buttons")
 # Game assets
 
 # Background images
-GAME_BG_DESERT = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorDesert.png")
-GAME_BG_FALL = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorFall.png")
-GAME_BG_FOREST = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorForest.png")
-GAME_BG_GRASS = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorGrass.png")
+GAME_BG_DESERT = PurePath(PATH_BACKGROUNDS).joinpath("backgroundDesert.png")
+GAME_BG_CITY = PurePath(PATH_BACKGROUNDS).joinpath("backgroundCity.png")
+GAME_BG_FOREST = PurePath(PATH_BACKGROUNDS).joinpath("backgroundForest.png")
+GAME_BG_MOUNTAINS = PurePath(PATH_BACKGROUNDS).joinpath("backgroundMountains.png")
 
 # Tiles
 

@@ -3,7 +3,7 @@ from typing import List
 
 import pygame as pg
 
-from .biome import Biome, BiomeDesert, BiomeFall, BiomeForest, BiomeGrass
+from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
 from .earth import Earth
 
 
@@ -23,15 +23,15 @@ class Period(object):
         BiomeDesert(),
         BiomeDesert(),
         BiomeDesert(),
-        BiomeFall(),
-        BiomeFall(),
-        BiomeFall(),
+        BiomeMountains(),
+        BiomeMountains(),
+        BiomeMountains(),
         BiomeForest(),
         BiomeForest(),
         BiomeForest(),
-        BiomeGrass(),
-        BiomeGrass(),
-        BiomeGrass(),
+        BiomeCity(),
+        BiomeCity(),
+        BiomeCity(),
     ]
 
     def __init__(self, screen: pg.Surface):
