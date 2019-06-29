@@ -24,6 +24,8 @@ TILE_ROWS: int = 4
 
 # How many pixels the background is allowed to move in 1 game tick
 BG_SCROLL_SPEED = 20
+BG_CLOUDS_SCROLL_SPEED = 2
+FG_CLOUDS_SCROLL_SPEED = 4
 
 
 class Color:
@@ -67,10 +69,20 @@ PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/buttons")
 # Game assets
 
 # Background images
-GAME_BG_DESERT = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorDesert.png")
-GAME_BG_FALL = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorFall.png")
-GAME_BG_FOREST = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorForest.png")
-GAME_BG_GRASS = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorGrass.png")
+GAME_BG_DESERT = PurePath(PATH_BACKGROUNDS).joinpath("backgroundDesert.png")
+GAME_BG_CITY = PurePath(PATH_BACKGROUNDS).joinpath("backgroundCity.png")
+GAME_BG_FOREST = PurePath(PATH_BACKGROUNDS).joinpath("backgroundForest.png")
+GAME_BG_MOUNTAINS = PurePath(PATH_BACKGROUNDS).joinpath("backgroundMountains.png")
+
+# Background cloud layer will be behind foreground cloud layer
+CLOUD_LAYERS_BG = [
+    PurePath(PATH_BACKGROUNDS).joinpath("cloudLayer1.png"),
+    PurePath(PATH_BACKGROUNDS).joinpath("cloudLayerB1.png"),
+]
+CLOUD_LAYERS_FG = [
+    PurePath(PATH_BACKGROUNDS).joinpath("cloudLayer2.png"),
+    PurePath(PATH_BACKGROUNDS).joinpath("cloudLayerB2.png"),
+]
 
 # Tiles
 

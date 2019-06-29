@@ -9,9 +9,9 @@ from pygame.transform import scale
 from project.constants import (
     BIOME_WIDTH,
     GAME_BG_DESERT,
-    GAME_BG_FALL,
+    GAME_BG_CITY,
     GAME_BG_FOREST,
-    GAME_BG_GRASS,
+    GAME_BG_MOUNTAINS,
     TILES_GRASS,
     TILES_WATER,
     TILE_COLS,
@@ -118,18 +118,18 @@ class BiomeDesert(Biome):
         super().__init__()
 
 
-class BiomeFall(Biome):
-    """Fall themed biome."""
+class BiomeCity(Biome):
+    """City themed biome."""
 
-    background_images: List[str] = [GAME_BG_FALL]
+    background_images: List[str] = [GAME_BG_CITY]
 
     unique_tiles: List[str] = []
 
     def __init__(
         self,
-        unique_chance: float = 0.6,
-        city_chance: float = 0.2,
-        water_chance: float = 0.1,
+        unique_chance: float = 0.3,
+        city_chance: float = 0.5,
+        water_chance: float = 0.05,
     ):
         self.unique_tiles_chance = unique_chance
         self.city_tiles_chance = city_chance
@@ -158,17 +158,17 @@ class BiomeForest(Biome):
         super().__init__()
 
 
-class BiomeGrass(Biome):
-    """Grassy biome."""
+class BiomeMountains(Biome):
+    """Mountain themed biome."""
 
-    background_images: List[str] = [GAME_BG_GRASS]
+    background_images: List[str] = [GAME_BG_MOUNTAINS]
 
     unique_tiles: List[str] = []
 
     def __init__(
         self,
-        unique_chance: float = 0.3,
-        city_chance: float = 0.4,
+        unique_chance: float = 0.8,
+        city_chance: float = 0.1,
         water_chance: float = 0.1,
     ):
         self.unique_tiles_chance = unique_chance
