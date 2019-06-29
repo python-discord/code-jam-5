@@ -23,11 +23,16 @@ class MainMenu:
         # title
         title = self.renderer.fonts["main"].render(
             text="Anthropodemics",
-            size=100
+            size=1000
         )
-        title_size = title[1][2]
+        title_size = title[1][2:]
 
-        title = pygame.transform.scale(title[0], (resolution[0]//5*4, 50))
+        title = pygame.transform.scale(title[0], (
+            resolution[0]//5*4,
+            int(resolution[0]//5*4*title_size[1]/title_size[0])
+        ))
+
+        title_size = title.get_rect  # get the new title size after transformation
 
         self.graphics[1] = [
             {"type": "surface", "surface": title, "dest": (resolution[0]//10, 20)}
