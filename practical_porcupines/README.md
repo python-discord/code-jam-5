@@ -35,6 +35,12 @@ pipenv run python -m practical_porcupines flask-webportal
 - Please navigate to 0.0.0.0:8081 (or whatever else is set in `config.json`) to visit the web-portal mini-project.
 - If you would like to run the Discord Bot as an extra, please add the bot tokens (please read the `Running the Discord Bot` section for more info).
 
+## Development Notes
+
+- Using `%Y:%m:%d:%T` formatting (UNIX). An example of this is: `2019:06:29:23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech.
+- Autoformat using `black` and try to do a final sweep with the custom `flake8` rulings.
+- Document everything in docstrings. `>` means overview of passing in, `<` means overview of returning and `-` are the argument specifics (use these like bullet points with them symbols).
+
 ## Installation
 
 ### Installing dependancies
