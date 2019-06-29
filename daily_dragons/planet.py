@@ -1,8 +1,12 @@
 from typing import Dict
+from planetary_effects import PlanetaryEffects
 
 
 class Planet:
+    """Track the planets health with key statistics"""
+
     def __init__(self):
+        """Track the stats as a net change from baseline"""
         self.bio_diversity = 0
         self.temperature = 0
         self.co2 = 0
@@ -10,6 +14,7 @@ class Planet:
 
     @property
     def scoreboard(self) -> Dict[str, str]:
+        """A dict of the stats for easy output by gui"""
         current_stats = {
             "bio_diversity": str(self.bio_diversity),
             "temperature": str(self.temperature),
@@ -18,6 +23,13 @@ class Planet:
         }
 
         return current_stats
+
+    def affect_planet(self, effects: PlanetaryEffects) -> None:
+        """Applies the changes of an effect in place to the planet"""
+        self.bio_diversity += effects.bio_diversity
+        self.temperature += effects.temperature
+        self.co2 += effects.co2
+        self.habitable_land += self.habitable_land
 
     def __str__(self) -> str:
         current_stats = (
