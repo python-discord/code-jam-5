@@ -51,7 +51,7 @@ class MainMenu:
 class Options:
     def __init__(self, renderer):
         self.renderer = renderer
-        self.log = logging.getLogger("main.menu.MainMenu")
+        self.log = logging.getLogger("main.menu.OptionMenu")
         self.log.setLevel(logging.INFO)
         self.graphics = [[
             {"type": "bg", "colour": (255, 255, 255)}
