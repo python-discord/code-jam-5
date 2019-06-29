@@ -6,6 +6,7 @@ aiohttp_session = aiohttp.ClientSession(auth=auth)
 
 API_ENDPOINT = f"{config_api.API_DOMAIN}:{config_api.API_PORT}/api"
 
+
 async def get_difference(time_1, time_2):
     """
     > Sends time_1 and time_2 to flask_api
@@ -16,9 +17,6 @@ async def get_difference(time_1, time_2):
     """
 
     try:
-        return await session.get(
-            API_ENDPOINT,
-            data={"times": [time_1, time_2]}
-        )
+        return await session.get(API_ENDPOINT, data={"times": [time_1, time_2]})
     except:
         return {"meta": {"status": 1000}}
