@@ -1,6 +1,6 @@
 import logging
 import pygame
-
+import pygame.freetype
 
 # gets logger
 log = logging.getLogger("main.graphics")
@@ -22,11 +22,11 @@ class Graphics:
             )
 
         log.info("creating display object")
-        self.display = pygame.display.set_mode((1900, 1000))
+        self.display = pygame.display.set_mode((1900, 960), pygame.RESIZABLE)
 
         # in this section the file path and file name are separated to make it easier to read
         log.info("loading fonts")
-        self.fonts = {"main": pygame.font.Font("assets/fonts/" + "Roboto-Regular.ttf", 20)}
+        self.fonts = {"main": pygame.freetype.Font("assets/fonts/" + "Roboto-Regular.ttf", 20)}
 
         log.info("loading images")
         self.images = {"example": pygame.image.load("assets/images/" + "example.jpg")}
@@ -37,33 +37,26 @@ class Graphics:
             log.debug("rendering: " + str(obj))
             for element in obj:
                 if element["type"] == "image":
-                    self.display.blit(self.images[element["image"]], element["x"], element["y"])
-                elif element["type"] == "box":
-                    colour = element["colour"]
-                    rect = (element["x"], element["y"], element["dx"], element["dy"])
+                    # draws a loaded image onto the display
+                    self.display.blit(self.images[element["image"]], element["dest"])
+
+                elif element["type"] == "rect":
                     if "edge_width" in element:
-                        pygame.draw.rect(self.lcd, colour, rect, element["edge_width"])
-                    else:
-                        self.display.fill(colour, rect)
-
-                elif element["type"] == "text":
-                    log.debug("rendering text as follows: " + str(element))
-
-                    colour = element["colour"] if "colour" in element else None
-                    log.debug("fg_colour: " + str(colour))
-                    bg_colour = element["bg"] if "bg" in element else None
-                    style = element["style"] if "style" in element else None
-                    rotation = element["rotation"] if "rotation" in element else int(0)
-
-                    if element["type"] == "normal":
-                        self.fonts[element["font"]].render_to(
+                        pygame.draw.rect(
                             self.display,
-                            (element["x"], element["y"]),
-                            element["text"],
-                            style=style,
-                            fgcolor=colour,
-                            bgcolor=bg_colour,
-                            rotation=rotation,
-                            size=element["size"]
+                            element["colour"],
+                            element["rect"],
+                            element["edge_width"]
                         )
+                    else:
+                        # fill is used over .draw.rect as it can be faster
+                        self.display.fill(element["colour"], element["rect"])
+
+                elif element["type"] == "surface":
+                    # draw a surface onto the display
+                    self.display.blit(element["surface"], element["dest"])
+
+                elif element["type"] == "bg":
+                    # fill the entire display with a colour
+                    self.display.fill(element["colour"])
         pygame.display.update()
