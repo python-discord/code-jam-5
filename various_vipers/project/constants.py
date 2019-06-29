@@ -4,21 +4,22 @@ import logging
 from pathlib import Path, PurePath
 
 
+LOG_LEVEL = logging.DEBUG
+
 FPS = 60
 
 WIDTH = 1285
 HEIGHT = 725
-
-LOG_LEVEL = logging.DEBUG
 
 # Biomes and tile are transformed to squares
 # Width of a single biome (biomes can be chained together)
 BIOME_WIDTH: int = 600
 # Width of a single tile (BIOME_WIDTH should be divisable by TILE_WIDTH)
 TILE_WIDTH: int = 75
-
-TILE_COLS = int(BIOME_WIDTH // TILE_WIDTH)
-TILE_ROWS = 4
+# Number of tile columns per biome
+TILE_COLS: int = int(BIOME_WIDTH // TILE_WIDTH)
+# Number of tile rows per biome
+TILE_ROWS: int = 4
 
 # How many pixels the background is allowed to move in 1 game tick
 BG_SCROLL_SPEED = 20
