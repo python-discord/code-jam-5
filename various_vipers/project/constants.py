@@ -29,9 +29,7 @@ PATH_BACKGROUNDS = PurePath(PATH_PROJECT).joinpath("assets/images/background")
 # Game assets
 
 # Background images
-GAME_BG_IMAGES = [
-    PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorDesert.png"),
-    PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorFall.png"),
-    PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorForest.png"),
-    PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorGrass.png"),
-]
+GAME_BG_DESERT = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorDesert.png")
+GAME_BG_FALL = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorFall.png")
+GAME_BG_FOREST = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorForest.png")
+GAME_BG_GRASS = PurePath(PATH_BACKGROUNDS).joinpath("backgroundColorGrass.png")
