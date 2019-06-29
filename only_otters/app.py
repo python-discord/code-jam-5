@@ -27,32 +27,38 @@ class MusicPlayer(QMainWindow):
     def addButtons(self):
         """Create buttons of the GUI."""
         widget = QWidget(self)
-
         self.setCentralWidget(widget)
+
         # song controls
         playButton = QPushButton("Play")
         pauseButton = QPushButton("Pause")
         stopButton = QPushButton("Stop")
+
         # playlist controls
         shuffleButton = QPushButton("Shuffle")
         prevButton = QPushButton("Prev")
         nextButton = QPushButton("Next")
+
         # button layouts
         centralWidget = QVBoxLayout()
         controls = QHBoxLayout()
         playlistCtrlLayout = QHBoxLayout()
+
         # layout of buttons for song control
         controls.addWidget(playButton)
         controls.addWidget(pauseButton)
         controls.addWidget(stopButton)
+
         # layout of buttons for playlist control
         playlistCtrlLayout.addWidget(shuffleButton)
         playlistCtrlLayout.addWidget(prevButton)
         playlistCtrlLayout.addWidget(nextButton)
+
         # vertical layout
         centralWidget.addLayout(controls)
         centralWidget.addLayout(playlistCtrlLayout)
         widget.setLayout(centralWidget)
+
         # assign button to corresponding function
         playButton.clicked.connect(self.play)
         pauseButton.clicked.connect(self.pause)
