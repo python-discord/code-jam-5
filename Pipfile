@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 flake8 = "*"
+black = "*"
 
 [packages]
 flask = "*"
@@ -18,3 +19,6 @@ python_version = "3.6"
 
 [scripts]
 lint = "python -m flake8"
+
+[pipenv]
+allow_prereleases = true
