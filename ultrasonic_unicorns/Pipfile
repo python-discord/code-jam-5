@@ -1,13 +1,17 @@
 [[source]]
-url = "https://pypi.python.org/simple"
-verify_ssl = true
 name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+coverage = "*"
 
 [packages]
 
-
-[dev-packages]
-coverage = "*"
-
 [requires]
-python_version = ">=3.7"
+python_version = "3.7"
+
+[scripts]
+lint = "python -m flake8 -v"
+test = "python -m unittest discover -v -s tests"
