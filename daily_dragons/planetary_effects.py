@@ -1,6 +1,3 @@
-from typing import Dict
-
-
 class PlanetaryEffects:
     """
     PlanetaryEffects
@@ -24,10 +21,10 @@ class PlanetaryEffects:
 
     def __str__(self) -> str:
 
-        bio = __sign_helper(self.bio_diversity) + str(self.bio_diversity)
-        temp = __sign_helper(self.temperature) + str(self.temperature)
-        carbon = __sign_helper(self.co2) + str(self.co2)
-        land = __sign_helper(self.habitable_land) + str(self.habitable_land)
+        bio = self.__sign_helper(self.bio_diversity) + str(self.bio_diversity)
+        temp = self.__sign_helper(self.temperature) + str(self.temperature)
+        carbon = self.__sign_helper(self.co2) + str(self.co2)
+        land = self.__sign_helper(self.habitable_land) + str(self.habitable_land)
 
         net_effects = (
             f"Biodiversity: {bio}\n"
