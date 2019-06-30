@@ -41,6 +41,7 @@ class Game:
             window.blit(self.map, (0, 0))
 
             closest_country = None
+            closest_country_coords = None
             closest_distance = self.width
 
             mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -49,8 +50,8 @@ class Game:
 
                 lat, lon = country['latlng']
 
-                x = (180 + lon) / 360 * self.width
-                y = (90 + lat * -1) / 180 * self.height
+                x = int((180 + lon) / 360 * self.width)
+                y = int((90 + lat * -1) / 180 * self.height)
 
                 current_distance = math.sqrt((x - mouse_x) ** 2 +
                                              (y - mouse_y) ** 2)
@@ -58,9 +59,9 @@ class Game:
                 if current_distance < closest_distance:
                     closest_distance = current_distance
                     closest_country = country
+                    closest_country_coords = x, y
 
-                pygame.draw.circle(window, (0, 0, 255), (int(x),
-                                                         int(y)), 3)
+                pygame.draw.circle(window, (0, 0, 255), (x, y), 3)
 
             pygame.draw.rect(window, (0, 0, 0),
                              pygame.Rect(self.width - 300, self.height - 50, self.width,
