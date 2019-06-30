@@ -15,20 +15,28 @@ class Credits:
 
     def __init__(self, screen: pg.Surface):
         self.screen = screen
-        self.back_btn = ButtonModel(20, 20, 200, 100)
 
-        self.back_btn_img = pg.image.load(str(BACK_BTN)).convert_alpha()
-        self.back_btn_img_h = pg.image.load(str(BACK_BTN_HOVER)).convert_alpha()
+        back_btn_img = pg.image.load(str(BACK_BTN)).convert_alpha()
+        back_btn_img_h = pg.image.load(str(BACK_BTN_HOVER)).convert_alpha()
+
+        self.back_btn = ButtonModel(
+            x=20,
+            y=20,
+            width=200,
+            height=100,
+            image=back_btn_img,
+            image_hover=back_btn_img_h,
+        )
 
     def draw(self, mouse_x: int, mouse_y: int, event):
         """Hadle all options events and draw elements."""
         self.screen.fill(Color.aqua)
 
         if self.back_btn.rect.collidepoint(mouse_x, mouse_y):
-            self.back_btn.draw(self.screen, self.back_btn_img_h)
+            self.back_btn.draw(self.screen, hover=True)
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 return WindowState.main_menu
         else:
-            self.back_btn.draw(self.screen, self.back_btn_img)
+            self.back_btn.draw(self.screen)
         return WindowState.credit

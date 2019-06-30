@@ -6,7 +6,9 @@ from pygame import Rect
 from project.constants import HEIGHT, WIDTH
 
 
-def generate_main_buttons(btn_w: int, btn_h: int, btn_count: int, gap: int) -> list:
+def generate_main_buttons(
+    btn_w: int, btn_h: int, btn_count: int, gap: int, images: list
+) -> list:
     """
     Generates new buttons in main menu pattern.
 
@@ -36,7 +38,14 @@ def generate_main_buttons(btn_w: int, btn_h: int, btn_count: int, gap: int) -> l
         top = margin_y + (gap * (pos - 1)) + (btn_h * (pos - 1))
 
         # create new button and add it to the list
-        new_button = ButtonModel(x=left, y=top, width=btn_w, height=btn_h)
+        new_button = ButtonModel(
+            x=left,
+            y=top,
+            width=btn_w,
+            height=btn_h,
+            image=images[pos - 1][0],
+            image_hover=images[pos - 1][1],
+        )
         buttons.append(new_button)
     return buttons
 
@@ -44,10 +53,24 @@ def generate_main_buttons(btn_w: int, btn_h: int, btn_count: int, gap: int) -> l
 class ButtonModel:
     """Represents a button."""
 
-    def __init__(self, x: int, y: int, width: int, height: int):
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        image: pg.image,
+        image_hover: pg.image,
+    ):
         """Sets rectangle object for the button."""
+        self.image = image
+        self.image_hover = image_hover
+
         self.rect = Rect(x, y, width, height)
 
-    def draw(self, screen: pg.Surface, image) -> None:
+    def draw(self, screen: pg.Surface, hover=False) -> None:
         """Draws the button on the screen."""
-        screen.blit(image, self.rect)
+        if hover:
+            screen.blit(self.image_hover, self.rect)
+        else:
+            screen.blit(self.image, self.rect)
