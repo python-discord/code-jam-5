@@ -10,6 +10,7 @@ class ControlsWidget(QtWidgets.QWidget):
         self.init_ui()
 
     def init_ui(self):
+        """Create the UI."""
         self.main_layout = QtWidgets.QHBoxLayout()
 
         self.previous_song_button = QtWidgets.QPushButton('<<')
@@ -29,6 +30,7 @@ class ControlsWidget(QtWidgets.QWidget):
         self.setLayout(self.main_layout)
 
     def _toggle_play(self):
+        """Toggle between play and pause."""
         if self.play_pause_button.text() == 'Play':
             self.play_pause_button.setText('Pause')
             self.player.play()
@@ -37,17 +39,19 @@ class ControlsWidget(QtWidgets.QWidget):
             self.player.pause()
 
     def _next_song(self):
+        """Plays the next song in the playlist."""
         self.player.playlist().next()
         if self.player.state() == QtMultimedia.QMediaPlayer.PausedState:
             self._toggle_play()
 
     def _previous_song(self):
+        """Plays previous song in the playlist."""
         self.player.playlist().previous()
         if self.player.state() == QtMultimedia.QMediaPlayer.PausedState:
             self._toggle_play()
 
     def _open_file(self):
-        """Opens an audio file and adds it to the playlist"""
+        """Opens an audio file and adds it to the playlist."""
         song = QtWidgets.QFileDialog.getOpenFileName(self, "Open Song", "", "Sound Files (*.mp3)")
 
         if song[0]:

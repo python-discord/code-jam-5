@@ -15,6 +15,7 @@ class MusicPlayer(QtWidgets.QWidget):
         self.init_ui()
 
     def init_ui(self):
+        """Create the UI."""
         self.main_layout = QtWidgets.QVBoxLayout(self)
 
         self.visualiser = VisualiserWidget(self.player)
