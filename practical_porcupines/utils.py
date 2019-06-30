@@ -22,7 +22,7 @@ def check_date(date):
     if not date_match:
         return None
 
-    return date_match[0][0]
+    return _add_null_date(date_match[0][0])
 
 
 def _add_null_date(date_match):
