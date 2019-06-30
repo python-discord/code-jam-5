@@ -26,8 +26,8 @@ TILE_ROWS: int = 4
 
 # How many pixels the background is allowed to move in 1 game tick
 BG_SCROLL_SPEED = 20
-BG_CLOUDS_SCROLL_SPEED = 2
-FG_CLOUDS_SCROLL_SPEED = 4
+BG_CLOUDS_SCROLL_SPEED = 1
+FG_CLOUDS_SCROLL_SPEED = 2
 
 
 class Color:

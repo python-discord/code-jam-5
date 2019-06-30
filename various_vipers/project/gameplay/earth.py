@@ -30,8 +30,13 @@ class Earth(object):
     Includes logic for handling background and game tasks.
     """
 
+    # :: Clouds
+    # pools - preloaded pool of images to choose from
+    cloud_layers_bg_pool: List[pg.Surface]
     cloud_layers_bg: List[pg.Surface]
     current_cloud_bg_pos: float = 0
+
+    cloud_layers_fg_pool: List[pg.Surface]
     cloud_layers_fg: List[pg.Surface]
     current_cloud_fg_pos: float = 0
 
@@ -43,7 +48,14 @@ class Earth(object):
         self.screen = screen
 
         self.biomes = biomes
+
+        self.cloud_layers_bg_pool = [
+            load(str(image)).convert_alpha() for image in CLOUD_LAYERS_BG
+        ]
         self.cloud_layers_bg = []
+        self.cloud_layers_fg_pool = [
+            load(str(image)).convert_alpha() for image in CLOUD_LAYERS_FG
+        ]
         self.cloud_layers_fg = []
 
         # Calculate max position by added the width of all bg images
@@ -93,7 +105,7 @@ class Earth(object):
 
         # Add new clouds to fill the rest of the screen
         while offset < WIDTH:
-            new_cloud = load(str(random.choice(pool)))
+            new_cloud = random.choice(pool)
             current_list.append(new_cloud)
             draw_args.append([new_cloud, (offset, y_pos)])
             offset += new_cloud.get_width()
@@ -102,7 +114,7 @@ class Earth(object):
 
     def __draw_clouds(self) -> None:
         draw_bg_args = self.__prepare_draw_clouds(
-            CLOUD_LAYERS_BG,
+            self.cloud_layers_bg_pool,
             self.cloud_layers_bg,
             self.current_cloud_bg_pos,
             int(HEIGHT // 4),
@@ -110,11 +122,12 @@ class Earth(object):
         self.screen.blits(draw_bg_args)
 
         draw_fg_args = self.__prepare_draw_clouds(
-            CLOUD_LAYERS_FG,
+            self.cloud_layers_fg_pool,
             self.cloud_layers_fg,
             self.current_cloud_fg_pos,
             int(HEIGHT // 3),
         )
+        logger.debug(len(draw_bg_args + draw_fg_args))
         self.screen.blits(draw_fg_args)
 
     def __prepare_draw_biome(
@@ -224,11 +237,11 @@ class Earth(object):
         # Cloud position will always be the position of first cloud (offscreen to the left)
         if self.current_cloud_bg_pos > 0:
             self.cloud_layers_bg = [
-                load(str(random.choice(CLOUD_LAYERS_BG)))
+                random.choice(self.cloud_layers_bg_pool)
             ] + self.cloud_layers_bg
             self.current_cloud_bg_pos = -self.cloud_layers_bg[0].get_width()
         if self.current_cloud_fg_pos > 0:
             self.cloud_layers_fg = [
-                load(str(random.choice(CLOUD_LAYERS_FG)))
+                random.choice(self.cloud_layers_fg_pool)
             ] + self.cloud_layers_fg
             self.current_cloud_fg_pos = -self.cloud_layers_fg[0].get_width()

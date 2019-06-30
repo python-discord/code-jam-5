@@ -19,23 +19,26 @@ class Period(object):
     """
 
     # List of biomes, that will be looped through
-    biomes: List[Biome] = [
-        BiomeDesert(),
-        BiomeDesert(),
-        BiomeDesert(),
-        BiomeMountains(),
-        BiomeMountains(),
-        BiomeMountains(),
-        BiomeForest(),
-        BiomeForest(),
-        BiomeForest(),
-        BiomeCity(),
-        BiomeCity(),
-        BiomeCity(),
-    ]
+    biomes: List[Biome]
 
     def __init__(self, screen: pg.Surface):
         self.screen = screen
+
+        self.biomes = [
+            BiomeDesert(),
+            BiomeDesert(),
+            BiomeDesert(),
+            BiomeMountains(),
+            BiomeMountains(),
+            BiomeMountains(),
+            BiomeForest(),
+            BiomeForest(),
+            BiomeForest(),
+            BiomeCity(),
+            BiomeCity(),
+            BiomeCity(),
+        ]
+
         self.earth = Earth(self.screen, self.biomes)
 
     def update(self) -> None:

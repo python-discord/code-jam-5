@@ -56,7 +56,9 @@ class Biome(object):
         self.tilemap = self.__generate_tilemap(TILE_COLS, TILE_ROWS)
 
         # scale background to 0.8 of screen height
-        self.background = load(str(random.choice(self.background_images)))
+        self.background = load(
+            str(random.choice(self.background_images))
+        ).convert_alpha()
         self.background = scale(self.background, (BIOME_WIDTH, BIOME_WIDTH))
 
     def __choose_tiles(self, k: int = 1) -> Generator[Tile, None, None]:
