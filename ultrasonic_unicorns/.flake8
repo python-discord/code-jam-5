@@ -2,5 +2,5 @@
 max-line-length=100
 application_import_names=project
 ignore=W503,E226,W504
-exclude=.cache, __pycache__, venv, .venv, tests
+exclude=.cache, __pycache__, venv, .venv
 import-order-style=pycharm
