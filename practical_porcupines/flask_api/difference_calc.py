@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 
 class WLDifference:
-    def calculate(date_1, date_2):
+    def calculate(self, date_1, date_2):
         """
         Calculates difference of global water level between date_1 and date_2
         Returns the difference in mm as a float.
