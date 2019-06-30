@@ -5,7 +5,6 @@ import pygame
 import json
 import math
 import os
-import pygameMenu
 from game_menu import main_menu
 
 # Initializes pygame resources
@@ -28,7 +27,6 @@ class Game:
         self.map = pygame.image.load(r'map_objects/earth2.png')
         self.menu_title = 'Game of the hyenas'
         self.clock = pygame.time.Clock()
-        self.font = pygameMenu.fonts.FONT_NEVIS
 
         # Resize image to fit in window
         self.map = pygame.transform.scale(self.map, (self.width,
@@ -82,13 +80,12 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         # If ESC is pressed during the game the menu is opened
                         # Go to the menu loop
-                        return
+                        main_menu(self.width, self.height, Game().run)
 
                 pygame.display.update()
 
     def call_menu(self):
-        main_menu(self.window, self.width, self.height, self.font,
-                  self.menu_title, Game().run)
+        main_menu(self.width, self.height, Game().run)
 
 
 # Game initializes with the menu being opened
