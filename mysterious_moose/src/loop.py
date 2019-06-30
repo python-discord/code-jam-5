@@ -98,5 +98,5 @@ class Main:
         self._end()
 
     def __call__(self):
-        """ starts the loop, this is Pythonic right? """
+        """ starts the game loop, this is Pythonic right? """
         self._repeat()

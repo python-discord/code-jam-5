@@ -1,0 +1,10 @@
+[
+  {
+    "name": "example",
+    "impact": 3,
+    "virulence": 2,
+    "detectability": 5,
+    "graphic": "assets/images/example.jpg",
+    "cost": 5
+  }
+]
