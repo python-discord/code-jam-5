@@ -42,7 +42,9 @@ class Game:
 
             closest_country = None
             closest_country_coords = None
-            closest_distance = self.width
+
+            # Maximum value between cursor and country is 30
+            closest_distance = 30
 
             mouse_x, mouse_y = pygame.mouse.get_pos()
 
@@ -62,6 +64,14 @@ class Game:
                     closest_country_coords = x, y
 
                 pygame.draw.circle(window, (0, 0, 255), (x, y), 3)
+
+            # Checking if a country in the range of 30 units is found
+            if closest_country is None:
+                # Drawing the circle off-screen
+                closest_country_coords = (-10, -10)
+
+                # Displaying "Select a country" in the bottom right corner box
+                closest_country = {'name': 'Select a country'}
 
             pygame.draw.circle(window, (255, 0, 0), closest_country_coords, 5)
             pygame.draw.rect(window, (0, 0, 0),
