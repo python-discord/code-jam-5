@@ -25,4 +25,7 @@ async def decode_diff_resp(difference_obj):
 
     decoded_obj = await difference_obj.text()  # Decode
 
-    return decoded_obj["body"]["wl_difference"]  # Return difference part
+    if "body" in decoded_obj and "wl_difference" in decoded_obj["body"]:
+        return decoded_obj["body"]["wl_difference"]  # Return difference part
+
+    return f"ERROR 1001: API returning wrong values!"

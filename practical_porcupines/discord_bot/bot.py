@@ -15,7 +15,7 @@ async def on_ready():
     """
 
     print(f"{bot_client.user.name} is online w/ id: '{bot_client.user.id}'!")
-    print("Testing api" + await decode_diff_resp(await get_difference("2010", "2019")))
+    print("Testing api: " + await decode_diff_resp(await get_difference("2010", "2019")))
 
 
 @bot_client.command()
