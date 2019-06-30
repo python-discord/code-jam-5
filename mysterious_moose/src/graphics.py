@@ -1,4 +1,5 @@
 import logging
+
 import pygame
 import pygame.freetype
 
@@ -29,7 +30,10 @@ class Graphics:
         self.fonts = {"main": pygame.freetype.Font("assets/fonts/" + "Roboto-Regular.ttf", 20)}
 
         log.info("loading images")
-        self.images = {"example": pygame.image.load("assets/images/" + "example.jpg")}
+        self.images = {
+            "example": pygame.image.load("assets/images/" + "example.jpg"),
+            "world icon": pygame.image.load("assets/images/" + "world.png")
+        }
 
     def update(self, to_render: list) -> None:
         """ to_render is a list of elements to render in order"""

@@ -1,5 +1,6 @@
-import pygame
 import logging
+
+import pygame
 
 
 class Menu:
@@ -27,13 +28,12 @@ class MainMenu(Menu):
             []  # list edited by self.resolution_change()
         ]
 
-        self.resolution_change()
+        # get resolution
+        display_info = pygame.display.Info()
+        # initialise scalable elements
+        self.resolution_change((display_info.current_w, display_info.current_h))
 
-    def resolution_change(self):
-        # get the display size
-        resolution = pygame.display.get_surface()
-        resolution = (resolution.get_width(), resolution.get_height())
-        self.log.debug("resolution: " + str(resolution))
+    def resolution_change(self, resolution):
 
         # title
         title = self.renderer.fonts["main"].render(
@@ -142,13 +142,14 @@ class Options(Menu):
         self.graphics = [[
             {"type": "bg", "colour": (255, 5, 255)}
         ]]
-        self.resolution_change()
 
-    def resolution_change(self):
-        # get the display size
-        resolution = pygame.display.get_surface()
-        resolution = (resolution.get_width(), resolution.get_height())
-        self.log.debug("resolution: " + str(resolution))
+        # get resolution
+        display_info = pygame.display.Info()
+        # initialise scalable elements
+        self.resolution_change((display_info.current_w, display_info.current_h))
+
+    def resolution_change(self, resolution):
+        pass
 
     def display(self):
         # create events list for output
@@ -167,13 +168,13 @@ class GameSetupOptions(Menu):
         ],
             []  # used in self.resolution_change
         ]
-        self.resolution_change()
 
-    def resolution_change(self):
-        # get the display size
-        resolution = pygame.display.get_surface()
-        resolution = (resolution.get_width(), resolution.get_height())
-        self.log.debug("resolution: " + str(resolution))
+        # get resolution
+        display_info = pygame.display.Info()
+        # initialise scalable elements
+        self.resolution_change((display_info.current_w, display_info.current_h))
+
+    def resolution_change(self, resolution):
 
         # menu buttons
         # play

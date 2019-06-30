@@ -3,6 +3,6 @@ class Region:
         pass
 
 
-class Map:
+class World:
     def __init__(self):
         pass

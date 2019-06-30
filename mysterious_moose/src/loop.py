@@ -1,11 +1,12 @@
 import logging
-import pygame
-import src.menus as menus
-import src.game as game
 
-log = logging.getLogger("main.game")
+import pygame
+import src.game as game
+import src.menus as menus
+
+log = logging.getLogger("main.loop")
 log.setLevel(logging.INFO)
-log.info("game loop logger initialised")
+log.info("main loop logger initialised")
 
 
 class Main:
@@ -22,7 +23,9 @@ class Main:
         self.game_setup_options = menus.GameSetupOptions(graphics)
 
         # when the window resolution is changed this list is updated
-        self.resolution_dependants = (self.main_menu, self.options_menu, self.game_setup_options)
+        self.resolution_dependants = [
+            self.main_menu, self.options_menu, self.game_setup_options
+        ]
 
     def _end(self):
         """ handles main loop completion """
@@ -65,7 +68,8 @@ class Main:
                 if event == "play":
                     log.info("Starting Game!")
                     # initialise game
-                    self.game = game.Game()
+                    self.game = game.Game(self.graphics)
+                    self.resolution_dependants.append(self.game)
                     # transition to game state
                     self.state = 4
 
@@ -85,12 +89,17 @@ class Main:
                     log.info("Quit event received")
                     self.exit_code = 0
                 elif event.type == pygame.VIDEORESIZE:
-                    pygame.display.set_mode((
+                    # get the new display size
+                    resolution = (
                         800 if event.w < 800 else event.w,
                         600 if event.h < 600 else event.h
-                    ), pygame.RESIZABLE)
+                    )
+                    # update resolution
+                    pygame.display.set_mode(resolution, pygame.RESIZABLE)
+                    log.debug("resolution: " + str(resolution))
+
                     for to_update in self.resolution_dependants:
-                        to_update.resolution_change()
+                        to_update.resolution_change(resolution)
 
             # execute state dependant code
             self._state()
