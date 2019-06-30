@@ -1,5 +1,9 @@
 # practical-porcupines Documentation
 
+## Dataset Acknowledgement
+
+GSFC. 2017. Global Mean Sea Level Trend from Integrated Multi-Mission Ocean Altimeters TOPEX/Poseidon, Jason-1, OSTM/Jason-2 Version 4.2 Ver. 4.2 PO.DAAC, CA, USA. Dataset accessed [2019-06-30] at [http://dx.doi.org/10.5067/GMSLM-TJ42](http://dx.doi.org/10.5067/GMSLM-TJ42).
+
 ## Human-friendly Overview
 
 We have an api (named `flask_api`), a webportal (named `flask_webportal`) and a discord bot (named `discord_bot`). The api recives 2 dates formatted like so:
