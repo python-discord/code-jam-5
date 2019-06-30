@@ -7,7 +7,6 @@ class Spotleafy(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Spotleafy')
-
         self.init_gui()
 
     def init_gui(self):
@@ -19,4 +18,4 @@ class Spotleafy(QtWidgets.QMainWindow):
         self.music_player = MusicPlayer()
 
         self.main_layout.addWidget(self.music_player)
-        self.setLayout(self.main_layout)
+        self.main_widget.setLayout(self.main_layout)
