@@ -66,7 +66,6 @@ class Game:
                     closest_distance = current_distance
                     closest_country = country
                     closest_country_coords = x, y
-                    global closest_country_coords_hover
                     closest_country_coords_hover = x - 9, y - 15
 
                 # pygame.draw.circle(window, (0, 0, 255), (x, y), 3)
@@ -77,8 +76,8 @@ class Game:
 
             # Checking if a country in the range of 30 units is found
             if closest_country is None:
-                # Drawing the circle off-screen
-                closest_country_coords = (-10, -10)
+                # Drawing the pin off-screen
+                closest_country_coords = closest_country_coords_hover = (-20, -20)
 
                 # Displaying "Select a country" in the bottom right corner box
                 closest_country = {'name': 'Select a country'}
@@ -98,7 +97,7 @@ class Game:
                     pygame.quit()
                     quit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if closest_country_coords is not (-10, -10):
+                    if closest_country_coords is not (-20, -20):
                         self.country = closest_country
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
