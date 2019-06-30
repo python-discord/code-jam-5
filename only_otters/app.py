@@ -3,7 +3,7 @@ from .music_player import MusicPlayer
 
 
 class Spotleafy(QtWidgets.QMainWindow):
-    """A music player designed to encourage action against climate change"""
+    """A music player designed to encourage action against climate change."""
 
     def __init__(self):
         super().__init__()

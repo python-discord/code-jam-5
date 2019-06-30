@@ -3,7 +3,7 @@ from ..audio_visualiser import AudioVisualiser
 
 
 class NowPlayingWidget(QtWidgets.QWidget):
-    """Shows the music as it plays from a QMediaPlayer"""
+    """Shows the music as it plays from a QMediaPlayer."""
 
     def __init__(self, player):
         super().__init__()

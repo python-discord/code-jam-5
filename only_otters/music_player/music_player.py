@@ -4,7 +4,7 @@ from .visualiser import NowPlayingWidget
 
 
 class MusicPlayer(QtWidgets.QWidget):
-    """Represents a MusicPlayer object, for playing/pausing/loading music"""
+    """Represents a MusicPlayer object, for playing/pausing/loading music."""
 
     def __init__(self):
         super().__init__()
