@@ -305,7 +305,8 @@ class Earth(object):
                     if indicator is None:
                         indicator = Indicator(self.screen, tile)
                         self.indicators.append(indicator)
-                        continue
+                    else:
+                        indicator.update()
 
                     # Calculate if the tile is to the left or right of the screen
                     biome_pos = idx * BIOME_WIDTH
@@ -320,5 +321,3 @@ class Earth(object):
                             self.max_position - self.current_biome_pos + biome_pos
                         )
                     indicator.flip(distance_left <= distance_right)
-
-                    indicator.update()
