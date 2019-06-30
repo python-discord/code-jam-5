@@ -21,7 +21,7 @@ class PlanetaryEffects:
         self.habitable_land = habitable_land
 
     def __sign_helper(self, stat: int) -> str:
-        if stat >= 0:
+        if stat > 0:
             return "+"
         else:
             return ""
@@ -34,10 +34,10 @@ class PlanetaryEffects:
         land = self.__sign_helper(self.habitable_land) + str(self.habitable_land)
 
         net_effects = (
-            f"Biodiversity: {bio}\n species"
-            f"Temperature: {temp}\n C"
-            f"CO2: {carbon}\n ppm"
-            f"Habitable Land: {land}\n hectacres"
+            f"Biodiversity: {bio} species\n"
+            f"Temperature: {temp} C\n"
+            f"CO2: {carbon} ppm\n"
+            f"Habitable Land: {land} hectacres \n"
         )
 
         return net_effects
