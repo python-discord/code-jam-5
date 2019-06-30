@@ -99,7 +99,7 @@ class Game:
                 return self.cancelled_order
 
         except (KeyError, AttributeError):
-            self.error
+            return self.error
 
     def parse_input(self, token: str) -> Dict.values:
         if len(token.split(" ")) < 2:
