@@ -44,6 +44,10 @@ def check_date(date):
     x Bool: Invalid
     """
 
-    date_pattern = "\d{4}:(0?[1-9]|1[012]):\d{2}"
+    date_pattern = (
+        "(19[0-9]{2}|2[0-9]{3})((:((0[1-9]|1[012]):"  # year & month
+        "([123]0|[012][1-9]|31))(:([01][0-9]|2[0-3]):"  # day and hour
+        "([0-5][0-9]):([0-5][0-9]))?)?)?"  # minute and second
+    )
 
     return True if re.match(date_pattern, date) else False

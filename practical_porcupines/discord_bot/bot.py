@@ -2,7 +2,11 @@ import discord
 from discord.ext import commands
 from practical_porcupines.utils import ConfigBot
 from practical_porcupines.discord_bot.api import get_difference
-from practical_porcupines.discord_bot.utils import embed_generator, decode_diff_resp
+from practical_porcupines.discord_bot.utils import (
+    embed_generator,
+    decode_diff_resp,
+    check_date,
+)
 
 config_bot = ConfigBot()
 
