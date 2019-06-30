@@ -271,6 +271,14 @@ Imports the bot object for easy access to `discord_bot` directly
 
 The main file for all of the bot. It does not use `discord.py cogs` but does use the reccomended `commands` method.
 
+##### `practical_porcupines/discord_bot/api.py`
+
+Contains the basic aiohttp linking to the database. **Note: could be merged with `practical_porcupines/discord_bot/utils.py`**
+
+##### `practical_porcupines/discord_bot/utils.py`
+
+Contains the discord_bot utils with items like decoding the api response and handeling general errors. Also includes a nifty embed generator
+
 #### `practical_porcupines/flask_api/`
 
 The api mini-project, storing the core of this project. It is a simple REST api built around a database, getting 2 times and returning the water level difference between the 2 over the api.
