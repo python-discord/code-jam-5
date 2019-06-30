@@ -46,16 +46,28 @@ Install dependancies:
 pipenv install
 ```
 
-Make a totally secure secret key and run the api in the background:
+Make a totally secure secret key:
 
 ```bash
-pipenv run export API_SECRET_KEY=abc && python -m practical_porcupines flask-api &
+pipenv run export API_SECRET_KEY=abc
+```
+
+Pass in the bot token (leave it as `x` if you only want to test the webportal):
+
+```bash
+pipenv run export CLIENT_TOKEN=x
+```
+
+Run the api in the background:
+
+```bash
+python -m practical_porcupines flask-api &
 ```
 
 Run the discord bot in the background where `x` is the bot's token:
 
 ```bash
-pipenv run export CLIENT_TOKEN=x && python -m practical_porcupines discord-bot &
+pipenv run python -m practical_porcupines discord-bot &
 ```
 
 Run the web-portal in the background:
