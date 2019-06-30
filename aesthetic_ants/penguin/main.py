@@ -11,9 +11,11 @@ enemy_image.height = 50
 
 enemy = Enemy(enemy_image)
 
+
 def main():
     pyglet.clock.schedule_interval(enemy.update, 1/120)
     pyglet.app.run()
+
 
 @window.event
 def on_draw():
