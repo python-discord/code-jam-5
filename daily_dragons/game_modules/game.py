@@ -6,7 +6,7 @@ from .investment_options import InvestmentOptions
 
 
 class Game:
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         self.quit_game = False
 
         self.input_options = {
@@ -41,7 +41,7 @@ class Game:
             sep="\n",
         )
 
-    def main(self):
+    def main(self) -> None:
         while not self.quit_game:
             print(self.investments)
             player_input = input("")
@@ -51,7 +51,7 @@ class Game:
             print(response())
 
     @staticmethod
-    def help_menu():
+    def help_menu() -> str:
         menu = (
             "stats: view current player stats",
             "earth: view current planet health",
@@ -61,48 +61,50 @@ class Game:
 
         return "\n".join(menu)
 
-    def player_stats(self):
-        print("Your current stats:")
-        print(self.player)
+    def player_stats(self) -> str:
+        output = f"Your current stats:\n{self.player}"
+        return output
 
-    def planet_stats(self):
-        print("Earth's current stats:")
-        print(self.earth.health_summary())
-        print(self.earth)
+    def planet_stats(self) -> str:
+        output = f"Earth's current stats:\n{self.earth.health_summary()}\n{self.earth}"
 
-    def leave_game(self):
+        return output
+
+    def leave_game(self) -> str:
         self.quit_game = True
         return "Have a good day, thanks for playing!"
 
-    def invest(self):
-        print("Who did you want to invest in?")
-        print(self.investments)
-        player_input = input("")
+    def error(self) -> str:
+        return "Unrecognized input, try again or type help"
 
-        self._invest(player_input)
+    def successful_order(self) -> str:
+        return "Ok, we've sent that in!"
 
-    def _invest(self, option):
+    def cancelled_order(self) -> str:
+        return "Ok, we'll cancel that order."
+
+    def _invest(self, option) -> None:
         try:
-            chosen_investment = self.investments.get(option)
+            chosen_investment = self.investments.options[option]
+            print(chosen_investment)
             print("Investing in ", chosen_investment.organization.name)
-            print("Are you sure? Y/n")
+            print("Are you sure? Y/N")
 
             player_input = input("")
 
-            if player_input == "n" or player_input == "no":
-                print("Ok, we'll cancel that order.")
-            else:
-                print("Ok, we've sent that in!")
+            if player_input.lower() == "y" or player_input.lower() == "yes":
                 self.earth.affect_planet(chosen_investment.planetary_effects)
+                return self.successful_order
+            else:
+                return self.cancelled_order
 
-        except AttributeError:
-            print("Unrecognized input, try again or type help")
+        except (KeyError, AttributeError):
+            self.error
 
     def parse_input(self, token: str) -> Dict.values:
-
         if len(token.split(" ")) < 2:
-            return self.input_options[token]
+            return self.input_options.get(token, self.error)
         else:
             args = token.split(" ")
-            choice = " ".join(args[1:])
-            self._invest(choice)
+            choice = args[1]
+            return self._invest(choice)
