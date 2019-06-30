@@ -11,13 +11,12 @@ def main_menu(width, height, func_run, func_menu):
                                       '-  Python Code Jam 5 -',
                                       25)
 
-        normal_about, hover_about = 'assets/Button05.png',\
-                                    'assets/Button06.png',
+        normal_about, hover_about = 'assets/back-on.png',\
+                                    'assets/back-off.png',
 
         back_button = thorpy.make_image_button(img_normal=normal_about,
                                                img_hover=hover_about,
-                                               colorkey=False,
-                                               text='Back')
+                                               colorkey=(0,0,0))
         back_button.user_func = func_menu
         about_background = thorpy.Background(image='map_objects/draw2.jpg',
                                              elements=[about_text,
@@ -29,23 +28,21 @@ def main_menu(width, height, func_run, func_menu):
     application = thorpy.Application((width, height), "Code Jam")
 
     # Different buttons for normal and hover
-    normal, hover = 'assets/start_off.png', 'assets/start_on.png'
-    normal_quit, hover_quit = 'assets/Button01.png', 'assets/Button02.png',
-    normal_about, hover_about = 'assets/Button03.png', 'assets/Button04.png',
+    normal, hover = 'assets/play-on.png',  'assets/play-off.png'
+    normal_quit, hover_quit = 'assets/quit-on.png',  'assets/quit-off.png'
+    normal_about, hover_about = 'assets/about-on.png',  'assets/about-off.png'
 
     play_button = thorpy.make_image_button(img_normal=normal,
                                            img_hover=hover,
-                                           colorkey=False)
+                                           colorkey=(0,0,0))
 
     about_button = thorpy.make_image_button(img_normal=normal_about,
                                             img_hover=hover_about,
-                                            colorkey=False,
-                                            text='About')
+                                            colorkey=(0,0,0))
 
     quit_button = thorpy.make_image_button(img_normal=normal_quit,
                                            img_hover=hover_quit,
-                                           colorkey=False,
-                                           text='Quit')
+                                           colorkey=(0,0,0))
 
     background = thorpy.Background(image='map_objects/draw2.jpg',
                                    elements=[play_button,
