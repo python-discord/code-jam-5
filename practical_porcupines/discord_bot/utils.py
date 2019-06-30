@@ -40,14 +40,19 @@ def check_date(date):
     """
     > Gets date
     - String: Date
-    < Bool: Valid
-    x Bool: Invalid
+    < Returns matched date
+    x Returns None
     """
 
     date_pattern = (
-        "(19[0-9]{2}|2[0-9]{3})((:((0[1-9]|1[012]):"  # year & month
+        "((19[0-9]{2}|2[0-9]{3})((:((0[1-9]|1[012]):"  # year & month
         "([123]0|[012][1-9]|31))(:([01][0-9]|2[0-3]):"  # day and hour
-        "([0-5][0-9]):([0-5][0-9]))?)?)?"  # minute and second
+        "([0-5][0-9]):([0-5][0-9]))?)?)?)"  # minute and second
     )
 
-    return True if re.match(date_pattern, date) else False
+    date_match = re.findall(date_pattern, date)
+
+    if not date_match:
+        return None
+
+    return date_match[0][0]
