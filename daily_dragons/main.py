@@ -10,7 +10,25 @@ def main():
     player_name = input("What is your name? ")
     player = Player(player_name)
 
-    print(f"Hello, {player_name}")
+    print(
+        f"Hello {player_name},\n"
+        "Congratulations on your inheritance. I'm sorry to\n"
+        "hear about your grandpa passing though.\n"
+        "\n"
+        "Regardless, you now find yourself in a position to\n"
+        "enact the change you've always wanted to. Each\n"
+        "financial period, you will be responsible for\n"
+        "investing in your choice of various groups. Each\n"
+        "will have an impact on your planet.\n"
+        "\n"
+        "You can view the effects a certain option will\n"
+        "have by typing the name or number of it. To\n"
+        # TODO: change instructions for gui if/when implemented
+        "select an option type 'invest [option]'. For more\n"
+        "help, you can type 'help'.\n"
+        "\n"
+        "Good luck!"
+    )
 
     player_input = None
     invest_dict = investments()
@@ -19,6 +37,7 @@ def main():
         print(investment_menu(invest_dict))
         player_input = input("")
 
+        # TODO: Change to a parsing function that uses dictionary switch case maybe?
         if player_input == "exit":
             break
         elif player_input == "help":
@@ -38,24 +57,21 @@ def main():
             try:
                 chosen_investment = invest_dict.get(player_input)
                 print("Investing in ", chosen_investment.organization.name)
-                print("Are you sure? y/n")
 
-                player_input = input("")
+                player_input = input("Are you sure? Y/n: ")
 
-                if player_input == "y" or player_input == "yes":
-                    earth.affect_planet(chosen_investment.planetary_effects)
-                elif player_input == "n" or player_input == "no":
+                if player_input == "n" or player_input == "no":
                     continue
                 else:
-                    print("Unrecognize input, try again or type help")
+                    earth.affect_planet(chosen_investment.planetary_effects)
 
             except AttributeError:
-                print("Unrecognize input, try again or type help")
+                print("Unrecognized input, try again or type help")
 
         elif player_input:
             print(
                 invest_dict.get(
-                    player_input, "Unrecognize input, try again or type help"
+                    player_input, "Unrecognized input, try again or type help"
                 )
             )
 
@@ -81,7 +97,7 @@ def investment_menu(invest_dict):
 def investments():
     # Placeholder organizations :D
     # I think we could store this info in a json file that then
-    # can be parsed to initialize all the possible investements
+    # can be parsed to initialize all the possible investments
     invest_dict = {}
 
     bad_effects = PlanetaryEffects(-100, 0.02, 20, -100)
@@ -123,3 +139,4 @@ def investments():
 
 if __name__ == "__main__":
     main()
+
