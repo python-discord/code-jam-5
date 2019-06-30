@@ -80,12 +80,13 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         # If ESC is pressed during the game the menu is opened
                         # Go to the menu loop
-                        main_menu(self.width, self.height, Game().run)
+                        main_menu(self.width, self.height, Game().run,
+                                  Game().call_menu)
 
                 pygame.display.update()
 
     def call_menu(self):
-        main_menu(self.width, self.height, Game().run)
+        main_menu(self.width, self.height, Game().run, Game().call_menu)
 
 
 # Game initializes with the menu being opened

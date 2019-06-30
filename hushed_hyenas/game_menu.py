@@ -1,24 +1,30 @@
 import thorpy
 
 
-def func_about():
-    about_text = thorpy.make_text('Game of the Hyenas \n by \n\n AnDreWerDnA'
-                                  ' \n 700y \n Pk \n\n -   Python Code Jam'
-                                  ' 5 Project   -', 25)
-    normal, hover = 'assets/Button05.png', 'assets/Button06.png',
-    quit_button = thorpy.make_image_button(img_normal=normal, img_hover=hover,
-                                           colorkey=False,
-                                           text='Quit'
-                                           )
-    background = thorpy.Background(image='map_objects/draw2.jpg',
-                                   elements=[about_text, quit_button])
-    quit_button.set_as_exiter()
-    thorpy.store(background)
-    menu = thorpy.Menu(background)
-    menu.play()
+def main_menu(width, height, func_run, func_menu):
 
+    def func_about():
+        about_text = thorpy.make_text('Game of the Hyenas \n '
+                                      'by \n\n '
+                                      'AnDreWerDnA'
+                                      ' \n 700y \n Pk \n\n '
+                                      '-  Python Code Jam 5 -',
+                                      25)
 
-def main_menu(width, height, func_run):
+        normal_about, hover_about = 'assets/Button05.png',\
+                                    'assets/Button06.png',
+
+        back_button = thorpy.make_image_button(img_normal=normal_about,
+                                               img_hover=hover_about,
+                                               colorkey=False,
+                                               text='Back')
+        back_button.user_func = func_menu
+        about_background = thorpy.Background(image='map_objects/draw2.jpg',
+                                             elements=[about_text,
+                                                       back_button])
+        thorpy.store(about_background)
+        about_menu = thorpy.Menu(about_background)
+        about_menu.play()
 
     application = thorpy.Application((width, height), "ThorPy Overview")
 
@@ -30,10 +36,12 @@ def main_menu(width, height, func_run):
     play_button = thorpy.make_image_button(img_normal=normal,
                                            img_hover=hover,
                                            colorkey=False)
+
     about_button = thorpy.make_image_button(img_normal=normal_about,
                                             img_hover=hover_about,
                                             colorkey=False,
                                             text='About')
+
     quit_button = thorpy.make_image_button(img_normal=normal_quit,
                                            img_hover=hover_quit,
                                            colorkey=False,
@@ -47,7 +55,7 @@ def main_menu(width, height, func_run):
     quit_button.set_as_exiter()
     about_button.user_func = func_about
     # button1.user_params =
-    # This is a way to pass parameters to the function called with user_func
+    # ^ This is a way to pass parameters to the function called with user_func
     thorpy.store(background)
     menu = thorpy.Menu(background)
     menu.play()
