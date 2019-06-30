@@ -62,19 +62,13 @@ class Game:
                 pygame.draw.circle(window, (0, 0, 255), (int(x),
                                                          int(y)), 3)
 
-                if closest_country is None:
-                    font = pygame.font.Font(None, 25)
-                    text = font.render(closest_country["Select a Country"], True, (255, 255, 255))
-                    text_rect = text.get_rect(center=(self.width - 150, self.height - 25))
-                    window.blit(text, text_rect)
-                else:
-                    pygame.draw.rect(window, (0, 0, 0),
-                                     pygame.Rect(self.width - 300, self.height - 50, self.width,
-                                                 self.height))
-                    font = pygame.font.Font(None, 25)
-                    text = font.render(closest_country["name"], True, (255, 255, 255))
-                    text_rect = text.get_rect(center=(self.width - 150, self.height - 25))
-                    window.blit(text, text_rect)
+            font = pygame.font.Font(None, 25)
+            pygame.draw.rect(window, (0, 0, 0),
+                             pygame.Rect(self.width - 300, self.height - 50, self.width,
+                                         self.height))
+            text = font.render(closest_country["name"], True, (255, 255, 255))
+            text_rect = text.get_rect(center=(self.width - 150, self.height - 25))
+            window.blit(text, text_rect)
 
             events = pygame.event.get()
             for event in events:
