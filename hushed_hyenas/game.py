@@ -37,6 +37,8 @@ class Game:
 
     def map_scene(self):
         window = self.window
+        window.fill((202,236,252))
+        
         if self.country is None:
             window.blit(self.map, (0, 0))
 
