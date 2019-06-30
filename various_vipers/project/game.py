@@ -1,11 +1,16 @@
 """Game model."""
+import logging
+
 import pygame as pg
 
 from project.UI.page.credits import Credits
 from project.UI.page.main_menu import MainMenu
 from project.UI.page.options import Options
-from project.constants import Color, FPS, HEIGHT, WIDTH, WindowState
+from project.constants import Color, FPS, HEIGHT, SHOW_FPS, WIDTH, WindowState
 from project.gameplay.game_view import GameView
+
+
+logger = logging.getLogger(__name__)
 
 
 class Game:
@@ -30,7 +35,6 @@ class Game:
         self.main_menu = MainMenu(self.screen)
         self.options = Options(self.screen)
         self.credits = Credits(self.screen)
-        # Start new game
         self.game_view = GameView(self.screen)
 
     def run(self):
@@ -75,4 +79,14 @@ class Game:
             elif self.window_state == WindowState.quited:
                 self.running = False
 
+        if SHOW_FPS:
+            self._draw_fps()
+
         pg.display.flip()
+
+    def _draw_fps(self):
+        font = pg.font.Font(None, 50)
+        fps_indicator = font.render(
+            str(int(self.clock.get_fps())), True, pg.Color("red")
+        )
+        self.screen.blit(fps_indicator, (WIDTH - fps_indicator.get_width(), 0))

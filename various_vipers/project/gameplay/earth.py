@@ -107,8 +107,7 @@ class Earth(object):
             self.current_cloud_bg_pos,
             int(HEIGHT // 4),
         )
-        for draw in draw_bg_args:
-            self.screen.blit(*draw)
+        self.screen.blits(draw_bg_args)
 
         draw_fg_args = self.__prepare_draw_clouds(
             CLOUD_LAYERS_FG,
@@ -116,8 +115,7 @@ class Earth(object):
             self.current_cloud_fg_pos,
             int(HEIGHT // 3),
         )
-        for draw in draw_fg_args:
-            self.screen.blit(*draw)
+        self.screen.blits(draw_fg_args)
 
     def __prepare_draw_biome(
         self, biome: Biome, biome_x: int
@@ -173,8 +171,7 @@ class Earth(object):
 
             i += 1
 
-        for draw in background_draws:
-            self.screen.blit(*draw)
+        self.screen.blits(background_draws)
 
         # Need to draw one row at a time, between all biomes to avoid isometric tile clipping
         # Because the initial map is grouped by biomes, we need to do some magic to group by rows
@@ -184,8 +181,7 @@ class Earth(object):
                 start = TILE_COLS * TILE_ROWS * x + TILE_COLS * y
                 end = start + TILE_COLS
                 new_tile_draws += tile_draws[start:end]
-        for draw in new_tile_draws:
-            self.screen.blit(*draw)
+        self.screen.blits(new_tile_draws)
 
     def __find_first_biome(self) -> Tuple[int, float]:
         """

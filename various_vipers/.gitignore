@@ -1,6 +1,8 @@
 ## CUSTOM ignores
 
 tmp_assets
+# Paint.NET
+*.pdn
 
 # IDEs folders
 .vscode

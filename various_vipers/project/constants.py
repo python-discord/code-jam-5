@@ -11,6 +11,8 @@ FPS = 60
 WIDTH = 1285
 HEIGHT = 725
 
+SHOW_FPS = True
+
 # Biomes are transformed to squares
 # Width of a single biome (biomes can be chained together)
 BIOME_WIDTH: int = 600
