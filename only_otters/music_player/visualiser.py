@@ -20,6 +20,6 @@ class VisualiserWidget(QtWidgets.QWidget):
 
         self.main_layout.addWidget(self.now_playing_label)
         self.setLayout(self.main_layout)
-    
+
     def _media_changed(self, media):
         self.now_playing_label.setText(f'Now Playing: {media.canonicalUrl().fileName()}')

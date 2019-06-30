@@ -1,5 +1,6 @@
-from PyQt5 import QtWidgets, QtMultimedia, QtGui, QtCore
+from PyQt5 import QtWidgets
 from .music_player import MusicPlayer
+
 
 class Spotleafy(QtWidgets.QMainWindow):
     """A music player designed to encourage action against climate change"""

@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets, QtMultimedia
 from .controls import ControlsWidget
 from .visualiser import VisualiserWidget
 
+
 class MusicPlayer(QtWidgets.QWidget):
     """Represents a MusicPlayer object, for playing/pausing/loading music"""
 
