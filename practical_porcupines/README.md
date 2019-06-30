@@ -2,29 +2,29 @@
 
 ## Human-friendly Overview
 
-We have an api (named flask_api), a webportal (named flask_webportal) and a discord bot (named discord_bot). The api recives 2 dates formatted like so:
+We have an api (named `flask_api`), a webportal (named `flask_webportal`) and a discord bot (named `discord_bot`). The api recives 2 dates formatted like so:
 
-Using %Y:%m:%d:%T formatting (UNIX). An example of this is: 2019:06:29:23:02:05 (at the time of writing). This would look like: The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019 if said in speech.
+Using `%Y:%m:%d:%T` formatting (UNIX). An example of this is: `2019:06:29:23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech.
 
-Once it has 2 dates, the core does calculations from an sqlite database (using flask-sqlalchemy) and interpolates the specfic settings to give a prediction as precise as you want. The data is the GMWL (Global Mean Water Level), basically the avrage water level accross the Earth.
+Once it has 2 dates, the `core` does calculations from an sqlite database (using flask-sqlalchemy) and interpolates the specfic settings to give a prediction as precise as you want. The data is the GMWL (Global Mean Water Level), basically the avrage water level accross the Earth.
 
-Once it has those, the core returns those (it's one big frontend function) and the api (remember flask_api) returns the difference in water level between them two dates in millimeters.
+Once it has those, the `core` returns those (it's one big frontend function) and the api (remember `flask_api`) returns the difference in water level between them two dates in millimeters.
 
 Say I put in somewhere in 1950 and somewhere in 2019, it would give me somewhere in the region of 20000mm but it'd be as accurate as it could, interpolating the points in-between the years that we selected to give a precise value.
 
-Once it sends out this return, we have a simple discord bot and webportal (webportal = little website) that you can see the results on. For the discord bot, you could put 1950 and 2000 in like so: ?gmwl 1950 2000 and it would return an answer.
+Once it sends out this return, we have a simple discord bot and webportal (webportal = little website) that you can see the results on. For the discord bot, you could put 1950 and 2000 in like so: `?gmwl 1950 2000` and it would return an answer.
 
 Below is the outline of what the dependancies do:
 
-- pipenv: Package manager
-- flask: Web Framework for flask_api and flask_webportal
-- discord.py: Python bindings/api for discord_bot
-- flask-sqlalchemy: Database abstraction for flask_api core maths (storing data on GMWL)
-- flask-restful: Consistant RESTful API building for flask_api
-- aiohttp: Asyncronous requests for discord_bot to prevent any "freezing" of it
-- requests: Syncronous, easy to use api requests for flask_webportal to contact flask_api. May not be used in favour of in-website javascript
-- flake8: Linter specfic for code-jam-5 (required for review)
-- black: Developer-used autolinter for sake of standardized clarity
+- `pipenv`: Package manager
+- `flask`: Web Framework for flask_api and flask_webportal
+- `discord.py`: Python bindings/api for discord_bot
+- `flask-sqlalchemy`: Database abstraction for flask_api core maths (storing data on GMWL)
+- `flask-restful`: Consistant RESTful API building for flask_api
+- `aiohttp`: Asyncronous requests for discord_bot to prevent any "freezing" of it
+- `requests`: Syncronous, easy to use api requests for flask_webportal to contact flask_api. ***May not be used in favour of in-website javascript***
+- `flake8`: Linter specfic for `code-jam-5` (required for review)
+- `black`: Developer-used autolinter for sake of standardized clarity
 
 ## Quickstart (Please read this section to start up the application)
 
@@ -209,18 +209,6 @@ pipenv run python -m practical_porcupines flask-webportal
 ```
 
 This will automatically start the flask webportal in debug mode (as this project is not intended for production use)
-
-## Dependancy breakdown
-
-- `pipenv`: Package manager
-- `flask`: Web Framework for flask_api and flask_webportal
-- `discord.py`: Python bindings/api for discord_bot
-- `flask-sqlalchemy`: Database abstraction for flask_api core maths (storing data on GMWL)
-- `flask-restful`: Consistant RESTful API building for flask_api
-- `aiohttp`: Asyncronous requests for discord_bot to prevent any "freezing" of it
-- `requests`: Syncronous, easy to use api requests for flask_webportal to contact flask_api. ***May not be used in favour of in-website javascript***
-- `flake8`: Linter specfic for `code-jam-5` (required for review)
-- `black`: Developer-used autolinter for sake of standardized clarity
 
 ## File-by-file Overview
 
