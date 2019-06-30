@@ -26,7 +26,7 @@ def main_menu(width, height, func_run, func_menu):
         about_menu = thorpy.Menu(about_background)
         about_menu.play()
 
-    application = thorpy.Application((width, height), "ThorPy Overview")
+    application = thorpy.Application((width, height), "Code Jam")
 
     # Different buttons for normal and hover
     normal, hover = 'assets/start_off.png', 'assets/start_on.png'
@@ -51,11 +51,10 @@ def main_menu(width, height, func_run, func_menu):
                                    elements=[play_button,
                                              about_button,
                                              quit_button])
+    # Set functions for the buttons
     play_button.user_func = func_run
     quit_button.set_as_exiter()
     about_button.user_func = func_about
-    # button1.user_params =
-    # ^ This is a way to pass parameters to the function called with user_func
     thorpy.store(background)
     menu = thorpy.Menu(background)
     menu.play()
