@@ -7,6 +7,8 @@ from .utils import angle_between, loader, keys
 
 
 class Player(pyglet.sprite.Sprite):
+    speed = 1
+
     def __init__(self, x, y):
         player_image = loader.image("penguin.png")
 
@@ -16,17 +18,17 @@ class Player(pyglet.sprite.Sprite):
 
         super().__init__(player_image, x=x, y=y)
 
-    def update(self, **kwargs):
+    def update(self, dt, **kwargs):
         super().update(**kwargs)
 
         if keys[key.W]:
-            self.y += 1
+            self.y += dt * self.speed
         if keys[key.S]:
-            self.y -= 1
+            self.y -= dt * self.speed
         if keys[key.A]:
-            self.x -= 1
+            self.x -= dt * self.speed
         if keys[key.D]:
-            self.x += 1
+            self.x += dt * self.speed
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.rotation = degrees(angle_between(self.x, self.y, x, y))
