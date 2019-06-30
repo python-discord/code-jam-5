@@ -71,19 +71,20 @@ PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/buttons")
 # Game assets
 
 # Background images
-GAME_BG_DESERT = PurePath(PATH_BACKGROUNDS).joinpath("backgroundDesert.png")
-GAME_BG_CITY = PurePath(PATH_BACKGROUNDS).joinpath("backgroundCity.png")
-GAME_BG_FOREST = PurePath(PATH_BACKGROUNDS).joinpath("backgroundForest.png")
-GAME_BG_MOUNTAINS = PurePath(PATH_BACKGROUNDS).joinpath("backgroundMountains.png")
+DESERT_BGS = list(Path(PATH_BACKGROUNDS).joinpath("desert").glob("*.png"))
+CITY_BGS = list(Path(PATH_BACKGROUNDS).joinpath("city").glob("*.png"))
+FOREST_BGS = list(Path(PATH_BACKGROUNDS).joinpath("forest").glob("*.png"))
+MOUNTAINS_BGS = list(Path(PATH_BACKGROUNDS).joinpath("mountains").glob("*.png"))
 
 # Background cloud layer will be behind foreground cloud layer
+PATH_CLOUD_LAYERS = PurePath(PATH_BACKGROUNDS).joinpath("clouds/layers")
 CLOUD_LAYERS_BG = [
-    PurePath(PATH_BACKGROUNDS).joinpath("cloudLayer1.png"),
-    PurePath(PATH_BACKGROUNDS).joinpath("cloudLayerB1.png"),
+    PurePath(PATH_CLOUD_LAYERS).joinpath("cloudLayer1.png"),
+    PurePath(PATH_CLOUD_LAYERS).joinpath("cloudLayerB1.png"),
 ]
 CLOUD_LAYERS_FG = [
-    PurePath(PATH_BACKGROUNDS).joinpath("cloudLayer2.png"),
-    PurePath(PATH_BACKGROUNDS).joinpath("cloudLayerB2.png"),
+    PurePath(PATH_CLOUD_LAYERS).joinpath("cloudLayer2.png"),
+    PurePath(PATH_CLOUD_LAYERS).joinpath("cloudLayerB2.png"),
 ]
 
 # Tiles

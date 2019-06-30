@@ -8,10 +8,10 @@ from pygame.transform import scale
 
 from project.constants import (
     BIOME_WIDTH,
-    GAME_BG_DESERT,
-    GAME_BG_CITY,
-    GAME_BG_FOREST,
-    GAME_BG_MOUNTAINS,
+    DESERT_BGS,
+    CITY_BGS,
+    FOREST_BGS,
+    MOUNTAINS_BGS,
     TILES_GRASS,
     TILES_WATER,
     TILE_COLS,
@@ -103,7 +103,7 @@ class BiomeDesert(Biome):
     Desert theme biomes have a lower chance to spawn a city or water tiles.
     """
 
-    background_images: List[str] = [GAME_BG_DESERT]
+    background_images: List[str] = DESERT_BGS
 
     unique_tiles: List[str] = []
 
@@ -123,7 +123,7 @@ class BiomeDesert(Biome):
 class BiomeCity(Biome):
     """City themed biome."""
 
-    background_images: List[str] = [GAME_BG_CITY]
+    background_images: List[str] = CITY_BGS
 
     unique_tiles: List[str] = []
 
@@ -143,7 +143,7 @@ class BiomeCity(Biome):
 class BiomeForest(Biome):
     """Foresty biome."""
 
-    background_images: List[str] = [GAME_BG_FOREST]
+    background_images: List[str] = FOREST_BGS
 
     unique_tiles: List[str] = []
 
@@ -163,7 +163,7 @@ class BiomeForest(Biome):
 class BiomeMountains(Biome):
     """Mountain themed biome."""
 
-    background_images: List[str] = [GAME_BG_MOUNTAINS]
+    background_images: List[str] = MOUNTAINS_BGS
 
     unique_tiles: List[str] = []
 
