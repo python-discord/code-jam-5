@@ -8,7 +8,15 @@ class LevelModel(db.Model):
 
     __tablename__ = "levels"
 
-    id = db.Column(db.Integer, primary_key=True)
+    date_id = db.Column(db.DateTime, primary_key=True)
+    wl = db.Column(db.Float)
 
-    def __init__(self, id):
-        self.id = id
+    def __init__(self, date_id, wl):
+        """
+        > Gets date and water level
+        - date_id: Datetime object
+        - wl: Water level float of time
+        """
+
+        self.date_id = date_id
+        self.wl = wl
