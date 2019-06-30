@@ -6,31 +6,13 @@ import json
 import math
 import os
 import pygameMenu
-from pygameMenu.locals import *
+from game_menu import main_menu
 
 # Initializes pygame resources
 pygame.init()
 
 # Place the pygame window in the center of the screen
 os.environ['SDL_VIDEO_CENTERED'] = '1'
-
-about = ['Game of the Hyenas',
-         'by',
-         PYGAMEMENU_TEXT_NEWLINE,
-         'AnDreWerDnA',
-         '700y',
-         'Pk',
-         PYGAMEMENU_TEXT_NEWLINE,
-         '  -   Python Code Jam 5 Project   -  ']
-
-instructions = ['1) Fusce aliquam, nunc eu pretium accumsan',
-                '2) Neque massa aliquam mauris, id consectetur',
-                '3) Quisque lacinia mi ipsum, eget posuere elit',
-                '4) Sed quis justo cursus ligula mattis tincidunt',
-                '5) Morbi ut erat ultricies, lacinia dui in',
-                '6) Nulla ut efficitur sem',
-                '7) Phasellus sollicitudin nibh massa, ut pharetra',
-                '8) Mauris ex nibh, malesuada id feugiat vitae']
 
 
 class Game:
@@ -46,6 +28,7 @@ class Game:
         self.map = pygame.image.load(r'map_objects/earth2.png')
         self.menu_title = 'Game of the hyenas'
         self.clock = pygame.time.Clock()
+        self.font = pygameMenu.fonts.FONT_NEVIS
 
         # Resize image to fit in window
         self.map = pygame.transform.scale(self.map, (self.width,
@@ -56,8 +39,6 @@ class Game:
 
     def run(self):
         window = self.window
-
-        menu.disable()
 
         # Game Loop
         while True:
@@ -100,103 +81,18 @@ class Game:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         # If ESC is pressed during the game the menu is opened
-                        menu.enable()
+                        # menu.enable()
 
                         # Go to the menu loop
                         return
 
                 pygame.display.update()
 
-    def main_menu(self, *args):
-
-        # Function to set the game background color when the menu is shown
-        def main_menu_background():
-            self.window.fill((40, 0, 40))
-
-        # Main menu
-        global menu
-        menu = pygameMenu.Menu(self.window,
-                               bgfun=main_menu_background,
-                               font=pygameMenu.fonts.FONT_NEVIS,
-                               menu_alpha=90,
-                               menu_centered=True,
-                               onclose=PYGAME_MENU_CLOSE,
-                               title=self.menu_title,
-                               title_offsety=5,
-                               window_height=self.height,
-                               window_width=self.width
-                               )
-
-        # About menu accessible from the main menu
-        about_menu = pygameMenu.TextMenu(self.window,
-                                         dopause=False,
-                                         draw_text_region_x=50,
-                                         font=pygameMenu.fonts.FONT_NEVIS,
-                                         font_size_title=30,
-                                         font_title=pygameMenu.fonts.FONT_8BIT,
-                                         menu_color_title=(0, 40, 0),
-                                         onclose=PYGAME_MENU_DISABLE_CLOSE,
-                                         text_centered=True,
-                                         text_fontsize=20,
-                                         title='About',
-                                         window_height=self.height,
-                                         window_width=self.width
-                                         )
-        about_menu.add_option('Return to Menu', PYGAME_MENU_BACK)
-
-        # Instructions menu accessible from the main menu
-        instr_menu = pygameMenu.TextMenu(self.window,
-                                         dopause=False,
-                                         draw_text_region_x=50,
-                                         font=pygameMenu.fonts.FONT_NEVIS,
-                                         font_size_title=25,
-                                         font_title=pygameMenu.fonts.FONT_8BIT,
-                                         menu_color_title=(0, 40, 0),
-                                         onclose=PYGAME_MENU_DISABLE_CLOSE,
-                                         text_centered=True,
-                                         text_fontsize=20,
-                                         title='Instructions',
-                                         window_height=self.height,
-                                         window_width=self.width
-                                         )
-        instr_menu.add_option('Return to Menu', PYGAME_MENU_BACK)
-
-        # Add info from instructions list into the instructions menu lines
-        for line in instructions:
-            instr_menu.add_line(line)
-        instr_menu.add_line(PYGAMEMENU_TEXT_NEWLINE)
-
-        # Add info from the about list into the about menu lines
-        for line in about:
-            about_menu.add_line(line)
-        about_menu.add_line(PYGAMEMENU_TEXT_NEWLINE)
-
-        # Buttons
-        menu.add_option('Play', Game().run)
-        menu.add_option(about_menu.get_title(), about_menu)
-        menu.add_option(instr_menu.get_title(), instr_menu)
-        menu.add_option('Exit', PYGAME_MENU_EXIT)
-
-        # Main Menu Loop
-        while True:
-
-            self.clock.tick(20)
-
-            events = pygame.event.get()
-            for event in events:
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-                elif event.type == pygame.KEYUP:
-                    if event.key == pygame.K_ESCAPE:
-                        pygame.quit()
-                        quit()
-
-            menu.mainloop(events)
-
-            pygame.display.flip()
+    def call_menu(self):
+        main_menu(self.window, self.width, self.height, self.font,
+                  self.menu_title, Game().run)
 
 
 # Game initializes with the menu being opened
 game = Game()
-game.main_menu()
+game.call_menu()
