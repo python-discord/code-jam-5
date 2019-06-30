@@ -129,32 +129,46 @@ class Earth(object):
         )
         self.screen.blits(draw_fg_args)
 
-    def __prepare_draw_biome(
-        self, biome: Biome, biome_x: int
-    ) -> Tuple[List[Any], List[Any]]:
-        """
-        Logic to handle drawing a single biome and its related objects.
+    def __prepare_draw_background(self, biome: Biome, biome_x: int) -> List[List[Any]]:
+        """Returns list of parameters lists how to draw biome background."""
+        return [[biome.background, (biome_x, HEIGHT // 5)]]
 
-        Returns a tuple of background and tile draw arguments to draw later.
-        """
-        draw_bg_args = []
-        draw_tile_args = []
+    def __prepare_draw_tiles(self, biome: Biome, biome_x: int) -> List[List[Any]]:
+        """Returns list of parameters lists how to draw biomes tiles."""
+        draw_args = []
 
-        # Draw background
-        draw_bg_args.append([biome.background, (biome_x, HEIGHT // 5)])
-
-        # Draw tiles
         tile_y = HEIGHT - int((TILE_WIDTH * len(biome.tilemap)) // 1.5)
+
         for y, tiles_row in enumerate(biome.tilemap):
             # Every second row needs x offset to fit isometric tiles
             offset = int(TILE_WIDTH // 2)
 
             tile_x = offset if y % 2 != 0 else 0
             for tile in tiles_row:
-                draw_tile_args.append([tile.image, (biome_x + tile_x, tile_y)])
-                tile_x += tile.image.get_width()
+                tile_image = tile.get_image()
+                # Horizontally centered in it's possition
+                draw_x = biome_x + tile_x - (tile_image.get_width() - TILE_WIDTH) // 2
+                # Vertical align to bottom - will expand upwards
+                draw_y = tile_y - (tile_image.get_height() - TILE_WIDTH)
+                draw_args.append([tile_image, (draw_x, draw_y)])
+                tile_x += TILE_WIDTH
 
             tile_y += offset
+
+        return draw_args
+
+    def __prepare_draw_biome(
+        self, biome: Biome, biome_x: int
+    ) -> Tuple[List[List[Any]], List[List[Any]]]:
+        """
+        Logic to handle drawing a single biome and its related objects.
+
+        Returns a tuple of background and tile draw arguments lists to draw later.
+        """
+        # Background
+        draw_bg_args = self.__prepare_draw_background(biome, biome_x)
+        # Tiles
+        draw_tile_args = self.__prepare_draw_tiles(biome, biome_x)
 
         return draw_bg_args, draw_tile_args
 
