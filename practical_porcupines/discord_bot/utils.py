@@ -12,7 +12,7 @@ def embed_generator(title, desc, colour, discord):
     return embed
 
 
-def decode_diff_resp(difference_obj):
+async def decode_diff_resp(difference_obj):
     """
     > Gets api response
     - difference_obj: aiohttp-made response object
@@ -25,6 +25,9 @@ def decode_diff_resp(difference_obj):
         error_code = difference_obj["status"]
         return f"ERROR {error_code}: API not responding!"
 
-    # TODO test below
-    decoded_obj = await difference_obj.json()
-    return decoded_obj["body"]["wl_difference"]
+    decoded_obj = await difference_obj.text() # Decode
+
+    try:
+        return decoded_obj["body"]["wl_difference"] # Return difference part
+    except:
+        return "ERROR 1001: API returning wrong values!"
