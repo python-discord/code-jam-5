@@ -1,5 +1,6 @@
 import pyglet
 from player import Player
+from utils import keys
 
 window = pyglet.window.Window(caption='Penguin Snowball')
 
@@ -14,6 +15,7 @@ def on_draw():
 
 def main():
     window.event(player.on_mouse_motion)  # Registers the player-mouse event handler
+    window.push_handlers(keys)  # Register the utility keyboard handler
     pyglet.app.run()
 
 

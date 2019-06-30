@@ -15,3 +15,5 @@ def angle_between(x1: float, y1: float, x2: float, y2: float) -> float:
 
 
 loader = pyglet.resource.Loader(path="../resources")
+
+keys = pyglet.window.key.KeyStateHandler()
