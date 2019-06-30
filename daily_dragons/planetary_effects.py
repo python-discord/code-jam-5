@@ -21,7 +21,7 @@ class PlanetaryEffects:
         self.habitable_land = habitable_land
 
     def __sign_helper(self, stat: int) -> str:
-        if stat >= 0:
+        if stat > 0:
             return "+"
         else:
             return ""
