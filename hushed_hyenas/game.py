@@ -42,7 +42,7 @@ class Game:
 
         # Game Loop
         while True:
-            self.clock.tick(30)  # Set to 60 fps
+            self.clock.tick(30)  # Set to 30 fps
             window.fill(self.bg_color)
             window.blit(self.map, (0, 0))
 
@@ -81,8 +81,6 @@ class Game:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         # If ESC is pressed during the game the menu is opened
-                        # menu.enable()
-
                         # Go to the menu loop
                         return
 
