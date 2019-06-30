@@ -16,5 +16,5 @@ async def on_ready():
     """
 
     print(f"{bot_client.user.name} is online with the id of '{bot_client.user.id}'!")
+    print(await decode_diff_resp(await get_difference("2010", "2019")))  # API testing
 
-    print(await decode_diff_resp(await get_difference("rf", "f")))
