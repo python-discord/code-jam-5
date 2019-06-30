@@ -16,10 +16,10 @@ class Investment:
         self,
         organization: Organization,
         planetary_effects: PlanetaryEffects,
-        news_on_apperance: List[News],
-        news_on_investment: List[News],
-        news_on_no_investment: List[News],
-        roi: int = 0,
+        roi: float = 0.0,
+        news_on_apperance: List[News] = None,
+        news_on_investment: List[News] = None,
+        news_on_no_investment: List[News] = None,
     ) -> None:
         self.organization = organization
         self.planetary_effects = planetary_effects
