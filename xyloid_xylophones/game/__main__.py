@@ -1,7 +1,9 @@
 import pyglet
+from config import *
 
 from .render_loop import render_loop
 from . import game_window
+from . import player
 
 game_window.push_handlers(on_draw=render_loop)  # Set the render loop handler.
 
@@ -17,7 +19,14 @@ def on_key_press(symbol, modifiers):
     by adding `symbol` to the `keys` set. `modifiers` is not used, but required
     for the function signature.
     '''
-
+    if symbol == pyglet.window.key.UP:
+        player.y -= player_step
+    if symbol == pyglet.window.key.DOWN:
+        player.y += player_step
+    if symbol == pyglet.window.key.LEFT:
+        player.x -= player_step
+    if symbol == pyglet.window.key.RIGHT:
+        player.x += player_step
     keys.add(symbol)
 
 
@@ -28,8 +37,9 @@ def on_key_release(symbol, modifiers):
 
     The inverse of `on_key_press`, this removes `symbol` from `keys`.
     '''
-
-    keys.remove(symbol)
+    print(symbol)
+    if symbol in keys:  # print screen does not make it into keys set
+        keys.remove(symbol)
 
 
 if __name__ == '__main__':

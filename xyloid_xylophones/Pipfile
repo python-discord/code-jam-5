@@ -9,6 +9,7 @@ flake8 = "*"
 [packages]
 pyglet = "*"
 pyqtree = "*"
+bbox = "*"
 
 [requires]
 python_version = "3.7"
