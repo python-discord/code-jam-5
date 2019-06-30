@@ -63,6 +63,7 @@ class Game:
 
                 pygame.draw.circle(window, (0, 0, 255), (x, y), 3)
 
+            pygame.draw.circle(window, (255, 0, 0), closest_country_coords, 5)
             pygame.draw.rect(window, (0, 0, 0),
                              pygame.Rect(self.width - 300, self.height - 50, self.width,
                                          self.height))
