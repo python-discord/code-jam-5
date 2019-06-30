@@ -12,8 +12,7 @@ class WLDifference:
         """
         pass
 
-    @staticmethod
-    def decimal_to_datetime(decimal_date):
+    def _string_to_datetime(self, decimal_date):
         """
         TODO add Docstring
         """
@@ -27,28 +26,3 @@ class WLDifference:
         )
 
         return result
-
-    @staticmethod
-    def parse_data():
-        """
-        Parses the dataset from the NASA file. returns what we need as a list of tuples
-        """
-
-        dataset_path = os.path.join(
-            os.path.dirname(__file__), "DATASET_GMSL.txt"
-        )
-
-        with open(dataset_path, "r+") as f:
-            lines = f.readlines()
-            data = list(filter(lambda x: x.find("HDR") == -1, lines))
-            filtered_data = []
-            for d in data:
-                d = d.split()
-                reading_date_fraction = float(d[2])
-                reading_date = WLDifference.decimal_to_datetime(
-                    reading_date_fraction
-                ).date()  # Date of GMSL reading
-                gmsl = float(d[11])  # GMSL value
-                filtered_data.append((reading_date, gmsl))
-
-        return filtered_data
