@@ -27,3 +27,7 @@ class Investment:
         self.news_on_investment = news_on_investment
         self.news_on_no_investment = news_on_no_investment
         self.roi = roi
+
+    def __str__(self) -> str:
+        output = f"{str(self.organization)}\nROI: {self.roi}\n\n{str(self.planetary_effects)}"
+        return output
