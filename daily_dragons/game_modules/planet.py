@@ -1,5 +1,5 @@
 from typing import Dict
-from planetary_effects import PlanetaryEffects
+from .planetary_effects import PlanetaryEffects
 
 
 class Planet:
