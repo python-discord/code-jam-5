@@ -1,6 +1,22 @@
 import datetime
 
 
+class DatesOutOfRange(BaseException):
+    """
+    For when dates are out of range
+    """
+
+    pass
+
+
+class ApiReturnBad(BaseException):
+    """
+    When API is retuning incorrect values
+    """
+
+    pass
+
+
 def embed_generator(title, desc, colour, discord):
     """
     This helper func generates a simple embed
@@ -25,6 +41,11 @@ async def decode_diff_resp(difference_obj):
 
     if "body" in difference_obj:
         if "wl_difference" in difference_obj["body"]:
-            return difference_obj["body"]["wl_difference"]  # Return difference part
+            # All clear
+            return difference_obj["body"]["wl_difference"]
+        elif difference_obj["meta"]["status"] == 1002:
+            # Dates out of range
+            raise DatesOutOfRange()
 
-    return "ERROR 1001: API returning wrong values!"
+    # API returning bad values
+    raise ApiReturnBad()

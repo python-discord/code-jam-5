@@ -1,7 +1,5 @@
 import click
-from practical_porcupines.utils import (
-    ConfigBase, ConfigApi, ConfigWebPortal, ConfigBot
-)
+from practical_porcupines.utils import ConfigBase, ConfigApi, ConfigWebPortal, ConfigBot
 from practical_porcupines.discord_bot import bot_client
 from practical_porcupines.flask_api import flask_api_app
 from practical_porcupines.flask_webportal import flask_webportal_app

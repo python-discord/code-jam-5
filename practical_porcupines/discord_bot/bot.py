@@ -2,7 +2,12 @@ import discord
 from discord.ext import commands
 from practical_porcupines.utils import ConfigBot, check_date
 from practical_porcupines.discord_bot.api import get_difference
-from practical_porcupines.discord_bot.utils import decode_diff_resp, embed_generator
+from practical_porcupines.discord_bot.utils import (
+    decode_diff_resp,
+    embed_generator,
+    ApiReturnBad,
+    DatesOutOfRange,
+)
 
 config_bot = ConfigBot()
 
@@ -47,12 +52,22 @@ async def gmwl(ctx, date_1, date_2):
         )
         return
 
-    result = await decode_diff_resp(
-        await get_difference(verified_date_1, verified_date_2)
-    )
-
-    if isinstance(result, str):
-        embed = embed_generator("Error!", result, 0xA31523, discord)
+    try:
+        result = await decode_diff_resp(
+            await get_difference(verified_date_1, verified_date_2)
+        )
+    except ApiReturnBad:
+        embed = embed_generator(
+            "Error!",
+            "The API is not returning the expected values. This usually occures in testing w/ dummy endpoint",
+            0xA31523,
+            discord,
+        )
+    except DatesOutOfRange:
+        embed = embed_generator(
+            "Error!",
+            f"The given dates ('{date_1}' and '{date_2}') are not in the dataset range (1993-01 - 2019-02)!",
+        )
     else:
         embed = embed_generator(
             "Result",
