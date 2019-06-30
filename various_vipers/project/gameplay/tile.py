@@ -1,8 +1,17 @@
+from __future__ import annotations
+
+from typing import Optional, TYPE_CHECKING
+
 import pygame as pg
 from pygame.image import load
 from pygame.transform import scale
 
 from project.constants import TILE_WIDTH
+
+if TYPE_CHECKING:
+    # Avoid cyclic imports
+    # https://stackoverflow.com/a/39757388
+    from .task import Task
 
 
 class Tile:
@@ -14,9 +23,9 @@ class Tile:
 
     __image: pg.Surface = None
 
-    # Boolean to check if this tile has a task to do
+    # Current task associated with this tile
     # Tiles with tasks have different appearance
-    has_task: bool = False
+    task: Optional[Task] = None
 
     # Variables to handle tile transformation
     max_scale: float = 1.5
@@ -49,7 +58,7 @@ class Tile:
         new_width = int(self.__image.get_width() * self.current_scale)
         new_height = int(self.__image.get_height() * self.current_scale)
         transformed_image = scale(transformed_image, (new_width, new_height))
-        if self.has_task:
+        if self.task is not None:
             # Add colored tint
             transformed_image.fill((255, 0, 0, 150), special_flags=pg.BLEND_MULT)
 
@@ -57,7 +66,7 @@ class Tile:
 
     def __breathe(self) -> None:
         """Will add "breathing" effect to the tile if it has a task active."""
-        if self.has_task:
+        if self.task is not None:
             # Limit scale
             if self.current_scale >= self.max_scale:
                 self.breathing_direction = -1

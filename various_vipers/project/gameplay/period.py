@@ -7,6 +7,7 @@ import pygame as pg
 from project.constants import TILE_COLS, TILE_ROWS
 from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
 from .earth import Earth
+from .task import TaskCursorMaze, TaskRockPaperScissors, TaskTicTacToe
 
 
 logger = logging.getLogger(__name__)
@@ -23,11 +24,17 @@ class Period(object):
     # List of biomes, that will be looped through
     biomes: List[Biome]
 
+    # Time passed after the last task spawn
     time_of_last_task_spawn: Optional[int] = None
     # How many game ticks between task spawns (will be floored and converted to int)
     task_spawn_freq: float = 600
     # How much to increase task spawn frequency with each game tick
     task_spawn_freq_inc: float = 0.05
+
+    # Chance to spawn certain task types
+    maze_chance: float = 1.0
+    rps_chance: float = 1.0
+    ttt_chance: float = 1.0
 
     def __init__(self, screen: pg.Surface):
         self.screen = screen
@@ -85,7 +92,12 @@ class Period(object):
         tile_y = tile_in_biome_idx // TILE_COLS
         tile_x = tile_in_biome_idx - (tile_y * TILE_COLS)
 
-        self.biomes[biome_idx].tilemap[tile_y][tile_x].has_task = True
+        biome = self.biomes[biome_idx]
+        new_task = random.choices(
+            [TaskCursorMaze, TaskRockPaperScissors, TaskTicTacToe],
+            weights=[self.maze_chance, self.rps_chance, self.ttt_chance],
+        )
+        biome.tilemap[tile_y][tile_x].task = new_task[0](biome)
 
 
 class PeriodMedieval(Period):
