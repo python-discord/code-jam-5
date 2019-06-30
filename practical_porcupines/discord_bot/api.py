@@ -16,7 +16,7 @@ async def get_difference(time_1, time_2):
     < Returns aiohttp response
     """
 
-    return await aiohttp_session.get(
-        API_ENDPOINT,
-        data={"times": [time_1, time_2]}
-    )
+    payload = {"times": [time_1, time_2]}
+
+    async with aiohttp_session.get(API_ENDPOINT, data=payload) as resp:
+        return await resp.json()

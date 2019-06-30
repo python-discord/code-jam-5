@@ -23,9 +23,8 @@ async def decode_diff_resp(difference_obj):
     x Returns error message in place of mm
     """
 
-    decoded_obj = await difference_obj.text()  # Decode
+    if "body" in difference_obj:
+        if "wl_difference" in difference_obj["body"]:
+            return difference_obj["body"]["wl_difference"]  # Return difference part
 
-    if "body" in decoded_obj and "wl_difference" in decoded_obj["body"]:
-        return decoded_obj["body"]["wl_difference"]  # Return difference part
-
-    return f"ERROR 1001: API returning wrong values!"
+    return "ERROR 1001: API returning wrong values!"

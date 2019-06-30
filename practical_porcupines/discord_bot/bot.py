@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 from practical_porcupines.utils import ConfigBot, check_date
 from practical_porcupines.discord_bot.api import get_difference
@@ -15,7 +16,9 @@ async def on_ready():
     """
 
     print(f"{bot_client.user.name} is online w/ id: '{bot_client.user.id}'!")
-    print("Testing api: " + await decode_diff_resp(await get_difference("2010", "2019")))
+    print(
+        "Testing api: " + await decode_diff_resp(await get_difference("2010", "2019"))
+    )
 
 
 @bot_client.command()
@@ -34,21 +37,28 @@ async def gmwl(ctx, date_1, date_2):
 
     # IF invalid date
     if not (verified_date_1 or verified_date_2):
-        ctx.send(
+        await ctx.send(
             embed=embed_generator(
-                "Invalid date",
+                "Invalid date!",
                 "One of the dates you sent was invalid, please try again!",
                 0xA31523,
+                discord,
             )
         )
         return
 
-    result = await decode_diff_resp(get_difference(verified_date_1, verified_date_2))
+    result = await decode_diff_resp(
+        await get_difference(verified_date_1, verified_date_2)
+    )
 
-    ctx.send(
-        embed=embed_generator(
+    if isinstance(result, str):
+        embed = embed_generator("Error!", result, 0xA31523, discord)
+    else:
+        embed = embed_generator(
             "Result",
             f"Operation completed sucsessfully, result is {result}mm",
             0x3BA315,
+            discord,
         )
-    )
+
+    await ctx.send(embed=embed)
