@@ -1,5 +1,6 @@
 # Contains utility functions
 import math
+import pyglet
 
 
 def angle_between(x1: float, y1: float, x2: float, y2: float) -> float:
@@ -11,3 +12,6 @@ def angle_between(x1: float, y1: float, x2: float, y2: float) -> float:
 
     # We return negative because pyglet and math treat rotation differently
     return -math.atan2(dy, dx)
+
+
+loader = pyglet.resource.Loader(path="../resources")
