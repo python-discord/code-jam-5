@@ -8,8 +8,8 @@ from pygame.transform import scale
 
 from project.constants import (
     BIOME_WIDTH,
-    DESERT_BGS,
     CITY_BGS,
+    DESERT_BGS,
     FOREST_BGS,
     MOUNTAINS_BGS,
     TILES_GRASS,
