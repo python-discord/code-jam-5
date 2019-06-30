@@ -1,13 +1,20 @@
 import pyglet
+from utils import angle_between, loader
+from math import degrees
 
 
 class Player(pyglet.sprite.Sprite):
-    def __init__(self):
-        player_image = pyglet.resource.image("penguin.png")
-        super().__init__(player_image)
+    def __init__(self, x, y):
+        player_image = loader.image("penguin.png")
+
+        # Rotate about the center
+        player_image.anchor_x = player_image.width // 2
+        player_image.anchor_y = player_image.height // 2
+
+        super().__init__(player_image, x=x, y=y)
 
     def update(self, **kwargs):
         super().update(**kwargs)
 
     def on_mouse_motion(self, x, y, dx, dy):
-        pass
+        self.rotation = degrees(angle_between(self.x, self.y, x, y))
