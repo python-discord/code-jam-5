@@ -38,7 +38,7 @@ class Game:
             "help, you can type 'help'.",
             "",
             "Good luck!",
-            sep="\n"
+            sep="\n",
         )
 
     def main(self):
@@ -80,7 +80,6 @@ class Game:
         player_input = input("")
 
         self._invest(player_input)
-
 
     def _invest(self, option):
         try:
