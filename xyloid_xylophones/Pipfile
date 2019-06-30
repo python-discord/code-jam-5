@@ -8,6 +8,7 @@ flake8 = "*"
 
 [packages]
 pyglet = "*"
+pyqtree = "*"
 
 [requires]
 python_version = "3.7"
