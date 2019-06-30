@@ -23,11 +23,6 @@ async def decode_diff_resp(difference_obj):
     x Returns error message in place of mm
     """
 
-    # If difference_obj is not a aiohttp response object
-    if difference_obj is dict:
-        error_code = difference_obj["status"]
-        return f"ERROR {error_code}: API not responding!"
-
     decoded_obj = await difference_obj.text()  # Decode
 
     if decoded_obj["body"]["wl_difference"]:

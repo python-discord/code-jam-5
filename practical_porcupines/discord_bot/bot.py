@@ -19,7 +19,7 @@ async def on_ready():
 
 
 @bot_client.command()
-async def gmwl(ctx, date_1, date_1):
+async def gmwl(ctx, date_1, date_2):
     """
     Global Mean water level command
 
