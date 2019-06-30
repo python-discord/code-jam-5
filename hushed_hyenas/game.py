@@ -89,7 +89,7 @@ class Game:
                     pygame.quit()
                     quit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if closest_country is not None:
+                    if closest_country_coords is not (-10, -10):
                         self.country = closest_country
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
