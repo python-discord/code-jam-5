@@ -26,6 +26,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.current_scene = 'Map'
         self.country = None
+        self.font = pygame.font.Font(None, 25)
 
         # Resize image to fit in window
         self.map = pygame.transform.scale(self.original_map, (self.width, self.height))
@@ -62,11 +63,10 @@ class Game:
                 pygame.draw.circle(window, (0, 0, 255), (int(x),
                                                          int(y)), 3)
 
-            font = pygame.font.Font(None, 25)
             pygame.draw.rect(window, (0, 0, 0),
                              pygame.Rect(self.width - 300, self.height - 50, self.width,
                                          self.height))
-            text = font.render(closest_country["name"], True, (255, 255, 255))
+            text = self.font.render(closest_country["name"], True, (255, 255, 255))
             text_rect = text.get_rect(center=(self.width - 150, self.height - 25))
             window.blit(text, text_rect)
 
