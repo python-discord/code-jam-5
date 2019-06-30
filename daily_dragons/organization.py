@@ -10,6 +10,6 @@ class Organization:
         self.description = description
 
     def __str__(self) -> str:
-        summary = f"{self.name}\n{self.description}\n{str(self.planetary_effects)}"
+        summary = f"{self.name}\n{self.description}\n"
 
         return summary
