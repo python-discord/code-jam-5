@@ -1,5 +1,6 @@
 import pyglet
-from utils import angle_between, loader
+import pyglet.window.key as key
+from utils import angle_between, loader, keys
 from math import degrees
 
 
@@ -15,6 +16,15 @@ class Player(pyglet.sprite.Sprite):
 
     def update(self, **kwargs):
         super().update(**kwargs)
+
+        if keys[key.W]:
+            self.y += 1
+        if keys[key.S]:
+            self.y -= 1
+        if keys[key.A]:
+            self.x -= 1
+        if keys[key.D]:
+            self.x += 1
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.rotation = degrees(angle_between(self.x, self.y, x, y))
