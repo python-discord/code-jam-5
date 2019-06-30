@@ -4,7 +4,8 @@ from practical_porcupines.utils import ConfigApi
 config_api = ConfigApi()
 aiohttp_session = aiohttp.ClientSession()
 
-API_ENDPOINT = f"{config_api.API_DOMAIN}:{config_api.API_PORT}/api"
+# API_ENDPOINT = f"{config_api.API_DOMAIN}:{config_api.API_PORT}/api"
+API_ENDPOINT = "https://jilk.pw/api/v1.0/publicall"
 
 
 async def get_difference(time_1, time_2):
@@ -17,6 +18,7 @@ async def get_difference(time_1, time_2):
     """
 
     try:
-        return await aiohttp_session.get(API_ENDPOINT, data={"times": [time_1, time_2]})
+        # return await aiohttp_session.get(API_ENDPOINT, data={"times": [time_1, time_2]})
+        return await aiohttp_session.get(API_ENDPOINT)
     except:
         return {"meta": {"status": 1000}}
