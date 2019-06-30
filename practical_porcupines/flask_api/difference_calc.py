@@ -14,7 +14,7 @@ class WLDifference:
 
         pass
 
-    def _string_to_datetime(self, decimal_date):
+    def decimal_to_datetime(self, decimal_date):
         """
         TODO add Docstring
         """
@@ -41,7 +41,7 @@ class WLDifference:
             for d in data:
                 d = d.split()
                 reading_date_fraction = float(d[2])
-                reading_date = WLDifference.decimal_to_datetime(
+                reading_date = self.decimal_to_datetime(
                     reading_date_fraction
                 ).date()  # Date of GMSL reading
                 gmsl = float(d[11])  # GMSL value
