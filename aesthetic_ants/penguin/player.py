@@ -1,7 +1,9 @@
+from math import degrees
+
 import pyglet
 import pyglet.window.key as key
-from utils import angle_between, loader, keys
-from math import degrees
+
+from .utils import angle_between, loader, keys
 
 
 class Player(pyglet.sprite.Sprite):

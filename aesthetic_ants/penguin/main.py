@@ -1,6 +1,7 @@
 import pyglet
-from player import Player
-from utils import keys
+
+from .player import Player
+from .utils import keys
 
 window = pyglet.window.Window(caption='Penguin Snowball')
 
