@@ -105,3 +105,8 @@ venv.bak/
 
 # vscode
 .vscode
+
+# ffmpeg binaries
+ffmpeg.exe
+ffplay.exe
+ffprobe.exe

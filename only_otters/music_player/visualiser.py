@@ -1,8 +1,9 @@
 from PyQt5 import QtWidgets, QtGui
+from ..audio_visualiser import AudioVisualiser
 
 
-class VisualiserWidget(QtWidgets.QWidget):
-    """Visualises the music as it plays from a QMediaPlayer"""
+class NowPlayingWidget(QtWidgets.QWidget):
+    """Shows the music as it plays from a QMediaPlayer"""
 
     def __init__(self, player):
         super().__init__()
@@ -14,10 +15,13 @@ class VisualiserWidget(QtWidgets.QWidget):
     def init_ui(self):
         self.main_layout = QtWidgets.QHBoxLayout()
 
+        self.audio_visualiser = AudioVisualiser(self.player)
+
         now_playing_font = QtGui.QFont('Calibri', 16)
         self.now_playing_label = QtWidgets.QLabel('Now Playing: N/A')
         self.now_playing_label.setFont(now_playing_font)
 
+        self.main_layout.addWidget(self.audio_visualiser)
         self.main_layout.addWidget(self.now_playing_label)
         self.setLayout(self.main_layout)
 
