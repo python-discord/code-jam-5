@@ -1,6 +1,6 @@
-from daily_dragons.game_modules.investment import Investment
-from daily_dragons.game_modules.organization import Organization
-from daily_dragons.game_modules.planetary_effects import PlanetaryEffects
+from .investment import Investment
+from .organization import Organization
+from .planetary_effects import PlanetaryEffects
 
 
 # TODO: convert to json rather than hard coded placeholders

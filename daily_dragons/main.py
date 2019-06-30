@@ -1,4 +1,4 @@
-from daily_dragons.game_modules.game import Game
+from game_modules.game import Game
 
 
 def main():
