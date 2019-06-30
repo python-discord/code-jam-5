@@ -99,6 +99,8 @@ class Period(object):
         )
         tile.task = new_task[0](biome)
 
+        self.earth.fix_indicators()
+
 
 class PeriodMedieval(Period):
     """Medieval themed Time Period."""
