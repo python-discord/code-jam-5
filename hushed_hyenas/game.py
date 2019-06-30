@@ -23,6 +23,8 @@ class Game:
         self.window = pygame.display.set_mode((self.width, self.height))
         self.caption = pygame.display.set_caption('Code jam')
         self.original_map = pygame.image.load(r'map_objects/earth2large.png')
+        self.icon_normal = pygame.image.load(r'map_objects/pin.png')
+        self.icon_hover = pygame.image.load(r'map_objects/pin2.png')
         self.clock = pygame.time.Clock()
         self.current_scene = 'Map'
         self.country = None
@@ -37,8 +39,8 @@ class Game:
 
     def map_scene(self):
         window = self.window
-        window.fill((202,236,252))
-        
+        window.fill((202, 236, 252))
+
         if self.country is None:
             window.blit(self.map, (0, 0))
 
@@ -64,8 +66,14 @@ class Game:
                     closest_distance = current_distance
                     closest_country = country
                     closest_country_coords = x, y
+                    global closest_country_coords_hover
+                    closest_country_coords_hover = x - 9, y - 15
 
-                pygame.draw.circle(window, (0, 0, 255), (x, y), 3)
+                # pygame.draw.circle(window, (0, 0, 255), (x, y), 3)
+                #                                          int(y)), 3)
+                # The -7 and -13 values are used to correct the pin image size to put
+                # the bottom of the pin to the x and y point
+                window.blit(self.icon_normal, (x - 7, y - 13))
 
             # Checking if a country in the range of 30 units is found
             if closest_country is None:
@@ -75,7 +83,8 @@ class Game:
                 # Displaying "Select a country" in the bottom right corner box
                 closest_country = {'name': 'Select a country'}
 
-            pygame.draw.circle(window, (255, 0, 0), closest_country_coords, 5)
+            # pygame.draw.circle(window, (255, 0, 0), closest_country_coords_hover, 5)
+            window.blit(self.icon_hover, closest_country_coords_hover)
             pygame.draw.rect(window, (0, 0, 0),
                              pygame.Rect(self.width - 300, self.height - 50, self.width,
                                          self.height))
