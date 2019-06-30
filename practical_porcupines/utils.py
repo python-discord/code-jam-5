@@ -1,6 +1,8 @@
 import os
 import re
 import json
+from datetime import datetime
+from typing import Union
 
 
 def check_date(date):
@@ -23,6 +25,21 @@ def check_date(date):
         return None
 
     return date_match[0][0]
+
+
+def convert_string_to_datetime(date_string: str) -> Union[datetime, None]:
+    """
+    > unction to convert stings in the format '%Y:%m:%d:%H:%M:%S' to their datetime representation
+      Example:
+            convert_string_to_datetime('2010:06:29:17:02:39')
+            > datetime.datetime(2010, 6, 29, 17, 2, 39)
+    - date_string: The string that should be converted
+    < datetime: The corresponding datetime object. If it cant be converted, returns None
+    """
+    try:
+        return datetime.strptime(date_string, '%Y:%m:%d:%H:%M:%S')
+    except ValueError:
+        return None
 
 
 class ConfigBase:
