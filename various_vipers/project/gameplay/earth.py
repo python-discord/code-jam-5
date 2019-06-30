@@ -73,6 +73,7 @@ class Earth(object):
         self.current_cloud_bg_pos += BG_CLOUDS_SCROLL_SPEED
         self.current_cloud_fg_pos += FG_CLOUDS_SCROLL_SPEED
         self.__update_positions()
+        self.__update_tiles()
 
     def draw(self) -> None:
         """Draw all images related to the earth."""
@@ -258,3 +259,10 @@ class Earth(object):
                 random.choice(self.cloud_layers_fg_pool)
             ] + self.cloud_layers_fg
             self.current_cloud_fg_pos = -self.cloud_layers_fg[0].get_width()
+
+    def __update_tiles(self) -> None:
+        """Calls update method of every tile in the game."""
+        for biome in self.biomes:
+            for tile_row in biome.tilemap:
+                for tile in tile_row:
+                    tile.update()
