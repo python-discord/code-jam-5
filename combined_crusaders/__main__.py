@@ -2,7 +2,6 @@
 import pygame
 import os
 from pygame.locals import KEYDOWN, K_ESCAPE, QUIT, Rect
-# I hate * imports but I want it to work for the skeleton
 
 script_dir = os.path.split(os.path.abspath(__file__))[0]
 if not pygame.image.get_extended():
@@ -55,6 +54,9 @@ class Button(pygame.sprite.Sprite):
 
     def on_click(self):
         """I made this method up; figure out how we detect button clicks"""
+        sounds["beep"].play()
+        # I'm just playing the beep as a test that it's working, it won't
+        # be in the final version
         pass
 
 
@@ -94,8 +96,8 @@ class CC:  # TODO game name goes here
                 return
 
         keystate = pygame.key.get_pressed()
-        pass
         self.clock.tick(40)
+        # Or maybe don't? It's a clicker, so having an fps limit might be dumb
 
     def play(self):
         """Begins the game. Detect any exits and exit gracefully."""
@@ -107,10 +109,6 @@ class CC:  # TODO game name goes here
 def main():
     if pygame.mixer and not pygame.mixer.get_init():
         raise OSError("Can't play sounds, sounds are required")
-    # There's an issue with sounds that I need to work on; uploading this
-    # version to the skeleton, I'll try to fix it.
-    # pygame.mixer.music.load(sounds["beep"])
-    # pygame.mixer.music.play(-1)
     game = CC()
     game.play()
 
