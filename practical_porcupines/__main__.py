@@ -1,6 +1,7 @@
 import click
-import asyncio
-from practical_porcupines.utils import ConfigBase, ConfigApi, ConfigWebPortal, ConfigBot
+from practical_porcupines.utils import (
+    ConfigBase, ConfigApi, ConfigWebPortal, ConfigBot
+)
 from practical_porcupines.discord_bot import bot_client
 from practical_porcupines.flask_api import flask_api_app
 from practical_porcupines.flask_webportal import flask_webportal_app
@@ -29,7 +30,7 @@ def flask_webportal():
 @click.command()
 def discord_bot():
     """
-    Runs the discord bot mini-project, displaying all from the flask_api mini-project
+    Runs the discord bot mini-project, getting from flask_api mini-project
     """
 
     bot_client.run(ConfigBot().TOKEN)

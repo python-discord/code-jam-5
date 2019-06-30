@@ -1,4 +1,5 @@
 import os
+import re
 import json
 
 
@@ -31,7 +32,7 @@ class ConfigBase:
 
     CONFIG_PATH = "config.json"  # Where usually `config.json` is kept
     CONFIG = json.load(open(CONFIG_PATH, "r"))  # Serialized dict from json
-    SHOULD_DEBUG = CONFIG["should_debug"]  # The `should_debug` key from the CONFIG dict
+    SHOULD_DEBUG = CONFIG["should_debug"]
 
 
 class ConfigApi:
@@ -76,7 +77,7 @@ class ConfigBot:
     PREFIX = config["bot"]["prefix"]  # Gets the prefix to use from CONFIG
 
     def __init__(self):
-        self.TOKEN = self._get_bot_token()  # Gets the discord bot token from env var
+        self.TOKEN = self._get_bot_token()  # Discord bot token from env var
 
     def _get_bot_token(self):
         """

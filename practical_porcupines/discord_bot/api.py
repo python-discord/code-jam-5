@@ -14,11 +14,9 @@ async def get_difference(time_1, time_2):
     - time_1 = Start time (%Y:%m:%d:%T)
     - time_2 = End time (%Y:%m:%d:%T)
     < Returns aiohttp response
-    x Returns error code 1000 (custom) as in a dict if aiohttp failed
     """
 
-    try:
-        # return await aiohttp_session.get(API_ENDPOINT, data={"times": [time_1, time_2]})
-        return await aiohttp_session.get(API_ENDPOINT)
-    except:
-        return {"meta": {"status": 1000}}
+    return await aiohttp_session.get(
+        API_ENDPOINT,
+        data={"times": [time_1, time_2]}
+    )

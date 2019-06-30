@@ -12,4 +12,3 @@ class LevelModel(db.Model):
 
     def __init__(self, id):
         self.id = id
-
