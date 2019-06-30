@@ -127,7 +127,6 @@ class Earth(object):
             self.current_cloud_fg_pos,
             int(HEIGHT // 3),
         )
-        logger.debug(len(draw_bg_args + draw_fg_args))
         self.screen.blits(draw_fg_args)
 
     def __prepare_draw_biome(
