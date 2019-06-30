@@ -18,7 +18,10 @@ class AudioVisualiser(QtWidgets.QWidget):
         self.start_visualising()
 
     def amp_polygon(self):
-        """Uses polar co-ordinate formulae in order to plot a circular polygon based off of amplitudes"""
+        """
+        Uses polar co-ordinate formulae in order to plot a
+        circular polygon based off of amplitudes
+        """
         polygon = QtGui.QPolygonF()
         for theta, amp in zip(np.linspace(-np.pi / 2, np.pi * 1.5, self.amps.size), self.amps):
             r = self.min_radius + (self.max_radius - self.min_radius) * amp
@@ -35,7 +38,7 @@ class AudioVisualiser(QtWidgets.QWidget):
         # Centering the polygon
         polygon.translate(self.width()//2, self.height()//2)
         return polygon
-    
+
     def set_amplitudes(self, amps):
         """Sets the amplitudes for the visualiser and plots them"""
         self.amps = np.array(amps)
