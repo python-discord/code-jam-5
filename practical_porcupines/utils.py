@@ -110,6 +110,7 @@ class ConfigBot:
 
         return os.environ["CLIENT_TOKEN"]
 
+
 class DatesOutOfRange(BaseException):
     """
     For when dates are out of range
