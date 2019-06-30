@@ -5,7 +5,13 @@ from planetary_effects import PlanetaryEffects
 class Planet:
     """Track the planets health with key statistics"""
 
-    def __init__(self):
+    def __init__(
+        self,
+        bio_diversity: int = 0,
+        temperature: int = 0,
+        co2: int = 0,
+        habitable_land: int = 0,
+    ) -> None:
         """Track the stats as a net change from baseline
 
         bio diversity tracks the change in the total number of species
@@ -14,10 +20,10 @@ class Planet:
         habitable land is in hectacres (100 acres)
 
         """
-        self.bio_diversity = 0
-        self.temperature = 0
-        self.co2 = 0
-        self.habitable_land = 0
+        self.bio_diversity = bio_diversity
+        self.temperature = temperature
+        self.co2 = co2
+        self.habitable_land = habitable_land
 
     @property
     def scoreboard(self) -> Dict[str, str]:
