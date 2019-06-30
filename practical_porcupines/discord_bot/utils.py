@@ -1,20 +1,5 @@
 import datetime
-
-
-class DatesOutOfRange(BaseException):
-    """
-    For when dates are out of range
-    """
-
-    pass
-
-
-class ApiReturnBad(BaseException):
-    """
-    When API is retuning incorrect values
-    """
-
-    pass
+from practical_porcupines.utils import DatesOutOfRange, ApiReturnBad
 
 
 def embed_generator(title, desc, colour, discord):

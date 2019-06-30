@@ -109,3 +109,18 @@ class ConfigBot:
         """
 
         return os.environ["CLIENT_TOKEN"]
+
+class DatesOutOfRange(BaseException):
+    """
+    For when dates are out of range
+    """
+
+    pass
+
+
+class ApiReturnBad(BaseException):
+    """
+    When API is retuning incorrect values
+    """
+
+    pass
