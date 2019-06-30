@@ -46,16 +46,28 @@ Install dependancies:
 pipenv install
 ```
 
-Make a totally secure secret key and run the api in the background:
+Make a totally secure secret key:
 
 ```bash
-pipenv run export API_SECRET_KEY=abc && python -m practical_porcupines flask-api &
+pipenv run export API_SECRET_KEY=abc
+```
+
+Pass in the bot token (leave it as `x` if you only want to test the webportal):
+
+```bash
+pipenv run export CLIENT_TOKEN=x
+```
+
+Run the api in the background:
+
+```bash
+python -m practical_porcupines flask-api &
 ```
 
 Run the discord bot in the background where `x` is the bot's token:
 
 ```bash
-pipenv run export CLIENT_TOKEN=x && python -m practical_porcupines discord-bot &
+pipenv run python -m practical_porcupines discord-bot &
 ```
 
 Run the web-portal in the background:
@@ -75,7 +87,11 @@ pipenv run python -m practical_porcupines flask-webportal
 - Using `%Y:%m:%d:%T` formatting (UNIX). An example of this is: `2019:06:29:23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech.
 - Autoformat using `black` and try to do a final sweep with the custom `flake8` rulings.
 - Document everything in docstrings. `>` means overview of passing in, `<` means overview of returning, `x` is the execption handling and `-` are the argument specifics (use these like bullet points with them symbols).
-- Error 1000 with discord_bot is a general aiohttp error
+
+### Error codes
+
+- `1000`: General aiohttp error **decerpt**
+- `1001`: API returning wrong values (usually happens in debugging when hooked upto a dummy api)
 
 ### API schema
 
@@ -254,6 +270,14 @@ Imports the bot object for easy access to `discord_bot` directly
 ##### `practical_porcupines/discord_bot/bot.py`
 
 The main file for all of the bot. It does not use `discord.py cogs` but does use the reccomended `commands` method.
+
+##### `practical_porcupines/discord_bot/api.py`
+
+Contains the basic aiohttp linking to the database. **Note: could be merged with `practical_porcupines/discord_bot/utils.py`**
+
+##### `practical_porcupines/discord_bot/utils.py`
+
+Contains the discord_bot utils with items like decoding the api response and handeling general errors. Also includes a nifty embed generator
 
 #### `practical_porcupines/flask_api/`
 

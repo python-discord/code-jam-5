@@ -24,7 +24,31 @@ def check_date(date):
     if not date_match:
         return None
 
-    return date_match[0][0]
+    return _add_null_date(date_match[0][0])
+
+
+def _add_null_date(date_match):
+    """
+    > Gets verified date
+    - date_math: verified date from check_date
+    < Return stringfied date with extra 00:00:00:00 etc
+    """
+
+    output = []
+    date_match_split = date_match.split(":")
+
+    # IF date is already full-length
+    if len(date_match_split) == 6:
+        return date_match
+
+    for i in range(6):
+        # NOTE could be done more efficiantly, 6 - len(date_match_split)
+        if i > len(date_match_split):
+            output.append("00")
+        else:
+            output.append(date_match[i])
+
+    return ":".join(date_match)
 
 
 def convert_string_to_datetime(date_string: str) -> Union[datetime, None]:
