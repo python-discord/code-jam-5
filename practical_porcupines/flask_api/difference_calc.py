@@ -14,6 +14,10 @@ class WLDifference:
 
     @staticmethod
     def decimal_to_datetime(decimal_date):
+        """
+        TODO add Docstring
+        """
+
         year = int(decimal_date)
         rem = decimal_date - year
 
@@ -29,9 +33,11 @@ class WLDifference:
         """
         Parses the dataset from the NASA file. returns what we need as a list of tuples
         """
+
         dataset_path = os.path.join(
             os.path.dirname(__file__), "DATASET_GMSL.txt"
         )
+
         with open(dataset_path, "r+") as f:
             lines = f.readlines()
             data = list(filter(lambda x: x.find("HDR") == -1, lines))
