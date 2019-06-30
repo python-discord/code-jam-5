@@ -44,6 +44,32 @@ class Planet:
         self.co2 += effects.co2
         self.habitable_land += self.habitable_land
 
+    def health_summary(self) -> str:
+        """Provides a human readable summary of the health on the planet based on its stats"""
+        # Largely placeholder numbers / text, just wanted to get the idea down
+
+        health = []
+
+        # Estimates have us around 9 million species
+        # Extinction events appear to be ~75% of all species dying
+        if self.bio_diversity >= 0:
+            health.append("It is full of diverse life.")
+        elif self.bio_diversity >= -500:
+            health.append("Species starting to die.")
+        elif self.bio_diversity >= -5000:
+            health.append("Species are dying en masse.")
+        elif self.bio_diversity <= -6_750_00:
+            health.append("A mass extinction event has occured.")
+
+        if self.temperature <= 0:
+            health.append("Temperatures are within seasonal norms.")
+        elif self.temperature >= 2:
+            health.append("The icecaps are starting to melt.")
+        elif self.temperature >= 3:
+            health.append("The icecaps are a thing of the past.")
+
+        return " ".join(health)
+
     def __str__(self) -> str:
         current_stats = (
             f"bio_diversity: {str(self.bio_diversity)} \n"
