@@ -5,7 +5,7 @@ import time
 
 
 class FFTAnalyser(QtCore.QThread):
-    """Analyses a song on a playlist using FFTs"""
+    """Analyses a song on a playlist using FFTs."""
 
     calculated_visual = QtCore.pyqtSignal(np.ndarray)
     finished = QtCore.pyqtSignal()
@@ -19,7 +19,7 @@ class FFTAnalyser(QtCore.QThread):
         self.resolution = 40
 
     def reset_media(self):
-        """Resets the media to the currently playing song"""
+        """Resets the media to the currently playing song."""
         audio_file = self.player.currentMedia().canonicalUrl().path()[1:]
         if audio_file:
             self.song = AudioSegment.from_file(audio_file).set_channels(1)
@@ -33,7 +33,7 @@ class FFTAnalyser(QtCore.QThread):
             self.start_animate = False
 
     def calculate_amps(self):
-        """Calculates the amplitudes used for visualising the media"""
+        """Calculates the amplitudes used for visualising the media."""
 
         sample_count = int(self.song.frame_rate * 0.05)
         start_index = int((self.player.position()/1000) * self.song.frame_rate)
@@ -93,7 +93,7 @@ class FFTAnalyser(QtCore.QThread):
         self.calculated_visual.emit(rs / self.max_sample)
 
     def run(self):
-        """Runs the animate function depending on the song"""
+        """Runs the animate function depending on the song."""
         while True:
             if self.start_animate:
                 self.calculate_amps()

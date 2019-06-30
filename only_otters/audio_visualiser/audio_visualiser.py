@@ -4,7 +4,7 @@ import numpy as np
 
 
 class AudioVisualiser(QtWidgets.QWidget):
-    """Shows a visual representation of audio from a QMediaPlayer"""
+    """Shows a visual representation of audio from a QMediaPlayer."""
 
     def __init__(self, player):
         super().__init__()
@@ -20,7 +20,7 @@ class AudioVisualiser(QtWidgets.QWidget):
     def amp_polygon(self):
         """
         Uses polar co-ordinate formulae in order to plot a
-        circular polygon based off of amplitudes
+        circular polygon based off of amplitudes.
         """
         polygon = QtGui.QPolygonF()
         for theta, amp in zip(np.linspace(-np.pi / 2, np.pi * 1.5, self.amps.size), self.amps):
@@ -40,18 +40,18 @@ class AudioVisualiser(QtWidgets.QWidget):
         return polygon
 
     def set_amplitudes(self, amps):
-        """Sets the amplitudes for the visualiser and plots them"""
+        """Sets the amplitudes for the visualiser and plots them."""
         self.amps = np.array(amps)
         self.repaint()
 
     def start_visualising(self):
-        """Begins the visualiser thread"""
+        """Begins the visualiser thread."""
         self.analyser_thread = FFTAnalyser(self.player)
         self.analyser_thread.calculated_visual.connect(self.set_amplitudes)
         self.analyser_thread.start()
 
     def paintEvent(self, event):
-        """Plots the amplitudes"""
+        """Plots the amplitudes."""
         painter = QtGui.QPainter(self)
         painter.setPen(self.pen_colour)
         painter.setBrush(self.fill_colour)
