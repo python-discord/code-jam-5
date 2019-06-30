@@ -1,4 +1,6 @@
 class News:
+    """News communicates the effects player decisions are having on the planet"""
+
     def __init__(self, author: str, headline: str, long_description: str) -> None:
         self.author = author
         self.headline = headline
