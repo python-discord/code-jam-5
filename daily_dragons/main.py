@@ -15,17 +15,43 @@ def main():
     player_input = None
     invest_dict = investments()
 
-    while player_input != "exit":
+    while True:
         print(investment_menu(invest_dict))
         player_input = input("")
 
-        if player_input == "help":
+        if player_input == "exit":
+            break
+        elif player_input == "help":
             print(help())
         elif player_input == "stats":
+            print("Current Billionaire Stats:")
             print(player)
         elif player_input == "earth":
             print("Current Earth Stats:")
+            print(earth.health_summary())
             print(earth)
+        elif player_input == "invest":
+            print("Which company are you going to invest in?")
+            print(investment_menu(invest_dict))
+            player_input = input("")
+
+            try:
+                chosen_investment = invest_dict.get(player_input)
+                print("Investing in ", chosen_investment.organization.name)
+                print("Are you sure? y/n")
+
+                player_input = input("")
+
+                if player_input == "y" or player_input == "yes":
+                    earth.affect_planet(chosen_investment.planetary_effects)
+                elif player_input == "n" or player_input == "no":
+                    continue
+                else:
+                    print("Unrecognize input, try again or type help")
+
+            except AttributeError:
+                print("Unrecognize input, try again or type help")
+
         elif player_input:
             print(
                 invest_dict.get(
