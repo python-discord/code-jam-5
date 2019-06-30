@@ -22,6 +22,9 @@ class Game:
         # list of graphical elements
         self.elements = {}
 
+        # whether the mouse is pressed
+        self.pressed = False
+
         # get resolution
         display_info = pygame.display.Info()
         # initialise scalable elements
@@ -34,15 +37,20 @@ class Game:
         # graphics & mouse interactions
         # resets things to be rendered
         self.to_render = []
+
+        # gets mouse position
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_pos = pygame.Rect(mouse_pos[0], mouse_pos[1], 1, 1)
+        mouse_state = pygame.mouse.get_pressed()
+
+        # background
+        self.to_render.append([{"type": "bg", "colour": (0, 0, 0)}])
+
         if self.view == 0:
             # main view
 
-            # button to world map
+            # static objects
             self.to_render.append([
-                {
-                    "type": "surface",
-                    "surface": self.elements["mv.wm"],
-                    "dest": self.elements["mv.wm.loc"]},
                 {
                     "type": "surface",
                     "surface": self.elements["mv.tray"],
@@ -50,9 +58,103 @@ class Game:
                 }
             ])
 
+            buttons = (
+                self.elements["mv.buttons.up"],
+                self.elements["mv.buttons.down"],
+                self.elements["mv.buttons.wm"]
+            )
+
+            up_arrow = self.elements["mv.up"]
+            down_arrow = self.elements["mv.down"]
+            wm_button = self.elements["mv.wm"]
+
+            mouse_collision = mouse_pos.collidelist(buttons)
+
+            if mouse_collision > -1:
+
+                if mouse_state[0] == 1:
+                    self.pressed = True
+                    if mouse_collision == 0:
+                        up_arrow = self.elements["mv.up.pressed"]
+                    elif mouse_collision == 1:
+                        down_arrow = self.elements["mv.down.pressed"]
+                    elif mouse_collision == 2:
+                        wm_button = self.elements["mv.wm.pressed"]
+
+                elif mouse_state[0] == 0 and self.pressed is True:
+                    self.pressed = False
+                    if mouse_collision == 0:
+                        pass
+                    elif mouse_collision == 1:
+                        pass
+                    elif mouse_collision == 2:
+                        self.view = 1
+
+                else:
+                    if mouse_collision == 0:
+                        up_arrow = self.elements["mv.up.hover"]
+                    elif mouse_collision == 1:
+                        down_arrow = self.elements["mv.down.hover"]
+                    elif mouse_collision == 2:
+                        wm_button = self.elements["mv.wm.hover"]
+
+            else:
+                self.pressed = False
+
+            self.to_render.append([
+                {
+                    "type": "surface",
+                    "surface": up_arrow,
+                    "dest": self.elements["mv.up.loc"]
+                }, {
+                    "type": "surface",
+                    "surface": down_arrow,
+                    "dest": self.elements["mv.down.loc"]
+                }, {
+                    "type": "surface",
+                    "surface": wm_button,
+                    "dest": self.elements["mv.wm.loc"]
+                }
+
+            ])
+
         elif self.view == 1:
             # world map
-            pass
+            buttons = (
+                self.elements["wm.buttons.mv"],
+            )
+
+            mv_code = self.elements["wm.mv"]
+
+            mouse_collision = mouse_pos.collidelist(buttons)
+
+            if mouse_collision > -1:
+
+                if mouse_state[0] == 1:
+                    self.pressed = True
+                    if mouse_collision == 0:
+                        mv_code = self.elements["wm.mv.pressed"]
+
+                elif mouse_state[0] == 0 and self.pressed is True:
+                    self.pressed = False
+                    if mouse_collision == 0:
+                        self.view = 0
+
+                else:
+                    if mouse_collision == 0:
+                        mv_code = self.elements["wm.mv.hover"]
+
+            else:
+                self.pressed = False
+
+            self.to_render.append([
+                {
+                    "type": "surface",
+                    "surface": mv_code,
+                    "dest": self.elements["wm.mv.loc"]
+                }
+            ])
+
         elif self.view == 2:
             # market
             pass
@@ -81,6 +183,8 @@ class Game:
         # colours
         colours = {
             "button": (150, 150, 150),
+            "button_hover": (125, 125, 125),
+            "button_pressed": (100, 100, 100),
             "tray": (50, 50, 50),
             "scroll": (75, 75, 75)
         }
@@ -99,12 +203,19 @@ class Game:
         # find button centre
         button_centre = button_icon.get_rect(center=(button.get_width()//2, button.get_height()//2))
 
-        # draw button icon onto the button
         button.blit(button_icon, button_centre)
+        self.elements["mv.wm"] = button.copy()
 
-        self.elements["mv.wm"] = button
+        button.fill(colours["button_hover"])
+        button.blit(button_icon, button_centre)
+        self.elements["mv.wm.hover"] = button.copy()
+
+        button.fill(colours["button_pressed"])
+        button.blit(button_icon, button_centre)
+        self.elements["mv.wm.pressed"] = button
+
         self.elements["mv.wm.loc"] = (0, 0)
-        self.elements["mv.buttons.wm.rect"] = button.get_rect()
+        self.elements["mv.buttons.wm"] = button.get_rect()
 
         # virus tray
         virus_tray_width = resolution[0]//5
@@ -115,21 +226,76 @@ class Game:
         scroll_bar = pygame.Rect(0, 0, virus_scroll_width, resolution[1])
         virus_select = pygame.Rect(virus_scroll_width, 0, virus_tray_width, resolution[1])
 
-        top_scroll_arrow = pygame.Rect(
-            0, 0,
-            virus_scroll_width, virus_scroll_width
-        )
-        bottom_scroll_arrow = pygame.Rect(
-            0, resolution[1] - virus_scroll_width,
-            virus_scroll_width, virus_scroll_width
-        )
-
         pygame.draw.rect(tray, colours["scroll"], scroll_bar)
         pygame.draw.rect(tray, colours["tray"], virus_select)
-        pygame.draw.rect(tray, colours["button"], top_scroll_arrow)
-        pygame.draw.rect(tray, colours["button"], bottom_scroll_arrow)
 
         self.elements["mv.tray"] = tray
         self.elements["mv.tray.loc"] = (resolution[0] - virus_tray_width - virus_scroll_width, 0)
-        self.elements["mv.buttons.up"] = top_scroll_arrow
-        self.elements["mv.buttons.down"] = bottom_scroll_arrow
+
+        # up scroll arrow
+        top_scroll_arrow = pygame.Surface((virus_scroll_width, virus_scroll_width))
+
+        top_scroll_arrow.fill(colours["button"])
+        self.elements["mv.up"] = top_scroll_arrow.copy()
+        top_scroll_arrow.fill(colours["button_hover"])
+        self.elements["mv.up.hover"] = top_scroll_arrow.copy()
+        top_scroll_arrow.fill(colours["button_pressed"])
+        self.elements["mv.up.pressed"] = top_scroll_arrow
+        self.elements["mv.up.loc"] = (
+            resolution[0] - virus_tray_width - virus_scroll_width,
+            0
+        )
+        self.elements["mv.buttons.up"] = pygame.Rect(
+            self.elements["mv.up.loc"],
+            (virus_scroll_width, virus_scroll_width)
+        )
+
+        # down scroll arrow
+        bottom_scroll_arrow = pygame.Surface((virus_scroll_width, virus_scroll_width))
+
+        bottom_scroll_arrow.fill(colours["button"])
+        self.elements["mv.down"] = bottom_scroll_arrow.copy()
+        bottom_scroll_arrow.fill(colours["button_hover"])
+        self.elements["mv.down.hover"] = bottom_scroll_arrow.copy()
+        bottom_scroll_arrow.fill(colours["button_pressed"])
+        self.elements["mv.down.pressed"] = bottom_scroll_arrow
+        self.elements["mv.down.loc"] = (
+            resolution[0] - virus_tray_width - virus_scroll_width,
+            resolution[1] - virus_scroll_width
+        )
+        self.elements["mv.buttons.down"] = pygame.Rect(
+            self.elements["mv.down.loc"],
+            (virus_scroll_width, virus_scroll_width)
+        )
+
+        # world view
+
+        # button to main view
+        # button width
+        button_width = (resolution[0] // 15)
+        button = pygame.Surface((button_width, resolution[1]))
+        button.fill(colours["button"])
+
+        button_icon = self.graphics.images["right arrow"]
+        button_icon = pygame.transform.scale(button_icon, (button_width, button_width))
+
+        # find button centre
+        button_centre = button_icon.get_rect(
+            center=(button.get_width() // 2, button.get_height() // 2))
+
+        button.blit(button_icon, button_centre)
+        self.elements["wm.mv"] = button.copy()
+
+        button.fill(colours["button_hover"])
+        button.blit(button_icon, button_centre)
+        self.elements["wm.mv.hover"] = button.copy()
+
+        button.fill(colours["button_pressed"])
+        button.blit(button_icon, button_centre)
+        self.elements["wm.mv.pressed"] = button
+
+        self.elements["wm.mv.loc"] = (resolution[0] - button_width, 0)
+        self.elements["wm.buttons.mv"] = pygame.Rect(
+            self.elements["wm.mv.loc"],
+            (button_width, resolution[1])
+        )
