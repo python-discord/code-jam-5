@@ -1,13 +1,12 @@
 import fnmatch
 import os
 import time
-
 import matplotlib
 import matplotlib.pyplot as plot
 import numpy as np
 from PyQt5 import QtCore
 from mpl_toolkits.basemap import Basemap
-from netCDF4 import Dataset
+import helpers
 
 # set matplotlib to not use tk while plotting
 matplotlib.use('Agg')
@@ -18,6 +17,7 @@ class Plotter(QtCore.QThread):
     NC_FILE_NAME = "Complete_TMAX_LatLong1.nc"
     image_increment_signal = QtCore.pyqtSignal()
     status_signal = QtCore.pyqtSignal(str)
+    longitudes, latitudes, dates, temperatures, temperature_unit = helpers.get_variables_from_nc_file(NC_FILE_NAME)
 
     def __init__(self, start_date, end_date, parent_window=None):
         super(Plotter, self).__init__()
@@ -55,43 +55,6 @@ class Plotter(QtCore.QThread):
         world_map.drawcoastlines(linewidth=0.6)
         world_map.drawcountries(linewidth=0.3)
 
-    def get_variables_from_nc_file(self):
-        """
-            Nc file source: http://berkeleyearth.org/data/
-            These represent variables from the .nc file:
-            longitude
-                Shape: 360
-                Precision: 0.5
-                Output: [-179.5 -178.5 -177.5 ... 0 .... 177.5  178.5  179.5]
-            latitude
-                Shape: 180
-                Precision 0.5
-                Output: [-89.5 -88.5 -87.5 .. 0 ... 87.5  88.5  89.5]
-            time
-                Shape: 2033
-                Output: [1850.04166667, 1850.125 ... 2019.29166667, 2019.375]
-                Output type: Data format is decimal with year and fraction of
-                year reported, with each value corresponding to the midpoint
-                of the respective month.
-            land_mask
-                Shape:(180, 360),
-                Output: [[1. 1. 1. ... 1. 1. 1.] ... [0. 0. 0. ... 0. 0. 0.]]
-                For each grid cell, the fraction of the cell which corresponds
-                to land (as opposed to ocean or other large water bodies).
-            temperature
-                Shape:(2033, 180, 360)
-                Format: [[time][latitude][longitude]]
-                Units: Degrees C
-        """
-        with Dataset(self.NC_FILE_NAME, mode="r") as nc_file:
-            self.status_signal.emit("Setting up worker")
-            lon = nc_file.variables["longitude"][:]
-            lat = nc_file.variables["latitude"][:]
-            dates = nc_file.variables["time"][:]
-            temps = nc_file.variables["temperature"][:]
-            temps_unit = nc_file.variables["temperature"].units
-            return lon, lat, dates, temps, temps_unit
-
     @staticmethod
     def find_nearest(array, value):
         array = np.asarray(array)
@@ -124,7 +87,7 @@ class Plotter(QtCore.QThread):
         self.stop_plot = True
 
     def main(self, start, end):
-        longitudes, latitudes, dates, temperatures, temperature_unit = self.get_variables_from_nc_file()
+        #longitudes, latitudes, dates, temperatures, temperature_unit = self.get_variables_from_nc_file()
         world_map = self.get_map_format()
         # https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
         color_map = plot.get_cmap("jet")
@@ -137,12 +100,12 @@ class Plotter(QtCore.QThread):
                 start_time = time.time()
 
                 plot.figure(count)
-                index = self.find_nearest(dates, date_index)
-                date = dates[index]
-                color_mesh = world_map.pcolormesh(longitudes, latitudes,
-                                                  np.squeeze(temperatures[index]), cmap=color_map)
+                index = self.find_nearest(Plotter.dates, date_index)
+                date = Plotter.dates[index]
+                color_mesh = world_map.pcolormesh(Plotter.longitudes, Plotter.latitudes,
+                                                  np.squeeze(Plotter.temperatures[index]), cmap=color_map)
                 color_bar = world_map.colorbar(color_mesh, location="bottom", pad="10%")
-                color_bar.set_label(temperature_unit)
+                color_bar.set_label(Plotter.temperature_unit)
                 self.draw_map_details(world_map)
 
                 plot.title(f"Plot for {self.get_display_date(date)}")

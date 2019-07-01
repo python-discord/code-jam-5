@@ -122,7 +122,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.worker.quit()
         del self.worker
         self.stop_button.setEnabled(False)
-        # self.plot_button.setEnabled(True) disable until memory error is circumvented
+        self.plot_button.setEnabled(True) #disable until memory error is circumvented
 
     def add_image(self):
         self.horizontalSlider.setRange(0, self.image_count)
