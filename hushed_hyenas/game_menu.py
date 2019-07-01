@@ -16,7 +16,7 @@ def main_menu(width, height, func_run, func_menu):
 
         back_button = thorpy.make_image_button(img_normal=normal_about,
                                                img_hover=hover_about,
-                                               colorkey=(0,0,0))
+                                               colorkey=(0, 0, 0))
         back_button.user_func = func_menu
         about_background = thorpy.Background(image='map_objects/draw2.jpg',
                                              elements=[about_text,
@@ -28,21 +28,21 @@ def main_menu(width, height, func_run, func_menu):
     application = thorpy.Application((width, height), "Code Jam")
 
     # Different buttons for normal and hover
-    normal, hover = 'assets/play-on.png',  'assets/play-off.png'
-    normal_quit, hover_quit = 'assets/quit-on.png',  'assets/quit-off.png'
-    normal_about, hover_about = 'assets/about-on.png',  'assets/about-off.png'
+    normal, hover = 'assets/play-on.png', 'assets/play-off.png'
+    normal_quit, hover_quit = 'assets/quit-on.png', 'assets/quit-off.png'
+    normal_about, hover_about = 'assets/about-on.png', 'assets/about-off.png'
 
     play_button = thorpy.make_image_button(img_normal=normal,
                                            img_hover=hover,
-                                           colorkey=(0,0,0))
+                                           colorkey=(0, 0, 0))
 
     about_button = thorpy.make_image_button(img_normal=normal_about,
                                             img_hover=hover_about,
-                                            colorkey=(0,0,0))
+                                            colorkey=(0, 0, 0))
 
     quit_button = thorpy.make_image_button(img_normal=normal_quit,
                                            img_hover=hover_quit,
-                                           colorkey=(0,0,0))
+                                           colorkey=(0, 0, 0))
 
     background = thorpy.Background(image='map_objects/draw2.jpg',
                                    elements=[play_button,

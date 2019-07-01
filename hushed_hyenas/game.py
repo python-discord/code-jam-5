@@ -31,8 +31,7 @@ class Game:
         self.font = pygame.font.Font(None, 25)
 
         # Resize image to fit in window
-        self.map = pygame.transform.scale(self.original_map,
-                                          (self.width, self.height))
+        self.map = pygame.transform.scale(self.original_map, (self.width, self.height))
 
         with open('countries.json') as json_data:
             self.data = json.load(json_data)
@@ -59,8 +58,7 @@ class Game:
                 x = int((180 + lon) / 360 * self.width)
                 y = int((90 + lat * -1) / 180 * self.height)
 
-                current_distance = math.sqrt((x - mouse_x) ** 2 +
-                                             (y - mouse_y) ** 2)
+                current_distance = math.sqrt((x - mouse_x) ** 2 + (y - mouse_y) ** 2)
 
                 if current_distance < closest_distance:
                     closest_distance = current_distance
