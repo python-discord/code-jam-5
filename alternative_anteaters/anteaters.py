@@ -72,7 +72,7 @@ class MyGame(arcade.Window):
         self.background_list = arcade.SpriteList()
 
         # Set up the player, specifically placing it at these coordinates
-        self.player_sprite = arcade.Sprite("images/player_2/player.stand.png", CHARACTER_SCALING)
+        self.player_sprite = arcade.Sprite("images/player_2/player_stand.png", CHARACTER_SCALING)
         self.player_sprite.center_x = PLAYER_START_X
         self.player_sprite.center_y = PLAYER_START_Y
         self.player_list.append(self.player_sprite)
@@ -80,8 +80,7 @@ class MyGame(arcade.Window):
         # Create the `physics engine`
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
                                                              self.wall_list,
-                                                             gravity_constant=GRAVITY,
-                                                             ladders=self.ladder_list)
+                                                             gravity_constant=GRAVITY)
 
     def on_draw(self):
         """ Render the screen. """
@@ -92,13 +91,12 @@ class MyGame(arcade.Window):
         # Draw our sprites
         self.wall_list.draw()
         self.background_list.draw()
-        self.ladder_list.draw()
         self.player_list.draw()
 
     # TODO
     # 1) User Control
     #   on_key_press()
-    #   on_key_release
+    #   on_key_release()
     # 2) update(self, delta_time) function
     # 3) create map
 
