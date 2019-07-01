@@ -34,7 +34,7 @@ def investments():
 
     acre_effects = PlanetaryEffects(100, 0, 0, 100)
     rain_ngo = Organization(
-        "The Fellowship of the Rainforst",
+        "The Fellowship of the Rainforest",
         (
             "Lobby group trying to save the rainforest.\n"
             "They are often critized for their 'guerilla' tactics\n"
