@@ -15,7 +15,7 @@ def check_date(date):
     date_full = _add_null_date(date)
 
     # TODO test
-    date_as_datetime datetime.datetime(
+    date_as_datetime = datetime.datetime(
         date_full[0][0],  # year
         date_full[0][1],  # month
         date_full[0][2],  # day
@@ -51,7 +51,7 @@ def _add_null_date(date):
     times = list(map(int, time_split[1].split(":") if len(time_split) > 2 else []))
 
     for _ in range(3 - len(dates)):
-        dates.append(0)
+        dates.append(1)
 
     for _ in range(3 - len(times)):
         times.append(0)
