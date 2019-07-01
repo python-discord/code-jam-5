@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtMultimedia, QtCore
 
 
 class ControlsWidget(QtWidgets.QWidget):
-    """Contains all the controls for a QMediaPlayer"""
+    """Contains all the controls for a QMediaPlayer."""
 
     def __init__(self, player):
         super().__init__()

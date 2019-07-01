@@ -3,11 +3,12 @@ from .music_player import MusicPlayer
 
 
 class Spotleafy(QtWidgets.QMainWindow):
-    """A music player designed to encourage action against climate change"""
+    """A music player designed to encourage action against climate change."""
 
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Spotleafy')
+        self.setMinimumSize(640, 480)
         self.init_gui()
 
     def init_gui(self):
@@ -16,6 +17,8 @@ class Spotleafy(QtWidgets.QMainWindow):
         self.setCentralWidget(self.main_widget)
 
         self.main_layout = QtWidgets.QVBoxLayout(self.main_widget)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+
         self.music_player = MusicPlayer()
 
         self.main_layout.addWidget(self.music_player)
