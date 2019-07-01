@@ -69,7 +69,7 @@ for i in zone_names:
             # boarder is not passable
             if (y == player.x) & (x == player.y):
                 item.Collision = False
-            elif (y == 0) | (x == 0) | (y == zone_height) | (x == zone_width):
+            elif (y == 0) | (x == 0) | (y == zone_height-1) | (x == zone_width-1):
                 item.collision = True
             else:
                 item.collision = not getrandbits(1)
