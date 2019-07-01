@@ -1,4 +1,5 @@
 import logging
+
 import pygame
 import pygame.freetype
 
@@ -26,10 +27,20 @@ class Graphics:
 
         # in this section the file path and file name are separated to make it easier to read
         log.info("loading fonts")
-        self.fonts = {"main": pygame.freetype.Font("assets/fonts/" + "Roboto-Regular.ttf", 20)}
+        self.fonts = {"main": pygame.freetype.Font(
+            "assets/fonts/" + "ShareTechMono-Regular.ttf",
+            20
+        )}
 
         log.info("loading images")
-        self.images = {"example": pygame.image.load("assets/images/" + "example.jpg")}
+        self.images = {
+            "example": pygame.image.load("assets/images/" + "example.jpg"),
+            "world icon": pygame.image.load("assets/images/" + "world.png"),
+            "right arrow": pygame.image.load("assets/images/" + "right-arrow.png"),
+            "left arrow": pygame.image.load("assets/images/" + "left-arrow.png"),
+            "up arrow": pygame.image.load("assets/images/" + "up-arrow.png"),
+            "down arrow": pygame.image.load("assets/images/" + "down-arrow.png")
+        }
 
     def update(self, to_render: list) -> None:
         """ to_render is a list of elements to render in order"""

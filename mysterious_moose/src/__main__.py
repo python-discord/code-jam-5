@@ -1,6 +1,5 @@
 import logging
-import os
-import src.game as game
+import src.loop as loop
 import src.graphics as graphics
 
 
@@ -20,8 +19,8 @@ log.info("Logging initialised")
 log.info("Initialising graphics")
 display = graphics.Graphics()
 log.info("Initialising main loop")
-game = game.Main(display)
+loop = loop.Main(display)
 
 
 log.info("Starting game")
-game()
+loop()
