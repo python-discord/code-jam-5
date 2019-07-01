@@ -12,7 +12,7 @@ log.info("game logger initialised")
 class Game:
     def __init__(self, graphics):
         self.graphics = graphics
-        self.blocks = blocks.get_blocks()
+        self.blocks = blocks.get_blocks(graphics)
         self.world = world.World()
         self.view = 0  # current graphical view
         self.selected = -1  # currently selected virus
@@ -174,7 +174,7 @@ class Game:
                 self.elements["wm.buttons.mv"],
             )
 
-            mv_code = self.elements["wm.mv"]
+            mv_button = self.elements["wm.mv"]
 
             mouse_collision = mouse_pos.collidelist(buttons)
 
@@ -183,7 +183,7 @@ class Game:
                 if mouse_state[0] == 1:
                     self.pressed = True
                     if mouse_collision == 0:
-                        mv_code = self.elements["wm.mv.pressed"]
+                        mv_button = self.elements["wm.mv.pressed"]
 
                 elif mouse_state[0] == 0 and self.pressed is True:
                     self.pressed = False
@@ -192,7 +192,7 @@ class Game:
 
                 else:
                     if mouse_collision == 0:
-                        mv_code = self.elements["wm.mv.hover"]
+                        mv_button = self.elements["wm.mv.hover"]
 
             else:
                 self.pressed = False
@@ -200,7 +200,7 @@ class Game:
             self.to_render.append([
                 {
                     "type": "surface",
-                    "surface": mv_code,
+                    "surface": mv_button,
                     "dest": self.elements["wm.mv.loc"]
                 }
             ])
@@ -210,10 +210,76 @@ class Game:
             pass
         elif self.view == 3:
             # virus info
-            pass
+            buttons = (
+                self.elements["v.buttons.mv"],
+            )
+
+            mv_button = self.elements["v.mv"]
+
+            mouse_collision = mouse_pos.collidelist(buttons)
+
+            if mouse_collision > -1:
+
+                if mouse_state[0] == 1:
+                    self.pressed = True
+                    if mouse_collision == 0:
+                        mv_button = self.elements["v.mv.pressed"]
+
+                elif mouse_state[0] == 0 and self.pressed is True:
+                    self.pressed = False
+                    if mouse_collision == 0:
+                        self.view = 0
+
+                else:
+                    if mouse_collision == 0:
+                        mv_button = self.elements["v.mv.hover"]
+
+            else:
+                self.pressed = False
+
+            self.to_render.append([
+                {
+                    "type": "surface",
+                    "surface": mv_button,
+                    "dest": self.elements["wm.v.loc"]
+                }
+            ])
         elif self.view == 4:
             # virus creation
-            pass
+            buttons = (
+                self.elements["v.buttons.mv"],
+            )
+
+            mv_button = self.elements["v.mv"]
+
+            mouse_collision = mouse_pos.collidelist(buttons)
+
+            if mouse_collision > -1:
+
+                if mouse_state[0] == 1:
+                    self.pressed = True
+                    if mouse_collision == 0:
+                        mv_button = self.elements["v.mv.pressed"]
+
+                elif mouse_state[0] == 0 and self.pressed is True:
+                    self.pressed = False
+                    if mouse_collision == 0:
+                        self.view = 0
+
+                else:
+                    if mouse_collision == 0:
+                        mv_button = self.elements["v.mv.hover"]
+
+            else:
+                self.pressed = False
+
+            self.to_render.append([
+                {
+                    "type": "surface",
+                    "surface": mv_button,
+                    "dest": self.elements["v.mv.loc"]
+                }
+            ])
         else:
             log.error("view was set to an invalid value resetting")
             self.view = 0
@@ -229,6 +295,7 @@ class Game:
         mp: market
         vi: virus info
         vc: virus creation
+        v: virus info/creation
         """
         # colours
         colours = {
@@ -379,3 +446,37 @@ class Game:
             self.elements["wm.mv.loc"],
             (button_width, resolution[1])
         )
+
+        # virus info/creation
+
+        # button to main view
+        # button width
+        button_width = (resolution[0] // 15)
+        button = pygame.Surface((button_width, resolution[1]))
+        button.fill(colours["button"])
+
+        button_icon = self.graphics.images["left arrow"]
+        button_icon = pygame.transform.scale(button_icon, (button_width, button_width))
+
+        # find button centre
+        button_centre = button_icon.get_rect(
+            center=(button.get_width() // 2, button.get_height() // 2))
+
+        button.blit(button_icon, button_centre)
+        self.elements["v.mv"] = button.copy()
+
+        button.fill(colours["button_hover"])
+        button.blit(button_icon, button_centre)
+        self.elements["v.mv.hover"] = button.copy()
+
+        button.fill(colours["button_pressed"])
+        button.blit(button_icon, button_centre)
+        self.elements["v.mv.pressed"] = button
+
+        self.elements["v.mv.loc"] = (0, 0)
+        self.elements["v.buttons.mv"] = pygame.Rect(
+            self.elements["v.mv.loc"],
+            (button_width, resolution[1])
+        )
+
+        # virus creation

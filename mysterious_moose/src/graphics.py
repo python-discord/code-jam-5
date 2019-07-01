@@ -36,7 +36,10 @@ class Graphics:
         self.images = {
             "example": pygame.image.load("assets/images/" + "example.jpg"),
             "world icon": pygame.image.load("assets/images/" + "world.png"),
-            "right arrow": pygame.image.load("assets/images/" + "right-arrow.png")
+            "right arrow": pygame.image.load("assets/images/" + "right-arrow.png"),
+            "left arrow": pygame.image.load("assets/images/" + "left-arrow.png"),
+            "up arrow": pygame.image.load("assets/images/" + "up-arrow.png"),
+            "down arrow": pygame.image.load("assets/images/" + "down-arrow.png")
         }
 
     def update(self, to_render: list) -> None:

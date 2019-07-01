@@ -1,6 +1,54 @@
 import pygame
 
 
+class Virus:
+    """ Main Virus class """
+    def __init__(self, renderer):
+        self.blocks = []
+        self.impact, self.virulence, self.detectability = 0, 0, 0
+        self.graphic = VirusGraphic(renderer)
+        self.name = ""
+        self.industry = -1  # the industry the virus is attacking
+        self.launched = False  # whether the virus has been launched or not
+
+    def update_stats(self):
+        """ updates a virus's key stats to current block values"""
+        # reset values
+        self.impact, self.virulence, self.detectability = 0, 0, 0
+
+        # read each block and add respective values
+        for block in self.blocks:
+            self.impact += block.impact
+            self.virulence += block.virulence
+            self.detectability += block.detectability
+
+        self.graphic.update_stats(self.name, self.impact, self.virulence, self.detectability)
+
+    def valid(self):
+        """ checks whether the virus is valid or not """
+        if len(self.blocks) > 0 and 0 <= self.industry <= 2:
+            return True
+        else:
+            return False
+
+    def add_block(self, block):
+        """ adds a block to the virus"""
+        self.blocks.append(block)
+        self.update_stats()
+
+    def remove_block(self, block):
+        """ removes a block from a virus"""
+        self.blocks.remove(block)
+        self.update_stats()
+
+    def update_name(self, name):
+        if len(name) > 15:
+            self.name = name[:15]
+        else:
+            self.name = name
+        self.update_stats()
+
+
 class VirusGraphic:
     """ can create and return key Virus graphics"""
     def __init__(self, renderer):
@@ -12,6 +60,9 @@ class VirusGraphic:
         self.impact, self.virulence, self.detectability = 0, 0, 0
 
         self.card = pygame.Surface((900, 300))
+        self.impact_bar = pygame.Surface((345, 80))
+        self.virulence_bar = pygame.Surface((345, 80))
+        self.detectability_bar = pygame.Surface((345, 80))
 
         self.update(self.resolution)
 
@@ -35,6 +86,7 @@ class VirusGraphic:
             "detectability": (50, 50, 255)
         }
 
+        # main view card
         self.card = pygame.Surface((900, 300))
 
         self.card.fill(colours["outline"])
@@ -80,48 +132,29 @@ class VirusGraphic:
 
         self.card = pygame.transform.scale(self.card, (resolution[0]//5, resolution[0]//15))
 
+        # virus view and creation bars
+        self.impact_bar = pygame.Surface((345, 80))
+        self.virulence_bar = pygame.Surface((345, 80))
+        self.detectability_bar = pygame.Surface((345, 80))
 
-class Virus:
-    """ Main Virus class """
-    def __init__(self, renderer):
-        self.blocks = []
-        self.impact, self.virulence, self.detectability = 0, 0, 0
-        self.graphic = VirusGraphic(renderer)
-        self.name = ""
+        impact_icon = pygame.Rect(0, 0, 80, 80)
+        virulence_icon = pygame.Rect(0, 0, 80, 80)
+        detectability_icon = pygame.Rect(0, 0, 80, 80)
 
-    def update_stats(self):
-        """ updates a virus's key stats to current block values"""
-        # reset values
-        self.impact, self.virulence, self.detectability = 0, 0, 0
+        impact_bar_bg = pygame.Rect(85, 0, 260, 80)
+        virulence_bar_bg = pygame.Rect(85, 0, 260, 80)
+        detectability_bar_bg = pygame.Rect(85, 0, 260, 80)
 
-        # read each block and add respective values
-        for block in self.blocks:
-            self.impact += block.impact
-            self.virulence += block.virulence
-            self.detectability += block.detectability
+        pygame.draw.rect(self.impact_bar, colours["internal"], impact_icon)
+        pygame.draw.rect(self.virulence_bar, colours["internal"], virulence_icon)
+        pygame.draw.rect(self.detectability_bar, colours["internal"], detectability_icon)
 
-        self.graphic.update_stats(self.name, self.impact, self.virulence, self.detectability)
+        pygame.draw.rect(self.impact_bar, colours["internal"], impact_bar_bg)
+        pygame.draw.rect(self.virulence_bar, colours["internal"], virulence_bar_bg)
+        pygame.draw.rect(self.detectability_bar, colours["internal"], detectability_bar_bg)
 
-    def valid(self):
-        """ checks whether the virus is valid or not """
-        if len(self.blocks) > 0:
-            return True
-        else:
-            return False
-
-    def add_block(self, block):
-        """ adds a block to the virus"""
-        self.blocks.append(block)
-        self.update_stats()
-
-    def remove_block(self, block):
-        """ removes a block from a virus"""
-        self.blocks.remove(block)
-        self.update_stats()
-
-    def update_name(self, name):
-        if len(name) > 15:
-            self.name = name[:15]
-        else:
-            self.name = name
-        self.update_stats()
+        self.impact_bar.blit(impact_text[0], impact_text[0].get_rect(center=(40, 40)))
+        self.virulence_bar.blit(virulence_text[0], virulence_text[0].get_rect(center=(40, 40)))
+        self.detectability_bar.blit(
+            detectability_text[0], detectability_text[0].get_rect(center=(40, 40))
+        )
