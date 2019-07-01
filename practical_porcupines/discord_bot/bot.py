@@ -73,7 +73,7 @@ async def gmwl(ctx, date_1, date_2):
     except Exception as e:
         embed = embed_generator(
             "Misc error!"
-            "Got a misc error we can\'t handle! The exeption 
+            "Got a misc error we can\'t handle! The exception "
             "follows below, please send it to the developers:"
             f"\n\n{e}",
             0xA31523,
