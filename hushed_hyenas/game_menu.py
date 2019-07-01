@@ -44,7 +44,7 @@ def main_menu(width, height, func_run, func_menu):
                                            img_hover=hover_quit,
                                            colorkey=(0, 0, 0))
 
-    background = thorpy.Background(image='map_objects/draw2.jpg',
+    background = thorpy.Background(image='map_objects/menu_bg.jpg',
                                    elements=[play_button,
                                              about_button,
                                              quit_button])

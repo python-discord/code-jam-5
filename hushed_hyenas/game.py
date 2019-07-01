@@ -22,9 +22,9 @@ class Game:
         self.bg_color = (255, 255, 255)  # Background color
         self.window = pygame.display.set_mode((self.width, self.height))
         self.caption = pygame.display.set_caption('Code jam')
-        self.original_map = pygame.image.load(r'map_objects/earth2large.png')
-        self.icon_normal = pygame.image.load(r'map_objects/pin.png')
-        self.icon_hover = pygame.image.load(r'map_objects/pin2.png')
+        self.original_map = pygame.image.load(r'map_objects/earth_large.png')
+        self.icon_normal = pygame.image.load(r'map_objects/pin_default.png')
+        self.icon_hover = pygame.image.load(r'map_objects/pin_hover.png')
         self.clock = pygame.time.Clock()
         self.current_scene = 'Map'
         self.country = None
