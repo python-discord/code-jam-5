@@ -21,7 +21,9 @@ class Game:
 
         self.player_stats_msg = f"Your current stats:\n{self.player}"
 
-        self.planet_stats_msg = f"Earth's current stats:\n{self.earth.health_summary()}\n{self.earth}"
+        self.planet_stats_msg = "\n".join(["Earth's current stats:",
+                                           f"{self.earth.health_summary()}",
+                                           f"{self.earth}", ])
 
         self.error_msg = "Unrecognized input, try again or type help"
 
