@@ -18,6 +18,18 @@ if not pygame.image.get_extended():
     raise SystemExit("Sorry, extended image module required")
 
 
+def score_to_image(score: int):
+    # TODO there must be a cleaner way to do this, especially when we have
+    # more than just 3 states
+    if score < 0:
+        return "environment_negative"
+    elif score == 0:
+        return "environment_neutral"
+    elif score > 0:
+        return "environment_positive"
+    raise RuntimeError("Score didn't make sense")
+
+
 class Score(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -25,7 +37,7 @@ class Score(pygame.sprite.Sprite):
         self.font.set_italic(1)
         self.color = Color('grey')
         self.score_val = 0
-        msg = f"Score: {'9'*10}"
+        msg = f"Score: {'9'*10}"  # init rect to a wide size
         self.image = self.font.render(msg, 0, self.color)
         self.rect = self.image.get_rect().move(10, 450)
         self.update()
@@ -94,7 +106,7 @@ class ClimateClicker:
 
         self.background = self.images["environment_neutral"]
         self.background = self.background.convert()
-        self.screen.fill((255, 255, 255))
+        self.screen.fill(BACKGROUND_COLOR)
         self.screen.blit(self.background, (0, 0))
         pygame.display.flip()
 
@@ -138,6 +150,7 @@ class ClimateClicker:
         self.score_sprite.score_val = value
         self.screen.fill(BACKGROUND_COLOR, rect=self.score_sprite.rect)
         self.score_sprite.update()
+        self.background = self.images[score_to_image(value)]
 
 
 def main():
