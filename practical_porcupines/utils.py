@@ -10,31 +10,26 @@ def check_date(date):
     < Returns datetime object
     """
 
-    return datetime.datetime.strptime(  # fmt: off
-        _add_null_date(date), "%Y:%m:%d:%H:%M:%S" # TODO fix date part
-    )
+    try:
+        return datetime.datetime.strptime(  # fmt: off
+            _add_null_date(date), "%Y-%m-%d %H:%M" # TODO fix date part
+        )
+    except ValueError as e:
+        raise NotImplementedError(e) # Need to do the TODO above
 
+def _add_null_date(date):
+    time_split = date.split(" ")
 
-def _add_null_date(date_match):
-    """
-    > Gets verified date
-    - date_math: verified date from check_date
-    < Return stringfied date with extra 00:00:00:00 etc
-    """
+    dates = time_split[0].split("-")
+    times = time_split[1].split(":") if len(time_split) > 2 else []
 
-    output = []
-    date_match_split = date_match.split(":")
+    for _ in range(2 - len(times)):
+        times.append("00")
 
-    date_match_ver = []
-    for date_spl in date_match_split:
-        if date_spl is not None:
-            date_match_ver.append(date_spl)
-
-    for i in range(7):
-        if i > len(date_match_ver):
-            date_match_ver.append("00")
-
-    return ":".join(date_match_ver)
+    for _ in range(3 - len(dates)):
+        dates.append("00")
+    
+    return "-".join(dates) + " " + ":".join(times)
 
 
 class ConfigBase:
