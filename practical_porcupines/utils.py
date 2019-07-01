@@ -11,7 +11,7 @@ def check_date(date):
     """
 
     return datetime.datetime.strptime(  # fmt: off
-        _add_null_date(date), "%Y:%m:%d:%H:%M:%S"
+        _add_null_date(date), "%Y:%m:%d:%H:%M:%S" # TODO fix date part
     )
 
 
