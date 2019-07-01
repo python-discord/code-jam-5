@@ -53,10 +53,11 @@ async def gmwl(ctx, date_1, date_2):
     except Exception as e:
         await ctx.send(
             embed=embed_generator(
-                "Misc error!",
-                "Got a misc error we can\'t handle! The exception "
-                "follows below, please send it to the developers:"
-                f"\n\n{e}",
+                "Misc date!",
+                "Got a misc error we can\'t handle for the `check_date` " 
+                "function! The exception follows below, please send it "
+                "to the developers:"
+                f"\n\n*{e}*",
                 0xA31523,
                 discord,
             )
