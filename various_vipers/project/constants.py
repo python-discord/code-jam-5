@@ -40,6 +40,7 @@ PATH_BACKGROUNDS = PurePath(PATH_PROJECT).joinpath("assets/images/background")
 PATH_TILES = PurePath(PATH_PROJECT).joinpath("assets/images/tiles")
 
 PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/UI/buttons")
+PATH_SLIDER = PurePath(PATH_PROJECT).joinpath("assets/images/UI/slider")
 PATH_UI_BACKGROUNDS = PurePath(PATH_PROJECT).joinpath("assets/images/UI/backgrounds")
 PATH_OTHER = PurePath(PATH_PROJECT).joinpath("assets/images/other")
 
@@ -91,6 +92,9 @@ QUIT_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("quit-btn-hover.png")
 
 BACK_BTN = PurePath(PATH_BUTTONS).joinpath("back-btn.png")
 BACK_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("back-btn-hover.png")
+
+SLIDER_BODY = PurePath(PATH_SLIDER).joinpath("slider-body.png")
+SLIDER_INDICATOR = PurePath(PATH_SLIDER).joinpath("slider-indicator.png")
 
 
 class Color:
