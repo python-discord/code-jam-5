@@ -1,97 +1,108 @@
 # Some of this skeleton was stolen from the aliens pygame example
 import pygame
-import os
-from pygame.locals import KEYDOWN, K_ESCAPE, QUIT, Rect
-# I hate * imports but I want it to work for the skeleton
+from pygame.rect import Rect
+from pygame.constants import (
+    KEYDOWN,
+    K_ESCAPE,
+    K_SPACE,
+    MOUSEBUTTONDOWN,
+    QUIT,
+)
+import media
 
-script_dir = os.path.split(os.path.abspath(__file__))[0]
 if not pygame.image.get_extended():
     raise SystemExit("Sorry, extended image module required")
 
 
-def load_images():
-    # return dict of str:pygame.image.
-    # This will be used for sprite images, background images,
-    # and all other images.
-    # If this turns out to not make sense with pygame's setup,
-    # like sprites use a different image form,
-    # we can separate this into multiple functions.
-    # Our goal is to be able to greatly simplify image loading,
-    # so that we only need to say
-    # PolarBear(image=our_images["polar_bear"]) instead of
-    # PolarBear(image=pygame.image(Image.open("Images_Path/PolarBear.jpeg"))
-    # or whatever
-    return {"polar_bear": pygame.image.load(
-        os.path.join(script_dir, 'images', "polar_bear.jpeg")).convert()}
-
-
-def load_sounds():
-    # return dict of str:pygame.mixer.Sound
-    # Basically the same as load_images, just with sounds
-    return {"beep": pygame.mixer.Sound(
-        os.path.join(script_dir, 'sounds', "beep.wav"))}
-
-
-pygame.init()
-screenrect = Rect(0, 0, 640, 480)
-fullscreen = False
-winstyle = 0
-bestdepth = pygame.display.mode_ok(screenrect.size, winstyle, 32)
-screen = pygame.display.set_mode(screenrect.size, winstyle, bestdepth)
-images = load_images()
-sounds = load_sounds()
-# Having this at module-level feels icky,
-# but it's better than having at class level or object level.
-# We can change this later once we having a working game
-# OOOO, wait, we can use a cool functools thing I learned about with some
-# load_image and load_sound that lazy loads and caches the result!
-# I'll handle that.
-
-
-class Button(pygame.sprite.Sprite):
-    def __init__(self):
-        self.image = images["polar_bear"]
+class Crank(pygame.sprite.Sprite):
+    """Hand Crank that rotates when clicked."""
+    def __init__(self, crank_image, click_sound):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = crank_image
         self.rect = self.image.get_rect()
+        self.click_sound = click_sound
+        screen = pygame.display.get_surface()
+        self.area = screen.get_rect()
+        self.rect.topleft = 10, 10
+        self.spinning = 0
 
-    def on_click(self):
-        """I made this method up; figure out how we detect button clicks"""
-        pass
+    def update(self):
+        "spin based on state"
+        if self.spinning:
+            self._spin()
+
+    def _spin(self):
+        "Spin the sprite one full revolution"
+        center = self.rect.center
+        self.spinning += 12
+        if self.spinning >= 360:
+            self.spinning = 0
+            self.image = self.original
+        else:
+            self.image = pygame.transform.rotate(self.original, self.spinning)
+            self.rect = self.image.get_rect(center=center)
+
+    def clicked(self):
+        "this will cause the crank to start spinning"
+        if not self.spinning:
+            self.click_sound.play()
+            self.spinning = 1
+            self.original = self.image
 
 
-class ButtonPanel:
-    def __init__(self):
-        pass
-        # TODO put a button here, or multiple, depending on what we decide
-        # we want the game to look like
-
-
-class CC:  # TODO game name goes here
+class ClimateClicker:
     """Class should hold information about state of game
     This includes current environment value and such.
     Sprites and such should probably be held at class-level or module-level
      instead? maybe? idk lol
     """
     def __init__(self):
+        pygame.init()
+
+        screenrect = Rect(0, 0, 640, 480)
+        bestdepth = pygame.display.mode_ok(screenrect.size, 0, 32)
+        self.screen = pygame.display.set_mode(screenrect.size, 0, bestdepth)
+        pygame.display.set_caption('Climate Clicker')
+
+        self.background = pygame.Surface(screenrect.size)
+        self.background = self.background.convert()
+        self.background.fill((250, 250, 250))
+
+        self.screen.blit(self.background, (0, 0))
+        pygame.display.flip()
+
         self.exit_requested = False
         self.score = 0
-        self.environment_image = None  # images["environment_neutral"]
-        self.button_panel = ButtonPanel()
+        self.click_value = 1
         self.clock = pygame.time.Clock()
-        self.fullscreen = False
+
+        self.images = media.load_images()
+        self.sounds = media.load_sounds()
+        self.crank = Crank(self.images['polar_bear'], self.sounds['beep'])
+        self.allsprites = pygame.sprite.RenderPlain(self.crank)
+
+        self.environment_image = None  # images["environment_neutral"]
         # TODO display environment_image in background
 
     def update(self):
         """Called on new frame"""
         # TODO update score field, update environment image
+        self.clock.tick(60)
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYDOWN
                                       and event.key == K_ESCAPE):
                 self.exit_requested = True
                 return
+            elif event.type == MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                if self.crank.rect.collidepoint(pos):
+                    self.crank.clicked()
+                    self.score += self.click_value
 
-        keystate = pygame.key.get_pressed()
-        pass
-        self.clock.tick(40)
+        self.allsprites.update()
+        self.screen.blit(self.background, (0, 0))
+        self.allsprites.draw(self.screen)
+        pygame.display.flip()
 
     def play(self):
         """Begins the game. Detect any exits and exit gracefully."""
@@ -101,9 +112,7 @@ class CC:  # TODO game name goes here
 
 
 def main():
-    if pygame.mixer and not pygame.mixer.get_init():
-        raise OSError("Can't play sounds, sounds are required")
-    game = CC()
+    game = ClimateClicker()
     game.play()
 
 
