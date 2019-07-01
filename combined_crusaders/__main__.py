@@ -1,17 +1,33 @@
 # Some of this skeleton was stolen from the aliens pygame example
 import pygame
 from pygame.rect import Rect
-from pygame.constants import (
+from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
     K_SPACE,
     MOUSEBUTTONDOWN,
     QUIT,
+    Color
 )
 import media
 
 if not pygame.image.get_extended():
     raise SystemExit("Sorry, extended image module required")
+
+
+class Score(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.font = pygame.font.Font(None, 20)
+        self.font.set_italic(1)
+        self.color = Color('grey')
+        self.score_val = -1
+        self.update()
+        self.rect = self.image.get_rect().move(10, 450)
+
+    def update(self):
+        msg = f"Score: {self.score_val}"
+        self.image = self.font.render(msg, 0, self.color)
 
 
 class Crank(pygame.sprite.Sprite):
@@ -45,7 +61,7 @@ class Crank(pygame.sprite.Sprite):
     def clicked(self):
         "this will cause the crank to start spinning"
         if not self.spinning:
-            self.click_sound.play()
+            # self.click_sound.play()
             self.spinning = 1
             self.original = self.image
 
@@ -72,14 +88,15 @@ class ClimateClicker:
         pygame.display.flip()
 
         self.exit_requested = False
-        self.score = 0
+        # self.score = 0
         self.click_value = 1
         self.clock = pygame.time.Clock()
 
         self.images = media.load_images()
         self.sounds = media.load_sounds()
         self.crank = Crank(self.images['polar_bear'], self.sounds['beep'])
-        self.allsprites = pygame.sprite.RenderPlain(self.crank)
+        self.score_sprite = Score()
+        self.allsprites = pygame.sprite.RenderPlain(self.crank, self.score_sprite)
 
         self.environment_image = None  # images["environment_neutral"]
         # TODO display environment_image in background
@@ -109,6 +126,15 @@ class ClimateClicker:
         while not self.exit_requested:
             self.update()
         pygame.quit()
+
+    @property
+    def score(self):
+        return self.score_sprite.score_val
+
+    @score.setter
+    def score(self, value: int):
+        self.score_sprite.score_val = value
+        self.score_sprite.update()
 
 
 def main():
