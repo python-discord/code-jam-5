@@ -12,10 +12,11 @@ def check_date(date):
 
     try:
         return datetime.datetime.strptime(  # fmt: off
-            _add_null_date(date), "%Y-%m-%d %H:%M" # TODO fix date part
+            _add_null_date(date), "%Y-%m-%d %H:%M"  # TODO fix date part
         )
     except ValueError as e:
-        raise NotImplementedError(e) # Need to do the TODO above
+        raise NotImplementedError(e)  # Need to do the TODO above
+
 
 def _add_null_date(date):
     time_split = date.split(" ")
@@ -28,7 +29,7 @@ def _add_null_date(date):
 
     for _ in range(3 - len(dates)):
         dates.append("00")
-    
+
     return "-".join(dates) + " " + ":".join(times)
 
 
@@ -97,6 +98,14 @@ class ConfigBot:
 class DatesOutOfRange(BaseException):
     """
     For when dates are out of range
+    """
+
+    pass
+
+
+class DateFormatError(BaseException):
+    """
+    For when the date formatting doesn\'t make sense
     """
 
     pass
