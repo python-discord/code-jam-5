@@ -33,7 +33,7 @@ def score_to_image(score: int):
     raise RuntimeError("Score didn't make sense")
 
 
-class Score(pygame.sprite.Sprite):
+class ValueLabel(pygame.sprite.Sprite):
     def __init__(self, parent, x, y, label):
         pygame.sprite.Sprite.__init__(self)
         self.parent = parent
@@ -43,55 +43,24 @@ class Score(pygame.sprite.Sprite):
         self.font = pygame.font.Font(None, 20)
         self.font.set_italic(1)
         self.color = Color('grey')
-        self._score_val = 0
+        self._value = 0
         msg = f"{self.label}: {'9'*10}"  # init rect to a wide size
         self.image = self.font.render(msg, 0, self.color)
         self.rect = self.image.get_rect().move(self.x, self.y)
         self.update()
 
     def update(self):
-        msg = f"{self.label}: {int(self.score)}"
+        msg = f"{self.label}: {int(self.value)}"
         self.parent.screen.fill(BACKGROUND_COLOR, rect=self.rect)
         self.image = self.font.render(msg, 0, self.color)
 
     @property
-    def score(self):
-        return self._score_val
+    def value(self):
+        return self._value
 
-    @score.setter
-    def score(self, value):
-        self._score_val = value
-        self.update()
-
-
-class Speed(pygame.sprite.Sprite):
-    def __init__(self, parent, x, y, label):
-        pygame.sprite.Sprite.__init__(self)
-        self.parent = parent
-        self.label = label
-        self.x = x
-        self.y = y
-        self.font = pygame.font.Font(None, 20)
-        self.font.set_italic(1)
-        self.color = Color('grey')
-        self._speed_val = 0
-        msg = f"{self.label}: {'9'*10}"  # init rect to a wide size
-        self.image = self.font.render(msg, 0, self.color)
-        self.rect = self.image.get_rect().move(self.x, self.y)
-        self.update()
-
-    def update(self):
-        msg = f"{self.label}: {int(self.speed)}"
-        self.parent.screen.fill(BACKGROUND_COLOR, rect=self.rect)
-        self.image = self.font.render(msg, 0, self.color)
-
-    @property
-    def speed(self):
-        return self._speed_val
-
-    @speed.setter
-    def speed(self, value):
-        self._speed_val = value
+    @value.setter
+    def value(self, value):
+        self._value = value
         self.update()
 
 
@@ -167,7 +136,7 @@ class Crank(pygame.sprite.Sprite):
             self.is_spinning = False
             self.rotation_speed = 0
 
-        self.parent.speed_sprite.speed = int(self.rotation_speed)
+        self.parent.speed_sprite.value = int(self.rotation_speed)
 
     def clicked(self):
         "this will cause the crank to start spinning"
@@ -215,8 +184,8 @@ class ClimateClicker:
                             ],
                            media.sounds['snap'])
         self.crank_overlay = StaticImage(100, 100, media.images['crank'])
-        self.score_sprite = Score(self, 10, 450, "Score")
-        self.speed_sprite = Speed(self, 10, 400, "Speed")
+        self.score_sprite = ValueLabel(self, 10, 450, "Score")
+        self.speed_sprite = ValueLabel(self, 10, 400, "Speed")
 
         self.allsprites = pygame.sprite.RenderPlain(
             self.crank,
@@ -270,11 +239,11 @@ class ClimateClicker:
 
     @property
     def score(self):
-        return self.score_sprite.score
+        return self.score_sprite.value
 
     @score.setter
     def score(self, value: int):
-        self.score_sprite.score = value
+        self.score_sprite.value = value
         self.background = media.images[score_to_image(value)]
 
 
