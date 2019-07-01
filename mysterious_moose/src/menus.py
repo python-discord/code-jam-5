@@ -1,5 +1,6 @@
-import pygame
 import logging
+
+import pygame
 
 
 class Menu:
@@ -27,13 +28,12 @@ class MainMenu(Menu):
             []  # list edited by self.resolution_change()
         ]
 
-        self.resolution_change()
+        # get resolution
+        display_info = pygame.display.Info()
+        # initialise scalable elements
+        self.resolution_change((display_info.current_w, display_info.current_h))
 
-    def resolution_change(self):
-        # get the display size
-        resolution = pygame.display.get_surface()
-        resolution = (resolution.get_width(), resolution.get_height())
-        self.log.debug("resolution: " + str(resolution))
+    def resolution_change(self, resolution):
 
         # title
         title = self.renderer.fonts["main"].render(
@@ -106,14 +106,14 @@ class MainMenu(Menu):
         self.log.debug("mouse collision value: " + str(mouse_collision))
         self.log.debug("mouse_state: " + str(mouse_state))
         if mouse_collision > -1:
-            if mouse_state[0] is 1:
+            if mouse_state[0] == 1:
                 self.log.debug("pressed")
                 self.pressed = True
                 if mouse_collision == 0:
                     self.graphics[1][1]["colour"] = self.button_click_colour
                 elif mouse_collision == 1:
                     self.graphics[1][3]["colour"] = self.button_click_colour
-            elif mouse_state[0] is 0 and self.pressed is True:
+            elif mouse_state[0] == 0 and self.pressed is True:
                 self.log.debug("released")
                 self.pressed = False
                 if mouse_collision == 0:
@@ -142,13 +142,14 @@ class Options(Menu):
         self.graphics = [[
             {"type": "bg", "colour": (255, 5, 255)}
         ]]
-        self.resolution_change()
 
-    def resolution_change(self):
-        # get the display size
-        resolution = pygame.display.get_surface()
-        resolution = (resolution.get_width(), resolution.get_height())
-        self.log.debug("resolution: " + str(resolution))
+        # get resolution
+        display_info = pygame.display.Info()
+        # initialise scalable elements
+        self.resolution_change((display_info.current_w, display_info.current_h))
+
+    def resolution_change(self, resolution):
+        pass
 
     def display(self):
         # create events list for output
@@ -167,13 +168,13 @@ class GameSetupOptions(Menu):
         ],
             []  # used in self.resolution_change
         ]
-        self.resolution_change()
 
-    def resolution_change(self):
-        # get the display size
-        resolution = pygame.display.get_surface()
-        resolution = (resolution.get_width(), resolution.get_height())
-        self.log.debug("resolution: " + str(resolution))
+        # get resolution
+        display_info = pygame.display.Info()
+        # initialise scalable elements
+        self.resolution_change((display_info.current_w, display_info.current_h))
+
+    def resolution_change(self, resolution):
 
         # menu buttons
         # play
@@ -211,12 +212,12 @@ class GameSetupOptions(Menu):
         self.log.debug("mouse collision value: " + str(mouse_collision))
         self.log.debug("mouse_state: " + str(mouse_state))
         if mouse_collision > -1:
-            if mouse_state[0] is 1:
+            if mouse_state[0] == 1:
                 self.log.debug("pressed")
                 self.pressed = True
                 if mouse_collision == 0:
                     self.graphics[1][0]["colour"] = self.button_click_colour
-            elif mouse_state[0] is 0 and self.pressed is True:
+            elif mouse_state[0] == 0 and self.pressed is True:
                 self.log.debug("released")
                 self.pressed = False
                 if mouse_collision == 0:
