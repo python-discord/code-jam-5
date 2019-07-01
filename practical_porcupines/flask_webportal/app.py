@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for,flash
 from .forms import DatePickerForm
 from flask_bootstrap import Bootstrap
-from practical_porcupines.utils import ConfigApi
+from practical_porcupines.flask_api.utils import ConfigApi, check_date
+from .utils import get_datetime
 import os
 
 flask_webportal_app = Flask(__name__)
@@ -18,6 +19,8 @@ def index():
         start_date = request.form.get('start_date')
         end_date = request.form.get('end_date')
         api_url = f'http://{config_api.API_DOMAIN}:{config_api.API_PORT}'
+        start_date = get_datetime(start_date)
+        end_date = get_datetime(end_date)
         return redirect(url_for('index'))
     else:
         flash("Invalid Dates!")
