@@ -10,7 +10,9 @@ def check_date(date):
     < Returns datetime object
     """
 
-    return datetime.datetime.strptime(date, "%Y:%m:%d:%T")
+    return datetime.datetime.strptime(  # fmt: off
+        _add_null_date(date), "%Y:%m:%d:%H:%M:%S"
+    )
 
 
 def _add_null_date(date_match):
@@ -23,18 +25,16 @@ def _add_null_date(date_match):
     output = []
     date_match_split = date_match.split(":")
 
-    # IF date is already full-length
-    if len(date_match_split) == 6:
-        return date_match
+    date_match_ver = []
+    for date_spl in date_match_split:
+        if date_spl is not None:
+            date_match_ver.append(date_spl)
 
-    for i in range(6):
-        # NOTE could be done more efficiantly, 6 - len(date_match_split)
-        if i > len(date_match_split):
-            output.append("00")
-        else:
-            output.append(date_match[i])
+    for i in range(7):
+        if i > len(date_match_ver):
+            date_match_ver.append("00")
 
-    return ":".join(date_match)
+    return ":".join(date_match_ver)
 
 
 class ConfigBase:
