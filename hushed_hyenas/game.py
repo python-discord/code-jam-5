@@ -66,8 +66,6 @@ class Game:
                     closest_country_coords = x, y
                     closest_country_coords_hover = x - 9, y - 15
 
-                # pygame.draw.circle(window, (0, 0, 255), (x, y), 3)
-                #                                          int(y)), 3)
                 # The -7 and -13 values are used to correct the pin image size to put
                 # the bottom of the pin to the x and y point
                 window.blit(self.icon_normal, (x - 7, y - 13))
@@ -80,7 +78,6 @@ class Game:
                 # Displaying "Select a country" in the bottom right corner box
                 closest_country = {'name': 'Select a country'}
 
-            # pygame.draw.circle(window, (255, 0, 0), closest_country_coords_hover, 5)
             window.blit(self.icon_hover, closest_country_coords_hover)
             pygame.draw.rect(window, (0, 0, 0),
                              pygame.Rect(self.width - 300, self.height - 50, self.width,
@@ -136,11 +133,6 @@ class Game:
 
     def main_scene(self):
         pass
-        # window = self.window
-        #
-        # If this fill is enabled the screen goes white when the zoom finishes
-        # window.fill(self.bg_color)
-        #
 
     def run(self):
         # Game Loop
