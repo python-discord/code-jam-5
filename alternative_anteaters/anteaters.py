@@ -1,32 +1,5 @@
 import arcade
-
-
-# Screen Constants
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 650
-SCREEN_TITLE = "Platformer"
-
-# Constants used to scale our sprites from their original size
-CHARACTER_SCALING = 1
-TILE_SCALING = 0.5
-COIN_SCALING = 0.5
-SPRITE_PIXEL_SIZE = 128
-GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * TILE_SCALING)
-
-# Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 7
-GRAVITY = 1.5
-PLAYER_JUMP_SPEED = 30
-
-# How many pixels to keep as a minimum margin between the character
-# and the edge of the screen.
-LEFT_VIEWPORT_MARGIN = 200
-RIGHT_VIEWPORT_MARGIN = 200
-BOTTOM_VIEWPORT_MARGIN = 150
-TOP_VIEWPORT_MARGIN = 100
-
-PLAYER_START_X = 64
-PLAYER_START_Y = 256
+import constants
 
 
 class MyGame(arcade.Window):
@@ -37,7 +10,9 @@ class MyGame(arcade.Window):
     def __init__(self):
 
         # Call the parent class and set up the window
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+        super().__init__(constants.SCREEN_WIDTH,
+                         constants.SCREEN_HEIGHT,
+                         constants.SCREEN_TITLE)
 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
@@ -72,15 +47,16 @@ class MyGame(arcade.Window):
         self.background_list = arcade.SpriteList()
 
         # Set up the player, specifically placing it at these coordinates
-        self.player_sprite = arcade.Sprite("images/player_2/player_stand.png", CHARACTER_SCALING)
-        self.player_sprite.center_x = PLAYER_START_X
-        self.player_sprite.center_y = PLAYER_START_Y
+        self.player_sprite = arcade.Sprite("images/player_2/player_stand.png",
+                                           constants.CHARACTER_SCALING)
+        self.player_sprite.center_x = constants.PLAYER_START_X
+        self.player_sprite.center_y = constants.PLAYER_START_Y
         self.player_list.append(self.player_sprite)
 
         # Create the `physics engine`
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
                                                              self.wall_list,
-                                                             gravity_constant=GRAVITY)
+                                                             gravity_constant=constants.GRAVITY)
 
     def on_draw(self):
         """ Render the screen. """
@@ -99,7 +75,7 @@ class MyGame(arcade.Window):
     def on_key_release(self):
         pass
 
-    def update(self):
+    def update(self, delta_time):
         """ Movement and Game logic """
 
         # Update Sprites
