@@ -45,7 +45,7 @@ class Resource:
     source: str
     query: dict
     container: str = None
-    postprocess: "list of tuples (key => action)" = None
+    postprocess: callable = None
 
     def fetch(self):
 
@@ -75,51 +75,6 @@ class Resource:
             return fetched
 
         return map(self.postprocess, fetched)
-
-        # steps = []
-        # for step in self.postprocess:
-
-        #     target, action = step
-        #     eligible_keys = []
-
-        #     if target in self.query.keys():
-        #         eligible_keys = [target]
-        #     else:
-        #         eligible_keys = list(filter(partial(re.match, target), self.query))
-
-        #     steps.append({
-        #         'keys': eligible_keys,
-        #         'action': action
-        #     })
-
-
-        # for item in fetched:
-        #     for step in steps:
-        #         for key in step['keys']:
-        #             try:
-        #                 item[key] = step['action'](item[key])
-        #             except TypeError:
-        #                 print(item, key, item[key])
-        #                 raise
-        #     yield item
-
-        ####
-
-        # for step in self.postprocess:
-
-        #     for stepkey, fnct in step.items():
-
-        #         if stepkey in self.query:
-        #             for item in fetched:
-        #                 item[stepkey] = fnct(item[stepkey])
-
-        #         else:
-        #             eligible_keys = filter(partial(re.match, stepkey), self.query)
-        #             for key in eligible_keys:
-        #                 for item in fetched:
-        #                     item[stepkey] = fnct(item[stepkey])
-
-        # return fetched
 
 
 def safestrmanip(*excpts):
