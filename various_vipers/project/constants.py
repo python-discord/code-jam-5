@@ -134,4 +134,9 @@ class ButtonProperties:
 class SliderProperties:
     """Represents slider properties."""
 
-    pass
+    margin_y = 0.2
+    body_y = 200
+    body_height = 10
+
+    indicator_w = 20
+    indicator_h = 60

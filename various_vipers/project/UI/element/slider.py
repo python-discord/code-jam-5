@@ -3,7 +3,7 @@
 import pygame as pg
 from pygame import Rect
 
-from project.constants import WIDTH
+from project.constants import SliderProperties, WIDTH
 from project.tools.loader import get_volume, save_volume
 
 
@@ -21,20 +21,20 @@ class Slider:
 
         self.volume = get_volume()
 
-        self.x = WIDTH * 0.2
-        y = 200
-        self.width = WIDTH - (WIDTH * 0.2) - self.x
-        height = 10
+        self.x = WIDTH * SliderProperties.margin_y
+        self.y = SliderProperties.body_y
+        self.width = WIDTH - (WIDTH * SliderProperties.margin_y) - self.x
+        self.height = SliderProperties.body_height
 
         self.indicator_pos = (self.width / 100) * self.volume
 
         self.x_i = self.x + self.indicator_pos
-        self.y_i = 200 - 30
+        self.y_i = SliderProperties.body_y - (SliderProperties.indicator_h / 2)
 
-        self.width_i = 20
-        self.height_i = 60
+        self.width_i = SliderProperties.indicator_w
+        self.height_i = SliderProperties.indicator_h
 
-        self.slider_body = Rect(self.x, y, self.width, height)
+        self.slider_body = Rect(self.x, self.y, self.width, self.height)
         self.slider_indicator = Rect(self.x_i, self.y_i, self.width_i, self.height_i)
 
         self.click = False
