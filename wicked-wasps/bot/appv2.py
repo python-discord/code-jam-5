@@ -7,7 +7,6 @@ bot = commands.Bot("!")
 
 async def handle(request):
     name = request.match_info.get('name', "Anonymous")
-    #channel = bot.get_channel(595032270688092160)
     await bot.channel.send(name)
     return web.Response(text=name)
 
@@ -38,7 +37,6 @@ runner = web.AppRunner(app)
 async def webs():
   try:
     await runner.setup()
-    #runner['channel'] = bot.get_channel(595032270688092160)
     site = web.TCPSite(runner, '0.0.0.0', 8080)
     bot.channel = bot.get_channel(595032270688092160)
     await site.start()
