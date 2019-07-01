@@ -1,26 +1,39 @@
 import requests
 from lxml import html
 from dataclasses import dataclass
-import json
-import re
-from functools import partial, wraps
 
 from cachetools.func import ttl_cache, lru_cache
 
 
-def one_or_many(items: list, default=''):
+def one_or_many(items: list, ifempty=''):
+    """
+    Taking a list as input,
+    return the first item if there is only one item,
+    else return the 'ifempty' value is the list is empty,
+    else return the initial list.
+    """
     if items:
         if len(items) == 1:
             return items[0]
         return items
-    return default
+    return ifempty
+
 
 @lru_cache()
 def cached_xpath(tree, query):
+    """Wraps the processing of a XPath query with a LRU (least-recently-used)
+    cache to speed up query processing.
+
+    :tree
+    The lxml tree to process the query on.
+
+    :query
+    The XPath query. TODO: Verify terminology
+    """
     return one_or_many(tree.xpath(query))
 
 
-@ttl_cache(ttl=15)
+@ttl_cache(ttl=30)
 def cached_request(source):
     # TODO: Enable scraping through selenium for dynamic pages
     response = requests.get(source)
@@ -55,8 +68,8 @@ class Resource:
             raise UserWarning  # TODO: Add a proper exception
 
         if self.container is not None:
-            roots = cached_xpath(root, self.container)
 
+            roots = cached_xpath(root, self.container)
             if not roots:
                 raise UserWarning  # TODO: Add a proper exception
 
@@ -66,7 +79,6 @@ class Resource:
         else:
             return dictquery(root, self.query)
 
-
     def __call__(self):
 
         fetched = self.fetch()
@@ -75,60 +87,3 @@ class Resource:
             return fetched
 
         return map(self.postprocess, fetched)
-
-
-def safestrmanip(*excpts):
-    excpts = excpts or (IndexError,)
-    def decorator(fn):
-        @wraps(fn)
-        def wrapper(text):
-            try:
-                return fn(text)
-            except excpts as e:
-                print(e)
-                return text
-        return wrapper
-    return decorator
-
-
-def postprocess(item):
-
-    for key in item:
-        item[key] = item[key].strip()
-
-    try:
-        item['cursor'] = item['cursor'].split(',')[1]
-        item['start'] = item['start'].split(',')[0].split('(')[1]
-    except IndexError:
-        pass
-        item['cursor'] = None
-        item['start'] = None
-
-    return item
-
-
-if __name__ == "__main__":
-
-    r = Resource(
-        source='https://www.theworldcounts.com/themes/our_environment',
-        container='//div[@id="main"]//a[@class="counter-link"]/div[@class="row"]',
-        query={
-            # 'figure': 'div[1]/div[@class="counter-number"]/p/text()',
-            'title': 'div[2]/div[@class="counter-title"]/h3/text()',
-            'subtitle': 'div[2]/div[@class="counter-title"]/span/text()',
-            'start': 'div[1]/div[@class="counter-number"]/script/text()',
-            'cursor': 'div[1]/div[@class="counter-number"]/script/text()'
-        },
-        postprocess=postprocess
-    )
-
-    pulled_resources = [*r()]
-
-    print(r)
-    json.dump(
-        pulled_resources,
-        open('resourcetest.json', 'w+'),
-        indent=4
-    )
-
-    print('Saved results')
