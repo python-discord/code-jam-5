@@ -1,12 +1,14 @@
-
-{{form.csrf_token}}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-3">{{form.start_date.label}}</div>
-        <div class='col-sm-3'>{{form.end_date.label}}</div>
+<form action="{{ url_for('form_post') }}" method="POST">
+    {{form.csrf_token}}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">{{form.start_date.label}}</div>
+            <div class='col-sm-2'>{{form.end_date.label}}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">{{form.start_date}}</div>
+            <div class="col-sm-2"> {{form.end_date}}</div>
+            <div class="col-sm-1">{{form.submit}}</div>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-sm-3">{{form.start_date}}</div>
-        <div class="col-sm-3"> {{form.end_date}}</div>
-    </div>
-</div>
+</form>
