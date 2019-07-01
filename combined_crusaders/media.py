@@ -7,12 +7,21 @@ images_dir = os.path.join(script_dir, "images")
 sounds_dir = os.path.join(script_dir, "sounds")
 
 
+images = None
+sounds = None
+
+
 def load_image(filename):
-    return pygame.image.load(os.path.join(images_dir, filename)).convert_alpha()
+    return pygame.image.load(os.path.join(images_dir,
+                                          filename)).convert_alpha()
 
 
 def load_sound(filename):
     return pygame.mixer.Sound(os.path.join(sounds_dir, filename))
+
+
+images = None
+sounds = None
 
 
 def load_images():
@@ -34,6 +43,12 @@ def load_images():
 def load_sounds():
     # return dict of str:pygame.mixer.Sound
     # Basically the same as load_images, just with sounds
-    sounds_dir = os.path.join(script_dir, "sounds")
     return {filename.split(".")[0]: load_sound(filename)
             for filename in os.listdir(sounds_dir)}
+
+
+def init():
+    global images
+    global sounds
+    images = load_images()
+    sounds = load_sounds()
