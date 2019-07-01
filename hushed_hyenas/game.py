@@ -96,9 +96,8 @@ class Game:
                         self.country = closest_country
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        # If ESC is pressed during the game the menu is opened
-                        main_menu(self.width, self.height, Game().run,
-                                  Game().call_menu)
+                        # If ESC is pressed during the world map state the menu is opened
+                        game.call_menu()
 
             self.zoom_map_width = self.width
             self.zoom_map_height = self.height
@@ -151,8 +150,10 @@ class Game:
                     quit()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        # If ESC is pressed during the game the menu is opened
-                        game.call_menu()
+                        # If ESC is pressed during the zoom state the world map is opened
+                        self.country = None
+                        self.current_scene = 'Map'
+                        game.run()
 
             pygame.display.update()
 
