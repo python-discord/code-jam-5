@@ -15,7 +15,7 @@ def on_draw():
 
 
 def main():
-    window.event(player.on_mouse_motion)  # Registers the player-mouse event handler
+    window.push_handlers(player)  # Registers the player event handler
     window.push_handlers(keys)  # Register the utility keyboard handler
     pyglet.app.run()
 
