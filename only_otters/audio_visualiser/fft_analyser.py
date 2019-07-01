@@ -8,7 +8,6 @@ class FFTAnalyser(QtCore.QThread):
     """Analyses a song on a playlist using FFTs."""
 
     calculated_visual = QtCore.pyqtSignal(np.ndarray)
-    finished = QtCore.pyqtSignal()
 
     def __init__(self, player):
         super().__init__()
@@ -96,5 +95,9 @@ class FFTAnalyser(QtCore.QThread):
         """Runs the animate function depending on the song."""
         while True:
             if self.start_animate:
-                self.calculate_amps()
+                try:
+                    self.calculate_amps()
+                except ValueError:
+                    self.calculated_visual.emit(np.zeros(self.resolution))
+                    self.start_animate = False
             time.sleep(0.025)
