@@ -165,7 +165,7 @@ class ClimateClicker:
         self.sounds = media.load_sounds()
 
         self.background = self.images["environment_neutral"]
-        self.background = self.background.convert()
+        #self.background = self.background.convert()
         self.screen.fill(BACKGROUND_COLOR)
         self.screen.blit(self.background, (0, 0))
         pygame.display.flip()
