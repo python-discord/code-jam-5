@@ -5,3 +5,12 @@ class DatePickerForm(FlaskForm):
     start_date = DateField(label="Start Date", id="startdate", format="%Y-%d-%m")
     end_date = DateField(label="End Date", id="enddate", format="%Y-%d-%m")
     submit  = SubmitField(label="Submit")
+
+    def validate_on_submit(self):
+        result = super(DatePickerForm, self).validate()
+        if self.start_date.data == None or self.end_date.data == None:
+            return False
+        if self.start_date.data > self.end_date.data:
+            return False
+        else:
+            return True
