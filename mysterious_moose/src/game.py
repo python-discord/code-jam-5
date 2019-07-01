@@ -2,6 +2,7 @@ import logging
 
 import pygame
 import src.blocks as blocks
+import src.virus as viruses
 import src.world as world
 
 log = logging.getLogger("main.game")
@@ -12,7 +13,7 @@ log.info("game logger initialised")
 class Game:
     def __init__(self, graphics):
         self.graphics = graphics
-        self.blocks = blocks.get_blocks(graphics)
+        self.market_blocks, self.player_blocks = blocks.get_blocks(graphics)
         self.world = world.World()
         self.view = 0  # current graphical view
         self.selected = -1  # currently selected virus
@@ -135,11 +136,18 @@ class Game:
                         virus_collision = mouse_collision - len(buttons)
                         self.selected = virus_collision
                         if virus_collision == len(virus_buttons) - 1:
-                            log.info("Transitioning to create virus view")
+                            log.info("Creating new virus")
+                            self.viruses.append(viruses.Virus(self.graphics))
                             self.view = 4
                         else:
-                            log.info("Transitioning to virus info view: " + str(self.selected))
-                            self.view = 3
+                            if self.viruses[self.selected].released is True:
+                                log.info("Transitioning to virus info view: " + str(self.selected))
+                                self.view = 3
+                            else:
+                                log.info(
+                                    "Transitioning to virus creation view: " + str(self.selected))
+                                self.view = 4
+
                 else:
                     if mouse_collision == 0:
                         up_arrow = self.elements["mv.up.hover"]
@@ -246,13 +254,60 @@ class Game:
             ])
         elif self.view == 4:
             # virus creation
-            buttons = (
+
+            # player blocks
+
+            num_of_blocks = len(self.player_blocks)
+            total_card_height = (num_of_blocks + 1) * self.elements["vc.block.dy"]
+            pb_buttons = []
+
+            for num, player_block in enumerate(self.player_blocks):
+                self.to_render.append([
+                    {
+                        "type": "surface",
+                        "surface": player_block.graphic.card,
+                        "dest": (
+                            self.elements["vc.player_block.x"],
+                            self.elements["vc.block.y"] + num * self.elements["vc.block.dy"])
+                    }
+                ])
+                pb_buttons.append(
+                    player_block.graphic.card.get_rect(
+                        x=self.elements["vc.player_block.x"],
+                        y=self.elements["vc.block.y"] + num * self.elements["vc.block.dy"]
+                    )
+                )
+
+            # virus blocks
+
+            num_of_blocks = len(self.viruses[self.selected].blocks)
+            total_card_height = (num_of_blocks + 1) * self.elements["vc.block.dy"]
+            vb_buttons = []
+
+            for num, virus_block in enumerate(self.viruses[self.selected].blocks):
+                self.to_render.append([
+                    {
+                        "type": "surface",
+                        "surface": virus_block.graphic.card,
+                        "dest": (
+                            self.elements["vc.virus_block.x"],
+                            self.elements["vc.block.y"] + num * self.elements["vc.block.dy"])
+                    }
+                ])
+                vb_buttons.append(
+                    virus_block.graphic.card.get_rect(
+                        x=self.elements["vc.virus_block.x"],
+                        y=self.elements["vc.block.y"] + num * self.elements["vc.block.dy"]
+                    )
+                )
+
+            buttons = [
                 self.elements["v.buttons.mv"],
-            )
+            ]
 
             mv_button = self.elements["v.mv"]
 
-            mouse_collision = mouse_pos.collidelist(buttons)
+            mouse_collision = mouse_pos.collidelist(buttons + pb_buttons + vb_buttons)
 
             if mouse_collision > -1:
 
@@ -265,6 +320,18 @@ class Game:
                     self.pressed = False
                     if mouse_collision == 0:
                         self.view = 0
+                        self.viruses[self.selected].update_stats()
+
+                    elif mouse_collision > len(buttons + pb_buttons) - 1:
+                        block_collision = mouse_collision - len(buttons + pb_buttons)
+                        self.player_blocks.append(
+                            self.viruses[self.selected].blocks.pop(block_collision)
+                        )
+                    elif mouse_collision > len(buttons) - 1:
+                        block_collision = mouse_collision - len(buttons)
+                        self.viruses[self.selected].blocks.append(
+                            self.player_blocks.pop(block_collision)
+                        )
 
                 else:
                     if mouse_collision == 0:
@@ -278,6 +345,10 @@ class Game:
                     "type": "surface",
                     "surface": mv_button,
                     "dest": self.elements["v.mv.loc"]
+                }, {
+                    "type": "surface",
+                    "surface": self.elements["vc.infobar"],
+                    "dest": self.elements["vc.infobar.loc"]
                 }
             ])
         else:
@@ -315,6 +386,9 @@ class Game:
         # viruses
         for virus in self.viruses:
             virus.graphic.update(resolution)
+
+        for block in self.market_blocks:
+            block.graphic.update(resolution)
 
         # main view
 
@@ -480,3 +554,20 @@ class Game:
         )
 
         # virus creation
+        sidebar_x = self.elements["v.buttons.mv"][2]
+
+        self.elements["vc.player_block.x"] = (resolution[0] - sidebar_x)//5 + sidebar_x
+        self.elements["vc.virus_block.x"] = (resolution[0] - sidebar_x)//5*3 + sidebar_x
+        self.elements["vc.block.dy"] = int(resolution[0]*0.016)
+        self.elements["vc.block.y"] = self.elements["vc.block.dy"] * 2
+
+        self.elements["vc.infobar"] = pygame.Surface(
+            (resolution[0] - sidebar_x, int(resolution[1]*0.1))
+        )
+        self.elements["vc.infobar"].fill(colours["outline"])
+        self.elements["vc.infobar.loc"] = (sidebar_x, int(resolution[1]*0.9))
+
+
+        release_text = self.renderer["main"].render("Release!")
+
+        self.elements["vc.release"] = pygame.Surface((resolution[0]//20, resolution//20))

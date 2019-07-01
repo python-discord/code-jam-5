@@ -1,3 +1,5 @@
+import math
+
 import pygame
 
 
@@ -9,7 +11,7 @@ class Virus:
         self.graphic = VirusGraphic(renderer)
         self.name = ""
         self.industry = -1  # the industry the virus is attacking
-        self.launched = False  # whether the virus has been launched or not
+        self.released = False  # whether the virus has been launched or not
 
     def update_stats(self):
         """ updates a virus's key stats to current block values"""
@@ -73,6 +75,13 @@ class VirusGraphic:
         self.detectability = detectability
         self.update(self.resolution)
 
+    @staticmethod
+    def display_value(x):
+        try:
+            return math.log(x, 2)/10
+        except ValueError:
+            return 0
+
     def update(self, resolution):
         """ updates graphical elements when resolution or virus stats change """
         self.resolution = resolution
@@ -106,9 +115,9 @@ class VirusGraphic:
         virulence_text = self.renderer.fonts["main"].render("V", colours["text"], size=80)
         detectability_text = self.renderer.fonts["main"].render("D", colours["text"], size=80)
 
-        impact_bar = pygame.Rect(615, 25, 260*self.impact//100, 80)
-        virulence_bar = pygame.Rect(615, 110, 260*self.virulence//100, 80)
-        detectability_bar = pygame.Rect(615, 195, 260*self.detectability//100, 80)
+        impact_bar = pygame.Rect(615, 25, 260 * self.display_value(self.impact), 80)
+        virulence_bar = pygame.Rect(615, 110, 260 * self.display_value(self.virulence), 80)
+        detectability_bar = pygame.Rect(615, 195, 260 * self.display_value(self.detectability), 80)
 
         pygame.draw.rect(self.card, colours["internal"], internal_bg)
 

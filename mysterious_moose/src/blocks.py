@@ -13,6 +13,15 @@ class Block:
 
         self.graphic = BlockGraphic(name, image, renderer)
 
+    def __mul__(self, other):
+        if type(other) is int:
+            output = []
+            for x in range(other):
+                output.append(self)
+            return output
+        else:
+            return NotImplemented
+
 
 class BlockGraphic:
     def __init__(self, name, image, renderer):
@@ -57,11 +66,12 @@ def get_blocks(renderer):
     """ reads data/blocks.json and creates relevant Block objects """
     blocks_file = open("data/blocks.json")
     blocks_list = json.load(blocks_file)
-    blocks = []
+    market_blocks = []
+    player_blocks = []
 
     for block in blocks_list:
         graphic = pygame.image.load(open(block["graphic"]))
-        blocks.append(Block(
+        block_obj = Block(
             block["name"],
             block["impact"],
             block["virulence"],
@@ -69,7 +79,10 @@ def get_blocks(renderer):
             graphic,
             block["cost"],
             renderer
-        ))
+        )
+        market_blocks.append(block_obj)
 
-    return blocks
+        player_blocks += block_obj*block["default"]
+
+    return market_blocks, player_blocks
 
