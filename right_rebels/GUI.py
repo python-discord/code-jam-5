@@ -2,8 +2,11 @@ import sys
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+import plot
+
 
 class MainWindow(QtWidgets.QMainWindow):
+    stop_plot_signal = QtCore.pyqtSignal()
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -14,24 +17,32 @@ class MainWindow(QtWidgets.QMainWindow):
         self.horizontalSlider = QtWidgets.QSlider(self.central_widget)
         self.year_label = QtWidgets.QLabel(self.central_widget)
         self.date_range_layout = QtWidgets.QHBoxLayout()
+
+        self.button_layout = QtWidgets.QVBoxLayout()
+
         self.plot_button = QtWidgets.QPushButton()
+        self.stop_button = QtWidgets.QPushButton(enabled=False)
+
         self.start_year = QtWidgets.QSpinBox()
         self.end_year = QtWidgets.QSpinBox()
         self.start_month = QtWidgets.QComboBox()
         self.end_month = QtWidgets.QComboBox()
 
+        self.image_count = 0
+
     def setup_ui(self):
-        self.resize(800, 600)
         self.setWindowFlag(QtCore.Qt.MSWindowsFixedSizeDialogHint)
+        self.setFixedSize(830, 675)
         self.setCentralWidget(self.central_widget)
         self.setStatusBar(self.status_bar)
         self.status_bar.setSizeGripEnabled(False)
 
-        self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
-        self.horizontalSlider.setRange(00, 10)
-        self.horizontalSlider.valueChanged.connect(self.change_image)
+        self.image_label.setFixedSize(QtCore.QSize(796, 552))
 
-        self.change_image(0)
+        self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSlider.setRange(-1, 0)
+        self.horizontalSlider.setValue(-1)
+        self.horizontalSlider.valueChanged.connect(self.change_image)
 
         months = ("January", "February", "March", "April", "May", "June", "July",
                   "August", "September", "October", "November", "December")
@@ -41,15 +52,22 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.start_month.setMaximumWidth(85)
         self.end_month.setMaximumWidth(85)
+
+        # ensure only valid dates can be entered
+        self.start_month.currentIndexChanged.connect(self.date_changed)
+        self.end_year.valueChanged.connect(self.date_changed)
+        self.start_year.valueChanged.connect(self.date_changed)
+
         self.start_year.setMaximumWidth(50)
         self.end_year.setMaximumWidth(50)
 
-        self.start_year.setRange(1880, 2018)
-        self.end_year.setRange(1880, 2018)
+        self.start_year.setRange(1850, 2010)
+        self.end_year.setRange(1980, 2019)
         self.start_year.setValue(1980)
         self.end_year.setValue(2010)
-        self.start_year.setAccelerated(True)
-        self.end_year.setAccelerated(True)
+
+        self.plot_button.pressed.connect(self.plot)
+        self.stop_button.pressed.connect(self.stop_plot_signal.emit)
 
         spacer = QtWidgets.QSpacerItem(1, 1, QtWidgets.QSizePolicy.Expanding,
                                        QtWidgets.QSizePolicy.Expanding)
@@ -57,7 +75,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.date_range_layout.addWidget(self.start_month, alignment=QtCore.Qt.AlignLeft)
         self.date_range_layout.addWidget(self.start_year, alignment=QtCore.Qt.AlignLeft)
         self.date_range_layout.addSpacerItem(spacer)
-        self.date_range_layout.addWidget(self.plot_button)
+
+        self.button_layout.addWidget(self.plot_button)
+        self.button_layout.addWidget(self.stop_button)
+
+        self.date_range_layout.addLayout(self.button_layout)
         self.date_range_layout.addSpacerItem(spacer)
 
         self.date_range_layout.addWidget(self.end_month)
@@ -75,12 +97,74 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def retranslate_ui(self):
         self.setWindowTitle("Plotstats")
+        self.plot_button.setText("Plot")
+        self.stop_button.setText("Stop")
+
+    def set_status(self, message):
+        self.status_bar.showMessage(message)
+
+    def plot(self):
+        self.image_count = 0
+        self.stop_button.setEnabled(True)
+        self.plot_button.setEnabled(False)
+        # send dates in decimal format to worker
+        start_date = self.start_year.value() + (1 + self.start_month.currentIndex() * 2) / 24
+        end_date = self.end_year.value() + (1 + self.end_month.currentIndex() * 2) / 24
+        self.worker = plot.Plotter(start_date, end_date, self)
+
+        self.worker.image_increment_signal.connect(self.add_image)
+        self.worker.finished.connect(self.del_worker)
+        self.worker.status_signal.connect(self.set_status)
+
+        self.worker.start()
+
+    def del_worker(self):
+        self.worker.quit()
+        del self.worker
+        self.stop_button.setEnabled(False)
+        # self.plot_button.setEnabled(True) disable until memory error is circumvented
+
+    def add_image(self):
+        self.horizontalSlider.setRange(0, self.image_count)
+
+        if self.horizontalSlider.value() == self.horizontalSlider.maximum() - 1:
+            self.horizontalSlider.setValue(self.image_count)
+
+        self.image_count += 1
 
     def change_image(self, index):
-        pixmap = QtGui.QPixmap(f"plots/image{index}")
+        pixmap = QtGui.QPixmap(f"plots/plot{index}")
         self.image_label.setPixmap(pixmap)
-        self.year_label.setText(str(index))
-        self.setFixedSize(pixmap.width(), pixmap.height())
+
+    def date_changed(self):
+        for item_index in range(0, 12):
+            self.start_month.model().item(item_index).setEnabled(True)
+            self.end_month.model().item(item_index).setEnabled(True)
+
+        if self.start_year.value() == self.end_year.value():
+            for item_index in range(0, self.start_month.currentIndex()):
+                self.end_month.model().item(item_index).setEnabled(False)
+            if self.end_month.currentIndex() < self.start_month.currentIndex():
+                self.end_month.setCurrentIndex(self.start_month.currentIndex())
+
+        if self.start_year.value() == 2019:
+            for item_index in range(5, 12):
+                self.start_month.model().item(item_index).setEnabled(False)
+            if self.start_month.currentIndex() > 4:
+                self.start_month.setCurrentIndex(4)
+
+        if self.end_year.value() == 2019:
+            for item_index in range(5, 12):
+                self.end_month.model().item(item_index).setEnabled(False)
+            if self.end_month.currentIndex() > 4:
+                self.end_month.setCurrentIndex(4)
+
+        self.start_year.setRange(1850, self.end_year.value())
+        self.end_year.setRange(self.start_year.value(), 2019)
+
+    def closeEvent(self, *args, **kwargs):
+        super(QtWidgets.QMainWindow, self).closeEvent(*args, **kwargs)
+        plot.Plotter(None, None).clear_plots()
 
 
 class CrashPop(QtWidgets.QDialog):
