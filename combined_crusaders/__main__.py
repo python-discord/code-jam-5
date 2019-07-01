@@ -4,12 +4,15 @@ from pygame.rect import Rect
 from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
-    K_SPACE,
     MOUSEBUTTONDOWN,
     QUIT,
     Color
 )
 import media
+
+
+BACKGROUND_COLOR = Color('white')
+
 
 if not pygame.image.get_extended():
     raise SystemExit("Sorry, extended image module required")
@@ -22,8 +25,10 @@ class Score(pygame.sprite.Sprite):
         self.font.set_italic(1)
         self.color = Color('grey')
         self.score_val = 0
-        self.update()
+        msg = f"Score: {'9'*10}"
+        self.image = self.font.render(msg, 0, self.color)
         self.rect = self.image.get_rect().move(10, 450)
+        self.update()
 
     def update(self):
         msg = f"Score: {self.score_val}"
@@ -89,12 +94,14 @@ class ClimateClicker:
 
         self.background = self.images["environment_neutral"]
         self.background = self.background.convert()
+        self.screen.fill((255, 255, 255))
         self.screen.blit(self.background, (0, 0))
         pygame.display.flip()
 
         self.crank = Crank(self.images['polar_bear'], self.sounds['beep'])
         self.score_sprite = Score()
-        self.allsprites = pygame.sprite.RenderPlain(self.crank, self.score_sprite)
+        self.allsprites = pygame.sprite.RenderPlain(self.crank,
+                                                    self.score_sprite)
 
     def update(self):
         """Called on new frame"""
@@ -129,6 +136,7 @@ class ClimateClicker:
     @score.setter
     def score(self, value: int):
         self.score_sprite.score_val = value
+        self.screen.fill(BACKGROUND_COLOR, rect=self.score_sprite.rect)
         self.score_sprite.update()
 
 
