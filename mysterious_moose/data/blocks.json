@@ -1,9 +1,9 @@
 [
   {
     "name": "example",
-    "impact": 3,
-    "virulence": 2,
-    "detectability": 5,
+    "impact": 34,
+    "virulence": 22,
+    "detectability": 53,
     "graphic": "assets/images/example.jpg",
     "cost": 5
   }

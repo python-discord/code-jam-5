@@ -189,6 +189,10 @@ class Game:
             "scroll": (75, 75, 75)
         }
 
+        # viruses
+        for virus in self.viruses:
+            virus.graphic.update(resolution)
+
         # main view
 
         # button to world map

@@ -27,7 +27,10 @@ class Graphics:
 
         # in this section the file path and file name are separated to make it easier to read
         log.info("loading fonts")
-        self.fonts = {"main": pygame.freetype.Font("assets/fonts/" + "Roboto-Regular.ttf", 20)}
+        self.fonts = {"main": pygame.freetype.Font(
+            "assets/fonts/" + "ShareTechMono-Regular.ttf",
+            20
+        )}
 
         log.info("loading images")
         self.images = {
