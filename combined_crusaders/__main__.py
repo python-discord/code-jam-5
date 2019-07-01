@@ -227,6 +227,8 @@ class ClimateClicker:
         return sum([machine.count * machine.energy_per_second
                     for machine in machines.machines.values()])
 
+        self.last_update_time = time.time()
+
     def update(self):
         """Called on new frame"""
         self.clock.tick(60)
