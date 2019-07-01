@@ -18,7 +18,7 @@ def main_menu(width, height, func_run, func_menu):
                                                img_hover=hover_about,
                                                colorkey=(0, 0, 0))
         back_button.user_func = func_menu
-        about_background = thorpy.Background(image='map_objects/draw2.jpg',
+        about_background = thorpy.Background(image='map_objects/menu_bg.jpg',
                                              elements=[about_text,
                                                        back_button])
         thorpy.store(about_background)
