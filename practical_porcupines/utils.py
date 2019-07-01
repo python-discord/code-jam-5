@@ -12,14 +12,24 @@ def check_date(date):
     x Returns DatesOutOfRange if dates exceed dataset
     """
 
+    date_full = _add_null_date(date)
+
+    # TODO test
+    date_as_datetime datetime.datetime(
+        date_full[0][0],  # year
+        date_full[0][1],  # month
+        date_full[0][2],  # day
+        date_full[1][0],  # hour
+        date_full[1][1],  # minute
+        date_full[1][2],  # second
+    )
+
     raise NotImplementedError(
         "The check_date function has not yet been "
         "implamented. It still needs to be used with "
         "`_add_null_date` and hooked upto a `datetime` "
         "converter."
     )
-
-    # TODO Read above to fix
 
 
 def _add_null_date(date):
@@ -34,8 +44,7 @@ def _add_null_date(date):
 
     if not time_split:
         raise DateFormatError(
-            "No dates have been passed into the "
-            "`_add_null_date` function."
+            "No dates have been passed into the " "`_add_null_date` function."
         )
 
     dates = list(map(int, time_split[0].split("-")))
