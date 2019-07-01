@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtMultimedia, QtCore
 
 
 class ControlsWidget(QtWidgets.QWidget):
-    """Contains all the controls for a QMediaPlayer"""
+    """Contains all the controls for a QMediaPlayer."""
 
     def __init__(self, player):
         super().__init__()
@@ -47,7 +47,7 @@ class ControlsWidget(QtWidgets.QWidget):
             self._toggle_play()
 
     def _open_file(self):
-        """Opens an audio file and adds it to the playlist"""
+        """Opens an audio file and adds it to the playlist."""
         song = QtWidgets.QFileDialog.getOpenFileName(self, "Open Song", "", "Sound Files (*.mp3)")
 
         if song[0]:

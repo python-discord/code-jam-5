@@ -5,7 +5,7 @@ import numpy as np
 
 
 class AudioVisualiser(QtWidgets.QWidget):
-    """Shows a visual representation of audio from a QMediaPlayer"""
+    """Shows a visual representation of audio from a QMediaPlayer."""
 
     def __init__(self, player):
         super().__init__()
@@ -33,7 +33,10 @@ class AudioVisualiser(QtWidgets.QWidget):
         self.setLayout(layout)
 
     def amp_polygon(self):
-        """Uses polar co-ordinate formulae in order to plot a circular polygon based off of amplitudes"""
+        """
+        Uses polar co-ordinate formulae in order to plot a
+        circular polygon based off of amplitudes.
+        """
         # There are three polygons for each colour of the flame
         large_poly = QtGui.QPolygonF()
         medium_poly = QtGui.QPolygonF()
@@ -63,19 +66,18 @@ class AudioVisualiser(QtWidgets.QWidget):
         return large_poly, medium_poly, small_poly
     
     def set_amplitudes(self, amps):
-        """Sets the amplitudes for the visualiser and plots them"""
+        """Sets the amplitudes for the visualiser and plots them."""
         self.amps = np.array(amps)
         self.repaint()
 
     def _start_visualising(self):
-        """Begins the visualiser thread"""
+        """Begins the visualiser thread."""
         self.analyser_thread = FFTAnalyser(self.player)
         self.analyser_thread.calculated_visual.connect(self.set_amplitudes)
         self.analyser_thread.start()
 
     def paintEvent(self, event):
-        """Plots the amplitudes"""
-        super().paintEvent(event)
+        """Plots the amplitudes."""
         painter = QtGui.QPainter(self)
         polygon_red, polygon_orange, polygon_yellow = self.amp_polygon()
 
