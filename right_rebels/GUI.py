@@ -1,4 +1,5 @@
 import sys
+import time
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -23,11 +24,19 @@ class MainWindow(QtWidgets.QMainWindow):
         self.plot_button = QtWidgets.QPushButton()
         self.stop_button = QtWidgets.QPushButton(enabled=False)
 
+        self.sdate_animate_layout = QtWidgets.QVBoxLayout()
+        self.start_date_layout = QtWidgets.QHBoxLayout()
+        self.animate_layout = QtWidgets.QHBoxLayout()
+
+        self.animate_button = QtWidgets.QPushButton(enabled=False)
+        self.animate_fps = QtWidgets.QSpinBox()
         self.start_year = QtWidgets.QSpinBox()
-        self.end_year = QtWidgets.QSpinBox()
         self.start_month = QtWidgets.QComboBox()
+
+        self.end_year = QtWidgets.QSpinBox()
         self.end_month = QtWidgets.QComboBox()
 
+        self.animate_timer = QtCore.QTimer()
         self.image_count = 0
 
     def setup_ui(self):
@@ -66,14 +75,26 @@ class MainWindow(QtWidgets.QMainWindow):
         self.start_year.setValue(1980)
         self.end_year.setValue(2010)
 
+        self.animate_fps.setRange(1, 60)
+        self.animate_button.setFixedWidth(81)
+
+        self.animate_button.pressed.connect(self.animate)
         self.plot_button.pressed.connect(self.plot)
-        self.stop_button.pressed.connect(self.stop_plot_signal.emit)
+        self.stop_button.pressed.connect(self.quit_current_tasks)
 
         spacer = QtWidgets.QSpacerItem(1, 1, QtWidgets.QSizePolicy.Expanding,
                                        QtWidgets.QSizePolicy.Expanding)
 
-        self.date_range_layout.addWidget(self.start_month, alignment=QtCore.Qt.AlignLeft)
-        self.date_range_layout.addWidget(self.start_year, alignment=QtCore.Qt.AlignLeft)
+        self.start_date_layout.addWidget(self.start_month)
+        self.start_date_layout.addWidget(self.start_year)
+
+        self.animate_layout.addWidget(self.animate_button)
+        self.animate_layout.addWidget(self.animate_fps)
+
+        self.sdate_animate_layout.addLayout(self.start_date_layout)
+        self.sdate_animate_layout.addLayout(self.animate_layout)
+
+        self.date_range_layout.addLayout(self.sdate_animate_layout)
         self.date_range_layout.addSpacerItem(spacer)
 
         self.button_layout.addWidget(self.plot_button)
@@ -99,6 +120,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("Plotstats")
         self.plot_button.setText("Plot")
         self.stop_button.setText("Stop")
+        self.animate_button.setText("Play")
 
     def set_status(self, message):
         self.status_bar.showMessage(message)
@@ -107,6 +129,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.image_count = 0
         self.stop_button.setEnabled(True)
         self.plot_button.setEnabled(False)
+        self.animate_button.setEnabled(False)
         # send dates in decimal format to worker
         start_date = self.start_year.value() + (1 + self.start_month.currentIndex() * 2) / 24
         end_date = self.end_year.value() + (1 + self.end_month.currentIndex() * 2) / 24
@@ -122,7 +145,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.worker.quit()
         del self.worker
         self.stop_button.setEnabled(False)
-        self.plot_button.setEnabled(True) #disable until memory error is circumvented
+        self.plot_button.setEnabled(True)
+        self.animate_button.setEnabled(True)
 
     def add_image(self):
         self.horizontalSlider.setRange(0, self.image_count)
@@ -161,6 +185,26 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.start_year.setRange(1850, self.end_year.value())
         self.end_year.setRange(self.start_year.value(), 2019)
+
+    def animate(self):
+        self.horizontalSlider.setValue(0)
+        self.stop_button.setEnabled(True)
+        self.animate_timer.timeout.connect(self.animation)
+        self.start_time = time.time()
+        self.animate_timer.start(int(1000 / self.animate_fps.value()))
+
+    def animation(self):
+        if self.horizontalSlider.value() == self.horizontalSlider.maximum():
+            self.animate_timer.stop()
+            self.animate_timer.timeout.disconnect()
+            self.stop_button.setEnabled(False)
+        else:
+            self.horizontalSlider.setValue(self.horizontalSlider.value() + 1)
+
+    def quit_current_tasks(self):
+        self.stop_plot_signal.emit()
+        self.animate_timer.stop()
+        self.stop_button.setEnabled(False)
 
     def closeEvent(self, *args, **kwargs):
         super(QtWidgets.QMainWindow, self).closeEvent(*args, **kwargs)
