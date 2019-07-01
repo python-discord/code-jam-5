@@ -1,4 +1,3 @@
-# Some of this skeleton was stolen from the aliens pygame example
 import pygame
 from pygame.rect import Rect
 from pygame.locals import (
@@ -12,9 +11,12 @@ import media
 import machines
 import math
 import time
+import machines
 
 
 BACKGROUND_COLOR = Color('white')
+SCREEN_WIDTH = 640
+SCREEN_HEIGHT = 480
 
 
 if not pygame.image.get_extended():
@@ -143,38 +145,6 @@ class Crank(pygame.sprite.Sprite):
             self.rotation_speed *= self.rotation_speed_mul
 
 
-class AutomationMachine(pygame.sprite.Sprite):
-    def __init__(self,
-                 price: int,
-                 energy_per_second: int,
-                 image,
-                 location: tuple,
-                 master):
-        pygame.sprite.Sprite.__init__(self)
-        self.font = pygame.font.Font(None, 20)
-        self.price = price
-        self.energy_per_second = energy_per_second
-        self._count = 0
-        self.image = image
-        self.rect = self.image.get_rect(center=location)
-        self.master = master
-        self.count_sprite = pygame.sprite.Sprite()
-        self.count_sprite.image = self.font.render("9", 0, Color('black'))
-        self.count_sprite.rect = self.count_sprite.image.get_rect(
-            center=location)
-        self.count = 0
-
-    @property
-    def count(self):
-        return self._count
-
-    @count.setter
-    def count(self, value):
-        self._count = value
-        count_text = self.font.render(str(value), True, Color('black'))
-        self.count_sprite.image = count_text
-
-
 class ClimateClicker:
     """Class should hold information about state of game
     This includes current environment value and such.
@@ -183,12 +153,13 @@ class ClimateClicker:
     """
     def __init__(self):
         pygame.mixer.pre_init(44100, -16, 2, 2048)
-        pygame.mixer.init()
         pygame.init()
 
-        screenrect = Rect(0, 0, 640, 480)
+        screenrect = Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         bestdepth = pygame.display.mode_ok(screenrect.size, 0, 32)
         self.screen = pygame.display.set_mode(screenrect.size, 0, bestdepth)
+        media.init()
+        machines.init()
         pygame.display.set_caption('Climate Clicker')
 
         self.exit_requested = False
@@ -212,6 +183,7 @@ class ClimateClicker:
         self.crank_overlay = StaticImage(100, 100, media.images['crank'])
         self.score_sprite = Score(self, 10, 450, "Score")
         self.speed_sprite = Score(self, 10, 400, "Speed")
+
         self.allsprites = pygame.sprite.RenderPlain(
             self.crank,
             self.crank_overlay,
@@ -232,7 +204,7 @@ class ClimateClicker:
     @property
     def energy_per_second(self):
         return sum([machine.energy_per_second * machine.count
-                    for machine in self.machines.values()])
+                    for machine in machines.machines.values()])
 
     def update(self):
         """Called on new frame"""
@@ -250,8 +222,6 @@ class ClimateClicker:
                 pos = pygame.mouse.get_pos()
                 if self.crank.rect.collidepoint(pos):
                     self.crank.clicked()
-                    # self.score += self.click_value
-
                 for machine in machines.machines.values():
                     if machine.rect.collidepoint(pos):
                         if self.score < machine.price:
@@ -273,7 +243,7 @@ class ClimateClicker:
 
     @property
     def score(self):
-        return self._score
+        return self.score_sprite.score_val
 
     @score.setter
     def score(self, value: int):
