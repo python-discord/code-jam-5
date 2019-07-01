@@ -1,28 +1,16 @@
 import os
-import re
 import json
+import datetime
 
 
 def check_date(date):
     """
     > Gets date
     - String: Date
-    < Returns matched date
-    x Returns None
+    < Returns datetime object
     """
 
-    date_pattern = (
-        "((19[0-9]{2}|2[0-9]{3})((:((0[1-9]|1[012]):"  # year & month
-        "([123]0|[012][1-9]|31))(:([01][0-9]|2[0-3]):"  # day and hour
-        "([0-5][0-9]):([0-5][0-9]))?)?)?)"  # minute and second
-    )
-
-    date_match = re.findall(date_pattern, date)
-
-    if not date_match:
-        return None
-
-    return _add_null_date(date_match[0][0])
+    return datetime.datetime.strptime(date, "%Y:%m:%d:%T")
 
 
 def _add_null_date(date_match):

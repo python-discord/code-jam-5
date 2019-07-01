@@ -38,6 +38,8 @@ async def gmwl(ctx, date_1, date_2):
     verified_date_1 = check_date(date_1)
     verified_date_2 = check_date(date_2)
 
+    print(verified_date_1, verified_date_2)
+
     # IF invalid date
     if not (verified_date_1 or verified_date_2):
         await ctx.send(
