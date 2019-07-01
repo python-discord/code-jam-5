@@ -50,6 +50,8 @@ class BlockGraphic:
         self.card.blit(image, (10, 10))
         self.card.blit(text, text_rect)
 
+        self.card = pygame.transform.scale(self.card, (resolution[0]//5, int(resolution[0]*0.016)))
+
 
 def get_blocks(renderer):
     """ reads data/blocks.json and creates relevant Block objects """
