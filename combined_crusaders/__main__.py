@@ -62,6 +62,7 @@ class Crank(pygame.sprite.Sprite):
     def update(self):
         "spin based on state"
         if self.spinning:
+            self.click_sound.play()
             self._spin()
 
     def _spin(self):
@@ -90,6 +91,8 @@ class ClimateClicker:
      instead? maybe? idk lol
     """
     def __init__(self):
+        pygame.mixer.pre_init(44100, -16, 2, 2048)
+        pygame.mixer.init()
         pygame.init()
 
         screenrect = Rect(0, 0, 640, 480)
@@ -110,7 +113,7 @@ class ClimateClicker:
         self.screen.blit(self.background, (0, 0))
         pygame.display.flip()
 
-        self.crank = Crank(self.images['polar_bear'], self.sounds['beep'])
+        self.crank = Crank(self.images['polar_bear'], self.sounds['snap'])
         self.score_sprite = Score()
         self.allsprites = pygame.sprite.RenderPlain(self.crank,
                                                     self.score_sprite)
