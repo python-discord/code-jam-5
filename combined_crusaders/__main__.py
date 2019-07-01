@@ -1,17 +1,50 @@
 # Some of this skeleton was stolen from the aliens pygame example
 import pygame
 from pygame.rect import Rect
-from pygame.constants import (
+from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
-    K_SPACE,
     MOUSEBUTTONDOWN,
     QUIT,
+    Color
 )
 import media
 
+
+BACKGROUND_COLOR = Color('white')
+
+
 if not pygame.image.get_extended():
     raise SystemExit("Sorry, extended image module required")
+
+
+def score_to_image(score: int):
+    # TODO there must be a cleaner way to do this, especially when we have
+    # more than just 3 states
+    if score < 0:
+        return "environment_negative"
+    elif score == 0:
+        return "environment_neutral"
+    elif score > 0:
+        return "environment_positive"
+    raise RuntimeError("Score didn't make sense")
+
+
+class Score(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.font = pygame.font.Font(None, 20)
+        self.font.set_italic(1)
+        self.color = Color('grey')
+        self.score_val = 0
+        msg = f"Score: {'9'*10}"  # init rect to a wide size
+        self.image = self.font.render(msg, 0, self.color)
+        self.rect = self.image.get_rect().move(10, 450)
+        self.update()
+
+    def update(self):
+        msg = f"Score: {self.score_val}"
+        self.image = self.font.render(msg, 0, self.color)
 
 
 class Crank(pygame.sprite.Sprite):
@@ -45,7 +78,7 @@ class Crank(pygame.sprite.Sprite):
     def clicked(self):
         "this will cause the crank to start spinning"
         if not self.spinning:
-            self.click_sound.play()
+            # self.click_sound.play()
             self.spinning = 1
             self.original = self.image
 
@@ -64,32 +97,27 @@ class ClimateClicker:
         self.screen = pygame.display.set_mode(screenrect.size, 0, bestdepth)
         pygame.display.set_caption('Climate Clicker')
 
-        self.background = pygame.Surface(screenrect.size)
-        self.background = self.background.convert()
-        self.background.fill((250, 250, 250))
-
-        self.screen.blit(self.background, (0, 0))
-        pygame.display.flip()
-
         self.exit_requested = False
-        self.score = 0
         self.click_value = 1
         self.clock = pygame.time.Clock()
 
         self.images = media.load_images()
         self.sounds = media.load_sounds()
-        self.crank = Crank(self.images['polar_bear'], self.sounds['beep'])
-        self.allsprites = pygame.sprite.RenderPlain(self.crank)
 
-        self.environment_image = None  # images["environment_neutral"]
-        # If we want to display the score, that shouldn't be too hard. If
-        # we want to display the environment only instead, that works too.
-        # TODO display environment_image in background
+        self.background = self.images["environment_neutral"]
+        self.background = self.background.convert()
+        self.screen.fill(BACKGROUND_COLOR)
+        self.screen.blit(self.background, (0, 0))
+        pygame.display.flip()
+
+        self.crank = Crank(self.images['polar_bear'], self.sounds['beep'])
+        self.score_sprite = Score()
+        self.allsprites = pygame.sprite.RenderPlain(self.crank,
+                                                    self.score_sprite)
 
     def update(self):
         """Called on new frame"""
         # TODO update score field, update environment image
-
         self.clock.tick(60)
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYDOWN
@@ -112,6 +140,17 @@ class ClimateClicker:
         while not self.exit_requested:
             self.update()
         pygame.quit()
+
+    @property
+    def score(self):
+        return self.score_sprite.score_val
+
+    @score.setter
+    def score(self, value: int):
+        self.score_sprite.score_val = value
+        self.screen.fill(BACKGROUND_COLOR, rect=self.score_sprite.rect)
+        self.score_sprite.update()
+        self.background = self.images[score_to_image(value)]
 
 
 def main():
