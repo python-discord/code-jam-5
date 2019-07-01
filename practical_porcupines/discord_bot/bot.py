@@ -70,6 +70,8 @@ async def gmwl(ctx, date_1, date_2):
             0xA31523,
             discord,
         )
+    except Exception as e:
+        pass # TODO add misc exec here
     else:
         embed = embed_generator(
             "Result",
