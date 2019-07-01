@@ -50,7 +50,7 @@ class Crank(pygame.sprite.Sprite):
             self.original = self.image
 
 
-class ClimateClicker:  # TODO game name goes here
+class ClimateClicker:
     """Class should hold information about state of game
     This includes current environment value and such.
     Sprites and such should probably be held at class-level or module-level
@@ -85,12 +85,10 @@ class ClimateClicker:  # TODO game name goes here
         # If we want to display the score, that shouldn't be too hard. If
         # we want to display the environment only instead, that works too.
         # TODO display environment_image in background
-        # TODO add button panel to screen
 
     def update(self):
         """Called on new frame"""
-        # TODO update score field, update environment image,
-        # update anything we need to update in the button panel
+        # TODO update score field, update environment image
 
         self.clock.tick(60)
         for event in pygame.event.get():
