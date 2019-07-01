@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
 from .fft_analyser import FFTAnalyser
+from pathlib import Path
 import numpy as np
 
 
@@ -11,15 +12,33 @@ class AudioVisualiser(QtWidgets.QWidget):
         self.player = player
         self.setFixedSize(200, 200)
         self.max_radius = min(self.width(), self.height())//2
-        self.min_radius = self.max_radius / 2
+        self.min_radius = self.max_radius / 2.5
         self.fill_colour = QtCore.Qt.black
         self.pen_colour = QtCore.Qt.black
         self.amps = np.array([])
-        self.start_visualising()
+        self._draw_center_piece()
+        self._start_visualising()
+    
+    def _draw_center_piece(self):
+        """Draws the center image for the audio visualiser"""
+        layout = QtWidgets.QHBoxLayout()
+
+        pixmap = QtGui.QPixmap('only_otters\\images\\earth.png')
+        pixmap = pixmap.scaled(self.min_radius*2, self.min_radius*2, QtCore.Qt.KeepAspectRatio)
+        self.center_piece = QtWidgets.QLabel()
+        self.center_piece.setAlignment(QtCore.Qt.AlignCenter)
+        self.center_piece.setPixmap(pixmap)
+        layout.addWidget(self.center_piece)
+
+        self.setLayout(layout)
 
     def amp_polygon(self):
         """Uses polar co-ordinate formulae in order to plot a circular polygon based off of amplitudes"""
-        polygon = QtGui.QPolygonF()
+        # There are three polygons for each colour of the flame
+        large_poly = QtGui.QPolygonF()
+        medium_poly = QtGui.QPolygonF()
+        small_poly = QtGui.QPolygonF()
+
         for theta, amp in zip(np.linspace(-np.pi / 2, np.pi * 1.5, self.amps.size), self.amps):
             r = self.min_radius + (self.max_radius - self.min_radius) * amp
 
@@ -30,18 +49,25 @@ class AudioVisualiser(QtWidgets.QWidget):
 
             x = r * np.cos(theta)
             y = r * np.sin(theta)
-            polygon.append(QtCore.QPointF(x, y))
+            variance = np.random.random()*0.05
+            large_poly.append(QtCore.QPointF(x, y))
+            medium_poly.append(QtCore.QPointF(x*(0.9+variance), y*(0.9+variance)))
+            small_poly.append(QtCore.QPointF(x*(0.8+variance), y*(0.8+variance)))
 
-        # Centering the polygon
-        polygon.translate(self.width()//2, self.height()//2)
-        return polygon
+
+        # Centering the polygons
+        large_poly.translate(self.width()//2, self.height()//2)
+        medium_poly.translate(self.width()//2, self.height()//2)
+        small_poly.translate(self.width()//2, self.height()//2)
+
+        return large_poly, medium_poly, small_poly
     
     def set_amplitudes(self, amps):
         """Sets the amplitudes for the visualiser and plots them"""
         self.amps = np.array(amps)
         self.repaint()
 
-    def start_visualising(self):
+    def _start_visualising(self):
         """Begins the visualiser thread"""
         self.analyser_thread = FFTAnalyser(self.player)
         self.analyser_thread.calculated_visual.connect(self.set_amplitudes)
@@ -49,9 +75,19 @@ class AudioVisualiser(QtWidgets.QWidget):
 
     def paintEvent(self, event):
         """Plots the amplitudes"""
+        super().paintEvent(event)
         painter = QtGui.QPainter(self)
-        painter.setPen(self.pen_colour)
-        painter.setBrush(self.fill_colour)
+        polygon_red, polygon_orange, polygon_yellow = self.amp_polygon()
 
-        polygon = self.amp_polygon()
-        painter.drawPolygon(polygon)
+        painter.setPen(QtCore.Qt.red)
+        painter.setBrush(QtCore.Qt.red)
+        painter.drawPolygon(polygon_red)
+
+        painter.setPen(QtGui.QColor('#E86100'))
+        painter.setBrush(QtGui.QColor('#E86100'))
+        painter.drawPolygon(polygon_orange)
+
+        painter.setPen(QtCore.Qt.yellow)
+        painter.setBrush(QtCore.Qt.yellow)
+        painter.drawPolygon(polygon_yellow)
+        

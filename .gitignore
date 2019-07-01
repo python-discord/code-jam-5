@@ -109,4 +109,4 @@ venv.bak/
 # ffmpeg binaries
 ffmpeg.exe
 ffplay.exe
-ffprobe.exe
+ffprobe.exe 

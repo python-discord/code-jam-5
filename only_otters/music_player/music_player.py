@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtMultimedia
 from .controls import ControlsWidget
-from .visualiser import NowPlayingWidget
+from .now_playing import NowPlayingWidget
 
 
 class MusicPlayer(QtWidgets.QWidget):
@@ -16,6 +16,7 @@ class MusicPlayer(QtWidgets.QWidget):
 
     def init_ui(self):
         self.main_layout = QtWidgets.QVBoxLayout(self)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
 
         self.visualiser = NowPlayingWidget(self.player)
         self.main_layout.addWidget(self.visualiser)
