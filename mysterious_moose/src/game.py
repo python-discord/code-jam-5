@@ -28,9 +28,13 @@ class Game:
         # get resolution
         display_info = pygame.display.Info()
         # initialise scalable elements
-        self.resolution_change((display_info.current_w, display_info.current_h))
+        self.resolution = (display_info.current_w, display_info.current_h)
+        self.resolution_change(self.resolution)
 
-    def update(self):
+        # amount of scroll on the main view
+        self.main_view_scroll = 0
+
+    def update(self, events):
         """ called each loop to update the game """
         # logic
 
@@ -58,18 +62,52 @@ class Game:
                 }
             ])
 
-            buttons = (
-                self.elements["mv.buttons.up"],
-                self.elements["mv.buttons.down"],
-                self.elements["mv.buttons.wm"]
-            )
-
             up_arrow = self.elements["mv.up"]
             down_arrow = self.elements["mv.down"]
             wm_button = self.elements["mv.wm"]
 
-            mouse_collision = mouse_pos.collidelist(buttons)
+            num_of_viruses = len(self.viruses)
+            total_card_height = (num_of_viruses + 1)*self.elements["mv.card.dy"]
+            virus_buttons = []
 
+            for num, virus in enumerate(self.viruses):
+                self.to_render.append([{
+                        "type": "surface",
+                        "surface": virus.graphic.card,
+                        "dest": (
+                            self.elements["mv.card.x"],
+                            self.elements["mv.card.dy"]*num + self.main_view_scroll
+                        )
+                    }])
+                virus_buttons.append(
+                    virus.graphic.card.get_rect(
+                        x=self.elements["mv.card.x"],
+                        y=self.elements["mv.card.dy"]*num + self.main_view_scroll
+                    )
+                )
+
+            self.to_render.append([{
+                    "type": "surface",
+                    "surface": self.elements["mv.card.new"],
+                    "dest": (
+                        self.elements["mv.card.x"],
+                        self.elements["mv.card.dy"] * num_of_viruses + self.main_view_scroll
+                    )
+                }])
+            virus_buttons.append(
+                self.elements["mv.card.new"].get_rect(
+                    x=self.elements["mv.card.x"],
+                    y=self.elements["mv.card.dy"] * num_of_viruses + self.main_view_scroll
+                )
+            )
+
+            buttons = [
+                self.elements["mv.buttons.up"],
+                self.elements["mv.buttons.down"],
+                self.elements["mv.buttons.wm"]
+            ]
+
+            mouse_collision = mouse_pos.collidelist(buttons + virus_buttons)
             if mouse_collision > -1:
 
                 if mouse_state[0] == 1:
@@ -84,12 +122,24 @@ class Game:
                 elif mouse_state[0] == 0 and self.pressed is True:
                     self.pressed = False
                     if mouse_collision == 0:
-                        pass
+                        self.main_view_scroll -= self.elements["mv.card.dy"]
+                        if self.main_view_scroll < self.resolution[1] - total_card_height:
+                            self.main_view_scroll = self.resolution[1] - total_card_height
                     elif mouse_collision == 1:
-                        pass
+                        self.main_view_scroll += self.elements["mv.card.dy"]
+                        if self.main_view_scroll > 0:
+                            self.main_view_scroll = 0
                     elif mouse_collision == 2:
                         self.view = 1
-
+                    elif mouse_collision > len(buttons) - 1:
+                        virus_collision = mouse_collision - len(buttons)
+                        self.selected = virus_collision
+                        if virus_collision == len(virus_buttons) - 1:
+                            log.info("Transitioning to create virus view")
+                            self.view = 4
+                        else:
+                            log.info("Transitioning to virus info view: " + str(self.selected))
+                            self.view = 3
                 else:
                     if mouse_collision == 0:
                         up_arrow = self.elements["mv.up.hover"]
@@ -186,8 +236,14 @@ class Game:
             "button_hover": (125, 125, 125),
             "button_pressed": (100, 100, 100),
             "tray": (50, 50, 50),
-            "scroll": (75, 75, 75)
+            "scroll": (75, 75, 75),
+
+            "outline": (200, 200, 200),
+            "internal": (75, 75, 75),
+            "text": (255, 255, 255)
         }
+
+        self.resolution = resolution
 
         # viruses
         for virus in self.viruses:
@@ -271,6 +327,26 @@ class Game:
             self.elements["mv.down.loc"],
             (virus_scroll_width, virus_scroll_width)
         )
+
+        # create new virus card
+
+        self.elements["mv.card.new"] = pygame.Surface((900, 300))
+        self.elements["mv.card.new"].fill(colours["outline"])
+        internal_bg = pygame.Rect(25, 25, 850, 250)
+
+        name_text = self.graphics.fonts["main"].render("Create new virus", colours["text"], size=60)
+
+        pygame.draw.rect(self.elements["mv.card.new"], colours["internal"], internal_bg)
+
+        self.elements["mv.card.new"].blit(name_text[0], (40, 40))
+
+        self.elements["mv.card.new"] = pygame.transform.scale(
+            self.elements["mv.card.new"],
+            (resolution[0] // 5, resolution[0] // 15)
+        )
+
+        self.elements["mv.card.x"] = resolution[0] - virus_tray_width
+        self.elements["mv.card.dy"] = int(self.elements["mv.card.new"].get_height()*1.1)
 
         # world view
 

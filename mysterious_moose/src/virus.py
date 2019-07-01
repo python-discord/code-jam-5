@@ -35,6 +35,8 @@ class VirusGraphic:
             "detectability": (50, 50, 255)
         }
 
+        self.card = pygame.Surface((900, 300))
+
         self.card.fill(colours["outline"])
         internal_bg = pygame.Rect(25, 25, 500, 250)
 
@@ -75,6 +77,8 @@ class VirusGraphic:
         pygame.draw.rect(self.card, colours["impact"], impact_bar)
         pygame.draw.rect(self.card, colours["virulence"], virulence_bar)
         pygame.draw.rect(self.card, colours["detectability"], detectability_bar)
+
+        self.card = pygame.transform.scale(self.card, (resolution[0]//5, resolution[0]//15))
 
 
 class Virus:

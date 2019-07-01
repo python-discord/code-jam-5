@@ -75,7 +75,7 @@ class Main:
 
         elif self.state == 4:
             # game running
-            self.game.update()
+            self.game.update(self.events)
 
     def _repeat(self):
         """ main loop """
