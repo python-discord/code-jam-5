@@ -21,7 +21,7 @@ class Score(pygame.sprite.Sprite):
         self.font = pygame.font.Font(None, 20)
         self.font.set_italic(1)
         self.color = Color('grey')
-        self.score_val = -1
+        self.score_val = 0
         self.update()
         self.rect = self.image.get_rect().move(10, 450)
 
@@ -83,12 +83,13 @@ class ClimateClicker:
         self.background = pygame.Surface(screenrect.size)
         self.background = self.background.convert()
         self.background.fill((250, 250, 250))
+        # TODO switch background to something capable of displaying
+        # the real background images (environment status images)
 
         self.screen.blit(self.background, (0, 0))
         pygame.display.flip()
 
         self.exit_requested = False
-        # self.score = 0
         self.click_value = 1
         self.clock = pygame.time.Clock()
 
@@ -97,9 +98,6 @@ class ClimateClicker:
         self.crank = Crank(self.images['polar_bear'], self.sounds['beep'])
         self.score_sprite = Score()
         self.allsprites = pygame.sprite.RenderPlain(self.crank, self.score_sprite)
-
-        self.environment_image = None  # images["environment_neutral"]
-        # TODO display environment_image in background
 
     def update(self):
         """Called on new frame"""
