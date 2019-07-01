@@ -103,7 +103,14 @@ class Game:
 
     def parse_input(self, token: str) -> Dict.values:
         if len(token.split(" ")) < 2:
-            return self.input_options.get(token, self.error)
+            try:
+                # Check if it's a number to display options by number instead of name
+                int(token)
+                return self.investments.options[token]
+            except KeyError:
+                return self.error
+            except TypeError:
+                return self.input_options.get(token, self.error)
         else:
             args = token.split(" ")
             choice = args[1]
