@@ -10,6 +10,23 @@ SCREEN_TITLE = "Platformer"
 CHARACTER_SCALING = 1
 TILE_SCALING = 0.5
 COIN_SCALING = 0.5
+SPRITE_PIXEL_SIZE = 128
+GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * TILE_SCALING)
+
+# Movement speed of player, in pixels per frame
+PLAYER_MOVEMENT_SPEED = 7
+GRAVITY = 1.5
+PLAYER_JUMP_SPEED = 30
+
+# How many pixels to keep as a minimum margin between the character
+# and the edge of the screen.
+LEFT_VIEWPORT_MARGIN = 200
+RIGHT_VIEWPORT_MARGIN = 200
+BOTTOM_VIEWPORT_MARGIN = 150
+TOP_VIEWPORT_MARGIN = 100
+
+PLAYER_START_X = 64
+PLAYER_START_Y = 256
 
 
 class MyGame(arcade.Window):
@@ -49,19 +66,34 @@ class MyGame(arcade.Window):
         self.viem_left = 0
 
         # Create the Sprite Lists
-        self.coin_list = arcade.SpriteList()
+        # self.coin_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList()
         self.player_list = arcade.SpriteList()
+        self.background_list = arcade.SpriteList()
 
         # Set up the player, specifically placing it at these coordinates
-        self.player_sprite = arcade.Sprite()
+        self.player_sprite = arcade.Sprite("images/player_2/player.stand.png", CHARACTER_SCALING)
+        self.player_sprite.center_x = PLAYER_START_X
+        self.player_sprite.center_y = PLAYER_START_Y
+        self.player_list.append(self.player_sprite)
+
+        # Create the `physics engine`
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
+                                                             self.wall_list,
+                                                             gravity_constant=GRAVITY,
+                                                             ladders=self.ladder_list)
 
     def on_draw(self):
         """ Render the screen. """
 
+        # Clear the screen to the background color
         arcade.start_render()
-        # Code to draw the screen goes here.
 
+        # Draw our sprites
+        self.wall_list.draw()
+        self.background_list.draw()
+        self.ladder_list.draw()
+        self.player_list.draw()
 
 def main():
     """ Main method """
