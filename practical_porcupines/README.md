@@ -92,6 +92,7 @@ pipenv run python -m practical_porcupines flask-webportal
 
 - `1000`: General aiohttp error **decerpt**
 - `1001`: API returning wrong values (usually happens in debugging when hooked upto a dummy api)
+- `1002`: Date is out of range of dataset.
 
 ### API schema
 

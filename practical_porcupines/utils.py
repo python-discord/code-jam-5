@@ -1,5 +1,4 @@
 import os
-import re
 import json
 from datetime import datetime
 from typing import Union
@@ -7,48 +6,30 @@ from typing import Union
 
 def check_date(date):
     """
-    > Gets date
-    - String: Date
-    < Returns matched date
-    x Returns None
+    > Gets a short string date
+    - date: a string like `2019` or `2005-03-31 00:05:31`
+    < Returns [date, time] in int lists
+    x Returns DateFormatError if passed date is bad
+    x Returns ValueError if date has been formatted wrong
     """
 
-    date_pattern = (
-        "((19[0-9]{2}|2[0-9]{3})((:((0[1-9]|1[012]):"  # year & month
-        "([123]0|[012][1-9]|31))(:([01][0-9]|2[0-3]):"  # day and hour
-        "([0-5][0-9]):([0-5][0-9]))?)?)?)"  # minute and second
-    )
+    time_split = date.split(" ")
 
-    date_match = re.findall(date_pattern, date)
+    if not time_split:
+        raise DateFormatError(
+            "No dates have been passed into the " "`_add_null_date` function."
+        )
 
-    if not date_match:
-        return None
+    dates = list(map(int, time_split[0].split("-")))
+    times = list(map(int, time_split[1].split(":") if len(time_split) > 2 else []))
 
-    return _add_null_date(date_match[0][0])
+    for _ in range(3 - len(dates)):
+        dates.append(1)
 
+    for _ in range(3 - len(times)):
+        times.append(0)
 
-def _add_null_date(date_match):
-    """
-    > Gets verified date
-    - date_math: verified date from check_date
-    < Return stringfied date with extra 00:00:00:00 etc
-    """
-
-    output = []
-    date_match_split = date_match.split(":")
-
-    # IF date is already full-length
-    if len(date_match_split) == 6:
-        return date_match
-
-    for i in range(6):
-        # NOTE could be done more efficiantly, 6 - len(date_match_split)
-        if i > len(date_match_split):
-            output.append("00")
-        else:
-            output.append(date_match[i])
-
-    return ":".join(date_match)
+    return [dates, times]
 
 
 def convert_string_to_datetime(date_string: str) -> Union[datetime, None]:
@@ -126,3 +107,27 @@ class ConfigBot:
         """
 
         return os.environ["CLIENT_TOKEN"]
+
+
+class DatesOutOfRange(BaseException):
+    """
+    For when dates are out of range
+    """
+
+    pass
+
+
+class DateFormatError(BaseException):
+    """
+    For when the date formatting doesn\'t make sense
+    """
+
+    pass
+
+
+class ApiReturnBad(BaseException):
+    """
+    When API is retuning incorrect values
+    """
+
+    pass
