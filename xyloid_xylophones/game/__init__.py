@@ -1,7 +1,7 @@
 import pyglet
 from pyqtree import Index
 from config import *
-from random import random
+from random import getrandbits
 
 
 # 640x640 makes it easier to draw tiles
@@ -40,30 +40,39 @@ class Item(Player):
 
 zone_map = {}
 for i in zone_names:
-    zone_map[i] = Zone(Index(bbox=(0, 0, zone_width, zone_height)))
+    zone_map[i] = Zone(Index(bbox=(-1024, -1024, 1024, 1024)))
     zone_map[i].name = i
-    zone_map[i].width = zone_width
-    zone_map[i].height = zone_height
 
 player = Player(player_name)
-player.x = zone_width // 2
-player.y = zone_height // 2
+player.center_x = 4*64
+player.x = player.center_x
+player.center_y = 5*64
+player.y = player.center_y
+player.width = sprite_width
+player.height = sprite_height
 
 for i in zone_names:
-    for x in range(0, 1024):
-        random_item = Item('trash')
-        random_item.x = int(random() * zone_width)
-        random_item.y = int(random() * zone_height)
-        random_item.width = sprite_width
-        random_item.height = sprite_height
-        random_item.collision = True
-        if not zone_map[i].index.intersect(bbox=(random_item.x,
-                                                 random_item.y,
-                                                 random_item.x + random_item.width,
-                                                 random_item.y + random_item.height)):
-            zone_map[i].index.insert(random_item, bbox=(
-                random_item.x,
-                random_item.y,
-                random_item.x+random_item.width,
-                random_item.y+random_item.height)
-                                 )
+    for y in range(0, zone_height):
+        for x in range(0, zone_width):
+            item = Item('x%sy%s' % (x, y))
+            item.y = y * sprite_height
+            item.x = x * sprite_width
+            item.width = sprite_width-1
+            item.height = sprite_height-1
+            item.collision = not getrandbits(1)
+            if item.collision:
+                item.color = (255, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0)
+            else:
+                item.color = (0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0)
+
+            if not zone_map[i].index.intersect(bbox=(item.x,
+                                                     item.y,
+                                                     item.x + item.width,
+                                                     item.y + item.height)):
+                zone_map[i].index.insert(item, bbox=(
+                    item.x,
+                    item.y,
+                    item.x+item.width,
+                    item.y+item.height))
+            else:
+                print('you failed at math! %s %s' % (item.x, item.y))
