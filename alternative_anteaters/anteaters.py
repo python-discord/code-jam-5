@@ -1,7 +1,7 @@
 import arcade
 
 
-# Constants
+# Screen Constants
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 650
 SCREEN_TITLE = "Platformer"
@@ -54,7 +54,7 @@ class MyGame(arcade.Window):
 
         # Used to keep track of our scrolling
         self.view_bottom = 0
-        self.viem_left = 0
+        self.view_left = 0
 
     def setup(self):
         """
@@ -63,7 +63,7 @@ class MyGame(arcade.Window):
 
         # Used to keep track of our scrolling
         self.view_bottom = 0
-        self.viem_left = 0
+        self.view_left = 0
 
         # Create the Sprite Lists
         # self.coin_list = arcade.SpriteList()
@@ -93,12 +93,17 @@ class MyGame(arcade.Window):
         self.background_list.draw()
         self.player_list.draw()
 
-    # TODO
-    # 1) User Control
-    #   on_key_press()
-    #   on_key_release()
-    # 2) update(self, delta_time) function
-    # 3) create map
+    def on_key_press(self):
+        pass
+
+    def on_key_release(self):
+        pass
+
+    def update(self):
+        """ Movement and Game logic """
+
+        # Update Sprites
+        self.physics_engine.update()
 
 
 def main():
