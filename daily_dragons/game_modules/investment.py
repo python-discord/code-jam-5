@@ -1,7 +1,7 @@
 from typing import List
-from news import News
-from organization import Organization
-from planetary_effects import PlanetaryEffects
+from .news import News
+from .organization import Organization
+from .planetary_effects import PlanetaryEffects
 
 
 class Investment:
