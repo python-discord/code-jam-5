@@ -50,28 +50,40 @@ class WLDifference:
         rem = decimal_date - year
 
         base = datetime(year, 1, 1)
-        result = base + timedelta(
-            seconds=(base.replace(year=base.year + 1) - base).total_seconds() * rem
-        ).timestamp()
+
+        seconds = (  # fmt: off
+            base.replace(year=base.year + 1) - base
+        ).total_seconds() * rem
+
+        result = base + timedelta(seconds=seconds)
 
         return result
 
     def parse_data(self):
         """
-        Parses the dataset from the NASA file. returns what we need as a list of tuples
+        > Parses the dataset from the NASA file.
+        < List of tuples
         """
-        dataset_path = os.path.join(os.path.dirname(__file__), "DATASET_GMSL.txt")
+        dataset_path = os.path.join(  # fmt: off
+            os.path.dirname(__file__), "DATASET_GMSL.txt"
+        )
+
         with open(dataset_path, "r+") as f:
             lines = f.readlines()
             data = list(filter(lambda x: x.find("HDR") == -1, lines))
             filtered_data = []
+
             for d in data:
                 d = d.split()
+
                 reading_date_fraction = float(d[2])
+
                 reading_date = self.decimal_to_datetime(
                     reading_date_fraction
                 ).date()  # Date of GMSL reading
+
                 gmsl = float(d[11])  # GMSL value
+
                 filtered_data.append((reading_date, gmsl))
 
         return filtered_data
