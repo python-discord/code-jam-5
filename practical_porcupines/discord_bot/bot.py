@@ -35,8 +35,34 @@ async def gmwl(ctx, date_1, date_2):
     < Shows user gmwl difference
     """
 
-    verified_date_1 = check_date(date_1)
-    verified_date_2 = check_date(date_2)
+    try:
+        verified_date_1 = check_date(date_1)
+        verified_date_2 = check_date(date_2)
+    except DatesOutOfRange:
+        await ctx.send(
+            embed=embed_generator(
+                "Error!",
+                f"The given dates ('{date_1}' and '{date_2}') "
+                "are not in the dataset range (1993-01 - 2019-02)!",
+                0xA31523,
+                discord,
+            )
+        )
+
+        return
+    except Exception as e:
+        await ctx.send(
+            embed=embed_generator(
+                "Misc error!",
+                "Got a misc error we can\'t handle! The exception "
+                "follows below, please send it to the developers:"
+                f"\n\n{e}",
+                0xA31523,
+                discord,
+            )
+        )
+
+        return
 
     print(verified_date_1, verified_date_2)
 
@@ -59,23 +85,6 @@ async def gmwl(ctx, date_1, date_2):
             "Error!",
             "The API is not returning the expected values. "
             "This usually occures in testing w/ dummy endpoint",
-            0xA31523,
-            discord,
-        )
-    except DatesOutOfRange:
-        embed = embed_generator(
-            "Error!",
-            f"The given dates ('{date_1}' and '{date_2}') "
-            "are not in the dataset range (1993-01 - 2019-02)!",
-            0xA31523,
-            discord,
-        )
-    except Exception as e:
-        embed = embed_generator(
-            "Misc error!"
-            "Got a misc error we can\'t handle! The exception "
-            "follows below, please send it to the developers:"
-            f"\n\n{e}",
             0xA31523,
             discord,
         )
