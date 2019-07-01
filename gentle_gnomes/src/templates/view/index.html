@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1>{% block title %}Hello world!{% endblock %}</h1>
+    <h1>{% block title %}Climate Change Search{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <form action="/search" method="post">
+        <label for="location">Location</label>
+        <input name="location" id="location" type="text" required>
+        <input type="submit" value="Search">
+    </form>
 {% endblock %}
