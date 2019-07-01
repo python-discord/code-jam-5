@@ -18,12 +18,12 @@ class AudioVisualiser(QtWidgets.QWidget):
         self.amps = np.array([])
         self._draw_center_piece()
         self._start_visualising()
-    
+
     def _draw_center_piece(self):
         """Draws the center image for the audio visualiser"""
         layout = QtWidgets.QHBoxLayout()
 
-        pixmap = QtGui.QPixmap('only_otters\\images\\earth.png')
+        pixmap = QtGui.QPixmap(str(Path('only_otters/images/earth.png')))
         pixmap = pixmap.scaled(self.min_radius*2, self.min_radius*2, QtCore.Qt.KeepAspectRatio)
         self.center_piece = QtWidgets.QLabel()
         self.center_piece.setAlignment(QtCore.Qt.AlignCenter)
@@ -57,14 +57,13 @@ class AudioVisualiser(QtWidgets.QWidget):
             medium_poly.append(QtCore.QPointF(x*(0.9+variance), y*(0.9+variance)))
             small_poly.append(QtCore.QPointF(x*(0.8+variance), y*(0.8+variance)))
 
-
         # Centering the polygons
         large_poly.translate(self.width()//2, self.height()//2)
         medium_poly.translate(self.width()//2, self.height()//2)
         small_poly.translate(self.width()//2, self.height()//2)
 
         return large_poly, medium_poly, small_poly
-    
+
     def set_amplitudes(self, amps):
         """Sets the amplitudes for the visualiser and plots them."""
         self.amps = np.array(amps)
@@ -92,4 +91,3 @@ class AudioVisualiser(QtWidgets.QWidget):
         painter.setPen(QtCore.Qt.yellow)
         painter.setBrush(QtCore.Qt.yellow)
         painter.drawPolygon(polygon_yellow)
-        
