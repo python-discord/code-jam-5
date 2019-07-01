@@ -8,29 +8,35 @@ def check_date(date):
     > Gets date
     - String: Date
     < Returns datetime object
+    x Returns DateFormatError if passed date is bad
+    x Returns DatesOutOfRange if dates exceed dataset
     """
 
-    try:
-        return datetime.datetime.strptime(  # fmt: off
-            _add_null_date(date), "%Y-%m-%d %H:%M"  # TODO fix date part
-        )
-    except ValueError as e:
-        raise NotImplementedError(e)  # Need to do the TODO above
+    raise NotImplementedError()
+
+    # TODO convert _add_null_date return to datetime
 
 
 def _add_null_date(date):
+    """
+    > Gets a short string date
+    - date: a string like `2019` or `2005-03-31 00:05:31`
+    < Returns [date, time] in int lists
+    x Returns DateFormatError if passed date is bad
+    """
+
     time_split = date.split(" ")
 
-    dates = time_split[0].split("-")
-    times = time_split[1].split(":") if len(time_split) > 2 else []
-
-    for _ in range(2 - len(times)):
-        times.append("00")
+    dates = list(map(int, time_split[0].split("-")))
+    times = list(map(int, time_split[1].split(":") if len(time_split) > 2 else []))
 
     for _ in range(3 - len(dates)):
-        dates.append("00")
+        dates.append(0)
 
-    return "-".join(dates) + " " + ":".join(times)
+    for _ in range(3 - len(times)):
+        times.append(0)
+
+    return [dates, times]
 
 
 class ConfigBase:
