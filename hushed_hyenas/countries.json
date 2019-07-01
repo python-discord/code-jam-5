@@ -1,4 +1,5 @@
 
+
 [
    {
       "timezones": [
@@ -133,18 +134,6 @@
       "name": "Brazil",
       "country_code": "BR",
       "capital": "Brasília"
-   },
-   {
-      "timezones": [
-         "Asia/Brunei"
-      ],
-      "latlng": [
-         4.5,
-         114.666664
-      ],
-      "name": "Brunei",
-      "country_code": "BN",
-      "capital": "Bandar Seri Begawan"
    },
    {
       "timezones": [
@@ -348,18 +337,6 @@
    },
    {
       "timezones": [
-         "Africa/El_Aaiun"
-      ],
-      "latlng": [
-         24.5,
-         -13
-      ],
-      "name": "Western Sahara",
-      "country_code": "EH",
-      "capital": "El Aaiún"
-   },
-   {
-      "timezones": [
          "Europe/Madrid",
          "Africa/Ceuta",
          "Atlantic/Canary"
@@ -485,18 +462,6 @@
    },
    {
       "timezones": [
-         "America/Cayenne"
-      ],
-      "latlng": [
-         4,
-         -53
-      ],
-      "name": "French Guiana",
-      "country_code": "GF",
-      "capital": "Cayenne"
-   },
-   {
-      "timezones": [
          "Asia/Hong_Kong"
       ],
       "latlng": [
@@ -612,18 +577,6 @@
    },
    {
       "timezones": [
-         "Asia/Bishkek"
-      ],
-      "latlng": [
-         41,
-         75
-      ],
-      "name": "Kyrgyzstan",
-      "country_code": "KG",
-      "capital": "Bishkek"
-   },
-   {
-      "timezones": [
          "Asia/Seoul"
       ],
       "latlng": [
@@ -645,18 +598,6 @@
       "name": "Kosovo",
       "country_code": "XK",
       "capital": "Pristina"
-   },
-   {
-      "timezones": [
-         "Asia/Vientiane"
-      ],
-      "latlng": [
-         18,
-         105
-      ],
-      "name": "Laos",
-      "country_code": "LA",
-      "capital": "Vientiane"
    },
    {
       "timezones": [
@@ -890,30 +831,6 @@
    },
    {
       "timezones": [
-         "Asia/Muscat"
-      ],
-      "latlng": [
-         21,
-         57
-      ],
-      "name": "Oman",
-      "country_code": "OM",
-      "capital": "Muscat"
-   },
-   {
-      "timezones": [
-         "Asia/Karachi"
-      ],
-      "latlng": [
-         30,
-         70
-      ],
-      "name": "Pakistan",
-      "country_code": "PK",
-      "capital": "Islamabad"
-   },
-   {
-      "timezones": [
          "America/Lima"
       ],
       "latlng": [
@@ -984,19 +901,6 @@
       "name": "Paraguay",
       "country_code": "PY",
       "capital": "Asunción"
-   },
-   {
-      "timezones": [
-         "Asia/Gaza",
-         "Asia/Hebron"
-      ],
-      "latlng": [
-         31.9,
-         35.2
-      ],
-      "name": "Palestine",
-      "country_code": "PS",
-      "capital": "Ramallah"
    },
    {
       "timezones": [
@@ -1097,18 +1001,6 @@
    },
    {
       "timezones": [
-         "Europe/Bratislava"
-      ],
-      "latlng": [
-         48.666668,
-         19.5
-      ],
-      "name": "Slovakia",
-      "country_code": "SK",
-      "capital": "Bratislava"
-   },
-   {
-      "timezones": [
          "Europe/Stockholm"
       ],
       "latlng": [
@@ -1118,18 +1010,6 @@
       "name": "Sweden",
       "country_code": "SE",
       "capital": "Stockholm"
-   },
-   {
-      "timezones": [
-         "Africa/Mbabane"
-      ],
-      "latlng": [
-         -26.5,
-         31.5
-      ],
-      "name": "Swaziland",
-      "country_code": "SZ",
-      "capital": "Lobamba"
    },
    {
       "timezones": [
@@ -1190,18 +1070,6 @@
       "name": "Turkey",
       "country_code": "TR",
       "capital": "Ankara"
-   },
-   {
-      "timezones": [
-         "Asia/Taipei"
-      ],
-      "latlng": [
-         23.5,
-         121
-      ],
-      "name": "Taiwan",
-      "country_code": "TW",
-      "capital": "Taipei"
    },
    {
       "timezones": [
@@ -1367,3 +1235,4 @@
       "capital": "Harare"
    }
 ]
+
