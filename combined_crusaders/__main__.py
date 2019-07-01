@@ -78,15 +78,11 @@ class CC:  # TODO game name goes here
         self.button_panel = ButtonPanel()
         self.clock = pygame.time.Clock()
         self.fullscreen = False
-        # If we want to display the score, that shouldn't be too hard. If
-        # we want to display the environment only instead, that works too.
         # TODO display environment_image in background
-        # TODO add button panel to screen
 
     def update(self):
         """Called on new frame"""
-        # TODO update score field, update environment image,
-        # update anything we need to update in the button panel
+        # TODO update score field, update environment image
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYDOWN
                                       and event.key == K_ESCAPE):
@@ -107,10 +103,6 @@ class CC:  # TODO game name goes here
 def main():
     if pygame.mixer and not pygame.mixer.get_init():
         raise OSError("Can't play sounds, sounds are required")
-    # There's an issue with sounds that I need to work on; uploading this
-    # version to the skeleton, I'll try to fix it.
-    # pygame.mixer.music.load(sounds["beep"])
-    # pygame.mixer.music.play(-1)
     game = CC()
     game.play()
 
