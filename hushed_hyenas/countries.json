@@ -1,4 +1,5 @@
-ï»¿[
+
+[
    {
       "timezones": [
          "Asia/Kabul"
@@ -131,7 +132,7 @@
       ],
       "name": "Brazil",
       "country_code": "BR",
-      "capital": "BrasÃ­lia"
+      "capital": "Brasília"
    },
    {
       "timezones": [
@@ -256,7 +257,7 @@
       ],
       "name": "Cameroon",
       "country_code": "CM",
-      "capital": "YaoundÃ©"
+      "capital": "Yaoundé"
    },
    {
       "timezones": [
@@ -293,7 +294,7 @@
       ],
       "name": "Colombia",
       "country_code": "CO",
-      "capital": "BogotÃ¡"
+      "capital": "Bogotá"
    },
    {
       "timezones": [
@@ -355,7 +356,7 @@
       ],
       "name": "Western Sahara",
       "country_code": "EH",
-      "capital": "El AaiÃºn"
+      "capital": "El Aaiún"
    },
    {
       "timezones": [
@@ -982,7 +983,7 @@
       ],
       "name": "Paraguay",
       "country_code": "PY",
-      "capital": "AsunciÃ³n"
+      "capital": "Asunción"
    },
    {
       "timezones": [
