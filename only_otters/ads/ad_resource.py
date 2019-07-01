@@ -65,13 +65,13 @@ class Resource:
         root, _ = cached_request(self.source)
 
         if root is None:
-            raise UserWarning  # TODO: Add a proper exception
+            raise UserWarning('Request failed')  # TODO: Add a proper exception
 
         if self.container is not None:
 
             roots = cached_xpath(root, self.container)
             if not roots:
-                raise UserWarning  # TODO: Add a proper exception
+                raise UserWarning('Container not found')  # TODO: Add a proper exception
 
             for element in roots:
                 yield dictquery(element, self.query)
