@@ -95,6 +95,14 @@ class MyGame(arcade.Window):
         self.ladder_list.draw()
         self.player_list.draw()
 
+    # TODO
+    # 1) User Control
+    #   on_key_press()
+    #   on_key_release
+    # 2) update(self, delta_time) function
+    # 3) create map
+
+
 def main():
     """ Main method """
     window = MyGame()
