@@ -103,5 +103,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-#vs code
+# VSCode
 .vscode
+
+# Images Folder containig sprites
+/images
