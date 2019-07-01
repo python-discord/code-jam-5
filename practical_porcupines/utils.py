@@ -8,6 +8,7 @@ def check_date(date):
     - date: a string like `2019` or `2005-03-31 00:05:31`
     < Returns [date, time] in int lists
     x Returns DateFormatError if passed date is bad
+    x Returns ValueError if date has been formatted wrong
     """
 
     time_split = date.split(" ")
