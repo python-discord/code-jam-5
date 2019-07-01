@@ -20,28 +20,30 @@ def on_key_press(symbol, modifiers):
     by adding `symbol` to the `keys` set. `modifiers` is not used, but required
     for the function signature.
     '''
-    print('old player: %s %s' % (player.x, player.y))
-    new_x = player.x-player.center_x
-    new_y = player.y-player.center_y
+    # print('old player: %s %s' % (player.x, player.y))
+    new_x = player.x
+    new_y = player.y
     if symbol == pyglet.window.key.UP:
-        new_y += player_step
+        new_y += 1
     if symbol == pyglet.window.key.DOWN:
-        new_y -= player_step
+        new_y -= 1
     if symbol == pyglet.window.key.LEFT:
-        new_x -= player_step
+        new_x -= 1
     if symbol == pyglet.window.key.RIGHT:
-        new_x += player_step
+        new_x += 1
     permitted = True
-    print('queried %s,%s' % (new_x, new_y))
-    for i in zone_map[current_zone].index.intersect(bbox=(new_x, new_y, new_x, new_y)):
+    query_x = -1024 + (new_x * sprite_width)
+    query_y = -1024 + (new_y * sprite_height)
+    # print('queried %s,%s' % (query_x, query_y))
+    for i in zone_map[current_zone].index.intersect(bbox=(query_x, query_y, query_x, query_y)):
         print('found:%s which is %s' % (i.name, i.collision))
         if i.collision:
             permitted = False
             break
     if permitted:
-        player.x = new_x + player.center_x
-        player.y = new_y + player.center_y
-        print('new player: %s, %s' % (player.x, player.y))
+        player.x = new_x
+        player.y = new_y
+        # print('new player: %s, %s' % (player.x, player.y))
     keys.add(symbol)
 
 

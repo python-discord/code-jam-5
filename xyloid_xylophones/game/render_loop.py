@@ -27,18 +27,20 @@ def render_loop():
 
     # batch up all zone drawing
     batch = pyglet.graphics.Batch()
+    offset_x = -1024 + ((4+(zone_width-player.x)) * sprite_width)
+    offset_y = -1024 + ((4+(zone_height-player.y)) * sprite_height)
     for i in zone_map[current_zone].index.intersect(bbox=(
-            player.x-view_distance-player.center_x,
-            player.y-view_distance-player.center_y,
-            player.x+view_distance-player.center_x,
-            player.y+view_distance-player.center_y)):
+            -1024+((player.x-view_distance)*sprite_width),
+            -1024+((player.y-view_distance)*sprite_height),
+            -1024+((player.x+view_distance)*sprite_width),
+            -1024+((player.y+view_distance)*sprite_height))):
         batch.add(4, pyglet.gl.GL_QUADS, None, ('v2i', (
-            i.x + player.x, i.y + player.y,
-            i.x+i.width + player.x, i.y + player.y,
-            i.x + i.width + player.x, i.y + i.height + player.y,
-            i.x + player.x, i.y + i.width + player.y)),
+            i.x + offset_x, i.y + offset_y,
+            i.x+i.width + offset_x, i.y + offset_y,
+            i.x + i.width + offset_x, i.y + i.height + offset_y,
+            i.x + offset_x, i.y + i.width + offset_y)),
          ('c3B', i.color))
-        pyglet.text.Label(i.name, batch=batch, x=i.x+5+player.x, y=i.y+5+player.y)
+        pyglet.text.Label(i.name, batch=batch, x=i.x + offset_x + 5, y=i.y + offset_y + 5)
     batch.draw()
 
     # draw player fixed (static center)
