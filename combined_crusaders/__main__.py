@@ -15,7 +15,7 @@ if not pygame.image.get_extended():
 
 
 class Crank(pygame.sprite.Sprite):
-    """Hand Crank that rotates when clicks."""
+    """Hand Crank that rotates when clicked."""
     def __init__(self, crank_image, click_sound):
         pygame.sprite.Sprite.__init__(self)
         self.image = crank_image
@@ -68,7 +68,7 @@ class ClimateClicker:
         self.background = self.background.convert()
         self.background.fill((250, 250, 250))
 
-        self.screen.blit(self.background, (0,0))
+        self.screen.blit(self.background, (0, 0))
         pygame.display.flip()
 
         self.exit_requested = False
