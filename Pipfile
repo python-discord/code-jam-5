@@ -14,6 +14,7 @@ requests = "*"
 flask-restful = "*"
 flask-sqlalchemy = "*"
 aiohttp = "*"
+flask-wtf = "*"
 
 [requires]
 python_version = "3.6"
