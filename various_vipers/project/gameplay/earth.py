@@ -8,6 +8,7 @@ from pygame.image import load
 from project.constants import (
     BG_CLOUDS_SCROLL_SPEED,
     BG_SCROLL_SPEED,
+    BIOME_WIDTH,
     CLOUD_LAYERS_BG,
     CLOUD_LAYERS_FG,
     FG_CLOUDS_SCROLL_SPEED,
@@ -18,6 +19,8 @@ from project.constants import (
     WIDTH,
 )
 from .biome import Biome
+from .indicator import Indicator
+from .tile import Tile
 
 
 logger = logging.getLogger(__name__)
@@ -40,9 +43,16 @@ class Earth(object):
     cloud_layers_fg: List[pg.Surface]
     current_cloud_fg_pos: float = 0
 
+    # :: Indicators
+
+    indicators: List[Indicator]
+
+    # :: Other
     current_biome_pos: float = 0
     biomes: List[Biome]
     max_position: float
+
+    visible_tiles: List[Tile]
 
     def __init__(self, screen: pg.Surface, biomes: List[Biome]):
         self.screen = screen
@@ -57,6 +67,9 @@ class Earth(object):
             load(str(image)).convert_alpha() for image in CLOUD_LAYERS_FG
         ]
         self.cloud_layers_fg = []
+
+        self.indicators = []
+        self.visible_tiles = []
 
         # Calculate max position by added the width of all bg images
         self.max_position = sum(biome.background.get_width() for biome in self.biomes)
@@ -74,11 +87,50 @@ class Earth(object):
         self.current_cloud_fg_pos += FG_CLOUDS_SCROLL_SPEED
         self.__update_positions()
         self.__update_tiles()
+        self.__update_indicators()
 
     def draw(self) -> None:
         """Draw all images related to the earth."""
         self.__draw_clouds()
         self.__draw_biomes()
+        self.__draw_indicators()
+
+    def fix_indicators(self) -> None:
+        """Will add missing indicators. Should be called when indicator could appear."""
+        # Loop through all tiles. If tile has task, but no indicator - add it
+        for biome_idx, biome in enumerate(self.biomes):
+            for tile_row in biome.tilemap:
+                for tile in tile_row:
+                    if tile.task is None:
+                        continue
+
+                    indicator = next(
+                        (i for i in self.indicators if i.tile == tile), None
+                    )
+
+                    # If tile is visible - dont need indicator
+                    if tile in self.visible_tiles:
+                        if indicator:
+                            self.indicators.remove(indicator)
+                        continue
+
+                    if indicator is None:
+                        indicator = Indicator(self.screen, tile)
+                        self.indicators.append(indicator)
+
+                    # Calculate if the tile is to the left or right of the screen
+                    biome_pos = biome_idx * BIOME_WIDTH
+                    if self.current_biome_pos < biome_pos:
+                        distance_left = (
+                            self.max_position - biome_pos + self.current_biome_pos
+                        )
+                        distance_right = biome_pos - self.current_biome_pos
+                    else:
+                        distance_left = self.current_biome_pos - biome_pos
+                        distance_right = (
+                            self.max_position - self.current_biome_pos + biome_pos
+                        )
+                    indicator.flip(distance_left <= distance_right)
 
     def __prepare_draw_clouds(
         self,
@@ -154,6 +206,10 @@ class Earth(object):
                 draw_args.append([tile_image, (draw_x, draw_y)])
                 tile_x += TILE_WIDTH
 
+                # If tile is on screen add it to visible tiles list
+                if draw_x + tile_image.get_width() > 0 and draw_x < WIDTH:
+                    self.visible_tiles.append(tile)
+
             tile_y += offset
 
         return draw_args
@@ -175,6 +231,7 @@ class Earth(object):
 
     def __draw_biomes(self) -> None:
         """Draw biomes related images - will draw as little as possible to fill the screen."""
+        self.visible_tiles = []
         # Saving draw calls to buffer and draw later - so we can draw all BG items before FG
         background_draws = []
         tile_draws = []
@@ -229,17 +286,23 @@ class Earth(object):
 
         return (i, _position - self.current_biome_pos)
 
+    def __draw_indicators(self) -> None:
+        for indicator in self.indicators:
+            indicator.draw()
+
     def __scroll_left(self) -> None:
         logger.debug("Scrolling LEFT.")
         self.current_biome_pos -= BG_SCROLL_SPEED
         self.current_cloud_bg_pos += BG_CLOUDS_SCROLL_SPEED
         self.current_cloud_fg_pos += FG_CLOUDS_SCROLL_SPEED
+        self.fix_indicators()
 
     def __scroll_right(self) -> None:
         logger.debug("Scrolling RIGHT.")
         self.current_biome_pos += BG_SCROLL_SPEED
         self.current_cloud_bg_pos -= BG_CLOUDS_SCROLL_SPEED * 2
         self.current_cloud_fg_pos -= FG_CLOUDS_SCROLL_SPEED * 2
+        self.fix_indicators()
 
     def __update_positions(self) -> None:
         """Correct current position based on min and max values."""
@@ -266,3 +329,8 @@ class Earth(object):
             for tile_row in biome.tilemap:
                 for tile in tile_row:
                     tile.update()
+
+    def __update_indicators(self) -> None:
+        """Calls update method of every indicator."""
+        for indicator in self.indicators:
+            indicator.update()

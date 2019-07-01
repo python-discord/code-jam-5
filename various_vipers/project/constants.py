@@ -24,6 +24,8 @@ TILE_COLS: int = int(BIOME_WIDTH // TILE_WIDTH)
 # Number of tile rows per biome
 TILE_ROWS: int = 4
 
+INDICATOR_WIDTH: int = 100
+
 # How many pixels the background is allowed to move in 1 game tick
 BG_SCROLL_SPEED = 20
 BG_CLOUDS_SCROLL_SPEED = 1
@@ -67,6 +69,7 @@ PATH_PROJECT = PurePath(__file__).parent
 PATH_BACKGROUNDS = PurePath(PATH_PROJECT).joinpath("assets/images/background")
 PATH_TILES = PurePath(PATH_PROJECT).joinpath("assets/images/tiles")
 PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/buttons")
+PATH_OTHER = PurePath(PATH_PROJECT).joinpath("assets/images/other")
 
 # Game assets
 
@@ -86,6 +89,8 @@ CLOUD_LAYERS_FG = [
     PurePath(PATH_CLOUD_LAYERS).joinpath("cloudLayer2.png"),
     PurePath(PATH_CLOUD_LAYERS).joinpath("cloudLayerB2.png"),
 ]
+
+INDICATOR_ARROW = PurePath(PATH_OTHER).joinpath("indicator.png")
 
 # Tiles
 

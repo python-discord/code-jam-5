@@ -71,8 +71,7 @@ class Period(object):
             or self.time_of_last_task_spawn >= self.task_spawn_freq
         ):
             self.time_of_last_task_spawn = 0
-            for _ in range(10):
-                self.__spawn_task()
+            self.__spawn_task()
         else:
             self.time_of_last_task_spawn += 1
         self.task_spawn_freq = max(self.task_spawn_freq + self.task_spawn_freq_inc, 0)
@@ -93,11 +92,14 @@ class Period(object):
         tile_x = tile_in_biome_idx - (tile_y * TILE_COLS)
 
         biome = self.biomes[biome_idx]
+        tile = biome.tilemap[tile_y][tile_x]
         new_task = random.choices(
             [TaskCursorMaze, TaskRockPaperScissors, TaskTicTacToe],
             weights=[self.maze_chance, self.rps_chance, self.ttt_chance],
         )
-        biome.tilemap[tile_y][tile_x].task = new_task[0](biome)
+        tile.task = new_task[0](biome)
+
+        self.earth.fix_indicators()
 
 
 class PeriodMedieval(Period):
