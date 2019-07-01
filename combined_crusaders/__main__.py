@@ -55,9 +55,9 @@ class Crank(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.click_sound = click_sound
         screen = pygame.display.get_surface()
-        self.area = screen.get_rect()
-        self.rect.topleft = 10, 10
-        self.spinning = 0
+        self.rect.topleft = 200, 200
+        self.spinning = False
+        self.rotation = 0
 
     def update(self):
         "spin based on state"
@@ -68,19 +68,19 @@ class Crank(pygame.sprite.Sprite):
     def _spin(self):
         "Spin the sprite one full revolution"
         center = self.rect.center
-        self.spinning += 12
-        if self.spinning >= 360:
-            self.spinning = 0
+        self.rotation += 12
+        if self.rotation >= 360:
+            self.rotation = 0
+            self.spinning = False
             self.image = self.original
         else:
-            self.image = pygame.transform.rotate(self.original, self.spinning)
+            self.image = pygame.transform.rotate(self.original, self.rotation)
             self.rect = self.image.get_rect(center=center)
 
     def clicked(self):
         "this will cause the crank to start spinning"
         if not self.spinning:
-            # self.click_sound.play()
-            self.spinning = 1
+            self.spinning = True
             self.original = self.image
 
 
