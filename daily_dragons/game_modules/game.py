@@ -7,18 +7,38 @@ from .investment_options import InvestmentOptions
 
 class Game:
     def __init__(self, name) -> None:
-        self.quit_game = False
-
-        self.input_options = {
-            "help": self.help_menu,
-            "exit": self.leave_game,
-            "stats": self.player_stats,
-            "earth": self.planet_stats,
-        }
-
         self.player = Player(name)
         self.earth = Planet()
         self.investments = InvestmentOptions()
+
+        self.quit_game = False
+
+        help_options = ("stats: view current player stats",
+                        "earth: view current planet health",
+                        "invest: choose an investment",
+                        "exit: quit the game",)
+        self.help_menu = "\n".join(help_options)
+
+        self.player_stats_msg = f"Your current stats:\n{self.player}"
+
+        self.planet_stats_msg = "\n".join(["Earth's current stats:",
+                                           f"{self.earth.health_summary()}",
+                                           f"{self.earth}", ])
+
+        self.error_msg = "Unrecognized input, try again or type help"
+
+        self.exit_msg = "Have a good day, thanks for playing!"
+
+        self.successful_order_msg = "Ok, we've sent that in!"
+
+        self.cancelled_order_msg = "Ok, we'll cancel that order."
+
+        self.input_options = {
+            "help": self.help_menu,
+            "exit": self.exit_msg,
+            "stats": self.player_stats_msg,
+            "earth": self.planet_stats_msg,
+        }
 
         print(
             f"Hello {name},",
@@ -48,63 +68,45 @@ class Game:
 
             response = self.parse_input(player_input)
 
-            print(response())
+            print(response, "\n\n")
 
-    @staticmethod
-    def help_menu() -> str:
-        menu = (
-            "stats: view current player stats",
-            "earth: view current planet health",
-            "invest: choose an investment",
-            "exit: quit the game",
-        )
-
-        return "\n".join(menu)
-
-    def player_stats(self) -> str:
-        output = f"Your current stats:\n{self.player}"
-        return output
-
-    def planet_stats(self) -> str:
-        output = f"Earth's current stats:\n{self.earth.health_summary()}\n{self.earth}"
-
-        return output
-
-    def leave_game(self) -> str:
-        self.quit_game = True
-        return "Have a good day, thanks for playing!"
-
-    def error(self) -> str:
-        return "Unrecognized input, try again or type help"
-
-    def successful_order(self) -> str:
-        return "Ok, we've sent that in!"
-
-    def cancelled_order(self) -> str:
-        return "Ok, we'll cancel that order."
-
-    def _invest(self, option) -> None:
+    def _invest(self, option) -> str:
         try:
             chosen_investment = self.investments.options[option]
             print(chosen_investment)
             print("Investing in ", chosen_investment.organization.name)
-            print("Are you sure? Y/N")
+            print("Are you sure? y/N")
 
-            player_input = input("")
+            player_input = input("").casefold()
 
-            if player_input.lower() == "y" or player_input.lower() == "yes":
+            if player_input == "y" or player_input == "yes":
                 self.earth.affect_planet(chosen_investment.planetary_effects)
-                return self.successful_order
+                return self.successful_order_msg
             else:
-                return self.cancelled_order
+                return self.cancelled_order_msg
 
         except (KeyError, AttributeError):
-            return self.error
+            return self.error_msg
 
     def parse_input(self, token: str) -> Dict.values:
-        if len(token.split(" ")) < 2:
-            return self.input_options.get(token, self.error)
+        if token.isdigit():
+            return self.investments.options.get(token, self.error_msg)
+        elif token.casefold() == "exit":
+            self.quit_game = True
+            return self.input_options[token]
+        elif len(token.split(" ")) < 2:
+            return self.input_options.get(token, self.error_msg)
         else:
             args = token.split(" ")
-            choice = args[1]
-            return self._invest(choice)
+
+            try:
+                if args[0].casefold() == "invest":
+                    choice = ' '.join(args[1:])
+                    choice = str(self.investments.option_names.index(choice.casefold()) + 1)
+                    return self._invest(choice)
+                else:
+                    choice = str(self.investments.option_names.index(token.casefold()) + 1)
+                    return self.investments.options.get(choice, self.error_msg)
+
+            except ValueError:
+                return self.error_msg
