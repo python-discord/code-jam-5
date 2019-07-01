@@ -146,14 +146,14 @@ class Crank(pygame.sprite.Sprite):
 class AutomationMachine(pygame.sprite.Sprite):
     def __init__(self,
                  price: int,
-                 energy_per_minute: int,
+                 energy_per_second: int,
                  image,
                  location: tuple,
                  master):
         pygame.sprite.Sprite.__init__(self)
         self.font = pygame.font.Font(None, 20)
         self.price = price
-        self.energy_per_minute = energy_per_minute
+        self.energy_per_second = energy_per_second
         self._count = 0
         self.image = image
         self.rect = self.image.get_rect(center=location)
@@ -229,6 +229,11 @@ class ClimateClicker:
 
         self.last_update_time = time.time()
 
+    @property
+    def energy_per_second(self):
+        return sum([machine.energy_per_second * machine.count
+                    for machine in self.machines.values()])
+
     def update(self):
         """Called on new frame"""
         self.clock.tick(60)
@@ -268,7 +273,7 @@ class ClimateClicker:
 
     @property
     def score(self):
-        return self.score_sprite.score_val
+        return self._score
 
     @score.setter
     def score(self, value: int):
