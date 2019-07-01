@@ -1,15 +1,11 @@
 import pyglet
-from enemy import Enemy
+from .enemy import Enemy
 
 window = pyglet.window.Window(caption='Penguin Snowball')
 pyglet.resource.path = ['../resources']
 pyglet.resource.reindex()
-enemy_image = pyglet.resource.image('circle.png')
-enemy_image.width = 50
-enemy_image.height = 50
 
-
-enemy = Enemy(enemy_image)
+enemy = Enemy()
 
 
 def main():
