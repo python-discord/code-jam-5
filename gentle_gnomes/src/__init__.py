@@ -1,5 +1,6 @@
 from flask import Flask
 
+from . import azavea
 from . import view
 
 
@@ -11,6 +12,8 @@ def create_app(test_config=None):
         app.config.from_pyfile('config.py', silent=True)
     else:
         app.config.from_mapping(test_config)
+
+    app.azavea = azavea.Client(app.config['AZAVEA_TOKEN'])
 
     app.register_blueprint(view.bp)
     return app
