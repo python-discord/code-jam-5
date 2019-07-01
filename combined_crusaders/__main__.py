@@ -80,21 +80,18 @@ class ClimateClicker:
         self.screen = pygame.display.set_mode(screenrect.size, 0, bestdepth)
         pygame.display.set_caption('Climate Clicker')
 
-        self.background = pygame.Surface(screenrect.size)
-        self.background = self.background.convert()
-        self.background.fill((250, 250, 250))
-        # TODO switch background to something capable of displaying
-        # the real background images (environment status images)
-
-        self.screen.blit(self.background, (0, 0))
-        pygame.display.flip()
-
         self.exit_requested = False
         self.click_value = 1
         self.clock = pygame.time.Clock()
 
         self.images = media.load_images()
         self.sounds = media.load_sounds()
+
+        self.background = self.images["environment_neutral"]
+        self.background = self.background.convert()
+        self.screen.blit(self.background, (0, 0))
+        pygame.display.flip()
+
         self.crank = Crank(self.images['polar_bear'], self.sounds['beep'])
         self.score_sprite = Score()
         self.allsprites = pygame.sprite.RenderPlain(self.crank, self.score_sprite)
