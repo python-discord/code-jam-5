@@ -6,8 +6,14 @@ Handling input and making changes.
 
 import pygame as pg
 
-from project.UI.element.button import ButtonModel
-from project.constants import BACK_BTN, BACK_BTN_HOVER, Color, WindowState
+from project.UI.element.button import Button
+from project.constants import (
+    BACK_BTN,
+    BACK_BTN_HOVER,
+    ButtonProperties,
+    Color,
+    WindowState,
+)
 
 
 class Credits:
@@ -19,11 +25,11 @@ class Credits:
         back_btn_img = pg.image.load(str(BACK_BTN)).convert_alpha()
         back_btn_img_h = pg.image.load(str(BACK_BTN_HOVER)).convert_alpha()
 
-        self.back_btn = ButtonModel(
-            x=20,
-            y=20,
-            width=200,
-            height=100,
+        self.back_btn = Button(
+            x=ButtonProperties.back_btn_x,
+            y=ButtonProperties.back_btn_y,
+            width=ButtonProperties.back_btn_w,
+            height=ButtonProperties.back_btn_h,
             image=back_btn_img,
             image_hover=back_btn_img_h,
         )

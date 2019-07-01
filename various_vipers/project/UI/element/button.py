@@ -38,7 +38,7 @@ def generate_main_buttons(
         top = margin_y + (gap * (pos - 1)) + (btn_h * (pos - 1))
 
         # create new button and add it to the list
-        new_button = ButtonModel(
+        new_button = Button(
             x=left,
             y=top,
             width=btn_w,
@@ -50,7 +50,7 @@ def generate_main_buttons(
     return buttons
 
 
-class ButtonModel:
+class Button:
     """Represents a button."""
 
     def __init__(

@@ -60,7 +60,7 @@ class Game:
             self.screen.fill(Color.sky)
             self.game_view.draw()
         else:
-            self.screen.fill(Color.aqua)
+            self.screen.fill(Color.black)
 
             if self.window_state == WindowState.game:
                 self.playing = True

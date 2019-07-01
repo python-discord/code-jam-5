@@ -32,45 +32,19 @@ BG_CLOUDS_SCROLL_SPEED = 1
 FG_CLOUDS_SCROLL_SPEED = 2
 
 
-class Color:
-    """Represent RGB color values."""
-
-    black = (0, 0, 0)
-
-    white = (255, 255, 255)
-
-    red = (255, 0, 0)
-
-    aqua = (0, 255, 255)
-
-    sky = (207, 239, 252)
-
-
-class WindowState:
-    """Represents windows states."""
-
-    game = "game"
-    main_menu = "main_menu"
-    options = "options"
-    credit = "credit"
-    quited = "quit"
-
-
-class Button:
-    """Represents buttons properties."""
-
-    main_btn_w = 400
-    main_btn_h = 100
-    btn_gap = 50
-
-
 PATH_PROJECT = PurePath(__file__).parent
+
+PATH_DATA = PurePath(PATH_PROJECT).joinpath("data")
 
 PATH_BACKGROUNDS = PurePath(PATH_PROJECT).joinpath("assets/images/background")
 PATH_TILES = PurePath(PATH_PROJECT).joinpath("assets/images/tiles")
-PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/buttons")
+
+PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/UI/buttons")
+PATH_UI_BACKGROUNDS = PurePath(PATH_PROJECT).joinpath("assets/images/UI/backgrounds")
 PATH_OTHER = PurePath(PATH_PROJECT).joinpath("assets/images/other")
 
+
+USER_SETTINGS = PurePath(PATH_DATA).joinpath("user_settings.json")
 # Game assets
 
 # Background images
@@ -99,18 +73,65 @@ TILES_WATER = list(Path(PATH_TILES).joinpath("water").glob("*"))
 
 # UI assets
 
+# Backgrounds
+MAIN_MENU_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("main_menu2.png")
+
 # Button images
-PLAY_BTN = PurePath(PATH_BUTTONS).joinpath("play-btn-test.png")
-PLAY_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("play-btn-test-hover.png")
+PLAY_BTN = PurePath(PATH_BUTTONS).joinpath("play-btn-1.png")
+PLAY_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("play-btn-1-hover.png")
 
-OPT_BTN = PurePath(PATH_BUTTONS).joinpath("opt-btn-test.png")
-OPT_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("opt-btn-test-hover.png")
+OPT_BTN = PurePath(PATH_BUTTONS).joinpath("options-btn.png")
+OPT_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("options-btn-hover.png")
 
-QUIT_BTN = PurePath(PATH_BUTTONS).joinpath("quit-btn-test.png")
-QUIT_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("quit-btn-test-hover.png")
+CREDITS_BTN = PurePath(PATH_BUTTONS).joinpath("credits-btn.png")
+CREDITS_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("credits-btn-hover.png")
 
-BACK_BTN = PurePath(PATH_BUTTONS).joinpath("back-btn-test.png")
-BACK_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("back-btn-test-hover.png")
+QUIT_BTN = PurePath(PATH_BUTTONS).joinpath("quit-btn.png")
+QUIT_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("quit-btn-hover.png")
 
-CREDITS_BTN = PurePath(PATH_BUTTONS).joinpath("credits-btn-test.png")
-CREDITS_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("credits-btn-test-hover.png")
+BACK_BTN = PurePath(PATH_BUTTONS).joinpath("back-btn.png")
+BACK_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("back-btn-hover.png")
+
+
+class Color:
+    """Represent RGB color values."""
+
+    black = (0, 0, 0)
+
+    white = (255, 255, 255)
+
+    red = (255, 0, 0)
+
+    aqua = (0, 255, 255)
+
+    sky = (207, 239, 252)
+
+
+class WindowState:
+    """Represents windows states."""
+
+    game = "game"
+    main_menu = "main_menu"
+    options = "options"
+    credit = "credit"
+    quited = "quit"
+
+
+class ButtonProperties:
+    """Represents buttons properties."""
+
+    main_btn_w = 400
+    main_btn_h = 100
+    btn_gap = 20
+
+    back_btn_x = 20
+    back_btn_y = 20
+
+    back_btn_w = 200
+    back_btn_h = 100
+
+
+class SliderProperties:
+    """Represents slider properties."""
+
+    pass
