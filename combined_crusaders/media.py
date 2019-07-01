@@ -8,7 +8,7 @@ sounds_dir = os.path.join(script_dir, "sounds")
 
 
 def load_image(filename):
-    return pygame.image.load(os.path.join(images_dir, filename)).convert()
+    return pygame.image.load(os.path.join(images_dir, filename)).convert_alpha()
 
 
 def load_sound(filename):
