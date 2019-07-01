@@ -50,13 +50,11 @@ async def gmwl(ctx, date_1, date_2):
         )
 
         return
-    except ValueError as e:
+    except ValueError:
         await ctx.send(
             embed=embed_generator(
                 "Incorrect date formatting!",
-                "You have inputted an incorrect syntax for the date! "
-                "The specifics of this error are below: "
-                f"\n\n*{e}*",
+                "You have inputted an incorrect syntax for the date!",
                 0xA31523,
                 discord,
             )
