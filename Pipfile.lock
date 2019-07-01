@@ -29,8 +29,16 @@
             ],
             "index": "pypi",
             "version": "==224"
-        }
-    },
+        },
+        "discord-py": {
+                    "hashes": [
+                    "sha256:4684733fa137cc7def18087ae935af615212e423e3dbbe3e84ef01d7ae8ed17d"
+                    ],
+                    "index": "pypi",
+                    "version": "==1.2.3"
+                }
+        },
+
     "develop": {
         "entrypoints": {
             "hashes": [
