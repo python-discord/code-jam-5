@@ -568,6 +568,6 @@ class Game:
         self.elements["vc.infobar.loc"] = (sidebar_x, int(resolution[1]*0.9))
 
 
-        release_text = self.renderer["main"].render("Release!")
+        release_text = self.graphics.fonts["main"].render("Release!")
 
-        self.elements["vc.release"] = pygame.Surface((resolution[0]//20, resolution//20))
+        self.elements["vc.release"] = pygame.Surface((resolution[0]//20, resolution[1]//20))
