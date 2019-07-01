@@ -59,6 +59,8 @@ async def gmwl(ctx, date_1, date_2):
                 discord,
             )
         )
+
+        return
     except Exception as e:
         await ctx.send(
             embed=embed_generator(
