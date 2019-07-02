@@ -10,6 +10,7 @@ from pygame.locals import (
 from media import sounds, images
 from machines import machines
 import time
+import events
 
 
 BACKGROUND_COLOR = Color('white')
@@ -21,7 +22,8 @@ def say(message):
     """Sends message to the user.
     Change this method to reflect how you want the message to be sent.
     Currently just changes the program bar name cuz it's cute."""
-    pygame.display.set_caption(str(message))
+    if message is not None:
+        pygame.display.set_caption(str(message))
 
 
 def normalized_pos_pixels(normalized_position):
@@ -216,6 +218,7 @@ class Crank(pygame.sprite.Sprite):
 
     def clicked(self):
         "this will cause the crank to start spinning"
+        self.parent.events.send("crank")
         if not self.is_spinning:
             self.is_spinning = True
             self.rotation_speed = self.rotation_speed_start
@@ -304,16 +307,7 @@ class ClimateClicker:
                 [machine.count_sprite for machine in machines.machines.values()]
                 )
             )
-
-        # self.allsprites = pygame.sprite.RenderPlain(
-        #     self.crank,
-        #     self.crank_overlay,
-        #     self.score_sprite,
-        #     self.speed_sprite,
-        #     self.upgrade_button,
-        #     *machines.machines.values(),
-        #     [machine.count_sprite for machine in machines.machines.values()]
-        #     )
+        self.events = events.Events(self)
         self.last_update_time = time.time()
         self.time_delta = 0
 
@@ -358,6 +352,7 @@ class ClimateClicker:
             sprite_layer.draw(self.screen)
         #self.allsprites.draw(self.screen)
         pygame.display.flip()
+        say(self.events.get_current_message())
 
     def play(self):
         """Begins the game. Detect any exits and exit gracefully."""
