@@ -84,7 +84,7 @@ pipenv run python -m practical_porcupines flask-webportal
 ### General Notes
 
 - NOTE: If you are on Windows, please use `set` instead of `export`
-- When connecting to the api (`flask_api`), it is favourable to use the `%Y-%m-%d %T` time formatting (UNIX annotations with `%`). An example of this is: `2019-06-29 23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech. The api can use other times but it is best to standardize with this method.
+- When connecting to the api (`flask_api`), it is favourable to use the `%Y-%m-%d %T` time formatting (UNIX annotations with `%`). An example of this is: `2019-06-29 23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech. The api can use other times but it is best to standardize with this method. Despite this, here are some of the other methods you can use: `%Y:%m:%d:%H:%M:%S`, `%H:%M:%S %d.%m.%Y`, `%m/%d/%Y %H:%M:%S`, `%d.%m.%Y`, `%m/%d/%Y`, `%Y-%m-%d %H:%M:%S`
 - Autoformat using `black` and try to do a final sweep with the custom `flake8` rulings.
 - Document everything in docstrings. `>` means overview of passing in, `<` means overview of returning, `x` is the execption handling and `-` are the argument specifics (use these like bullet points with them symbols).
 
