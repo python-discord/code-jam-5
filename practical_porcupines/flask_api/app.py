@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api, Resource
@@ -20,20 +21,39 @@ db = SQLAlchemy(flask_api_app)
 
 wl_req = RequestParser(bundle_errors=True)
 
-wl_req.add_argument(
-    "date_1",
-    type=str,
-    required=True
-)
+wl_req.add_argument("date_1", type=str, required=True)
+wl_req.add_argument("date_2", type=str, required=True)
 
-wl_req.add_argument(
-    "date_2",
-    type=str,
-    required=True
-)
 
 class WaterLevel(Resource):
     def get(self):
-        difference, is_prediction = wl_dif_obj.calculate(date_1, date_2)
+        args = wl_req.parse_args()
 
+        wl_difference, is_prediction = wl_dif_obj.calculate(
+            # fmt: off
+            date_1,
+            date_2
+        )
 
+        cur_time = datetime.date.now().strftime(
+            # fmt: off
+            "%Y-%m-%d %H:%M:%S"
+        )
+
+        output = {
+            # fmt: off
+            "meta": {
+                "status_code": 200,
+                "dates": {
+                    "date_1": args["date_1"],
+                    "date_2": args["date_2"]
+                },
+                "time_sent": cur_time
+            },
+            "body": {
+                "is_prediction": is_prediction,
+                "wl_difference": wl_difference
+            }
+        }
+
+        return output, 200
