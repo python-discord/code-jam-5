@@ -38,8 +38,8 @@ def build_response(session_attributes, speechlet_response):
 
 # --------------- Functions that control the skill's behavior ------------------
 def get_test_response():
-    """ An example of a custom intent. Same structure as welcome message, just make sure to add this intent
-    in your alexa skill in order for it to work.
+    """ An example of a custom intent. Same structure as welcome message, just make sure to add this
+    intent in your alexa skill in order for it to work.
     """
     session_attributes = {}
     card_title = "Test"
@@ -59,6 +59,7 @@ def get_codejame_response():
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
+
 def get_extreme_events(intent):
     session_attributes = {}
     print(intent)
@@ -68,6 +69,7 @@ def get_extreme_events(intent):
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
+
 
 def get_welcome_response():
     """ If we wanted to initialize the session to have some attributes we could

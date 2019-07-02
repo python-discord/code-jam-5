@@ -15,9 +15,16 @@ for record in jdata['records']:
     date = record['date']
     location = record['location']
     # we should ultimately only return on record but here is everything for now
-    message = "On {}  an {} of {} was recorded in {}, {} ".format(date,  type, value, location, state)
+    message = "On {}  an {} of {} was recorded in {}, {} ".format(
+        date, type, value, location, state
+    )
     print(message)
 
-# returns a random state record.
+
 def return_record(state):
+    """
+    returns a random state record.
+    :param state:
+    :return:
+    """
     pass
