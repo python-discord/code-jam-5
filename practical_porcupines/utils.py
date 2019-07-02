@@ -1,50 +1,54 @@
 import os
 import json
-from datetime import datetime
+import datetime
 from typing import Union
 
 
-def check_date(date):
+def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
     """
-    > Gets a short string date
-    - date: a string like `2019` or `2005-03-31 00:05:31`
-    < Returns [date, time] in int lists
-    x Returns DateFormatError if passed date is bad
-    x Returns ValueError if date has been formatted wrong
-    """
-
-    time_split = date.split(" ")
-
-    if not time_split:
-        raise DateFormatError(
-            "No dates have been passed into the " "`_add_null_date` function."
-        )
-
-    dates = list(map(int, time_split[0].split("-")))
-    times = list(map(int, time_split[1].split(":") if len(time_split) > 2 else []))
-
-    for _ in range(3 - len(dates)):
-        dates.append(1)
-
-    for _ in range(3 - len(times)):
-        times.append(0)
-
-    return [dates, times]
-
-
-def convert_string_to_datetime(date_string: str) -> Union[datetime, None]:
-    """
-    > unction to convert stings in the format '%Y:%m:%d:%H:%M:%S' to their datetime representation
+    > Func to convert stings in format '%Y:%m:%d:%H:%M:%S' to datetime
       Example:
-            convert_string_to_datetime('2010:06:29:17:02:39')
+            string_to_datetime('2010:06:29:17:02:39')
             > datetime.datetime(2010, 6, 29, 17, 2, 39)
+            - possible_formats: '2019:06:26:06:26:33', '06:26:33 26.06.2019',
+            - '06/26/2019 06:26:33', '26.06.2019', 06/26/2019, 2019-06-29 23:02:05
     - date_string: The string that should be converted
-    < datetime: The corresponding datetime object. If it cant be converted, returns None
+    < Returns Corresponding datetime object
+    x Returns DateFormatError if incoming string isn\'t properly formatted
+    x Returns DatesOutOfRange if predictions are not setup and date out of dataset
     """
-    try:
-        return datetime.strptime(date_string, '%Y:%m:%d:%H:%M:%S')
-    except ValueError:
-        return None
+
+    possible_formats = [
+        "%Y:%m:%d:%H:%M:%S",
+        "%H:%M:%S %d.%m.%Y",
+        "%m/%d/%Y %H:%M:%S",
+        "%d.%m.%Y",
+        "%m/%d/%Y",
+        "%Y-%m-%d %H:%M:%S",
+    ]
+
+    possible_dates = list()
+
+    for possible_format in possible_formats:
+        try:
+            possible_dates.append(
+                datetime.datetime.strptime(date_string, possible_format)
+            )
+        except ValueError:
+            possible_dates.append(None)
+
+    date = [val for val in possible_dates if val is not None][0]
+
+    if date is None:
+        raise DateFormatError(
+            f"Couldn't match the given date to any template! {date_string}"
+        )
+    elif not (datetime.date(1993, 1, 15) < date.date() < datetime.date(2019, 2, 7)):
+        raise DatesOutOfRange(
+            f"The date '{date_string}' is outside of the range '1993, 01, 15' - '2019, 02, 07'"
+        )
+    else:
+        return date
 
 
 class ConfigBase:
