@@ -106,5 +106,5 @@ venv.bak/
 # VSCode settings
 .vscode/
 
-# PyCharm settings
+# JetBrains IDE
 .idea/
