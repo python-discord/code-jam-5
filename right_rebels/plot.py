@@ -91,7 +91,8 @@ class Plotter(QtCore.QThread):
     def start_plotting(self, start_date_decimal, end_date_decimal):
         start_date_index = helpers.find_nearest_index(Plotter.DATES, start_date_decimal)
         end_date_index = helpers.find_nearest_index(Plotter.DATES, end_date_decimal)
-        for count, date_index in enumerate(range(start_date_index, end_date_index)):
+        # end_date_index + 1 to make end_date inclusive
+        for count, date_index in enumerate(range(start_date_index, end_date_index + 1)):
             if not self.stop_plot:
                 self.status_signal.emit(f"Processing image {count + 1}/"
                                         f"{end_date_index - start_date_index}")
