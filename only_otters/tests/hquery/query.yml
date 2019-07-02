@@ -1,12 +1,8 @@
 
-
-
 url: https://www.google.com/
 dynamic: false
 content:
-
   loc: /html/body/ul/li
-
   properties:
     # pipes:
     #   single:
