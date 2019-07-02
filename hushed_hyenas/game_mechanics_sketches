@@ -3,7 +3,7 @@ Rate different countries on different difficulties based on their default indexe
 
 News:
 -> News that show on top of the screen with logs of what happened during the given turn
-5 types/levels: unrelated, mixed results, good, bad, catastrophic.
+5 types/levels: unrelated (1), mixed results (2), good (3), bad (4), catastrophic (5).
 
 unrelated -> to make the game fun (we can use the year the player is on to make fitting jokes) (color gray)
     60'~80's news:
