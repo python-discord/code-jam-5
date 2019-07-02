@@ -29,7 +29,7 @@ class WLDifference:
     def _fit_model(self):
         dates, water = self._get_all_values()
 
-        self.model = interp1d(dates, water, kind='cubic')
+        self.model = interp1d(dates, water, kind="cubic")
 
     def evaluate_timestamp(self, timestamp):
         return self.model(timestamp)
@@ -39,7 +39,6 @@ class WLDifference:
         water_levels = np.array([lm.wl for lm in LevelModel.query.all()][:964])
         dates = np.array([lm.date.timestamp() for lm in LevelModel.query.all()][:964])
         return dates, water_levels
-
 
     def decimal_to_datetime(self, decimal_date):
         """
