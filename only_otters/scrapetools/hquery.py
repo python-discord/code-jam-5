@@ -53,13 +53,13 @@ class HierarchicalXPathQuery:
         # => $ <modes>{ func, func, func, ... } <query>
         # see 'query.yml' for an example
 
-        items = []
+        pipes = []
         modes = []
         ho_mode = None
         m = re.match(regex, expr)
 
         while m is not None:
-            _ho_mode, _modes, _items = m.groups()
+            _ho_mode, _modes, _pipes = m.groups()
 
             # Resolve modes & pipes before runnning Xpath expr
 
@@ -72,36 +72,42 @@ class HierarchicalXPathQuery:
                 ho_mode = cls.resolve_mode(_ho_mode, high=True)
 
             # Parse pipes
-            _items = _items.split(',')
-            _items = list(map(str.strip, _items))
+            _pipes = _pipes.split(',')
+            _pipes = list(map(str.strip, _pipes))
 
-            items.extend(_items or [])
+            pipes.extend(_pipes or [])
             modes.extend(_modes or [])
 
             expr = expr[m.span()[1]:]
             m = re.match(regex, expr)
 
-        return expr, items, modes, ho_mode
+        # Resolve pipes + ho_mode
+        for idx, pipename in enumerate(pipes):
+            fn = cls.resolve_pipe(pipename)
+            if ho_mode is not None:
+                fn = partial(ho_mode, fn)
+            pipes[idx] = fn
+
+        for idx, mode in enumerate(modes):
+            fn = cls.resolve_mode(mode)
+            modes[idx] = fn
+
+        return expr, pipes[::-1], modes, ho_mode
 
 
 
     @classmethod
     def resolve_xpath(cls, element, expr, pipe_prefix=None):
 
-        expr, pipes, modes, ho_mode = cls.resolve_pipe_expr(expr, pipe_prefix=pipe_prefix)
+        expr, pipes, modes, _ = cls.resolve_pipe_expr(expr, pipe_prefix=pipe_prefix)
 
         result = element.xpath(expr)
 
-        for fn in map(cls.resolve_pipe, reversed(pipes or [])):
+        for pipe in pipes:
+            result = pipe(result)
 
-            if ho_mode is not None:
-                fn = partial(ho_mode, fn)
-
-            result = fn(result)
-
-        for mode in modes or []:
-            fn = cls.resolve_mode(mode)
-            result = fn(result)
+        for mode in modes:
+            result = mode(result)
 
         return result
 
