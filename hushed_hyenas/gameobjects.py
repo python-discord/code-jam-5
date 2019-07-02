@@ -11,14 +11,13 @@ import thorpy
 class News:
     def __init__(self):
         self.font = pygame.font.Font(None, 25)
-        self.blue = (135, 206, 250)
 
-    def news_box(self, window, screen_width, news):
+    def news_box(self, window, screen_width, news, color):
         text = thorpy.MultilineText(news, (600, 70))
         box = thorpy.Box(elements=[text])
         box.surface = window
         box.set_topleft((screen_width / 4, 0))
-        box.set_main_color(self.blue)
+        box.set_main_color(color)
         box.blit()
         box.update()
 

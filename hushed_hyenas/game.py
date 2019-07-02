@@ -7,7 +7,7 @@ import math
 import os
 from game_menu import main_menu
 from gameobjects import News
-from news_list import get_level_1_news
+from news_list import get_level_1_news, get_level_2_news
 from random import randint
 
 # Initializes pygame resources
@@ -17,7 +17,8 @@ pygame.init()
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 # Instantiate the get_constants as constants
-news_list = get_level_1_news()
+news_1 = get_level_1_news()
+news_2 = get_level_2_news()
 
 # Instantiate the News class for better usage
 news = News()
@@ -38,7 +39,13 @@ class Game:
         self.current_scene = 'Map'
         self.country = None
         self.font = pygame.font.Font(None, 25)
-        self.news = news_list['news1']
+
+        self.news1 = news_1['news1']
+        self.news2 = news_2['news1']
+
+        self.blue = (135, 206, 250)
+        self.gray = (225, 225, 225)
+        self.color = self.blue
 
         # Resize image to fit in window
         self.map = pygame.transform.scale(self.original_map, (self.width, self.height))
@@ -97,7 +104,7 @@ class Game:
             window.blit(text, text_rect)
 
             # Call the news_box from gameobjects with news number #
-            news.news_box(window, self.width, self.news)
+            news.news_box(window, self.width, self.news1, self.color)
 
             events = pygame.event.get()
             for event in events:
@@ -109,8 +116,8 @@ class Game:
                         self.country = closest_country
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
                     # Placeholder right click on mouse to load another random level 1 news
-                    news_index = randint(1, 11)
-                    self.news = news_list['news' + str(news_index)]
+                    news_index = randint(1, 21)
+                    self.news1 = news_1['news' + str(news_index)]
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         # If ESC is pressed during the world map state the menu is opened
@@ -148,7 +155,27 @@ class Game:
                 self.current_scene = 'Main'
 
     def main_scene(self):
-        pass
+        window = self.window
+
+        news.news_box(window, self.width, self.news2, self.color)
+
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                # do things here
+                pass
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                # Placeholder right click on mouse to load another random level 1 news
+                news_index = randint(1, 2)
+                self.news2 = news_2['news' + str(news_index)]
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.country = None
+                    self.current_scene = 'Map'
+                    game.run()
 
     def run(self):
         # Game Loop

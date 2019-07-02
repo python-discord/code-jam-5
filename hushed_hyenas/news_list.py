@@ -23,6 +23,26 @@ def get_level_1_news():
              " the ocean"
     news11 = "All the Ice Sculptures business worldwide have declared bankruptcy, says" \
              " World Bank"
+    news12 = "After 'Star Wars: The Phantom Menace' script was leaked people are happy the " \
+             "franchise got canceled 30 years ago"
+    news13 = "Microsoft's head says Windows95 will be the last one to ever be launched due to its" \
+             " low energy use"
+    news14 = "Programmers for Climate Change Convention ends in confusion after fight over using" \
+             " tabs or spaces"
+    news15 = "The series finale of Game of Thrones lowered the Public Well being index of your" \
+             " nation by x%"
+    news16 = "Drake's song 'Hotline Bling' is under investigation for being related to higher" \
+             " temperatures in the US this year"
+    news17 = "The blockbuster 'Mad Max: Fury Road' shows a sequel of the world we live in, " \
+             "says director"
+    news18 = "Lost's last episode is an homage to our own world, which will also have a crappy " \
+             "ending, says fan"
+    news19 = "Pearl Harbor movie filming canceled due to the harbor being flooded by the " \
+             "advancing ocean"
+    news20 = "Award winning Dwight Schrute's movie 'Recyclops' to gain sequels: 'Recyclops " \
+             "Reloaded' and 'Recyclops Revolution'"
+    news21 = "The Simpsons predicted nuclear power scandal in episode where Homer pushes big" \
+             " red button for no reason"
 
     news = {
         'news1': news1,
@@ -35,7 +55,33 @@ def get_level_1_news():
         'news8': news8,
         'news9': news9,
         'news10': news10,
-        'news11': news11
+        'news11': news11,
+        'news12': news12,
+        'news13': news13,
+        'news14': news14,
+        'news15': news15,
+        'news16': news16,
+        'news17': news17,
+        'news18': news18,
+        'news19': news19,
+        'news20': news20,
+        'news21': news21
+
+    }
+
+    return news
+
+
+def get_level_2_news():
+
+    news1 = "Your X index is up Y% and your N index is down because of Z"
+    news2 = "President PLAYER_NAME canceled Formula 1 race to save fuel, Public well being, " \
+            "acceptance and co2 emissions are down x%"
+
+    news = {
+        'news1': news1,
+        'news2': news2
+
     }
 
     return news
