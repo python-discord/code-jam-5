@@ -42,6 +42,7 @@ class Item(Player):
     sound: str = 'default_sound'
     contains: str = 'default_nothing'
 
+
 zone_map = {}
 for i in zone_names:
     zone_map[i] = Zone(Index(bbox=(-1024, -1024, 1024, 1024)))
@@ -69,7 +70,12 @@ for i in zone_names:
             # boarder is not passable
             if (y == player.x) & (x == player.y):
                 item.Collision = False
-            elif (y == 0) | (x == 0) | (y == zone_height-1) | (x == zone_width-1):
+            elif (
+                    (y == 0) or
+                    (x == 0) or
+                    (y == zone_height-1) or
+                    (x == zone_width-1)
+            ):
                 item.collision = True
             else:
                 item.collision = not getrandbits(1)
