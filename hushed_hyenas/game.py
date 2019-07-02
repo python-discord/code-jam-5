@@ -176,18 +176,23 @@ class Game:
 
             if self.zoom > 200:
                 self.current_scene = 'Main'
+                self.start_scene=True
 
     def main_scene(self):
         window = self.window
 
         # conditional to test the news levels
-        # This is to be removed once the player's decisions impact the news
-        if self.checker == 1:
-            news.news_1_box(window, self.width, self.news1)
-        elif self.checker == 2:
-            news.news_2_box(window, self.width, self.news2)
-        else:
-            news.news_3_box(window, self.width, self.news3)
+        # This is to be removed once the player's decisions impact the new
+
+        #Only render when scene has started
+        if self.start_scene:
+            if self.checker == 1:
+                news.news_1_box(window, self.width, self.news1)
+            elif self.checker == 2:
+                news.news_2_box(window, self.width, self.news2)
+            else:
+                news.news_3_box(window, self.width, self.news3)
+            self.start_scene=False
 
         events = pygame.event.get()
         for event in events:
