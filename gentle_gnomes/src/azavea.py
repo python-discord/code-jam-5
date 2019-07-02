@@ -66,6 +66,10 @@ class Client:
         """Return the full list of indicators."""
         return self._get('/indicator', **kwargs)
 
+    def get_indicator_details(self, indicator: str, **kwargs) -> Dict:
+        """Return the description and parameters of a specified indicator."""
+        return self._get(f'/indicator/{indicator}', **kwargs)
+
     def get_indicator_data(self, city: int, scenario: str, indicator: str, **kwargs) -> Dict:
         """Return derived climate indicator data for the requested indicator."""
         data = self._get(f'/climate-data/{city}/{scenario}/indicator/{indicator}', **kwargs)
