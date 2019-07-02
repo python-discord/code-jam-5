@@ -1,0 +1,21 @@
+
+
+url: https://www.google.com
+dynamic: True
+content:
+
+  loc: /html/body/ul/li
+
+  properties:
+    pipes:
+      single:
+        default: null
+    propagate_properties: true
+
+  query:
+    text: text()
+    # id:  $ [ int < float ] a/text()
+    contents:
+      loc: ul/li
+      query:
+        text: text()

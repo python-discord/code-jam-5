@@ -1,65 +1,18 @@
-import re
+import yaml
+import requests
 from lxml import html as lhtml
-import json
-from functools import wraps, partial
+from functools import partial
 
-from util import one_or_many
-
-
-spec_ops = {
-    'TAIL': lambda r: r.tail
-}
-
-
-"""
-A module to write hierarchical queries to perform scraping.
-"""
+import util
 
 
 def resolve_xpath(element, expr):
-
-    # specials = re.findall(r'{[A-Z]+}', expr)
-    # expr = re.sub(r'{[A-Z]+}', '', expr)
-
-    result = element.xpath(expr)
-
-    # for sp in specials:
-    #     sp = sp.strip('{').strip('}')
-    #     op = spec_ops[sp]
-    #     result = map(op, result)
-    # result = list(result)
-
-    return result
-
-
-def pipe(*fns):
-    def decorator(fn):
-        @wraps(fn)
-        def wrapper(*a, **kw):
-            r = fn(*a, **kw)
-            for f in fns:
-                r = f(r)
-            return r
-        return wrapper
-    return decorator
-
-
-def astype(typename):
-    
-    try:
-        type_ = globals()[typename]
-    except KeyError:
-        raise
-
-    if not callable(type_):
-        raise UserWarning("{!r} is not a callable.".format(type_))
-
-    return type_
+    return element.xpath(expr)
 
 
 PIPES = {
-    'single': one_or_many,
-    'astype': astype
+    'single': util.one_or_many,
+    'astype': util.astype
 }
 
 
@@ -76,14 +29,14 @@ def apply_pipes(fn, pipe_properties):
         pipes.append(
             partial(target, **kargs)
         )
-        
+
     if pipes:
-        return pipe(*pipes)(fn)
+        return util.pipe(*pipes)(fn)
 
     return fn
 
 
-def deep_xpath(tree, xquery, **properties):
+def process_query(tree, xquery, **properties):
 
     loc_query = xquery['loc']
     query = xquery['query']
@@ -111,7 +64,7 @@ def deep_xpath(tree, xquery, **properties):
         for key, value in query.items():
 
             if type(value) == dict:
-                value = [*deep_xpath(loc, value, **propagated_properties)]
+                value = [*process_query(loc, value, **propagated_properties)]
 
             elif type(value) in (list, tuple):
                 value = [
@@ -127,41 +80,41 @@ def deep_xpath(tree, xquery, **properties):
         yield result
 
 
+class HierarchicalXPathQuery:
+
+    @classmethod
+    def from_yml(cls, filepath):
+        data = yaml.safe_load(open(filepath))
+        return cls(**data)
+
+    def __init__(self, *, content, url=None, dynamic=False):
+
+        self.url = url
+        self.content = content
+        self.dynamic = dynamic
+
+    def __call__(self, url=None, html=None):
+
+        url = url or self.url
+
+        if html is None:
+
+            response = requests.get(self.url)
+
+            if response.status_code >= 400:
+                raise requests.exceptions.HTTPError(response)
+
+            html = response.content
+
+        tree = lhtml.fromstring(html)
+
+        return process_query(tree, self.content)
+
 
 if __name__ == "__main__":
-    
-    html = """
-    <html>
-        <body>
-            <ul>
-                <li> t <ul> <li> a </li> <li> <span> du </span> b </li> </ul> x </li>
-                <li> r <ul> <li> c </li> <li> <span> ds </span> d </li> </ul> y </li>
-            </ul>
-        </body>
-    </hthml>
-    """
 
-    tree = lhtml.fromstring(html)
+    text = open('test.html').read()
+    hxq = HierarchicalXPathQuery.from_yml('query.yml')
 
-    xquery = {
-        'loc': '/html/body/ul/li',
-        'properties': {
-            'pipes': {
-                # 'single': { 'default': None }
-            },
-            # 'propagate_properties': True
-        },
-        'query': {
-            'text': 'text()',
-            'contents': {
-                'loc': 'ul/li',
-                'query': {
-                    'text': 'text()'
-                }
-            }
-        }
-    }
-
-    a = deep_xpath(tree, xquery)
-    print(tree.xpath('/html/body/ul/li/text()'))
-    print(json.dumps([*a], indent=4))
+    result = hxq(html=text)
+    print(*result)

@@ -1,3 +1,5 @@
+from functools import wraps
+
 
 def one_or_many(items: list, default=''):
     """
@@ -11,3 +13,29 @@ def one_or_many(items: list, default=''):
             return items[0]
         return items
     return default
+
+
+def pipe(*fns):
+    def decorator(fn):
+        @wraps(fn)
+        def wrapper(*a, **kw):
+            r = fn(*a, **kw)
+            for f in fns:
+                r = f(r)
+            return r
+        return wrapper
+    return decorator
+
+
+def astype(typename):
+    
+    try:
+        type_ = globals()[typename]
+    except KeyError:
+        raise
+
+    if not callable(type_):
+        raise UserWarning("{!r} is not a callable.".format(type_))
+
+    return type_
+
