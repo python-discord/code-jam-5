@@ -8,7 +8,7 @@ from .render_loop import render_loop
 from . import game_window, player, zone_map, Item, sound_list, music_list, cut_scenes
 from . import keys
 from random import getrandbits
-from .input import mouse_input, handle_input
+from .input import mouse_input
 
 game_window.push_handlers(on_draw=render_loop)  # Set the render loop handler.
 
@@ -32,8 +32,6 @@ def on_key_release(symbol, modifiers):
 
     The inverse of `on_key_press`, this removes `symbol` from `keys`.
     '''
-    if len(keys) > 0:
-        handle_input()
 
     if symbol in keys:  # print screen does not make it into keys set
         keys.remove(symbol)
