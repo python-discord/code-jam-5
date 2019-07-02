@@ -8,13 +8,13 @@ GSFC. 2017. Global Mean Sea Level Trend from Integrated Multi-Mission Ocean Alti
 
 We have an api (named `flask_api`), a webportal (named `flask_webportal`) and a discord bot (named `discord_bot`). The api recives 2 dates formatted like so:
 
-Using `%Y:%m:%d:%T` formatting (UNIX). An example of this is: `2019:06:29:23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech.
+Using `%Y-%m-%d %T` formatting (UNIX). An example of this is: `2019:06:29:23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech.
 
-Once it has 2 dates, the `core` does calculations from an sqlite database (using flask-sqlalchemy) and interpolates the specfic settings to give a prediction as precise as you want. The data is the GMWL (Global Mean Water Level), basically the avrage water level accross the Earth.
+**Once it has 2 dates, the `core` uses either historical data from a function we calculated using interpolation or predicts the future changes using *Machine Learning*.**
 
-Once it has those, the `core` returns those (it's one big frontend function) and the api (remember `flask_api`) returns the difference in water level between them two dates in millimeters.
+Once it has those, the `core` returns those (it's one large frontend function) and the api (remember `flask_api`) returns the difference in water level between them two dates in millimeters, as either a prediction or as an accurate difference from histroical data.
 
-Say I put in somewhere in 1950 and somewhere in 2019, it would give me somewhere in the region of 20000mm but it'd be as accurate as it could, interpolating the points in-between the years that we selected to give a precise value.
+Say I put in somewhere in 1950 and somewhere in 2019, it would give me somewhere in the region of 20000mm but it'd be as accurate as it could, interpolating the points in-between the years, couples with machine learning to predict before the dataset that we selected to give a precise value.
 
 Once it sends out this return, we have a simple discord bot and webportal (webportal = little website) that you can see the results on. For the discord bot, you could put 1950 and 2000 in like so: `?gmwl 1950 2000` and it would return an answer.
 
