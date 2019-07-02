@@ -1,9 +1,4 @@
-import platform
-from thoughtful_termites.printer import windows
-
+from thoughtful_termites.calculator.footprint import total_footprint
 
 if __name__ == "__main__":
-    system = platform.system()
-
-    if system == "Windows":
-        windows.listener()
+    print(f"Sample carbon usage: {total_footprint(actions={'driving': 5, 'laptop': 5})}kg CO2")
