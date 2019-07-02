@@ -4,11 +4,11 @@ from lxml import html as lhtml
 from functools import partial
 import re
 
-# import scrapetools.util as util
-# import scrapetools.autobrowser as autobrowser
+import scrapetools.util as util
+import scrapetools.autobrowser as autobrowser
 
-import util
-import autobrowser
+# import util
+# import autobrowser
 
 
 class HierarchicalXPathQuery:
@@ -43,7 +43,11 @@ class HierarchicalXPathQuery:
         return n
 
     @classmethod
-    def resolve_xpath(cls, element, expr):
+    def resolve_xpath(cls, element, expr, pipe_prefix=None):
+
+        if pipe_prefix is not None:
+            expr = pipe_prefix + ' ' + expr
+        print(expr)
 
         regex = r'^\s*\$\s*([a-z]:)?([a-z]+)?\s*{\s*((?:[\w:]+\s*[,]?\s*)+)\s*}'
         # => $ <modes>{ func, func, func, ... } <query>
@@ -187,6 +191,7 @@ class HierarchicalXPathQuery:
 
         loc_query = xquery['loc']
         query = xquery['query']
+        prefix = xquery.get('prefix')
 
         # Process properties
         properties = properties or {}
@@ -203,6 +208,9 @@ class HierarchicalXPathQuery:
         pipe_properties = properties.get('pipes')
         if pipe_properties is not None:
             process_xpath = cls.apply_pipes(cls.resolve_xpath, pipe_properties)
+
+        if prefix is not None:
+            process_xpath = partial(process_xpath, pipe_prefix=prefix)
 
         for loc in tree.xpath(loc_query):
 
