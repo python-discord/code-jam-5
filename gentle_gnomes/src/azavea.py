@@ -1,4 +1,5 @@
-from typing import Any, Dict, Iterator, NamedTuple, Optional
+from datetime import datetime
+from typing import Any, Dict, Iterator, List, NamedTuple, Optional, Union
 
 import requests
 
@@ -18,7 +19,7 @@ class Client:
         self.session = requests.Session()
         self.session.headers = {'Authorization': f'Token {token}'}
 
-    def _get(self, endpoint: str, **kwargs) -> Dict:
+    def _get(self, endpoint: str, **kwargs) -> Union[Dict, List]:
         response = self.session.get(BASE_URL + endpoint, ** kwargs)
         response.raise_for_status()
 
@@ -59,7 +60,8 @@ class Client:
         if cities['count'] > 0:
             return cities['features'][0]['id']
 
-    def get_scenarios(self, **kwargs) -> Dict:
+    def get_scenarios(self, **kwargs) -> List:
+        """Return all available scenarios."""
         return self._get('/scenario', **kwargs)
 
     def get_indicators(self, **kwargs) -> Dict:
@@ -72,6 +74,12 @@ class Client:
 
     def get_indicator_data(self, city: int, scenario: str, indicator: str, **kwargs) -> Dict:
         """Return derived climate indicator data for the requested indicator."""
-        data = self._get(f'/climate-data/{city}/{scenario}/indicator/{indicator}', **kwargs)
+        year = datetime.utcnow().year
 
-        return data['data']
+        params = kwargs.get('params')
+
+        if scenario is not 'historical':
+            params = self._set_param('years', f'{year}:{year + 50}', params)
+
+        url = f'/climate-data/{city}/{scenario}/indicator/{indicator}'
+        return self._get(url, params=params, **kwargs)
