@@ -1,13 +1,12 @@
-
 {% extends 'base.html' %}
 
 {% block header %}
-<h1>{% block title %}Climate Change Search{% endblock %}</h1>
+    <h1>{% block title %}Climate Change Search{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-{% if results %}
-{% include "view/results.html" %}
-{% endif %}
-{% include "view/search.html" %}
+    {% include "view/search.html" %}
+    {% if results %}
+        {% include "view/results.html" %}
+    {% endif %}
 {% endblock %}
