@@ -1,7 +1,7 @@
 
 
-url: https://www.google.com
-dynamic: True
+url: https://www.google.com/a
+dynamic: false
 content:
 
   loc: /html/body/ul/li

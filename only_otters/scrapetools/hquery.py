@@ -5,6 +5,7 @@ from functools import partial
 import re
 
 import util
+import autobrowser
 
 
 class HierarchicalXPathQuery:
@@ -229,18 +230,30 @@ class HierarchicalXPathQuery:
         self.content = content
         self.dynamic = dynamic
 
+    def get(self, url=None, dynamic=None):
+
+        url = url or self.url
+
+        if dynamic is None:
+            dynamic = self.dynamic
+
+        if dynamic:
+            return autobrowser.fetch(url)
+    
+        response = requests.get(url)
+        if response.status_code >= 400:
+            raise requests.exceptions.HTTPError(response)
+
+        return response.content
+
+        
+
     def __call__(self, url=None, html=None):
 
         url = url or self.url
 
         if html is None:
-
-            response = requests.get(self.url)
-
-            if response.status_code >= 400:
-                raise requests.exceptions.HTTPError(response)
-
-            html = response.content
+            html = self.get(url)
 
         tree = lhtml.fromstring(html)
 
@@ -264,4 +277,5 @@ if __name__ == "__main__":
     hxq = HierarchicalXPathQuery.from_yml('query.yml')
 
     result = hxq(html=text)
+
     print(*result)
