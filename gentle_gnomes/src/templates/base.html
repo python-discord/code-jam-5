@@ -1,5 +1,6 @@
 <!doctype html>
 <title>{% block title %}{% endblock %}</title>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ config['GOOGLE_KEY'] }}&libraries=places"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <section class="content">
     <header>
