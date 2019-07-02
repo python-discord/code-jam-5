@@ -5,7 +5,7 @@ import aiohttp
 HOST = os.getenv('HOST', '0.0.0.0')
 PORT = int(os.getenv('PORT', 8080))
 
-URL = f'http://{HOST}:{PORT}/echo'
+URL = f'http://{HOST}:{PORT}/ws'
 
 
 async def main():
