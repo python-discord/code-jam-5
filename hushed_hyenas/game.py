@@ -8,6 +8,7 @@ import os
 from game_menu import main_menu
 from gameobjects import News
 from news_list import get_level_1_news
+from random import randint
 
 # Initializes pygame resources
 pygame.init()
@@ -37,7 +38,7 @@ class Game:
         self.current_scene = 'Map'
         self.country = None
         self.font = pygame.font.Font(None, 25)
-        self.news = news_list['news3']
+        self.news = news_list['news1']
 
         # Resize image to fit in window
         self.map = pygame.transform.scale(self.original_map, (self.width, self.height))
@@ -103,9 +104,13 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
-                elif event.type == pygame.MOUSEBUTTONDOWN:
+                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if closest_country_coords is not (-20, -20):
                         self.country = closest_country
+                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                    # Placeholder right click on mouse to load another random level 1 news
+                    news_index = randint(1, 11)
+                    self.news = news_list['news' + str(news_index)]
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         # If ESC is pressed during the world map state the menu is opened
