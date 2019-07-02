@@ -13,15 +13,20 @@ aiohttp_session = aiohttp.ClientSession()
 API_ENDPOINT = "https://jilk.pw/api/v1.0/publicall"
 
 
-async def get_difference(time_1, time_2):
+async def get_difference(date_1, date_2):
     """
-    > Sends time_1 and time_2 to flask_api
-    - time_1 = Start time (%Y:%m:%d:%T)
-    - time_2 = End time (%Y:%m:%d:%T)
+    > Sends date_1 and date_2 to flask_api
+    - date_1 = Start time (%Y-%m-%d %T)
+    - date_2 = End time (%Y-%m-%d %T)
     < Returns aiohttp response
     """
 
-    payload = {"times": [time_1, time_2]}
+    payload = {
+        "dates": {
+            "date_1": date_1,
+            "date_2": date_2
+        }
+    }
 
     async with aiohttp_session.get(API_ENDPOINT, data=payload) as resp:
         resp_jsonized = await resp.json()
