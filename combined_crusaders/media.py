@@ -1,5 +1,6 @@
 import pygame
 import os
+import functools
 
 
 script_dir = os.path.split(os.path.abspath(__file__))[0]
@@ -7,44 +8,42 @@ images_dir = os.path.join(script_dir, "images")
 sounds_dir = os.path.join(script_dir, "sounds")
 
 
-images = None
-sounds = None
-
-
+@functools.lru_cache()
 def load_image(filename):
-    return pygame.image.load(os.path.join(images_dir,
-                                          filename)).convert_alpha()
+    loaded_image = pygame.image.load(os.path.join(images_dir, filename))
+    return loaded_image.convert_alpha()
 
 
+@functools.lru_cache()
 def load_sound(filename):
     return pygame.mixer.Sound(os.path.join(sounds_dir, filename))
 
 
-def load_images():
-    # return dict of str:pygame.image.
-    # This will be used for sprite images, background images,
-    # and all other images.
-    # If this turns out to not make sense with pygame's setup,
-    # like sprites use a different image form,
-    # we can separate this into multiple functions.
-    # Our goal is to be able to greatly simplify image loading,
-    # so that we only need to say
-    # PolarBear(image=our_images["polar_bear"]) instead of
-    # PolarBear(image=pygame.image(Image.open("Images_Path/PolarBear.jpeg"))
-    # or whatever
-    return {filename.split(".")[0]: load_image(filename)
-            for filename in os.listdir(images_dir)}
+class ImageLoader:
+    def __init__(self):
+        self.with_extension = {filename.split(".")[0]: filename
+                               for filename in os.listdir(images_dir)}
+
+    def __getitem__(self, key):
+        """Loads the image.
+        KeyError will be naturally raised if it does not exist.
+        """
+        filename = self.with_extension[key]
+        return load_image(filename)
 
 
-def load_sounds():
-    # return dict of str:pygame.mixer.Sound
-    # Basically the same as load_images, just with sounds
-    return {filename.split(".")[0]: load_sound(filename)
-            for filename in os.listdir(sounds_dir)}
+class SoundLoader:
+    def __init__(self):
+        self.with_extension = {filename.split(".")[0]: filename
+                               for filename in os.listdir(sounds_dir)}
+
+    def __getitem__(self, key):
+        """Loads the sound.
+        KeyError will be naturally raised if it does not exist.
+        """
+        filename = self.with_extension[key]
+        return load_sound(filename)
 
 
-def init():
-    global images
-    global sounds
-    images = load_images()
-    sounds = load_sounds()
+images = ImageLoader()
+sounds = SoundLoader()

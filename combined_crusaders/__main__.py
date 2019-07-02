@@ -7,8 +7,8 @@ from pygame.locals import (
     QUIT,
     Color
 )
-import media
-import machines
+from media import sounds, images
+from machines import machines
 import time
 
 
@@ -171,26 +171,25 @@ class ClimateClicker:
         screenrect = Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         bestdepth = pygame.display.mode_ok(screenrect.size, 0, 32)
         self.screen = pygame.display.set_mode(screenrect.size, 0, bestdepth)
-        media.init()
-        machines.init()
+        machines.load(self)
         pygame.display.set_caption('Climate Clicker')
 
         self.exit_requested = False
         self.click_value = 1
         self.clock = pygame.time.Clock()
 
-        self.background = media.images["environment_neutral"]
+        self.background = images["environment_neutral"]
         self.screen.fill(BACKGROUND_COLOR)
         self.screen.blit(self.background, (0, 0))
         pygame.display.flip()
 
         self.crank = Crank(self, 0.15, 0.15,
-                           [media.images['crank1'],
-                            media.images['crank2'],
-                            media.images['crank3']
+                           [images['crank1'],
+                            images['crank2'],
+                            images['crank3']
                             ],
-                           media.sounds['snap'])
-        self.crank_overlay = StaticImage(0.15, 0.15, media.images['crank'])
+                           sounds['snap'])
+        self.crank_overlay = StaticImage(0.15, 0.15, images['crank'])
         self.score_sprite = ValueLabel(
             self, 0.02, 0.7, "Score", "Joules")
         self.speed_sprite = ValueLabel(
@@ -231,7 +230,7 @@ class ClimateClicker:
                 for machine in machines.machines.values():
                     if machine.rect.collidepoint(pos):
                         if self.score < machine.price:
-                            media.sounds["beep"].play()
+                            sounds["beep"].play()
                         else:
                             self.score -= machine.price
                             machine.count += 1
@@ -255,7 +254,7 @@ class ClimateClicker:
     @score.setter
     def score(self, value: int):
         self.score_sprite.value = value
-        self.background = media.images[score_to_image(value)]
+        self.background = images[score_to_image(value)]
 
 
 def main():
