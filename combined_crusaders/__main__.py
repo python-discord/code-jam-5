@@ -17,6 +17,14 @@ SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 
 
+def normalized_pos_pixels(normalized_position):
+    if any(not 0 <= pos <= 1 for pos in normalized_position):
+        raise ValueError("Normalized position must be a value between 0 and 1,"
+                         "as a normalized position on screen")
+    return (normalized_position[0] * SCREEN_HEIGHT,
+            normalized_position[1] * SCREEN_WIDTH)
+
+
 if not pygame.image.get_extended():
     raise SystemExit("Sorry, extended image module required")
 
@@ -34,20 +42,21 @@ def score_to_image(score: int):
 
 
 class ValueLabel(pygame.sprite.Sprite):
-    def __init__(self, parent, x, y, label, units):
+    def __init__(self, parent, x_norm, y_norm, label, units):
         pygame.sprite.Sprite.__init__(self)
         self.parent = parent
         self.label = label
         self.units = units
-        self.x = x
-        self.y = y
+        self.x_norm = x_norm
+        self.y_norm = y_norm
         self.font = pygame.font.Font(None, 20)
         self.font.set_italic(1)
         self.color = Color('grey')
         self._value = 0
         msg = f"{self.label}: {'9'*10}"  # init rect to a wide size
         self.image = self.font.render(msg, 0, self.color)
-        self.rect = self.image.get_rect().move(self.x, self.y)
+        self.rect = self.image.get_rect().move(
+            *normalized_pos_pixels((self.x_norm, self.y_norm)))
         self.update()
 
     def update(self):
@@ -65,24 +74,24 @@ class ValueLabel(pygame.sprite.Sprite):
 
 
 class StaticImage(pygame.sprite.Sprite):
-    def __init__(self, x, y, image):
+    def __init__(self, x_norm, y_norm, image):
         pygame.sprite.Sprite.__init__(self)
-        self.x = x
-        self.y = y
+        self.x_norm = x_norm
+        self.y_norm = y_norm
         self.image = image
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
-        self.rect.move_ip(x, y)
+        self.rect.move_ip(*normalized_pos_pixels((x_norm, y_norm)))
 
 
 class Crank(pygame.sprite.Sprite):
     """Hand Crank that rotates when clicked."""
-    def __init__(self, parent, x, y, crank_images, click_sound):
+    def __init__(self, parent, x_norm, y_norm, crank_images, click_sound):
         pygame.sprite.Sprite.__init__(self)
         self.parent = parent
-        self.x = x
-        self.y = y
+        self.x_norm = x_norm
+        self.y_norm = y_norm
         self.image = crank_images[0]
         self.crank_images = crank_images
         self.rect = self.image.get_rect()
@@ -91,7 +100,7 @@ class Crank(pygame.sprite.Sprite):
         self.area = screen.get_rect()
         self.is_spinning = False
         self.spinning = 0
-        self.rect.move_ip(x, y)
+        self.rect.move_ip(*normalized_pos_pixels((x_norm, y_norm)))
         self.rotation_speed = 0
         self.rotation_speed_inc = .5
         self.rotation_speed_decay = .015
@@ -175,17 +184,17 @@ class ClimateClicker:
         self.screen.blit(self.background, (0, 0))
         pygame.display.flip()
 
-        self.crank = Crank(self, 100, 100,
+        self.crank = Crank(self, 0.15, 0.15,
                            [media.images['crank1'],
                             media.images['crank2'],
                             media.images['crank3']
                             ],
                            media.sounds['snap'])
-        self.crank_overlay = StaticImage(100, 100, media.images['crank'])
+        self.crank_overlay = StaticImage(0.15, 0.15, media.images['crank'])
         self.score_sprite = ValueLabel(
-            self, 10, 450, "Score", "Joules")
+            self, 0.02, 0.7, "Score", "Joules")
         self.speed_sprite = ValueLabel(
-            self, 10, 400, "Speed", "Degrees per Second")
+            self, 0.02, 0.625, "Speed", "Degrees per Second")
 
         self.allsprites = pygame.sprite.RenderPlain(
             self.crank,
