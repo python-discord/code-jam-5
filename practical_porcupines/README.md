@@ -103,10 +103,10 @@ pipenv run python -m practical_porcupines flask-webportal
 {
     [STRING: META]: {
         [KEY: STATUS CODE]: [STRING: SUCSESS/FAIL],
-        [ARRAY: DATES]: [
+        [ARRAY: DATES]: {
             [STRING: 1ST DATE ARG],
             [STRING: 2ND DATE ARG]
-        ]
+        }
         [KEY: TIME SENT]: [STRING: TIME SENT]
     }
     [KEY: BODY]: {
@@ -122,11 +122,11 @@ pipenv run python -m practical_porcupines flask-webportal
 {
     "meta": {
         "status_code": 200,
-        "dates": [
-            "1995 12:25 15:03:29",
-            "2017 05:11 10:22:05"
-        ],
-        "time_sent": "2019 06:29 11:52:30"
+        "dates": {
+            "date_1": "1995-02-10 13:14:00",
+            "date_2": "2019-06-29 23:27:45"
+        },
+        "time_sent": "2019-06-29 11:52:30"
     },
     "body": {
         "is_prediction": false,
@@ -141,10 +141,8 @@ pipenv run python -m practical_porcupines flask-webportal
 
 ```none
 {
-    [OBJ: TIMES]: {
-        [STRING: TIME_1]: [STRING: TIME],
-        [STRING: TIME_2]: [STRING: TIME]
-    }
+    [STRING: DATE_1]: [STRING: DATE],
+    [STRING: DATE_2]: [STRING: DATE]
 }
 ```
 
@@ -152,10 +150,8 @@ pipenv run python -m practical_porcupines flask-webportal
 
 ```json
 {
-    "times": {
-        "time_1": "1995-02-10 13:14:00",
-        "time_2": "2019-06-29 23:27:45"
-    }
+    "date_1": "1995-02-10 13:14:00",
+    "date_2": "2019-06-29 23:27:45"
 }
 ```
 

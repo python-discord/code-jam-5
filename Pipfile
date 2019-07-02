@@ -14,12 +14,6 @@ requests = "*"
 flask-restful = "*"
 flask-sqlalchemy = "*"
 aiohttp = "*"
-sklearn = "*"
-matplotlib = "*"
-pandas = "*"
-statsmodels = "*"
-flask-wtf = "*"
-flask-bootstrap = "*"
 
 [requires]
 python_version = "3.6"

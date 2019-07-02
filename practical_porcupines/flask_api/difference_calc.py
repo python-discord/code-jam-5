@@ -1,43 +1,42 @@
 import os
-from typing import Union
-from practical_porcupines.utils import string_to_datetime
-
-from scipy.interpolate import interp1d
-import numpy as np
-from datetime import datetime, timedelta
-from practical_porcupines.flask_api.models import LevelModel
 import pickle
+from practical_porcupines.utils import string_to_datetime
 
 
 class WLDifference:
-
     def __init__(self):
         # if there is a saved model, load it.
         # re-fitting the model takes time so it is faster to load it from a file
         if os.path.exists("practical_porcupines/flask_api/interpolated_function.pkl"):
             # load it again
-            with open('practical_porcupines/flask_api/interpolated_function.pkl', 'rb') as fid:
+            with open(
+                "practical_porcupines/flask_api/interpolated_function.pkl", "rb"
+            ) as fid:
                 self.model = pickle.load(fid)
         else:
             self.model = self._fit_model()
 
     def calculate(self, date_1, date_2):
         """
-        Calculates difference of global water level between date_1 and date_2
-        Returns the difference in mm as a float.
-
-        NOTE This is a frontend function and should hook to lower-level ones
+        > Gets 2 dates
+        - date_1: First string date
+        - date_2: Second string date
+        < Returns difference in mm
+        < Returns if it is a prediction or not (currently always False)
         """
         # make sure both dates are valid and convert them to epoch times
-        date_1 = string_to_datetime(date_1)
-        date_2 = string_to_datetime(date_2)
+        date_1, is_pred_1 = string_to_datetime(date_1)
+        date_2, is_pred_2 = string_to_datetime(date_2)
+
         if not (date_1 or date_2):
             return None
 
         # preform calc
         return (
             # fmt: off
-            self.evaluate_timestamp(date_1.timestamp()) - self.evaluate_timestamp(date_2.timestamp())
+            self.evaluate_timestamp(date_1.timestamp()) - 
+            self.evaluate_timestamp(date_2.timestamp()),
+            True if is_pred_1 or is_pred_2 else False  # prediction
         )
 
     def _fit_model(self):
@@ -50,9 +49,11 @@ class WLDifference:
         # get all the time and water level values from the database
         dates, water = self._get_all_values()
         # create the model
-        model = interp1d(dates, water, kind='cubic')
+        model = interp1d(dates, water, kind="cubic")
         # save the interp function
-        with open('practical_porcupines/flask_api/interpolated_function.pkl', 'wb') as fid:
+        with open(
+            "practical_porcupines/flask_api/interpolated_function.pkl", "wb"
+        ) as fid:
             pickle.dump(model, fid)
 
         return model
@@ -77,8 +78,8 @@ class WLDifference:
         base = datetime(year, 1, 1)
 
         seconds = (  # fmt: off
-                          base.replace(year=base.year + 1) - base
-                  ).total_seconds() * rem
+            base.replace(year=base.year + 1) - base
+        ).total_seconds() * rem
 
         result = base + timedelta(seconds=seconds)
 
