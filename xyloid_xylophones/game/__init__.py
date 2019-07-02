@@ -1,10 +1,11 @@
 import pyglet
 from pyqtree import Index
 from config import *
+from config import game_width, game_height
 
 
 # 640x640 makes it easier to draw tiles
-game_window = pyglet.window.Window(width=640, height=640)
+game_window = pyglet.window.Window(width=game_width, height=game_height)
 
 # fps_display = pyglet.window.FPSDisplay(game_window)
 

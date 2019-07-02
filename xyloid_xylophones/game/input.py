@@ -1,7 +1,36 @@
 from . import keys
 from . import player, zone_map
-from config import current_zone
+from config import current_zone, game_width, game_height
 import pyglet
+
+def move_towards_coord(x, y):
+    '''Moves the player towards the (x,y) coordinate'''
+    #Get center of the screen
+    x_mid = game_width/2
+    y_mid = game_height/2
+
+    new_x = player.x
+    new_y = player.y
+
+    if ((x > (x_mid + player.width/2)) or (x < (x_mid - player.width/2))):
+        #if mouse click is outside of the width of the player
+        if (x > x_mid):
+            print("Moving right")
+            new_x +=1
+        elif (x < x_mid):
+            print("Moving left")
+            new_x -= 1
+    if ((y > (y_mid + player.height/2)) or (y < (y_mid - player.height/2))):
+        #if mouse click is outside the height of the player
+        if (y > y_mid):
+            print ("Moving up")
+            new_y += 1
+        elif (y < y_mid):
+            print("Moving down")
+            new_y -= 1
+
+    new_move = allowed_move(new_x, new_y)
+    move(new_move[0], new_move[1]) #Move towards the new point
 
 def handle_input():
     '''Moves the player to a new position if allowed'''
@@ -49,7 +78,7 @@ def check_collision(new_x, new_y):
     zone_query = zone_map[current_zone].index.intersect(
         bbox=(query_x, query_y, query_x, query_y))
     for i in zone_query:
-        print('found:%s which is %s' % (i.name, i.collision))
+        #print('found:%s which is %s' % (i.name, i.collision))
         if i.collision:
             permitted = False
             return False

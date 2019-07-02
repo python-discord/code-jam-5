@@ -1,3 +1,8 @@
+#Dimensions of game Window
+game_width = 640
+game_height = 640
+
+#Locations
 location_sound = 'assets/sounds/'
 location_music = 'assets/music/'
 location_scenes = 'assets/scenes/'
