@@ -18,6 +18,7 @@ def on_draw():
     player.draw()
     enemy.draw()
 
+
 def update(dt):
     player.update(dt)
     enemy.update(dt)
