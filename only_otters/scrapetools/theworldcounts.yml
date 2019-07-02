@@ -1,0 +1,14 @@
+
+url: https://www.theworldcounts.com/themes/our_environment
+dynamic: false
+content:
+
+  loc: //div[@id="main"]//a[@class="counter-link"]/div[@class="row"]
+  prefix: $ { single, list, map:strip }
+  postfix: $ { postprocess }
+  query:
+    figure:   div[1]/div[@class="counter-number"]/p/text()
+    title:    div[2]/div[@class="counter-title"]/h3/text()
+    subtitle: div[2]/div[@class="counter-title"]/span/text()
+    start:    div[1]/div[@class="counter-number"]/script/text()
+    cursor:   div[1]/div[@class="counter-number"]/script/text()

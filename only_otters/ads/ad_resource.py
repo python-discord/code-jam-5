@@ -4,19 +4,7 @@ from dataclasses import dataclass
 
 from cachetools.func import ttl_cache, lru_cache
 
-
-def one_or_many(items: list, ifempty=''):
-    """
-    Taking a list as input,
-    return the first item if there is only one item,
-    else return the 'ifempty' value is the list is empty,
-    else return the initial list.
-    """
-    if items:
-        if len(items) == 1:
-            return items[0]
-        return items
-    return ifempty
+from scrapetools.util import one_or_many
 
 
 @lru_cache()
@@ -65,13 +53,13 @@ class Resource:
         root, _ = cached_request(self.source)
 
         if root is None:
-            raise UserWarning  # TODO: Add a proper exception
+            raise UserWarning('Request failed')  # TODO: Add a proper exception
 
         if self.container is not None:
 
             roots = cached_xpath(root, self.container)
             if not roots:
-                raise UserWarning  # TODO: Add a proper exception
+                raise UserWarning('Container not found')  # TODO: Add a proper exception
 
             for element in roots:
                 yield dictquery(element, self.query)
