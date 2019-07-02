@@ -1,6 +1,6 @@
 import os
 from typing import Union
-from practical_porcupines import utils
+from practical_porcupines.utils import string_to_datetime
 from scipy.interpolate import interp1d
 import numpy as np
 from datetime import datetime, timedelta
@@ -28,12 +28,13 @@ class WLDifference:
         NOTE This is a frontend function and should hook to lower-level ones
         """
         # make sure both dates are valid and convert them to epoch times
-        date_1 = utils.convert_string_to_datetime(date_1).timestamp()
-        date_2 = utils.convert_string_to_datetime(date_2).timestamp()
+        date_1 = string_to_datetime(date_1)
+        date_2 = string_to_datetime(date_2)
         if not (date_1 or date_2):
             return None
+
         # perform the calculation
-        return self.evaluate_timestamp(date_1) - self.evaluate_timestamp(date_2)
+        return self.evaluate_timestamp(date_1.timestamp()) - self.evaluate_timestamp(date_2.timestamp())
 
     def _fit_model(self):
         """
