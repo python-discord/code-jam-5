@@ -30,6 +30,10 @@ class Sun:
         scale_percent = new_height / self.image.get_height()
         new_width = int(self.image.get_width() * scale_percent)
         self.image = pg.transform.scale(self.image, (new_width, new_height))
+        # Create cache of every image rotation, so we don't have to calculate each time
+        self.image_cache = []
+        for angle in range(361):
+            self.image_cache.append(pg.transform.rotate(self.image, angle))
 
     def update(self) -> None:
         """Update is called every game tick."""
@@ -59,8 +63,7 @@ class Sun:
     def draw(self) -> None:
         """Draw is called every game tick."""
         self.screen.blit(
-            pg.transform.rotate(self.image, self.angle),
-            self.image.get_rect(center=(0, 0)),
+            self.image_cache[int(self.angle)], self.image.get_rect(center=(0, 0))
         )
 
         # Draw current heat number
