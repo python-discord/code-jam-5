@@ -141,10 +141,8 @@ pipenv run python -m practical_porcupines flask-webportal
 
 ```none
 {
-    [OBJ: DATES]: {
-        [STRING: DATE_1]: [STRING: DATE],
-        [STRING: DATE_2]: [STRING: DATE]
-    }
+    [STRING: DATE_1]: [STRING: DATE],
+    [STRING: DATE_2]: [STRING: DATE]
 }
 ```
 
@@ -152,10 +150,8 @@ pipenv run python -m practical_porcupines flask-webportal
 
 ```json
 {
-    "dates": {
-        "date_1": "1995-02-10 13:14:00",
-        "date_2": "2019-06-29 23:27:45"
-    }
+    "date_1": "1995-02-10 13:14:00",
+    "date_2": "2019-06-29 23:27:45"
 }
 ```
 
