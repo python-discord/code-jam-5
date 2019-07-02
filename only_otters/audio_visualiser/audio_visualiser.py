@@ -24,7 +24,7 @@ class AudioVisualiser(QtWidgets.QWidget):
         layout = QtWidgets.QHBoxLayout()
 
         pixmap = QtGui.QPixmap(str(Path('only_otters/images/earth.png')))
-        pixmap = pixmap.scaled(self.min_radius*2, self.min_radius*2, QtCore.Qt.KeepAspectRatio)
+        pixmap = pixmap.scaled(self.min_radius*2+3, self.min_radius*2+3, QtCore.Qt.KeepAspectRatio)
         self.center_piece = QtWidgets.QLabel()
         self.center_piece.setAlignment(QtCore.Qt.AlignCenter)
         self.center_piece.setPixmap(pixmap)
