@@ -88,11 +88,13 @@ class Plotter(QtCore.QThread):
         for file in fnmatch.filter(file_names, "plot*.png"):
             os.remove(os.path.join(Plotter.PLOTS_DIR, file))
 
-    def start_plotting(self, start_date_decimal, end_date_decimal):
+    def start_plotting(self, start_date_decimal, end_date_decimal, step: int = 1):
+        if not 0 < step <= 12:
+            step = 1
         start_date_index = helpers.find_nearest_index(Plotter.DATES, start_date_decimal)
         end_date_index = helpers.find_nearest_index(Plotter.DATES, end_date_decimal)
         # end_date_index + 1 to make end_date inclusive
-        for count, date_index in enumerate(range(start_date_index, end_date_index + 1)):
+        for count, date_index in enumerate(range(start_date_index, end_date_index + 1, step)):
             if not self.stop_plot:
                 self.status_signal.emit(f"Processing image {count + 1}/"
                                         f"{end_date_index - start_date_index}")
