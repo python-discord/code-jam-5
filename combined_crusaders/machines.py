@@ -41,15 +41,15 @@ class MachineLoader:
 
     def load(self, master):
         self.master = master
-        self.machines = {"solar_panel": Machine(60, .5,
-                                                media.images["solar_panel"],
-                                                (850, 100),
-                                                ),
-                         "wind_turbine": Machine(90, 2,
-                                                 media.images["wind_turbine"],
-                                                 (900, 100),
-                                                 )
-                         }
+        self.machines = {
+            "solar_panel": Machine(60,
+                                   0.5,
+                                   media.images["solar_panel"],
+                                   (850, 100)),
+            "wind_turbine": Machine(90,
+                                    2,
+                                    media.images["wind_turbine"],
+                                    (900, 100))}
 
     def __getitem__(self, key):
         if not self.machines:

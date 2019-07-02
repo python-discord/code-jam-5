@@ -17,6 +17,13 @@ SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
 
 
+def say(message):
+    """Sends message to the user.
+    Change this method to reflect how you want the message to be sent.
+    Currently just changes the program bar name cuz it's cute."""
+    pygame.display.set_caption(str(message))
+
+
 def normalized_pos_pixels(normalized_position):
     if any(not 0 <= pos <= 1 for pos in normalized_position):
         raise ValueError("Normalized position must be a value between 0 and 1,"
