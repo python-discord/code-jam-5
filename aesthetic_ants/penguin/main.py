@@ -18,11 +18,15 @@ def on_draw():
     player.draw()
     enemy.draw()
 
+def update(dt):
+    player.update(dt)
+    enemy.update(dt)
+
 
 def main():
     window.push_handlers(player)  # Registers the player event handler
     window.push_handlers(keys)  # Register the utility keyboard handler
-    pyglet.clock.schedule_interval(enemy.update, 1/120)
+    pyglet.clock.schedule_interval(update, 1/120)
     pyglet.app.run()
 
 
