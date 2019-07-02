@@ -189,6 +189,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def animate(self):
         self.horizontalSlider.setValue(0)
         self.stop_button.setEnabled(True)
+        if self.animate_timer.isActive():
+            self.animate_timer.stop()
+            self.animate_timer.timeout.disconnect()
         self.animate_timer.timeout.connect(self.animation)
         self.start_time = time.time()
         self.animate_timer.start(int(1000 / self.animate_fps.value()))
