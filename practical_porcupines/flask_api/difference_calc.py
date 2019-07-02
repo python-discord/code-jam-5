@@ -1,13 +1,11 @@
 import os
-from typing import Union
-from practical_porcupines import utils
-from practical_porcupines.flask_api.models import LevelModel
-from datetime import datetime, timedelta
-from scipy.interpolate import interp1d
 import numpy as np
+from typing import Union
 from matplotlib import pyplot as plt
+from scipy.interpolate import interp1d
 from datetime import datetime, timedelta
 from practical_porcupines.flask_api.models import LevelModel
+from practical_porcupines.flask_api.utils import get_datetime
 
 
 class WLDifference:
@@ -18,9 +16,12 @@ class WLDifference:
 
         NOTE This is a frontend function and should hook to lower-level ones
         """
+
         self._fit_model()
-        date_1 = utils.convert_string_to_datetime(utils.check_date(date_1)).timestamp()
-        date_2 = utils.convert_string_to_datetime(utils.check_date(date_2)).timestamp()
+
+        date_1 = get_datetime(date_1)
+        date_2 = get_datetime(date_2)
+
         if not (date_1 or date_2):
             return None
 
@@ -29,7 +30,7 @@ class WLDifference:
     def _fit_model(self):
         dates, water = self._get_all_values()
 
-        self.model = interp1d(dates, water, kind='cubic')
+        self.model = interp1d(dates, water, kind="cubic")
 
     def evaluate_timestamp(self, timestamp):
         return self.model(timestamp)
@@ -38,8 +39,8 @@ class WLDifference:
     def _get_all_values():
         water_levels = np.array([lm.wl for lm in LevelModel.query.all()][:964])
         dates = np.array([lm.date.timestamp() for lm in LevelModel.query.all()][:964])
-        return dates, water_levels
 
+        return dates, water_levels
 
     def decimal_to_datetime(self, decimal_date):
         """
