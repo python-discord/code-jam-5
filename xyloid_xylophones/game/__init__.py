@@ -10,6 +10,8 @@ game_window = pyglet.window.Window(width=640, height=640)
 
 time_display = pyglet.clock.ClockDisplay()
 
+#List of current pressed keys
+keys = set()
 
 class Base:
     id: int = 0
@@ -56,6 +58,9 @@ player.x = zone_width // 2
 player.y = zone_height // 2
 player.width = sprite_width
 player.height = sprite_height
+# handlers for player movement
+player.x_vel = 0
+player.y_vel = 0
 
 cut_scenes = {}
 sound_list = {}
