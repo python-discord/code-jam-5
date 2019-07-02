@@ -7,9 +7,11 @@ import os
 # This is shitty Proof of concept code, I'll update it later
 
 # selects a random file from the gsoy-latest directory
-path = os.path.dirname(os.path.realpath(__file__)) + '/gsoy-latest/' + random.choice(open('Temp_Data.txt', 'r').readlines())[:-1]
+this_dir = os.path.dirname(os.path.realpath(__file__))
+random_file = random.choice(open('Temp_Data.txt', 'r').readlines())[:-1]
+path = this_dir + '/gsoy-latest/' + random_file
 print(path)
-#converts the file to a dict of {Year: Temp}
+# converts the file to a dict of {Year: Temp}
 data = getData(path)
 print(data)
 data = list(data.values())

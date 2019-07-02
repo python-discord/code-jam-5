@@ -1,6 +1,4 @@
 import requests
-import time
-from pprint import pprint
 
 
 class Stations:
@@ -32,7 +30,7 @@ class Stations:
                                        params={'limit': 1000, 'extent': locationBox}
                                        ).json()['results']
             for station in stationData:
-                    self.stations.append(station)
+                self.stations.append(station)
             size += 0.1
         print(len(self.stations))
         return self.stations

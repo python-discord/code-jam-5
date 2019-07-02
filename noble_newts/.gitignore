@@ -105,3 +105,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+gsoy-latest/
+figure.png
+
+# PyCharm folder
+.idea/

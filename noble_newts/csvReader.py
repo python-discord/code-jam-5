@@ -3,6 +3,7 @@ import csv
 # Extracts the Average annual temprature and date values from a given spreadsheet,
 # and returns the result as a dictionary  {Year: Temp}
 
+
 def getData(path):
     tempData = {}
     # confirms that the given .csv file contains the TAVG value by checking if
