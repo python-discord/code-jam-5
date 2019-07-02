@@ -3,37 +3,39 @@ from . import player, zone_map
 from config import current_zone, game_width, game_height
 import pyglet
 
+
 def move_towards_coord(x, y):
-    '''Moves the player towards the (x,y) coordinate'''
-    #Get center of the screen
-    x_mid = game_width/2
-    y_mid = game_height/2
+    """Moves the player towards the (x,y) coordinate"""
+    # Get center of the screen
+    x_mid = game_width / 2
+    y_mid = game_height / 2
 
     new_x = player.x
     new_y = player.y
 
-    if ((x > (x_mid + player.width/2)) or (x < (x_mid - player.width/2))):
-        #if mouse click is outside of the width of the player
-        if (x > x_mid):
+    if (x > (x_mid + player.width / 2)) or (x < (x_mid - player.width / 2)):
+        # if mouse click is outside of the width of the player
+        if x > x_mid:
             print("Moving right")
-            new_x +=1
-        elif (x < x_mid):
+            new_x += 1
+        elif x < x_mid:
             print("Moving left")
             new_x -= 1
-    if ((y > (y_mid + player.height/2)) or (y < (y_mid - player.height/2))):
-        #if mouse click is outside the height of the player
-        if (y > y_mid):
-            print ("Moving up")
+    if (y > (y_mid + player.height / 2)) or (y < (y_mid - player.height / 2)):
+        # if mouse click is outside the height of the player
+        if y > y_mid:
+            print("Moving up")
             new_y += 1
-        elif (y < y_mid):
+        elif y < y_mid:
             print("Moving down")
             new_y -= 1
 
     new_move = allowed_move(new_x, new_y)
-    move(new_move[0], new_move[1]) #Move towards the new point
+    move(new_move[0], new_move[1])  # Move towards the new point
+
 
 def handle_input():
-    '''Moves the player to a new position if allowed'''
+    """Moves the player to a new position if allowed"""
     new_x = player.x
     new_y = player.y
     if pyglet.window.key.UP in keys:
@@ -45,40 +47,44 @@ def handle_input():
     if pyglet.window.key.RIGHT in keys:
         new_x += 1
 
-    new_move= allowed_move(new_x, new_y)
+    new_move = allowed_move(new_x, new_y)
     move(new_move[0], new_move[1])
 
+
 def move(new_x, new_y):
-    '''Changes players position'''
+    """Changes players position"""
     player.x = new_x
     player.y = new_y
 
+
 def allowed_move(new_x, new_y):
-    '''Returns the position that the player is allowed to move to'''
+    """Returns the position that the player is allowed to move to"""
     x_collide = check_collision(new_x, player.y)
     y_collide = check_collision(player.x, new_y)
     both_collide = check_collision(new_x, new_y)
     if both_collide and x_collide and y_collide:
-        #Player is allowed to move to new position
+        # Player is allowed to move to new position
         return [new_x, new_y]
     elif x_collide:
-        #Player is allowed to move on x-axis
+        # Player is allowed to move on x-axis
         return [new_x, player.y]
     elif y_collide:
-        #Player is allowed to move on y-axis
+        # Player is allowed to move on y-axis
         return [player.x, new_y]
 
-    return [player.x, player.y] #Player cannot move
+    return [player.x, player.y]  # Player cannot move
+
 
 def check_collision(new_x, new_y):
-    '''Verifies that the character is allowed to move to this position. Returns True if user can move to position'''
+    """Verifies that the character is allowed to move to this position. Returns True if user can move to position"""
     query_x = -1024 + (new_x * player.width)
     query_y = -1024 + (new_y * player.height)
     # print('queried %s,%s' % (query_x, query_y))
     zone_query = zone_map[current_zone].index.intersect(
-        bbox=(query_x, query_y, query_x, query_y))
+        bbox=(query_x, query_y, query_x, query_y)
+    )
     for i in zone_query:
-        #print('found:%s which is %s' % (i.name, i.collision))
+        # print('found:%s which is %s' % (i.name, i.collision))
         if i.collision:
             permitted = False
             return False
