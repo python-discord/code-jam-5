@@ -74,12 +74,4 @@ class Client:
 
     def get_indicator_data(self, city: int, scenario: str, indicator: str, **kwargs) -> Dict:
         """Return derived climate indicator data for the requested indicator."""
-        year = datetime.utcnow().year
-
-        params = kwargs.get('params')
-
-        if scenario is not 'historical':
-            params = self._set_param('years', f'{year}:{year + 50}', params)
-
-        url = f'/climate-data/{city}/{scenario}/indicator/{indicator}'
-        return self._get(url, params=params, **kwargs)
+        return self._get(f'/climate-data/{city}/{scenario}/indicator/{indicator}', **kwargs)
