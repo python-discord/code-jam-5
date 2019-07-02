@@ -207,6 +207,7 @@ class HierarchicalXPathQuery:
         loc_query = xquery['loc']
         query = xquery['query']
         prefix = xquery.get('prefix')
+        postfix = xquery.get('postfix')
 
         # Process properties
         properties = properties or {}
@@ -246,6 +247,12 @@ class HierarchicalXPathQuery:
                     value = process_xpath(loc, value)
 
                 result[key] = value
+
+            if postfix:
+                _, pipes, _, _ = cls.resolve_pipe_expr(postfix)
+
+                for pipe in pipes:
+                    result = pipe(result)
 
             yield result
 
