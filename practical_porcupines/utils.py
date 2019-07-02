@@ -16,23 +16,35 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
     < datetime: Corresponding datetime object. If cant convert, returns None
     """
 
-    
-    possible_formats = ['%Y:%m:%d:%H:%M:%S', '%H:%M:%S %d.%m.%Y', '%m/%d/%Y %H:%M:%S', '%d.%m.%Y', '%m/%d/%Y',
-                        '%Y-%m-%d %H:%M:%S']
+    possible_formats = [
+        "%Y:%m:%d:%H:%M:%S",
+        "%H:%M:%S %d.%m.%Y",
+        "%m/%d/%Y %H:%M:%S",
+        "%d.%m.%Y",
+        "%m/%d/%Y",
+        "%Y-%m-%d %H:%M:%S",
+    ]
+
     possible_dates = list()
+    
     for possible_format in possible_formats:
         try:
-            possible_dates.append(datetime.datetime.strptime(date_string, possible_format))
+            possible_dates.append(
+                datetime.datetime.strptime(date_string, possible_format)
+            )
         except ValueError:
             possible_dates.append(None)
 
     date = [val for val in possible_dates if val is not None][0]
+    
     if date is None:
         raise DateFormatError(
             f"Couldn't match the given date to any template! {date_string}"
         )
     elif not (datetime.date(1993, 1, 15) < date.date() < datetime.date(2019, 2, 7)):
-        raise DatesOutOfRange(f"The date '{date_string}' is outside of the range '1993, 01, 15' - '2019, 02, 07'")
+        raise DatesOutOfRange(
+            f"The date '{date_string}' is outside of the range '1993, 01, 15' - '2019, 02, 07'"
+        )
     else:
         return date
 
