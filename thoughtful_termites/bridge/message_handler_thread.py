@@ -25,7 +25,7 @@ class MessageHandlerThread(th.Thread):
 
         self.event_loop = asyncio.new_event_loop()
         """
-        The asyncio event loop inside which the message handler 
+        The asyncio event loop inside which the message handler
         is working.
         """
 

@@ -51,7 +51,7 @@ class MessageHandler:
         self.awaiting_response: Dict[..., Request] = dict()
         """
         Map of requests awaiting a response.
-        
+
         key: value = request id: request
         """
 

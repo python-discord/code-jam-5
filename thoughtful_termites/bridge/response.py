@@ -17,7 +17,7 @@ class Response(Message):
 
         self.request: 'Request' = None
         """
-        The request that asked for this response. 
+        The request that asked for this response.
         Only available on the receiver's side.
 
         This value is set automatically for the receiver.
@@ -27,7 +27,7 @@ class Response(Message):
         self.request_id = request.id
         """
         The ID of the request that asked for this response.
-        
+
         This value must be set before the response is sent.
         """
 
