@@ -7,7 +7,6 @@ import re
 import util
 
 
-
 class HierarchicalXPathQuery:
 
     @classmethod
@@ -22,7 +21,7 @@ class HierarchicalXPathQuery:
 
         if ':' in name:
             ho_pipe, pipename = name.split(':', maxsplit=1)
-            
+
             hon = cls.HIGHER_ORDER_PIPES.get(ho_pipe)
             n = cls.PIPES.get(pipename)
 
@@ -36,18 +35,19 @@ class HierarchicalXPathQuery:
 
         n = cls.PIPES.get(name)
         if n is None:
-            raise UserWarning('No such pipe: %s' % name)    
+            raise UserWarning('No such pipe: %s' % name)
         return n
 
     @classmethod
     def resolve_xpath(cls, element, expr):
 
-        regex = r'^\$\s*([a-z]+)?\s*{\s*((?:[\w:]+\s*[,]?\s*)+)\s*}'  # => $ [ func, func, func, ... ] <query>
+        regex = r'^\$\s*([a-z]+)?\s*{\s*((?:[\w:]+\s*[,]?\s*)+)\s*}'
+        # => $ <modes>{ func, func, func, ... } <query>
 
         items = None
         mode = None
         m = re.match(regex, expr)
-        
+
         if m is not None:
             mode, items = m.groups()
             items = items.split(',')
@@ -99,8 +99,9 @@ class HierarchicalXPathQuery:
     def register_pipe(cls, fn, name=None, high=False):
 
         if name is not None:
-            if not re.match('^\w+$', name):
-                raise UserWarning('{!r} is not a compliant name. Allowed characters: [a-zA-Z0-9_]'.format(name))
+            if not re.match(r'^\w+$', name):
+                raise UserWarning('{!r} is not a compliant name. \
+                    Allowed characters: [a-zA-Z0-9_]'.format(name))
 
         if not high:
             cls.PIPES[name or fn.__name__] = fn
@@ -109,10 +110,10 @@ class HierarchicalXPathQuery:
 
     @classmethod
     def pipe(cls, name=None):  # A pipe decorator
-                
+
         if callable(name):
             return cls.register_pipe(name)
-        
+
         return partial(cls.register_pipe, name=name)
 
     @classmethod
@@ -224,7 +225,7 @@ def external(item):
 
 @HierarchicalXPathQuery.high_pipe
 def doubidou(fn, items):
-    return ('X:'+ fn(i) for i in map(str, items))
+    return ('X:' + fn(i) for i in map(str, items))
 
 
 if __name__ == "__main__":

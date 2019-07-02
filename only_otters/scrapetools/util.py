@@ -29,7 +29,7 @@ def pipe(*fns):
 
 
 def astype(typename):
-    
+
     try:
         type_ = globals()[typename]
     except KeyError:
