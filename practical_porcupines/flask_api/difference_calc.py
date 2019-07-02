@@ -25,8 +25,9 @@ class WLDifference:
         < Returns if it is a prediction or not (currently always False)
         """
         # make sure both dates are valid and convert them to epoch times
-        date_1 = string_to_datetime(date_1)
-        date_2 = string_to_datetime(date_2)
+        date_1, is_pred_1 = string_to_datetime(date_1)
+        date_2, is_pred_2 = string_to_datetime(date_2)
+
         if not (date_1 or date_2):
             return None
 
@@ -35,7 +36,7 @@ class WLDifference:
             # fmt: off
             self.evaluate_timestamp(date_1.timestamp()) - 
             self.evaluate_timestamp(date_2.timestamp()),
-            False  # is prediction
+            True if is_pred_1 or is_pred_2 else False  # prediction
         )
 
     def _fit_model(self):

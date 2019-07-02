@@ -14,11 +14,14 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
             - '06/26/2019 06:26:33', '26.06.2019', 06/26/2019, 2019-06-29 23:02:05
     - date_string: The string that should be converted
     < Returns Corresponding datetime object
+    < Returns If it will be a prediction or not
     x Returns DateFormatError if incoming string isn\'t properly formatted
-    x Returns DatesOutOfRange if predictions are not setup and date out of dataset
     """
 
     possible_formats = [
+        "%Y",
+        "%Y-%m",
+        "%Y/%m",
         "%Y:%m:%d:%H:%M:%S",
         "%H:%M:%S %d.%m.%Y",
         "%m/%d/%Y %H:%M:%S",
@@ -38,17 +41,16 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
             possible_dates.append(None)
 
     date = [val for val in possible_dates if val is not None][0]
+    is_prediction = False
 
     if date is None:
         raise DateFormatError(
             f"Couldn't match the given date to any template! {date_string}"
         )
     elif not (datetime.date(1993, 1, 15) < date.date() < datetime.date(2019, 2, 7)):
-        raise DatesOutOfRange(
-            f"The date '{date_string}' is outside of the range '1993, 01, 15' - '2019, 02, 07'"
-        )
-    else:
-        return date
+        is_prediction = True
+    
+    return date, is_prediction
 
 
 class ConfigBase:

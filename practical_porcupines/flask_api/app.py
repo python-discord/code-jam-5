@@ -35,7 +35,7 @@ class WaterLevel(Resource):
             args["date_2"]
         )
 
-        cur_time = datetime.date.now().strftime(
+        cur_time = datetime.datetime.now().strftime(
             # fmt: off
             "%Y-%m-%d %H:%M:%S"
         )
