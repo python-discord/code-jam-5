@@ -11,9 +11,9 @@ import thorpy
 class News:
     def __init__(self):
         self.font = pygame.font.Font(None, 25)
-        self.blue = (135, 206, 250, 180)
-        self.gray = (225, 225, 225, 180)
-        self.green = (144, 238, 144, 180)
+        self.blue = (135, 206, 250, 160)
+        self.gray = (225, 225, 225, 160)
+        self.green = (144, 238, 144, 160)
         self.default_color = (230, 230, 230)
 
     def news_1_box(self, window, screen_width, news):

@@ -194,9 +194,6 @@ class Game:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                # do things here
-                pass
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
 
                 # Once the news are changed by the actions of the player we can remove this block
