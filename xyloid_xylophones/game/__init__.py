@@ -10,6 +10,7 @@ game_window = pyglet.window.Window(width=640, height=640)
 
 time_display = pyglet.clock.ClockDisplay()
 
+
 class Base:
     id: int = 0
     name: str = 'base_class'
@@ -39,6 +40,7 @@ class Item(Player):
     state: int = -1  # -1 intangible, 0 container unopened, 1 container opened
     sound: str = 'default_sound'
     contains: str = 'default_nothing'
+
 
 zone_map = {}
 for i in zone_names:

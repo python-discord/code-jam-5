@@ -22,8 +22,21 @@ view_distance = 6
 zone_width = 32
 zone_height = 32
 
-
 # cut scene timeout (0 = wait for action=keypress|mouseClick)
 cut_scene = False
 cut_scene_timeout = 100
 cut_scene_name = 'default_cut_scene'
+
+__all__ = [
+    'zone_names',
+    'current_zone',
+    'player_name',
+    'sprite_width',
+    'sprite_height',
+    'view_distance',
+    'zone_width',
+    'zone_height',
+    'cut_scene',
+    'cut_scene_timeout',
+    'cut_scene_name',
+]
