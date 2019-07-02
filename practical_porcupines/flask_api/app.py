@@ -31,8 +31,8 @@ class WaterLevel(Resource):
 
         wl_difference, is_prediction = wl_dif_obj.calculate(
             # fmt: off
-            date_1,
-            date_2
+            args["date_1"],
+            args["date_2"]
         )
 
         cur_time = datetime.date.now().strftime(
