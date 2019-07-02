@@ -3,6 +3,7 @@ from typing import List
 
 import pygame as pg
 
+from project.constants import MAX_HEAT
 from .period import PeriodFuture, PeriodMedieval, PeriodModern
 
 
@@ -36,6 +37,10 @@ class GameView:
     def update(self) -> None:
         """Update gets called every game tick."""
         self.period.update()
+
+        # Check for gameover condition
+        if self.period.sun.current_heat >= MAX_HEAT:
+            logger.warning("GAMEOVER")
 
     def draw(self) -> None:
         """Draw gets called every game tick."""

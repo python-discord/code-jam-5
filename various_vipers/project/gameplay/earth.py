@@ -44,7 +44,6 @@ class Earth(object):
     current_cloud_fg_pos: float = 0
 
     # :: Indicators
-
     indicators: List[Indicator]
 
     # :: Other
@@ -184,7 +183,7 @@ class Earth(object):
 
     def __prepare_draw_background(self, biome: Biome, biome_x: int) -> List[List[Any]]:
         """Returns list of parameters lists how to draw biome background."""
-        return [[biome.background, (biome_x, HEIGHT // 5)]]
+        return [[biome.background, (biome_x, HEIGHT - biome.background.get_height())]]
 
     def __prepare_draw_tiles(self, biome: Biome, biome_x: int) -> List[List[Any]]:
         """Returns list of parameters lists how to draw biomes tiles."""
@@ -291,14 +290,12 @@ class Earth(object):
             indicator.draw()
 
     def __scroll_left(self) -> None:
-        logger.debug("Scrolling LEFT.")
         self.current_biome_pos -= BG_SCROLL_SPEED
         self.current_cloud_bg_pos += BG_CLOUDS_SCROLL_SPEED
         self.current_cloud_fg_pos += FG_CLOUDS_SCROLL_SPEED
         self.fix_indicators()
 
     def __scroll_right(self) -> None:
-        logger.debug("Scrolling RIGHT.")
         self.current_biome_pos += BG_SCROLL_SPEED
         self.current_cloud_bg_pos -= BG_CLOUDS_SCROLL_SPEED * 2
         self.current_cloud_fg_pos -= FG_CLOUDS_SCROLL_SPEED * 2

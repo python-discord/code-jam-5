@@ -9,7 +9,7 @@ LOG_LEVEL = logging.DEBUG
 FPS = 60
 
 WIDTH = 1285
-HEIGHT = 725
+HEIGHT = 825
 
 SHOW_FPS = True
 
@@ -23,6 +23,10 @@ TILE_WIDTH: int = 75
 TILE_COLS: int = int(BIOME_WIDTH // TILE_WIDTH)
 # Number of tile rows per biome
 TILE_ROWS: int = 4
+
+# Sun constants
+# Max heat before game over
+MAX_HEAT: float = 100
 
 INDICATOR_WIDTH: int = 100
 
@@ -65,6 +69,7 @@ CLOUD_LAYERS_FG = [
     PurePath(PATH_CLOUD_LAYERS).joinpath("cloudLayerB2.png"),
 ]
 
+SUN_IMAGE = PurePath(PATH_OTHER).joinpath("sun.png")
 INDICATOR_ARROW = PurePath(PATH_OTHER).joinpath("indicator.png")
 
 # Tiles

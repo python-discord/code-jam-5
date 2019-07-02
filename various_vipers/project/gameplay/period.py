@@ -7,6 +7,7 @@ import pygame as pg
 from project.constants import TILE_COLS, TILE_ROWS
 from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
 from .earth import Earth
+from .sun import Sun
 from .task import TaskCursorMaze, TaskRockPaperScissors, TaskTicTacToe
 
 
@@ -30,6 +31,11 @@ class Period(object):
     task_spawn_freq: float = 600
     # How much to increase task spawn frequency with each game tick
     task_spawn_freq_inc: float = 0.05
+
+    # How much heat goes up per task each game tick
+    heat_per_task: float = 0.01
+    # How much heat does completing a task reduce
+    heat_reduce_from_task: float = 5
 
     # Chance to spawn certain task types
     maze_chance: float = 1.0
@@ -55,15 +61,18 @@ class Period(object):
         ]
 
         self.earth = Earth(self.screen, self.biomes)
+        self.sun = Sun(self.screen, self.earth.biomes, self.heat_per_task)
 
     def update(self) -> None:
         """Update gets called every game tick."""
         self.earth.update()
+        self.sun.update()
         self.__handle_task_spawn()
 
     def draw(self) -> None:
         """Draw gets called every game tick."""
         self.earth.draw()
+        self.sun.draw()
 
     def __handle_task_spawn(self) -> None:
         if (
