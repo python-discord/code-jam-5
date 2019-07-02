@@ -18,9 +18,10 @@ class Region:
         'powerplant': Industry('Power Plant', 70),
     }
 
-    def __init__(self, name, detectability):
+    def __init__(self, name, detectability, destroyed=0):
         self.name = name
         self.detectability = detectability
+        self.destroyed = destroyed
 
 
 class World:
