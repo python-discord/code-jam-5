@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% include "styling.html" %}
+    </head>
+    <body>
+        {% include "header.html" %}
+
+        <div class="container">
+            <h1 class="display-4">Sign up</h1>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input class="form-control" type="text" name="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input class="form-control" type="email" name="email" placeholder="Email" aria-describedby="emailNotice">
+                    <small id="emailNotice" class="form-text text-muted">We promise not to share your email with anyone</small>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input class="form-control" type="password" name="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input class="form-control" type="password" name="confirm_password" placeholder="Confirm password">
+                </div>
+                <input class="btn btn-outline-primary mb-2" type="submit">
+            </form>
+        </div>
+    </body>
+</html>

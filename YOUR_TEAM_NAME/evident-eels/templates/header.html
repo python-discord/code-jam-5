@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Carpool</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+        <ul class="navbar-nav">
+            <form class="form-inline" action="/search" method="GET">
+                <div class="input-group">
+                    <input id="search" class="form-control mr-sm-2" type="search" name="query" aria-label="Search" placeholder="Search for a user or carpool">
+                    <script>
+                        document.getElementById("search").setAttribute("size", document.getElementById("search").getAttribute("placeholder").length);
+                    </script>
+                    <input class="btn btn-outline-primary my-2 my-sm-0" type="submit" value="Search">
+                </div>
+            </form>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Log in</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/signup">Sign up</a>
+            </li>
+        </ul>
+    </div>
+</nav>
