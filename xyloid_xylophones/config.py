@@ -17,3 +17,14 @@ view_distance = 6
 # number of tiles width and height tiles start at -1024,-1024
 zone_width = 32
 zone_height = 32
+
+__all__ = [
+        'zone_names',
+        'current_zone',
+        'player_name',
+        'sprite_width',
+        'sprite_height',
+        'view_distance',
+        'zone_width',
+        'zone_height',
+        ]
