@@ -6,15 +6,17 @@ from typing import Union
 
 def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
     """
-    > unction to convert stings in the format '%Y:%m:%d:%H:%M:%S' to their datetime representation
+    > Func to convert stings in format '%Y:%m:%d:%H:%M:%S' to datetime
       Example:
             string_to_datetime('2010:06:29:17:02:39')
             > datetime.datetime(2010, 6, 29, 17, 2, 39)
+            - possible_formats: '2019:06:26:06:26:33', '06:26:33 26.06.2019',
+            - '06/26/2019 06:26:33', '26.06.2019', 06/26/2019, 2019-06-29 23:02:05
     - date_string: The string that should be converted
-    < datetime: The corresponding datetime object. If it cant be converted, returns None
+    < datetime: Corresponding datetime object. If cant convert, returns None
     """
-    # possible_formats: '2019:06:26:06:26:33', '06:26:33 26.06.2019',
-    # '06/26/2019 06:26:33', '26.06.2019', 06/26/2019, 2019-06-29 23:02:05
+
+    
     possible_formats = ['%Y:%m:%d:%H:%M:%S', '%H:%M:%S %d.%m.%Y', '%m/%d/%Y %H:%M:%S', '%d.%m.%Y', '%m/%d/%Y',
                         '%Y-%m-%d %H:%M:%S']
     possible_dates = list()

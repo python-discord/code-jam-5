@@ -8,7 +8,7 @@ GSFC. 2017. Global Mean Sea Level Trend from Integrated Multi-Mission Ocean Alti
 
 We have an api (named `flask_api`), a webportal (named `flask_webportal`) and a discord bot (named `discord_bot`). The api recives 2 dates formatted like so:
 
-Using `%Y-%m-%d %T` formatting (UNIX). An example of this is: `2019:06:29:23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech.
+Using `%Y-%m-%d %T` formatting (UNIX). An example of this is: `2019-07-02 14:33:59` (at the time of writing). This would look like: `The 59th second of the 33rd minute of the 14th hour of the 2nd of July, 2019` if said in speech.
 
 **Once it has 2 dates, the `core` uses either historical data from a function we calculated using interpolation or predicts the future changes using *Machine Learning*.**
 
@@ -16,7 +16,7 @@ Once it has those, the `core` returns those (it's one large frontend function) a
 
 Say I put in somewhere in 1950 and somewhere in 2019, it would give me somewhere in the region of 20000mm but it'd be as accurate as it could, interpolating the points in-between the years, couples with machine learning to predict before the dataset that we selected to give a precise value.
 
-Once it sends out this return, we have a simple discord bot and webportal (webportal = little website) that you can see the results on. For the discord bot, you could put 1950 and 2000 in like so: `?gmwl 1950 2000` and it would return an answer.
+Once it sends out this return, we have a simple discord bot and webportal (webportal = a small website connected to the api, `flask_api`) that you can see the results on. For the discord bot (`discord_bot` in files), you could put 1950 and 2000 in like so: `?gmwl 1950 2000` and it would return an answer.
 
 Below is the outline of what the dependancies do:
 
@@ -84,13 +84,12 @@ pipenv run python -m practical_porcupines flask-webportal
 ### General Notes
 
 - NOTE: If you are on Windows, please use `set` instead of `export`
-- Using any of these formats: `%Y:%m:%d:%H:%M:%S`, `%H:%M:%S %d.%m.%Y`, `%m/%d/%Y %H:%M:%S`, `%d.%m.%Y`, `%m/%d/%Y`, `%Y-%m-%d %H:%M:%S`. An example of this is: `2019-06-29 23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech.
+- When connecting to the api (`flask_api`), it is favourable to use the `%Y-%m-%d %T` time formatting (UNIX annotations with `%`). An example of this is: `2019-06-29 23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech. The api can use other times but it is best to standardize with this method. Despite this, here are some of the other methods you can use: `%Y:%m:%d:%H:%M:%S`, `%H:%M:%S %d.%m.%Y`, `%m/%d/%Y %H:%M:%S`, `%d.%m.%Y`, `%m/%d/%Y`, `%Y-%m-%d %H:%M:%S`
 - Autoformat using `black` and try to do a final sweep with the custom `flake8` rulings.
 - Document everything in docstrings. `>` means overview of passing in, `<` means overview of returning, `x` is the execption handling and `-` are the argument specifics (use these like bullet points with them symbols).
 
 ### Error codes
 
-- `1000`: General aiohttp error **decerpt**
 - `1001`: API returning wrong values (usually happens in debugging when hooked upto a dummy api)
 - `1002`: Date is out of range of dataset.
 
@@ -142,10 +141,10 @@ pipenv run python -m practical_porcupines flask-webportal
 
 ```none
 {
-    [ARRAY: TIMES]: [
-        [STRING: TIME_1],
-        [STRING: TIME_2]
-    ]
+    [OBJ: TIMES]: {
+        [STRING: TIME_1]: [STRING: TIME],
+        [STRING: TIME_2]: [STRING: TIME]
+    }
 }
 ```
 
@@ -153,10 +152,10 @@ pipenv run python -m practical_porcupines flask-webportal
 
 ```json
 {
-    "times": [
-        "1995:02:10:13:14:00"
-        "2019:06:29:23:27:45"
-    ]
+    "times": {
+        "time_1": "1995-02-10 13:14:00",
+        "time_2": "2019-06-29 23:27:45"
+    }
 }
 ```
 
@@ -238,6 +237,13 @@ pipenv run python -m practical_porcupines flask-webportal
 
 This will automatically start the flask webportal in debug mode (as this project is not intended for production use)
 
+## Old `File-by-file Overview`
+
+**NOTE: This is not used anymore as it was a pain to update.**
+
+\- *scOwez, 2019/07/02*
+
+```md
 ## File-by-file Overview
 
 All titles below are files or folders in a child-parent setup. *Please view this markdown in text format if the folders get too deep*. `x/` = folder, `x` = file.
@@ -361,3 +367,4 @@ The computer-readable (I guess) json file for locking pipenv
 ### `README.md`
 
 The basic `README.md` for the project, describing what to do and what **not** to do. Best not to change this.
+```

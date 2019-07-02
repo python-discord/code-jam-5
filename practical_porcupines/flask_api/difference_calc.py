@@ -1,6 +1,7 @@
 import os
 from typing import Union
 from practical_porcupines.utils import string_to_datetime
+
 from scipy.interpolate import interp1d
 import numpy as np
 from datetime import datetime, timedelta
@@ -33,8 +34,11 @@ class WLDifference:
         if not (date_1 or date_2):
             return None
 
-        # perform the calculation
-        return self.evaluate_timestamp(date_1.timestamp()) - self.evaluate_timestamp(date_2.timestamp())
+        # preform calc
+        return (
+            # fmt: off
+            self.evaluate_timestamp(date_1.timestamp()) - self.evaluate_timestamp(date_2.timestamp())
+        )
 
     def _fit_model(self):
         """
