@@ -7,7 +7,7 @@ from .utils import angle_between, loader, keys
 
 
 class Player(pyglet.sprite.Sprite):
-    speed = 1
+    speed = 90
 
     def __init__(self, x, y):
         player_image = loader.image("penguin.png")
