@@ -16,7 +16,7 @@ class NowPlayingWidget(QtWidgets.QFrame):
 
     def init_ui(self):
 
-        background_file = Path('only_otters/images/background.jpeg')
+        background_file = Path('only_otters/images/background.png')
         self.background_pixmap = QtGui.QPixmap(str(background_file))
         self.background_label = QtWidgets.QLabel(self)
 

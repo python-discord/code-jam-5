@@ -32,7 +32,7 @@ class MusicPlayer(QtWidgets.QWidget):
         self.moon_foreground_label.setPixmap(self.moon_foreground_image)
 
         self.contents_widget = QtWidgets.QFrame()
-        self.contents_widget.setStyleSheet('background: #d8d8d8;')
+        self.contents_widget.setStyleSheet('background: #9b7653;')
         self.contents_widget.setSizePolicy(QtWidgets.QSizePolicy.Preferred,
                                            QtWidgets.QSizePolicy.Expanding)
 
