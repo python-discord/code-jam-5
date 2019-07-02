@@ -1,4 +1,4 @@
-
+import itertools
 
 class Region:
     """Main class for region"""
@@ -25,8 +25,37 @@ class World:
     def __init__(self):
         pass
 
+    def distance_between(self, graph, region1, region2):
+        shortest_path = self._find_shortest_path(graph, region1, region2)
+        distance = sum(graph[region1][region2] for region1, region2 in self._pairwise(shortest_path))
+        return distance
 
-distances = {
+    def _find_shortest_path(self, graph, start, end, path=None):
+        if not path:
+            path = []
+        path = path + [start]
+        if start == end:
+            return path
+        if start not in graph:
+            return None
+        shortest = None
+        for node in graph[start]:
+            if node not in path:
+                newpath = self._find_shortest_path(graph, node, end, path)
+                if newpath:
+                    if not shortest or len(newpath) < len(shortest):
+                        shortest = newpath
+        return shortest
+
+    def _pairwise(self, iterable):
+        """s -> (s0,s1), (s1,s2), (s2, s3), ..."""
+        a, b = itertools.tee(iterable)
+        next(b, None)
+        return zip(a, b)
+
+
+
+DISTANCES = {
     'Canada': {'Greenland': 9, 'USA': 3},
     'USA': {'West Europe': 14, 'Mexico': 4},
     'Mexico': {'North Africa': 16, 'Peru': 4},
@@ -44,3 +73,4 @@ distances = {
     'Indonesia': {'Australia': 5},
     'Australia': {'New Zealand': 5},
 }
+
