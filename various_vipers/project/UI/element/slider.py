@@ -11,9 +11,9 @@ from project.tools.loader import get_volume, save_volume
 class Slider:
     """Represents a volume slider."""
 
-    def __init__(self,):
+    def __init__(self, screen: pg.Surface):
         """Sets rectangle object for the slider."""
-
+        self.screen = screen
         self.volume = get_volume()
 
         self.body_img = load(str(SLIDER_BODY)).convert_alpha()
@@ -24,9 +24,6 @@ class Slider:
         self.__create_rectangles()
 
         self.click = False
-
-        print(self.slider_body)
-        print(self.slider_indicator)
 
     def __calculate_body_properties(self):
         self.x = WIDTH * SliderProperties.margin_y
@@ -48,24 +45,29 @@ class Slider:
         self.slider_body = Rect(self.x, self.y, self.width, self.height)
         self.slider_indicator = Rect(self.x_i, self.y_i, self.width_i, self.height_i)
 
-    def draw(self, screen: pg.Surface) -> None:
+    def draw(self) -> None:
         """Draws the slider on the screen."""
-        screen.blit(self.body_img, self.slider_body)
-        screen.blit(self.indicator_img, self.slider_indicator)
+        self.screen.blit(self.body_img, self.slider_body)
+        self.screen.blit(self.indicator_img, self.slider_indicator)
 
     def move_indicator(self, x, y, event) -> None:
         """Moves the indicator on the x axis and saves the changes."""
         b = pg.mouse.get_pressed()[0]
 
         if b and self.click:
-            if x > self.x and x < WIDTH - (WIDTH * SliderProperties.margin_y):
+            if (
+                x > self.x
+                and x < WIDTH - (WIDTH * SliderProperties.margin_y) - self.width_i
+            ):
                 self.x_i = x
                 self.slider_indicator = Rect(
                     self.x_i, self.y_i, self.width_i, self.height_i
                 )
 
-                vol = int((100 / self.width) * (x - self.x))
-                save_volume(vol)
+                self.volume = int(
+                    (100 / (self.width - self.width_i - 1)) * (x - self.x)
+                )
+                save_volume(self.volume)
         elif b:
             self.click = self.slider_body.collidepoint(
                 x, y

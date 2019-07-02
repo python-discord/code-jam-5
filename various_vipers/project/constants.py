@@ -93,6 +93,11 @@ QUIT_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("quit-btn-hover.png")
 BACK_BTN = PurePath(PATH_BUTTONS).joinpath("back-btn.png")
 BACK_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("back-btn-hover.png")
 
+VOLUME_BTN = PurePath(PATH_BUTTONS).joinpath("vol-btn.png")
+VOLUME_BTN_MUTE = PurePath(PATH_BUTTONS).joinpath("vol-btn-mute.png")
+VOLUME_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("vol-btn-hover.png")
+VOLUME_BTN_MUTE_HOVER = PurePath(PATH_BUTTONS).joinpath("vol-btn-mute-hover.png")
+
 SLIDER_BODY = PurePath(PATH_SLIDER).joinpath("slider-body.png")
 SLIDER_INDICATOR = PurePath(PATH_SLIDER).joinpath("slider-indicator.png")
 
@@ -109,6 +114,8 @@ class Color:
     aqua = (0, 255, 255)
 
     sky = (207, 239, 252)
+
+    orange = (225, 92, 30)
 
 
 class WindowState:
@@ -130,9 +137,13 @@ class ButtonProperties:
 
     back_btn_x = 20
     back_btn_y = 20
-
     back_btn_w = 200
     back_btn_h = 100
+
+    vol_btn_x = 100 + back_btn_x
+    vol_btn_y = back_btn_h + 50
+    vol_btn_w = 100
+    vol_btn_h = 100
 
 
 class SliderProperties:

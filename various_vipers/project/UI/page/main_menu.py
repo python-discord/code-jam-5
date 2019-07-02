@@ -34,6 +34,11 @@ class MainMenu:
 
         self.background = load(str(MAIN_MENU_BG)).convert_alpha()
 
+        self.__load_images()
+        self.__create_buttons()
+        self.__store_buttons_and_states()
+
+    def __load_images(self):
         img_paths = [
             (PLAY_BTN, PLAY_BTN_HOVER),
             (OPT_BTN, OPT_BTN_HOVER),
@@ -47,14 +52,17 @@ class MainMenu:
             tuple([load(str(j)).convert_alpha() for j in i]) for i in img_paths
         ]
 
-        # generates buttons objects
+    def __create_buttons(self):
         self.play_btn, self.opt_btn, self.credits_btn, self.quit_btn = generate_main_buttons(
+            screen=self.screen,
             btn_w=ButtonProperties.main_btn_w,
             btn_h=ButtonProperties.main_btn_h,
             btn_count=4,
             gap=ButtonProperties.btn_gap,
             images=self.images,
         )
+
+    def __store_buttons_and_states(self):
         self.buttons = [self.play_btn, self.opt_btn, self.credits_btn, self.quit_btn]
         self.states = [
             WindowState.game,
@@ -70,9 +78,9 @@ class MainMenu:
         # hover check for the play button
         for i, button in enumerate(self.buttons):
             if button.rect.collidepoint(mouse_x, mouse_y):
-                button.draw(self.screen, hover=True)
+                button.draw(hover=True)
                 if event.type == pg.MOUSEBUTTONDOWN:
                     return self.states[i]
             else:
-                button.draw(self.screen)
+                button.draw()
         return WindowState.main_menu

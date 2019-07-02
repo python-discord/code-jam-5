@@ -7,7 +7,7 @@ from project.constants import HEIGHT, WIDTH
 
 
 def generate_main_buttons(
-    btn_w: int, btn_h: int, btn_count: int, gap: int, images: list
+    screen: pg.Surface, btn_w: int, btn_h: int, btn_count: int, gap: int, images: list
 ) -> list:
     """
     Generates new buttons in main menu pattern.
@@ -39,6 +39,7 @@ def generate_main_buttons(
 
         # create new button and add it to the list
         new_button = Button(
+            screen=screen,
             x=left,
             y=top,
             width=btn_w,
@@ -55,22 +56,24 @@ class Button:
 
     def __init__(
         self,
+        screen: pg.Surface,
         x: int,
         y: int,
         width: int,
         height: int,
         image: pg.image,
-        image_hover: pg.image,
+        image_hover: pg.image = None,
     ):
         """Sets rectangle object for the button."""
+        self.screen = screen
         self.image = image
         self.image_hover = image_hover
 
         self.rect = Rect(x, y, width, height)
 
-    def draw(self, screen: pg.Surface, hover=False) -> None:
+    def draw(self, hover=False) -> None:
         """Draws the button on the screen."""
         if hover:
-            screen.blit(self.image_hover, self.rect)
+            self.screen.blit(self.image_hover, self.rect)
         else:
-            screen.blit(self.image, self.rect)
+            self.screen.blit(self.image, self.rect)

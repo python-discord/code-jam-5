@@ -26,6 +26,7 @@ class Credits:
         back_btn_img_h = pg.image.load(str(BACK_BTN_HOVER)).convert_alpha()
 
         self.back_btn = Button(
+            screen=self.screen,
             x=ButtonProperties.back_btn_x,
             y=ButtonProperties.back_btn_y,
             width=ButtonProperties.back_btn_w,
@@ -39,10 +40,10 @@ class Credits:
         self.screen.fill(Color.aqua)
 
         if self.back_btn.rect.collidepoint(mouse_x, mouse_y):
-            self.back_btn.draw(self.screen, hover=True)
+            self.back_btn.draw(hover=True)
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 return WindowState.main_menu
         else:
-            self.back_btn.draw(self.screen)
+            self.back_btn.draw()
         return WindowState.credit
