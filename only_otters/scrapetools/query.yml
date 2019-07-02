@@ -7,14 +7,15 @@ content:
   loc: /html/body/ul/li
 
   properties:
-    pipes:
-      single:
-        default: null
+    # pipes:
+    #   single:
+    #     default: null
     propagate_properties: true
 
   query:
     text: text()
-    # id:  $ [ int < float ] a/text()
+    id: $ [ str, int, single ] a/text()
+    xid: $ [ list, doubidou:external, lfilter:isnumeric, print, lmap:strip ] a/text()
     contents:
       loc: ul/li
       query:
