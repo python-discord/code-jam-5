@@ -41,19 +41,21 @@ def move_towards_coord(x, y):
 
 def handle_input():
     """Moves the player to a new position if allowed"""
-    new_x = player.x
-    new_y = player.y
-    if pyglet.window.key.UP in keys:
-        new_y += 1
-    if pyglet.window.key.DOWN in keys:
-        new_y -= 1
-    if pyglet.window.key.LEFT in keys:
-        new_x -= 1
-    if pyglet.window.key.RIGHT in keys:
-        new_x += 1
-
-    new_move = allowed_move(new_x, new_y)
-    move(new_move[0], new_move[1])
+    if len(keys) > 0:
+        new_x = player.x
+        new_y = player.y
+        if pyglet.window.key.UP in keys:
+            new_y += 1
+        if pyglet.window.key.DOWN in keys:
+            new_y -= 1
+        if pyglet.window.key.LEFT in keys:
+            new_x -= 1
+        if pyglet.window.key.RIGHT in keys:
+            new_x += 1
+        if (new_x != player.x) | (new_y != player.y):
+            new_move = allowed_move(new_x, new_y)
+            if (new_move[0] != player.x) | (new_y != player.y):
+                move(new_move[0], new_move[1])
 
 
 def move(new_x, new_y):

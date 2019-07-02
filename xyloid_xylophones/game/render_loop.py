@@ -79,6 +79,7 @@ def render_loop():
         player_label = pyglet.text.Label(
             player.name, x=x, y=y, color=(255, 0, 0, 255))
         player_label.draw()
+        handle_input()
 
     # UI / debug elements
 #    label.draw()

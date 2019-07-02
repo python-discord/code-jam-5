@@ -8,7 +8,7 @@ from .render_loop import render_loop
 from . import game_window, player, zone_map, Item, sound_list, music_list, cut_scenes
 from . import keys
 from random import getrandbits
-from .input import mouse_input, handle_input
+from .input import mouse_input
 
 game_window.push_handlers(on_draw=render_loop)  # Set the render loop handler.
 
