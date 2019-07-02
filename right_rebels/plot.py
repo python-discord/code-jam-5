@@ -86,12 +86,13 @@ class Plotter(QtCore.QThread):
         for file in fnmatch.filter(file_names, "plot*.png"):
             os.remove(os.path.join(Plotter.PLOTS_DIR, file))
 
-    def start_plotting(self, start, end):
-        # loop through months in range
-        for count, date_index in enumerate(np.arange(start, end + 0.01, 0.08333333333)):
+    def start_plotting(self, start_date_decimal, end_date_decimal):
+        start_date_index = helpers.find_nearest_index(Plotter.DATES, start_date_decimal)
+        end_date_index = helpers.find_nearest_index(Plotter.DATES, end_date_decimal)
+        for count, date_index in enumerate(range(start_date_index, end_date_index)):
             if not self.stop_plot:
                 self.status_signal.emit(f"Processing image {count + 1}/"
-                                        f"{int((end - start) // 0.08333333333) + 1}")
+                                        f"{end_date_index - start_date_index}")
                 start_time = time.time()
                 self.create_plot(count, date_index)
                 print(f"Took {time.time() - start_time:.2f}s for image {count + 1}")
@@ -101,14 +102,14 @@ class Plotter(QtCore.QThread):
     def create_plot(self, count, date_index):
         plot.figure(count)
         index = helpers.find_nearest_index(Plotter.DATES, date_index)
-        date = Plotter.DATES[index]
         color_mesh = self.world_map.pcolormesh(Plotter.LONGITUDES, Plotter.LATITUDES,
                                                np.squeeze(Plotter.TEMPERATURES[index]),
                                                cmap=self.color_map)
         color_bar = self.world_map.colorbar(color_mesh, location="bottom", pad="10%")
         color_bar.set_label(Plotter.TEMPERATURE_UNIT)
         Plotter.draw_map_details(self.world_map)
-        plot.title(f"Plot for {self.get_display_date(date)}")
+        date = Plotter.get_display_date(Plotter.DATES[date_index])
+        plot.title(f"Plot for {date}")
         # This scales the plot to -10,10 making those 2 mark "extremes"
         # but if we have a change bigger than 10
         # we won't be able to see it other than
