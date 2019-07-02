@@ -84,7 +84,7 @@ pipenv run python -m practical_porcupines flask-webportal
 ### General Notes
 
 - NOTE: If you are on Windows, please use `set` instead of `export`
-- Using `%Y:%m:%d:%T` formatting (UNIX). An example of this is: `2019:06:29:23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech.
+- Using `%Y-%m-%d %T` formatting (UNIX). An example of this is: `2019-06-29 23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech.
 - Autoformat using `black` and try to do a final sweep with the custom `flake8` rulings.
 - Document everything in docstrings. `>` means overview of passing in, `<` means overview of returning, `x` is the execption handling and `-` are the argument specifics (use these like bullet points with them symbols).
 
@@ -111,6 +111,7 @@ pipenv run python -m practical_porcupines flask-webportal
         [KEY: TIME SENT]: [STRING: TIME SENT]
     }
     [KEY: BODY]: {
+        [KEY: IS_PREDICTION]: [BOOL: YAY OR NAY]
         [KEY: WATER_LEVEL]: [FLOAT: DIFFERENCE]
     }
 }
@@ -129,6 +130,7 @@ pipenv run python -m practical_porcupines flask-webportal
         "time_sent": "2019 06:29 11:52:30"
     },
     "body": {
+        "is_prediction": false,
         "wl_difference": 20.9
     }
 }
