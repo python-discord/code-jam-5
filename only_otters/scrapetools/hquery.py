@@ -13,7 +13,7 @@ class HierarchicalXPathQuery:
     def resolve_mode(cls, name, high=False):
         n = (cls.MODES if not high else cls.HIGHER_ORDER_MODES).get(name)
         if n is None:
-            raise UserWarning('No such %smode: %s' % ('higher-order' * high, name))
+            raise UserWarning('No such %smode: %s' % ('higher-order ' * high, name))
         return n
 
     @classmethod
@@ -41,35 +41,41 @@ class HierarchicalXPathQuery:
     @classmethod
     def resolve_xpath(cls, element, expr):
 
-        regex = r'^\$\s*([a-z]+)?\s*{\s*((?:[\w:]+\s*[,]?\s*)+)\s*}'
+        regex = r'^\$\s*([a-z]:)?([a-z]+)?\s*{\s*((?:[\w:]+\s*[,]?\s*)+)\s*}'
         # => $ <modes>{ func, func, func, ... } <query>
         # see 'query.yml' for an example
 
         items = None
-        mode = None
+        modes = None
+        ho_mode = None
         m = re.match(regex, expr)
 
         if m is not None:
-            modes, items = m.groups()
-            
+            ho_mode, modes, items = m.groups()
+
+            # Resolve modes & pipes before runnning Xpath expr
+
             # Parse modes
-            if ':' in modes:
-                ho_mode, modes = modes.split(':', maxsplit=1)
+            if ho_mode is not None:
+                ho_mode = ho_mode.strip(':')
                 if len(ho_mode) > 1:
                     raise UserWarning('There can only be one \
                         mode of higher-order. %s' % ho_mode)
-                ho_mode = cls.resolve_mode(ho_mode)
-            else:
-                ho_mode = None
+                ho_mode = cls.resolve_mode(ho_mode, high=True)
 
             # Parse pipes
             items = items.split(',')
             items = list(map(str.strip, items))
+
             expr = expr[m.span()[1]:]
 
         result = element.xpath(expr)
 
         for fn in map(cls.resolve_pipe, reversed(items or [])):
+
+            if ho_mode is not None:
+                fn = partial(ho_mode, fn)
+
             result = fn(result)
 
         for mode in modes or []:
@@ -91,7 +97,13 @@ class HierarchicalXPathQuery:
         'isalpha': str.isalpha,
         'isalnm': str.isalnum,
         'print': lambda a: print(a) or a,
-        'strip': str.strip
+        'strip': str.strip,
+        'upper': str.upper,
+        'lower': str.lower,
+        'title': str.title,
+        'capitalize': str.capitalize,
+        'is': lambda x:x,
+        'bool': bool
     }
 
     HIGHER_ORDER_PIPES = {
@@ -109,8 +121,8 @@ class HierarchicalXPathQuery:
     }
 
     HIGHER_ORDER_MODES = {
-        'm': map,
-        'f': filter,
+        'm': lambda f, gen: list(map(f, gen)),
+        'f': lambda f, gen: list(filter(f, gen))
     }
 
     @classmethod

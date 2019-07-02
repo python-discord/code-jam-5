@@ -1,4 +1,4 @@
-from functools import wraps
+from functools import wraps, partial
 import types
 
 
@@ -50,3 +50,22 @@ def flatten(array):
             yield from item
         else:
             yield item
+
+
+def exceptprint(*e):
+
+    def decorator(fn, excepts=(Exception,)):
+
+        @wraps(fn)
+        def wrapper(*a, **kw):
+            try:
+                return fn(*a, **kw)
+            except excepts as ex:
+                print('e=%s:%s, f=%s, args=%s, kw=%s'.replace(', ', '\n') % (type(ex).__name__, ex, fn, a, kw))
+                raise
+        return wrapper
+
+    if len(e) == 1 and not isinstance(e[0], Exception):
+        return decorator(e[0])
+
+    return partial(decorator, excepts=e)
