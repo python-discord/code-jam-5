@@ -1,16 +1,25 @@
 import os
 from typing import Union
 from practical_porcupines import utils
-from practical_porcupines.flask_api.models import LevelModel
-from datetime import datetime, timedelta
 from scipy.interpolate import interp1d
 import numpy as np
-from matplotlib import pyplot as plt
 from datetime import datetime, timedelta
 from practical_porcupines.flask_api.models import LevelModel
+import pickle
 
 
 class WLDifference:
+
+    def __init__(self):
+        # if there is a saved model, load it.
+        # re-fitting the model takes time so it is faster to load it from a file
+        if os.path.exists("practical_porcupines/flask_api/interpolated_function.pkl"):
+            # load it again
+            with open('practical_porcupines/flask_api/interpolated_function.pkl', 'rb') as fid:
+                self.model = pickle.load(fid)
+        else:
+            self.model = self._fit_model()
+
     def calculate(self, date_1, date_2):
         """
         Calculates difference of global water level between date_1 and date_2
@@ -18,28 +27,39 @@ class WLDifference:
 
         NOTE This is a frontend function and should hook to lower-level ones
         """
-        self._fit_model()
-        date_1 = utils.convert_string_to_datetime(utils.check_date(date_1)).timestamp()
-        date_2 = utils.convert_string_to_datetime(utils.check_date(date_2)).timestamp()
+        # make sure both dates are valid and convert them to epoch times
+        date_1 = utils.convert_string_to_datetime(date_1).timestamp()
+        date_2 = utils.convert_string_to_datetime(date_2).timestamp()
         if not (date_1 or date_2):
             return None
-
+        # perform the calculation
         return self.evaluate_timestamp(date_1) - self.evaluate_timestamp(date_2)
 
     def _fit_model(self):
-        dates, water = self._get_all_values()
+        """
+        Create a mathematical model to estimate any data between 1993 and 2019
+        This process takes some time, but will only be called if no model exists
+        < returns '<class 'scipy.interpolate.interpolate.interp1d'>' to eval any data in range
+        """
 
-        self.model = interp1d(dates, water, kind='cubic')
+        # get all the time and water level values from the database
+        dates, water = self._get_all_values()
+        # create the model
+        model = interp1d(dates, water, kind='cubic')
+        # save the interp function
+        with open('practical_porcupines/flask_api/interpolated_function.pkl', 'wb') as fid:
+            pickle.dump(model, fid)
+
+        return model
 
     def evaluate_timestamp(self, timestamp):
         return self.model(timestamp)
 
     @staticmethod
     def _get_all_values():
-        water_levels = np.array([lm.wl for lm in LevelModel.query.all()][:964])
-        dates = np.array([lm.date.timestamp() for lm in LevelModel.query.all()][:964])
+        water_levels = np.array([lm.wl for lm in LevelModel.query.all()])
+        dates = np.array([lm.date.timestamp() for lm in LevelModel.query.all()])
         return dates, water_levels
-
 
     def decimal_to_datetime(self, decimal_date):
         """
@@ -52,8 +72,8 @@ class WLDifference:
         base = datetime(year, 1, 1)
 
         seconds = (  # fmt: off
-            base.replace(year=base.year + 1) - base
-        ).total_seconds() * rem
+                          base.replace(year=base.year + 1) - base
+                  ).total_seconds() * rem
 
         result = base + timedelta(seconds=seconds)
 
