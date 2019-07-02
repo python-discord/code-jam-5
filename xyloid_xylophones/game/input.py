@@ -12,6 +12,7 @@ def mouse_input(x,y):
         #TODO
         pass
     return
+
 def move_towards_coord(x, y):
     """Moves the player towards the (x,y) coordinate"""
     # Get center of the screen
