@@ -57,6 +57,16 @@ class Options:
             image=vol_btn_img,
             image_hover=vol_btn_img_hover,
         )
+
+        self.vol_btn_mute = Button(
+            self.screen,
+            x=ButtonProperties.vol_btn_x,
+            y=ButtonProperties.vol_btn_y,
+            width=ButtonProperties.vol_btn_w,
+            height=ButtonProperties.vol_btn_h,
+            image=vol_btn_img_mute,
+            image_hover=vol_btn_img_mute_hover,
+        )
         self.slider = Slider(self.screen)
         self.volume_indicator = VolumeIndicator(self.screen)
 
@@ -72,13 +82,22 @@ class Options:
         else:
             self.back_btn.draw()
 
-        if self.vol_btn.rect.collidepoint(mouse_x, mouse_y):
-            self.vol_btn.draw(hover=True)
+        if self.slider.volume == 0:
+            if self.vol_btn_mute.rect.collidepoint(mouse_x, mouse_y):
+                self.vol_btn_mute.draw(hover=True)
 
-            if event.type == pg.MOUSEBUTTONDOWN:
-                return WindowState.main_menu
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    return WindowState.main_menu
+            else:
+                self.vol_btn_mute.draw()
         else:
-            self.vol_btn.draw()
+            if self.vol_btn.rect.collidepoint(mouse_x, mouse_y):
+                self.vol_btn.draw(hover=True)
+
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    return WindowState.main_menu
+            else:
+                self.vol_btn.draw()
 
         self.slider.move_indicator(mouse_x, mouse_y, event)
         self.slider.draw()
