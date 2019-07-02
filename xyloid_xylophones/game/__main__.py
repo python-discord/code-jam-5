@@ -8,7 +8,7 @@ from .render_loop import render_loop
 from . import game_window, player, zone_map, Item, sound_list, music_list, cut_scenes
 from . import keys
 from random import getrandbits
-from .input import move_towards_coord
+from .input import mouse_input
 
 game_window.push_handlers(on_draw=render_loop)  # Set the render loop handler.
 
@@ -37,7 +37,7 @@ def on_key_release(symbol, modifiers):
 
 @game_window.event
 def on_mouse_press(x, y, button, modifiers):
-    move_towards_coord(x, y)
+    mouse_input(x, y)
 
 def generate_random_zones():
     '''

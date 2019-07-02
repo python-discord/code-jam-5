@@ -2,10 +2,16 @@
 import pyglet
 from config import current_zone, game_width, game_height
 from . import keys
-from . import player, zone_map
+from . import player, zone_map, current_display
 
 
-
+def mouse_input(x,y):
+    if (current_display == 'zone'):
+        move_towards_coord(x,y)
+    else:
+        #TODO
+        pass
+    return
 def move_towards_coord(x, y):
     """Moves the player towards the (x,y) coordinate"""
     # Get center of the screen

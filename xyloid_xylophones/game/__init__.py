@@ -66,3 +66,5 @@ player.y_vel = 0
 cut_scenes = {}
 sound_list = {}
 music_list = {}
+
+current_display = "zone"
