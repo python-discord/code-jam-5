@@ -3,35 +3,40 @@ import os
 import time
 import matplotlib
 import matplotlib.pyplot as plot
+from mpl_toolkits.basemap import Basemap
 import numpy as np
 from PyQt5 import QtCore
-from mpl_toolkits.basemap import Basemap
 import helpers
 
-# set matplotlib to not use tk while plotting
+# Set matplotlib to not use tk while plotting
 matplotlib.use('Agg')
 
 
 class Plotter(QtCore.QThread):
     PLOTS_DIR = "plots/"
     NC_FILE_NAME = "Complete_TMAX_LatLong1.nc"
+    LONGITUDES, LATITUDES, DATES, TEMPERATURES, TEMPERATURE_UNIT = helpers.get_variables_from_nc_file(NC_FILE_NAME)
     image_increment_signal = QtCore.pyqtSignal()
     status_signal = QtCore.pyqtSignal(str)
-    longitudes, latitudes, dates, temperatures, temperature_unit = helpers.get_variables_from_nc_file(NC_FILE_NAME)
 
     def __init__(self, start_date, end_date, parent_window=None):
         super(Plotter, self).__init__()
         self.start_date = start_date
         self.end_date = end_date
         self.stop_plot = False
+        # https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
+        self.color_map = plot.get_cmap("seismic")
+        self.world_map = Plotter.get_map_format()
         if parent_window is not None:
             parent_window.stop_plot_signal.connect(self.stop)
 
     def run(self):
-        self.main(self.start_date, self.end_date)
+        self.start_plotting(self.start_date, self.end_date)
+
+    def stop(self):
+        self.stop_plot = True
 
     def file_checks(self):
-        # Temporal checks, change later
         if not os.path.isfile(self.NC_FILE_NAME):
             self.status_signal.emit(f"{self.NC_FILE_NAME} file not found, exiting")
             return False
@@ -40,26 +45,23 @@ class Plotter(QtCore.QThread):
             return False
         return True
 
-    def get_map_format(self):
+    @staticmethod
+    def get_map_format():
         """
-        https://matplotlib.org/basemap/api/basemap_api.html
+        Source:
+            https://matplotlib.org/basemap/api/basemap_api.html
         Returns:
             Basemap: Constructed world basemap
         """
         world_map = Basemap(projection="cyl", llcrnrlat=-90, urcrnrlat=90,
                             llcrnrlon=-180, urcrnrlon=180, resolution="c")
-        self.draw_map_details(world_map)
+        Plotter.draw_map_details(world_map)
         return world_map
 
-    def draw_map_details(self, world_map):
+    @staticmethod
+    def draw_map_details(world_map):
         world_map.drawcoastlines(linewidth=0.6)
         world_map.drawcountries(linewidth=0.3)
-
-    @staticmethod
-    def find_nearest(array, value):
-        array = np.asarray(array)
-        idx = (np.abs(array - value)).argmin()
-        return idx
 
     @staticmethod
     def get_display_date(decimal_date):
@@ -78,49 +80,45 @@ class Plotter(QtCore.QThread):
                   "0.958": "December"}
         return f"{months[str(month)[:5]]} {int(decimal_date)}"
 
-    def clear_plots(self):
-        filenames = os.listdir(self.PLOTS_DIR)
-        for file in fnmatch.filter(filenames, "plot*.png"):
-            os.remove(os.path.join(self.PLOTS_DIR, file))
+    @staticmethod
+    def clear_plots():
+        file_names = os.listdir(Plotter.PLOTS_DIR)
+        for file in fnmatch.filter(file_names, "plot*.png"):
+            os.remove(os.path.join(Plotter.PLOTS_DIR, file))
 
-    def stop(self):
-        self.stop_plot = True
-
-    def main(self, start, end):
-        #longitudes, latitudes, dates, temperatures, temperature_unit = self.get_variables_from_nc_file()
-        world_map = self.get_map_format()
-        # https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
-        color_map = plot.get_cmap("jet")
-
+    def start_plotting(self, start, end):
         # loop through months in range
         for count, date_index in enumerate(np.arange(start, end + 0.01, 0.08333333333)):
             if not self.stop_plot:
                 self.status_signal.emit(f"Processing image {count + 1}/"
                                         f"{int((end - start) // 0.08333333333) + 1}")
                 start_time = time.time()
-
-                plot.figure(count)
-                index = self.find_nearest(Plotter.dates, date_index)
-                date = Plotter.dates[index]
-                color_mesh = world_map.pcolormesh(Plotter.longitudes, Plotter.latitudes,
-                                                  np.squeeze(Plotter.temperatures[index]), cmap=color_map)
-                color_bar = world_map.colorbar(color_mesh, location="bottom", pad="10%")
-                color_bar.set_label(Plotter.temperature_unit)
-                self.draw_map_details(world_map)
-
-                plot.title(f"Plot for {self.get_display_date(date)}")
-                # This scales the plot to -4,6 making those 2 mark "extremes"
-                # but if we have a change bigger than 4
-                # we won't be able to see it other than
-                # it being extra red (aka we won't know if it's +7 or +15)
-                plot.clim(-4, 6)
-                # bbox_inches="tight" remove whitespace around the image
-                file_path = f"{self.PLOTS_DIR}plot{count}.png"
-                plot.savefig(file_path, dpi=150, bbox_inches="tight", facecolor=(0.94, 0.94, 0.94))
-                plot.close()
+                self.create_plot(count, date_index)
                 print(f"Took {time.time() - start_time:.2f}s for image {count + 1}")
                 self.image_increment_signal.emit()
         self.status_signal.emit("")
+
+    def create_plot(self, count, date_index):
+        plot.figure(count)
+        index = helpers.find_nearest_index(Plotter.DATES, date_index)
+        date = Plotter.DATES[index]
+        color_mesh = self.world_map.pcolormesh(Plotter.LONGITUDES, Plotter.LATITUDES,
+                                               np.squeeze(Plotter.TEMPERATURES[index]),
+                                               cmap=self.color_map)
+        color_bar = self.world_map.colorbar(color_mesh, location="bottom", pad="10%")
+        color_bar.set_label(Plotter.TEMPERATURE_UNIT)
+        Plotter.draw_map_details(self.world_map)
+        plot.title(f"Plot for {self.get_display_date(date)}")
+        # This scales the plot to -10,10 making those 2 mark "extremes"
+        # but if we have a change bigger than 10
+        # we won't be able to see it other than
+        # it being extra red (aka we won't know if it's +11 or +15)
+        plot.clim(-10, 10)
+        file_path = f"{Plotter.PLOTS_DIR}plot{count}.png"
+        # bbox_inches="tight" remove whitespace around the image
+        # facecolor=(0.94, 0.94, 0.94) , background color of image
+        plot.savefig(file_path, dpi=150, bbox_inches="tight", facecolor=(0.94, 0.94, 0.94))
+        plot.close()
 
 
 if __name__ == "__main__":

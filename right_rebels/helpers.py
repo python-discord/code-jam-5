@@ -1,4 +1,5 @@
 from netCDF4 import Dataset
+import numpy as np
 
 
 def get_variables_from_nc_file(nc_file_name):
@@ -36,3 +37,14 @@ def get_variables_from_nc_file(nc_file_name):
         temps = nc_file.variables["temperature"][:]
         temps_unit = nc_file.variables["temperature"].units
         return lon, lat, dates, temps, temps_unit
+
+
+def find_nearest_index(array, value):
+    """
+        Finds the index of array element which is the most similar to the param value.
+        :return: int representing the index in the passed array.
+    """
+    array = np.asarray(array)
+    index = (np.abs(array - value)).argmin()
+    return index
+
