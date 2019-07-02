@@ -28,11 +28,11 @@ def render_loop():
         gl.GL_TEXTURE_MAG_FILTER,
         gl.GL_NEAREST)
 
-    label = pyglet.text.Label(
-        'player x %s y %s zone %s' % (player.x, player.y, current_zone),
-        font_name='Times New Roman',
-        font_size=16,
-        x=game_window.width//3, y=24, color=(0, 0, 0, 255))
+#    label = pyglet.text.Label(
+#        'player x %s y %s zone %s' % (player.x, player.y, current_zone),
+#        font_name='Times New Roman',
+#        font_size=16,
+#        x=game_window.width//3, y=24, color=(0, 0, 0, 255))
 
     # blank screen!
     game_window.clear()
@@ -55,11 +55,11 @@ def render_loop():
                 i.x + i.width + offset_x, i.y + i.height + offset_y,
                 i.x + offset_x, i.y + i.width + offset_y)),
              ('c3B', i.color))
-            pyglet.text.Label(
-                i.name,
-                batch=batch,
-                x=i.x + offset_x + 5,
-                y=i.y + offset_y + 5)
+#            pyglet.text.Label(
+#                i.name,
+#                batch=batch,
+#                x=i.x + offset_x + 5,
+#                y=i.y + offset_y + 5)
         batch.draw()
 
         # draw player fixed (static center)
@@ -81,5 +81,5 @@ def render_loop():
         player_label.draw()
 
     # UI / debug elements
-    label.draw()
+#    label.draw()
     time_display.draw()

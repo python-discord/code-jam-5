@@ -12,6 +12,7 @@ from .input import mouse_input, handle_input
 
 game_window.push_handlers(on_draw=render_loop)  # Set the render loop handler.
 
+pyglet.clock.schedule(lambda dt: None)
 
 @game_window.event
 def on_key_press(symbol, modifiers):
@@ -22,7 +23,11 @@ def on_key_press(symbol, modifiers):
     by adding `symbol` to the `keys` set. `modifiers` is not used, but required
     for the function signature.
     '''
+
     keys.add(symbol)
+
+    if len(keys) > 0:
+        handle_input()
 
 
 @game_window.event
@@ -32,8 +37,6 @@ def on_key_release(symbol, modifiers):
 
     The inverse of `on_key_press`, this removes `symbol` from `keys`.
     '''
-    if len(keys) > 0:
-        handle_input()
 
     if symbol in keys:  # print screen does not make it into keys set
         keys.remove(symbol)
