@@ -10,10 +10,10 @@ import util
 class HierarchicalXPathQuery:
 
     @classmethod
-    def resolve_mode(cls, name):
-        n = cls.MODES.get(name)
+    def resolve_mode(cls, name, high=False):
+        n = (cls.MODES if not high else cls.HIGHER_ORDER_MODES).get(name)
         if n is None:
-            raise UserWarning('No such mode: %s' % name)
+            raise UserWarning('No such %smode: %s' % ('higher-order' * high, name))
         return n
 
     @classmethod
@@ -43,13 +43,26 @@ class HierarchicalXPathQuery:
 
         regex = r'^\$\s*([a-z]+)?\s*{\s*((?:[\w:]+\s*[,]?\s*)+)\s*}'
         # => $ <modes>{ func, func, func, ... } <query>
+        # see 'query.yml' for an example
 
         items = None
         mode = None
         m = re.match(regex, expr)
 
         if m is not None:
-            mode, items = m.groups()
+            modes, items = m.groups()
+            
+            # Parse modes
+            if ':' in modes:
+                ho_mode, modes = modes.split(':', maxsplit=1)
+                if len(ho_mode) > 1:
+                    raise UserWarning('There can only be one \
+                        mode of higher-order. %s' % ho_mode)
+                ho_mode = cls.resolve_mode(ho_mode)
+            else:
+                ho_mode = None
+
+            # Parse pipes
             items = items.split(',')
             items = list(map(str.strip, items))
             expr = expr[m.span()[1]:]
@@ -59,8 +72,8 @@ class HierarchicalXPathQuery:
         for fn in map(cls.resolve_pipe, reversed(items or [])):
             result = fn(result)
 
-        for m in mode or []:
-            fn = cls.resolve_mode(m)
+        for mode in modes or []:
+            fn = cls.resolve_mode(mode)
             result = fn(result)
 
         return result
@@ -93,6 +106,11 @@ class HierarchicalXPathQuery:
         's': str,
         'l': list,
         'u': util.one_or_many
+    }
+
+    HIGHER_ORDER_MODES = {
+        'm': map,
+        'f': filter,
     }
 
     @classmethod
