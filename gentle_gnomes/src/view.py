@@ -1,5 +1,7 @@
 from flask import current_app as app, Blueprint, render_template, request
 
+from . import data
+
 bp = Blueprint('view', __name__, url_prefix='/')
 
 
@@ -16,6 +18,6 @@ def search():
     if not city:
         return render_template('view/results.html', results='City not found.')
 
-    precip = app.azavea.get_indicator_data(city, 'RCP85', 'total_precipitation')
+    top = data.get_top_indicators(app.azavea, city)
 
-    return render_template('view/results.html', results=repr(precip))
+    return render_template('view/results.html', results=repr(top))
