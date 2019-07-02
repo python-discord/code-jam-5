@@ -15,7 +15,7 @@ https://www.theworldcounts.com/themes/our_environment
 """
 
 
-# @HierarchicalXPathQuery.pipe
+@HierarchicalXPathQuery.pipe
 def postprocess(item):
 
     for key in item:
