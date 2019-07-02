@@ -16,20 +16,33 @@ def handle_input():
     if pyglet.window.key.RIGHT in keys:
         new_x += 1
 
-    if checkCollision(new_x, new_y):
-        move(new_x, new_y) #Player moves to the new position
-    elif checkCollision(player.x, new_y):
-        move(player.x, new_y) #Player collided with something on the x-axis
-    elif checkCollision(new_x, player.y):
-        move(new_x, player.y) #Player collided with something on y-axis
+    new_move= allowed_move(new_x, new_y)
+    move(new_move[0], new_move[1])
 
 def move(new_x, new_y):
     '''Changes players position'''
     player.x = new_x
     player.y = new_y
 
-def checkCollision(new_x, new_y):
-    '''Verifies that the character is allowed to move to this position'''
+def allowed_move(new_x, new_y):
+    '''Returns the position that the player is allowed to move to'''
+    x_collide = check_collision(new_x, player.y)
+    y_collide = check_collision(player.x, new_y)
+    both_collide = check_collision(new_x, new_y)
+    if both_collide and x_collide and y_collide:
+        #Player is allowed to move to new position
+        return [new_x, new_y]
+    elif x_collide:
+        #Player is allowed to move on x-axis
+        return [new_x, player.y]
+    elif y_collide:
+        #Player is allowed to move on y-axis
+        return [player.x, new_y]
+
+    return [player.x, player.y] #Player cannot move
+
+def check_collision(new_x, new_y):
+    '''Verifies that the character is allowed to move to this position. Returns True if user can move to position'''
     query_x = -1024 + (new_x * player.width)
     query_y = -1024 + (new_y * player.height)
     # print('queried %s,%s' % (query_x, query_y))
