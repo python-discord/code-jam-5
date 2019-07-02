@@ -38,6 +38,6 @@ def get_top_indicators(client, city, n: int = 5) -> Dict[str, float]:
     slopes = Counter()
     for indicator in INDICATORS:
         x, y = get_indicator_data(client, city, indicator)
-        slopes[indicator] = calc_slope(x, y)
+        slopes[indicator] = abs(calc_slope(x, y))
 
     return dict(slopes.most_common(n))

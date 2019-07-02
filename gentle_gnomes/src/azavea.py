@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Any, Dict, Iterator, List, NamedTuple, Optional, Union
 
 import requests
