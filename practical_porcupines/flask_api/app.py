@@ -3,7 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api, Resource
 from flask_restful.reqparse import RequestParser
-from practical_porcupines.utils import ConfigApi
+from practical_porcupines.utils import ConfigApi, DateFormatError
 from practical_porcupines.flask_api.difference_calc import WLDifference
 
 
@@ -29,12 +29,6 @@ class WaterLevel(Resource):
     def get(self):
         args = wl_req.parse_args()
 
-        wl_difference, is_prediction = wl_dif_obj.calculate(
-            # fmt: off
-            args["date_1"],
-            args["date_2"]
-        )
-
         cur_time = datetime.datetime.now().strftime(
             # fmt: off
             "%Y-%m-%d %H:%M:%S"
@@ -51,11 +45,27 @@ class WaterLevel(Resource):
                 "time_sent": cur_time
             },
             "body": {
-                "is_prediction": is_prediction,
-                "wl_difference": wl_difference
             }
         }
 
-        return output, 200
+        try:
+            wl_difference, is_prediction = wl_dif_obj.calculate(
+                # fmt: off
+                args["date_1"],
+                args["date_2"]
+            )
+        except DateFormatError:
+            status_code = 400
+        else:
+            output["body"] = {
+                "wl_difference": wl_difference,
+                "is_prediction": is_prediction
+            }
+
+            status_code = 200
+
+        output["meta"]["status_code"] = status_code
+
+        return output, status_code
 
 api.add_resource(WaterLevel, "/")

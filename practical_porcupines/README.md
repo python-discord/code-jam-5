@@ -90,8 +90,9 @@ pipenv run python -m practical_porcupines flask-webportal
 
 ### Error codes
 
+- `1000`: API was given a bad date format (`DateFormatError()`)
 - `1001`: API returning wrong values (usually happens in debugging when hooked upto a dummy api)
-- `1002`: Date is out of range of dataset.
+- `1002`: Date is out of range of dataset. **NOTE: This should be taken away once predictions are ready.**
 
 ### API schema
 

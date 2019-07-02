@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 from practical_porcupines.utils import (  # fmt: off
     ApiReturnBad,
-    DatesOutOfRange,
     ConfigBot,
     string_to_datetime,
 )
@@ -75,8 +74,6 @@ async def gmwl(ctx, date_1, date_2):
         )
 
         return
-
-    print(verified_date_1, verified_date_2)
 
     # IF invalid date
     if not (verified_date_1 or verified_date_2):

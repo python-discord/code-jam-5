@@ -40,7 +40,9 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
         except ValueError:
             possible_dates.append(None)
 
+    
     date = [val for val in possible_dates if val is not None][0]
+
     is_prediction = False
 
     if date is None:
@@ -49,7 +51,7 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
         )
     elif not (datetime.date(1993, 1, 15) < date.date() < datetime.date(2019, 2, 7)):
         is_prediction = True
-    
+
     return date, is_prediction
 
 
@@ -115,20 +117,13 @@ class ConfigBot:
         return os.environ["CLIENT_TOKEN"]
 
 
-class DatesOutOfRange(BaseException):
-    """
-    For when dates are out of range
-    """
-
-    pass
-
-
 class DateFormatError(BaseException):
     """
     For when the date formatting doesn\'t make sense
     """
 
     pass
+
 
 
 class ApiReturnBad(BaseException):
