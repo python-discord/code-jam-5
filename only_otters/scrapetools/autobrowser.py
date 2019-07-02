@@ -1,5 +1,8 @@
 import time
 import threading
+from pathlib import Path
+
+__folder__ = Path(__file__).parent
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -21,7 +24,7 @@ def make_driver(headless=True):
         opt.add_argument('--headless')
     opt.add_argument('lang=en')
 
-    driver = webdriver.Chrome('chromedriver', chrome_options=opt)
+    driver = webdriver.Chrome(__folder__ / 'chromedriver', chrome_options=opt)
 
     driver.set_window_size(1920, 1080)
 
