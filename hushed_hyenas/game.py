@@ -6,12 +6,20 @@ import json
 import math
 import os
 from game_menu import main_menu
+from gameobjects import News
+from news_list import get_level_1_news
 
 # Initializes pygame resources
 pygame.init()
 
 # Place the pygame window in the center of the screen
 os.environ['SDL_VIDEO_CENTERED'] = '1'
+
+# Instantiate the get_constants as constants
+news_list = get_level_1_news()
+
+# Instantiate the News class for better usage
+news = News()
 
 
 class Game:
@@ -29,6 +37,7 @@ class Game:
         self.current_scene = 'Map'
         self.country = None
         self.font = pygame.font.Font(None, 25)
+        self.news = news_list['news3']
 
         # Resize image to fit in window
         self.map = pygame.transform.scale(self.original_map, (self.width, self.height))
@@ -85,6 +94,9 @@ class Game:
             text = self.font.render(closest_country["name"], True, (255, 255, 255))
             text_rect = text.get_rect(center=(self.width - 150, self.height - 25))
             window.blit(text, text_rect)
+
+            # Call the news_box from gameobjects with news number #
+            news.news_box(window, self.width, self.news)
 
             events = pygame.event.get()
             for event in events:
