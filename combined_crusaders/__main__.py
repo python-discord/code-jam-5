@@ -51,7 +51,7 @@ class ValueLabel(pygame.sprite.Sprite):
 
     def update(self):
         msg = f"{self.label}: {int(self.value)}"
-        self.parent.screen.fill(BACKGROUND_COLOR, rect=self.rect)
+        #self.parent.screen.fill(BACKGROUND_COLOR, rect=self.rect)
         self.image = self.font.render(msg, 0, self.color)
 
     @property
@@ -226,6 +226,7 @@ class ClimateClicker:
                             self.score -= machine.price
                             machine.count += 1
 
+        self.screen.fill(BACKGROUND_COLOR)
         self.allsprites.update()
         self.screen.blit(self.background, (0, 0))
         self.allsprites.draw(self.screen)
