@@ -21,12 +21,7 @@ async def get_difference(date_1, date_2):
     < Returns aiohttp response
     """
 
-    payload = {
-        "dates": {
-            "date_1": date_1,
-            "date_2": date_2
-        }
-    }
+    payload = {"dates": {"date_1": date_1, "date_2": date_2}}
 
     async with aiohttp_session.get(API_ENDPOINT, data=payload) as resp:
         resp_jsonized = await resp.json()
