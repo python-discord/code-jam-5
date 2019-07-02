@@ -1,4 +1,5 @@
 from functools import wraps
+import types
 
 
 def one_or_many(items: list, default=''):
@@ -39,3 +40,13 @@ def astype(typename):
 
     return type_
 
+
+def flatten(array):
+    for item in array:
+        if (
+            isinstance(array, types.GeneratorType) or
+            type(array) in (map, filter, iter, list, tuple)
+        ):
+            yield from item
+        else:
+            yield item
