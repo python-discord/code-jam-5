@@ -18,10 +18,11 @@ class WLDifference:
 
     def calculate(self, date_1, date_2):
         """
-        Calculates difference of global water level between date_1 and date_2
-        Returns the difference in mm as a float.
-
-        NOTE This is a frontend function and should hook to lower-level ones
+        > Gets 2 dates
+        - date_1: First string date
+        - date_2: Second string date
+        < Returns difference in mm
+        < Returns if it is a prediction or not (currently always False)
         """
         # make sure both dates are valid and convert them to epoch times
         date_1 = string_to_datetime(date_1)
@@ -32,7 +33,9 @@ class WLDifference:
         # preform calc
         return (
             # fmt: off
-            self.evaluate_timestamp(date_1.timestamp()) - self.evaluate_timestamp(date_2.timestamp())
+            self.evaluate_timestamp(date_1.timestamp()) - 
+            self.evaluate_timestamp(date_2.timestamp()),
+            False  # is prediction
         )
 
     def _fit_model(self):
