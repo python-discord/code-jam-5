@@ -13,7 +13,9 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
             - possible_formats: '2019:06:26:06:26:33', '06:26:33 26.06.2019',
             - '06/26/2019 06:26:33', '26.06.2019', 06/26/2019, 2019-06-29 23:02:05
     - date_string: The string that should be converted
-    < datetime: Corresponding datetime object. If cant convert, returns None
+    < Returns Corresponding datetime object
+    x Returns DateFormatError if incoming string isn\'t properly formatted
+    x Returns DatesOutOfRange if predictions are not setup and date out of dataset
     """
 
     possible_formats = [
@@ -26,7 +28,7 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
     ]
 
     possible_dates = list()
-    
+
     for possible_format in possible_formats:
         try:
             possible_dates.append(
@@ -36,7 +38,7 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
             possible_dates.append(None)
 
     date = [val for val in possible_dates if val is not None][0]
-    
+
     if date is None:
         raise DateFormatError(
             f"Couldn't match the given date to any template! {date_string}"

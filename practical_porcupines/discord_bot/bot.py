@@ -4,7 +4,7 @@ from practical_porcupines.utils import (  # fmt: off
     ApiReturnBad,
     DatesOutOfRange,
     ConfigBot,
-    check_date,
+    string_to_datetime,
 )
 from practical_porcupines.discord_bot.utils import embed_generator
 from practical_porcupines.discord_bot.api import get_difference
@@ -36,8 +36,8 @@ async def gmwl(ctx, date_1, date_2):
     """
 
     try:
-        verified_date_1 = check_date(date_1)
-        verified_date_2 = check_date(date_2)
+        verified_date_1 = string_to_datetime(date_1)
+        verified_date_2 = string_to_datetime(date_2)
     except DatesOutOfRange:
         await ctx.send(
             embed=embed_generator(
@@ -65,7 +65,7 @@ async def gmwl(ctx, date_1, date_2):
         await ctx.send(
             embed=embed_generator(
                 "Misc date!",
-                "Got a misc error we can't handle for the `check_date` "
+                "Got a misc error we can't handle for the `string_to_datetime` "
                 "function! The exception follows below, please send it "
                 "to the developers:"
                 f"\n\n*{e}*",
