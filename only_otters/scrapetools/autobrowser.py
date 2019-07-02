@@ -8,15 +8,16 @@ from selenium.webdriver.chrome.options import Options
 DRIVER = None
 LOCK = threading.RLock()
 
+
 def make_driver(headless=True):
     """
     Creates a selenium driver interface for Chrome.
     You need to install the chromedriver provided by
-    Google and make it accessible through PATH to be 
+    Google and make it accessible through PATH to be
     able to use it.
     """
     opt = Options()
-    if headless: 
+    if headless:
         opt.add_argument('--headless')
     opt.add_argument('lang=en')
 
@@ -27,7 +28,7 @@ def make_driver(headless=True):
     return driver
 
 
-def fetch(url, wait=0) -> "raw html":
+def fetch(url, wait=0) -> bytes:
 
     global DRIVER, LOCK
 
@@ -35,7 +36,7 @@ def fetch(url, wait=0) -> "raw html":
 
         if DRIVER is None:
             DRIVER = make_driver()
-            
+
         DRIVER.get(url)
 
         if wait:

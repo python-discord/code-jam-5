@@ -103,7 +103,7 @@ class HierarchicalXPathQuery:
         'lower': str.lower,
         'title': str.title,
         'capitalize': str.capitalize,
-        'is': lambda x:x,
+        'is': lambda x: x,
         'bool': bool
     }
 
@@ -239,14 +239,12 @@ class HierarchicalXPathQuery:
 
         if dynamic:
             return autobrowser.fetch(url)
-    
+
         response = requests.get(url)
         if response.status_code >= 400:
             raise requests.exceptions.HTTPError(response)
 
         return response.content
-
-        
 
     def __call__(self, url=None, html=None):
 

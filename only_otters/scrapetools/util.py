@@ -61,7 +61,12 @@ def exceptprint(*e):
             try:
                 return fn(*a, **kw)
             except excepts as ex:
-                print('e=%s:%s, f=%s, args=%s, kw=%s'.replace(', ', '\n') % (type(ex).__name__, ex, fn, a, kw))
+                print(
+                    'e=%s:%s, f=%s, args=%s, kw=%s' % (
+                        type(ex).__name__, ex,
+                        fn, a, kw
+                    )
+                )
                 raise
         return wrapper
 
