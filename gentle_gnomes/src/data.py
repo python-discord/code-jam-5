@@ -1,4 +1,5 @@
 from collections import Counter
+from itertools import chain
 from typing import Dict, Tuple
 
 import numpy as np
@@ -19,11 +20,10 @@ def get_indicator_data(client, city, indicator) -> Tuple[np.ndarray, np.ndarray]
     x = np.zeros(count, dtype=np.dtype(int))
     y = np.zeros(count, dtype=np.dtype(float))
 
-    for scenario in (historical, rcp85):
-        for i, data in enumerate(scenario.items()):
-            year, values = data
-            x[i] = int(year)
-            y[i] = values['avg']
+    for i, data in enumerate(chain(historical.items(), rcp85.items())):
+        year, values = data
+        x[i] = int(year)
+        y[i] = values['avg']
 
     return x, y
 
