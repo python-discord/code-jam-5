@@ -1,4 +1,4 @@
-from typing import Dict, Iterator, NamedTuple, Optional
+from typing import Any, Dict, Iterator, NamedTuple, Optional
 
 import requests
 
@@ -24,13 +24,22 @@ class Client:
 
         return response.json()
 
+    @staticmethod
+    def _set_param(name: str, value: Any, params: Optional[Dict]) -> Dict:
+        """Set a parameter if it isn't already set."""
+        value_dict = {name: value}
+
+        if not params:
+            params = value_dict
+        elif name not in params:
+            params.update(value_dict)
+
+        return params
+
     def get_cities(self, **kwargs) -> Iterator[City]:
         """Return all available cities."""
         params = kwargs.get('params')
-        if not params:
-            params = {'page': 1}
-        elif not params.get('page'):
-            params.update({'page': 1})
+        params = self._set_param('page', 1, params)
 
         while True:
             cities = self._get('/city', params=params, **kwargs)
