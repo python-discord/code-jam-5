@@ -85,3 +85,18 @@ def get_level_2_news():
     }
 
     return news
+
+
+def get_level_3_news():
+    news1 = "Your X index is down Y% because of Z"
+    news2 = "In order to save energy, President PLAYER_NAME sanctions law that prohibits people " \
+            "of ever ironing their clothes. People are so happy that public well being index is" \
+            " up x% and energy use is down y%"
+
+    news = {
+        'news1': news1,
+        'news2': news2
+
+    }
+
+    return news

@@ -7,7 +7,7 @@ import math
 import os
 from game_menu import main_menu
 from gameobjects import News
-from news_list import get_level_1_news, get_level_2_news
+from news_list import get_level_1_news, get_level_2_news, get_level_3_news
 from random import randint
 
 # Initializes pygame resources
@@ -19,6 +19,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 # Instantiate the get_constants as constants
 news_1 = get_level_1_news()
 news_2 = get_level_2_news()
+news_3 = get_level_3_news()
 
 # Instantiate the News class for better usage
 news = News()
@@ -40,12 +41,12 @@ class Game:
         self.country = None
         self.font = pygame.font.Font(None, 25)
 
+        # this checker is used for debugging purposes of the different levels of colors for news
+        self.checker = 0
+
         self.news1 = news_1['news1']
         self.news2 = news_2['news1']
-
-        self.blue = (135, 206, 250)
-        self.gray = (225, 225, 225)
-        self.color = self.blue
+        self.news3 = news_3['news1']
 
         # Resize image to fit in window
         self.map = pygame.transform.scale(self.original_map, (self.width, self.height))
@@ -103,8 +104,14 @@ class Game:
             text_rect = text.get_rect(center=(self.width - 150, self.height - 25))
             window.blit(text, text_rect)
 
-            # Call the news_box from gameobjects with news number #
-            news.news_box(window, self.width, self.news1, self.color)
+            # conditional to test the news levels
+            # This is to be removed once the player's decisions impact the news
+            if self.checker == 1:
+                news.news_1_box(window, self.width, self.news1)
+            elif self.checker == 2:
+                news.news_2_box(window, self.width, self.news2)
+            else:
+                news.news_3_box(window, self.width, self.news3)
 
             events = pygame.event.get()
             for event in events:
@@ -115,9 +122,25 @@ class Game:
                     if closest_country_coords is not (-20, -20):
                         self.country = closest_country
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
-                    # Placeholder right click on mouse to load another random level 1 news
-                    news_index = randint(1, 21)
-                    self.news1 = news_1['news' + str(news_index)]
+                    # Once the news are changed by the actions of the player we can remove this
+                    news1_index = randint(1, 21)
+                    self.news1 = news_1['news' + str(news1_index)]
+                    news_index = randint(1, 2)
+                    self.news2 = news_2['news' + str(news_index)]  # Get random news2
+                    self.news3 = news_3['news' + str(news_index)]  # Get random news3
+
+                    # rand to change the value of the checker each time the mouse button is clicked
+                    # checker = 1 means news level 1 being shown
+                    # checker = 2 means news level 2 being shown
+                    # checker = 3 means news level 3 being shown
+                    random = randint(0, 2)
+                    if random == 0:
+                        self.checker = 1
+                    elif random == 1:
+                        self.checker = 2
+                    else:
+                        self.checker = 3
+
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         # If ESC is pressed during the world map state the menu is opened
@@ -157,7 +180,14 @@ class Game:
     def main_scene(self):
         window = self.window
 
-        news.news_box(window, self.width, self.news2, self.color)
+        # conditional to test the news levels
+        # This is to be removed once the player's decisions impact the news
+        if self.checker == 1:
+            news.news_1_box(window, self.width, self.news1)
+        elif self.checker == 2:
+            news.news_2_box(window, self.width, self.news2)
+        else:
+            news.news_3_box(window, self.width, self.news3)
 
         events = pygame.event.get()
         for event in events:
@@ -168,9 +198,26 @@ class Game:
                 # do things here
                 pass
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
-                # Placeholder right click on mouse to load another random level 1 news
+
+                # Once the news are changed by the actions of the player we can remove this block
+                news1_index = randint(1, 21)
+                self.news1 = news_1['news' + str(news1_index)]  # Get random news1 from the 21
                 news_index = randint(1, 2)
-                self.news2 = news_2['news' + str(news_index)]
+                self.news2 = news_2['news' + str(news_index)]  # Get random news2 from the 2 news
+                self.news3 = news_3['news' + str(news_index)]  # Get random news3 from the 2 news
+
+                # rand to change the value of the checker each time the mouse button is clicked
+                # checker = 1 means news level 1 being shown
+                # checker = 2 means news level 2 being shown
+                # checker = 3 means news level 3 being shown
+                random = randint(0, 2)
+                if random == 0:
+                    self.checker = 1
+                elif random == 1:
+                    self.checker = 2
+                else:
+                    self.checker = 3
+
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.country = None
