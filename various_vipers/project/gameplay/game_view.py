@@ -16,7 +16,7 @@ class GameView:
     # Background images that will be looping
     BG_images: List[str] = []
 
-    def __init__(self, screen: pg.Surface, difficulty: int = 0):
+    def __init__(self, screen: pg.Surface, difficulty: int = 1):
         """
         Initializer for GameView class.
 

@@ -57,7 +57,7 @@ class Indicator:
     def __update_pos(self) -> None:
         """Update/Set x and y positions of indicator."""
         self.position_x = 0 if self.is_left else WIDTH - self.image.get_width()
-        self.position_y = random.randint(0, int(HEIGHT * 0.5))
+        self.position_y = random.randint(int(HEIGHT * 0.2), int(HEIGHT * 0.65))
 
     def __pulse(self) -> None:
         """Pulsing effect - moves indicator x position in and out."""
