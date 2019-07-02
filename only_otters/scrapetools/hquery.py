@@ -43,7 +43,7 @@ class HierarchicalXPathQuery:
         return n
 
     @classmethod
-    def resolve_xpath(cls, element, expr, pipe_prefix=None):
+    def resolve_pipe_expr(cls, expr, pipe_prefix=None):
 
         if pipe_prefix is not None:
             expr = pipe_prefix + ' ' + expr
@@ -81,9 +81,18 @@ class HierarchicalXPathQuery:
             expr = expr[m.span()[1]:]
             m = re.match(regex, expr)
 
+        return expr, items, modes, ho_mode
+
+
+
+    @classmethod
+    def resolve_xpath(cls, element, expr, pipe_prefix=None):
+
+        expr, pipes, modes, ho_mode = cls.resolve_pipe_expr(expr, pipe_prefix=pipe_prefix)
+
         result = element.xpath(expr)
 
-        for fn in map(cls.resolve_pipe, reversed(items or [])):
+        for fn in map(cls.resolve_pipe, reversed(pipes or [])):
 
             if ho_mode is not None:
                 fn = partial(ho_mode, fn)
