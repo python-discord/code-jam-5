@@ -21,8 +21,8 @@ def normalized_pos_pixels(normalized_position):
     if any(not 0 <= pos <= 1 for pos in normalized_position):
         raise ValueError("Normalized position must be a value between 0 and 1,"
                          "as a normalized position on screen")
-    return (normalized_position[0] * SCREEN_HEIGHT,
-            normalized_position[1] * SCREEN_WIDTH)
+    return (normalized_position[0] * SCREEN_WIDTH,
+            normalized_position[1] * SCREEN_HEIGHT)
 
 
 if not pygame.image.get_extended():
@@ -74,7 +74,7 @@ class ValueLabel(pygame.sprite.Sprite):
 
 
 class StaticImage(pygame.sprite.Sprite):
-    def __init__(self, x_norm, y_norm, image):
+    def __init__(self, x_norm, y_norm, image, centered=True):
         pygame.sprite.Sprite.__init__(self)
         self.x_norm = x_norm
         self.y_norm = y_norm
@@ -83,6 +83,8 @@ class StaticImage(pygame.sprite.Sprite):
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
         self.rect.move_ip(*normalized_pos_pixels((x_norm, y_norm)))
+        if centered:
+            self.rect.move_ip(-self.rect.width / 2, -self.rect.height / 2)
 
 
 class Crank(pygame.sprite.Sprite):
@@ -101,6 +103,8 @@ class Crank(pygame.sprite.Sprite):
         self.is_spinning = False
         self.spinning = 0
         self.rect.move_ip(*normalized_pos_pixels((x_norm, y_norm)))
+        # The crank should center itself around its assigned screen location
+        self.rect.move_ip(-self.rect.width / 2, -self.rect.height / 2)
         self.rotation_speed = 0
         self.rotation_speed_inc = .5
         self.rotation_speed_decay = .015
@@ -183,17 +187,17 @@ class ClimateClicker:
         self.screen.blit(self.background, (0, 0))
         pygame.display.flip()
 
-        self.crank = Crank(self, 0.15, 0.15,
+        self.crank = Crank(self, 0.5, 0.5,
                            [images['crank1'],
                             images['crank2'],
                             images['crank3']
                             ],
                            sounds['snap'])
-        self.crank_overlay = StaticImage(0.15, 0.15, images['crank'])
+        self.crank_overlay = StaticImage(0.5, 0.5, images['crank'])
         self.score_sprite = ValueLabel(
-            self, 0.02, 0.7, "Score", "Joules")
+            self, 0.02, 0.9, "Score", "Joules")
         self.speed_sprite = ValueLabel(
-            self, 0.02, 0.625, "Speed", "Degrees per Second")
+            self, 0.02, 0.85, "Speed", "Degrees per Second")
 
         self.allsprites = pygame.sprite.RenderPlain(
             self.crank,
