@@ -3,7 +3,12 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api, Resource
 from flask_restful.reqparse import RequestParser
-from practical_porcupines.utils import ConfigApi, DateFormatError
+from practical_porcupines.utils import (
+    # fmt: off
+    ConfigApi,
+    DateFormatError,
+    PredictionNotImplamentedError
+)
 from practical_porcupines.flask_api.difference_calc import WLDifference
 
 
@@ -56,6 +61,8 @@ class WaterLevel(Resource):
             )
         except DateFormatError:
             status_code = 400
+        except PredictionNotImplamentedError:
+            status_code = 1002
         else:
             output["body"] = {
                 "wl_difference": wl_difference,

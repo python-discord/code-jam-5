@@ -40,8 +40,10 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
         except ValueError:
             possible_dates.append(None)
 
-    
-    date = [val for val in possible_dates if val is not None][0]
+    try:
+        date = [val for val in possible_dates if val is not None][0]
+    except IndexError:
+        raise PredictionNotImplamentedError()
 
     is_prediction = False
 
@@ -125,10 +127,18 @@ class DateFormatError(BaseException):
     pass
 
 
+class PredictionNotImplamentedError(BaseException):
+    """
+    For when predictions are not yet implamented
+    and would like to catch
+    """
+
+    pass
+
 
 class ApiReturnBad(BaseException):
     """
-    When API is retuning incorrect values
+    For when API is retuning incorrect values
     """
 
     pass
