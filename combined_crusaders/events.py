@@ -1,6 +1,7 @@
 import time
 import random
 
+
 def timeit(func):
     def inner(*args, **kwargs):
         start_time = time.time()
@@ -36,9 +37,8 @@ special_messages = [
     "Ideas are bulletproof",
     "What do we say to Death? Not today.",
     "Nao Tomori is best person",
-    "Please do not use any ligma-related software in parallel with ClimateClicker",
+    "Do not use any ligma-identified software in parallel with ClimateClicker",
     "Wear polyester when doing laptop repairs",
-    "Fighting's good when it's not a magic orb that can throw you against the wall",
     "Don't f*** with my shovel",
     "If I don't come back within five minutes assume I died",
     "You you eat sleep eat sleep whoa why can't I see anything",
@@ -63,7 +63,8 @@ msgs = {
     "upgrade_crank_speed": "Nice! Now yer crank'll crank like a dog!",
     "upgrade_crank_points": "Ah, gettin' more bang for yer crank, I see",
     "buy_solar_panel": "Plants survive on solar panels, ye can too!",
-    "buy_wind_turbine": "Ah, quite a large crank right there!"
+    "buy_wind_turbine": "Ah, quite a large crank right there!",
+    "upgrade_crank_inertia": "YES! We be discoverin' perpetual motion!"
     }
 
 
@@ -104,21 +105,21 @@ class Events:
             else:
                 return msgs["no_history"]
 
-        last_event = short_history[-1]
-
         if self.previous_message == msgs["went_away"]:
             return msgs["welcome_back"]
 
-        if random.random() < 0.001:
+        if random.random() < 0.0001:
             return random.choice(special_messages)
 
-        if last_event == "buy_upgrade_crank_speed":
+        if "buy_upgrade_crank_speed" in supershort_history:
             return msgs["upgrade_crank_speed"]
-        if last_event == "buy_upgrade_click_value":
+        if "buy_upgrade_click_value" in supershort_history:
             return msgs["upgrade_crank_points"]
-        if last_event == "buy_machine_solar_panel":
+        if "buy_upgrade_crank_inertia" in supershort_history:
+            return msgs["upgrade_crank_inertia"]
+        if "buy_machine_solar_panel" in supershort_history:
             return msgs["buy_solar_panel"]
-        if last_event == "buy_machine_wind_turbine":
+        if "buy_machine_wind_turbine" in supershort_history:
             return msgs["buy_wind_turbine"]
 
         if time_delta < 0.5:
