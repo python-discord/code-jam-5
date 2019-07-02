@@ -43,11 +43,11 @@ class MachineLoader:
         self.master = master
         self.machines = {"solar_panel": Machine(10, 0.2,
                                                 media.images["solar_panel"],
-                                                (500, 100),
+                                                (850, 100),
                                                 ),
                          "wind_turbine": Machine(50, 0.5,
                                                  media.images["wind_turbine"],
-                                                 (550, 100),
+                                                 (900, 100),
                                                  )
                          }
 
