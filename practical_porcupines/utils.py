@@ -21,7 +21,12 @@ def check_date(date):
         )
 
     dates = list(map(int, time_split[0].split("-")))
-    times = list(map(int, time_split[1].split(":") if len(time_split) > 2 else []))
+    times = list(
+        # fmt: off
+        map(
+            int, time_split[1].split(":") if len(time_split) > 2 else []
+        )
+    )
 
     for _ in range(3 - len(dates)):
         dates.append(1)
@@ -34,15 +39,15 @@ def check_date(date):
 
 def convert_string_to_datetime(date_string: str) -> Union[datetime, None]:
     """
-    > unction to convert stings in the format '%Y:%m:%d:%H:%M:%S' to their datetime representation
+    > Func to convert stings in format '%Y:%m:%d:%H:%M:%S' to datetime
       Example:
             convert_string_to_datetime('2010:06:29:17:02:39')
             > datetime.datetime(2010, 6, 29, 17, 2, 39)
     - date_string: The string that should be converted
-    < datetime: The corresponding datetime object. If it cant be converted, returns None
+    < datetime: Corresponding datetime object. If cant convert, returns None
     """
     try:
-        return datetime.strptime(date_string, '%Y:%m:%d:%H:%M:%S')
+        return datetime.strptime(date_string, "%Y:%m:%d:%H:%M:%S")
     except ValueError:
         return None
 

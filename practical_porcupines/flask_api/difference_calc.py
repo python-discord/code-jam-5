@@ -1,7 +1,5 @@
 import os
 import numpy as np
-from typing import Union
-from matplotlib import pyplot as plt
 from scipy.interpolate import interp1d
 from datetime import datetime, timedelta
 from practical_porcupines.flask_api.models import LevelModel
@@ -25,7 +23,10 @@ class WLDifference:
         if not (date_1 or date_2):
             return None
 
-        return self.evaluate_timestamp(date_1) - self.evaluate_timestamp(date_2)
+        return (
+            # fmt: off
+            self.evaluate_timestamp(date_1) - self.evaluate_timestamp(date_2)
+        )
 
     def _fit_model(self):
         dates, water = self._get_all_values()
@@ -37,8 +38,14 @@ class WLDifference:
 
     @staticmethod
     def _get_all_values():
-        water_levels = np.array([lm.wl for lm in LevelModel.query.all()][:964])
-        dates = np.array([lm.date.timestamp() for lm in LevelModel.query.all()][:964])
+        water_levels = np.array(
+            # fmt: off
+            [lm.wl for lm in LevelModel.query.all()][:964]
+        )
+        dates = np.array(
+            # fmt: off
+            [lm.date.timestamp() for lm in LevelModel.query.all()][:964]
+        )
 
         return dates, water_levels
 

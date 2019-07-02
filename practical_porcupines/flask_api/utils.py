@@ -1,6 +1,7 @@
 import datetime
 from practical_porcupines.utils import check_date
 
+
 def get_datetime(date):
     """
     > Gets date
