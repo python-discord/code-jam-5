@@ -3,9 +3,6 @@ import pygame
 from pygame.locals import Color
 
 
-machines = None
-
-
 class Machine(pygame.sprite.Sprite):
     def __init__(self,
                  price: int,
@@ -37,14 +34,29 @@ class Machine(pygame.sprite.Sprite):
         self.count_sprite.image = count_text
 
 
-def init():
-    global machines
-    machines = {"solar_panel": Machine(10, 0.2,
-                                       media.images["solar_panel"],
-                                       (500, 100),
-                                       ),
-                "wind_turbine": Machine(50, 0.5,
-                                        media.images["wind_turbine"],
-                                        (550, 100),
-                                        )
-                }
+class MachineLoader:
+    def __init__(self):
+        self.machines = None
+        self.master = None
+
+    def load(self, master):
+        self.master = master
+        self.machines = {"solar_panel": Machine(10, 0.2,
+                                                media.images["solar_panel"],
+                                                (500, 100),
+                                                ),
+                         "wind_turbine": Machine(50, 0.5,
+                                                 media.images["wind_turbine"],
+                                                 (550, 100),
+                                                 )
+                         }
+
+    def __getitem__(self, key):
+        if not self.machines:
+            raise RuntimeError("You must call load on machines "
+                               "before accessing a machine")
+            # TODO more specific error
+        return self.machines[key]
+
+
+machines = MachineLoader()
