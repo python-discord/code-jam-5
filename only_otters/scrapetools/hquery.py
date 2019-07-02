@@ -4,6 +4,9 @@ from lxml import html as lhtml
 from functools import partial
 import re
 
+# import scrapetools.util as util
+# import scrapetools.autobrowser as autobrowser
+
 import util
 import autobrowser
 
@@ -42,33 +45,37 @@ class HierarchicalXPathQuery:
     @classmethod
     def resolve_xpath(cls, element, expr):
 
-        regex = r'^\$\s*([a-z]:)?([a-z]+)?\s*{\s*((?:[\w:]+\s*[,]?\s*)+)\s*}'
+        regex = r'^\s*\$\s*([a-z]:)?([a-z]+)?\s*{\s*((?:[\w:]+\s*[,]?\s*)+)\s*}'
         # => $ <modes>{ func, func, func, ... } <query>
         # see 'query.yml' for an example
 
-        items = None
-        modes = None
+        items = []
+        modes = []
         ho_mode = None
         m = re.match(regex, expr)
 
-        if m is not None:
-            ho_mode, modes, items = m.groups()
+        while m is not None:
+            _ho_mode, _modes, _items = m.groups()
 
             # Resolve modes & pipes before runnning Xpath expr
 
             # Parse modes
-            if ho_mode is not None:
-                ho_mode = ho_mode.strip(':')
-                if len(ho_mode) > 1:
+            if _ho_mode is not None:
+                _ho_mode = _ho_mode.strip(':')
+                if len(_ho_mode) > 1 or ho_mode:
                     raise UserWarning('There can only be one \
                         mode of higher-order. %s' % ho_mode)
-                ho_mode = cls.resolve_mode(ho_mode, high=True)
+                ho_mode = cls.resolve_mode(_ho_mode, high=True)
 
             # Parse pipes
-            items = items.split(',')
-            items = list(map(str.strip, items))
+            _items = _items.split(',')
+            _items = list(map(str.strip, _items))
+
+            items.extend(_items or [])
+            modes.extend(_modes or [])
 
             expr = expr[m.span()[1]:]
+            m = re.match(regex, expr)
 
         result = element.xpath(expr)
 
@@ -277,3 +284,4 @@ if __name__ == "__main__":
     result = hxq(html=text)
 
     print(*result)
+    hxq.get()
