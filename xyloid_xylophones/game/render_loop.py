@@ -1,4 +1,6 @@
 import pyglet
+from pyglet import gl
+
 from config import *
 from . import game_window
 from . import zone_map
@@ -17,6 +19,14 @@ def render_loop():
     window = pyglet.window.Window()
     window.push_handlers(on_draw=render_loop)
     '''
+
+    # Set some OpenGL options to make things scale properly
+    gl.glEnable(gl.GL_TEXTURE_2D)
+    gl.glTexParameteri(
+        gl.GL_TEXTURE_2D,
+        gl.GL_TEXTURE_MAG_FILTER,
+        gl.GL_NEAREST
+    )
 
     label = pyglet.text.Label('player x %s y %s zone %s' % (player.x, player.y, current_zone),
                               font_name='Times New Roman',
