@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for,flash
 from .forms import DatePickerForm
 from flask_bootstrap import Bootstrap
 from practical_porcupines.utils import ConfigApi
-from ..flask_api.utils import get_datetime
 import requests
 import os
 
@@ -20,19 +19,20 @@ def index():
         start_date = request.form.get('start_date') 
         start_date_time = start_date + " 00:00:00"
         end_date = request.form.get('end_date')
-        end_date_time = end_date +  + " 00:00:00"
+        end_date_time = end_date + " 00:00:00"
         api_url = f'http://{config_api.API_DOMAIN}:{config_api.API_PORT}'
-        request_body = { "times": [
-            start_date_time,
-            end_date_time
-        ] }
-
-        api_response = requests.get(api_url,data=request_body).json()['body']
-        wl_difference = api_response['wl_difference']
-
-        wl_string = f'The difference in GMSL between {start_date} and {end_date} was {wl_difference}mm'
-
-        return redirect(url_for('index'), wl_string=wl_string)
+        try:
+            request_body = { "times": [
+                start_date_time,
+                end_date_time
+             ] }
+            api_response = requests.get(api_url,data=request_body).json()['body']
+            wl_difference = api_response['wl_difference']
+            wl_string = f'The difference in GMSL between {start_date} and {end_date} was {wl_difference}mm'
+            return redirect(url_for('index'), wl_string=wl_string)
+        except:
+            flash('Error sending request to API')
+            return render_template("index.html", form=date_picker_form)
     else:
         flash("Invalid Dates!")
         return render_template("index.html", form=date_picker_form)
