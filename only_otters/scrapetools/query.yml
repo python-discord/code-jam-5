@@ -1,6 +1,7 @@
 
 
-url: https://www.google.com/a
+
+url: https://www.google.com/
 dynamic: false
 content:
 
@@ -11,9 +12,9 @@ content:
     #   single:
     #     default: null
     propagate_properties: true
-
+  prefix: '$ { print }'
   query:
-    text: text()
+    text: $m:{ lower } ${strip} text()
     id: $ { str, int, single } a/text()
     xid: $ l{ doubidou:external, lfilter:isnumeric, lmap:strip } a/text()
     yid: $ m:{ upper } ./text()
