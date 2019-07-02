@@ -133,6 +133,10 @@ class UpgradeButton(pygame.sprite.Sprite):
             crank = self.parent.crank
             crank.max_rotation_speed = crank.base_max_rotation_speed * (self.upgrade_level + 1)
             print(crank.max_rotation_speed)
+        elif self.upgrade_type == "crank_inertia":
+            crank = self.parent.crank
+            crank.rotation_speed_decay = crank.rotation_speed_base_decay * (.1 + (.9 / self.upgrade_level))
+            print(crank.rotation_speed_decay)
 
 
 class Crank(pygame.sprite.Sprite):
@@ -155,7 +159,8 @@ class Crank(pygame.sprite.Sprite):
         self.rect.move_ip(-self.rect.width / 2, -self.rect.height / 2)
         self.rotation_speed = 0
         self.rotation_speed_inc = .5
-        self.rotation_speed_decay = .015
+        self.rotation_speed_base_decay = .015
+        self.rotation_speed_decay = self.rotation_speed_base_decay
         self.rotation_speed_mul = 1.2
         self.rotation_speed_start = 1
         self.base_max_rotation_speed = 25
@@ -257,6 +262,13 @@ class ClimateClicker:
                                                   10,
                                                   "click_value",
                                                   images['upgrade_buttons2']
+                                                  )
+                                 )
+        self.upgrade_buttons.append(UpgradeButton(self, 0.01, 0.25,
+                                                  100,
+                                                  2,
+                                                  "crank_inertia",
+                                                  images['upgrade_buttons3']
                                                   )
                                  )
 
