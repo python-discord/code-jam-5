@@ -1,7 +1,9 @@
+'''Handles all user input from keyboard and mouse'''
+import pyglet
+from config import current_zone, game_width, game_height
 from . import keys
 from . import player, zone_map
-from config import current_zone, game_width, game_height
-import pyglet
+
 
 
 def move_towards_coord(x, y):
@@ -16,18 +18,14 @@ def move_towards_coord(x, y):
     if (x > (x_mid + player.width / 2)) or (x < (x_mid - player.width / 2)):
         # if mouse click is outside of the width of the player
         if x > x_mid:
-            print("Moving right")
             new_x += 1
         elif x < x_mid:
-            print("Moving left")
             new_x -= 1
     if (y > (y_mid + player.height / 2)) or (y < (y_mid - player.height / 2)):
         # if mouse click is outside the height of the player
         if y > y_mid:
-            print("Moving up")
             new_y += 1
         elif y < y_mid:
-            print("Moving down")
             new_y -= 1
 
     new_move = allowed_move(new_x, new_y)
@@ -76,7 +74,10 @@ def allowed_move(new_x, new_y):
 
 
 def check_collision(new_x, new_y):
-    """Verifies that the character is allowed to move to this position. Returns True if user can move to position"""
+    """
+    Verifies that the character is allowed to move to this position.
+    Returns True if user can move to position
+    """
     query_x = -1024 + (new_x * player.width)
     query_y = -1024 + (new_y * player.height)
     # print('queried %s,%s' % (query_x, query_y))
@@ -86,6 +87,5 @@ def check_collision(new_x, new_y):
     for i in zone_query:
         # print('found:%s which is %s' % (i.name, i.collision))
         if i.collision:
-            permitted = False
             return False
     return True
