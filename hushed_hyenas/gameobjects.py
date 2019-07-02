@@ -17,7 +17,7 @@ class News:
         self.default_color = (230, 230, 230)
 
     def news_1_box(self, window, screen_width, news):
-        text = thorpy.MultilineText(news, (600, 70))
+        text = thorpy.MultilineText(news, (screen_width / 2, 70))
         box = thorpy.Box(elements=[text])
         box.surface = window
         box.set_topleft((screen_width / 4, 0))
@@ -26,7 +26,7 @@ class News:
         box.update()
 
     def news_2_box(self, window, screen_width, news):
-        text = thorpy.MultilineText(news, (600, 70))
+        text = thorpy.MultilineText(news, (screen_width / 2, 70))
         box = thorpy.Box(elements=[text])
         box.surface = window
         box.set_topleft((screen_width / 4, 0))
@@ -35,7 +35,7 @@ class News:
         box.update()
 
     def news_3_box(self, window, screen_width, news):
-        text = thorpy.MultilineText(news, (600, 70))
+        text = thorpy.MultilineText(news, (screen_width / 2, 70))
         box = thorpy.Box(elements=[text])
         box.surface = window
         box.set_topleft((screen_width / 4, 0))
