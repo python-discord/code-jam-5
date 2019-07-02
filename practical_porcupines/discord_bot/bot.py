@@ -1,17 +1,12 @@
 import discord
 from discord.ext import commands
-from practical_porcupines.utils import (
-    # fmt: off
+from practical_porcupines.utils import (  # fmt: off
     ApiReturnBad,
     DatesOutOfRange,
     ConfigBot,
     check_date,
 )
-from practical_porcupines.discord_bot.utils import (
-    # fmt: off
-    decode_diff_resp,
-    embed_generator
-)
+from practical_porcupines.discord_bot.utils import embed_generator
 from practical_porcupines.discord_bot.api import get_difference
 
 
@@ -27,11 +22,6 @@ async def on_ready():
     """
 
     print(f"{bot_client.user.name} is online w/ id: '{bot_client.user.id}'!")
-    print(
-        "Testing api: " + await decode_diff_resp(
-            await get_difference("2010", "2019")
-        )
-    )
 
 
 @bot_client.command()
@@ -45,8 +35,48 @@ async def gmwl(ctx, date_1, date_2):
     < Shows user gmwl difference
     """
 
-    verified_date_1 = check_date(date_1)
-    verified_date_2 = check_date(date_2)
+    try:
+        verified_date_1 = check_date(date_1)
+        verified_date_2 = check_date(date_2)
+    except DatesOutOfRange:
+        await ctx.send(
+            embed=embed_generator(
+                "Error!",
+                f"The given dates ('{date_1}' and '{date_2}') "
+                "are not in the dataset range (1993-01 - 2019-02)!",
+                0xA31523,
+                discord,
+            )
+        )
+
+        return
+    except ValueError:
+        await ctx.send(
+            embed=embed_generator(
+                "Incorrect date formatting!",
+                "You have inputted an incorrect syntax for the date!",
+                0xA31523,
+                discord,
+            )
+        )
+
+        return
+    except Exception as e:
+        await ctx.send(
+            embed=embed_generator(
+                "Misc date!",
+                "Got a misc error we can't handle for the `check_date` "
+                "function! The exception follows below, please send it "
+                "to the developers:"
+                f"\n\n*{e}*",
+                0xA31523,
+                discord,
+            )
+        )
+
+        return
+
+    print(verified_date_1, verified_date_2)
 
     # IF invalid date
     if not (verified_date_1 or verified_date_2):
@@ -61,9 +91,7 @@ async def gmwl(ctx, date_1, date_2):
         return
 
     try:
-        result = await decode_diff_resp(
-            await get_difference(verified_date_1, verified_date_2)
-        )
+        result = await get_difference(verified_date_1, verified_date_2)
     except ApiReturnBad:
         embed = embed_generator(
             "Error!",
@@ -71,12 +99,6 @@ async def gmwl(ctx, date_1, date_2):
             "This usually occures in testing w/ dummy endpoint",
             0xA31523,
             discord,
-        )
-    except DatesOutOfRange:
-        embed = embed_generator(
-            "Error!",
-            f"The given dates ('{date_1}' and '{date_2}') "
-            "are not in the dataset range (1993-01 - 2019-02)!",
         )
     else:
         embed = embed_generator(
@@ -87,3 +109,29 @@ async def gmwl(ctx, date_1, date_2):
         )
 
     await ctx.send(embed=embed)
+
+
+@bot_client.command()
+async def about(ctx):
+    """
+    < Shows general about for the project
+    """
+
+    about_text = (
+        "Practical Porcupine is a project hacked together for the 5th Python "
+        "code jam, with the theme of **Global Warming**. This web-portal "
+        "connects to an api (that you are most likely running on your computer "
+        "right now (If you are, it may be here!: <http://0.0.0.0:8080>)! It gets "
+        "2 dates, as seen on the home page (usually <http://0.0.0.0:8081>) and "
+        "calculates the difference between the GMWL (Global Mean Water Level) in mm."
+        "\n\n"
+        "To save database space and *show off*, we use data year by year, "
+        "meaning that we pick a mean of each year from our data sources and "
+        "store them. Once we have the mean of each year, we can interpolate "
+        "that & get a prediction of what it would have been like at that "
+        "specific second!"
+    )
+
+    await ctx.send(  # fmt: off
+        embed=embed_generator("About", about_text, 0x9E15A3, discord)
+    )

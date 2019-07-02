@@ -14,6 +14,10 @@ requests = "*"
 flask-restful = "*"
 flask-sqlalchemy = "*"
 aiohttp = "*"
+sklearn = "*"
+matplotlib = "*"
+pandas = "*"
+statsmodels = "*"
 
 [requires]
 python_version = "3.6"
