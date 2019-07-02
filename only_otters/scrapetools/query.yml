@@ -14,8 +14,8 @@ content:
 
   query:
     text: text()
-    id: $ [ str, int, single ] a/text()
-    xid: $ [ list, doubidou:external, lfilter:isnumeric, print, lmap:strip ] a/text()
+    id: $ { str, int, single } a/text()
+    xid: $ l{ doubidou:external, lfilter:isnumeric, print, lmap:strip } a/text()
     contents:
       loc: ul/li
       query:

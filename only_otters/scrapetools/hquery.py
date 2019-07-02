@@ -11,6 +11,13 @@ import util
 class HierarchicalXPathQuery:
 
     @classmethod
+    def resolve_mode(cls, name):
+        n = cls.MODES.get(name)
+        if n is None:
+            raise UserWarning('No such mode: %s' % name)
+        return n
+
+    @classmethod
     def resolve_pipe(cls, name):
 
         if ':' in name:
@@ -35,13 +42,15 @@ class HierarchicalXPathQuery:
     @classmethod
     def resolve_xpath(cls, element, expr):
 
-        regex = r'^\$\s*\[\s*((?:[\w:]+\s*[,]?\s*)+)\s*]'  # => $ [ func, func, func, ... ] <query>
+        regex = r'^\$\s*([a-z]+)?\s*{\s*((?:[\w:]+\s*[,]?\s*)+)\s*}'  # => $ [ func, func, func, ... ] <query>
 
         items = None
+        mode = None
         m = re.match(regex, expr)
         
         if m is not None:
-            items = m.groups()[0].split(',')
+            mode, items = m.groups()
+            items = items.split(',')
             items = list(map(str.strip, items))
             expr = expr[m.span()[1]:]
 
@@ -49,6 +58,11 @@ class HierarchicalXPathQuery:
 
         for fn in map(cls.resolve_pipe, reversed(items or [])):
             result = fn(result)
+
+        for m in mode or []:
+            fn = cls.resolve_mode(m)
+            result = fn(result)
+
         return result
 
     PIPES = {
@@ -73,6 +87,12 @@ class HierarchicalXPathQuery:
         'lmap': lambda f, n: list(map(f, n)),
         'lfilter': lambda f, n: list(filter(f, n)),
         'lcomp': lambda f, n: [f(_) for _ in n]
+    }
+
+    MODES = {
+        's': str,
+        'l': list,
+        'u': util.one_or_many
     }
 
     @classmethod
