@@ -1,11 +1,13 @@
 import fnmatch
 import os
 import time
+
 import matplotlib
 import matplotlib.pyplot as plot
-from mpl_toolkits.basemap import Basemap
 import numpy as np
 from PyQt5 import QtCore
+from mpl_toolkits.basemap import Basemap
+
 import helpers
 
 # Set matplotlib to not use tk while plotting
@@ -101,9 +103,8 @@ class Plotter(QtCore.QThread):
 
     def create_plot(self, count, date_index):
         plot.figure(count)
-        index = helpers.find_nearest_index(Plotter.DATES, date_index)
         color_mesh = self.world_map.pcolormesh(Plotter.LONGITUDES, Plotter.LATITUDES,
-                                               np.squeeze(Plotter.TEMPERATURES[index]),
+                                               np.squeeze(Plotter.TEMPERATURES[date_index]),
                                                cmap=self.color_map)
         color_bar = self.world_map.colorbar(color_mesh, location="bottom", pad="10%")
         color_bar.set_label(Plotter.TEMPERATURE_UNIT)
