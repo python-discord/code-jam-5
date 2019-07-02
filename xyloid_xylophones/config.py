@@ -1,3 +1,7 @@
+location_sound = 'assets/sounds/'
+location_music = 'assets/music/'
+location_scenes = 'assets/scenes/'
+
 # zone names
 zone_names = ['desolate wasteland', 'northern tundra', 'lush forest']
 
@@ -17,3 +21,9 @@ view_distance = 6
 # number of tiles width and height tiles start at -1024,-1024
 zone_width = 32
 zone_height = 32
+
+
+# cut scene timeout (0 = wait for action=keypress|mouseClick)
+cut_scene = False
+cut_scene_timeout = 100
+cut_scene_name = 'default_cut_scene'

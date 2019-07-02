@@ -24,40 +24,43 @@ def render_loop():
                               x=game_window.width//3, y=24, color=(0, 0, 0, 255))
     # blank screen!
     game_window.clear()
+    if cut_scene:
+        print('cut')
 
-    # batch up all zone drawing
-    batch = pyglet.graphics.Batch()
-    offset_x = -1024 + ((4+(zone_width-player.x)) * sprite_width)
-    offset_y = -1024 + ((4+(zone_height-player.y)) * sprite_height)
-    for i in zone_map[current_zone].index.intersect(bbox=(
-            -1024+((player.x-view_distance)*sprite_width),
-            -1024+((player.y-view_distance)*sprite_height),
-            -1024+((player.x+view_distance)*sprite_width),
-            -1024+((player.y+view_distance)*sprite_height))):
-        batch.add(4, pyglet.gl.GL_QUADS, None, ('v2i', (
-            i.x + offset_x, i.y + offset_y,
-            i.x+i.width + offset_x, i.y + offset_y,
-            i.x + i.width + offset_x, i.y + i.height + offset_y,
-            i.x + offset_x, i.y + i.width + offset_y)),
-         ('c3B', i.color))
-        pyglet.text.Label(i.name, batch=batch, x=i.x + offset_x + 5, y=i.y + offset_y + 5)
-    batch.draw()
+    else:
+        # batch up all zone drawing
+        batch = pyglet.graphics.Batch()
+        offset_x = -1024 + ((4+(zone_width-player.x)) * sprite_width)
+        offset_y = -1024 + ((4+(zone_height-player.y)) * sprite_height)
+        for i in zone_map[current_zone].index.intersect(bbox=(
+                -1024+((player.x-view_distance)*sprite_width),
+                -1024+((player.y-view_distance)*sprite_height),
+                -1024+((player.x+view_distance)*sprite_width),
+                -1024+((player.y+view_distance)*sprite_height))):
+            batch.add(4, pyglet.gl.GL_QUADS, None, ('v2i', (
+                i.x + offset_x, i.y + offset_y,
+                i.x+i.width + offset_x, i.y + offset_y,
+                i.x + i.width + offset_x, i.y + i.height + offset_y,
+                i.x + offset_x, i.y + i.width + offset_y)),
+             ('c3B', i.color))
+            pyglet.text.Label(i.name, batch=batch, x=i.x + offset_x + 5, y=i.y + offset_y + 5)
+        batch.draw()
 
-    # draw player fixed (static center)
-    x = player.center_x
-    y = player.center_y
-    quad = pyglet.graphics.vertex_list(4,
-                                       ('v2i', (x, y,
-                                                x, y+player.height,
-                                                x + player.width, y + player.height,
-                                                x+player.width, y)),
-                                       ('c3B', (0, 0, 255,
-                                                0, 0, 255,
-                                                0, 0, 255,
-                                                0, 255, 255)))
-    quad.draw(pyglet.gl.GL_QUADS)
-    player_label = pyglet.text.Label(player.name, x=x, y=y, color=(255, 0, 0, 255))
-    player_label.draw()
+        # draw player fixed (static center)
+        x = player.center_x
+        y = player.center_y
+        quad = pyglet.graphics.vertex_list(4,
+                                           ('v2i', (x, y,
+                                                    x, y+player.height,
+                                                    x + player.width, y + player.height,
+                                                    x+player.width, y)),
+                                           ('c3B', (0, 0, 255,
+                                                    0, 0, 255,
+                                                    0, 0, 255,
+                                                    0, 255, 255)))
+        quad.draw(pyglet.gl.GL_QUADS)
+        player_label = pyglet.text.Label(player.name, x=x, y=y, color=(255, 0, 0, 255))
+        player_label.draw()
 
     # UI / debug elements
     label.draw()
