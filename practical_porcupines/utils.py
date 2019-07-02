@@ -38,12 +38,12 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
                 datetime.datetime.strptime(date_string, possible_format)
             )
         except ValueError:
-            possible_dates.append(None)
+            pass # don't append anything
 
-    try:
-        date = [val for val in possible_dates if val is not None][0]
-    except IndexError:
-        raise PredictionNotImplamentedError()
+    if possible_dates:
+        date = [date for date in possible_dates][0]
+    else:
+        date = None
 
     is_prediction = False
 
