@@ -34,10 +34,11 @@ def score_to_image(score: int):
 
 
 class ValueLabel(pygame.sprite.Sprite):
-    def __init__(self, parent, x, y, label):
+    def __init__(self, parent, x, y, label, units):
         pygame.sprite.Sprite.__init__(self)
         self.parent = parent
         self.label = label
+        self.units = units
         self.x = x
         self.y = y
         self.font = pygame.font.Font(None, 20)
@@ -50,8 +51,7 @@ class ValueLabel(pygame.sprite.Sprite):
         self.update()
 
     def update(self):
-        msg = f"{self.label}: {int(self.value)}"
-        #self.parent.screen.fill(BACKGROUND_COLOR, rect=self.rect)
+        msg = f"{self.label}: {int(self.value)} {self.units}"
         self.image = self.font.render(msg, 0, self.color)
 
     @property
@@ -136,7 +136,8 @@ class Crank(pygame.sprite.Sprite):
             self.is_spinning = False
             self.rotation_speed = 0
 
-        self.parent.speed_sprite.value = int(self.rotation_speed)
+        self.parent.speed_sprite.value = int(self.rotation_speed
+                                             / self.parent.time_delta)
 
     def clicked(self):
         "this will cause the crank to start spinning"
@@ -169,9 +170,6 @@ class ClimateClicker:
         self.click_value = 1
         self.clock = pygame.time.Clock()
 
-        media.init()
-        machines.init()
-
         self.background = media.images["environment_neutral"]
         self.screen.fill(BACKGROUND_COLOR)
         self.screen.blit(self.background, (0, 0))
@@ -184,8 +182,10 @@ class ClimateClicker:
                             ],
                            media.sounds['snap'])
         self.crank_overlay = StaticImage(100, 100, media.images['crank'])
-        self.score_sprite = ValueLabel(self, 10, 450, "Score")
-        self.speed_sprite = ValueLabel(self, 10, 400, "Speed")
+        self.score_sprite = ValueLabel(
+            self, 10, 450, "Score", "Joules")
+        self.speed_sprite = ValueLabel(
+            self, 10, 400, "Speed", "Degrees per Second")
 
         self.allsprites = pygame.sprite.RenderPlain(
             self.crank,
@@ -196,6 +196,7 @@ class ClimateClicker:
             [machine.count_sprite for machine in machines.machines.values()]
             )
         self.last_update_time = time.time()
+        self.time_delta = 0
 
     @property
     def energy_per_second(self):
@@ -206,9 +207,9 @@ class ClimateClicker:
         """Called on new frame"""
         self.clock.tick(60)
         new_time = time.time()
-        time_delta = new_time - self.last_update_time
+        self.time_delta = new_time - self.last_update_time
         self.last_update_time = new_time
-        self.score += self.energy_per_second * time_delta
+        self.score += self.energy_per_second * self.time_delta
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYDOWN
                                       and event.key == K_ESCAPE):

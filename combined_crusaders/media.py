@@ -20,10 +20,6 @@ def load_sound(filename):
     return pygame.mixer.Sound(os.path.join(sounds_dir, filename))
 
 
-images = None
-sounds = None
-
-
 def load_images():
     # return dict of str:pygame.image.
     # This will be used for sprite images, background images,
