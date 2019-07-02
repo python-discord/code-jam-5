@@ -1,4 +1,15 @@
 import time
+import random
+
+def timeit(func):
+    def inner(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        time_delta = time.time() - start_time
+        if time_delta > 1:
+            print(f"{func.__name__} took {time_delta} seconds")
+        return result
+    return inner
 
 
 def detect_event_update(func):
@@ -13,6 +24,31 @@ def detect_event_update(func):
     return inner
 
 
+special_messages = [
+    "Geese are NEAT",
+    "How can mirrors be real if our eyes aren't real",
+    "I'm the captain now",
+    "Maku is awesome",
+    "MissingFragment is awesome",
+    "Mahabama is awesome"
+    "Maku",
+    "Super electromagnetic shrapnel cannon FIRE!",
+    "Ideas are bulletproof",
+    "What do we say to Death? Not today.",
+    "Nao Tomori is best person",
+    "Please do not use any ligma-related software in parallel with ClimateClicker",
+    "Wear polyester when doing laptop repairs",
+    "Fighting's good when it's not a magic orb that can throw you against the wall",
+    "Don't f*** with my shovel",
+    "If I don't come back within five minutes assume I died",
+    "You you eat sleep eat sleep whoa why can't I see anything",
+    "Expiration dates are just suggestions",
+    "Cake am lie",
+    "Oh dang is that a gun -Uncle Ben",
+    "With great power comes great responsibility -Uncle Ben"
+    ]
+
+
 msgs = {
     "one_thing": "You uh, sure like doing that, and uh, not anything else",
     "only_crank": "Crank away, m'boy!",
@@ -23,7 +59,11 @@ msgs = {
     "crank_fast_1": "Go, m'boy! Keep cranking!",
     "crank_fast_2": "My god, yer cranking like th' heroes of old!",
     "crank_fast_3": "This... I've never experienced this much POWER before!",
-    "crank_fast_4": "Stop, m'boy! You'll kill us all at these speeds!"
+    "crank_fast_4": "Stop, m'boy! You'll kill us all at these speeds!",
+    "upgrade_crank_speed": "Nice! Now yer crank'll crank like a dog!",
+    "upgrade_crank_points": "Ah, gettin' more bang for yer crank, I see",
+    "buy_solar_panel": "Plants survive on solar panels, ye can too!",
+    "buy_wind_turbine": "Ah, quite a large crank right there!"
     }
 
 
@@ -40,19 +80,22 @@ class Events:
     def send(self, event: str):
         self.event_list.append((event, time.time()))
 
+    @timeit
     @detect_event_update
     def get_current_message(self,
                             max_history_length=100):
         """Returns what the current message should be.
         Return None if the message should not change."""
         current_time = time.time()
+        time_delta = current_time - self.previous_message_time
         full_history = [event for event, event_time in self.event_list]
         short_history = [event for event, event_time
-                         in self.event_list[:-max_history_length:-1]
+                         in self.event_list[-max_history_length:]
                          if current_time - event_time < 10]
         supershort_history = [event for event, event_time
-                              in self.event_list[:-max_history_length:-1]
+                              in self.event_list[-max_history_length:]
                               if current_time - event_time < 1]
+
         if not short_history:
             if full_history:
                 return msgs["went_away"]
@@ -60,16 +103,37 @@ class Events:
                 return None
             else:
                 return msgs["no_history"]
-        if self.previous_message = msgs["went_away"]:
+
+        last_event = short_history[-1]
+
+        if self.previous_message == msgs["went_away"]:
             return msgs["welcome_back"]
-        if self.master.speed_sprite.value > 1000:
-            return msgs["crank_fast_1"]
-        if self.master.speed_sprite.value > 5000:
-            return msgs["crank_fast_2"]
-        if self.master.speed_sprite.value > 10000:
-            return msgs["crank_fast_3"]
-        if self.master.speed_sprite.value > 50000:
+
+        if random.random() < 0.001:
+            return random.choice(special_messages)
+
+        if last_event == "buy_upgrade_crank_speed":
+            return msgs["upgrade_crank_speed"]
+        if last_event == "buy_upgrade_click_value":
+            return msgs["upgrade_crank_points"]
+        if last_event == "buy_machine_solar_panel":
+            return msgs["buy_solar_panel"]
+        if last_event == "buy_machine_wind_turbine":
+            return msgs["buy_wind_turbine"]
+
+        if time_delta < 0.5:
+            # Following messages aren't important enough to overwrite that fast
+            return None
+
+        if self.master.speed_sprite.value > 500:
             return msgs["crank_fast_4"]
+        if self.master.speed_sprite.value > 100:
+            return msgs["crank_fast_3"]
+        if self.master.speed_sprite.value > 50:
+            return msgs["crank_fast_2"]
+        if self.master.speed_sprite.value > 10:
+            return msgs["crank_fast_1"]
+
         if "crank" in short_history and self.master.energy_per_second > 100:
             return msgs["unnecessary_crank"]
         if len(set(short_history)) == 1:

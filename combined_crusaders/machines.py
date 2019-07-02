@@ -5,6 +5,7 @@ from pygame.locals import Color
 
 class Machine(pygame.sprite.Sprite):
     def __init__(self,
+                 name: str,
                  price: int,
                  energy_per_second: int,
                  image,
@@ -12,6 +13,7 @@ class Machine(pygame.sprite.Sprite):
                  ):
         pygame.sprite.Sprite.__init__(self)
         self.font = pygame.font.Font(None, 20)
+        self.name = name
         self.price = price
         self.energy_per_second = energy_per_second
         self._count = 0
@@ -42,11 +44,13 @@ class MachineLoader:
     def load(self, master):
         self.master = master
         self.machines = {
-            "solar_panel": Machine(60,
+            "solar_panel": Machine("solar_panel",
+                                   60,
                                    0.5,
                                    media.images["solar_panel"],
                                    (850, 100)),
-            "wind_turbine": Machine(90,
+            "wind_turbine": Machine("wind_turbine",
+                                    90,
                                     2,
                                     media.images["wind_turbine"],
                                     (900, 100))}

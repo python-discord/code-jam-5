@@ -132,12 +132,12 @@ class UpgradeButton(pygame.sprite.Sprite):
             self.apply_upgrades()
             self.cost_display.value = self.cost
             self.level_display.value = self.upgrade_level
+            self.parent.events.send(f"buy_upgrade_{self.upgrade_type}")
 
 
     def apply_upgrades(self):
         if self.upgrade_type == "click_value":
             self.parent.click_value = 2**self.upgrade_level
-            print(self.parent.click_value)
         elif self.upgrade_type == "crank_speed":
             crank = self.parent.crank
             crank.max_rotation_speed = crank.base_max_rotation_speed * (self.upgrade_level + 1)
@@ -342,6 +342,7 @@ class ClimateClicker:
                         else:
                             self.score -= machine.price
                             machine.count += 1
+                            self.events.send(f"buy_machine_{machine.name}")
 
         self.screen.fill(BACKGROUND_COLOR)
         for sprite_layer in self.sprite_layers:
