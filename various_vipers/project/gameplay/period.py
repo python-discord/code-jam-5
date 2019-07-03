@@ -1,10 +1,12 @@
+import datetime
 import logging
 import random
+import time
 from typing import List, Optional
 
 import pygame as pg
 
-from project.constants import TILE_COLS, TILE_ROWS
+from project.constants import TILE_COLS, TILE_ROWS, WIDTH
 from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
 from .earth import Earth
 from .sun import Sun
@@ -42,6 +44,11 @@ class Period(object):
     rps_chance: float = 1.0
     ttt_chance: float = 1.0
 
+    # Earth's age
+    start_date: datetime = datetime.date(2000, 1, 1)
+    # Time when game started
+    start_time: time = None
+
     def __init__(self, screen: pg.Surface):
         self.screen = screen
 
@@ -71,8 +78,24 @@ class Period(object):
 
     def draw(self) -> None:
         """Draw gets called every game tick."""
-        self.earth.draw()
-        self.sun.draw()
+        self.earth.draw(self.sun)
+        self.draw_age()
+
+    def draw_age(self) -> None:
+        """Draw how long the earth lived."""
+        if self.start_time is None:
+            self.start_time = time.time()
+        else:
+            elapsed_sec = time.time() - self.start_time
+            age = self.start_date + datetime.timedelta(days=30 * elapsed_sec)
+            font = pg.font.Font(None, 50)
+            age_indicator = font.render(
+                age.strftime("%Y - %B"), True, pg.Color("black")
+            )
+            self.screen.blit(
+                age_indicator,
+                (int(WIDTH // 2) - int(age_indicator.get_width() // 2), 0),
+            )
 
     def __handle_task_spawn(self) -> None:
         if (
@@ -114,16 +137,16 @@ class Period(object):
 class PeriodMedieval(Period):
     """Medieval themed Time Period."""
 
-    pass
+    start_date: datetime = datetime.date(1000, 1, 1)
 
 
 class PeriodModern(Period):
     """Modern time themed Time Period."""
 
-    pass
+    start_date: datetime = datetime.date(2000, 1, 1)
 
 
 class PeriodFuture(Period):
     """Future time themed Time Period."""
 
-    pass
+    start_date: datetime = datetime.date(3000, 1, 1)

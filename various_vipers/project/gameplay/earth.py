@@ -20,6 +20,7 @@ from project.constants import (
 )
 from .biome import Biome
 from .indicator import Indicator
+from .sun import Sun
 from .tile import Tile
 
 
@@ -88,10 +89,11 @@ class Earth(object):
         self.__update_tiles()
         self.__update_indicators()
 
-    def draw(self) -> None:
+    def draw(self, sun: Sun) -> None:
         """Draw all images related to the earth."""
         self.__draw_clouds()
         self.__draw_biomes()
+        sun.draw()  # Need to draw sun before indicators
         self.__draw_indicators()
 
     def fix_indicators(self) -> None:
