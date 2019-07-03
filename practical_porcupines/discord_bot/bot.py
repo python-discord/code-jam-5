@@ -122,8 +122,8 @@ async def about(ctx):
         "To save database space and *show off*, we use data year by year, "
         "meaning that we pick a mean of each year from our data sources and "
         "store them. Once we have the mean of each year, we can interpolate "
-        "that & get a prediction of what it would have been like at that "
-        "specific second!"
+        "that for current dates & get a prediction using fancy machine learning "
+        "of what it\'ll be like in the *future*!"
     )
 
     await ctx.send(  # fmt: off
