@@ -1,5 +1,10 @@
 import aiohttp
-from practical_porcupines.utils import ConfigApi, ApiReturnBad  # fmt: off
+from practical_porcupines.utils import (  # fmt: off
+    ConfigApi,
+    ApiReturnBad,
+    PredictionNotImplamentedError,
+    DateFormatError,
+)
 
 
 config_api = ConfigApi()
@@ -21,12 +26,24 @@ async def get_difference(date_1, date_2):
     async with aiohttp_session.get(API_ENDPOINT, data=payload) as resp:
         resp_jsonized = await resp.json()
 
-        print(resp_jsonized)
-
         if "body" in resp_jsonized:
             if "wl_difference" in resp_jsonized["body"]:
-                # All clear
                 return resp_jsonized["body"]["wl_difference"]
 
-        # API returning bad values
+            raise_error_codes(status_code)
+
         raise ApiReturnBad()
+
+
+async def add_embeds(status_code, discord):
+    """
+    > Gets status code
+    - status_code: int http return code
+    < Raises errors
+    x Does nothing
+    """
+
+    if status_code == 400:
+        raise DateFormatError()
+    elif status_code == 1002:
+        raise PredictionNotImplamentedError()

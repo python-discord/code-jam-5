@@ -37,8 +37,15 @@ async def gmwl(ctx, date_1, date_2):
     """
 
     try:
-        verified_date_1 = string_to_datetime(date_1)
-        verified_date_2 = string_to_datetime(date_2)
+        result = await get_difference(date_1, date_2)
+    except ApiReturnBad:
+        embed = embed_generator(
+            "Error!",
+            "The API is not returning the expected values. "
+            "This usually occures in testing w/ dummy endpoint",
+            0xA31523,
+            discord,
+        )
     except PredictionNotImplamentedError:
         await ctx.send(
             embed=embed_generator(
@@ -77,29 +84,6 @@ async def gmwl(ctx, date_1, date_2):
         )
 
         return
-
-    # IF invalid date
-    if not (verified_date_1 or verified_date_2):
-        await ctx.send(
-            embed=embed_generator(
-                "Invalid date!",
-                "One of the dates you sent was invalid, please try again!",
-                0xA31523,
-                discord,
-            )
-        )
-        return
-
-    try:
-        result = await get_difference(verified_date_1, verified_date_2)
-    except ApiReturnBad:
-        embed = embed_generator(
-            "Error!",
-            "The API is not returning the expected values. "
-            "This usually occures in testing w/ dummy endpoint",
-            0xA31523,
-            discord,
-        )
     else:
         embed = embed_generator(
             "Result",
