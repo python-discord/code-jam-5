@@ -7,7 +7,8 @@ import math
 import os
 from game_menu import main_menu
 from gameobjects import Boxes
-from news_list import get_level_1_news, get_level_2_news, get_level_3_news
+from news_list import get_level_1_news, get_level_2_news, get_level_3_news, \
+    get_level_4_news, get_level_5_news
 from random import randint
 
 # Initializes pygame resources
@@ -20,6 +21,8 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 news_1 = get_level_1_news()
 news_2 = get_level_2_news()
 news_3 = get_level_3_news()
+news_4 = get_level_4_news()
+news_5 = get_level_5_news()
 
 # Instantiate the News class for better usage
 boxes = Boxes()
@@ -50,6 +53,10 @@ class Game:
         self.news2_color = (135, 206, 250, 160)
         self.news3 = news_3['news1']
         self.news3_color = (144, 238, 144, 160)
+        self.news4 = news_4['news1']
+        self.news4_color = (255, 69, 0, 160)
+        self.news5 = news_5['news1']
+        self.news5_color = (255, 0, 0, 160)
 
         # Resize image to fit in window
         self.map = pygame.transform.scale(self.original_map, (self.width, self.height))
@@ -113,8 +120,12 @@ class Game:
                 boxes.news_box(window, self.width, self.news1, self.news1_color)
             elif self.checker == 2:
                 boxes.news_box(window, self.width, self.news2, self.news2_color)
-            else:
+            elif self.checker == 3:
                 boxes.news_box(window, self.width, self.news3, self.news3_color)
+            elif self.checker == 4:
+                boxes.news_box(window, self.width, self.news4, self.news4_color)
+            else:
+                boxes.news_box(window, self.width, self.news5, self.news5_color)
 
             social_list = ['index a %', 'index b %', 'index c %', 'index d %', 'index b %',
                            'index c %', 'index d %']
@@ -146,13 +157,17 @@ class Game:
                     # checker = 1 means news level 1 being shown
                     # checker = 2 means news level 2 being shown
                     # checker = 3 means news level 3 being shown
-                    random = randint(0, 2)
+                    random = randint(0, 6)
                     if random == 0:
                         self.checker = 1
                     elif random == 1:
                         self.checker = 2
-                    else:
+                    elif random == 2:
                         self.checker = 3
+                    elif random == 3:
+                        self.checker = 4
+                    else:
+                        self.checker = 5
 
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
@@ -202,8 +217,12 @@ class Game:
                 boxes.news_box(window, self.width, self.news1, self.news1_color)
             elif self.checker == 2:
                 boxes.news_box(window, self.width, self.news2, self.news2_color)
-            else:
+            elif self.checker == 3:
                 boxes.news_box(window, self.width, self.news3, self.news3_color)
+            elif self.checker == 4:
+                boxes.news_box(window, self.width, self.news4, self.news4_color)
+            else:
+                boxes.news_box(window, self.width, self.news5, self.news5_color)
             self.start_scene = False
 
         events = pygame.event.get()
