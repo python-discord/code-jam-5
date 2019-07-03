@@ -38,20 +38,25 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
                 datetime.datetime.strptime(date_string, possible_format)
             )
         except ValueError:
-            pass # don't append anything
+            pass
 
     if possible_dates:
         date = [date for date in possible_dates][0]
     else:
         date = None
 
+    if not date:
+        raise DateFormatError(
+            "Datetime %Y must have 4 digits, add `0`\'s to the front of date!"
+        )
+
     is_prediction = False
 
-    if date is None:
-        raise DateFormatError(
-            f"Couldn't match the given date to any template! {date_string}"
+    if datetime.date(1993, 1, 15) > date.date() or datetime.date(2019, 2, 7) < date.date():
+        raise PredictionNotImplamentedError(
+            "Predictions are not implamented at this current time!"
         )
-    elif not (datetime.date(1993, 1, 15) < date.date() < datetime.date(2019, 2, 7)):
+        
         is_prediction = True
 
     return date, is_prediction
