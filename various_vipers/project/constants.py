@@ -1,6 +1,7 @@
 """All game contstants."""
 
 import logging
+from os import listdir
 from pathlib import Path, PurePath
 
 
@@ -83,25 +84,10 @@ TILES_WATER = list(Path(PATH_TILES).joinpath("water").glob("*"))
 MAIN_MENU_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("main_menu2.png")
 
 # Button images
-PLAY_BTN = PurePath(PATH_BUTTONS).joinpath("play-btn-1.png")
-PLAY_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("play-btn-1-hover.png")
+NAMES_BUTTONS = [p.rstrip("png").rstrip(".") for p in listdir(PATH_BUTTONS)]
+PATHS_BUTTONS = list(Path(PATH_BUTTONS).glob("*.png"))
 
-OPT_BTN = PurePath(PATH_BUTTONS).joinpath("options-btn.png")
-OPT_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("options-btn-hover.png")
-
-CREDITS_BTN = PurePath(PATH_BUTTONS).joinpath("credits-btn.png")
-CREDITS_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("credits-btn-hover.png")
-
-QUIT_BTN = PurePath(PATH_BUTTONS).joinpath("quit-btn.png")
-QUIT_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("quit-btn-hover.png")
-
-BACK_BTN = PurePath(PATH_BUTTONS).joinpath("back-btn.png")
-BACK_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("back-btn-hover.png")
-
-VOLUME_BTN = PurePath(PATH_BUTTONS).joinpath("vol-btn.png")
-VOLUME_BTN_MUTE = PurePath(PATH_BUTTONS).joinpath("vol-btn-mute.png")
-VOLUME_BTN_HOVER = PurePath(PATH_BUTTONS).joinpath("vol-btn-hover.png")
-VOLUME_BTN_MUTE_HOVER = PurePath(PATH_BUTTONS).joinpath("vol-btn-mute-hover.png")
+BUTTONS = dict(zip(NAMES_BUTTONS, PATHS_BUTTONS))
 
 SLIDER_BODY = PurePath(PATH_SLIDER).joinpath("slider-body.png")
 SLIDER_INDICATOR = PurePath(PATH_SLIDER).joinpath("slider-indicator.png")

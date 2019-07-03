@@ -74,3 +74,6 @@ class Slider:
             ) or self.slider_indicator.collidepoint(x, y)
         else:
             self.click = False
+
+    def update(self):
+        self.__calculate_indicator_properties()

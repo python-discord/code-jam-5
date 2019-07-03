@@ -9,19 +9,12 @@ from pygame.image import load
 
 from project.UI.element.button import generate_main_buttons
 from project.constants import (
+    BUTTONS,
     ButtonProperties,
-    CREDITS_BTN,
-    CREDITS_BTN_HOVER,
-    HEIGHT,
     MAIN_MENU_BG,
-    OPT_BTN,
-    OPT_BTN_HOVER,
-    PLAY_BTN,
-    PLAY_BTN_HOVER,
-    QUIT_BTN,
-    QUIT_BTN_HOVER,
-    WIDTH,
     WindowState,
+    WIDTH,
+    HEIGHT,
 )
 
 
@@ -39,11 +32,13 @@ class MainMenu:
         self.__store_buttons_and_states()
 
     def __load_images(self):
+        BTN = BUTTONS
+        print(BUTTONS)
         img_paths = [
-            (PLAY_BTN, PLAY_BTN_HOVER),
-            (OPT_BTN, OPT_BTN_HOVER),
-            (CREDITS_BTN, CREDITS_BTN_HOVER),
-            (QUIT_BTN, QUIT_BTN_HOVER),
+            (BTN["play-btn"], BTN["play-btn-hover"]),
+            (BTN["options-btn"], BTN["options-btn-hover"]),
+            (BTN["credits-btn"], BTN["credits-btn-hover"]),
+            (BTN["quit-btn"], BTN["quit-btn-hover"]),
         ]
 
         # load two types of images for the buttons
