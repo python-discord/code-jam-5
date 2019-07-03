@@ -2,6 +2,8 @@ from PyQt5 import QtWidgets, QtMultimedia, QtCore, QtGui
 from .seeker import Seeker
 from pathlib import Path
 
+from only_otters.ads.tts import as_audio_tp
+
 
 class ControlsWidget(QtWidgets.QFrame):
     """Contains all the controls for a QMediaPlayer."""
@@ -12,6 +14,7 @@ class ControlsWidget(QtWidgets.QFrame):
         self.setObjectName('controls')
         self.setFixedHeight(50)
         self.init_ui()
+
 
     def init_ui(self):
         """Create the UI."""
@@ -54,6 +57,7 @@ class ControlsWidget(QtWidgets.QFrame):
             self.play_pause_button.setIcon(self.pause_song_icon)
             self.player.play()
 
+
     def _next_song(self):
         """Plays the next song in the playlist."""
         self.player.playlist().next()
@@ -68,13 +72,31 @@ class ControlsWidget(QtWidgets.QFrame):
 
     def _open_file(self):
         """Opens an audio file and adds it to the playlist."""
-        song = QtWidgets.QFileDialog.getOpenFileName(self, "Open Song", "", "Sound Files (*.mp3)")
+        # song = QtWidgets.QFileDialog.getOpenFileName(self, "Open Song", "", "Sound Files (*.mp3)")
 
-        if song[0]:
-            url = QtCore.QUrl.fromLocalFile(song[0])
+        # if song[0]:
+        #     url = QtCore.QUrl.fromLocalFile(song[0])
 
-            if not self.player.playlist().mediaCount():
-                self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))
-                self._toggle_play()
-            else:
-                self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))
+        #     if not self.player.playlist().mediaCount():
+        #         self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))
+        #         self._toggle_play()
+        #     else:
+        #         self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))
+
+
+
+        self.tppath, file = as_audio_tp(
+            "This is over Anakin! I have the high ground."
+            "You underestimate my power.")
+        m = QtMultimedia.QMediaContent()
+        print(m.isNull())
+
+        print(self.tppath)
+
+        print(file)
+        print(file.closed)
+
+        url = QtCore.QUrl.fromLocalFile(self.tppath)
+
+        self.player.setMedia(QtMultimedia.QMediaContent(url))
+        self.player.play()
