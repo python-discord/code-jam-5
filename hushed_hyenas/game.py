@@ -59,12 +59,16 @@ class Game:
 
         self.news1 = news_1['news1']
         self.news1_color = (225, 225, 225, 160)
+
         self.news2 = news_2['news1']
         self.news2_color = (135, 206, 250, 160)
+
         self.news3 = news_3['news1']
         self.news3_color = (144, 238, 144, 160)
+
         self.news4 = news_4['news1']
         self.news4_color = (255, 69, 0, 160)
+
         self.news5 = news_5['news1']
         self.news5_color = (255, 0, 0, 160)
 
@@ -149,7 +153,7 @@ class Game:
             boxes.environmental_indexes(window, self.height, environmental_index)
 
             boxes.turn_number(window, self.width, self.turn_number)
-            boxes.game_status(window, self.width, 'values')
+            boxes.game_status(window, self.width)
 
             events = pygame.event.get()
             for event in events:

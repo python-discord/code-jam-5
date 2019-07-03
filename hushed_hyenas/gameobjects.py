@@ -11,19 +11,28 @@ import thorpy
 class Boxes:
     def __init__(self):
         self.font = pygame.font.Font(None, 25)
-        self.blue = (135, 206, 250, 200)
-        self.gray = (225, 225, 225, 200)
-        self.green = (144, 238, 144, 200)
-        self.yellow = (250, 250, 40, 150)
-        self.purple = (221, 160, 221, 150)
+        self.blue = (135, 206, 250, 210)
+        self.gray = (225, 225, 225, 210)
+        self.green = (144, 238, 144, 210)
+        self.yellow = (250, 250, 40, 180)
+        self.purple = (221, 160, 221, 180)
         self.black = (0, 0, 0, 170)
         self.white = (255, 255, 255)
         self.status_color = (42, 38, 38, 180)
         self.turn_main_color = (22, 21, 60, 180)
-        self.default_color = (230, 230, 230)
+
+        # Distance used for better visual effect when placing objects
         self.distance_from_border = 4
 
-    def news_box(self, window, screen_width, news, color):
+    def news_box(self, window, screen_width: int, news: str, color: tuple):
+        """
+        Creates a news box object
+        :param window - Surface it will be created on
+        :param screen_width - Width of the surface
+        :param news - Which news will be displayed
+        :param color - Which  color will be used, based on the news level
+        :return:
+        """
         text = thorpy.MultilineText(news, (screen_width / 2, 70))
         box = thorpy.Box(elements=[text])
         box.surface = window
@@ -32,7 +41,14 @@ class Boxes:
         box.blit()
         box.update()
 
-    def social_indexes(self, window, screen_height, index):
+    def social_indexes(self, window, screen_height: int, index: str):
+        """
+        Creates the social object box
+        :param window - Surface it wil be created on
+        :param screen_height - Height of the surface
+        :param index - Which index will be displayed
+        :return:
+        """
         text = thorpy.MultilineText(index, (75, screen_height / 4))
         title = thorpy.OneLineText('Social Indexes')
         box = thorpy.Box(elements=[title, text])
@@ -42,7 +58,14 @@ class Boxes:
         box.blit()
         box.update()
 
-    def environmental_indexes(self, window, screen_height, index):
+    def environmental_indexes(self, window, screen_height: int, index: str):
+        """
+        Creates the social object box
+        :param window:
+        :param screen_height:
+        :param index - Which index will be displayed
+        :return:
+        """
         text = thorpy.MultilineText(index, (75, screen_height / 4))
         title = thorpy.OneLineText('Environmental')
         box = thorpy.Box(elements=[title, text])
@@ -52,7 +75,13 @@ class Boxes:
         box.blit()
         box.update()
 
-    def game_status(self, window, screen_width, values):
+    def game_status(self, window, screen_width: int):
+        """
+        Display the game status for the main indexes
+        :param window:
+        :param screen_width:
+        :return:
+        """
         title = thorpy.OneLineText('Game Status')
         title.set_font_size(15)
         title.set_font_color(self.white)
@@ -79,12 +108,13 @@ class Boxes:
     def turn_number(self, window, screen_width, turn):
         title = thorpy.OneLineText('Turn')
         title.set_font_color(self.white)
+        title.set_font_size(18)
         text = thorpy.OneLineText(turn)
         text.set_font_size(30)
         text.set_font_color(self.white)
         box = thorpy.Box(elements=[title, text])
         box.surface = window
-        box.set_topleft((screen_width - 40, self.distance_from_border))
+        box.set_topleft((screen_width - 53, self.distance_from_border))
         box.set_main_color(self.turn_main_color)
         box.blit()
         box.update()
