@@ -15,6 +15,7 @@
     let inputLocation = document.getElementById('location');
     autocomplete = new google.maps.places.Autocomplete(inputName);
     autocomplete.setFields(['geometry']);
+    autocomplete.setComponentRestrictions({'country': ['us']});
 
     autocomplete.addListener('place_changed', () => {
         let place = autocomplete.getPlace();
