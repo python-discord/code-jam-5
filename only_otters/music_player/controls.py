@@ -103,9 +103,7 @@ class ControlsWidget(QtWidgets.QFrame):
             "You underestimate my power."
         )
 
-        with file:
+        url = QtCore.QUrl.fromLocalFile(file)
 
-            url = QtCore.QUrl.fromLocalFile(file.name)
-
-            self.player.setMedia(QtMultimedia.QMediaContent(url))
-            self.player.play()
+        self.player.setMedia(QtMultimedia.QMediaContent(url))
+        self.player.play()
