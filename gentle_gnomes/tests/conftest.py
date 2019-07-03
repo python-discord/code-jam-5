@@ -1,6 +1,7 @@
 import pytest
 
 from src import create_app
+from src.azavea import Client
 
 
 @pytest.fixture
@@ -17,3 +18,8 @@ def client(app):
 @pytest.fixture
 def runner(app):
     return app.test_cli_runner()
+
+
+@pytest.fixture
+def azavea(app):
+    return Client(app.config['AZAVEA_TOKEN'])

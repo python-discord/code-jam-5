@@ -32,7 +32,7 @@ class Client:
         return self.proxy.get(BASE_URL + endpoint, **kwargs)
 
 
-    def get_cities(self, **kwargs) -> Iterator[City]:
+    def get_cities(self, **kwargs) -> t.Iterator[City]:
         """Return all available cities."""
         params = {'page': 1}
         params.update(kwargs.get('params', {}))
@@ -48,7 +48,7 @@ class Client:
             for city in cities['features']:
                 yield City(city['properties']['name'], city['properties']['admin'], city['id'])
 
-    def get_nearest_city(self, lat: float, lon: float, limit: int = 1, **kwargs) -> Optional[City]:
+    def get_nearest_city(self, lat: float, lon: float, limit: int = 1, **kwargs) -> t.Optional[City]:
         """Return the nearest city to the provided lat/lon or None if not found."""
         params = {
             'lat': lat,
