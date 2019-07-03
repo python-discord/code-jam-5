@@ -4,10 +4,13 @@ Main Menu page.
 Handling input and creating new events.
 """
 
+import time
+import webbrowser
+
 import pygame as pg
 from pygame.image import load
 
-from project.UI.element.button import generate_main_buttons
+from project.UI.element.button import generate_main_buttons, Button
 from project.constants import (
     BUTTONS,
     ButtonProperties,
@@ -30,6 +33,9 @@ class MainMenu:
         self.__load_images()
         self.__create_buttons()
         self.__store_buttons_and_states()
+        self.__load_set_github_button()
+
+        self.last_click = int()
 
     def __load_images(self):
         BTN = BUTTONS
@@ -45,6 +51,30 @@ class MainMenu:
         self.images = [
             tuple([load(str(j)).convert_alpha() for j in i]) for i in img_paths
         ]
+
+    def draw(self, mouse_x: int, mouse_y: int, event) -> str:
+        """Hadles all main menu events and draw every elements."""
+        self.screen.blit(self.background, (0, 0, WIDTH, HEIGHT))
+
+        clicked = event.type == pg.MOUSEBUTTONDOWN
+        # hover check for the play button
+        for i, button in enumerate(self.buttons):
+            if button.rect.collidepoint(mouse_x, mouse_y):
+                button.draw(hover=True)
+                if clicked:
+                    return self.states[i]
+            else:
+                button.draw()
+
+        if self.github_btn.rect.collidepoint(mouse_x, mouse_y):
+            self.github_btn.draw(hover=True)
+            if clicked and (time.time() - self.last_click) > 0.3:
+                self.last_click = time.time()
+                webbrowser.open("https://github.com/skilldeliver/code-jam-5")
+        else:
+            self.github_btn.draw()
+
+        return WindowState.main_menu
 
     def __create_buttons(self):
         self.play_btn, self.opt_btn, self.credits_btn, self.quit_btn = generate_main_buttons(
@@ -65,16 +95,17 @@ class MainMenu:
             WindowState.quited,
         ]
 
-    def draw(self, mouse_x: int, mouse_y: int, event) -> str:
-        """Hadles all main menu events and draw every elements."""
-        self.screen.blit(self.background, (0, 0, WIDTH, HEIGHT))
+    def __load_set_github_button(self):
+        BTN = BUTTONS
+        image = load(str(BTN["github"])).convert_alpha()
+        image_hover = load(str(BTN["github-hover"])).convert_alpha()
 
-        # hover check for the play button
-        for i, button in enumerate(self.buttons):
-            if button.rect.collidepoint(mouse_x, mouse_y):
-                button.draw(hover=True)
-                if event.type == pg.MOUSEBUTTONDOWN:
-                    return self.states[i]
-            else:
-                button.draw()
-        return WindowState.main_menu
+        self.github_btn = Button(
+            screen=self.screen,
+            x=WIDTH - 120,
+            y=HEIGHT - 120,
+            width=100,
+            height=100,
+            image=image,
+            image_hover=image_hover,
+        )
