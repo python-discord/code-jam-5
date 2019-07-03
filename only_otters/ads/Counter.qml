@@ -19,7 +19,7 @@ Item {
     }
 
     Text {
-        text: format(parent.value)
+        text: format(parent.value) + ' [%1]'.arg(fact_counter.x)
     }
 
     Timer {
