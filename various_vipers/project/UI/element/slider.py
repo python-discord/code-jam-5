@@ -77,3 +77,4 @@ class Slider:
 
     def update(self):
         self.__calculate_indicator_properties()
+        self.slider_indicator = Rect(self.x_i, self.y_i, self.width_i, self.height_i)

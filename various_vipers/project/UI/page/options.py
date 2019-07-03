@@ -8,19 +8,11 @@ import time
 import pygame as pg
 from pygame.image import load
 
+from project.tools.loader import get_volume
 from project.UI.element.button import Button
 from project.UI.element.slider import Slider
 from project.UI.element.vol_indicator import VolumeIndicator
-from project.constants import (
-    BUTTONS,
-    ButtonProperties,
-    Color,
-    # VOLUME_BTN,
-    # VOLUME_BTN_MUTE,
-    # VOLUME_BTN_HOVER,
-    # VOLUME_BTN_MUTE_HOVER,
-    WindowState,
-)
+from project.constants import BUTTONS, ButtonProperties, Color, WindowState
 
 
 class Options:
@@ -28,6 +20,7 @@ class Options:
 
     def __init__(self, screen: pg.Surface):
         self.screen = screen
+        self.event = None
 
         BTN = BUTTONS
         back_btn_img = pg.image.load(str(BTN["back-btn"])).convert_alpha()
@@ -93,11 +86,16 @@ class Options:
             image=fps_label_img,
             image_hover=fps_label_img,
         )
+        self.mute = bool(get_volume())
+        self.last_vol_click = int()
         self.slider = Slider(self.screen)
         self.volume_indicator = VolumeIndicator(self.screen)
 
     def draw(self, mouse_x: int, mouse_y: int, event):
         """Hadle all options events and draw elements."""
+        self.event = event
+        self.mouse_x, self.mouse_y = mouse_x, mouse_y
+
         self.screen.fill(Color.black)
 
         if self.back_btn.rect.collidepoint(mouse_x, mouse_y):
@@ -108,27 +106,7 @@ class Options:
         else:
             self.back_btn.draw()
 
-        mute = self.slider.volume == 0
-        if mute:
-            if self.vol_btn_mute.rect.collidepoint(mouse_x, mouse_y):
-                self.vol_btn_mute.draw(hover=True)
-
-                if event.type == pg.MOUSEBUTTONDOWN and mute:
-                    self.slider.volume = 5
-                    self.slider.update()
-                    mute = False
-            else:
-                self.vol_btn_mute.draw()
-        else:
-            if self.vol_btn.rect.collidepoint(mouse_x, mouse_y):
-                self.vol_btn.draw(hover=True)
-
-                if event.type == pg.MOUSEBUTTONDOWN:
-                    self.slider.volume = 0
-                    self.slider.update()
-                    time.sleep(0.1)
-            else:
-                self.vol_btn.draw()
+        self.__draw_volume_button()
 
         if self.fps_checker_btn.rect.collidepoint(mouse_x, mouse_y):
             self.fps_checker_btn.draw(hover=True)
@@ -146,3 +124,29 @@ class Options:
 
         self.fps_label.draw()
         return WindowState.options
+
+    def __draw_volume_button(self):
+        clicked = self.event.type == pg.MOUSEBUTTONDOWN
+
+        if self.mute:
+            if self.vol_btn_mute.rect.collidepoint(self.mouse_x, self.mouse_y):
+                self.vol_btn_mute.draw(hover=True)
+
+                if clicked and (time.time() - self.last_vol_click) > 0.3:
+                    self.last_vol_click = time.time()
+                    self.slider.volume = 5
+                    self.slider.update()
+                    self.mute = False
+            else:
+                self.vol_btn_mute.draw()
+        else:
+            if self.vol_btn.rect.collidepoint(self.mouse_x, self.mouse_y):
+                self.vol_btn.draw(hover=True)
+
+                if clicked and (time.time() - self.last_vol_click) > 0.3:
+                    self.last_vol_click = time.time()
+                    self.slider.volume = 0
+                    self.slider.update()
+                    self.mute = True
+            else:
+                self.vol_btn.draw()
