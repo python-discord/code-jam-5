@@ -13,6 +13,7 @@ from project.constants import (
     CLOUD_LAYERS_FG,
     FG_CLOUDS_SCROLL_SPEED,
     HEIGHT,
+    INDICATOR_ARROW,
     TILE_COLS,
     TILE_ROWS,
     TILE_WIDTH,
@@ -46,6 +47,7 @@ class Earth(object):
 
     # :: Indicators
     indicators: List[Indicator]
+    indicator_image: pg.Surface
 
     # :: Other
     current_biome_pos: float = 0
@@ -68,13 +70,15 @@ class Earth(object):
         ]
         self.cloud_layers_fg = []
 
+        self.indicator_image = load(str(INDICATOR_ARROW)).convert_alpha()
+
         self.indicators = []
         self.visible_tiles = []
 
         # Calculate max position by added the width of all bg images
         self.max_position = sum(biome.background.get_width() for biome in self.biomes)
 
-    def update(self) -> None:
+    def update(self, event: pg.event) -> None:
         """Update game logic with each game tick."""
         key_pressed = pg.key.get_pressed()
 
@@ -86,7 +90,7 @@ class Earth(object):
         self.current_cloud_bg_pos += BG_CLOUDS_SCROLL_SPEED
         self.current_cloud_fg_pos += FG_CLOUDS_SCROLL_SPEED
         self.__update_positions()
-        self.__update_tiles()
+        self.__update_tiles(event)
         self.__update_indicators()
 
     def draw(self, sun: Sun) -> None:
@@ -116,7 +120,7 @@ class Earth(object):
                         continue
 
                     if indicator is None:
-                        indicator = Indicator(self.screen, tile)
+                        indicator = Indicator(self.screen, tile, self.indicator_image)
                         self.indicators.append(indicator)
 
                     # Calculate if the tile is to the left or right of the screen
@@ -204,6 +208,8 @@ class Earth(object):
                 draw_x = biome_x + tile_x - (tile_image.get_width() - TILE_WIDTH) // 2
                 # Vertical align to bottom - will expand upwards
                 draw_y = tile_y - (tile_image.get_height() - TILE_WIDTH)
+                tile.pos_x = draw_x
+                tile.pos_y = draw_y
                 draw_args.append([tile_image, (draw_x, draw_y)])
                 tile_x += TILE_WIDTH
 
@@ -322,12 +328,12 @@ class Earth(object):
             ] + self.cloud_layers_fg
             self.current_cloud_fg_pos = -self.cloud_layers_fg[0].get_width()
 
-    def __update_tiles(self) -> None:
+    def __update_tiles(self, event: pg.event) -> None:
         """Calls update method of every tile in the game."""
         for biome in self.biomes:
             for tile_row in biome.tilemap:
                 for tile in tile_row:
-                    tile.update()
+                    tile.update(event)
 
     def __update_indicators(self) -> None:
         """Calls update method of every indicator."""

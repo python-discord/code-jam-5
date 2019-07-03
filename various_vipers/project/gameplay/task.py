@@ -20,6 +20,10 @@ class Task(object):
         elif isinstance(biome, BiomeMountains):
             logger.debug(f"Generating mountains themed task of type {type(self)}")
 
+    def start(self) -> None:
+        """Start playing the task."""
+        logger.debug("Starting task.")
+
 
 class TaskCursorMaze(Task):
     """

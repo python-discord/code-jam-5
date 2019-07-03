@@ -17,13 +17,12 @@ logger = logging.getLogger(__name__)
 class Game:
     """Represents main game class."""
 
-    def __init__(self, start_game=False):
+    def __init__(self):
         """Set initial values."""
         pg.init()
         pg.display.set_caption("Various Vipers game in development")
 
         self.running = True
-        self.playing = start_game
 
         self.mouse_x = self.mouse_y = int()
         self.event = None
@@ -45,9 +44,6 @@ class Game:
         self.clock.tick(FPS)
         self._get_events()
 
-        if self.playing and self.game_view:
-            self.game_view.update()
-
         self._draw()
 
     def _get_events(self):
@@ -59,15 +55,13 @@ class Game:
                 self.running = False
 
     def _draw(self):
-        if self.playing and self.game_view:
-            self.screen.fill(Color.sky)
+        if self.window_state == WindowState.game:
+            self.game_view.update(self.event)
             self.game_view.draw()
         else:
             self.screen.fill(Color.black)
 
-            if self.window_state == WindowState.game:
-                self.playing = True
-            elif self.window_state == WindowState.main_menu:
+            if self.window_state == WindowState.main_menu:
                 self.window_state = self.main_menu.draw(
                     self.mouse_x, self.mouse_y, self.event
                 )
