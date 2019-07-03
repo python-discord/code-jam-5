@@ -3,6 +3,8 @@ from discord.ext import commands
 from practical_porcupines.utils import (  # fmt: off
     ApiReturnBad,
     ConfigBot,
+    PredictionNotImplamentedError,
+    DateFormatError,
     string_to_datetime,
 )
 from practical_porcupines.discord_bot.utils import embed_generator
@@ -37,19 +39,20 @@ async def gmwl(ctx, date_1, date_2):
     try:
         verified_date_1 = string_to_datetime(date_1)
         verified_date_2 = string_to_datetime(date_2)
-    except DatesOutOfRange:
+    except PredictionNotImplamentedError:
         await ctx.send(
             embed=embed_generator(
                 "Error!",
                 f"The given dates ('{date_1}' and '{date_2}') "
-                "are not in the dataset range (1993-01 - 2019-02)!",
+                "are not in the dataset range (1993-01 - 2019-02) "
+                "and predictions have not been implamented yet!",
                 0xA31523,
                 discord,
             )
         )
 
         return
-    except ValueError:
+    except DateFormatError:
         await ctx.send(
             embed=embed_generator(
                 "Incorrect date formatting!",
