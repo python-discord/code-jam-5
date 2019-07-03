@@ -18,6 +18,8 @@ class Boxes:
         self.purple = (221, 160, 221, 150)
         self.black = (0, 0, 0, 170)
         self.white = (255, 255, 255)
+        self.status_color = (42, 38, 38, 180)
+        self.turn_main_color = (22, 21, 60, 180)
         self.default_color = (230, 230, 230)
         self.distance_from_border = 4
 
@@ -50,6 +52,30 @@ class Boxes:
         box.blit()
         box.update()
 
+    def game_status(self, window, screen_width, values):
+        title = thorpy.OneLineText('Game Status')
+        title.set_font_size(15)
+        title.set_font_color(self.white)
+
+        cfc = thorpy.Element("CFC: 8%")
+        cfc.set_font_size(10)
+        cfc.set_size((60, 25))
+
+        sf9 = thorpy.Element("SF9: 9%")
+        sf9.set_font_size(10)
+        sf9.set_size((60, 25))
+
+        methane = thorpy.Hoverable("Methane: 100%")
+        methane.set_font_size(10)
+        methane.set_size((100, 25))
+
+        box = thorpy.Box(elements=[title, cfc, sf9, methane])
+        box.surface = window
+        box.set_topleft((screen_width - 220, self.distance_from_border))
+        box.set_main_color(self.status_color)
+        box.blit()
+        box.update()
+
     def turn_number(self, window, screen_width, turn):
         title = thorpy.OneLineText('Turn')
         title.set_font_color(self.white)
@@ -59,7 +85,7 @@ class Boxes:
         box = thorpy.Box(elements=[title, text])
         box.surface = window
         box.set_topleft((screen_width - 40, self.distance_from_border))
-        box.set_main_color(self.black)
+        box.set_main_color(self.turn_main_color)
         box.blit()
         box.update()
 

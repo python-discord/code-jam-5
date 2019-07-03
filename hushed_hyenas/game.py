@@ -43,6 +43,7 @@ class Game:
         self.current_scene = 'Map'
         self.country = None
         self.font = pygame.font.Font(None, 25)
+        self.turn_number = 1
 
         # this checker is used for debugging purposes of the different levels of colors for news
         self.checker = 0
@@ -127,7 +128,6 @@ class Game:
             else:
                 boxes.news_box(window, self.width, self.news5, self.news5_color)
 
-
             # Generate lists and strings to test the social and environmental boxes
             social_list = ['index a %', 'index b %', 'index c %', 'index d %', 'index b %',
                            'index c %', 'index d %']
@@ -139,7 +139,8 @@ class Game:
             environmental_index = '\n'.join(str(e) for e in environmental_list)
             boxes.environmental_indexes(window, self.height, environmental_index)
 
-            boxes.turn_number(window, self.width, '5')
+            boxes.turn_number(window, self.width, self.turn_number)
+            boxes.game_status(window, self.width, 'values')
 
             events = pygame.event.get()
             for event in events:
