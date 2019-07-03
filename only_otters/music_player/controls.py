@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtMultimedia, QtCore, QtGui
 from .seeker import Seeker
 from pathlib import Path
 
-from only_otters.ads.tts import as_audio_tp
+from only_otters.ads.tts import as_callack_audio
 
 
 class ControlsWidget(QtWidgets.QFrame):
@@ -42,6 +42,9 @@ class ControlsWidget(QtWidgets.QFrame):
         self.duration_label = QtWidgets.QLabel('00:00')
         self.duration_label.setFont(QtGui.QFont('Raleway'))
         self.seeker.timestamp_updated.connect(self.duration_label.setText)
+
+        # debug
+        self.play_pause_button.clicked.connect(self._open_file)
 
         self.main_layout.addWidget(self.previous_song_button)
         self.main_layout.addWidget(self.play_pause_button)
@@ -94,18 +97,15 @@ class ControlsWidget(QtWidgets.QFrame):
 
 
 
-        self.tppath, file = as_audio_tp(
+        file = as_callack_audio("Green tip number 34:"
             "This is over Anakin! I have the high ground."
-            "You underestimate my power.")
-        m = QtMultimedia.QMediaContent()
-        print(m.isNull())
+            "?"
+            "You underestimate my power."
+        )
 
-        print(self.tppath)
+        with file:
 
-        print(file)
-        print(file.closed)
+            url = QtCore.QUrl.fromLocalFile(file.name)
 
-        url = QtCore.QUrl.fromLocalFile(self.tppath)
-
-        self.player.setMedia(QtMultimedia.QMediaContent(url))
-        self.player.play()
+            self.player.setMedia(QtMultimedia.QMediaContent(url))
+            self.player.play()
