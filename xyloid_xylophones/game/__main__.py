@@ -8,10 +8,11 @@ from .render_loop import render_loop
 from . import game_window, player, zone_map, Item, sound_list, music_list, cut_scenes
 from . import keys
 from random import getrandbits
-from .input import mouse_input
+from .input import mouse_input, handle_input
 
 game_window.push_handlers(on_draw=render_loop)  # Set the render loop handler.
 
+pyglet.clock.schedule(lambda dt: None)
 
 @game_window.event
 def on_key_press(symbol, modifiers):
@@ -103,5 +104,7 @@ if __name__ == '__main__':
     #cut_scenes = load_list(location_scenes)
     #sound_list = load_list(location_sound)
     #music_list = load_list(location_music)
+
+    pyglet.clock.schedule_interval(handle_input, 0.08)
     generate_random_zones()
     pyglet.app.run()

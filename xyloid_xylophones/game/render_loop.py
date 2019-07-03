@@ -55,11 +55,13 @@ def render_loop():
                 i.x + i.width + offset_x, i.y + i.height + offset_y,
                 i.x + offset_x, i.y + i.width + offset_y)),
              ('c3B', i.color))
-            pyglet.text.Label(
-                i.name,
-                batch=batch,
-                x=i.x + offset_x + 5,
-                y=i.y + offset_y + 5)
+            # pyglet.text.Label(
+            #    i.name,
+            #    batch=batch,
+            #    font_name = 'Times New Roman',
+            #    font_size = 16,
+            #    x=i.x + offset_x + 5,
+            #    y=i.y + offset_y + 5)
         batch.draw()
 
         # draw player fixed (static center)
@@ -79,7 +81,6 @@ def render_loop():
         player_label = pyglet.text.Label(
             player.name, x=x, y=y, color=(255, 0, 0, 255))
         player_label.draw()
-        handle_input()
 
     # UI / debug elements
     label.draw()
