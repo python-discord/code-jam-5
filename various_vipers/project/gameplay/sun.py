@@ -31,9 +31,9 @@ class Sun:
         new_width = int(self.image.get_width() * scale_percent)
         self.image = pg.transform.scale(self.image, (new_width, new_height))
         # Create cache of every image rotation, so we don't have to calculate each time
-        self.image_cache = []
+        self.image_cache = {}
         for angle in range(361):
-            self.image_cache.append(pg.transform.rotate(self.image, angle))
+            self.image_cache[angle] = pg.transform.rotate(self.image, angle)
 
     def update(self) -> None:
         """Update is called every game tick."""
