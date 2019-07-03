@@ -121,7 +121,7 @@ class Plotter(QtCore.QThread):
         file_path = f"{Plotter.PLOTS_DIR}plot{count}.png"
         # bbox_inches="tight" remove whitespace around the image
         # facecolor=(0.94, 0.94, 0.94) , background color of image
-        plot.savefig(file_path, dpi=145, bbox_inches="tight", facecolor=(0.94, 0.94, 0.94))
+        plot.savefig(file_path, dpi=142, bbox_inches="tight", facecolor=(0.94, 0.94, 0.94))
         plot.close()
 
 
