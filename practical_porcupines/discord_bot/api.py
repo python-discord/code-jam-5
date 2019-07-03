@@ -18,7 +18,7 @@ async def get_difference(date_1, date_2):
     > Sends date_1 and date_2 to flask_api
     - date_1 = Start time (%Y-%m-%d %T)
     - date_2 = End time (%Y-%m-%d %T)
-    < Returns aiohttp response
+    < Returns difference in mm
     """
 
     payload = {"date_1": date_1, "date_2": date_2}
@@ -28,7 +28,10 @@ async def get_difference(date_1, date_2):
 
         if "body" in resp_jsonized:
             if "wl_difference" in resp_jsonized["body"]:
-                return resp_jsonized["body"]["wl_difference"]
+                return (
+                    resp_jsonized["body"]["wl_difference"],
+                    resp_jsonized["body"]["is_prediction"]
+                )
 
             raise_error_codes(status_code)
 

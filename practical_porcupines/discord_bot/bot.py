@@ -36,7 +36,7 @@ async def gmwl(ctx, date_1, date_2):
     """
 
     try:
-        result = await get_difference(date_1, date_2)
+        result, is_prediction = await get_difference(date_1, date_2)
     except ApiReturnBad:
         embed = embed_generator(
             "Error!",
@@ -84,6 +84,17 @@ async def gmwl(ctx, date_1, date_2):
 
         return
     else:
+        embed_desc_text = (
+            f"Operation completed sucsessfully, result is {result}mm."
+        )
+
+        if is_prediction:
+            embed_desc_text += (
+                "\n\n*Please note that this is a prediction and may not "
+                "be accurate. We use data from Early 1993 to Feburary 
+                "2019.*"
+            )
+
         embed = embed_generator(
             "Result",
             f"Operation completed sucsessfully, result is {result}mm",
