@@ -116,6 +116,16 @@ class Game:
             else:
                 boxes.news_box(window, self.width, self.news3, self.news3_color)
 
+            social_list = ['index a %', 'index b %', 'index c %', 'index d %', 'index b %',
+                           'index c %', 'index d %']
+            social_index = '\n'.join(str(e) for e in social_list)
+            boxes.social_indexes(window, self.height, social_index)
+
+            environmental_list = ['index e %', 'index f %', 'index g %', 'index h %', 'index b %',
+                                  'index c %', 'index d %']
+            environmental_index = '\n'.join(str(e) for e in environmental_list)
+            boxes.environmental_indexes(window, self.height, environmental_index)
+
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.QUIT:

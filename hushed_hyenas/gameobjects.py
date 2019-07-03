@@ -14,14 +14,37 @@ class Boxes:
         self.blue = (135, 206, 250, 160)
         self.gray = (225, 225, 225, 160)
         self.green = (144, 238, 144, 160)
+        self.yellow = (250, 250, 40, 130)
+        self.purple = (221, 160, 221, 130)
         self.default_color = (230, 230, 230)
+        self.distance_from_border = 4
 
     def news_box(self, window, screen_width, news, color):
         text = thorpy.MultilineText(news, (screen_width / 2, 70))
         box = thorpy.Box(elements=[text])
         box.surface = window
-        box.set_topleft((screen_width / 4, 0))
+        box.set_topleft((screen_width / 4, self.distance_from_border))
         box.set_main_color(color)
+        box.blit()
+        box.update()
+
+    def social_indexes(self, window, screen_height, index):
+        text = thorpy.MultilineText(index, (75, screen_height / 4))
+        title = thorpy.OneLineText('Social Indexes')
+        box = thorpy.Box(elements=[title, text])
+        box.surface = window
+        box.set_topleft((self.distance_from_border, screen_height / 6))
+        box.set_main_color(self.yellow)
+        box.blit()
+        box.update()
+
+    def environmental_indexes(self, window, screen_height, index):
+        text = thorpy.MultilineText(index, (75, screen_height / 4))
+        title = thorpy.OneLineText('Environmental')
+        box = thorpy.Box(elements=[title, text])
+        box.surface = window
+        box.set_topleft((self.distance_from_border, screen_height / 2))
+        box.set_main_color(self.purple)
         box.blit()
         box.update()
 
