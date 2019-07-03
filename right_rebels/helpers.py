@@ -37,10 +37,10 @@ def get_variables_from_nc_file(nc_file_name):
     """
     # Don't close the connection since we need it to load data from disk
     h5py_file = h5py.File(nc_file_name, "r")
-    lon = h5py_file["longitude"][:]
-    lat = h5py_file["latitude"][:]
-    dates = h5py_file["time"][:]
-    temps = h5py_file["temperature"][:]
+    lon = h5py_file["longitude"]
+    lat = h5py_file["latitude"]
+    dates = h5py_file["time"]
+    temps = h5py_file["temperature"]
     temps_unit = "degree C"
     return lon, lat, dates, temps, temps_unit
 
