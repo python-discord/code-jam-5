@@ -2,6 +2,8 @@ from dataclasses import dataclass
 
 from PyQt5.QtCore import pyqtProperty, QObject, pyqtSignal
 
+# https://stackoverflow.com/questions/48425316/how-to-create-pyqt-properties-dynamically
+
 
 def resolve_type(type_):
     return {

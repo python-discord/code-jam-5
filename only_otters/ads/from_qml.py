@@ -89,5 +89,6 @@ if __name__ == "__main__":
     e = app.exec_()
 
     print(fc.value)
+    print(fc.x)
 
     sys.exit(e)

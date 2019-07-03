@@ -63,9 +63,7 @@ FactCounter.x = pyqtProperty('QString',
     constant=True,
     fget=lambda s: "aa"
 )
-
-# FactCounter.x = 
-
+    
 
 if __name__ == "__main__":
 
