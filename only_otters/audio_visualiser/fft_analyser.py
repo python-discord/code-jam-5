@@ -2,6 +2,7 @@ from PyQt5 import QtCore
 from pydub import AudioSegment
 import numpy as np
 import time
+import os
 
 
 class FFTAnalyser(QtCore.QThread):
@@ -19,7 +20,9 @@ class FFTAnalyser(QtCore.QThread):
 
     def reset_media(self):
         """Resets the media to the currently playing song."""
-        audio_file = self.player.currentMedia().canonicalUrl().path()[1:]
+        audio_file = self.player.currentMedia().canonicalUrl().path()
+        if os.name == 'nt' and audio_file.startswith('/'):
+            audio_file = audio_file[1:]
         if audio_file:
             self.song = AudioSegment.from_file(audio_file).set_channels(1)
             self.samples = np.array(self.song.get_array_of_samples())
