@@ -7,6 +7,9 @@ verify_ssl = true
 flake8 = "*"
 
 [packages]
+discord-py = "*"
+python-dotenv = "*"
+aiosqlite = "*"
 
 [requires]
 python_version = "3.7"
