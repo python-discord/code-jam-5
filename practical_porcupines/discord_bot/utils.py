@@ -10,6 +10,6 @@ def embed_generator(title, desc, colour, discord):
 
     embed.add_field(name=title, value=desc)
 
-    embed.set_footer(text=f"Jilk.pw Bot, {datetime.datetime.now()}")
+    embed.set_footer(text=f"Practical-Porcupine Bot, {datetime.datetime.now()}")
 
     return embed

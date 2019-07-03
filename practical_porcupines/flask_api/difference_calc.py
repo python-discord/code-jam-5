@@ -1,6 +1,6 @@
 import os
 import pickle
-from practical_porcupines.utils import string_to_datetime
+from practical_porcupines.flask_api.utils import string_to_datetime
 
 
 class WLDifference:

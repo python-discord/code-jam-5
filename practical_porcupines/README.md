@@ -76,7 +76,7 @@ Run the web-portal in the background:
 pipenv run python -m practical_porcupines flask-webportal
 ```
 
-- Please navigate to 0.0.0.0:8081 (or whatever else is set in `config.json`) to visit the web-portal mini-project.
+- Please navigate to 0.0.0.0:8081 (or whatever else is set in `config.toml`) to visit the web-portal mini-project.
 - If you would like to run the Discord Bot as an extra, please add the bot tokens (please read the `Running the Discord Bot` section for more info).
 
 ## Development Notes
@@ -90,8 +90,9 @@ pipenv run python -m practical_porcupines flask-webportal
 
 ### Error codes
 
+- `400`: API was given a bad date format (`DateFormatError()`)
 - `1001`: API returning wrong values (usually happens in debugging when hooked upto a dummy api)
-- `1002`: Date is out of range of dataset.
+- `1002`: Date is out of range of dataset. **NOTE: This should be taken away once predictions are ready.**
 
 ### API schema
 
@@ -318,7 +319,7 @@ Stores the main logic for the webportal mini-project. Views and such
 
 ##### `practical_porcupines/flask_webportal/api.py`
 
-Uses the `requests` library to hook onto the flask_api mini-project depending on the unified hostname/ports set in `config.json`
+Uses the `requests` library to hook onto the flask_api mini-project depending on the unified hostname/ports set in `config.toml`
 
 ##### `practical_porcupines/flask_webportal/templates/x`
 
@@ -344,7 +345,7 @@ Python-based gitignore with a couple of extra options added in
 
 CI for project (can also be a webhook)
 
-### `config.json`
+### `config.toml`
 
 Stores unified infomation on all projects, edit this for a custom configuration but *please do not use the same ports unless you want an unstable time*
 
