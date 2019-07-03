@@ -6,9 +6,13 @@
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtQuick import QQuickView
 from PyQt5.QtCore import QUrl
+from PyQt5.QtQml import qmlRegisterType, QQmlComponent, QQmlEngine
 from pathlib import Path
 import sys
 from contextlib import contextmanager
+
+from qtobjcounter import FactCounter
+
 
 @contextmanager
 def enter(type_, owner):
@@ -44,8 +48,15 @@ if __name__ == "__main__":
     win = TestWin()
 
     #
-    qml_file = 'Counter.qml'
     view = QQuickView()
+    engine = view.engine()
+    qml_file = 'custCounter.qml'
+    # qmlRegisterType(FactCounter, 'FactCounter', 1, 0, FactCounter.__name__)
+
+    fc = FactCounter(1000, 1, 200, 0)
+    engine.rootContext().setContextProperty('fact_counter', fc)
+
+    #
     container = QtWidgets.QWidget.createWindowContainer(view, win)
     container.setMinimumSize(300, 300)
     container.setMaximumSize(300, 300)
@@ -53,4 +64,9 @@ if __name__ == "__main__":
     # Load widget
 
     win.show()
-    sys.exit(app.exec_())
+
+    e = app.exec_()
+
+    print(fc.value)
+
+    sys.exit(e)

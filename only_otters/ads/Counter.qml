@@ -3,10 +3,10 @@ import QtQuick 2.7
 
 Item {
 
-    property real value:        3300
-    property real offset:       -0.44
-    property real interval:     1000
-    property real precision:    0
+    property real value:        fact_counter.value
+    property real offset:       fact_counter.offset
+    property real interval:     fact_counter.interval
+    property real precision:    fact_counter.precision
 
     function format(num) {
         num = '' + num.toFixed(precision);
