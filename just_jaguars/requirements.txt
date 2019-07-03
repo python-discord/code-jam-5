@@ -1,0 +1,1 @@
+pygame==1.9.6 # make sure the game doesn't die when pygame has an update
