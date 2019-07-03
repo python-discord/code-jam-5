@@ -23,7 +23,11 @@ def on_key_press(symbol, modifiers):
     by adding `symbol` to the `keys` set. `modifiers` is not used, but required
     for the function signature.
     '''
+
     keys.add(symbol)
+
+    if len(keys) > 0:
+        handle_input()
 
 
 @game_window.event
