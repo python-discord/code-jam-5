@@ -3,10 +3,11 @@ from math import degrees
 import pyglet
 import pyglet.window.key as key
 
+from .object import PhysicalObject
 from .utils import angle_between, loader, keys
 
 
-class Player(pyglet.sprite.Sprite):
+class Player(PhysicalObject):
     speed = 90
 
     def __init__(self, x, y):
@@ -18,9 +19,7 @@ class Player(pyglet.sprite.Sprite):
 
         super().__init__(player_image, x=x, y=y)
 
-    def update(self, dt, **kwargs):
-        super().update(**kwargs)
-
+    def update(self, dt):
         if keys[key.W]:
             self.y += dt * self.speed
         if keys[key.S]:

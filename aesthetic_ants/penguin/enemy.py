@@ -1,8 +1,10 @@
 import pyglet
 import random
 
+from .object import PhysicalObject
 
-class Enemy(pyglet.sprite.Sprite):
+
+class Enemy(PhysicalObject):
 
     def __init__(self):
         enemy_image = pyglet.resource.image('circle.png')

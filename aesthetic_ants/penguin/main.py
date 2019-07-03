@@ -2,26 +2,28 @@ import pyglet
 from .enemy import Enemy
 
 from .player import Player
+from .space import Space
 from .utils import keys
 
 window = pyglet.window.Window(caption='Penguin Snowball')
 pyglet.resource.path = ['../resources']
 pyglet.resource.reindex()
 
+space = Space()
 player = Player(window.width / 2, window.height / 2)
-enemy = Enemy()
+space.add(player)
+
+for _ in range(5):
+    space.add(Enemy())
 
 
 @window.event
 def on_draw():
     window.clear()
-    player.draw()
-    enemy.draw()
-
+    space.draw()
 
 def update(dt):
-    player.update(dt)
-    enemy.update(dt)
+    space.update(dt)
 
 
 def main():
