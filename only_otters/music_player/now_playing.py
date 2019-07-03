@@ -34,7 +34,9 @@ class NowPlayingWidget(QtWidgets.QFrame):
         self.setLayout(self.main_layout)
 
     def _media_changed(self, media):
-        self.now_playing_label.setText(f'Now Playing: {media.canonicalUrl().fileName()}')
+        filename = media.canonicalUrl().fileName()
+        song_name = '.'.join(filename.split('.')[:-1])
+        self.now_playing_label.setText(f'Now Playing: {song_name}')
 
     def adjust_background(self):
         """Adjusts the background to make it fit"""
