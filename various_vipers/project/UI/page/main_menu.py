@@ -10,14 +10,15 @@ import webbrowser
 import pygame as pg
 from pygame.image import load
 
-from project.UI.element.button import generate_main_buttons, Button
+from project.UI.element.button import Button, generate_main_buttons
 from project.constants import (
     BUTTONS,
     ButtonProperties,
-    MAIN_MENU_BG,
-    WindowState,
-    WIDTH,
     HEIGHT,
+    MAIN_MENU_BG,
+    REPO_LINK,
+    WIDTH,
+    WindowState,
 )
 
 
@@ -55,24 +56,19 @@ class MainMenu:
     def draw(self, mouse_x: int, mouse_y: int, event) -> str:
         """Hadles all main menu events and draw every elements."""
         self.screen.blit(self.background, (0, 0, WIDTH, HEIGHT))
+        self.event = event
+        self.mouse_x, self.mouse_y = mouse_x, mouse_y
 
-        clicked = event.type == pg.MOUSEBUTTONDOWN
+        self.clicked = event.type == pg.MOUSEBUTTONDOWN
         # hover check for the play button
         for i, button in enumerate(self.buttons):
             if button.rect.collidepoint(mouse_x, mouse_y):
                 button.draw(hover=True)
-                if clicked:
+                if self.clicked:
                     return self.states[i]
             else:
                 button.draw()
-
-        if self.github_btn.rect.collidepoint(mouse_x, mouse_y):
-            self.github_btn.draw(hover=True)
-            if clicked and (time.time() - self.last_click) > 0.3:
-                self.last_click = time.time()
-                webbrowser.open("https://github.com/skilldeliver/code-jam-5")
-        else:
-            self.github_btn.draw()
+        self.__draw_github_button()
 
         return WindowState.main_menu
 
@@ -109,3 +105,12 @@ class MainMenu:
             image=image,
             image_hover=image_hover,
         )
+
+    def __draw_github_button(self):
+        if self.github_btn.rect.collidepoint(self.mouse_x, self.mouse_y):
+            self.github_btn.draw(hover=True)
+            if self.clicked and (time.time() - self.last_click) > 0.3:
+                self.last_click = time.time()
+                webbrowser.open(REPO_LINK)
+        else:
+            self.github_btn.draw()

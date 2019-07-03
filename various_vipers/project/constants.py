@@ -35,6 +35,8 @@ BG_SCROLL_SPEED = 20
 BG_CLOUDS_SCROLL_SPEED = 1
 FG_CLOUDS_SCROLL_SPEED = 2
 
+REPO_LINK = "https://github.com/skilldeliver/code-jam-5"
+
 
 PATH_PROJECT = PurePath(__file__).parent
 
