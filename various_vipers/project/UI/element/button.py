@@ -69,6 +69,8 @@ class Button:
         self.image = image
         self.image_hover = image_hover
 
+        self.image = pg.transform.scale(self.image, (width, height))
+        self.image_hover = pg.transform.scale(self.image_hover, (width, height))
         self.rect = Rect(x, y, width, height)
 
     def draw(self, hover=False) -> None:

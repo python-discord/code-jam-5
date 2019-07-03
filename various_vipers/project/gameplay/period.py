@@ -130,7 +130,7 @@ class Period(object):
             [TaskCursorMaze, TaskRockPaperScissors, TaskTicTacToe],
             weights=[self.maze_chance, self.rps_chance, self.ttt_chance],
         )
-        tile.task = new_task[0](biome)
+        tile.task = new_task[0](self.screen, biome)
 
         self.earth.fix_indicators()
 

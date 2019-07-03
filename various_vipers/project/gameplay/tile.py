@@ -6,6 +6,7 @@ from typing import Optional, TYPE_CHECKING
 import pygame as pg
 
 from project.constants import TILE_WIDTH
+from . import get_open_task
 
 if TYPE_CHECKING:
     # Avoid cyclic imports
@@ -64,16 +65,24 @@ class Tile:
 
     def update(self, event: pg.event) -> None:
         """Update is called every game tick."""
+        # Check if this task was completed
+        if self.task and self.task.is_done:
+            self.scale_n_current = 1
+            del self.task
+
+        # Mouse over
         image_size = self._image_cache[self.scale_n_current].get_size()
         tile_rect = pg.Rect(
             (self.pos_x, self.pos_y), (image_size[0], image_size[1] // 2)
         )
-        if tile_rect.collidepoint(pg.mouse.get_pos()):
+        if not get_open_task() and tile_rect.collidepoint(pg.mouse.get_pos()):
             if event.type == pg.MOUSEBUTTONDOWN and self.task is not None:
                 self.task.start()
             self.is_hovering = True
         else:
             self.is_hovering = False
+
+        # Animation
         self._breathe()
 
     @property

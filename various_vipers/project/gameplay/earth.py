@@ -19,6 +19,7 @@ from project.constants import (
     TILE_WIDTH,
     WIDTH,
 )
+from . import get_open_task
 from .biome import Biome
 from .indicator import Indicator
 from .sun import Sun
@@ -80,18 +81,25 @@ class Earth(object):
 
     def update(self, event: pg.event) -> None:
         """Update game logic with each game tick."""
-        key_pressed = pg.key.get_pressed()
+        if not get_open_task():
+            key_pressed = pg.key.get_pressed()
 
-        if key_pressed[pg.K_a] or key_pressed[pg.K_LEFT]:
-            self.__scroll_left()
-        if key_pressed[pg.K_d] or key_pressed[pg.K_RIGHT]:
-            self.__scroll_right()
+            if key_pressed[pg.K_a] or key_pressed[pg.K_LEFT]:
+                self.__scroll_left()
+            if key_pressed[pg.K_d] or key_pressed[pg.K_RIGHT]:
+                self.__scroll_right()
+
+            self.__update_tiles(event)
 
         self.current_cloud_bg_pos += BG_CLOUDS_SCROLL_SPEED
         self.current_cloud_fg_pos += FG_CLOUDS_SCROLL_SPEED
+
         self.__update_positions()
-        self.__update_tiles(event)
         self.__update_indicators()
+
+        open_task = get_open_task()
+        if open_task:
+            open_task.update(event)
 
     def draw(self, sun: Sun) -> None:
         """Draw all images related to the earth."""
@@ -99,6 +107,10 @@ class Earth(object):
         self.__draw_biomes()
         sun.draw()  # Need to draw sun before indicators
         self.__draw_indicators()
+
+        open_task = get_open_task()
+        if open_task:
+            open_task.draw()
 
     def fix_indicators(self) -> None:
         """Will add missing indicators. Should be called when indicator could appear."""
