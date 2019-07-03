@@ -5,8 +5,7 @@ from practical_porcupines.utils import ConfigApi, ApiReturnBad  # fmt: off
 config_api = ConfigApi()
 aiohttp_session = aiohttp.ClientSession()
 
-# API_ENDPOINT = f"{config_api.API_DOMAIN}:{config_api.API_PORT}/api"
-API_ENDPOINT = "https://jilk.pw/api/v1.0/publicall"
+API_ENDPOINT = f"http://{config_api.API_DOMAIN}:{config_api.API_PORT}"
 
 
 async def get_difference(date_1, date_2):
@@ -17,10 +16,12 @@ async def get_difference(date_1, date_2):
     < Returns aiohttp response
     """
 
-    payload = {"dates": {"date_1": date_1, "date_2": date_2}}
+    payload = {"date_1": date_1, "date_2": date_2}
 
     async with aiohttp_session.get(API_ENDPOINT, data=payload) as resp:
         resp_jsonized = await resp.json()
+
+        print(resp_jsonized)
 
         if "body" in resp_jsonized:
             if "wl_difference" in resp_jsonized["body"]:
