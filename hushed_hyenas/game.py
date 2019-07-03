@@ -127,6 +127,8 @@ class Game:
             else:
                 boxes.news_box(window, self.width, self.news5, self.news5_color)
 
+
+            # Generate lists and strings to test the social and environmental boxes
             social_list = ['index a %', 'index b %', 'index c %', 'index d %', 'index b %',
                            'index c %', 'index d %']
             social_index = '\n'.join(str(e) for e in social_list)
@@ -136,6 +138,8 @@ class Game:
                                   'index c %', 'index d %']
             environmental_index = '\n'.join(str(e) for e in environmental_list)
             boxes.environmental_indexes(window, self.height, environmental_index)
+
+            boxes.turn_number(window, self.width, '5')
 
             events = pygame.event.get()
             for event in events:
@@ -223,6 +227,19 @@ class Game:
                 boxes.news_box(window, self.width, self.news4, self.news4_color)
             else:
                 boxes.news_box(window, self.width, self.news5, self.news5_color)
+
+            # Generate lists and strings to test the social and environmental boxes
+            social_list = ['index a %', 'index b %', 'index c %', 'index d %', 'index b %',
+                           'index c %', 'index d %']
+            social_index = '\n'.join(str(e) for e in social_list)
+            boxes.social_indexes(window, self.height, social_index)
+
+            environmental_list = ['index e %', 'index f %', 'index g %', 'index h %', 'index b %',
+                                  'index c %', 'index d %']
+            environmental_index = '\n'.join(str(e) for e in environmental_list)
+            boxes.environmental_indexes(window, self.height, environmental_index)
+
+            boxes.turn_number(window, self.width, '5')
             self.start_scene = False
 
         events = pygame.event.get()

@@ -11,11 +11,13 @@ import thorpy
 class Boxes:
     def __init__(self):
         self.font = pygame.font.Font(None, 25)
-        self.blue = (135, 206, 250, 160)
-        self.gray = (225, 225, 225, 160)
-        self.green = (144, 238, 144, 160)
-        self.yellow = (250, 250, 40, 130)
-        self.purple = (221, 160, 221, 130)
+        self.blue = (135, 206, 250, 200)
+        self.gray = (225, 225, 225, 200)
+        self.green = (144, 238, 144, 200)
+        self.yellow = (250, 250, 40, 150)
+        self.purple = (221, 160, 221, 150)
+        self.black = (0, 0, 0, 170)
+        self.white = (255, 255, 255)
         self.default_color = (230, 230, 230)
         self.distance_from_border = 4
 
@@ -45,6 +47,19 @@ class Boxes:
         box.surface = window
         box.set_topleft((self.distance_from_border, screen_height / 2))
         box.set_main_color(self.purple)
+        box.blit()
+        box.update()
+
+    def turn_number(self, window, screen_width, turn):
+        title = thorpy.OneLineText('Turn')
+        title.set_font_color(self.white)
+        text = thorpy.OneLineText(turn)
+        text.set_font_size(30)
+        text.set_font_color(self.white)
+        box = thorpy.Box(elements=[title, text])
+        box.surface = window
+        box.set_topleft((screen_width - 40, self.distance_from_border))
+        box.set_main_color(self.black)
         box.blit()
         box.update()
 
