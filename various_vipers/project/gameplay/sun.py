@@ -35,7 +35,7 @@ class Sun:
         for angle in range(361):
             self._image_cache[angle] = pg.transform.rotate(self.image, angle)
 
-    def update(self) -> None:
+    def update(self, event: pg.event) -> None:
         """Update is called every game tick."""
         self.update_angle()
 
@@ -47,7 +47,9 @@ class Sun:
                 for tile in row:
                     if tile.task:
                         task_count += 1
+
         self.current_heat += self.heat_per_sec * task_count
+        self.current_heat = min(self.current_heat, MAX_HEAT)
 
     def update_angle(self) -> None:
         """Update suns angle relative to itself. Called every game tick."""

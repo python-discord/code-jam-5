@@ -2,10 +2,9 @@ import logging
 import random
 
 import pygame as pg
-from pygame.image import load
 from pygame.transform import flip, scale
 
-from project.constants import HEIGHT, INDICATOR_ARROW, INDICATOR_WIDTH, WIDTH
+from project.constants import HEIGHT, INDICATOR_WIDTH, WIDTH
 from .tile import Tile
 
 
@@ -15,7 +14,7 @@ logger = logging.getLogger(__name__)
 class Indicator:
     """Indicator to show the way towards task."""
 
-    image: pg.Surface = INDICATOR_ARROW
+    image: pg.Surface
 
     # Indicator arrow pulses (moving x coordinates)
     max_x_offset: int = 30  # max x pulse offset from initial position
@@ -23,12 +22,14 @@ class Indicator:
     pulse_speed: int = 3
     pulse_direction: int = 1
 
-    def __init__(self, screen: pg.Surface, tile: Tile, is_left: bool = True):
+    def __init__(
+        self, screen: pg.Surface, tile: Tile, image: pg.Surface, is_left: bool = True
+    ):
         self.screen = screen
         self.tile = tile
         self.is_left = is_left
 
-        self.image = load(str(self.image)).convert_alpha()
+        self.image = image
         scale_percent = INDICATOR_WIDTH / self.image.get_width()
         new_height = int(self.image.get_height() * scale_percent)
         self.image = scale(self.image, (INDICATOR_WIDTH, new_height))

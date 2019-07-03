@@ -25,9 +25,14 @@ class Tile:
 
     _image: pg.Surface = None
 
+    pos_x: int = 0
+    pos_y: int = 0
+
     # Current task associated with this tile
     # Tiles with tasks have different appearance
     task: Optional[Task] = None
+    # If currently hovering over the tile
+    is_hovering: bool = False
 
     # Variables to handle tile transformation
     # Storing scale as x multiplier to be able to use dict key
@@ -57,8 +62,18 @@ class Tile:
             )
             scale_n += 1
 
-    def update(self) -> None:
+    def update(self, event: pg.event) -> None:
         """Update is called every game tick."""
+        image_size = self._image_cache[self.scale_n_current].get_size()
+        tile_rect = pg.Rect(
+            (self.pos_x, self.pos_y), (image_size[0], image_size[1] // 2)
+        )
+        if tile_rect.collidepoint(pg.mouse.get_pos()):
+            if event.type == pg.MOUSEBUTTONDOWN and self.task is not None:
+                self.task.start()
+            self.is_hovering = True
+        else:
+            self.is_hovering = False
         self._breathe()
 
     @property
@@ -69,10 +84,12 @@ class Tile:
         Method transforms the image based on if it is a task or not.
         """
         # Get image from cache based on current scale
-        transformed_image = self._image_cache[self.scale_n_current]
+        transformed_image = self._image_cache[self.scale_n_current].copy()
         if self.task is not None:
             # Add colored tint
-            transformed_image.fill((255, 0, 0, 150), special_flags=pg.BLEND_MULT)
+            transformed_image.fill((255, 0, 0), special_flags=pg.BLEND_MULT)
+        if self.is_hovering:
+            transformed_image.fill((0, 0, 255), special_flags=pg.BLEND_MULT)
 
         return transformed_image
 

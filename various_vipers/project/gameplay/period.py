@@ -6,7 +6,7 @@ from typing import List, Optional
 
 import pygame as pg
 
-from project.constants import TILE_COLS, TILE_ROWS, WIDTH
+from project.constants import Color, TILE_COLS, TILE_ROWS, WIDTH
 from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
 from .earth import Earth
 from .sun import Sun
@@ -70,14 +70,15 @@ class Period(object):
         self.earth = Earth(self.screen, self.biomes)
         self.sun = Sun(self.screen, self.earth.biomes, self.heat_per_task)
 
-    def update(self) -> None:
+    def update(self, event: pg.event) -> None:
         """Update gets called every game tick."""
-        self.earth.update()
-        self.sun.update()
+        self.earth.update(event)
+        self.sun.update(event)
         self.__handle_task_spawn()
 
     def draw(self) -> None:
         """Draw gets called every game tick."""
+        self.screen.fill(Color.sky)
         self.earth.draw(self.sun)
         self.draw_age()
 

@@ -34,9 +34,9 @@ class GameView:
         else:
             raise TypeError(f"Unknown difficulty level passed: {difficulty}")
 
-    def update(self) -> None:
+    def update(self, event: pg.event) -> None:
         """Update gets called every game tick."""
-        self.period.update()
+        self.period.update(event)
 
         # Check for gameover condition
         if self.period.sun.current_heat >= MAX_HEAT:
