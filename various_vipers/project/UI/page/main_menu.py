@@ -33,7 +33,6 @@ class MainMenu:
 
     def __load_images(self):
         BTN = BUTTONS
-        print(BUTTONS)
         img_paths = [
             (BTN["play-btn"], BTN["play-btn-hover"]),
             (BTN["options-btn"], BTN["options-btn-hover"]),
