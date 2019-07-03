@@ -29,4 +29,4 @@ def search():
         flash('Location not found.')
         results = None
 
-    return render_template('view/index.html', results=results)
+    return render_template('view/index.html', city=str(city), results=results)

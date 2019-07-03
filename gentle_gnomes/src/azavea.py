@@ -10,6 +10,9 @@ class City(NamedTuple):
     admin: str
     id: int
 
+    def __str__(self):
+        return f'{self.name}, {self.admin}'
+
 
 class Client:
     """Client for interacting with the Azavea Climate API."""
