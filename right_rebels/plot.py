@@ -21,19 +21,20 @@ class Plotter(QtCore.QThread):
     image_increment_signal = QtCore.pyqtSignal()
     status_signal = QtCore.pyqtSignal(str)
 
-    def __init__(self, start_date, end_date, parent_window=None):
+    def __init__(self, start_date, end_date, step: int, color_map, parent_window=None):
         super(Plotter, self).__init__()
         self.start_date = start_date
         self.end_date = end_date
+        self.step = step
         self.stop_plot = False
         # https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
-        self.color_map = plot.get_cmap("seismic")
+        self.color_map = plot.get_cmap(color_map)
         self.world_map = Plotter.get_map_format()
         if parent_window is not None:
             parent_window.stop_plot_signal.connect(self.stop)
 
     def run(self):
-        self.start_plotting(self.start_date, self.end_date)
+        self.start_plotting(self.start_date, self.end_date, self.step)
 
     def stop(self):
         self.stop_plot = True
@@ -88,16 +89,14 @@ class Plotter(QtCore.QThread):
         for file in fnmatch.filter(file_names, "plot*.png"):
             os.remove(os.path.join(Plotter.PLOTS_DIR, file))
 
-    def start_plotting(self, start_date_decimal, end_date_decimal, step: int = 1):
-        if not 0 < step <= 12:
-            step = 1
+    def start_plotting(self, start_date_decimal, end_date_decimal, step):
         start_date_index = helpers.find_nearest_index(Plotter.DATES, start_date_decimal)
         end_date_index = helpers.find_nearest_index(Plotter.DATES, end_date_decimal)
         # end_date_index + 1 to make end_date inclusive
         for count, date_index in enumerate(range(start_date_index, end_date_index + 1, step)):
             if not self.stop_plot:
                 self.status_signal.emit(f"Processing image {count + 1}/"
-                                        f"{end_date_index - start_date_index}")
+                                        f"{((end_date_index - start_date_index) // step) + 1}")
                 start_time = time.time()
                 self.create_plot(count, date_index)
                 print(f"Took {time.time() - start_time:.2f}s for image {count + 1}")
