@@ -5,7 +5,7 @@ from pygame import Rect
 from pygame.image import load
 
 from project.constants import SLIDER_BODY, SLIDER_INDICATOR, SliderProperties, WIDTH
-from project.tools.loader import get_volume, save_volume
+from project.tools.loader import Load, Save
 
 
 class Slider:
@@ -14,7 +14,7 @@ class Slider:
     def __init__(self, screen: pg.Surface):
         """Sets rectangle object for the slider."""
         self.screen = screen
-        self.volume = get_volume()
+        self.volume = Load.volume()
 
         self.body_img = load(str(SLIDER_BODY)).convert_alpha()
         self.indicator_img = load(str(SLIDER_INDICATOR)).convert_alpha()
@@ -67,7 +67,7 @@ class Slider:
                 self.volume = int(
                     (100 / (self.width - self.width_i - 1)) * (x - self.x)
                 )
-                save_volume(self.volume)
+                Save.save_volume(self.volume)
         elif b:
             self.click = self.slider_body.collidepoint(
                 x, y
@@ -76,5 +76,6 @@ class Slider:
             self.click = False
 
     def update(self):
+        """Updates the slider indicator position after mute or unmute."""
         self.__calculate_indicator_properties()
         self.slider_indicator = Rect(self.x_i, self.y_i, self.width_i, self.height_i)

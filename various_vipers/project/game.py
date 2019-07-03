@@ -6,8 +6,9 @@ import pygame as pg
 from project.UI.page.credits import Credits
 from project.UI.page.main_menu import MainMenu
 from project.UI.page.options import Options
-from project.constants import Color, FPS, HEIGHT, SHOW_FPS, WIDTH, WindowState
+from project.constants import Color, FPS, HEIGHT, WIDTH, WindowState
 from project.gameplay.game_view import GameView
+from project.tools.loader import Load
 
 
 logger = logging.getLogger(__name__)
@@ -36,6 +37,8 @@ class Game:
         self.options = Options(self.screen)
         self.credits = Credits(self.screen)
         self.game_view = GameView(self.screen)
+
+        self.show_fps = Load.show_fps()
 
     def run(self):
         """Draw and get events."""
@@ -79,7 +82,7 @@ class Game:
             elif self.window_state == WindowState.quited:
                 self.running = False
 
-        if SHOW_FPS:
+        if self.show_fps:
             self._draw_fps()
 
         pg.display.flip()

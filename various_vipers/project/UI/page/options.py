@@ -8,11 +8,11 @@ import time
 import pygame as pg
 from pygame.image import load
 
-from project.tools.loader import get_volume
 from project.UI.element.button import Button
 from project.UI.element.slider import Slider
 from project.UI.element.vol_indicator import VolumeIndicator
 from project.constants import BUTTONS, ButtonProperties, Color, WindowState
+from project.tools.loader import Load
 
 
 class Options:
@@ -34,6 +34,11 @@ class Options:
 
         checker_btn = load(str(BTN["checker"])).convert_alpha()
         checker_btn_hover = load(str(BTN["checker-hover"])).convert_alpha()
+
+        checker_btn_checked = load(str(BTN["checker-checked"])).convert_alpha()
+        checker_btn_checked_hover = load(
+            str(BTN["checker-checked-hover"])
+        ).convert_alpha()
 
         fps_label_img = load(str(BTN["show-fps-label"])).convert_alpha()
 
@@ -77,6 +82,16 @@ class Options:
             image_hover=checker_btn_hover,
         )
 
+        self.fps_checker_checked_btn = Button(
+            self.screen,
+            x=ButtonProperties.vol_btn_x,
+            y=ButtonProperties.vol_btn_y + 130,
+            width=ButtonProperties.vol_btn_w,
+            height=ButtonProperties.vol_btn_h,
+            image=checker_btn_checked,
+            image_hover=checker_btn_checked_hover,
+        )
+
         self.fps_label = Button(
             self.screen,
             x=ButtonProperties.vol_btn_x + 100,
@@ -86,8 +101,8 @@ class Options:
             image=fps_label_img,
             image_hover=fps_label_img,
         )
-        self.mute = bool(get_volume())
-        self.last_vol_click = int()
+        self.mute = bool(Load.volume())
+        self.last_click = int()
         self.slider = Slider(self.screen)
         self.volume_indicator = VolumeIndicator(self.screen)
 
@@ -108,14 +123,6 @@ class Options:
 
         self.__draw_volume_button()
 
-        if self.fps_checker_btn.rect.collidepoint(mouse_x, mouse_y):
-            self.fps_checker_btn.draw(hover=True)
-
-            if event.type == pg.MOUSEBUTTONDOWN:
-                return WindowState.main_menu
-        else:
-            self.fps_checker_btn.draw()
-
         self.slider.move_indicator(mouse_x, mouse_y, event)
         self.slider.draw()
 
@@ -127,13 +134,14 @@ class Options:
 
     def __draw_volume_button(self):
         clicked = self.event.type == pg.MOUSEBUTTONDOWN
+        self.mute = self.slider.volume == 0
 
         if self.mute:
             if self.vol_btn_mute.rect.collidepoint(self.mouse_x, self.mouse_y):
                 self.vol_btn_mute.draw(hover=True)
 
-                if clicked and (time.time() - self.last_vol_click) > 0.3:
-                    self.last_vol_click = time.time()
+                if clicked and (time.time() - self.last_click) > 0.3:
+                    self.last_click = time.time()
                     self.slider.volume = 5
                     self.slider.update()
                     self.mute = False
@@ -143,10 +151,22 @@ class Options:
             if self.vol_btn.rect.collidepoint(self.mouse_x, self.mouse_y):
                 self.vol_btn.draw(hover=True)
 
-                if clicked and (time.time() - self.last_vol_click) > 0.3:
-                    self.last_vol_click = time.time()
+                if clicked and (time.time() - self.last_click) > 0.3:
+                    self.last_click = time.time()
                     self.slider.volume = 0
                     self.slider.update()
                     self.mute = True
             else:
                 self.vol_btn.draw()
+
+    def __draw_checker_button(self):
+        clicked = self.event.type == pg.MOUSEBUTTONDOWN
+
+        if self.fps_checker_btn.rect.collidepoint(self.mouse_x, self.mouse_y):
+            self.fps_checker_btn.draw(hover=True)
+
+            if clicked:
+                self.last_click = time.time()
+                return WindowState.main_menu
+        else:
+            self.fps_checker_btn.draw()
