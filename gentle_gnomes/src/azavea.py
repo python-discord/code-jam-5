@@ -52,12 +52,19 @@ class Client:
             for city in cities['features']:
                 yield City(city['properties']['name'], city['properties']['admin'], city['id'])
 
-    def get_city_id(self, name: str, **kwargs) -> Optional[int]:
-        """Get the city given a name and return its ID or None if not found."""
-        cities = self._get('/city', params={'name': name}, **kwargs)
+    def get_nearest_city(self, lat: float, lon: float, limit: int = 1, **kwargs) -> Optional[City]:
+        """Return the nearest city to the provided lat/lon or None if not found."""
+        params = {
+            'lat': lat,
+            'lon': lon,
+            'limit': limit,
+        }
+
+        cities = self._get('/city/nearest', params=params, **kwargs)
 
         if cities['count'] > 0:
-            return cities['features'][0]['id']
+            city = cities['features'][0]
+            return City(city['properties']['name'], city['properties']['admin'], city['id'])
 
     def get_scenarios(self, **kwargs) -> List:
         """Return all available scenarios."""

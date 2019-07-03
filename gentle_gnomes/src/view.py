@@ -14,19 +14,17 @@ def index():
 
 @bp.route('/search', methods=['POST'])
 def search():
-    name = request.form['name']
-
     try:
         location = json.loads(request.form['location'])
         latitude = location['lat']
         longitude = location['lng']
     except (json.JSONDecodeError, KeyError):
-        abort(400)
+        return abort(400)
 
-    city = app.azavea.get_city_id(name)
+    city = app.azavea.get_nearest_city(latitude, longitude)
     if city:
-        top = indicator.get_top_indicators(app.azavea, city)
-        results = repr(top)
+        top = indicator.get_top_indicators(city, app.azavea)
+        results = '\n'.join(f'{i.label}: {i.rate}' for i in top)
     else:
         flash('Location not found.')
         results = None
