@@ -33,7 +33,7 @@ class Save:
         data = json.load(f)
 
     @staticmethod
-    def save_volume(vol: int) -> None:
+    def volume(vol: int) -> None:
         """Saves the volume from project.UI.page.options slider."""
         Save.data["volume"] = vol
 
@@ -41,6 +41,13 @@ class Save:
             Save.data["mute"] = True
         else:
             Save.data["mute"] = False
+
+        with open(str(USER_SETTINGS), "w", encoding="utf-8") as f:
+            json.dump(Save.data, f)
+
+    def show_fps(state: bool) -> None:
+        """Saves the volume from project.UI.page.options slider."""
+        Save.data["show_fps"] = state
 
         with open(str(USER_SETTINGS), "w", encoding="utf-8") as f:
             json.dump(Save.data, f)

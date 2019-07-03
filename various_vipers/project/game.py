@@ -72,7 +72,7 @@ class Game:
                     self.mouse_x, self.mouse_y, self.event
                 )
             elif self.window_state == WindowState.options:
-                self.window_state = self.options.draw(
+                self.window_state, self.show_fps = self.options.draw(
                     self.mouse_x, self.mouse_y, self.event
                 )
             elif self.window_state == WindowState.credit:

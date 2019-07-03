@@ -65,9 +65,9 @@ class Slider:
                 )
 
                 self.volume = int(
-                    (100 / (self.width - self.width_i - 1)) * (x - self.x)
+                    (100 / (self.width - self.width_i - 3)) * (x - self.x)
                 )
-                Save.save_volume(self.volume)
+                Save.volume(self.volume)
         elif b:
             self.click = self.slider_body.collidepoint(
                 x, y

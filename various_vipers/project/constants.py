@@ -80,7 +80,7 @@ TILES_WATER = list(Path(PATH_TILES).joinpath("water").glob("*"))
 # UI assets
 
 # Backgrounds
-MAIN_MENU_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("main_menu2.png")
+MAIN_MENU_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("main_menu.png")
 
 # Button images
 NAMES_BUTTONS = [p.rstrip("png").rstrip(".") for p in listdir(PATH_BUTTONS)]
