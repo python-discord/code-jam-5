@@ -30,7 +30,7 @@ async def get_difference(date_1, date_2):
             if "wl_difference" in resp_jsonized["body"]:
                 return (
                     resp_jsonized["body"]["wl_difference"],
-                    resp_jsonized["body"]["is_prediction"]
+                    resp_jsonized["body"]["is_prediction"],
                 )
 
             raise_error_codes(status_code)

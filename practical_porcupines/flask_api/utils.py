@@ -1,6 +1,7 @@
 import datetime
 from typing import Union
 
+
 def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
     """
     > Func to convert stings in format '%Y:%m:%d:%H:%M:%S' to datetime
@@ -44,16 +45,19 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
 
     if not date:
         raise DateFormatError(
-            "Datetime %Y must have 4 digits, add `0`\'s to the front of date!"
+            "Datetime %Y must have 4 digits, add `0`'s to the front of date!"
         )
 
     is_prediction = False
 
-    if datetime.date(1993, 1, 15) > date.date() or datetime.date(2019, 2, 7) < date.date():
+    if (
+        datetime.date(1993, 1, 15) > date.date()
+        or datetime.date(2019, 2, 7) < date.date()
+    ):
         raise PredictionNotImplamentedError(
             "Predictions are not implamented at this current time!"
         )
-        
+
         is_prediction = True
 
     return date, is_prediction

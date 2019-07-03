@@ -84,9 +84,7 @@ async def gmwl(ctx, date_1, date_2):
 
         return
     else:
-        embed_desc_text = (
-            f"Operation completed sucsessfully, result is {result}mm."
-        )
+        embed_desc_text = f"Operation completed sucsessfully, result is {result}mm."
 
         if is_prediction:
             embed_desc_text += (
@@ -123,7 +121,7 @@ async def about(ctx):
         "meaning that we pick a mean of each year from our data sources and "
         "store them. Once we have the mean of each year, we can interpolate "
         "that for current dates & get a prediction using fancy machine learning "
-        "of what it\'ll be like in the *future*!"
+        "of what it'll be like in the *future*!"
     )
 
     await ctx.send(  # fmt: off
