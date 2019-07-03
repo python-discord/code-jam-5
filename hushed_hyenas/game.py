@@ -43,7 +43,7 @@ class Game:
         self.current_scene = 'Map'
         self.country = None
         self.font = pygame.font.Font(None, 25)
-        self.turn_number = 1
+        self.turn_number = '1'
 
         # this checker is used for debugging purposes of the different levels of colors for news
         self.checker = 0
