@@ -2,13 +2,21 @@
 
 ## Dataset Acknowledgement
 
-GSFC. 2017. Global Mean Sea Level Trend from Integrated Multi-Mission Ocean Altimeters TOPEX/Poseidon, Jason-1, OSTM/Jason-2 Version 4.2 Ver. 4.2 PO.DAAC, CA, USA. Dataset accessed [2019-06-30] at [http://dx.doi.org/10.5067/GMSLM-TJ42](http://dx.doi.org/10.5067/GMSLM-TJ42).
+*GSFC. 2017. Global Mean Sea Level Trend from Integrated Multi-Mission Ocean Altimeters TOPEX/Poseidon, Jason-1, OSTM/Jason-2 Version 4.2 Ver. 4.2 PO.DAAC, CA, USA. Dataset accessed [2019-06-30] at [http://dx.doi.org/10.5067/GMSLM-TJ42](http://dx.doi.org/10.5067/GMSLM-TJ42).*
 
 ## Human-friendly Overview
 
-We have an api (named `flask_api`), a webportal (named `flask_webportal`) and a discord bot (named `discord_bot`). The api recives 2 dates formatted like so:
+Hello welcome to the Practical Pourcupine project, made for the 5th [Python Discord](https://pythondiscord.com/) code jam! The theme of this code-jam was about climate change, as you can see from the top-level README.md, found [here](https://github.com/scOwez/code-jam-5/blob/master/README.md).
 
-Using `%Y-%m-%d %T` formatting (UNIX). An example of this is: `2019-07-02 14:33:59` (at the time of writing). This would look like: `The 59th second of the 33rd minute of the 14th hour of the 2nd of July, 2019` if said in speech.
+We have 3 "mini-projects" (3 different projects that *could* be in seperate repos but due to the code jam, are all housed under one roof). We have the `flask_api`; this is the api part of our web-based project. This API gets a request and uses interpolation and when needed, machine learning to either predict or state the change in the global water level.
+
+The two other "mini-projects" are the ones sending and handling the returns, one is called `discord_bot` & it is a Discord Bot (duh)! The other is a web-portal (`flask_webportal`) made using flask and a small bit of bootstrap for the css, allowing users to send requests over a website if it where in production. This is similar to the discord_bot but showcases another, more flexible usecase for this api.
+
+### Technical side
+
+Alright, onto the more technical side:
+
+We have an api (named `flask_api`), a webportal (named `flask_webportal`) and a discord bot (named `discord_bot`). The api recives 2 dates formatted using (mainly) `%Y-%m-%d %T` formatting (UNIX). An example of this is: `2019-07-02 14:33:59` (at the time of writing). This would look like: `The 59th second of the 33rd minute of the 14th hour of the 2nd of July, 2019` if said in speech. Please note that the API can accept other dates, this formatting is just the preferred way :)
 
 **Once it has 2 dates, the `core` uses either historical data from a function we calculated using interpolation or predicts the future changes using *Machine Learning*.**
 
@@ -26,9 +34,13 @@ Below is the outline of what the dependancies do:
 - `flask-sqlalchemy`: Database abstraction for flask_api core maths (storing data on GMWL)
 - `flask-restful`: Consistant RESTful API building for flask_api
 - `aiohttp`: Asyncronous requests for discord_bot to prevent any "freezing" of it
-- `requests`: Syncronous, easy to use api requests for flask_webportal to contact flask_api. ***May not be used in favour of in-website javascript***
+- `requests`: Syncronous, easy to use api requests for flask_webportal to contact flask_api.
 - `flake8`: Linter specfic for `code-jam-5` (required for review)
 - `black`: Developer-used autolinter for sake of standardized clarity
+
+### Mini-project Notice
+
+***Please note that `discord_bot` or `flask_webportal` communicate **only** though the api, not just calling a shared function. The only shared infomation between these 3 projects is a config as not to collide with each others hosting and 2 exeptions that are 2x `class ExceptionName: pass`. Therefore in 10 minutes, you could easily seperate these 3 mini-projects into seperate repositories.***
 
 ## Quickstart (Please read this section to start up the application)
 
@@ -88,11 +100,11 @@ pipenv run python -m practical_porcupines flask-webportal
 - Autoformat using `black` and try to do a final sweep with the custom `flake8` rulings.
 - Document everything in docstrings. `>` means overview of passing in, `<` means overview of returning, `x` is the execption handling and `-` are the argument specifics (use these like bullet points with them symbols).
 
-### Error codes
+### Api Error codes
 
 - `400`: API was given a bad date format (`DateFormatError()`)
 - `1001`: API returning wrong values (usually happens in debugging when hooked upto a dummy api)
-- `1002`: Date is out of range of dataset. **NOTE: This should be taken away once predictions are ready.**
+- `1002`: Date is out of range of dataset. *NOTE: This http code is decrept but should stay for the sake of legacy*.
 
 ### API schema
 
