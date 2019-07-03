@@ -1,10 +1,15 @@
-from netCDF4 import Dataset
 import numpy as np
+import h5py
 
 
 def get_variables_from_nc_file(nc_file_name):
     """
         Nc file source: http://berkeleyearth.org/data/
+        netCDF-4+ files are already using data model implementing HDF5
+        as the storage layer. This means we don't have to load nc file variables
+        in memory but can use h5py library to load them directly from file
+        while still working with them as if they were in memory.
+
         These represent variables from the .nc file:
         longitude
             Shape: 360
@@ -30,13 +35,14 @@ def get_variables_from_nc_file(nc_file_name):
             Format: [[time][latitude][longitude]]
             Units: Degrees C
     """
-    with Dataset(nc_file_name, mode="r") as nc_file:
-        lon = nc_file.variables["longitude"][:]
-        lat = nc_file.variables["latitude"][:]
-        dates = nc_file.variables["time"][:]
-        temps = nc_file.variables["temperature"][:]
-        temps_unit = nc_file.variables["temperature"].units
-        return lon, lat, dates, temps, temps_unit
+    # Don't close the connection since we need it to load data from disk
+    h5py_file = h5py.File(nc_file_name, "r")
+    lon = h5py_file["longitude"][:]
+    lat = h5py_file["latitude"][:]
+    dates = h5py_file["time"][:]
+    temps = h5py_file["temperature"][:]
+    temps_unit = "degree C"
+    return lon, lat, dates, temps, temps_unit
 
 
 def find_nearest_index(array, value):
