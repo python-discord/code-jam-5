@@ -91,7 +91,7 @@ async def gmwl(ctx, date_1, date_2):
         if is_prediction:
             embed_desc_text += (
                 "\n\n*Please note that this is a prediction and may not "
-                "be accurate. We use data from Early 1993 to Feburary 
+                "be accurate. We use data from Early 1993 to Feburary "
                 "2019.*"
             )
 
