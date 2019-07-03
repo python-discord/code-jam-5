@@ -27,7 +27,6 @@ def main_menu(width, height, func_run, func_menu):
 
     application = thorpy.Application((width, height), "Code Jam")
 
-    # Different buttons for normal and hover
     normal, hover = 'assets/play-on.png', 'assets/play-off.png'
     normal_quit, hover_quit = 'assets/quit-on.png', 'assets/quit-off.png'
     normal_about, hover_about = 'assets/about-on.png', 'assets/about-off.png'

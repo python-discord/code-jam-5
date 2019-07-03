@@ -27,6 +27,15 @@ news_5 = get_level_5_news()
 # Instantiate the News class for better usage
 boxes = Boxes()
 
+#   name , max_latitude , min_latitude , max_longitude , min_longitude
+zoom_list = [['Russian', 81.86, 41.19, 27.9, -170], ['Canada', 83.21, 41.71, -52.62, -141.0],
+             ['China', 53.56, 18.16, 134.78, 73.56], ['United States', 71.39, 5.87, -66.9, -180.0],
+             ['Brazil', 5.26, -33.74, -29.3, -73.99], ['Australia', -9.23, -54.76, 159.11, 112.91],
+             ['India', 35.99, 6.75, 97.4, 68.17], ['Argentina', -21.78, -55.05, -53.59, -73.58],
+             ['Kazakhstan', 55.43, 40.55, 87.31, 46.49], ['Algeria', 37.09, 18.96, 12.0, -8.67],
+             ['Congo, Dem. Rep.', 3.7, -5.03, 18.65, 11.21],
+             ['Greenland', 83.64, 59.61, -11.41, -73.1]]
+
 
 class Game:
 
