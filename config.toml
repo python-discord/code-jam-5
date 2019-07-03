@@ -1,0 +1,12 @@
+should_debug=true
+
+[api]
+domain="0.0.0.0"
+port=8080
+
+[web_portal]
+domain="0.0.0.0"
+port=8081
+
+[bot]
+prefix="?"

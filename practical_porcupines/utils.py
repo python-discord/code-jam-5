@@ -1,5 +1,5 @@
 import os
-import json
+import toml
 
 
 class ConfigBase:
@@ -7,8 +7,8 @@ class ConfigBase:
     Basic need-to-know info for all mini-projects
     """
 
-    CONFIG_PATH = "config.json"  # Where usually `config.json` is kept
-    CONFIG = json.load(open(CONFIG_PATH, "r"))  # Serialized dict from json
+    CONFIG_PATH = "config.toml"  # Where usually `config.toml` is kept
+    CONFIG = toml.load(open(CONFIG_PATH, "r"))  # Serialized dict from toml
     SHOULD_DEBUG = CONFIG["should_debug"]
 
 
