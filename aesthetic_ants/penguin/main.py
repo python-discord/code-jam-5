@@ -22,6 +22,7 @@ def on_draw():
     window.clear()
     space.draw()
 
+
 def update(dt):
     space.update(dt)
 

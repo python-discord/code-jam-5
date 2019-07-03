@@ -1,12 +1,12 @@
 import itertools
 import typing
-import weakref
 
 import pyglet
 
 from .object import Object
 
 ObjectCallback = typing.Callable[[Object, Object], typing.Any]
+
 
 class Space:
     """Space that contains all objects"""
@@ -85,7 +85,13 @@ class Space:
         """Draws all the objects"""
         self.batch.draw()
 
-    def add_collision_handler(self, type1, type2, handler: ObjectCallback, detection: ObjectCallback):
+    def add_collision_handler(
+        self,
+        type1,
+        type2,
+        handler: ObjectCallback,
+        detection: ObjectCallback
+    ):
         """Adds a collision detection and handler callback to the space"""
         self.handlers[type1, type2] = (detection, handler)
 

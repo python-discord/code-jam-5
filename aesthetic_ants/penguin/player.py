@@ -1,6 +1,5 @@
 from math import degrees
 
-import pyglet
 import pyglet.window.key as key
 
 from .object import PhysicalObject

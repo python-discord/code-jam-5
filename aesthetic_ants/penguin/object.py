@@ -2,6 +2,7 @@ import weakref
 
 import pyglet
 
+
 class Object:
     """Base class for all objects"""
 
@@ -16,6 +17,7 @@ class Object:
 
     def update(self, dt):
         pass
+
 
 class PhysicalObject(Object, pyglet.sprite.Sprite):
     """Base class for all tangible objects (objects with sprites)"""
