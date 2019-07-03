@@ -5,7 +5,6 @@ from practical_porcupines.utils import (  # fmt: off
     ConfigBot,
     PredictionNotImplamentedError,
     DateFormatError,
-    string_to_datetime,
 )
 from practical_porcupines.discord_bot.utils import embed_generator
 from practical_porcupines.discord_bot.api import get_difference
