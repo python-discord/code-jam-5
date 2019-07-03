@@ -8,7 +8,7 @@ import pygame
 import thorpy
 
 
-class News:
+class Boxes:
     def __init__(self):
         self.font = pygame.font.Font(None, 25)
         self.blue = (135, 206, 250, 160)
@@ -16,30 +16,12 @@ class News:
         self.green = (144, 238, 144, 160)
         self.default_color = (230, 230, 230)
 
-    def news_1_box(self, window, screen_width, news):
+    def news_box(self, window, screen_width, news, color):
         text = thorpy.MultilineText(news, (screen_width / 2, 70))
         box = thorpy.Box(elements=[text])
         box.surface = window
         box.set_topleft((screen_width / 4, 0))
-        box.set_main_color(self.gray)
-        box.blit()
-        box.update()
-
-    def news_2_box(self, window, screen_width, news):
-        text = thorpy.MultilineText(news, (screen_width / 2, 70))
-        box = thorpy.Box(elements=[text])
-        box.surface = window
-        box.set_topleft((screen_width / 4, 0))
-        box.set_main_color(self.blue)
-        box.blit()
-        box.update()
-
-    def news_3_box(self, window, screen_width, news):
-        text = thorpy.MultilineText(news, (screen_width / 2, 70))
-        box = thorpy.Box(elements=[text])
-        box.surface = window
-        box.set_topleft((screen_width / 4, 0))
-        box.set_main_color(self.green)
+        box.set_main_color(color)
         box.blit()
         box.update()
 

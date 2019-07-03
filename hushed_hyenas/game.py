@@ -6,7 +6,7 @@ import json
 import math
 import os
 from game_menu import main_menu
-from gameobjects import News
+from gameobjects import Boxes
 from news_list import get_level_1_news, get_level_2_news, get_level_3_news
 from random import randint
 
@@ -22,7 +22,7 @@ news_2 = get_level_2_news()
 news_3 = get_level_3_news()
 
 # Instantiate the News class for better usage
-news = News()
+boxes = Boxes()
 
 
 class Game:
@@ -45,8 +45,11 @@ class Game:
         self.checker = 0
 
         self.news1 = news_1['news1']
+        self.news1_color = (225, 225, 225, 160)
         self.news2 = news_2['news1']
+        self.news2_color = (135, 206, 250, 160)
         self.news3 = news_3['news1']
+        self.news3_color = (144, 238, 144, 160)
 
         # Resize image to fit in window
         self.map = pygame.transform.scale(self.original_map, (self.width, self.height))
@@ -107,11 +110,11 @@ class Game:
             # conditional to test the news levels
             # This is to be removed once the player's decisions impact the news
             if self.checker == 1:
-                news.news_1_box(window, self.width, self.news1)
+                boxes.news_box(window, self.width, self.news1, self.news1_color)
             elif self.checker == 2:
-                news.news_2_box(window, self.width, self.news2)
+                boxes.news_box(window, self.width, self.news2, self.news2_color)
             else:
-                news.news_3_box(window, self.width, self.news3)
+                boxes.news_box(window, self.width, self.news3, self.news3_color)
 
             events = pygame.event.get()
             for event in events:
@@ -183,15 +186,14 @@ class Game:
 
         # conditional to test the news levels
         # This is to be removed once the player's decisions impact the new
-
         # Only render when scene has started
         if self.start_scene:
             if self.checker == 1:
-                news.news_1_box(window, self.width, self.news1)
+                boxes.news_box(window, self.width, self.news1, self.news1_color)
             elif self.checker == 2:
-                news.news_2_box(window, self.width, self.news2)
+                boxes.news_box(window, self.width, self.news2, self.news2_color)
             else:
-                news.news_3_box(window, self.width, self.news3)
+                boxes.news_box(window, self.width, self.news3, self.news3_color)
             self.start_scene = False
 
         events = pygame.event.get()
