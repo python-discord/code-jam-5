@@ -199,7 +199,7 @@ class Earth(object):
 
             tile_x = offset if y % 2 != 0 else 0
             for tile in tiles_row:
-                tile_image = tile.get_image()
+                tile_image = tile.image
                 # Horizontally centered in it's possition
                 draw_x = biome_x + tile_x - (tile_image.get_width() - TILE_WIDTH) // 2
                 # Vertical align to bottom - will expand upwards
