@@ -2,7 +2,8 @@
     <form action="/search" method="post">
         <div class="input-group mb-3">
             <!-- <label for="location">Location</label> -->
-            <input type="text" name="location" class="form-control" id="location" required>
+            <input type="text" name="name" class="form-control" id="name" required>
+            <input type="hidden" name="location" id="location">
             <div class="input-group-append">
                 <input value="Search" class="btn btn-outline-secondary" type="submit" id="button-addon2">
             </div>
@@ -10,6 +11,14 @@
     </form>
 </div>
 <script>
-    let input = document.getElementById('location');
-    autocomplete = new google.maps.places.Autocomplete(input);
+    let inputName = document.getElementById('name');
+    let inputLocation = document.getElementById('location');
+    autocomplete = new google.maps.places.Autocomplete(inputName);
+    autocomplete.setFields(['geometry']);
+
+    autocomplete.addListener('place_changed', () => {
+        let place = autocomplete.getPlace();
+        let location = JSON.stringify(place.geometry.location);
+        inputLocation.setAttribute('value', location);
+    });
 </script>

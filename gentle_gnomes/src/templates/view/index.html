@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block scripts %}
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ config['GOOGLE_KEY'] }}&libraries=places"></script>
+{% endblock %}
+
 {% block header %}
     <h1>{% block title %}Climate Change Search{% endblock %}</h1>
 {% endblock %}

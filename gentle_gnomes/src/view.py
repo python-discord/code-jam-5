@@ -1,4 +1,6 @@
-from flask import current_app as app, Blueprint, render_template, request, flash
+import json
+
+from flask import abort, current_app as app, Blueprint, render_template, request, flash
 
 from . import indicator
 
@@ -12,9 +14,16 @@ def index():
 
 @bp.route('/search', methods=['POST'])
 def search():
-    location = request.form['location']
+    name = request.form['name']
 
-    city = app.azavea.get_city_id(location)
+    try:
+        location = json.loads(request.form['location'])
+        latitude = location['lat']
+        longitude = location['lng']
+    except (json.JSONDecodeError, KeyError):
+        abort(400)
+
+    city = app.azavea.get_city_id(name)
     if city:
         top = indicator.get_top_indicators(app.azavea, city)
         results = repr(top)
