@@ -1,6 +1,6 @@
 import json
 
-from flask import abort, current_app as app, Blueprint, render_template, request, flash
+from flask import Blueprint, current_app as app, flash, render_template, request
 
 from . import indicator
 
@@ -25,11 +25,9 @@ def search():
     city = app.azavea.get_nearest_city(latitude, longitude)
     if city:
         with app.app_context():
-            top = indicator.get_top_indicators(city)
-
-        results = '\n'.join(f'{i.label}: {i.rate}' for i in top)
+            results = indicator.get_top_indicators(city)
     else:
         flash('Location not found.')
         results = None
 
-    return render_template('view/index.html', city=str(city), results=results)
+    return render_template('view/index.html', city=city, results=results)
