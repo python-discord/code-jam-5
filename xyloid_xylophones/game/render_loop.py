@@ -1,6 +1,7 @@
 import pyglet
 from pyglet import gl
 from pyglet.image.codecs.png import PNGImageDecoder
+import os
 
 from config import *
 from . import game_window
@@ -8,6 +9,8 @@ from . import zone_map
 from . import time_display
 from . import player
 from . import scene_list, sound_list, music_list, tick, elapsed_time
+from .input import handle_input
+from .textbox import TextBox
 
 def render_loop():
     global cut_scene

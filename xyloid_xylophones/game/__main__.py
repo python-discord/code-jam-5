@@ -1,7 +1,7 @@
 import pyglet
 from config import *
 from os import listdir
-from os.path import isfile, join, isdir, basename, splitext
+from os.path import isfile, join, isdir, basename, splitext, realpath, split
 from pathlib import Path
 from pyglet import gl
 from pyglet.image.codecs.png import PNGImageDecoder
@@ -11,6 +11,7 @@ from . import game_window, player, zone_map, Item, sound_list, music_list, scene
 from . import keys, time_display, elapsed_time, media
 from random import getrandbits
 from .input import mouse_input, handle_input
+
 
 @game_window.event
 def on_key_press(symbol, modifiers):
