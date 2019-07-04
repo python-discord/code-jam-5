@@ -49,6 +49,7 @@ PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/UI/buttons")
 PATH_SLIDER = PurePath(PATH_PROJECT).joinpath("assets/images/UI/slider")
 PATH_UI_BACKGROUNDS = PurePath(PATH_PROJECT).joinpath("assets/images/UI/backgrounds")
 PATH_UI_AUDIO = PurePath(PATH_PROJECT).joinpath("assets/audio/UI")
+PATH_MUSIC = PurePath(PATH_PROJECT).joinpath("assets/audio/music")
 PATH_OTHER = PurePath(PATH_PROJECT).joinpath("assets/images/other")
 
 
@@ -99,6 +100,9 @@ SOUNDS_BUTTONS_NAMES = [p.rstrip(".ogg").rstrip(".") for p in listdir(PATH_UI_AU
 SOUND_BUTTONS_PATHS = list(Path(PATH_UI_AUDIO).glob("*.ogg"))
 
 SOUNDS_BUTTONS = dict(zip(SOUNDS_BUTTONS_NAMES, SOUND_BUTTONS_PATHS))
+
+# Music
+BG_MUSIC = PurePath(PATH_MUSIC).joinpath("azis.mp3")
 
 
 class Color:
