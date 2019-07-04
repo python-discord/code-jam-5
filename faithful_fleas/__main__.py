@@ -25,7 +25,7 @@ bot = commands.Bot(
 cogs = [cog for cog in os.listdir("FAITHFUL_FLEAS/cogs") if cog.endswith(".py")]
 
 for cog in cogs:
-    bot.load_extension("FAITHFUL_FLEAS.cogs." + os.path.splitext(cog)[0])
+    bot.load_extension("faithful_fleas.cogs." + os.path.splitext(cog)[0])
 
 
 @bot.event
