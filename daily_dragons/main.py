@@ -1,11 +1,11 @@
-from game_modules.game import Game
+import pyglet
+from game_modules.start_menu import make_gui
 
+pyglet.resource.path = ['resources']
+pyglet.resource.reindex()
 
-def main():
-    player_name = input("What is your name? ")
-    game = Game(player_name)
-    game.main()
+start_window = pyglet.window.Window()
 
+gui = make_gui(start_window)
 
-if __name__ == "__main__":
-    main()
+pyglet.app.run()
