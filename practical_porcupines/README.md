@@ -44,7 +44,7 @@ Below is the outline of what the dependancies do:
 
 ## Quickstart (Please read this section to start up the application)
 
-1. Please edit `CLIENT_TOKEN` in the base folder, next to `Pipfile` to the bot's token
+1. Please edit `CLIENT_TOKEN` from the `.env` file inside of the base folder, next to `Pipfile` to the bot's token
 2. Install pipenv with `pip install pipenv` (NOTE: May be `pip3` on Linux)
 3. Enter pipenv's shell with `pipenv shell`
 4. When in the pipenv shell, run `python -m practical_porcupines flask-api` to start the api
