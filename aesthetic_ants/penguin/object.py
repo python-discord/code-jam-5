@@ -39,7 +39,7 @@ class PhysicalObject(Object, pyglet.sprite.Sprite):
         """
         return circles_collide(self.x,
                                self.y,
-                               self.width * self.collision_leniency,
+                               self.width * self.collision_leniency / 2,
                                other.x,
                                other.y,
-                               other.width * self.collision_leniency)
+                               other.width * self.collision_leniency / 2)
