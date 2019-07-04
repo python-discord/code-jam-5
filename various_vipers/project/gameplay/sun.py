@@ -50,7 +50,7 @@ class Sun:
                         task_count += 1
 
         game_vars.current_heat += self.heat_per_sec * task_count
-        game_vars.current_heat = min(game_vars.current_heat, MAX_HEAT)
+        game_vars.current_heat = min(max(game_vars.current_heat, 0), MAX_HEAT)
 
     def update_angle(self) -> None:
         """Update suns angle relative to itself. Called every game tick."""
