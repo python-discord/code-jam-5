@@ -1,4 +1,5 @@
 """All game contstants."""
+# flake8: noqa
 
 import logging
 from os import listdir
@@ -44,6 +45,8 @@ PATH_DATA = PurePath(PATH_PROJECT).joinpath("data")
 
 PATH_BACKGROUNDS = PurePath(PATH_PROJECT).joinpath("assets/images/background")
 PATH_TILES = PurePath(PATH_PROJECT).joinpath("assets/images/tiles")
+PATH_TASK = PurePath(PATH_PROJECT).joinpath("assets/images/task")
+PATH_MAZE_TASK = PurePath(PATH_TASK).joinpath("maze")
 
 PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/UI/buttons")
 PATH_SLIDER = PurePath(PATH_PROJECT).joinpath("assets/images/UI/slider")
@@ -80,6 +83,13 @@ INDICATOR_ARROW = PurePath(PATH_OTHER).joinpath("indicator.png")
 
 TILES_GRASS = list(Path(PATH_TILES).joinpath("grass").glob("*"))
 TILES_WATER = list(Path(PATH_TILES).joinpath("water").glob("*"))
+
+# Tasks
+
+MAZE_START = lambda biome: PurePath(PATH_MAZE_TASK).joinpath(f"{biome}/maze_start.png")
+MAZE_END = lambda biome: PurePath(PATH_MAZE_TASK).joinpath(f"{biome}/maze_end.png")
+MAZE_PATH = lambda biome: PurePath(PATH_MAZE_TASK).joinpath(f"{biome}/maze_path.png")
+MAZE_WALL = lambda biome: PurePath(PATH_MAZE_TASK).joinpath(f"{biome}/maze_wall.png")
 
 # UI assets
 

@@ -3,11 +3,21 @@ from dataclasses import dataclass
 from enum import Enum
 from random import choice
 from time import time
-from typing import List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import pygame as pg
+from pygame.image import load
+from pygame.transform import scale
 
-from project.constants import Color, HEIGHT, WIDTH
+from project.constants import (
+    Color,
+    HEIGHT,
+    MAZE_END,
+    MAZE_PATH,
+    MAZE_START,
+    MAZE_WALL,
+    WIDTH,
+)
 from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
 from .game_state import GameState
 
@@ -32,19 +42,11 @@ class Task(object):
 
     def __init__(self, screen: pg.Surface, biome: Optional[Biome] = None):
         self.screen = screen
+        self.biome = biome
 
         self.window_rect = pg.Rect(
             int(WIDTH * 0.1), int(HEIGHT * 0.1), int(WIDTH * 0.8), int(HEIGHT * 0.8)
         )
-
-        if isinstance(biome, BiomeCity):
-            logger.debug(f"Generating city themed task of type {type(self)}")
-        elif isinstance(biome, BiomeDesert):
-            logger.debug(f"Generating desert themed task of type {type(self)}")
-        elif isinstance(biome, BiomeForest):
-            logger.debug(f"Generating forest themed task of type {type(self)}")
-        elif isinstance(biome, BiomeMountains):
-            logger.debug(f"Generating mountains themed task of type {type(self)}")
 
     @property
     def _time_left(self) -> float:
@@ -79,6 +81,19 @@ class Task(object):
         )
         self.is_done = True
 
+    def _get_image_for_biome(self, images: Dict[str, str]) -> None:
+        """Gets an image that is of this biomes theme."""
+        if isinstance(self.biome, BiomeCity):
+            return images("city")
+        elif isinstance(self.biome, BiomeDesert):
+            return images("desert")
+        elif isinstance(self.biome, BiomeForest):
+            return images("forest")
+        elif isinstance(self.biome, BiomeMountains):
+            return images("mountains")
+        else:
+            raise NameError(f"Task image not found for biome: {type(self)}")
+
     def _draw_timer(self) -> None:
         font = pg.font.Font(None, 70)
         time_left = self._time_left
@@ -111,12 +126,35 @@ class TaskCursorMaze(Task):
     # If the player has started the maze - moved mouse over start
     started: bool = False
 
+    wall_image: pg.Surface
+    path_image: pg.Surface
+    start_image: pg.Surface
+    end_image: pg.Surface
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.cell_size = (
             self.window_rect.width // self.maze_width,
             self.window_rect.height // self.maze_height,
+        )
+
+        # Prepare images for the maze
+        self.start_image = scale(
+            load(str(self._get_image_for_biome(MAZE_START))).convert_alpha(),
+            self.cell_size,
+        )
+        self.end_image = scale(
+            load(str(self._get_image_for_biome(MAZE_END))).convert_alpha(),
+            self.cell_size,
+        )
+        self.path_image = scale(
+            load(str(self._get_image_for_biome(MAZE_PATH))).convert_alpha(),
+            self.cell_size,
+        )
+        self.wall_image = scale(
+            load(str(self._get_image_for_biome(MAZE_WALL))).convert_alpha(),
+            self.cell_size,
         )
 
     def start(self) -> None:
@@ -150,7 +188,7 @@ class TaskCursorMaze(Task):
         for cell in self.maze:
             # Only draw the starting cell if player has not started the maze
             if self.started or cell.cell_type == self.CellType.START:
-                self.screen.fill(cell.color, cell.rect)
+                self.screen.blit(cell.image, cell.rect.topleft)
 
     def __generate_maze(self) -> None:
         """
@@ -231,14 +269,14 @@ class TaskCursorMaze(Task):
             x = self.window_rect.x
             for cell in row:
                 rect = pg.Rect(x, y, *self.cell_size)
-                color = Color.white
+                image = self.path_image
                 if cell == self.CellType.WALL:
-                    color = Color.black
+                    image = self.wall_image
                 elif cell == self.CellType.START:
-                    color = Color.green
+                    image = self.start_image
                 elif cell == self.CellType.END:
-                    color = Color.red
-                self.maze.append(self.Cell(rect, color, cell))
+                    image = self.end_image
+                self.maze.append(self.Cell(rect, image, cell))
 
                 x += self.cell_size[0]
             y += self.cell_size[1]
@@ -248,7 +286,7 @@ class TaskCursorMaze(Task):
         """Maze cell object class."""
 
         rect: pg.Rect
-        color: Color
+        image: pg.Surface
         cell_type: "CellType"  # noqa
 
     class CellType(Enum):
