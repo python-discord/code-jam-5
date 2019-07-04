@@ -11,7 +11,7 @@ from media import sounds, images
 from machines import machines
 import time
 import events
-from util import normalized_pos_pixels
+from util import in_pixels
 import json
 
 
@@ -44,35 +44,31 @@ def score_to_image(score: int):
 
 
 class TextButton(pygame.sprite.Sprite):
-    def __init__(self, x_norm, y_norm, text, on_click,
+    def __init__(self, coords, text, on_click,
                  font=None, color=Color('#222222')):
         pygame.sprite.Sprite.__init__(self)
         self.font = font or pygame.font.Font(None, 20)
         self.text = text
-        self.x_norm = x_norm
-        self.y_norm = y_norm
+        self.coords = coords
         self.on_click = on_click
         self.color = color
         self.image = self.font.render(self.text, 0, self.color)
-        self.rect = self.image.get_rect().move(
-            *normalized_pos_pixels((self.x_norm, self.y_norm)))
+        self.rect = self.image.get_rect().move(*in_pixels(self.coords))
 
 
 class ValueLabel(pygame.sprite.Sprite):
-    def __init__(self, x_norm, y_norm, label, units):
+    def __init__(self, coords, label, units):
         pygame.sprite.Sprite.__init__(self)
         self.label = label
         self.units = units
-        self.x_norm = x_norm
-        self.y_norm = y_norm
+        self.coords = coords
         self.font = pygame.font.Font(None, 20)
         self.font.set_italic(1)
         self.color = Color('#222222')
         self._value = 0
         msg = f"{self.label}: {'9'*10}"  # init rect to a wide size
         self.image = self.font.render(msg, 0, self.color)
-        self.rect = self.image.get_rect().move(
-            *normalized_pos_pixels((self.x_norm, self.y_norm)))
+        self.rect = self.image.get_rect().move(*in_pixels(self.coords))
         self.update()
 
     def update(self):
@@ -90,34 +86,32 @@ class ValueLabel(pygame.sprite.Sprite):
 
 
 class StaticImage(pygame.sprite.Sprite):
-    def __init__(self, x_norm, y_norm, image, centered=True):
+    def __init__(self, coords, image, centered=True):
         pygame.sprite.Sprite.__init__(self)
-        self.x_norm = x_norm
-        self.y_norm = y_norm
+        self.coords = coords
         self.image = image
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
-        self.rect.move_ip(*normalized_pos_pixels((x_norm, y_norm)))
+        self.rect.move_ip(*in_pixels(coords))
         if centered:
             self.rect.move_ip(-self.rect.width / 2, -self.rect.height / 2)
 
 
 class UpgradeButton(pygame.sprite.Sprite):
-    def __init__(self, parent, x_norm, y_norm, base_cost, cost_scaling,
+    def __init__(self, parent, coords, base_cost, cost_scaling,
                  upgrade_type, image, centered=False):
         pygame.sprite.Sprite.__init__(self)
-        self.x_norm = x_norm
-        self.y_norm = y_norm
+        self.coords = coords
         self.image = image
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
-        self.rect.move_ip(*normalized_pos_pixels((x_norm, y_norm)))
+        self.rect.move_ip(*in_pixels(coords))
         if centered:
             self.rect.move_ip(-self.rect.width / 2, -self.rect.height / 2)
 
-        self.upgrade_level = 0
+        self.level = 0
         self.base_cost = base_cost
         self.cost = self.base_cost
         self.cost_scaling = cost_scaling
@@ -125,53 +119,51 @@ class UpgradeButton(pygame.sprite.Sprite):
 
         self.parent = parent
 
-        self.cost_display = ValueLabel(self.x_norm, self.y_norm - .03,
+        self.cost_display = ValueLabel((self.coords[0], self.coords[1]-.03),
                                        "Cost", "Joules")
         self.cost_display.value = self.cost
 
-        self.level_display = ValueLabel(self.x_norm,
-                                        self.y_norm - .015,
+        self.level_display = ValueLabel((self.coords[0], self.coords[1]-.015),
                                         "Level", "")
 
     def set_level_manual(self, level):
-        self.upgrade_level = level
-        self.cost = self.base_cost*(self.cost_scaling**self.upgrade_level)
+        self.level = level
+        self.cost = self.base_cost*(self.cost_scaling**self.level)
         self.apply_upgrades()
         self.cost_display.value = self.cost
-        self.level_display.value = self.upgrade_level
+        self.level_display.value = self.level
 
     def clicked(self):
         if self.parent.score >= self.cost:
-            self.upgrade_level += 1
+            self.level += 1
             self.parent.score -= self.cost
             self.cost *= self.cost_scaling
             self.apply_upgrades()
             self.cost_display.value = self.cost
-            self.level_display.value = self.upgrade_level
+            self.level_display.value = self.level
             self.parent.events.send(f"buy_upgrade_{self.upgrade_type}")
 
     def apply_upgrades(self):
-        if not self.upgrade_level:
+        if not self.level:
             return
         if self.upgrade_type == "click_value":
-            self.parent.click_value = 2**self.upgrade_level
+            self.parent.click_value = 2**self.level
         elif self.upgrade_type == "crank_speed":
             self.parent.crank.max_rotation_speed = (
                 self.parent.crank.base_max_rotation_speed
-                * (self.upgrade_level + 1))
+                * (self.level + 1))
         elif self.upgrade_type == "crank_inertia":
             self.parent.crank.rotation_speed_decay = (
                 self.parent.crank.rotation_speed_base_decay
-                * (.1 + (.9 / self.upgrade_level)))
+                * (.1 + (.9 / self.level)))
 
 
 class Crank(pygame.sprite.Sprite):
     """Hand Crank that rotates when clicked."""
-    def __init__(self, parent, x_norm, y_norm, crank_images, click_sound):
+    def __init__(self, parent, coords, crank_images, click_sound):
         pygame.sprite.Sprite.__init__(self)
         self.parent = parent
-        self.x_norm = x_norm
-        self.y_norm = y_norm
+        self.coords = coords
         self.image = crank_images[0]
         self.crank_images = crank_images
         self.rect = self.image.get_rect()
@@ -180,7 +172,7 @@ class Crank(pygame.sprite.Sprite):
         self.area = screen.get_rect()
         self.is_spinning = False
         self.spinning = 0
-        self.rect.move_ip(*normalized_pos_pixels((x_norm, y_norm)))
+        self.rect.move_ip(*in_pixels(coords))
         # The crank should center itself around its assigned screen location
         self.rect.move_ip(-self.rect.width / 2, -self.rect.height / 2)
         self.rotation_speed = 0
@@ -268,30 +260,30 @@ class ClimateClicker:
         self.screen.blit(self.background, (0, 0))
         pygame.display.flip()
 
-        self.crank = Crank(self, 0.5, 0.5,
+        self.crank = Crank(self, (0.5, 0.5),
                            [images['crank1'],
                             images['crank2'],
                             images['crank3']
                             ],
                            sounds['snap'])
-        self.crank_overlay = StaticImage(0.5, 0.5, images['crank'])
+        self.crank_overlay = StaticImage((0.5, 0.5), images['crank'])
         self.upgrade_buttons = [
-            UpgradeButton(self, 0.01, 0.05, 10, 1.5, "crank_speed",
+            UpgradeButton(self, (0.01, 0.05), 10, 1.5, "crank_speed",
                           images['upgrade_buttons1']),
-            UpgradeButton(self, 0.01, 0.15, 100, 10, "click_value",
+            UpgradeButton(self, (0.01, 0.15), 100, 10, "click_value",
                           images['upgrade_buttons2']),
-            UpgradeButton(self, 0.01, 0.25, 100, 2, "crank_inertia",
+            UpgradeButton(self, (0.01, 0.25), 100, 2, "crank_inertia",
                           images['upgrade_buttons3'])
         ]
 
-        self.save_button = TextButton(0.4, 0.1, "Save", self.save)
-        self.load_button = TextButton(0.6, 0.1, "Load", self.load)
+        self.save_button = TextButton((0.4, 0.1), "Save", self.save)
+        self.load_button = TextButton((0.6, 0.1), "Load", self.load)
         self.text_buttons = (self.save_button, self.load_button)
 
         self.score_sprite = ValueLabel(
-            0.02, 0.9, "Score", "Joules")
+            (0.02, 0.9), "Score", "Joules")
         self.speed_sprite = ValueLabel(
-            0.02, 0.85, "Speed", "Rotations per Second")
+            (0.02, 0.85), "Speed", "Rotations per Second")
 
         gui_plain = pygame.sprite.RenderPlain(
             self.score_sprite,
@@ -369,7 +361,7 @@ class ClimateClicker:
             "machine_count": {machine_name: machine.count
                               for machine_name, machine in machines.items()},
             "upgrade_level": {
-                upgrade.upgrade_type: upgrade.upgrade_level
+                upgrade.upgrade_type: upgrade.level
                 for upgrade in self.upgrade_buttons
             }
         }

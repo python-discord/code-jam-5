@@ -2,7 +2,7 @@ import pygame
 import numpy as np
 
 
-def normalized_pos_pixels(normalized_position):
+def in_pixels(normalized_position):
     if any(not 0 <= pos <= 1 for pos in normalized_position):
         raise ValueError("Normalized position must be a value between 0 and 1")
     return np.multiply(

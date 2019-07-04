@@ -1,7 +1,7 @@
 import media
 import pygame
 from pygame.locals import Color
-from util import normalized_pos_pixels
+from util import in_pixels
 
 
 class Machine(pygame.sprite.Sprite):
@@ -10,7 +10,7 @@ class Machine(pygame.sprite.Sprite):
                  price: int,
                  energy_per_second: int,
                  image,
-                 location: tuple,
+                 coords: tuple,
                  ):
         pygame.sprite.Sprite.__init__(self)
         self.font = pygame.font.Font(None, 20)
@@ -20,12 +20,12 @@ class Machine(pygame.sprite.Sprite):
         self.energy_per_second = energy_per_second
         self._count = 0
         self.image = image
-        abs_location = normalized_pos_pixels(location)
-        self.rect = self.image.get_rect(center=abs_location)
+        abs_coords = in_pixels(coords)
+        self.rect = self.image.get_rect(center=abs_coords)
         self.count_sprite = pygame.sprite.Sprite()
         self.count_sprite.image = self.font.render("9", 0, self.text_color )
         self.count_sprite.rect = self.count_sprite.image.get_rect(
-            center=abs_location)
+            center=abs_coords)
         self.count = 0
 
     @property
