@@ -1,21 +1,26 @@
-import numpy as np
 import matplotlib.pyplot as plt
-from csvReader import getData
-import random
-import os
+from csvReader import merge_set, monthly_data
+from Stations import Stations
 
 # This is shitty Proof of concept code, I'll update it later
-
 # selects a random file from the gsoy-latest directory
-this_dir = os.path.dirname(os.path.realpath(__file__))
-random_file = random.choice(open('Temp_Data.txt', 'r').readlines())[:-1]
-path = this_dir + '/gsoy-latest/' + random_file
-print(path)
-# converts the file to a dict of {Year: Temp}
-data = getData(path)
-print(data)
-data = list(data.values())
 
+fileList = Stations().getStations()
+print(fileList)
+
+data = monthly_data('gsom-latest/' + fileList[0] + '.csv')
+
+for file in fileList:
+    file += '.csv'
+    data2 = monthly_data('gsom-latest/' + file)
+    data = merge_set(data, data2)
+
+
+plt.axis('off')
+plt.plot(data.keys(), data.values(), '-')
+plt.show()
+
+"""
 # converts data to a stack so it can be used in plt.imshow
 img_data = np.stack((data, data))
 plt.figure(figsize=(6, 18))
@@ -28,3 +33,4 @@ plt.axis('off')
 plt.show()
 # saves cropped Image
 plt.savefig('figure.png', bbox_inches='tight', dpi=400)
+"""
