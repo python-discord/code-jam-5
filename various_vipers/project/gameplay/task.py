@@ -1,11 +1,13 @@
 import logging
-from typing import Optional
+from time import time
+from dataclasses import dataclass
+from enum import Enum
+from random import choice
+from typing import List, Optional, Tuple
 
 import pygame as pg
-from pygame.image import load
 
-from project.UI.element.button import Button
-from project.constants import BUTTONS, Color, HEIGHT, WIDTH
+from project.constants import Color, HEIGHT, WIDTH
 from . import set_open_task
 from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
 
@@ -18,25 +20,16 @@ class Task(object):
 
     # Marked when task is completed or closed, so it can be deleted
     is_done: bool = False
-
-    hover_close: bool = False
+    # Time when task started
+    time_start: Optional[time] = None
+    # Time limit in seconds until the task closes
+    time_limit: float = 10
 
     def __init__(self, screen: pg.Surface, biome: Optional[Biome] = None):
         self.screen = screen
 
-        self.fill_rect = pg.Rect(
+        self.window_rect = pg.Rect(
             int(WIDTH * 0.1), int(HEIGHT * 0.1), int(WIDTH * 0.8), int(HEIGHT * 0.8)
-        )
-
-        button_size = 60
-        self.close_btn = Button(
-            self.screen,
-            x=self.fill_rect.x + self.fill_rect.width - button_size - 5,
-            y=self.fill_rect.y + 5,
-            width=button_size,
-            height=button_size,
-            image=load(str(BUTTONS["close-btn"])).convert_alpha(),
-            image_hover=load(str(BUTTONS["close-btn-hover"])).convert_alpha(),
         )
 
         if isinstance(biome, BiomeCity):
@@ -48,25 +41,43 @@ class Task(object):
         elif isinstance(biome, BiomeMountains):
             logger.debug(f"Generating mountains themed task of type {type(self)}")
 
-    def start(self) -> None:
+    @property
+    def _time_left(self) -> float:
+        """Returns time left on this task."""
+        if self.time_start:
+            return max(self.time_limit - (time() - self.time_start), 0)
+        return self.time_limit
+
+    def start(self, start_timer: bool = True) -> None:
         """Start playing the task."""
         set_open_task(self)
-        logger.debug("Starting task.")
+        if start_timer:
+            self.time_start = time()
 
-    def update(self, event: pg.event) -> None:
+    def update(self) -> None:
         """Update is called every game tick."""
-        if self.close_btn.rect.collidepoint(pg.mouse.get_pos()):
-            self.hover_close = True
-            if event.type == pg.MOUSEBUTTONDOWN:
-                set_open_task(None)
-                self.is_done = True
-        else:
-            self.hover_close = False
+        if self.time_start and self._time_left <= 0:
+            self._complete(False)
 
     def draw(self) -> None:
         """Draw is called every game tick."""
-        self.screen.fill(Color.black, self.fill_rect)
-        self.close_btn.draw(hover=self.hover_close)
+        self.screen.fill(Color.black, self.window_rect)
+        if self.time_start:
+            self._draw_timer()
+
+    def _complete(self, successful: bool) -> None:
+        """Called when task was completed."""
+        logger.debug(successful)
+        set_open_task(None)
+        self.is_done = True
+
+    def _draw_timer(self) -> None:
+        font = pg.font.Font(None, 70)
+        time_left = self._time_left
+        timer = font.render(f"{time_left:.2f}s", True, pg.Color("red"))
+        timer_x = self.window_rect.x + self.window_rect.width - timer.get_width()
+        timer_y = self.window_rect.y - 45
+        self.screen.blit(timer, (timer_x, timer_y))
 
 
 class TaskCursorMaze(Task):
@@ -78,7 +89,164 @@ class TaskCursorMaze(Task):
     Task is themed around the biome this task spawned in.
     """
 
-    pass
+    maze: List["Cell"]
+
+    maze_start: Tuple[int, int] = (5, 7)  # Y, X
+    # width and height include the border of the maze
+    maze_width: int = 15
+    maze_height: int = 11
+
+    # If the player has started the maze - moved mouse over start
+    started: bool = False
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.cell_size = (
+            self.window_rect.width // self.maze_width,
+            self.window_rect.height // self.maze_height,
+        )
+
+    def start(self) -> None:
+        """Generate the maze when user clicks on task."""
+        super().start()
+        self.__generate_maze()
+
+    def update(self, event: pg.event) -> None:
+        """Check mouse collisions if player is in maze."""
+        super().update()
+
+        for cell in self.maze:
+            mouse_hover = cell.rect.collidepoint(pg.mouse.get_pos())
+            if (
+                not self.started
+                and cell.cell_type == self.CellType.START
+                and mouse_hover
+            ):
+                self.started = True
+            elif self.started and mouse_hover:
+                if cell.cell_type == self.CellType.END:
+                    self._complete(True)
+                elif cell.cell_type == self.CellType.WALL:
+                    self._complete(False)
+
+    def draw(self) -> None:
+        """Draw the maze."""
+        super().draw()
+
+        # Draw the maze
+        for cell in self.maze:
+            # Only draw the starting cell if player has not started the maze
+            if self.started or cell.cell_type == self.CellType.START:
+                self.screen.fill(cell.color, cell.rect)
+
+    def __generate_maze(self) -> None:
+        """
+        Generates a maze for this task.
+
+        Depth-first search algorithm is used.
+        Algorithm recursively navigates through nodes
+          and marks then as visited or wall depending if it has visited neighbors.
+        We are keeping track of longest path from start that will be set as maze solution.
+        """
+        # farthest point from starting point
+        self.maze = []
+        farthest = (0, None)
+        row = (
+            [self.CellType.WALL]
+            + ([self.CellType.UNVISITED] * (self.maze_width - 2))
+            + [self.CellType.WALL]
+        )
+        cells = (
+            [[self.CellType.WALL] * (self.maze_width)]
+            + [row[:] for _ in range(self.maze_height - 2)]
+            + [[self.CellType.WALL] * (self.maze_width)]
+        )
+
+        def deeper(prev_y: int, prev_x: int, new_y: int, new_x: int, n: int = 0):
+            """
+            Recursively navigate through maze map.
+
+            prev_y, prev_x -> where we came from
+            new_y, new_x -> position to investigate now
+            n -> current path length
+            """
+            if cells[new_y][new_x] != self.CellType.UNVISITED:
+                return
+
+            # Create a list of possible nodes to visit
+            directions = []
+            if new_x > 0 and (new_y, new_x - 1) != (prev_y, prev_x):
+                directions.append((new_y, new_x - 1))
+            if new_x < self.maze_width - 1 and (new_y, new_x + 1) != (prev_y, prev_x):
+                directions.append((new_y, new_x + 1))
+            if new_y > 0 and (new_y - 1, new_x) != (prev_y, prev_x):
+                directions.append((new_y - 1, new_x))
+            if new_y < self.maze_height - 1 and (new_y + 1, new_x) != (prev_y, prev_x):
+                directions.append((new_y + 1, new_x))
+
+            # Check if any possible visit node was visited.
+            # We don't want to have 2 visited nodes together, unless it is where we came from.
+            for direction in directions:
+                if cells[direction[0]][direction[1]] == self.CellType.VISITED:
+                    cells[new_y][new_x] = self.CellType.WALL
+                    return
+
+            cells[new_y][new_x] = self.CellType.VISITED
+
+            # Increment current path length; check if it is the longest path.
+            n += 1
+            nonlocal farthest
+            if n > farthest[0]:
+                farthest = (n, (new_y, new_x))
+
+            # Try all the possible nodes
+            while len(directions) > 0:
+                direction = choice(directions)
+                if direction:
+                    deeper(new_y, new_x, *direction, n)
+                    directions.remove(direction)
+
+        # Start generating the maze
+        deeper(None, None, *self.maze_start)
+        # Mark starting and ending nodes
+        cells[self.maze_start[0]][self.maze_start[1]] = self.CellType.START
+        cells[farthest[1][0]][farthest[1][1]] = self.CellType.END
+
+        # Convert 2D array of CellType to 1D array of Cell
+        y = self.window_rect.y
+        for row in cells:
+            x = self.window_rect.x
+            for cell in row:
+                rect = pg.Rect(x, y, *self.cell_size)
+                color = Color.white
+                if cell == self.CellType.WALL:
+                    color = Color.black
+                elif cell == self.CellType.START:
+                    color = Color.green
+                elif cell == self.CellType.END:
+                    color = Color.red
+                self.maze.append(self.Cell(rect, color, cell))
+
+                x += self.cell_size[0]
+            y += self.cell_size[1]
+
+    @dataclass
+    class Cell:
+        """Maze cell object class."""
+
+        rect: pg.Rect
+        color: Color
+        cell_type: "CellType"  # noqa
+
+    class CellType(Enum):
+        """Type of cell in maze map."""
+
+        UNVISITED = 1
+        VISITED = 2
+        WALL = 3
+        START = 4
+        END = 5
 
 
 class TaskRockPaperScissors(Task):
@@ -89,7 +257,14 @@ class TaskRockPaperScissors(Task):
     Task is themed around the biome this task spawned in.
     """
 
-    pass
+    def start(self) -> None:
+        super().start()
+
+    def update(self, event: pg.event) -> None:
+        super().update()
+
+    def draw(self) -> None:
+        super().draw()
 
 
 class TaskTicTacToe(Task):
@@ -99,4 +274,11 @@ class TaskTicTacToe(Task):
     Task is themed around the biome this task spawned in.
     """
 
-    pass
+    def start(self) -> None:
+        super().start()
+
+    def update(self, event: pg.event) -> None:
+        super().update()
+
+    def draw(self) -> None:
+        super().draw()

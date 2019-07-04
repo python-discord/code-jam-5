@@ -86,7 +86,7 @@ class Game:
 
         pg.display.flip()
 
-    def _draw_fps(self):
+    def _draw_fps(self) -> None:
         font = pg.font.Font(None, 50)
         fps_indicator = font.render(
             str(int(self.clock.get_fps())), True, pg.Color("red")
