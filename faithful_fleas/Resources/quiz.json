@@ -1,0 +1,137 @@
+{
+  "quiz_data":[
+    {
+      "id": 1,
+      "question": "How much has the average global temperature risen by since 1880 (in Fahrenheit)?",
+      "options": ["0.5 degrees", "1.69 degrees", "5 degrees"],
+      "type": "mcq",
+      "answer": 2,
+      "fact": "The average global temperature has risen by 1.69 degrees F (0.94 degrees C) since the twentieth century with more significant warming toward the poles than in the equatorial region."
+    },
+    {
+      "id": 2,
+      "question": "Which is the first specie to go extinct due to human-driven climate change?",
+      "options": ["Golden Toad", "Bramble cay melomys"],
+      "type": "mcq",
+      "answer": 2,
+      "fact": "A small rodent that lived only on a single island off Australia is likely the world's first mammal to become a casualty of climate change, scientists reported in June 2016. The government of Australia has now officially recognized the Bramble Cay melomys (Melomys rubicola) as extinct."
+    },
+    {
+      "id": 3,
+      "question": "Wasting less food is a way to reduce greenhouse gas emissions.",
+      "options": ["True", "False"],
+      "type": "True_or_False",
+      "answer": 1,
+      "fact": "More than a third of food produced globally never makes it to the table. Some of this wasted food spoils  in transit, while consumers throw some of this food out. During the production, harvesting, transporting, and packaging of the wasted food, more than 3.3 billion metric tons of carbon dioxide is emitted."
+    },
+    {
+      "id": 4,
+      "question": "Which of the following is a greenhouse gas?",
+      "options": ["Carbon Dioxide", "Methane", "Water vapour", "All of the above"],
+      "type": "mcq",
+      "answer": 4,
+      "fact": "Greenhouse gases may be a result of natural occurrence or human activity. These gases include water vapor, carbon dioxide, methane, nitrous oxide, and ozone. Fluorinated gases are also considered to be greenhouse gases."
+    },
+    {
+      "id":5,
+      "question":"What is the Greenhouse Effect?",
+      "options":[
+        "The name of climate change legislation that passed by congress",
+        "When you paint your house green to become an environmentalist",
+        "When the gasses in our atmosphere trap heat and block it from escaping our planet",
+        "When you build a greenhouse"
+      ],
+      "type":"mcq",
+      "answer":3,
+      "fact":"The Earth receives solar radiation from the sun. Passing through the atmosphere, some radiation is absorbed by the Earth, while some is reflected back to space. When the exchange of incoming and outgoing radiation occurs, some of the radiation becomes trapped by gases in the atmosphere. This creates a “greenhouse” effect and warms the planet."
+    },
+    {
+      "id":6,
+      "question":"The overwhelming majority of scientists agree that climate change is real and caused by humans. ",
+      "options":["True", "False"],
+      "type":"True_or_False",
+      "answer":1,
+      "fact":"Studies show that 97 percent (or more) of climate scientists who are actively publishing agree that climate change is likely due to human activity.  Nearly 200 scientific organizations across the globe have issued statements that publicly endorse this view."
+    },
+    {
+      "id":7,
+      "question":"Which of these countries emits the most carbon dioxide?",
+      "options":["China", "USA", "UK", "Russia"],
+      "type":"mcq",
+      "answer":1,
+      "fact":"According to the EPA, China is currently the top emitter of carbon dioxide, accounting for 30% of global carbon emissions. The United States ranks as the second top emitter at 15%."
+    },
+    {
+      "id":8,
+      "question":"What percentage of the global greenhouse gas emissions does the transportation sector emit?",
+      "options":["1%", "14%", "33%", "70%"],
+      "type":"mcq",
+      "answer":2,
+      "fact":"The transportation sector emits 14% of global greenhouse gas emissions. Most of this involves fossil fuels burned for road, rail, air, and marine transportation, since petroleum-based fuels (i.e., gasoline and diesel) account for almost all of the world’s transportation energy."
+    },
+    {
+      "id":9,
+      "question":"Globally, which of the following economic sectors emits the largest percentage of greenhouse gas emissions?",
+      "options":["Transportation", "Buildings", "Industry", "Electricity and heat production "],
+      "type":"mcq",
+      "answer":4,
+      "fact":"The electricity and heat production sector emits the largest percentage of global greenhouse gas emissions at 25%. Agriculture, forestry, and other land use sector is a close second at 24%."
+    },
+    {
+      "id":10,
+      "question":"No place on Earth is colder today than it was 100 years ago.",
+      "options":["True", "False"],
+      "type":"True_or_False",
+      "answer":2,
+      "fact":"Although most locations on the planet have recorded increased temperatures since 1900, changes in global ocean and atmospheric circulation patterns have created small-scale temperature decreases in a few local regions."
+    },
+    {
+      "id":11,
+      "question":"As average global temperature rises, Average precipitation _________",
+      "options":["increases", "decreases", "remains unchanged"],
+      "type":"mcq",
+      "answer":1,
+      "fact":"Higher temperatures give rise to a more active water cycle, which means faster and greater evaporation and precipitation and more extreme weather events."
+    },
+    {
+      "id":12,
+      "question":"Compared to other greenhouse gases, carbon dioxide is the most effective at trapping heat near the Earth's surface.",
+      "options":["True", "False"],
+      "type":"True_or_False",
+      "answer":2,
+      "fact":"Water vapor actually has more heat-trapping power than carbon dioxide. It is also more abundant. But carbon dioxide and water vapor interact in crucial ways: More carbon dioxide means the atmosphere gets warmer, which then creates more water vapor, which traps heat and warms the atmosphere even more."
+    },
+    {
+      "id":13,
+      "question":"Earth has been warmer in the past than it is today.",
+      "options":["True", "False"],
+      "type":"True_or_False",
+      "answer":1,
+      "fact":"Global temperatures during some of the past interglacial periods have exceeded the average temperatures we observe today, although you would have to go back more than three million years to find a period that was clearly warmer than today. Temperatures in the most recent decade have now exceeded the warmth of the previous Eemian interglacial."
+    },
+    {
+      "id":14,
+      "question":"Compared to 1750, how much more carbon dioxide is in our air today?",
+      "options":["40%", "No Change", "150%", "20%"],
+      "type":"mcq",
+      "answer":1,
+      "fact":"Not in the history of mankind has carbon dioxide levels reached such high levels. Research from ancient ice cores show that the last time carbon dioxide levels were this high, millions of years ago, our species had not yet even evolved."
+    },
+    {
+      "id":15,
+      "question":"The origin of The ICEMAN is:",
+      "options":["Iceland", "Ice-cream", "Ice-cube", "Iced-tea", "None of these."],
+      "type":"**crazy**",
+      "answer":0,
+      "fact":"👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻"
+    },
+    {
+      "id":16,
+      "question":"The season in which lemon's beared shines:",
+      "options":["Summer", "Winter", "I dont know", "All seasons", "Never"],
+      "type":"**crazy**",
+      "answer":0,
+      "fact":"**Come on guys, SPAM the answer in the TWITCH chat!**"
+    }
+  ]
+}
