@@ -1,4 +1,5 @@
 """All game contstants."""
+# flake8: noqa
 
 import logging
 from os import listdir
@@ -9,16 +10,16 @@ LOG_LEVEL = logging.DEBUG
 
 FPS = 60
 
-WIDTH = 1285
-HEIGHT = 825
+WIDTH = 960
+HEIGHT = 720
 
 
 # Biomes are transformed to squares
 # Width of a single biome (biomes can be chained together)
-BIOME_WIDTH: int = 600
+BIOME_WIDTH: int = 480
 # Tile height is scaled based on how much the width scaled
 # Width of a single tile (BIOME_WIDTH should be divisable by TILE_WIDTH)
-TILE_WIDTH: int = 75
+TILE_WIDTH: int = 60
 # Number of tile columns per biome
 TILE_COLS: int = int(BIOME_WIDTH // TILE_WIDTH)
 # Number of tile rows per biome
@@ -44,6 +45,8 @@ PATH_DATA = PurePath(PATH_PROJECT).joinpath("data")
 
 PATH_BACKGROUNDS = PurePath(PATH_PROJECT).joinpath("assets/images/background")
 PATH_TILES = PurePath(PATH_PROJECT).joinpath("assets/images/tiles")
+PATH_TASK = PurePath(PATH_PROJECT).joinpath("assets/images/task")
+PATH_MAZE_TASK = PurePath(PATH_TASK).joinpath("maze")
 
 PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/UI/buttons")
 PATH_SLIDER = PurePath(PATH_PROJECT).joinpath("assets/images/UI/slider")
@@ -80,6 +83,13 @@ INDICATOR_ARROW = PurePath(PATH_OTHER).joinpath("indicator.png")
 
 TILES_GRASS = list(Path(PATH_TILES).joinpath("grass").glob("*"))
 TILES_WATER = list(Path(PATH_TILES).joinpath("water").glob("*"))
+
+# Tasks
+
+MAZE_START = lambda biome: PurePath(PATH_MAZE_TASK).joinpath(f"{biome}/maze_start.png")
+MAZE_END = lambda biome: PurePath(PATH_MAZE_TASK).joinpath(f"{biome}/maze_end.png")
+MAZE_PATH = lambda biome: PurePath(PATH_MAZE_TASK).joinpath(f"{biome}/maze_path.png")
+MAZE_WALL = lambda biome: PurePath(PATH_MAZE_TASK).joinpath(f"{biome}/maze_wall.png")
 
 # UI assets
 

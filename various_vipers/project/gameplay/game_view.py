@@ -4,8 +4,8 @@ from typing import List
 import pygame as pg
 
 from project.constants import MAX_HEAT
-from .period import PeriodFuture, PeriodMedieval, PeriodModern
 from .game_state import GameState
+from .period import PeriodFuture, PeriodMedieval, PeriodModern
 
 
 logger = logging.getLogger(__name__)
