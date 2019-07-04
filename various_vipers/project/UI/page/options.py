@@ -14,7 +14,7 @@ from project.UI.element.slider import Slider
 from project.UI.element.vol_indicator import VolumeIndicator
 from project.UI.fx.sound import Sound
 from project.constants import BUTTONS as BTN, ButtonProperties, Color, WindowState
-from project.tools.loader import Load, Save
+from project.utils.loader import Load, Save
 
 logger = logging.getLogger(__name__)
 

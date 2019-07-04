@@ -109,16 +109,12 @@ class Color:
     """Represent RGB color values."""
 
     black = (0, 0, 0)
-
     white = (255, 255, 255)
-
     red = (255, 0, 0)
-
     aqua = (0, 255, 255)
-
     sky = (207, 239, 252)
-
     orange = (225, 92, 30)
+    green = (0, 255, 0)
 
 
 class WindowState:

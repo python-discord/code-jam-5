@@ -8,7 +8,7 @@ from project.UI.page.main_menu import MainMenu
 from project.UI.page.options import Options
 from project.constants import Color, FPS, HEIGHT, WIDTH, WindowState
 from project.gameplay.game_view import GameView
-from project.tools.loader import Load
+from project.utils.loader import Load
 
 
 logger = logging.getLogger(__name__)
@@ -83,7 +83,7 @@ class Game:
 
         pg.display.flip()
 
-    def _draw_fps(self):
+    def _draw_fps(self) -> None:
         font = pg.font.Font(None, 50)
         fps_indicator = font.render(
             str(int(self.clock.get_fps())), True, pg.Color("red")
