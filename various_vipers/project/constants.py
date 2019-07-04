@@ -48,6 +48,7 @@ PATH_TILES = PurePath(PATH_PROJECT).joinpath("assets/images/tiles")
 PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/UI/buttons")
 PATH_SLIDER = PurePath(PATH_PROJECT).joinpath("assets/images/UI/slider")
 PATH_UI_BACKGROUNDS = PurePath(PATH_PROJECT).joinpath("assets/images/UI/backgrounds")
+PATH_UI_AUDIO = PurePath(PATH_PROJECT).joinpath("assets/audio/UI")
 PATH_OTHER = PurePath(PATH_PROJECT).joinpath("assets/images/other")
 
 
@@ -85,13 +86,19 @@ TILES_WATER = list(Path(PATH_TILES).joinpath("water").glob("*"))
 MAIN_MENU_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("main_menu.png")
 
 # Button images
-NAMES_BUTTONS = [p.rstrip("png").rstrip(".") for p in listdir(PATH_BUTTONS)]
-PATHS_BUTTONS = list(Path(PATH_BUTTONS).glob("*.png"))
+BUTTONS_NAMES = [p.rstrip("png").rstrip(".") for p in listdir(PATH_BUTTONS)]
+BUTTONS_PATHS = list(Path(PATH_BUTTONS).glob("*.png"))
 
-BUTTONS = dict(zip(NAMES_BUTTONS, PATHS_BUTTONS))
+BUTTONS = dict(zip(BUTTONS_NAMES, BUTTONS_PATHS))
 
 SLIDER_BODY = PurePath(PATH_SLIDER).joinpath("slider-body.png")
 SLIDER_INDICATOR = PurePath(PATH_SLIDER).joinpath("slider-indicator.png")
+
+# Sounds
+SOUNDS_BUTTONS_NAMES = [p.rstrip(".ogg").rstrip(".") for p in listdir(PATH_UI_AUDIO)]
+SOUND_BUTTONS_PATHS = list(Path(PATH_UI_AUDIO).glob("*.ogg"))
+
+SOUNDS_BUTTONS = dict(zip(SOUNDS_BUTTONS_NAMES, SOUND_BUTTONS_PATHS))
 
 
 class Color:

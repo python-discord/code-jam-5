@@ -12,11 +12,12 @@ from pygame.image import load
 
 from project.UI.element.button import Button, generate_main_buttons
 from project.constants import (
-    BUTTONS,
+    BUTTONS as BTN,
     ButtonProperties,
     HEIGHT,
     MAIN_MENU_BG,
     REPO_LINK,
+    SOUNDS_BUTTONS as SND,
     WIDTH,
     WindowState,
 )
@@ -32,6 +33,8 @@ class MainMenu:
         self.background = load(str(MAIN_MENU_BG)).convert_alpha()
 
         self.__load_images()
+        self.__load_sounds()
+
         self.__create_buttons()
         self.__store_buttons_and_states()
         self.__load_set_github_button()
@@ -39,7 +42,6 @@ class MainMenu:
         self.last_click = int()
 
     def __load_images(self):
-        BTN = BUTTONS
         img_paths = [
             (BTN["play-btn"], BTN["play-btn-hover"]),
             (BTN["options-btn"], BTN["options-btn-hover"]),
@@ -53,6 +55,9 @@ class MainMenu:
             tuple([load(str(j)).convert_alpha() for j in i]) for i in img_paths
         ]
 
+    def __load_sounds(self):
+        self.sounds = {"click": pg.mixer.Sound(str(SND["click3"]))}
+
     def draw(self, mouse_x: int, mouse_y: int, event) -> str:
         """Hadles all main menu events and draw every elements."""
         self.screen.blit(self.background, (0, 0, WIDTH, HEIGHT))
@@ -65,6 +70,7 @@ class MainMenu:
             if button.rect.collidepoint(mouse_x, mouse_y):
                 button.draw(hover=True)
                 if self.clicked:
+                    self.sounds["click"].play()
                     return self.states[i]
             else:
                 button.draw()
@@ -92,7 +98,6 @@ class MainMenu:
         ]
 
     def __load_set_github_button(self):
-        BTN = BUTTONS
         image = load(str(BTN["github"])).convert_alpha()
         image_hover = load(str(BTN["github-hover"])).convert_alpha()
 
@@ -110,6 +115,7 @@ class MainMenu:
         if self.github_btn.rect.collidepoint(self.mouse_x, self.mouse_y):
             self.github_btn.draw(hover=True)
             if self.clicked and (time.time() - self.last_click) > 0.3:
+                self.sounds["click"].play()
                 self.last_click = time.time()
                 webbrowser.open(REPO_LINK)
         else:

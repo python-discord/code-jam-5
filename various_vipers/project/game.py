@@ -20,6 +20,7 @@ class Game:
     def __init__(self):
         """Set initial values."""
         pg.init()
+        pg.mixer.init()
         pg.display.set_caption("Various Vipers game in development")
 
         self.running = True
