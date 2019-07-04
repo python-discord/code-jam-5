@@ -99,7 +99,6 @@ class MusicPlayer(QtWidgets.QWidget):
         Will play an ad after each song. 'ADVERT' is a on/off
         """
         if status == self.player.EndOfMedia:
-            print(3)
             if not self.advert_counter:
                 self.advert_counter = self.__class__.total_songs_between_adverts  # could be in an external config file
                 self.controls.enabled(False)
