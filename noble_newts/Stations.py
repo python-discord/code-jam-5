@@ -11,7 +11,7 @@ class Stations:
         self.ip = requests.get('https://api.ipify.org').text
         self.geoData = requests.get(f'https://www.iplocate.io/api/lookup/{self.ip}').json()
         self.stations = []
-        self.tempData = ''.join(open('month_data.txt', 'r').readlines())
+        self.tempData = ''.join(open('Temp_Data.txt', 'r').readlines())
 
     def getLocationBox(self, resizeFactor):
         # Returns a "box" of coordinates in the form "lat_lo,lng_lo,lat_hi,lng_hi"
