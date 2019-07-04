@@ -1,105 +1,122 @@
 from math import inf
+import time
 import random as rnd
 
 
 class MinMax:
-    """Represents implementation of minmax algorithm with interface."""
-
     def __init__(self):
-        self.human = -1
-        self.computer = +1
-        self.board = [[1, 0, 0], [0, 1, 0], [0, 1, 0]]
+        self.maximazing = +1
+        self.minimazing = -1
+        self.board = [[-1, 1, 0], [0, 0, 0], [0, 0, 0]]
 
-    def check(self):
-        print(self.__is_game_over(self.board))
+    def solve(self, board, depth, player):
+        """MinMax core algorithm."""
+        print(board[0], board[1], board[2], sep="\n", end="\n===\n")
+        time.sleep(1)
 
-    def get_move(self):
-        """Gets and inserts computer move."""
-        board = self.board
+        if self.game_over(board):
+            return self.value(board)
 
-        depth = len(self.__empty_cells(board))
-        if depth == 0 or self.__is_game_over(board):
-            return False
+        if player == self.maximazing:
+            best_val = -inf
+            for cell in self.cells_left(board):
+                x, y = cell
+                board[x][y] = player
+                value = self.solve(board, depth + 1, player * -1)
+                best_val = max(best_val, value)
+            return best_val
+        else:
+            best_val = +inf
+            for cell in self.cells_left(board):
+                x, y = cell
+                board[x][y] = player
+                value = self.solve(board, depth + 1, player * -1)
+                best_val = min(best_val, value)
+            return best_val
+
+    def value(self, board):
+        if self.won(board, self.maximazing):
+            return +10
+        elif self.won(board, self.minimazing):
+            return -10
+        else:
+            return 0
+
+    def game_over(self, board):
+        if self.won(board, self.minimazing) or self.won(board, self.maximazing):
+            return True
+        return False
+
+    def won(self, board, player):
+        win_boards = [
+            [board[0][0], board[0][1], board[0][2]],
+            [board[1][0], board[1][1], board[1][2]],
+            [board[2][0], board[2][1], board[2][2]],
+            [board[0][0], board[1][0], board[2][0]],
+            [board[0][1], board[1][1], board[2][1]],
+            [board[0][2], board[1][2], board[2][2]],
+            [board[0][0], board[1][1], board[2][2]],
+            [board[2][0], board[1][1], board[0][2]],
+        ]
+
+        if 3 * [player] in win_boards:
+            return True
+        return False
+
+    def cells_left(self, board):
+        """Returns a list of cordinates of empty cells."""
+        cells = list()
+        for x, row in enumerate(board):
+            for y, cell in enumerate(row):
+                if cell == 0:
+                    cells.append([x, y])
+        return cells
+
+    def get_computer_move(self):
+
+        depth = len(self.cells_left(self.board))
+        if depth == 0 or self.game_over(self.board):
+            return
 
         if depth == 9:
             x = rnd.choice([0, 1, 2])
             y = rnd.choice([0, 1, 2])
         else:
-            move = self.__run_algorithm(board, depth, self.computer)
+            move = self.solve(self.board, depth, self.maximazing)
             x, y = move[0], move[1]
-        self.board[x][y] = +1
+        self.board[x][y] = self.maximazing
+        print(self.board[0], self.board[1], self.board[2], sep="\n")
 
-    def __run_algorithm(self, board: list, depth: int, player: int) -> list:
-        """Recursion function which return the best row, col and score."""
-        # print(self.board)
-
-        if player == self.computer:
-            best = [-1, -1, -inf]
-        else:
-            best = [-1, -1, +inf]
-
-        if depth == 0 or self.__is_game_over(board):
-            score = self.__evaluate_board(board)
-            return [-1, -1, score]
-
-        for cell in self.__empty_cells(board):
-            x, y = cell[0], cell[1]
-            board[x][y] = player
-
-            score = self.__run_algorithm(board, depth - 1, -player)
-            board[x][y] = 0
-
-            score[0], score[1] = x, y
-
-            if player == self.computer:
-                if score[2] > best[2]:
-                    best = score
-            else:
-                if score[2] < best[2]:
-                    best = score
-        return best
-
-    def __check_win_positon(self, board: list, player: int) -> bool:
-        """Checks if current board position is a win for given player."""
-        states = list()  # a list for winning states
-
-        # 3 horizontals, 3 verticals
-        states.append([[cell for cell in row] for row in board])
-        states.append([[board[cell][col] for cell in range(3)] for col in range(3)])
-
-        # 2 diagonals
-        states = [s for l in states for s in l]  # unpack inner lists
-        states.append([board[cell][cell] for cell in range(3)])
-        states.append([board[x][y] for x, y in zip(range(2, -1, -1), range(3))])
-
-        if 3 * [player] in states:
-            # player is met 3 times in the winning states
-            return True
-        return False
-
-    def __evaluate_board(self, board: list) -> int:
-        """Evaluates current board position."""
-        if self.__check_win_positon(board, self.computer):
-            score = +1
-        elif self.__check_win_positon(board, self.human):
-            score = -1
-        else:
-            score = 0
-        return score
-
-    def __empty_cells(self, board: list) -> list:
-        """Returns position of the empty cells."""
-        enm = enumerate
-        return [[x, y] for x, row in enm(board) for y, cell in enm(row) if cell == 0]
-
-    def __is_game_over(self, board: list) -> bool:
-        """Returns if human or computer won."""
-        return self.__check_win_positon(board, self.human) or self.__check_win_positon(
-            board, self.computer
-        )
+    def insert_human_move(self, x, y):
+        self.board[x][y] = self.minimazing
+        print(self.board[0], self.board[1], self.board[2], sep="\n")
 
 
-a = MinMax()
-# a.check()
-a.get_move()
-print(a.board)
+n = MinMax()
+print(n.solve(n.board, 0, 1))
+
+
+# if maximazing_player == self.maximazing:
+#     best = [-1, -1, -inf]
+# else:
+#     best = [-1, -1, +inf]
+
+# if depth == 0 or self.game_over(board):
+#     score = self.value(board)
+#     return [-1, -1, score]
+
+# for cell in self.cells_left(board):
+#     x, y = cell[0], cell[1]
+#     board[x][y] = maximazing_player
+#     score = self.solve(board, depth - 1, maximazing_player * -1)
+#     board[x][y] = 0
+#     score[0], score[1] = x, y
+
+# if maximazing_player == self.maximazing:
+#     if score[2] > best[2]:
+#         best = score  # max value
+# else:
+#     if score[2] < best[2]:
+#         best = score  # min value
+
+# return best
