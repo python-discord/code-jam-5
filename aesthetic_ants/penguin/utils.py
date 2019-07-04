@@ -30,7 +30,7 @@ def distance_between_sq(x1: float, y1: float, x2: float, y2: float) -> float:
     return dx**2 + dy**2
 
 
-def circles_collide(x1: float, y1: float, r1: float, x2: float, y2: float, r2: float) -> float:
+def circles_collide(x1: float, y1: float, r1: float, x2: float, y2: float, r2: float) -> bool:
     """
     Returns whether the two circles (x1, y1), r1 and (x2, y2), r2 overlap
     """

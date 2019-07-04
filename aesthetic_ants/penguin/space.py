@@ -4,6 +4,7 @@ import typing
 import pyglet
 
 from .object import Object
+from .player import Player
 
 ObjectCallback = typing.Callable[[Object, Object], typing.Any]
 
@@ -98,3 +99,15 @@ class Space:
     def remove_collision_handler(self, type1, type2):
         """Removes a collision detection and handler callback from the space"""
         self.handlers.pop((type1, type2), None)
+
+
+def default_space() -> Space:
+    from .constants import CollisionType
+    space = Space()
+
+    space.add_collision_handler(CollisionType.PLAYER,
+                                CollisionType.ENEMY,
+                                Player.on_collision_enemy,
+                                Player.collides_with)
+
+    return space

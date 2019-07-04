@@ -2,14 +2,14 @@ import pyglet
 from .enemy import Enemy
 
 from .player import Player
-from .space import Space
+from .space import default_space
 from .utils import keys
 
 window = pyglet.window.Window(caption='Penguin Snowball')
 pyglet.resource.path = ['../resources']
 pyglet.resource.reindex()
 
-space = Space()
+space = default_space()
 player = Player(window.width / 2, window.height / 2)
 space.add(player)
 

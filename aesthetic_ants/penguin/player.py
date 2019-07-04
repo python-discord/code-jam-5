@@ -2,12 +2,15 @@ from math import degrees
 
 import pyglet.window.key as key
 
+from .constants import CollisionType
+from .enemy import Enemy
 from .object import PhysicalObject
 from .utils import angle_between, loader, keys
 
 
 class Player(PhysicalObject):
     speed = 90
+    collision_type = CollisionType.PLAYER
 
     def __init__(self, x, y):
         player_image = loader.image("penguin.png")
@@ -30,3 +33,9 @@ class Player(PhysicalObject):
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.rotation = degrees(angle_between(self.x, self.y, x, y))
+
+    def on_collision_enemy(self, enemy: Enemy):
+        """
+        What happens when a player runs into an enemy
+        """
+        raise NotImplementedError

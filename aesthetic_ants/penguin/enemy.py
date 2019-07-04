@@ -1,10 +1,12 @@
 import pyglet
 import random
 
+from .constants import CollisionType
 from .object import PhysicalObject
 
 
 class Enemy(PhysicalObject):
+    collision_type = CollisionType.ENEMY
 
     def __init__(self):
         enemy_image = pyglet.resource.image('circle.png')
