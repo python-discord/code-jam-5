@@ -1,24 +1,11 @@
-from game_modules.start_menu import *
+import pyglet
+from game_modules.start_menu import make_gui
 
+pyglet.resource.path = ['resources']
+pyglet.resource.reindex()
 
-def main():
-    window = pyglet.window.Window()
-    gui = glooey.Gui(window)
-    screen = glooey.VBox()
-    bottom = glooey.HBox()
+start_window = pyglet.window.Window()
 
-    bottom.add(glooey.Placeholder())
-    bottom.add(glooey.Placeholder())
+gui = make_gui(start_window)
 
-    screen.add(NamePrompt(), size=0)
-    screen.add(NameForm(), size=0)
-    screen.add(bottom, size='expand')
-    gui.add(screen)
-
-    pyglet.app.run()
-
-
-
-
-if __name__ == "__main__":
-    main()
+pyglet.app.run()
