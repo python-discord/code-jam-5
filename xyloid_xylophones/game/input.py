@@ -39,7 +39,7 @@ def move_towards_coord(x, y):
     move(new_move[0], new_move[1])  # Move towards the new point
 
 
-def handle_input(dt):
+def handle_input(dt=None):
     """Moves the player to a new position if allowed"""
     if len(keys) > 0:
         new_x = player.x

@@ -109,6 +109,6 @@ if __name__ == '__main__':
     #sound_list = load_list(location_sound)
     #music_list = load_list(location_music)
 
-    pyglet.clock.schedule_interval(handle_input, 0.08)
+    pyglet.clock.schedule_interval(handle_input, 0.15)
     generate_random_zones()
     pyglet.app.run()
