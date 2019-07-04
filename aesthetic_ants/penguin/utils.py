@@ -37,6 +37,4 @@ def circles_collide(x1: float, y1: float, r1: float, x2: float, y2: float, r2: f
     return distance_between_sq(x1, y1, x2, y2) <= (r1 + r2)**2
 
 
-loader = pyglet.resource.Loader(path="../resources")
-
 keys = pyglet.window.key.KeyStateHandler()
