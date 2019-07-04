@@ -64,8 +64,7 @@ class ExampleProcess1Async(mp.Process):
                 request.message = '1+1'
 
                 print(handler.name, '-', 'request sent:', request)
-                handler.send_message(request)
-
+                await handler.send_message_async(request)
                 await asyncio.sleep(1)
 
         async def run_loops():
@@ -144,14 +143,14 @@ if __name__ == '__main__':
         queue_1 = mp.Queue()
         queue_2 = mp.Queue()
 
-        process_1 = ExampleProcess1Sync(
-        # process_1 = ExampleProcess1Async(
+        # process_1 = ExampleProcess1Sync(
+        process_1 = ExampleProcess1Async(
             inbox=queue_1,
             outbox=queue_2
         )
 
-        # process_2 = ExampleProcess2Sync(
-        process_2 = ExampleProcess2Async(
+        process_2 = ExampleProcess2Sync(
+        # process_2 = ExampleProcess2Async(
             inbox=queue_2,
             outbox=queue_1
         )
