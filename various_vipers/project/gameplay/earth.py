@@ -12,7 +12,6 @@ from project.constants import (
     CLOUD_LAYERS_BG,
     CLOUD_LAYERS_FG,
     FG_CLOUDS_SCROLL_SPEED,
-    FPS,
     HEIGHT,
     INDICATOR_ARROW,
     TILE_COLS,
@@ -59,7 +58,7 @@ class Earth(object):
 
     # Parameters to handle biomes entry after starting game
     entry_y_offset: float = HEIGHT // 3
-    entry_speed: float = entry_y_offset // FPS
+    entry_speed: float = entry_y_offset // 50
 
     visible_tiles: List[Tile]
 
