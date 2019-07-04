@@ -5,7 +5,8 @@ import pyglet.window.key as key
 from .constants import CollisionType
 from .enemy import Enemy
 from .object import PhysicalObject
-from .utils import angle_between, loader, keys
+from .resources import PLAYER_IMAGE
+from .utils import angle_between, keys
 
 
 class Player(PhysicalObject):
@@ -13,13 +14,7 @@ class Player(PhysicalObject):
     collision_type = CollisionType.PLAYER
 
     def __init__(self, x, y):
-        player_image = loader.image("penguin.png")
-
-        # Rotate about the center
-        player_image.anchor_x = player_image.width // 2
-        player_image.anchor_y = player_image.height // 2
-
-        super().__init__(player_image, x=x, y=y)
+        super().__init__(PLAYER_IMAGE, x=x, y=y)
 
     def update(self, dt):
         if keys[key.W]:
