@@ -1,6 +1,23 @@
-from PyQt5 import QtWidgets, QtGui, QtCore
-from .album_button import AlbumButton
 from pathlib import Path
+import os
+import yaml
+
+__folder__ = Path(__file__).parent
+
+from PyQt5 import QtWidgets, QtGui, QtCore
+
+from .album_button import AlbumButton
+
+
+def ensure_field(dictlike, fieldname):
+    """Ensure the required field is found in the data structure."""
+    sentinel = object()
+    value = dictlike.get(fieldname, sentinel)
+
+    if value is sentinel:
+        raise UserWarning('{!r} is a required field'.format(fieldname))
+
+    return value
 
 
 class FeaturedSongs(QtWidgets.QFrame):
@@ -11,21 +28,22 @@ class FeaturedSongs(QtWidgets.QFrame):
         super().__init__()
         self.setObjectName('featured_songs')
         self.init_ui()
-
-        images_path = Path('only_otters/images')
-        songs_path = Path('only_otters/audio_files')
-
-        self.add_featured_song(str(images_path / 'earth_cover.png'),
-                               str(songs_path / 'Lil Dicky - Earth.mp3'))
-        self.add_featured_song(str(images_path / 'wonderful_world_cover.jpg'),
-                               str(songs_path / 'Louis Armstrong - What a Wonderful World.mp3'))
-        self.add_featured_song(str(images_path / 'earth_song_cover.jpg'),
-                               str(songs_path / 'Michael Jackson - Earth Song.mp3'))
-        self.add_featured_song(str(images_path / 'heal_world_cover.png'),
-                               str(songs_path / 'Michael Jackson - Heal The World.mp3'))
-        self.add_featured_song(str(images_path / 'lovesong_cover.jpg'),
-                               str(songs_path / 'Paul McCartney - Love Song To The Earth.mp3'))
+        self.load_songs()
     
+    def load_songs(self):
+        """Load songs from config file."""
+        images_path = Path('only_otters/images').absolute()
+        songs_path = Path('only_otters/audio_files').absolute()
+        songs_config_file = __folder__ / 'featured_songs.yml'
+
+        yaml_data = yaml.safe_load(open(songs_config_file))
+
+        songs = ensure_field(yaml_data, 'songs')
+
+        for song in songs:
+            self.add_featured_song(images_path / ensure_field(song, 'img'), 
+                                   songs_path / ensure_field(song, 'audio'))
+
     def init_ui(self):
         self.setStyleSheet('background: #6F4E37; border-radius: 6px;')
         self.setFixedHeight(190)
@@ -53,7 +71,11 @@ class FeaturedSongs(QtWidgets.QFrame):
 
         self.setLayout(self.main_layout)
     
-    def add_featured_song(self, text, image):
-        featured_song = AlbumButton(text, image)
+    def add_featured_song(self, imgfile: str, audiofile: str):
+
+        imgfile = os.fspath(imgfile)
+        audiofile = os.fspath(audiofile)
+
+        featured_song = AlbumButton(imgfile, audiofile)
         featured_song.selected.connect(self.chosen_song.emit)
         self.featured_songs_layout.addWidget(featured_song)
