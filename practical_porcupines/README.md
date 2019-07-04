@@ -48,8 +48,8 @@ Below is the outline of what the dependancies do:
 2. Install pipenv with `pip install pipenv` (NOTE: May be `pip3` on Linux)
 3. Enter pipenv's shell with `pipenv shell`
 4. When in the pipenv shell, run `python -m practical_porcupines flask-api` to start the api
-5. To start the webportal, repeat step 3 & 4 with `flask-webportal` instead of `flask-api`
-6. To start the discord bot, repeat step 3 & 4 with `discord-bot` instead of `flask-api`. Make sure you have step 1 set properly for this one
+5. To start the webportal, **open a new terminal** and repeat step 3 & 4 with `flask-webportal` instead of `flask-api`
+6. To start the discord bot, **open a new terminal** and repeat step 3 & 4 with `discord-bot` instead of `flask-api`. Make sure you have step 1 set properly for this one
 
 ## Development Notes
 
