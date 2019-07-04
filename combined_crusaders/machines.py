@@ -1,6 +1,7 @@
 import media
 import pygame
 from pygame.locals import Color
+from util import normalized_pos_pixels
 
 
 class Machine(pygame.sprite.Sprite):
@@ -19,11 +20,12 @@ class Machine(pygame.sprite.Sprite):
         self.energy_per_second = energy_per_second
         self._count = 0
         self.image = image
-        self.rect = self.image.get_rect(center=location)
+        abs_location = normalized_pos_pixels(location)
+        self.rect = self.image.get_rect(center=abs_location)
         self.count_sprite = pygame.sprite.Sprite()
         self.count_sprite.image = self.font.render("9", 0, self.text_color )
         self.count_sprite.rect = self.count_sprite.image.get_rect(
-            center=location)
+            center=abs_location)
         self.count = 0
 
     @property
@@ -49,12 +51,13 @@ class MachineLoader:
                                    60,
                                    0.5,
                                    media.images["solar_panel"],
-                                   (850, 100)),
+                                   (0.8, 0.2)),
             "wind_turbine": Machine("wind_turbine",
                                     90,
                                     2,
                                     media.images["wind_turbine"],
-                                    (900, 100))}
+                                    (0.9, 0.2))
+        }
 
     def __getitem__(self, key):
         if not self.machines:

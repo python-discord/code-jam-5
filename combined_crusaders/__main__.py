@@ -11,11 +11,11 @@ from media import sounds, images
 from machines import machines
 import time
 import events
+from util import normalized_pos_pixels
 
 
 BACKGROUND_COLOR = Color('white')
-SCREEN_WIDTH = 1024
-SCREEN_HEIGHT = 768
+SCREEN_SIZE = (1024, 768)
 
 
 def say(message):
@@ -24,14 +24,6 @@ def say(message):
     Currently just changes the program bar name cuz it's cute."""
     if message is not None:
         pygame.display.set_caption(str(message))
-
-
-def normalized_pos_pixels(normalized_position):
-    if any(not 0 <= pos <= 1 for pos in normalized_position):
-        raise ValueError("Normalized position must be a value between 0 and 1,"
-                         "as a normalized position on screen")
-    return (normalized_position[0] * SCREEN_WIDTH,
-            normalized_position[1] * SCREEN_HEIGHT)
 
 
 if not pygame.image.get_extended():
@@ -236,7 +228,7 @@ class ClimateClicker:
         pygame.mixer.pre_init(44100, -16, 2, 2048)
         pygame.init()
 
-        screenrect = Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        screenrect = Rect(0, 0, *SCREEN_SIZE)
         bestdepth = pygame.display.mode_ok(screenrect.size, 0, 32)
         self.screen = pygame.display.set_mode(screenrect.size, 0, bestdepth)
         machines.load(self)
@@ -265,7 +257,7 @@ class ClimateClicker:
                           images['upgrade_buttons2']),
             UpgradeButton(self, 0.01, 0.25, 100, 2, "crank_inertia",
                           images['upgrade_buttons3'])
-            ]
+        ]
 
         self.score_sprite = ValueLabel(
             self, 0.02, 0.9, "Score", "Joules")
@@ -280,12 +272,12 @@ class ClimateClicker:
             [button.level_display for button in self.upgrade_buttons],
             *machines.machines.values(),
             [machine.count_sprite for machine in machines.machines.values()]
-            )
+        )
         self.sprite_layers = [
             pygame.sprite.RenderPlain(self.crank),
             pygame.sprite.RenderPlain(self.crank_overlay),
             gui_plain
-            ]
+        ]
         self.events = events.Events(self)
         self.last_update_time = time.time()
         self.time_delta = 0

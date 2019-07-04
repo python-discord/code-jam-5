@@ -46,7 +46,7 @@ special_messages = [
     "Cake am lie",
     "Oh dang is that a gun -Uncle Ben",
     "With great power comes great responsibility -Uncle Ben"
-    ]
+]
 
 
 msgs = {
@@ -65,7 +65,7 @@ msgs = {
     "buy_solar_panel": "Plants survive on solar panels, ye can too!",
     "buy_wind_turbine": "Ah, quite a large crank right there!",
     "upgrade_crank_inertia": "YES! We be discoverin' perpetual motion!"
-    }
+}
 
 
 class Events:
