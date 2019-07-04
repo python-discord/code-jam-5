@@ -1,4 +1,5 @@
 import requests
+import time
 
 
 class Stations:
@@ -10,6 +11,7 @@ class Stations:
         self.ip = requests.get('https://api.ipify.org').text
         self.geoData = requests.get(f'https://www.iplocate.io/api/lookup/{self.ip}').json()
         self.stations = []
+        self.tempData = ''.join(open('month_data.txt', 'r').readlines())
 
     def getLocationBox(self, resizeFactor):
         # Returns a "box" of coordinates in the form "lat_lo,lng_lo,lat_hi,lng_hi"
@@ -21,7 +23,7 @@ class Stations:
     def getStations(self):
         # returns the ten weather stations nearest to the user
         size = 0.1
-        while len(self.stations) <= 20:
+        while len(self.stations) <= 50:
             locationBox = self.getLocationBox(size)
             # checks the NOAA API for weather stations within locationBox.
             # if less than 10 are found, it expands.
@@ -29,14 +31,10 @@ class Stations:
                                        headers=self.defaultHeader,
                                        params={'limit': 1000, 'extent': locationBox}
                                        ).json()['results']
+
             for station in stationData:
-                self.stations.append(station)
+                if station['id'].split(':')[1] in self.tempData \
+                        and 'GHCND' == station['id'].split(':')[0]:
+                    self.stations.append(station['id'].split(':')[1])
             size += 0.1
-        print(len(self.stations))
         return self.stations
-
-
-Bob = Stations()
-
-
-print(Bob.getStations())
