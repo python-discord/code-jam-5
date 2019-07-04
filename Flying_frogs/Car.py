@@ -1,3 +1,4 @@
+import random
 score = 0
 
 #set up car object
@@ -28,8 +29,11 @@ car2=car(True,'Silent small green car')
 #Dictionary of cars. Value allows us to judge how often that car is guessed correctly
 cars={car1:0,car2:0}
 
+carkeys=list(cars.keys())
+random.shuffle(carkeys)
+
 #Cycles through the cars and asking if electric or not and producing an output
-for i in cars:
+for i in carkeys:
     i.show()
     smashed=i.smash()
     if smashed and i.electric:
