@@ -2,6 +2,7 @@ from math import degrees
 
 import pyglet.window.key as key
 
+from .constants import CollisionType
 from .enemy import Enemy
 from .object import PhysicalObject
 from .utils import angle_between, loader, keys
@@ -9,6 +10,7 @@ from .utils import angle_between, loader, keys
 
 class Player(PhysicalObject):
     speed = 90
+    collision_type = CollisionType.PLAYER
 
     def __init__(self, x, y):
         player_image = loader.image("penguin.png")
