@@ -1,0 +1,151 @@
+{
+    "ceos": [
+        "Rebekah Marin",
+        "Sasha Merrill",
+        "Erica Lewis",
+        "Bradleigh Matthams",
+        "Connie Decker",
+        "Nichole O'Sullivan",
+        "Milan Hope",
+        "Malia Hogan",
+        "Garry Eaton",
+        "Kathryn Rojas",
+        "Wilfred Adams",
+        "Dawson Mccann",
+        "Tyra Guerra",
+        "Rajveer Lucas",
+        "Tobey Goldsmith",
+        "Safiya Mckenzie",
+        "Charlton Gamble",
+        "Chloe-Louise Dyer",
+        "Jarod Hull",
+        "Carys Ingram",
+        "Acacia Sweeney",
+        "Esther Britt",
+        "Linda Smith",
+        "Ellie-Mae Fleming",
+        "Ebony Cline"
+    ],
+    "organizations": [
+        {
+            "organizationName": "News News Network",
+            "organizationAbbr": "NNN",
+            "organizationDesc": "Placeholder organization focusing on fair media distribution"
+        },
+        {
+            "organizationName": "Faux News",
+            "organizationAbbr": "Faux",
+            "organizationDesc": "Placeholder organization focusing on spreading lies for financial gain"
+        },
+        {
+            "organizationName": "Klaudius Foundation",
+            "organizationAbbr": "KF",
+            "organizationDesc": "Placeholder organization focusing on deregulating businesses"
+        },
+        {
+            "organizationName": "Nature's Allies",
+            "organizationAbbr": "NA",
+            "organizationDesc": "Placeholder organization focusing on conservation"
+        },
+        {
+            "organizationName": "Dino Fuel Network",
+            "organizationAbbr": "DFN",
+            "organizationDesc": "Placeholder organization focusing on Fossil Fuels"
+        },
+        {
+            "organizationName": "Future Energy Institute",
+            "organizationAbbr": "FEI",
+            "organizationDesc": "Placeholder organization focusing on renewables"
+        }
+    ],
+    "policies": [
+        {
+            "policyName": "Electric Vehicle Incentives",
+            "policyDesc": "Offers consumers a tax credit for purchasing Electric Vehicles.",
+            "parentOrg": "FEI",
+            "preReqs": "None",
+            "bioDiversity": 0,
+            "temperature": 0,
+            "co2": -20,
+            "habitableLand": 0,
+            "netWorth": 0
+        },
+        {
+            "policyName": "Goverment Solar Contracts",
+            "policyDesc": "Lobby the government to use your solar panel installer.",
+            "parentOrg": "NA",
+            "preReqs": "solarInstaller",
+            "bioDiversity": 0,
+            "temperature": 0,
+            "co2": -50,
+            "habitableLand": 0,
+            "netWorth": 20000
+        },
+        {
+            "policyName": "Goverment Coal Contracts",
+            "policyDesc": "Lobby the government to use your coal power plants exclusively.",
+            "parentOrg": "KF",
+            "preReqs": "coalPlants",
+            "bioDiversity": 0,
+            "temperature": 0,
+            "co2": 50,
+            "habitableLand": 0,
+            "netWorth": 30000
+        },
+        {
+            "policyName": "TransAmerican Pipeline",
+            "policyDesc": "A new pipeline spanning across America to lower crude oil costs.",
+            "parentOrg": "DFN",
+            "preReqs": "None",
+            "bioDiversity": -100,
+            "temperature": 0,
+            "co2": 0,
+            "habitableLand": -100,
+            "netWorth": 10000
+        },
+        {
+            "policyName": "Fund Land Reforestation",
+            "policyDesc": "Funds Reforestation accross the nation.",
+            "parentOrg": "NA",
+            "preReqs": "None",
+            "bioDiversity": 100,
+            "temperature": 0,
+            "co2": -10,
+            "habitableLand": 100,
+            "netWorth": -10000
+        },
+        {
+            "policyName": "Raise Emissions Standards",
+            "policyDesc": "Raises the standards that must be met by businesses.",
+            "parentOrg": "NA",
+            "preReqs": "None",
+            "bioDiversity": 0,
+            "temperature": 0,
+            "co2": -50,
+            "habitableLand": 0,
+            "netWorth": 0
+        },
+        {
+            "policyName": "American Park Logging Deal",
+            "policyDesc": "Opens up some national parks to logging.",
+            "parentOrg": "KF",
+            "preReqs": "None",
+            "bioDiversity": -150,
+            "temperature": 0,
+            "co2": 10,
+            "habitableLand": -100,
+            "netWorth": 10000
+        },
+        {
+            "policyName": "Lower Emissions Standards",
+            "policyDesc": "Removes emissions standards that must be met by businesses.",
+            "parentOrg": "KF",
+            "preReqs": "None",
+            "bioDiversity": 0,
+            "temperature": 0,
+            "co2": 50,
+            "habitableLand": 0,
+            "netWorth": 20000
+        }
+    ]
+}
