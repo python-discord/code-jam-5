@@ -1,0 +1,29 @@
+{
+  "quiz_data":[
+    {
+      "id": 1,
+      "question": "By how much has the global temperature on an average has increased till the 20th century?(in degree Celsius )",
+      "options": ["0.6 to 1", "0.6 to 1.5", "0.3 to 1", "0.3 to 1.5"],
+      "type": "mcq",
+      "answer": [1],
+      "fact": ""
+    },
+    {
+      "id": 2,
+      "question": "Which is the first specie to go extinct due to human-driven climate change?",
+      "options": ["Golden Toad", "Bramble cay melomys"],
+      "type": "mcq",
+      "answer": [2],
+      "fact": "A small rodent that lived only on a single island off Australia is likely the world's first mammal to become a casualty of climate change, scientists reported in June 2016. The government of Australia has now officially recognized the Bramble Cay melomys (Melomys rubicola) as extinct."
+    },
+    {
+      "id": 3,
+      "question": "Wasting less food is a way to reduce greenhouse gas emissions.",
+      "options": ["True", "False"],
+      "type": "True_or_False",
+      "answer": ["True", 1],
+      "fact": "More than a third of food produced globally never makes it to the table. Some of this wasted food spoils  in transit, while consumers throw some of this food out. During the production, harvesting, transporting, and packaging of the wasted food, more than 3.3 billion metric tons of carbon dioxide is emitted."
+    }
+
+  ]
+}
