@@ -9,13 +9,7 @@ import pygame as pg
 
 from project.UI.element.button import Button
 from project.UI.fx.sound import Sound
-from project.constants import (
-    BUTTONS as BTN,
-    ButtonProperties,
-    Color,
-    SOUNDS_BUTTONS as SND,
-    WindowState,
-)
+from project.constants import BUTTONS as BTN, ButtonProperties, Color, WindowState
 
 logger = logging.getLogger(__name__)
 
