@@ -1,3 +1,4 @@
+import asyncio
 import random
 import string
 
@@ -58,7 +59,10 @@ HANGMAN_STATES = ['''
       |
 =========''']
 
-UNICODE_LETTERS = ["🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬", "🇭", "🇮", "🇯", "🇰", "🇱", "🇲", "🇳", "🇴", "🇵", "🇶", "🇷", "🇸", "🇹", "🇺", "🇻", "🇼", "🇽", "🇾", "🇿"]
+UNICODE_LETTERS = [
+    "🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬", "🇭", "🇮", "🇯", "🇰", "🇱", "🇲",
+    "🇳", "🇴", "🇵", "🇶", "🇷", "🇸", "🇹", "🇺", "🇻", "🇼", "🇽", "🇾", "🇿"
+]
 
 
 class Hangman(commands.Cog):
@@ -81,7 +85,10 @@ class Hangman(commands.Cog):
 
     @staticmethod
     async def to_ascii(reaction: discord.Reaction):
-        return string.ascii_lowercase[str(reaction)]
+        if str(reaction) not in UNICODE_LETTERS:
+            raise ValueError
+
+        return string.ascii_lowercase[UNICODE_LETTERS.index(str(reaction))]
 
     @staticmethod
     async def clear_reactions(message: discord.Message):
@@ -100,8 +107,15 @@ class Hangman(commands.Cog):
         )
 
         while self.is_finished() or self.lives > 0:
-            reaction = await self.bot.wait_for("reaction_add", timeout=60)
-            letter = self.to_ascii(reaction)
+            try:
+                reaction = await self.bot.wait_for("reaction_add", timeout=60)
+            except asyncio.TimeoutError:
+                return await ctx.send("You took too long. Goodbye...")
+
+            try:
+                letter = self.to_ascii(reaction)
+            except ValueError:
+                return await ctx.send("Incorrect reaction. Goodbye...")
 
             if letter in self.guesses:
                 await message.edit(
