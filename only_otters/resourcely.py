@@ -29,11 +29,10 @@ class Resource:
     config files.
     """
 
-
     name: str
     url: Union[str, 'os.PathLike[Any]', pathlib.Path]
     md5hash: str = None
-    
+
     @property
     def QUrl(self):
         """Return a QUrl object built from the original url."""
@@ -72,6 +71,7 @@ def _parse_list(resources: list, prefix=pathlib.Path()) -> Namespace:
 
     return namespace
 
+
 def _parse_dict(resources: dict, prefix=pathlib.Path()) -> Namespace:
     """
     Parse a dict structure found in a resources configuration file.
@@ -84,10 +84,10 @@ def _parse_dict(resources: dict, prefix=pathlib.Path()) -> Namespace:
             key: parse(value, prefix=prefix)
             for key, value in resources.items()
         })
-            
+
     return Namespace(**{
         key: Resource(
-            name=key, 
+            name=key,
             url=prefix / value
         )
         for key, value in resources.items()
@@ -104,21 +104,21 @@ def load(filepath) -> dict:
 
     if '.' not in strpath:
         raise UserWarning('Resouce loader: path has no file extension.')
-    
+
     extension = strpath.split('.')[-1]
-        
+
     sentinel = object()
     loader = _EXT_LOADERS.get(extension, sentinel)
     if loader is sentinel:
         raise UserWarning('Resouce loader: No loader for {!r} files.'.format(extension))
-    
+
     return loader(open(filepath))
 
 
 def parse(resources: Union[dict, list], prefix=pathlib.Path()) -> Namespace:
     """
     Parse a resource config file. Detect the parsing method depending on the resource to parse.
-    Resources can only be parsed from [list, dict] elements. 
+    Resources can only be parsed from [list, dict] elements.
     """
     sentinel = object()
     parser = _TYPE_PARSERS.get(type(resources), sentinel)
@@ -126,7 +126,7 @@ def parse(resources: Union[dict, list], prefix=pathlib.Path()) -> Namespace:
         raise UserWarning(
             "Invalid 'resource' type: %s."
             "Must be one of those: %s" % (
-                type(resources).__qualname__, 
+                type(resources).__qualname__,
                 ', '.join(type_.__qualname__ for type_ in _TYPE_PARSERS.keys())
             )
         )
@@ -146,14 +146,15 @@ _EXT_LOADERS = {
 
 
 def from_located_file(filepath='resources.yml', location=None, near=None):
-    """Load a resource namespace from a file located in the 'location' folder, or in the parent folder
-    of the path provided in 'near'."""
-    
+    """Load a resource namespace from a file located in the 'location' folder, or in the parent
+    folder of the path provided in 'near'."""
+
     if (
         near is None and location is None or
         near and location
     ):
-        raise UserWarning("'location' and 'near' can't both be None or both be provided. Choose one.")
+        raise UserWarning(
+            "'location' and 'near' can't both be None or both be provided. Choose one.")
 
     folder = pathlib.Path()
 
@@ -162,8 +163,7 @@ def from_located_file(filepath='resources.yml', location=None, near=None):
 
     if near:
         folder = pathlib.Path(near).parent
-    
-    
+
     data = yaml.safe_load(open(folder / filepath))
     resources = ensure_field(data, 'resources')
     return parse(resources, prefix=folder)
