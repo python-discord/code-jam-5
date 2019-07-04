@@ -19,7 +19,8 @@ def search():
         latitude = location['lat']
         longitude = location['lng']
     except (json.JSONDecodeError, KeyError):
-        return abort(400)
+        flash('Location not found.')
+        return render_template('view/index.html')
 
     city = app.azavea.get_nearest_city(latitude, longitude)
     if city:
