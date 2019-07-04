@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0bdcf7b0-93d0-4a70-9f61-de08be7381ac" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/faithful_fleas/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/faithful_fleas/__main__.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,7 +39,7 @@
         <counts>
           <entry key="Pipfile" value="1" />
           <entry key="md" value="775" />
-          <entry key="py" value="375" />
+          <entry key="py" value="1382" />
           <entry key="txt" value="5" />
         </counts>
       </usages-collector>
@@ -46,7 +47,7 @@
         <counts>
           <entry key="Markdown" value="775" />
           <entry key="PLAIN_TEXT" value="5" />
-          <entry key="Python" value="375" />
+          <entry key="Python" value="1382" />
           <entry key="TOML" value="1" />
         </counts>
       </usages-collector>
@@ -63,23 +64,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/faithful_fleas/__main__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-252">
-              <caret line="12" column="47" lean-forward="true" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
+            <state relative-caret-position="609">
+              <caret line="45" column="26" lean-forward="true" selection-start-line="45" selection-start-column="26" selection-end-line="45" selection-end-column="26" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
+                <marker date="1562213664776" expanded="true" signature="312:1249" ph="..." />
+                <marker date="1562213664776" expanded="true" signature="1169:1174" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/faithful_fleas/cogs/error_handler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="58" column="7" lean-forward="true" selection-start-line="58" selection-start-column="7" selection-end-line="58" selection-end-column="7" />
+            <state relative-caret-position="278">
+              <caret line="62" lean-forward="true" selection-start-line="62" selection-end-line="62" />
               <folding>
                 <element signature="e#33#47#0" expanded="true" />
                 <marker date="1562211424398" expanded="true" signature="2543:2544" ph="..." />
@@ -91,8 +94,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/faithful_fleas/cogs/example.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="10" column="28" lean-forward="true" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+            <state relative-caret-position="231">
+              <caret line="11" column="22" lean-forward="true" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -148,8 +151,9 @@
         <option value="$PROJECT_DIR$/faithful_fleas/__init__.py" />
         <option value="$PROJECT_DIR$/Pipfile" />
         <option value="$PROJECT_DIR$/faithful_fleas/README.md" />
-        <option value="$PROJECT_DIR$/faithful_fleas/__main__.py" />
         <option value="$PROJECT_DIR$/faithful_fleas/cogs/error_handler.py" />
+        <option value="$PROJECT_DIR$/faithful_fleas/cogs/example.py" />
+        <option value="$PROJECT_DIR$/faithful_fleas/__main__.py" />
       </list>
     </option>
   </component>
@@ -248,7 +252,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" />
@@ -256,7 +260,7 @@
       <window_info anchor="bottom" id="Event Log" sideWeight="0.50074404" side_tool="true" weight="0.3276923" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49925596" visible="true" weight="0.30461538" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49925596" visible="true" weight="0.22" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -301,33 +305,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/faithful_fleas/__main__.py">
+    <entry file="file://$PROJECT_DIR$/faithful_fleas/cogs/error_handler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-252">
-          <caret line="12" column="47" lean-forward="true" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
+        <state relative-caret-position="278">
+          <caret line="62" lean-forward="true" selection-start-line="62" selection-end-line="62" />
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#33#47#0" expanded="true" />
+            <marker date="1562211424398" expanded="true" signature="2543:2544" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/faithful_fleas/cogs/example.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="10" column="28" lean-forward="true" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+        <state relative-caret-position="231">
+          <caret line="11" column="22" lean-forward="true" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/faithful_fleas/cogs/error_handler.py">
+    <entry file="file://$PROJECT_DIR$/faithful_fleas/__main__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="58" column="7" lean-forward="true" selection-start-line="58" selection-start-column="7" selection-end-line="58" selection-end-column="7" />
+        <state relative-caret-position="609">
+          <caret line="45" column="26" lean-forward="true" selection-start-line="45" selection-start-column="26" selection-end-line="45" selection-end-column="26" />
           <folding>
-            <element signature="e#33#47#0" expanded="true" />
-            <marker date="1562211424398" expanded="true" signature="2543:2544" ph="..." />
+            <element signature="e#0#14#0" expanded="true" />
+            <marker date="1562213664776" expanded="true" signature="312:1249" ph="..." />
+            <marker date="1562213664776" expanded="true" signature="1169:1174" ph="..." />
           </folding>
         </state>
       </provider>

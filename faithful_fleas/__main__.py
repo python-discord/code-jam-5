@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import os
 
@@ -14,26 +15,34 @@ def get_prefix(client, message):
     return commands.when_mentioned_or(*prefixes)(client, message)
 
 
-bot = commands.Bot(
-    command_prefix=get_prefix,
-    description='Faithful Fleas',
-    owner_id=os.environ.get('DISCORD_OWNER_ID'),
-    case_insensitive=True
-)
-# use os module insted for cogs.
-cogs = [cog for cog in os.listdir("FAITHFUL_FLEAS/cogs") if cog.endswith(".py")]
+class FaithfulBot(commands.Bot):
+    """An instance of the bot."""
+    def __init__(self):
+        super().__init__(command_prefix=get_prefix,
+                         description="Climate Bot.")
 
-for cog in cogs:
-    try:
-        bot.load_extension("faithful_fleas.cogs." + os.path.splitext(cog)[0])
-    except Exception as e:
-        logger.error(f"Could not load extension {cog} due to error: {e}")
+    async def on_ready(self):
+
+        # list of all the cogs.
+        cogs = [cog for cog in os.listdir("FAITHFUL_FLEAS/cogs") if cog.endswith(".py")]
+
+        for cog in cogs:
+            try:
+                # loading the cogs
+                self.load_extension("faithful_fleas.cogs." + os.path.splitext(cog)[0])
+
+            except Exception as e:
+                # in case any cog/s did not load.
+                logger.error(f"Could not load extension {cog} due to error:\n{e}")
+
+        logger.info(f'Running as {self.user.name} with ID: {self.user.id}')
+        await self.change_presence(activity=discord.Game(name='A sunny morning!'))
+
+    def run(self):
+        # running the bot.
+        super().run(os.environ.get('DISCORD_TOKEN'), bot=True, reconnect=True)
 
 
-@bot.event
-async def on_ready():
-    logger.info(f'Running as {bot.user.name}')
-    logger.info(f"ID: {bot.user.id}")
-    await bot.change_presence(activity=discord.Game(name='A sunny morning!'))
-
-bot.run(os.environ.get('DISCORD_TOKEN'), bot=True, reconnect=True)
+if __name__ == "__main__":
+    bot = FaithfulBot()
+    bot.run()
