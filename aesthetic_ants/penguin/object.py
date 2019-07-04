@@ -2,6 +2,8 @@ import weakref
 
 import pyglet
 
+from .utils import circles_collide
+
 
 class Object:
     """Base class for all objects"""
@@ -21,6 +23,7 @@ class Object:
 
 class PhysicalObject(Object, pyglet.sprite.Sprite):
     """Base class for all tangible objects (objects with sprites)"""
+    collision_leniency = 0.85
 
     def add_to_space(self, space):
         self.batch = space.batch
@@ -29,3 +32,14 @@ class PhysicalObject(Object, pyglet.sprite.Sprite):
     def remove_from_space(self):
         self.batch = None
         super().remove_from_space()
+
+    def collides_with(self, other) -> bool:
+        """
+        Called to determine if this collider collides with another
+        """
+        return circles_collide(self.x,
+                               self.y,
+                               self.width * self.collision_leniency,
+                               other.x,
+                               other.y,
+                               other.width * self.collision_leniency)
