@@ -44,58 +44,12 @@ Below is the outline of what the dependancies do:
 
 ## Quickstart (Please read this section to start up the application)
 
-***NOTE: If you are on Windows, please use `set` instead of `export`***
-
-Install `pipenv`:
-
-```bash
-pip3 install pipenv
-```
-
-Install dependancies:
-
-```bash
-pipenv install
-```
-
-Jump into the `pipenv` shell:
-
-```bash
-pipenv shell
-```
-
-Make a totally secure secret key:
-
-```bash
-export API_SECRET_KEY=abc
-```
-
-Pass in the bot token (leave it as `x` if you only want to test the webportal):
-
-```bash
-export CLIENT_TOKEN=x
-```
-
-Run the api in the background:
-
-```bash
-python -m practical_porcupines flask-api &
-```
-
-Run the discord bot in the background:
-
-```bash
-python -m practical_porcupines discord-bot &
-```
-
-Run the web-portal in the background:
-
-```bash
-python -m practical_porcupines flask-webportal &
-```
-
-- Please navigate to 0.0.0.0:8081 (or whatever else is set in `config.toml`) to visit the web-portal mini-project.
-- If you would like to run the Discord Bot as an extra, please add the bot tokens (please read the `Running the Discord Bot` section for more info).
+1. Please edit `CLIENT_TOKEN` in the base folder, next to `Pipfile` to the bot's token
+2. Install pipenv with `pip install pipenv` (NOTE: May be `pip3` on Linux)
+3. Enter pipenv's shell with `pipenv shell`
+4. When in the pipenv shell, run `python -m practical_porcupines flask-api` to start the api
+5. To start the webportal, repeat step 3 & 4 with `flask-webportal` instead of `flask-api`
+6. To start the discord bot, repeat step 3 & 4 with `discord-bot` instead of `flask-api`. Make sure you have step 1 set properly for this one
 
 ## Development Notes
 

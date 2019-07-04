@@ -1,0 +1,31 @@
+ * Serving Flask app "practical_porcupines.flask_api.app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+Traceback (most recent call last):
+  File "/usr/lib/python3.6/runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/usr/lib/python3.6/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/home/owen/Documents/Projects/Python/code-jam-5/practical_porcupines/__main__.py", line 57, in <module>
+    base_group()
+  File "/home/owen/.local/share/virtualenvs/code-jam-5-39CSsqqN/lib/python3.6/site-packages/click/core.py", line 764, in __call__
+    return self.main(*args, **kwargs)
+  File "/home/owen/.local/share/virtualenvs/code-jam-5-39CSsqqN/lib/python3.6/site-packages/click/core.py", line 717, in main
+    rv = self.invoke(ctx)
+  File "/home/owen/.local/share/virtualenvs/code-jam-5-39CSsqqN/lib/python3.6/site-packages/click/core.py", line 1137, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "/home/owen/.local/share/virtualenvs/code-jam-5-39CSsqqN/lib/python3.6/site-packages/click/core.py", line 956, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/home/owen/.local/share/virtualenvs/code-jam-5-39CSsqqN/lib/python3.6/site-packages/click/core.py", line 555, in invoke
+    return callback(*args, **kwargs)
+  File "/home/owen/Documents/Projects/Python/code-jam-5/practical_porcupines/__main__.py", line 48, in flask_api
+    debug=ConfigBase().SHOULD_DEBUG,
+  File "/home/owen/.local/share/virtualenvs/code-jam-5-39CSsqqN/lib/python3.6/site-packages/flask/app.py", line 944, in run
+    run_simple(host, port, self, **options)
+  File "/home/owen/.local/share/virtualenvs/code-jam-5-39CSsqqN/lib/python3.6/site-packages/werkzeug/serving.py", line 987, in run_simple
+    s.bind(server_address)
+OSError: [Errno 98] Address already in use
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x7fd405a8e908>
