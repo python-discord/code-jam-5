@@ -22,8 +22,8 @@ emojis = {
 
 class ClimateQuiz(commands.Cog):
     """A cog for a simple quiz on Climate Changes."""
-    def __init__(self, bot):
 
+    def __init__(self, bot):
         """Init function"""
 
         self.bot = bot
@@ -50,7 +50,7 @@ class ClimateQuiz(commands.Cog):
     async def climate_quiz(self, ctx):
         """A set of commands to play the ClimateQuiz! use the start command to begin playing."""
 
-        await ctx.invoke(self.bot.get_command("help"), "ClimateQuiz")
+        await ctx.send_help('quiz')
 
     @climate_quiz.command(name='start', aliases=['s'])
     async def start_quiz(self, ctx):
@@ -182,7 +182,9 @@ class ClimateQuiz(commands.Cog):
         # checking if its end of quiz.
         if self.question_number == self.question_limit:
             self.reset_game()
-            await channel.send("The quiz game ends here! Hope you had fun playing this.")
+            await channel.send("The quiz game ends here! Hope you had fun playing this.\n"
+                               " Do `.quiz start` to play again if you were unlucky"
+                               " and missed those crazy questions :grin:")
         else:
             embed.set_footer(text="Do \".quiz quit\" to exit the quiz.")
 
