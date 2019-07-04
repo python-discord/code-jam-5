@@ -8,7 +8,7 @@ from pathlib import Path, PurePath
 
 LOG_LEVEL = logging.DEBUG
 
-FPS = 60
+FPS = 300
 
 WIDTH = 960
 HEIGHT = 720
@@ -158,8 +158,9 @@ class ButtonProperties:
 class SliderProperties:
     """Represents slider properties."""
 
-    margin_y = 0.2
+    body_x = ButtonProperties.vol_btn_x + 120
     body_y = 200
+    body_width = 400
     body_height = 10
 
     indicator_w = 20

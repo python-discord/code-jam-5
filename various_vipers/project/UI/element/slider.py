@@ -27,10 +27,10 @@ class Slider:
         self.click = False
 
     def __calculate_body_properties(self):
-        self.x = WIDTH * SliderProperties.margin_y
+        self.x = SliderProperties.body_x
         self.y = SliderProperties.body_y
 
-        self.width = WIDTH - (WIDTH * SliderProperties.margin_y) - self.x
+        self.width = SliderProperties.body_width
         self.height = SliderProperties.body_height
 
     def __calculate_indicator_properties(self):
@@ -58,7 +58,8 @@ class Slider:
         if b and self.click:
             if (
                 x > self.x
-                and x < WIDTH - (WIDTH * SliderProperties.margin_y) - self.width_i
+                and x
+                < (SliderProperties.body_width + SliderProperties.body_x) - self.width_i
             ):
                 self.x_i = x
                 self.slider_indicator = Rect(

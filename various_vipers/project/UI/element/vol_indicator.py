@@ -14,4 +14,10 @@ class VolumeIndicator:
     def draw(self) -> None:
         """Draws and renders the volume."""
         indicator = self.font.render(str(int(self.volume)), True, Color.orange)
-        self.screen.blit(indicator, (1050, SliderProperties.body_y - 30))
+        self.screen.blit(
+            indicator,
+            (
+                SliderProperties.body_x + SliderProperties.body_width + 20,
+                SliderProperties.body_y - 30,
+            ),
+        )
