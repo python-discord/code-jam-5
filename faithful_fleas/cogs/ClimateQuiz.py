@@ -21,7 +21,7 @@ emojis = {
 
 
 class ClimateQuiz(commands.Cog):
-    """A cog for a simple quiz on Climate Changes."""
+    """A cog for a simple quiz on Climate Changes.Works for only 1 player at a time."""
 
     def __init__(self, bot):
         """Init function"""
