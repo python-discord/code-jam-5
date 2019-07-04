@@ -8,7 +8,7 @@ from pygame.locals import (
     Color
 )
 from media import sounds, images
-from machines import machines
+from machines import load_machines
 import time
 import events
 from util import in_pixels
@@ -248,7 +248,7 @@ class ClimateClicker:
         screenrect = Rect(0, 0, *SCREEN_SIZE)
         bestdepth = pygame.display.mode_ok(screenrect.size, 0, 32)
         self.screen = pygame.display.set_mode(screenrect.size, 0, bestdepth)
-        machines.load(self)
+        self.machines = load_machines()
         pygame.display.set_caption('Climate Clicker')
 
         self.exit_requested = False
@@ -291,8 +291,8 @@ class ClimateClicker:
             *self.upgrade_buttons,
             [button.cost_display for button in self.upgrade_buttons],
             [button.level_display for button in self.upgrade_buttons],
-            *machines.values(),
-            [machine.count_sprite for machine in machines.values()],
+            *self.machines.values(),
+            [machine.count_sprite for machine in self.machines.values()],
             self.text_buttons
         )
         self.sprite_layers = [
@@ -307,7 +307,7 @@ class ClimateClicker:
     @property
     def energy_per_second(self):
         return sum([machine.energy_per_second * machine.count
-                    for machine in machines.values()])
+                    for machine in self.machines.values()])
 
     def update(self):
         """Called on new frame"""
@@ -328,7 +328,7 @@ class ClimateClicker:
                 for button in self.upgrade_buttons:
                     if button.rect.collidepoint(pos):
                         button.clicked()
-                for machine in machines.values():
+                for machine in self.machines.values():
                     if machine.rect.collidepoint(pos):
                         if self.score < machine.price:
                             sounds["beep"].play()
@@ -359,7 +359,7 @@ class ClimateClicker:
         return {
             "score": self.score,
             "machine_count": {machine_name: machine.count
-                              for machine_name, machine in machines.items()},
+                              for machine_name, machine in self.machines.items()},
             "upgrade_level": {
                 upgrade.upgrade_type: upgrade.level
                 for upgrade in self.upgrade_buttons
@@ -369,7 +369,7 @@ class ClimateClicker:
     def load_data(self, data):
         self.score = data["score"]
         for machine, machine_count in data["machine_count"].items():
-            machines.machines[machine].count = machine_count
+            self.machines[machine].count = machine_count
         for upgrade in self.upgrade_buttons:
             upgrade.set_level_manual(
                 data["upgrade_level"][upgrade.upgrade_type])
