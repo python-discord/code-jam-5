@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0bdcf7b0-93d0-4a70-9f61-de08be7381ac" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/faithful_fleas/Resources/quiz.json" beforeDir="false" afterPath="$PROJECT_DIR$/faithful_fleas/Resources/quiz.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/faithful_fleas/cogs/ClimateQuiz.py" beforeDir="false" afterPath="$PROJECT_DIR$/faithful_fleas/cogs/ClimateQuiz.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,7 +44,7 @@
           <entry key="dummy" value="14" />
           <entry key="json" value="1637" />
           <entry key="md" value="775" />
-          <entry key="py" value="10421" />
+          <entry key="py" value="10494" />
           <entry key="txt" value="5" />
         </counts>
       </usages-collector>
@@ -54,7 +53,7 @@
           <entry key="JSON" value="1637" />
           <entry key="Markdown" value="775" />
           <entry key="PLAIN_TEXT" value="19" />
-          <entry key="Python" value="10421" />
+          <entry key="Python" value="10494" />
           <entry key="TOML" value="1" />
         </counts>
       </usages-collector>
@@ -96,13 +95,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/faithful_fleas/cogs/ClimateQuiz.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="186" column="82" selection-start-line="186" selection-start-column="82" selection-end-line="186" selection-end-column="82" />
+            <state relative-caret-position="159">
+              <caret line="22" column="32" lean-forward="true" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
-                <marker date="1562259746138" expanded="true" signature="382:387" ph="..." />
-                <marker date="1562259746138" expanded="true" signature="4117:4856" ph="..." />
-                <marker date="1562259746138" expanded="true" signature="8046:8051" ph="..." />
+                <marker date="1562260284466" expanded="true" signature="382:387" ph="..." />
+                <marker date="1562260284466" expanded="true" signature="4151:4890" ph="..." />
+                <marker date="1562260284466" expanded="true" signature="8109:8114" ph="..." />
               </folding>
             </state>
           </provider>
@@ -309,14 +308,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16071428" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49925596" visible="true" weight="0.31384614" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49925596" visible="true" weight="0.17230769" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -442,13 +440,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/faithful_fleas/cogs/ClimateQuiz.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="186" column="82" selection-start-line="186" selection-start-column="82" selection-end-line="186" selection-end-column="82" />
+        <state relative-caret-position="159">
+          <caret line="22" column="32" lean-forward="true" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
-            <marker date="1562259746138" expanded="true" signature="382:387" ph="..." />
-            <marker date="1562259746138" expanded="true" signature="4117:4856" ph="..." />
-            <marker date="1562259746138" expanded="true" signature="8046:8051" ph="..." />
+            <marker date="1562260284466" expanded="true" signature="382:387" ph="..." />
+            <marker date="1562260284466" expanded="true" signature="4151:4890" ph="..." />
+            <marker date="1562260284466" expanded="true" signature="8109:8114" ph="..." />
           </folding>
         </state>
       </provider>
