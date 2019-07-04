@@ -39,7 +39,7 @@ class Machine(pygame.sprite.Sprite):
         self.count_sprite.image = count_text
 
 
-class MachineLoader:
+class MachineLoader(dict):
     def __init__(self):
         self.machines = None
         self.master = None
@@ -61,10 +61,22 @@ class MachineLoader:
 
     def __getitem__(self, key):
         if not self.machines:
-            raise RuntimeError("You must call load on machines "
-                               "before accessing a machine")
+            raise RuntimeError(
+                "You must call load on machines before accessing a machine")
             # TODO more specific error
         return self.machines[key]
+
+    def values(self):
+        return self.machines.values()
+
+    def keys(self):
+        return self.machines.keys()
+
+    def items(self):
+        return self.machines.items()
+
+    def __iter__(self):
+        return iter(self.machines.keys())
 
 
 machines = MachineLoader()

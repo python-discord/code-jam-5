@@ -12,6 +12,7 @@ from machines import machines
 import time
 import events
 from util import normalized_pos_pixels
+import json
 
 
 BACKGROUND_COLOR = Color('white')
@@ -42,10 +43,24 @@ def score_to_image(score: int):
     raise RuntimeError("Score didn't make sense")
 
 
-class ValueLabel(pygame.sprite.Sprite):
-    def __init__(self, parent, x_norm, y_norm, label, units):
+class TextButton(pygame.sprite.Sprite):
+    def __init__(self, x_norm, y_norm, text, on_click,
+                 font=None, color=Color('#222222')):
         pygame.sprite.Sprite.__init__(self)
-        self.parent = parent
+        self.font = font or pygame.font.Font(None, 20)
+        self.text = text
+        self.x_norm = x_norm
+        self.y_norm = y_norm
+        self.on_click = on_click
+        self.color = color
+        self.image = self.font.render(self.text, 0, self.color)
+        self.rect = self.image.get_rect().move(
+            *normalized_pos_pixels((self.x_norm, self.y_norm)))
+
+
+class ValueLabel(pygame.sprite.Sprite):
+    def __init__(self, x_norm, y_norm, label, units):
+        pygame.sprite.Sprite.__init__(self)
         self.label = label
         self.units = units
         self.x_norm = x_norm
@@ -103,19 +118,27 @@ class UpgradeButton(pygame.sprite.Sprite):
             self.rect.move_ip(-self.rect.width / 2, -self.rect.height / 2)
 
         self.upgrade_level = 0
-        self.cost = base_cost
+        self.base_cost = base_cost
+        self.cost = self.base_cost
         self.cost_scaling = cost_scaling
         self.upgrade_type = upgrade_type
 
         self.parent = parent
 
-        self.cost_display = ValueLabel(self, self.x_norm, self.y_norm - .03,
+        self.cost_display = ValueLabel(self.x_norm, self.y_norm - .03,
                                        "Cost", "Joules")
         self.cost_display.value = self.cost
 
-        self.level_display = ValueLabel(self, self.x_norm,
+        self.level_display = ValueLabel(self.x_norm,
                                         self.y_norm - .015,
                                         "Level", "")
+
+    def set_level_manual(self, level):
+        self.upgrade_level = level
+        self.cost = self.base_cost*(self.cost_scaling**self.upgrade_level)
+        self.apply_upgrades()
+        self.cost_display.value = self.cost
+        self.level_display.value = self.upgrade_level
 
     def clicked(self):
         if self.parent.score >= self.cost:
@@ -128,6 +151,8 @@ class UpgradeButton(pygame.sprite.Sprite):
             self.parent.events.send(f"buy_upgrade_{self.upgrade_type}")
 
     def apply_upgrades(self):
+        if not self.upgrade_level:
+            return
         if self.upgrade_type == "click_value":
             self.parent.click_value = 2**self.upgrade_level
         elif self.upgrade_type == "crank_speed":
@@ -259,10 +284,14 @@ class ClimateClicker:
                           images['upgrade_buttons3'])
         ]
 
+        self.save_button = TextButton(0.4, 0.1, "Save", self.save)
+        self.load_button = TextButton(0.6, 0.1, "Load", self.load)
+        self.text_buttons = (self.save_button, self.load_button)
+
         self.score_sprite = ValueLabel(
-            self, 0.02, 0.9, "Score", "Joules")
+            0.02, 0.9, "Score", "Joules")
         self.speed_sprite = ValueLabel(
-            self, 0.02, 0.85, "Speed", "Rotations per Second")
+            0.02, 0.85, "Speed", "Rotations per Second")
 
         gui_plain = pygame.sprite.RenderPlain(
             self.score_sprite,
@@ -270,8 +299,9 @@ class ClimateClicker:
             *self.upgrade_buttons,
             [button.cost_display for button in self.upgrade_buttons],
             [button.level_display for button in self.upgrade_buttons],
-            *machines.machines.values(),
-            [machine.count_sprite for machine in machines.machines.values()]
+            *machines.values(),
+            [machine.count_sprite for machine in machines.values()],
+            self.text_buttons
         )
         self.sprite_layers = [
             pygame.sprite.RenderPlain(self.crank),
@@ -285,7 +315,7 @@ class ClimateClicker:
     @property
     def energy_per_second(self):
         return sum([machine.energy_per_second * machine.count
-                    for machine in machines.machines.values()])
+                    for machine in machines.values()])
 
     def update(self):
         """Called on new frame"""
@@ -306,7 +336,7 @@ class ClimateClicker:
                 for button in self.upgrade_buttons:
                     if button.rect.collidepoint(pos):
                         button.clicked()
-                for machine in machines.machines.values():
+                for machine in machines.values():
                     if machine.rect.collidepoint(pos):
                         if self.score < machine.price:
                             sounds["beep"].play()
@@ -314,6 +344,9 @@ class ClimateClicker:
                             self.score -= machine.price
                             machine.count += 1
                             self.events.send(f"buy_machine_{machine.name}")
+                for button in self.text_buttons:
+                    if button.rect.collidepoint(pos):
+                        button.on_click()
 
         self.screen.fill(BACKGROUND_COLOR)
         for sprite_layer in self.sprite_layers:
@@ -329,6 +362,36 @@ class ClimateClicker:
         while not self.exit_requested:
             self.update()
         pygame.quit()
+
+    def as_dict(self):
+        return {
+            "score": self.score,
+            "machine_count": {machine_name: machine.count
+                              for machine_name, machine in machines.items()},
+            "upgrade_level": {
+                upgrade.upgrade_type: upgrade.upgrade_level
+                for upgrade in self.upgrade_buttons
+            }
+        }
+
+    def load_data(self, data):
+        self.score = data["score"]
+        for machine, machine_count in data["machine_count"].items():
+            machines.machines[machine].count = machine_count
+        for upgrade in self.upgrade_buttons:
+            upgrade.set_level_manual(
+                data["upgrade_level"][upgrade.upgrade_type])
+
+    def save(self):
+        with open("savefile.json", "w") as savefile:
+            as_dict = self.as_dict()
+            print(as_dict)
+            json.dump(as_dict, savefile)
+
+    def load(self):
+        with open("savefile.json", "r") as savefile:
+            save_data = json.load(savefile)
+        self.load_data(save_data)
 
     @property
     def score(self):
