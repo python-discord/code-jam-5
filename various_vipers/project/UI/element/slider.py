@@ -4,6 +4,7 @@ import pygame as pg
 from pygame import Rect
 from pygame.image import load
 
+from project.UI.fx.sound import Sound
 from project.constants import SLIDER_BODY, SLIDER_INDICATOR, SliderProperties, WIDTH
 from project.utils.loader import Load, Save
 
@@ -68,7 +69,7 @@ class Slider:
                     (100 / (self.width - self.width_i - 3)) * (x - self.x)
                 )
                 Save.volume(self.volume)
-                pg.mixer.music.set_volume(self.volume / 100)
+                Sound.update(self.volume)
         elif b:
             self.click = self.slider_body.collidepoint(
                 x, y

@@ -1,7 +1,7 @@
 import pygame as pg
 
 from project.constants import BG_MUSIC, SOUNDS_BUTTONS as SND
-from project.tools.loader import Load
+from project.utils.loader import Load
 
 
 class Sound:

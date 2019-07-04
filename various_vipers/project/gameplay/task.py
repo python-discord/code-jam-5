@@ -294,11 +294,68 @@ class TaskTicTacToe(Task):
     heat_add_success: float = 0
     heat_add_failure: float = 0
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.human = -1
+        self.computer = +1
+        self.board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+
+        self.first_move = int()
+
+        side = self.window_rect.height * 0.9
+
+        self.board_rect = pg.Rect(
+            int((self.window_rect.width - side) / 2 + self.window_rect.left),
+            int(self.window_rect.height * 0.05 + self.window_rect.top),
+            int(side),
+            int(side),
+        )
+
     def start(self) -> None:
         super().start()
+
+        self.first_move = choice([self.human, self.computer])
 
     def update(self, event: pg.event) -> None:
         super().update()
 
     def draw(self) -> None:
         super().draw()
+        self.screen.fill(Color.white, self.board_rect)
+
+    def __game_over(self):
+        if self.won(self.board, self.human) or self.won(self.board, self.computer):
+            return True
+        return False
+
+    def __won(self, player):
+        win_boards = [
+            [self.board[0][0], self.board[0][1], self.board[0][2]],
+            [self.board[1][0], self.board[1][1], self.board[1][2]],
+            [self.board[2][0], self.board[2][1], self.board[2][2]],
+            [self.board[0][0], self.board[1][0], self.board[2][0]],
+            [self.board[0][1], self.board[1][1], self.board[2][1]],
+            [self.board[0][2], self.board[1][2], self.board[2][2]],
+            [self.board[0][0], self.board[1][1], self.board[2][2]],
+            [self.board[2][0], self.board[1][1], self.board[0][2]],
+        ]
+
+        if 3 * [player] in win_boards:
+            return True
+        return False
+
+    def __cells_left(self):
+        """Returns a list of cordinates of empty cells."""
+        cells = list()
+        for x, row in enumerate(self.board):
+            for y, cell in enumerate(row):
+                if cell == 0:
+                    cells.append([x, y])
+        return cells
+
+    def __insert_human_move(self, x, y):
+        self.board[x][y] = self.human
+
+    def __make_computer_move(self, empty_cells):
+        pass
