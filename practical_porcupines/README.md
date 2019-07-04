@@ -76,7 +76,7 @@ Run the api in the background:
 python -m practical_porcupines flask-api &
 ```
 
-Run the discord bot in the background where `x` is the bot's token:
+Run the discord bot in the background:
 
 ```bash
 pipenv run python -m practical_porcupines discord-bot &
@@ -85,7 +85,7 @@ pipenv run python -m practical_porcupines discord-bot &
 Run the web-portal in the background:
 
 ```bash
-pipenv run python -m practical_porcupines flask-webportal
+pipenv run python -m practical_porcupines flask-webportal &
 ```
 
 - Please navigate to 0.0.0.0:8081 (or whatever else is set in `config.toml`) to visit the web-portal mini-project.
