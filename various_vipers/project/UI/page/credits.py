@@ -19,7 +19,6 @@ class Credits:
 
     def __init__(self, screen: pg.Surface):
         self.screen = screen
-
         back_btn_img = pg.image.load(str(BTN["back-btn"])).convert_alpha()
         back_btn_img_h = pg.image.load(str(BTN["back-btn-hover"])).convert_alpha()
 

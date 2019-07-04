@@ -4,6 +4,9 @@ tmp_assets
 # Paint.NET
 *.pdn
 
+# user data
+data/
+
 # IDEs folders
 .vscode
 .vscode/

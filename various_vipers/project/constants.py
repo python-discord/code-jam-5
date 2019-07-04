@@ -111,7 +111,7 @@ SOUND_BUTTONS_PATHS = list(Path(PATH_UI_AUDIO).glob("*.ogg"))
 SOUNDS_BUTTONS = dict(zip(SOUNDS_BUTTONS_NAMES, SOUND_BUTTONS_PATHS))
 
 # Music
-BG_MUSIC = PurePath(PATH_MUSIC).joinpath("azis.mp3")
+BG_MUSIC = PurePath(PATH_MUSIC).joinpath("who-loves-the-sun.mp3")
 
 
 class Color:
