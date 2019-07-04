@@ -41,11 +41,11 @@ if not pygame.image.get_extended():
 def score_to_image(score: int):
     # TODO there must be a cleaner way to do this, especially when we have
     # more than just 3 states
-    if score < 0:
+    if score < 10000:
         return "environment_negative"
-    elif score == 0:
+    elif score >= 10000 and score < 500000:
         return "environment_neutral"
-    elif score > 0:
+    elif score >= 500000:
         return "environment_positive"
     raise RuntimeError("Score didn't make sense")
 
