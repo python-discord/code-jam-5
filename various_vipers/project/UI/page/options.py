@@ -3,6 +3,7 @@ Options page.
 
 Handling input and making changes.
 """
+import logging
 import time
 
 import pygame as pg
@@ -19,6 +20,8 @@ from project.constants import (
     WindowState,
 )
 from project.tools.loader import Load, Save
+
+logger = logging.getLogger(__name__)
 
 
 class Options:
@@ -165,6 +168,7 @@ class Options:
                     self.slider.update()
 
                     Save.volume(self.slider.volume)
+                    pg.mixer.music.set_volume(self.slider.volume / 100)
                     self.mute = False
             else:
                 self.vol_btn_mute.draw()
@@ -180,6 +184,7 @@ class Options:
                     self.slider.update()
 
                     Save.volume(self.slider.volume)
+                    pg.mixer.music.set_volume(self.slider.volume / 100)
                     self.mute = True
             else:
                 self.vol_btn.draw()

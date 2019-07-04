@@ -3,7 +3,7 @@ Main Menu page.
 
 Handling input and creating new events.
 """
-
+import logging
 import time
 import webbrowser
 
@@ -21,6 +21,8 @@ from project.constants import (
     WIDTH,
     WindowState,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class MainMenu:
@@ -68,7 +70,9 @@ class MainMenu:
         # hover check for the play button
         for i, button in enumerate(self.buttons):
             if button.rect.collidepoint(mouse_x, mouse_y):
+
                 button.draw(hover=True)
+
                 if self.clicked:
                     self.sounds["click"].play()
                     return self.states[i]

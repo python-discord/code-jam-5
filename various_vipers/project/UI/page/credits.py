@@ -3,6 +3,7 @@ Credits page.
 
 Handling input and making changes.
 """
+import logging
 
 import pygame as pg
 
@@ -14,6 +15,8 @@ from project.constants import (
     SOUNDS_BUTTONS as SND,
     WindowState,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class Credits:

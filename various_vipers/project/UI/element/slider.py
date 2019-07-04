@@ -68,6 +68,7 @@ class Slider:
                     (100 / (self.width - self.width_i - 3)) * (x - self.x)
                 )
                 Save.volume(self.volume)
+                pg.mixer.music.set_volume(self.volume / 100)
         elif b:
             self.click = self.slider_body.collidepoint(
                 x, y
