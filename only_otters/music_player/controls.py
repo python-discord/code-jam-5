@@ -2,6 +2,8 @@ from PyQt5 import QtWidgets, QtMultimedia, QtCore, QtGui
 from .seeker import Seeker
 from pathlib import Path
 
+from only_otters.images import buttons as imgButtons
+
 
 class ControlsWidget(QtWidgets.QFrame):
     """Contains all the controls for a QMediaPlayer."""
@@ -22,11 +24,10 @@ class ControlsWidget(QtWidgets.QFrame):
 
         self.seeker = Seeker(self.player)
 
-        icons_path = Path('only_otters/images')
-        self.previous_song_icon = QtGui.QIcon(str(icons_path / 'previous.png'))
-        self.pause_song_icon = QtGui.QIcon(str(icons_path / 'pause.png'))
-        self.play_song_icon = QtGui.QIcon(str(icons_path / 'play.png'))
-        self.next_song_icon = QtGui.QIcon(str(icons_path / 'next.png'))
+        self.previous_song_icon = QtGui.QIcon(imgButtons.Previous.str)
+        self.pause_song_icon = QtGui.QIcon(imgButtons.Pause.str)
+        self.play_song_icon = QtGui.QIcon(imgButtons.Play.str)
+        self.next_song_icon = QtGui.QIcon(imgButtons.Next.str)
 
         self.previous_song_button = QtWidgets.QPushButton(self.previous_song_icon, '')
         self.previous_song_button.clicked.connect(self._previous_song)

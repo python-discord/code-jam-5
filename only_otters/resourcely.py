@@ -34,6 +34,10 @@ class Resource:
     md5hash: str = None
 
     @property
+    def str(self):
+        return str(self.url)
+
+    @property
     def QUrl(self):
         """Return a QUrl object built from the original url."""
         from PyQt5.QtCore import QUrl
