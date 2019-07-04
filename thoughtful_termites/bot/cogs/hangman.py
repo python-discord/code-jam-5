@@ -72,23 +72,23 @@ class Hangman(commands.Cog):
         with open(WORDS_PATH, "r") as file:
             words = file.read().split("\n")
 
-        self.word = words[random.randint(10000)]
+        self.word = words[random.randint(0, 10000)]
         self.guesses = []
         self.lives = 6
 
-    async def revealed(self):
-        revealed_word = [char.upper() if char in self.guesses else "_" for char in self.word]
+    def revealed(self):
+        revealed_word = [char.upper() if char in self.guesses else "\_" for char in self.word]
         return " ".join(revealed_word)
 
-    async def is_finished(self):
+    def is_finished(self):
         return all(char in self.guesses for char in self.word)
 
     @staticmethod
-    async def to_ascii(reaction: discord.Reaction):
-        if str(reaction) not in UNICODE_LETTERS:
+    def to_ascii(reaction: discord.Reaction):
+        if reaction.emoji not in UNICODE_LETTERS:
             raise ValueError
 
-        return string.ascii_lowercase[UNICODE_LETTERS.index(str(reaction))]
+        return string.ascii_lowercase[UNICODE_LETTERS.index(reaction.emoji)]
 
     @staticmethod
     async def clear_reactions(message: discord.Message):
@@ -97,7 +97,7 @@ class Hangman(commands.Cog):
         except (discord.Forbidden, discord.HTTPException):
             pass
 
-    async def hangman_message(self, contents):
+    def hangman_message(self, contents):
         return f"{contents}\n\n```{HANGMAN_STATES[6 - self.lives]}```\n\nThe word is: {self.revealed()}\n\nLives: {self.lives} "
 
     @commands.command()
@@ -106,9 +106,9 @@ class Hangman(commands.Cog):
             self.hangman_message("Welcome to Hangman! Start the game by reacting to this message.")
         )
 
-        while self.is_finished() or self.lives > 0:
+        while not self.is_finished() and self.lives > 0:
             try:
-                reaction = await self.bot.wait_for("reaction_add", timeout=60)
+                reaction, user = await self.bot.wait_for("reaction_add", timeout=60)
             except asyncio.TimeoutError:
                 return await ctx.send("You took too long. Goodbye...")
 
@@ -141,5 +141,11 @@ class Hangman(commands.Cog):
 
         if self.is_finished():
             await message.edit(content=f"Congratulations! You solved the puzzle in {len(self.guesses)} guesses.")
+            await self.clear_reactions(message)
         elif self.lives == 0:
             await message.edit(content=f"Unfortunately, you died at {len(self.guesses)} guesses. The word was {self.word}.")
+            await self.clear_reactions(message)
+
+
+def setup(bot):
+    bot.add_cog(Hangman(bot))
