@@ -6,7 +6,7 @@ import pygame as pg
 from project.UI.page.credits import Credits
 from project.UI.page.main_menu import MainMenu
 from project.UI.page.options import Options
-from project.constants import BG_MUSIC, Color, FPS, HEIGHT, WIDTH, WindowState
+from project.constants import Color, FPS, HEIGHT, WIDTH, WindowState
 from project.gameplay.game_view import GameView
 from project.tools.loader import Load
 
@@ -21,9 +21,6 @@ class Game:
         """Set initial values."""
         pg.init()
         pg.mixer.init()
-
-        pg.mixer.music.load(str(BG_MUSIC))
-        pg.mixer.music.play()
 
         pg.display.set_caption("Various Vipers game in development")
 

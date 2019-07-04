@@ -12,13 +12,8 @@ from pygame.image import load
 from project.UI.element.button import Button
 from project.UI.element.slider import Slider
 from project.UI.element.vol_indicator import VolumeIndicator
-from project.constants import (
-    BUTTONS as BTN,
-    ButtonProperties,
-    Color,
-    SOUNDS_BUTTONS as SND,
-    WindowState,
-)
+from project.UI.fx.sound import Sound
+from project.constants import BUTTONS as BTN, ButtonProperties, Color, WindowState
 from project.tools.loader import Load, Save
 
 logger = logging.getLogger(__name__)
@@ -30,8 +25,6 @@ class Options:
     def __init__(self, screen: pg.Surface):
         self.screen = screen
         self.event = None
-
-        self.__load_sounds()
 
         back_btn_img = pg.image.load(str(BTN["back-btn"])).convert_alpha()
         back_btn_img_hover = pg.image.load(str(BTN["back-btn-hover"])).convert_alpha()
@@ -129,7 +122,7 @@ class Options:
             self.back_btn.draw(hover=True)
 
             if event.type == pg.MOUSEBUTTONDOWN:
-                self.sounds["click"].play()
+                Sound.click.play()
                 return WindowState.main_menu, self.fps_checked
         else:
             self.back_btn.draw()
@@ -146,12 +139,6 @@ class Options:
         self.fps_label.draw()
         return WindowState.options, self.fps_checked
 
-    def __load_sounds(self):
-        self.sounds = {
-            "click": pg.mixer.Sound(str(SND["click3"])),
-            "check": pg.mixer.Sound(str(SND["switch1"])),
-        }
-
     def __draw_volume_button(self):
         clicked = self.event.type == pg.MOUSEBUTTONDOWN
         self.mute = self.slider.volume == 0
@@ -161,14 +148,14 @@ class Options:
                 self.vol_btn_mute.draw(hover=True)
 
                 if clicked and (time.time() - self.last_click) > 0.3:
-                    self.sounds["check"].play()
+                    Sound.click.play()
                     self.last_click = time.time()
 
                     self.slider.volume = 5
                     self.slider.update()
 
                     Save.volume(self.slider.volume)
-                    pg.mixer.music.set_volume(self.slider.volume / 100)
+                    Sound.update(self.slider.volume)
                     self.mute = False
             else:
                 self.vol_btn_mute.draw()
@@ -177,14 +164,14 @@ class Options:
                 self.vol_btn.draw(hover=True)
 
                 if clicked and (time.time() - self.last_click) > 0.3:
-                    self.sounds["check"].play()
+                    Sound.click.play()
                     self.last_click = time.time()
 
                     self.slider.volume = 0
                     self.slider.update()
 
                     Save.volume(self.slider.volume)
-                    pg.mixer.music.set_volume(self.slider.volume / 100)
+                    Sound.update(self.slider.volume)
                     self.mute = True
             else:
                 self.vol_btn.draw()
@@ -199,7 +186,7 @@ class Options:
                 self.fps_checker_checked_btn.draw(hover=True)
 
                 if clicked and (time.time() - self.last_click) > 0.3:
-                    self.sounds["check"].play()
+                    Sound.click.play()
                     self.last_click = time.time()
                     self.fps_checked = False
                     Save.show_fps(self.fps_checked)
@@ -210,7 +197,7 @@ class Options:
                 self.fps_checker_btn.draw(hover=True)
 
                 if clicked and (time.time() - self.last_click) > 0.3:
-                    self.sounds["check"].play()
+                    Sound.click.play()
                     self.last_click = time.time()
                     self.fps_checked = True
                     Save.show_fps(self.fps_checked)

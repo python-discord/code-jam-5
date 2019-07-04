@@ -11,13 +11,13 @@ import pygame as pg
 from pygame.image import load
 
 from project.UI.element.button import Button, generate_main_buttons
+from project.UI.fx.sound import Sound
 from project.constants import (
     BUTTONS as BTN,
     ButtonProperties,
     HEIGHT,
     MAIN_MENU_BG,
     REPO_LINK,
-    SOUNDS_BUTTONS as SND,
     WIDTH,
     WindowState,
 )
@@ -35,7 +35,6 @@ class MainMenu:
         self.background = load(str(MAIN_MENU_BG)).convert_alpha()
 
         self.__load_images()
-        self.__load_sounds()
 
         self.__create_buttons()
         self.__store_buttons_and_states()
@@ -57,9 +56,6 @@ class MainMenu:
             tuple([load(str(j)).convert_alpha() for j in i]) for i in img_paths
         ]
 
-    def __load_sounds(self):
-        self.sounds = {"click": pg.mixer.Sound(str(SND["click3"]))}
-
     def draw(self, mouse_x: int, mouse_y: int, event) -> str:
         """Hadles all main menu events and draw every elements."""
         self.screen.blit(self.background, (0, 0, WIDTH, HEIGHT))
@@ -74,7 +70,7 @@ class MainMenu:
                 button.draw(hover=True)
 
                 if self.clicked:
-                    self.sounds["click"].play()
+                    Sound.click.play()
                     return self.states[i]
             else:
                 button.draw()
@@ -119,7 +115,7 @@ class MainMenu:
         if self.github_btn.rect.collidepoint(self.mouse_x, self.mouse_y):
             self.github_btn.draw(hover=True)
             if self.clicked and (time.time() - self.last_click) > 0.3:
-                self.sounds["click"].play()
+                Sound.click.play()
                 self.last_click = time.time()
                 webbrowser.open(REPO_LINK)
         else:
