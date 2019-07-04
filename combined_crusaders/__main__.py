@@ -47,13 +47,10 @@ class TextButton(pygame.sprite.Sprite):
     def __init__(self, coords, text, on_click,
                  font=None, color=Color('#222222')):
         pygame.sprite.Sprite.__init__(self)
-        self.font = font or pygame.font.Font(None, 20)
-        self.text = text
-        self.coords = coords
+        font = font or pygame.font.Font(None, 20)
         self.on_click = on_click
-        self.color = color
-        self.image = self.font.render(self.text, 0, self.color)
-        self.rect = self.image.get_rect().move(*in_pixels(self.coords))
+        self.image = font.render(text, 0, color)
+        self.rect = self.image.get_rect().move(*in_pixels(coords))
 
 
 class ValueLabel(pygame.sprite.Sprite):
@@ -111,7 +108,7 @@ class UpgradeButton(pygame.sprite.Sprite):
         if centered:
             self.rect.move_ip(-self.rect.width / 2, -self.rect.height / 2)
 
-        self.level = 0
+        self._level = 0
         self.base_cost = base_cost
         self.cost = self.base_cost
         self.cost_scaling = cost_scaling
@@ -126,8 +123,13 @@ class UpgradeButton(pygame.sprite.Sprite):
         self.level_display = ValueLabel((self.coords[0], self.coords[1]-.015),
                                         "Level", "")
 
-    def set_level_manual(self, level):
-        self.level = level
+    @property
+    def level(self):
+        return self._level
+
+    @level.setter
+    def level(self, value):
+        self._level = value
         self.cost = self.base_cost*(self.cost_scaling**self.level)
         self.apply_upgrades()
         self.cost_display.value = self.cost
@@ -135,17 +137,11 @@ class UpgradeButton(pygame.sprite.Sprite):
 
     def clicked(self):
         if self.parent.score >= self.cost:
-            self.level += 1
             self.parent.score -= self.cost
-            self.cost *= self.cost_scaling
-            self.apply_upgrades()
-            self.cost_display.value = self.cost
-            self.level_display.value = self.level
+            self.level += 1
             self.parent.events.send(f"buy_upgrade_{self.upgrade_type}")
 
     def apply_upgrades(self):
-        if not self.level:
-            return
         if self.upgrade_type == "click_value":
             self.parent.click_value = 2**self.level
         elif self.upgrade_type == "crank_speed":
@@ -153,9 +149,13 @@ class UpgradeButton(pygame.sprite.Sprite):
                 self.parent.crank.base_max_rotation_speed
                 * (self.level + 1))
         elif self.upgrade_type == "crank_inertia":
-            self.parent.crank.rotation_speed_decay = (
-                self.parent.crank.rotation_speed_base_decay
-                * (.1 + (.9 / self.level)))
+            if not self.level:
+                self.parent.crank_rotation_speed_decay = (
+                     self.parent.crank.rotation_speed_base_decay)
+            else:
+                self.parent.crank.rotation_speed_decay = (
+                    self.parent.crank.rotation_speed_base_decay
+                    * (.1 + (.9 / self.level)))
 
 
 class Crank(pygame.sprite.Sprite):
@@ -371,8 +371,7 @@ class ClimateClicker:
         for machine, machine_count in data["machine_count"].items():
             self.machines[machine].count = machine_count
         for upgrade in self.upgrade_buttons:
-            upgrade.set_level_manual(
-                data["upgrade_level"][upgrade.upgrade_type])
+            upgrade.level = data["upgrade_level"][upgrade.upgrade_type]
 
     def save(self):
         with open("savefile.json", "w") as savefile:
