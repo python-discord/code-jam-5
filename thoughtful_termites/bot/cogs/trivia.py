@@ -16,10 +16,12 @@ class Trivia(commands.Cog):
         with open(TRIVIA_QUESTIONS_PATH) as fp:
             self.raw_trivia_questions = json.load(fp)
 
-        self.trivia_categories = set(n[0] for n in self.raw_trivia_questions)
-        self.trivia_difficulties = set(n[2] for n in self.raw_trivia_questions)
+        self.trivia_categories = set(n['category'] for n in self.raw_trivia_questions)
+        self.trivia_difficulties = set(n['difficulty'] for n in self.raw_trivia_questions)
 
     def get_trivia_question(self, difficulty, category):
+        random.shuffle(self.raw_trivia_questions)
+
         def pred(result):
             if category:
                 if not result['category'] == category:
@@ -56,13 +58,13 @@ class Trivia(commands.Cog):
                   '\N{REGIONAL INDICATOR SYMBOL LETTER D}'
                   ]
         embed, answers, correct_answer = self.prepare_embed(difficulty, category)
-        embed.set_author(name=ctx.author, icon_url=ctx.author.icon_url)
+        embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
         msg = await ctx.send(embed=embed)
         for i in range(len(answers)):
             await msg.add_reaction(lookup[i])
 
         def check(r, u):
-            if not (u == ctx.author and r.channel == ctx.channel):
+            if not (u == ctx.author and r.message.channel == ctx.channel):
                 return False
             if not str(r) in lookup:
                 return False
@@ -83,9 +85,11 @@ class Trivia(commands.Cog):
             pass
         return correct
 
-    @commands.group(invoke_without_subcommand=True)
+    @commands.group(invoke_without_command=True)
     async def trivia(self, ctx, difficulty: str = None, *, category: str = None):
         # TODO: Validate difficulty and category with custom converter
+        if ctx.invoked_subcommand is not None:
+            return
         await self.do_trivia(ctx, difficulty, category)
 
     @trivia.command()
@@ -98,7 +102,7 @@ class Trivia(commands.Cog):
         except asyncio.TimeoutError:
             return await ctx.send('You took too long. Goodbye...')
         try:
-            rounds = int(rounds)
+            rounds = int(rounds.clean_content)
         except ValueError:
             return await ctx.send('That wasn\'t a valid number. Goodbye...')
         if not rounds > 0:
@@ -117,7 +121,7 @@ class Trivia(commands.Cog):
                 losses += 1
 
         fmt = f'Game Over!\nAttempts: {attempts}\nCorrect: {wins}\n' \
-              f'Incorrect: {losses}\nCorrect %: {wins/attempts:2f}\n\n' \
+              f'Incorrect: {losses}\nCorrect: {int(wins/attempts*100)}%\n\n' \
               f'Thanks for playing!'
         await ctx.send(embed=discord.Embed(colour=self.bot.colour,
                                            description=fmt,
@@ -125,9 +129,10 @@ class Trivia(commands.Cog):
                                            )
                        )
 
-    @trivia.commands()
+    @trivia.command()
     async def categories(self, ctx):
-        fmt = '\n'.join(f'•`{n}`' for n in self.categories)
+        fmt = 'Categories:\n' + '\n'.join(f'•`{n}`' for n in self.trivia_categories)
+        fmt += f"\n\nDifficulties:\n" + '\n'.join(f'•`{n}`' for n in self.trivia_difficulties)
         await ctx.send(embed=discord.Embed(colour=self.bot.colour,
                                            description=fmt,
                                            timestamp=datetime.utcnow()
