@@ -6,12 +6,14 @@ import pygame as pg
 from project.UI.page.credits import Credits
 from project.UI.page.main_menu import MainMenu
 from project.UI.page.options import Options
-from project.constants import Color, FPS, HEIGHT, WIDTH, WindowState
+from project.constants import FPS, HEIGHT, WIDTH, WindowState
+from project.gameplay.game_state import GameState
 from project.gameplay.game_view import GameView
 from project.utils.loader import Load
 
 
 logger = logging.getLogger(__name__)
+game_vars = GameState()
 
 
 class Game:
@@ -57,26 +59,25 @@ class Game:
                 self.running = False
 
     def _draw(self):
-        if self.window_state == WindowState.game:
-            self.game_view.update(self.event)
-            self.game_view.draw()
-        else:
-            self.screen.fill(Color.black)
+        self.game_view.update(self.event)
+        self.game_view.draw()
 
-            if self.window_state == WindowState.main_menu:
-                self.window_state = self.main_menu.draw(
-                    self.mouse_x, self.mouse_y, self.event
-                )
-            elif self.window_state == WindowState.options:
-                self.window_state, self.show_fps = self.options.draw(
-                    self.mouse_x, self.mouse_y, self.event
-                )
-            elif self.window_state == WindowState.credit:
-                self.window_state = self.credits.draw(
-                    self.mouse_x, self.mouse_y, self.event
-                )
-            elif self.window_state == WindowState.quited:
-                self.running = False
+        if self.window_state == WindowState.main_menu:
+            self.window_state = self.main_menu.draw(
+                self.mouse_x, self.mouse_y, self.event
+            )
+        elif self.window_state == WindowState.options:
+            self.window_state, self.show_fps = self.options.draw(
+                self.mouse_x, self.mouse_y, self.event
+            )
+        elif self.window_state == WindowState.credit:
+            self.window_state = self.credits.draw(
+                self.mouse_x, self.mouse_y, self.event
+            )
+        elif self.window_state == WindowState.quited:
+            self.running = False
+        elif self.window_state == WindowState.game:
+            game_vars.is_playing = True
 
         if self.show_fps:
             self._draw_fps()

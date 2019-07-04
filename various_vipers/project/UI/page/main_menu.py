@@ -16,7 +16,6 @@ from project.constants import (
     BUTTONS as BTN,
     ButtonProperties,
     HEIGHT,
-    MAIN_MENU_BG,
     REPO_LINK,
     WIDTH,
     WindowState,
@@ -31,8 +30,6 @@ class MainMenu:
     def __init__(self, screen: pg.Surface):
         """Set initial main menu values."""
         self.screen = screen
-
-        self.background = load(str(MAIN_MENU_BG)).convert_alpha()
 
         self.__load_images()
 
@@ -58,7 +55,6 @@ class MainMenu:
 
     def draw(self, mouse_x: int, mouse_y: int, event) -> str:
         """Hadles all main menu events and draw every elements."""
-        self.screen.blit(self.background, (0, 0, WIDTH, HEIGHT))
         self.event = event
         self.mouse_x, self.mouse_y = mouse_x, mouse_y
 

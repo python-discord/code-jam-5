@@ -9,11 +9,13 @@ import pygame as pg
 from project.constants import Color, TILE_COLS, TILE_ROWS, WIDTH
 from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
 from .earth import Earth
+from .game_state import GameState
 from .sun import Sun
 from .task import TaskCursorMaze, TaskRockPaperScissors, TaskTicTacToe
 
 
 logger = logging.getLogger(__name__)
+game_vars = GameState()
 
 
 class Period(object):
@@ -74,7 +76,11 @@ class Period(object):
         """Update gets called every game tick."""
         self.earth.update(event)
         self.sun.update(event)
-        self.__handle_task_spawn()
+
+        if game_vars.is_playing:
+            if self.start_time is None:
+                self.start_time = time.time()
+            self.__handle_task_spawn()
 
     def draw(self) -> None:
         """Draw gets called every game tick."""
@@ -84,9 +90,7 @@ class Period(object):
 
     def draw_age(self) -> None:
         """Draw how long the earth lived."""
-        if self.start_time is None:
-            self.start_time = time.time()
-        else:
+        if self.start_time is not None:
             elapsed_sec = time.time() - self.start_time
             age = self.start_date + datetime.timedelta(days=30 * elapsed_sec)
             font = pg.font.Font(None, 50)

@@ -40,17 +40,34 @@ class Sun:
         """Update is called every game tick."""
         self.update_angle()
 
-        # Increase heat based on uncompleted task count
-        task_count = 0
-        # Get uncompleted task count. weeeee
-        for biome in self.biomes:
-            for row in biome.tilemap:
-                for tile in row:
-                    if tile.task:
-                        task_count += 1
+        if game_vars.is_playing:
+            # Increase heat based on uncompleted task count
+            task_count = 0
+            # Get uncompleted task count. weeeee
+            for biome in self.biomes:
+                for row in biome.tilemap:
+                    for tile in row:
+                        if tile.task:
+                            task_count += 1
 
-        game_vars.current_heat += self.heat_per_sec * task_count
-        game_vars.current_heat = min(max(game_vars.current_heat, 0), MAX_HEAT)
+            game_vars.current_heat += self.heat_per_sec * task_count
+            game_vars.current_heat = min(max(game_vars.current_heat, 0), MAX_HEAT)
+
+    def draw(self) -> None:
+        """Draw is called every game tick."""
+        self.screen.blit(
+            self._image_cache[int(self.angle)], self.image.get_rect(center=(0, 0))
+        )
+
+        if game_vars.is_playing:
+            # Draw current heat number
+            font = pg.font.Font(None, 50)
+            text = f"{str(int(game_vars.current_heat))} / {str(MAX_HEAT)}"
+            heat_indicator = font.render(text, True, pg.Color("black"))
+            # screen middle top
+            text_x = int(WIDTH // 2) - int(heat_indicator.get_width() // 2)
+            text_y = 40
+            self.screen.blit(heat_indicator, (text_x, text_y))
 
     def update_angle(self) -> None:
         """Update suns angle relative to itself. Called every game tick."""
@@ -61,17 +78,3 @@ class Sun:
         # You spin me right round
         self.angle += angle_velocity
         self.angle %= 360
-
-    def draw(self) -> None:
-        """Draw is called every game tick."""
-        self.screen.blit(
-            self._image_cache[int(self.angle)], self.image.get_rect(center=(0, 0))
-        )
-
-        # Draw current heat number
-        font = pg.font.Font(None, 50)
-        text = f"{str(int(game_vars.current_heat))} / {str(MAX_HEAT)}"
-        heat_indicator = font.render(text, True, pg.Color("black"))
-        text_x = int(WIDTH // 2) - int(heat_indicator.get_width() // 2)  # screen middle
-        text_y = 40
-        self.screen.blit(heat_indicator, (text_x, text_y))
