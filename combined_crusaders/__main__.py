@@ -11,7 +11,7 @@ from media import sounds, images
 from machines import load_machines
 import time
 import events
-from util import in_pixels
+from util import in_pixels, in_norm
 import json
 
 
@@ -57,15 +57,16 @@ class ValueLabel(pygame.sprite.Sprite):
     def __init__(self, coords, label, units):
         pygame.sprite.Sprite.__init__(self)
         self.label = label
-        self.units = units
         self.coords = coords
-        self.font = pygame.font.Font(None, 20)
-        self.font.set_italic(1)
-        self.color = Color('#222222')
+        self.units = units
+        self.font = pygame.font.SysFont("SegoeUI", 18)
+        self.font.set_bold(1)
+        self.color = Color('#ffffff')
         self._value = 0
         msg = f"{self.label}: {'9'*10}"  # init rect to a wide size
         self.image = self.font.render(msg, 0, self.color)
-        self.rect = self.image.get_rect().move(*in_pixels(self.coords))
+        self.rect = self.image.get_rect()
+        self.rect.move_ip(*in_pixels(self.coords))
         self.update()
 
     def update(self):
@@ -90,7 +91,7 @@ class StaticImage(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         screen = pygame.display.get_surface()
         self.area = screen.get_rect()
-        self.rect.move_ip(*in_pixels(coords))
+        self.rect.move_ip(*in_pixels(self.coords))
         if centered:
             self.rect.move_ip(-self.rect.width / 2, -self.rect.height / 2)
 
@@ -116,12 +117,15 @@ class UpgradeButton(pygame.sprite.Sprite):
 
         self.parent = parent
 
-        self.cost_display = ValueLabel((self.coords[0], self.coords[1]-.03),
-                                       "Cost", "Joules")
+        line_height = pygame.font.SysFont("SegoeUI", 18).get_linesize() * .75
+
+        cost_coords = in_norm((self.rect.x, self.rect.y - (self.rect.h/2)))
+        self.cost_display = ValueLabel(cost_coords, "Cost", "Joules")
         self.cost_display.value = self.cost
 
-        self.level_display = ValueLabel((self.coords[0], self.coords[1]-.015),
-                                        "Level", "")
+        level_coords = in_norm((self.rect.x,
+                                self.rect.y - (self.rect.h/2) - line_height))
+        self.level_display = ValueLabel(level_coords, "Level", "")
 
     @property
     def level(self):
@@ -260,6 +264,9 @@ class ClimateClicker:
         self.screen.blit(self.background, (0, 0))
         pygame.display.flip()
 
+        self.overlay1 = pygame.Rect(0, 0, 200, 600)
+        self.overlay2 = pygame.Rect(0, 650, 300, 150)
+        self.overlay_color = Color("#222222")
         self.crank = Crank(self, (0.5, 0.5),
                            [images['crank1'],
                             images['crank2'],
@@ -270,9 +277,9 @@ class ClimateClicker:
         self.upgrade_buttons = (
             UpgradeButton(self, (0.01, 0.05), 10, 1.5, "crank_speed",
                           images['upgrade_buttons1']),
-            UpgradeButton(self, (0.01, 0.15), 100, 10, "click_value",
+            UpgradeButton(self, (0.01, 0.175), 100, 10, "click_value",
                           images['upgrade_buttons2']),
-            UpgradeButton(self, (0.01, 0.25), 100, 2, "crank_inertia",
+            UpgradeButton(self, (0.01, 0.3), 100, 2, "crank_inertia",
                           images['upgrade_buttons3'])
         )
 
@@ -337,10 +344,11 @@ class ClimateClicker:
                             machine.count += 1
                             self.events.send(f"buy_machine_{machine.name}")
 
-        self.screen.fill(BACKGROUND_COLOR)
         for sprite_layer in self.sprite_layers:
             sprite_layer.update()
         self.screen.blit(self.background, (0, 0))
+        self.screen.fill(self.overlay_color, rect=self.overlay1, special_flags=pygame.BLEND_MULT)
+        self.screen.fill(self.overlay_color, rect=self.overlay2, special_flags=pygame.BLEND_MULT)
         for sprite_layer in self.sprite_layers:
             sprite_layer.draw(self.screen)
         pygame.display.flip()
