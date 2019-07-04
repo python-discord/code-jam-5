@@ -8,7 +8,7 @@ def load_image(filename: str, centered: bool = False):
 
     if centered:
         image.anchor_x = image.width // 2
-        image.anchor_y = image.width // 2
+        image.anchor_y = image.height // 2
 
     return image
 
