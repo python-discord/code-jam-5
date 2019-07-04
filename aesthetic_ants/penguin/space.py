@@ -4,7 +4,6 @@ import typing
 import pyglet
 
 from .object import Object
-from .player import Player
 
 ObjectCallback = typing.Callable[[Object, Object], typing.Any]
 
@@ -103,11 +102,19 @@ class Space:
 
 def default_space() -> Space:
     from .constants import CollisionType
+    from .enemy import Enemy
+    from .player import Player
+
     space = Space()
 
     space.add_collision_handler(CollisionType.PLAYER,
                                 CollisionType.ENEMY,
                                 Player.on_collision_enemy,
                                 Player.collides_with)
+
+    space.add_collision_handler(CollisionType.ENEMY,
+                                CollisionType.SNOWBALL,
+                                Enemy.on_collision_snowball,
+                                Enemy.collides_with)
 
     return space

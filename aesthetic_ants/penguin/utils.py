@@ -1,5 +1,7 @@
 # Contains utility functions
 import math
+import typing
+
 import pyglet
 
 
@@ -12,6 +14,15 @@ def angle_between(x1: float, y1: float, x2: float, y2: float) -> float:
 
     # We return negative because pyglet and math treat rotation differently
     return -math.atan2(dy, dx)
+
+
+def vector_from_angle(angle: float, magnitude: float = 1) -> typing.Tuple[float, float]:
+    """
+    Returns a vector with a given angle (in radians) and magnitude.
+    """
+    x = math.cos(angle) * magnitude
+    y = math.sin(angle) * magnitude
+    return x, y
 
 
 def distance_between(x1: float, y1: float, x2: float, y2: float) -> float:

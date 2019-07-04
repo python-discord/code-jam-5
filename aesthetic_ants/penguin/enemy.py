@@ -1,5 +1,6 @@
 import random
 
+from .snowball import Snowball
 from .constants import CollisionType
 from .object import PhysicalObject
 from .resources import ENEMY_IMAGE
@@ -17,3 +18,7 @@ class Enemy(PhysicalObject):
     def update(self, dt):
         self.x += self.velocity_x * dt
         self.y += self.velocity_y * dt
+
+    def on_collision_snowball(self, snowball: Snowball):
+        self.space.remove(self)
+        self.space.remove(snowball)
