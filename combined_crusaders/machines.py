@@ -23,7 +23,7 @@ class Machine(pygame.sprite.Sprite):
         abs_coords = in_pixels(coords)
         self.rect = self.image.get_rect(center=abs_coords)
         self.count_sprite = pygame.sprite.Sprite()
-        self.count_sprite.image = self.font.render("9", 0, self.text_color )
+        self.count_sprite.image = self.font.render("9", 0, self.text_color)
         self.count_sprite.rect = self.count_sprite.image.get_rect(
             center=abs_coords)
         self.count = 0
