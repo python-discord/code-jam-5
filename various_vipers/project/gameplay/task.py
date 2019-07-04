@@ -26,6 +26,10 @@ class Task(object):
     # Time limit in seconds until the task closes
     time_limit: float = 10
 
+    # How much heat does success/failure add
+    heat_add_success: float = 0
+    heat_add_failure: float = 0
+
     def __init__(self, screen: pg.Surface, biome: Optional[Biome] = None):
         self.screen = screen
 
@@ -70,6 +74,9 @@ class Task(object):
         """Called when task was completed."""
         logger.debug(successful)
         game_vars.open_task = None
+        game_vars.current_heat += (
+            self.heat_add_success if successful else self.heat_add_failure
+        )
         self.is_done = True
 
     def _draw_timer(self) -> None:
@@ -89,6 +96,10 @@ class TaskCursorMaze(Task):
     Maze is generated automatically and is different each time.
     Task is themed around the biome this task spawned in.
     """
+
+    # How much heat does success/failure add
+    heat_add_success: float = -5
+    heat_add_failure: float = 0
 
     maze: List["Cell"]
 
@@ -258,6 +269,10 @@ class TaskRockPaperScissors(Task):
     Task is themed around the biome this task spawned in.
     """
 
+    # How much heat does success/failure add
+    heat_add_success: float = 0
+    heat_add_failure: float = 0
+
     def start(self) -> None:
         super().start()
 
@@ -274,6 +289,10 @@ class TaskTicTacToe(Task):
 
     Task is themed around the biome this task spawned in.
     """
+
+    # How much heat does success/failure add
+    heat_add_success: float = 0
+    heat_add_failure: float = 0
 
     def start(self) -> None:
         super().start()
