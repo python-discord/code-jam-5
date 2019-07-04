@@ -1,6 +1,6 @@
-from enum import Enum
+from enum import Enum, auto
 
 
 class CollisionType(Enum):
-    PLAYER = 1
-    ENEMY = 2
+    PLAYER = auto()
+    ENEMY = auto()
