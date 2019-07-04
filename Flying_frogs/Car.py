@@ -9,6 +9,7 @@ class car(object):
     def __init__(self,electric,image):
         self.electric = electric
         self.image = image
+        
     #Method to ask user to smash the car
     def smash(self):
         while True:
@@ -19,10 +20,29 @@ class car(object):
                 return False
             else:
                 print('Please respond with y or n.')
-    #Show the car
+                
+    #Show the car (Someone who can use python graphics please change this)
     def show(self):
         print(self.image)
 
+    #Shows car, asks if electric or not, produces approptiate output
+    def evaluate(self):
+            self.show()
+            smashed=self.smash()
+            if smashed and self.electric:
+                print('Oh no! You smashed an electric car!')
+                cars[self]-=1
+            elif smashed and not self.electric:
+                print('Well done! You smashed a bad car!')
+                cars[self]+=1
+            elif not smashed and self.electric:
+                print('Well done! You let an electric car go!')
+                cars[self]+=1
+            elif not smashed and not self.electric:
+                print('Oh no! You let a bad car go!')
+                cars[self]-=1
+
+#Cars
 car1=car(False,'Big bulky car and fumes')
 car2=car(True,'Silent small green car')
 
@@ -32,19 +52,15 @@ cars={car1:0,car2:0}
 carkeys=list(cars.keys())
 random.shuffle(carkeys)
 
-#Cycles through the cars and asking if electric or not and producing an output
-for i in carkeys:
-    i.show()
-    smashed=i.smash()
-    if smashed and i.electric:
-        print('Oh no! You smashed an electric car!')
-        cars[i]-=1
-    elif smashed and not i.electric:
-        print('Well done! You smashed a bad car!')
-        cars[i]+=1
-    elif not smashed and i.electric:
-        print('Well done! You let an electric car go!')
-        cars[i]+=1
-    elif not smashed and not i.electric:
-        print('Oh no! You let a bad car go!')
-        cars[i]-=1
+
+mode=input('Modes:\n1: Standard\n2: Infinite\nWhat mode do you wish to play?: ')
+
+if mode=='1':
+    #Cycles through the cars and asking if electric or not and producing an output
+    for i in carkeys:
+        i.evaluate()
+
+elif mode=='2':
+    #Continues to pick random cars until the score is too low (currently until below 0)
+    while score>=0:
+        random.choice(carkeys).evaluate()
