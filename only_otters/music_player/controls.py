@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtMultimedia, QtCore, QtGui
+from PyQt5 import QtWidgets, QtMultimedia, QtGui
 from .seeker import Seeker
 from pathlib import Path
 
@@ -18,8 +18,10 @@ class ControlsWidget(QtWidgets.QFrame):
         """Create the UI."""
         self.main_layout = QtWidgets.QHBoxLayout()
         self.main_layout.setContentsMargins(6, 6, 6, 6)
-        self.setStyleSheet('QFrame#controls { background: qlineargradient(spread:pad, x1:0.494682, y1:0, x2:0.5, y2:1,'
-                           'stop:0 rgba(136, 140, 141, 255), stop:1 rgba(113, 116, 117, 255)); }'
+        self.setStyleSheet('QFrame#controls { background: qlineargradient(spread:pad,'
+                           'x1:0.494682, y1:0, x2:0.5, y2:1,'
+                           'stop:0 rgba(136, 140, 141, 255),'
+                           'stop:1 rgba(113, 116, 117, 255)); }'
                            'QPushButton { background: transparent; color: white; }')
 
         self.seeker = Seeker(self.player)
@@ -74,4 +76,3 @@ class ControlsWidget(QtWidgets.QFrame):
         self.player.playlist().previous()
         if self.player.state() == QtMultimedia.QMediaPlayer.PausedState:
             self.toggle_play()
-

@@ -1,13 +1,12 @@
 import json
 from pathlib import Path
+from scrapetools.hquery import HierarchicalXPathQuery
+from scrapetools import autobrowser
+import sys
 
 __folder__ = Path(__file__).parent
 
-import sys
 sys.path.append('../..')
-
-from scrapetools.hquery import HierarchicalXPathQuery
-from scrapetools import autobrowser
 
 """
 An application of the Remote Resource template to URL:
@@ -42,7 +41,7 @@ if __name__ == "__main__":
 
     hxq = HierarchicalXPathQuery.from_yml(__folder__ / 'theworldcounts.yml')
 
-    pulled_resources = [ *hxq() ]
+    pulled_resources = [*hxq()]
 
     print(json.dumps(
         pulled_resources,

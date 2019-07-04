@@ -264,7 +264,7 @@ class HierarchicalXPathQuery:
         return fn
 
     @classmethod
-    def process_query(cls, tree: "lxml Element", xquery: dict, **properties):
+    def process_query(cls, tree, xquery: dict, **properties):
 
         loc_query = xquery['loc']
         query = xquery['query']

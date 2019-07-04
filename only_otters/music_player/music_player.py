@@ -34,8 +34,10 @@ class MusicPlayer(QtWidgets.QWidget):
         self.foreground_label.setPixmap(self.foreground_image)
 
         self.contents_widget = QtWidgets.QFrame()
-        self.contents_widget.setStyleSheet('background: qlineargradient(spread:pad, x1:0.495, y1:0, x2:0.5, y2:1,'
-                                           ' stop:0 rgba(155, 118, 83, 255), stop:1 rgba(122, 93, 65, 255))')
+        self.contents_widget.setStyleSheet('background: qlineargradient(spread:pad, '
+                                           'x1:0.495, y1:0, x2:0.5, y2:1,'
+                                           'stop:0 rgba(155, 118, 83, 255),'
+                                           'stop:1 rgba(122, 93, 65, 255))')
         self.contents_widget.setSizePolicy(QtWidgets.QSizePolicy.Preferred,
                                            QtWidgets.QSizePolicy.Expanding)
         self.contents_layout = QtWidgets.QHBoxLayout()
@@ -46,7 +48,8 @@ class MusicPlayer(QtWidgets.QWidget):
 
         self.featured_songs = FeaturedSongs()
         self.featured_songs.chosen_song.connect(self.play_song)
-        self.featured_songs.chosen_song.connect(self.now_playing_widget.audio_visualiser.green_flames)
+        self.featured_songs.chosen_song.connect(
+            self.now_playing_widget.audio_visualiser.green_flames)
 
         self.open_file_button = QtWidgets.QPushButton('Open File to Play')
         self.open_file_button.clicked.connect(self.open_file)
@@ -76,7 +79,8 @@ class MusicPlayer(QtWidgets.QWidget):
     def play_song(self, song):
         self.controls.duration_label.setText('Loading...')
         url = QtCore.QUrl.fromLocalFile(song)
-        self.player.playlist().insertMedia(self.player.playlist().nextIndex(), QtMultimedia.QMediaContent(url))
+        self.player.playlist().insertMedia(self.player.playlist().nextIndex(),
+                                           QtMultimedia.QMediaContent(url))
         if self.player.playlist().mediaCount() == 1:
             self.controls.toggle_play()
         else:
@@ -90,6 +94,6 @@ class MusicPlayer(QtWidgets.QWidget):
         self.foreground_label.setPixmap(scaled)
 
         self.foreground_label.move(0, self.now_playing_widget.y() +
-                                        self.now_playing_widget.height() - scaled.height()*0.65)
+                                   self.now_playing_widget.height() - scaled.height()*0.65)
         self.foreground_label.resize(self.width(), scaled.height())
         self.foreground_label.raise_()
