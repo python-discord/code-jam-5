@@ -8,7 +8,7 @@ from pathlib import Path, PurePath
 
 LOG_LEVEL = logging.DEBUG
 
-FPS = 300
+FPS = 60
 
 WIDTH = 960
 HEIGHT = 720
