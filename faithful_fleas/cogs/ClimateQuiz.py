@@ -50,6 +50,7 @@ class ClimateQuiz(commands.Cog):
     async def climate_quiz(self, ctx):
         """A set of commands to play the ClimateQuiz! use the start command to begin playing."""
 
+        # Sending the help command addressing to this category.
         await ctx.send_help('quiz')
 
     @climate_quiz.command(name='start', aliases=['s'])
@@ -75,7 +76,6 @@ class ClimateQuiz(commands.Cog):
         question_data = random.choice(self.quizdata)
 
         # making sure that the same questions are not asked.
-
         while new_question is False:
             if question_data['id'] in self.done_questions:
                 question_data = random.choice(self.quizdata)
@@ -88,22 +88,18 @@ class ClimateQuiz(commands.Cog):
 
         # To check if its the final round or not
         if self.question_number == self.question_limit:
-            await channel.send("This is the final round!")
+            await channel.send("This is the final question in this round!")
             self.reset_times += 1
             await asyncio.sleep(2)
 
         question = question_data['question']
         embed = discord.Embed(colour=discord.Colour.green())
         embed.title = f"#{self.question_number}\n{question}"
-        embed.description = f"Question Type: {question_data['type']}"
+        embed.description = f"Question Type: {question_data['type']}\n\n"
 
         # sending the options in from of new fields.
         for i, option in enumerate(question_data['options']):
-            embed.add_field(
-                name=f"{i+1}) {option}",
-                value='\u200b',
-                inline=True
-            )
+            embed.description += f"{i+1}) {option}\n"
 
         embed.set_footer(text=f"React to the corresponding number to give your answer.")
 
@@ -122,6 +118,7 @@ class ClimateQuiz(commands.Cog):
 
         I am using this function to retrieve the option chosen by the user.
         """
+
         user = int(payload.user_id)
         message = payload.message_id
 
@@ -133,10 +130,13 @@ class ClimateQuiz(commands.Cog):
                 value_list = list(emojis.values())
 
                 for i in value_list:
+
                     # Geting the reaction which the user reacted.
                     if str(payload.emoji) == i:
+
                         emoji_number = value_list.index(i) + 1
                         channel = self.message_to_react.channel
+
                         await self.reponse(emoji_number, channel)
                         break
 
@@ -183,12 +183,12 @@ class ClimateQuiz(commands.Cog):
         if self.question_number == self.question_limit:
             self.reset_game()
             await channel.send("The quiz game ends here! Hope you had fun playing this.\n"
-                               " Do `.quiz start` to play again if you were unlucky"
-                               " and missed those crazy questions :grin:")
+                               " Do `.quiz start` to play again if you were unlucky\n"
+                               "and missed those crazy questions(2 in total) :grin:")
         else:
             embed.set_footer(text="Do \".quiz quit\" to exit the quiz.")
 
-            await channel.send("Lets move on to the next round!")
+            await channel.send("Lets move on to the next question!")
             await asyncio.sleep(2)
             await self.send_question(channel)
 
@@ -209,11 +209,11 @@ class ClimateQuiz(commands.Cog):
         Reset the points and question number to 0 for smooth working when user wants to play again.
 
         Note I am not reseting the done_questions because when the user plays again,
-        he will not get the same questions.
+        he will not get the same questions for a couple more rounds.
         """
-        self.question_number = 0
         self.player = 0
         if self.reset_times == 3:
+            self.question_number = 0
             self.points = 0
             self.reset_times = 0
             self.done_questions = []

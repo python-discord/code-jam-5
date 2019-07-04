@@ -127,7 +127,7 @@
     },
     {
       "id":16,
-      "question":"The season in which lemons beared shines:",
+      "question":"The season in which lemon's beared shines:",
       "options":["Summer", "Winter", "I dont know", "All seasons", "Never"],
       "type":"**crazy**",
       "answer":0,
