@@ -5,7 +5,6 @@ import discord
 from discord.ext import commands
 
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -25,13 +24,16 @@ bot = commands.Bot(
 cogs = [cog for cog in os.listdir("FAITHFUL_FLEAS/cogs") if cog.endswith(".py")]
 
 for cog in cogs:
-    bot.load_extension("faithful_fleas.cogs." + os.path.splitext(cog)[0])
+    try:
+        bot.load_extension("faithful_fleas.cogs." + os.path.splitext(cog)[0])
+    except Exception as e:
+        logger.error(f"Could not load extension {cog} due to error: {e}")
 
 
 @bot.event
 async def on_ready():
     logger.info(f'Running as {bot.user.name}')
-    logger.info(bot.user.id)
-    await bot.change_presence(activity=discord.Game(name='spotify'))
+    logger.info(f"ID: {bot.user.id}")
+    await bot.change_presence(activity=discord.Game(name='A sunny morning!'))
 
 bot.run(os.environ.get('DISCORD_TOKEN'), bot=True, reconnect=True)
