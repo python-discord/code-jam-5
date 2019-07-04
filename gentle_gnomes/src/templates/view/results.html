@@ -6,5 +6,9 @@
             <p>{{ indicator.description }}</p>
             <p>{{ '{0:0.2f}'.format(indicator.rate * 100) }} % change</p>
         </div>
+    {% else %}
+        <div class="alert alert-primary mx-auto" style="width: 50%" role="alert">
+            Location not found.
+        </div>
     {% endfor %}
 {% endif %}
