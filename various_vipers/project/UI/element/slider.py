@@ -5,7 +5,7 @@ from pygame import Rect
 from pygame.image import load
 
 from project.constants import SLIDER_BODY, SLIDER_INDICATOR, SliderProperties, WIDTH
-from project.tools.loader import Load, Save
+from project.utils.loader import Load, Save
 
 
 class Slider:

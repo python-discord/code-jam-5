@@ -6,7 +6,7 @@ from typing import Optional, TYPE_CHECKING
 import pygame as pg
 
 from project.constants import TILE_WIDTH
-from . import get_open_task
+from .game_state import GameState
 
 if TYPE_CHECKING:
     # Avoid cyclic imports
@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 
 
 logger = logging.getLogger(__name__)
+game_vars = GameState()
 
 
 class Tile:
@@ -75,7 +76,7 @@ class Tile:
         tile_rect = pg.Rect(
             (self.pos_x, self.pos_y), (image_size[0], image_size[1] // 2)
         )
-        if not get_open_task() and tile_rect.collidepoint(pg.mouse.get_pos()):
+        if not game_vars.open_task and tile_rect.collidepoint(pg.mouse.get_pos()):
             if event.type == pg.MOUSEBUTTONDOWN and self.task is not None:
                 self.task.start()
             self.is_hovering = True

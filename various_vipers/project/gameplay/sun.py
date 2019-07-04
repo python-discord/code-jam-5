@@ -5,16 +5,17 @@ import pygame as pg
 
 from project.constants import HEIGHT, MAX_HEAT, SUN_IMAGE, WIDTH
 from .biome import Biome
+from .game_state import GameState
 
 
 logger = logging.getLogger(__name__)
+game_vars = GameState()
 
 
 class Sun:
     """Class holds information about sun, its state and current heat."""
 
     background_image: pg.Surface = SUN_IMAGE
-    current_heat: float = 0
     angle: float = 0
     min_angle_vel: float = 0.5
     max_angle_vel: float = 4
@@ -48,13 +49,13 @@ class Sun:
                     if tile.task:
                         task_count += 1
 
-        self.current_heat += self.heat_per_sec * task_count
-        self.current_heat = min(self.current_heat, MAX_HEAT)
+        game_vars.current_heat += self.heat_per_sec * task_count
+        game_vars.current_heat = min(game_vars.current_heat, MAX_HEAT)
 
     def update_angle(self) -> None:
         """Update suns angle relative to itself. Called every game tick."""
         # Calculate angular velocity based on current heat
-        heat_range = self.current_heat / MAX_HEAT
+        heat_range = game_vars.current_heat / MAX_HEAT
         velocity_range = self.max_angle_vel - self.min_angle_vel
         angle_velocity = heat_range * velocity_range + self.min_angle_vel
         # You spin me right round
@@ -69,8 +70,8 @@ class Sun:
 
         # Draw current heat number
         font = pg.font.Font(None, 50)
-        text = f"{str(int(self.current_heat))} / {str(MAX_HEAT)}"
+        text = f"{str(int(game_vars.current_heat))} / {str(MAX_HEAT)}"
         heat_indicator = font.render(text, True, pg.Color("black"))
-        self.screen.blit(
-            heat_indicator, (int(WIDTH // 2) - int(heat_indicator.get_width() // 2), 40)
-        )
+        text_x = int(WIDTH // 2) - int(heat_indicator.get_width() // 2)  # screen middle
+        text_y = 40
+        self.screen.blit(heat_indicator, (text_x, text_y))

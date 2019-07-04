@@ -5,9 +5,11 @@ import pygame as pg
 
 from project.constants import MAX_HEAT
 from .period import PeriodFuture, PeriodMedieval, PeriodModern
+from .game_state import GameState
 
 
 logger = logging.getLogger(__name__)
+game_vars = GameState()
 
 
 class GameView:
@@ -39,7 +41,7 @@ class GameView:
         self.period.update(event)
 
         # Check for gameover condition
-        if self.period.sun.current_heat >= MAX_HEAT:
+        if game_vars.current_heat >= MAX_HEAT:
             logger.warning("GAMEOVER")
 
     def draw(self) -> None:

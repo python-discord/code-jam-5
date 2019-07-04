@@ -19,14 +19,15 @@ from project.constants import (
     TILE_WIDTH,
     WIDTH,
 )
-from . import get_open_task
 from .biome import Biome
+from .game_state import GameState
 from .indicator import Indicator
 from .sun import Sun
 from .tile import Tile
 
 
 logger = logging.getLogger(__name__)
+game_vars = GameState()
 
 
 class Earth(object):
@@ -81,7 +82,7 @@ class Earth(object):
 
     def update(self, event: pg.event) -> None:
         """Update game logic with each game tick."""
-        if not get_open_task():
+        if not game_vars.open_task:
             key_pressed = pg.key.get_pressed()
 
             if key_pressed[pg.K_a] or key_pressed[pg.K_LEFT]:
@@ -97,7 +98,7 @@ class Earth(object):
         self.__update_positions()
         self.__update_indicators()
 
-        open_task = get_open_task()
+        open_task = game_vars.open_task
         if open_task:
             open_task.update(event)
 
@@ -108,7 +109,7 @@ class Earth(object):
         sun.draw()  # Need to draw sun before indicators
         self.__draw_indicators()
 
-        open_task = get_open_task()
+        open_task = game_vars.open_task
         if open_task:
             open_task.draw()
 

@@ -1,18 +1,19 @@
 import logging
-from time import time
 from dataclasses import dataclass
 from enum import Enum
 from random import choice
+from time import time
 from typing import List, Optional, Tuple
 
 import pygame as pg
 
 from project.constants import Color, HEIGHT, WIDTH
-from . import set_open_task
+from .game_state import GameState
 from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
 
 
 logger = logging.getLogger(__name__)
+game_vars = GameState()
 
 
 class Task(object):
@@ -50,7 +51,7 @@ class Task(object):
 
     def start(self, start_timer: bool = True) -> None:
         """Start playing the task."""
-        set_open_task(self)
+        game_vars.open_task = self
         if start_timer:
             self.time_start = time()
 
@@ -68,7 +69,7 @@ class Task(object):
     def _complete(self, successful: bool) -> None:
         """Called when task was completed."""
         logger.debug(successful)
-        set_open_task(None)
+        game_vars.open_task = None
         self.is_done = True
 
     def _draw_timer(self) -> None:

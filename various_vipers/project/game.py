@@ -8,7 +8,7 @@ from project.UI.page.main_menu import MainMenu
 from project.UI.page.options import Options
 from project.constants import BG_MUSIC, Color, FPS, HEIGHT, WIDTH, WindowState
 from project.gameplay.game_view import GameView
-from project.tools.loader import Load
+from project.utils.loader import Load
 
 
 logger = logging.getLogger(__name__)

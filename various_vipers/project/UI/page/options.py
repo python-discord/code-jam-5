@@ -19,7 +19,7 @@ from project.constants import (
     SOUNDS_BUTTONS as SND,
     WindowState,
 )
-from project.tools.loader import Load, Save
+from project.utils.loader import Load, Save
 
 logger = logging.getLogger(__name__)
 
