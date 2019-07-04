@@ -12,8 +12,9 @@ def list_available_factories():
     
     ls = os.walk(__folder__)
     dirs = next(ls)[1]
+    print(__name__)
     return [
-        importlib.import_module(dir).__factory__
+        importlib.import_module('.' + dir ,package=__name__).__factory__
         for dir in dirs
     ]
 
@@ -24,7 +25,7 @@ print(FACTORIES)
 def pick_fact():
     factory = random.choice(FACTORIES)
     return factory.get()
-    
+
 
 def new_facts():
     # Generator over a random selection of factories

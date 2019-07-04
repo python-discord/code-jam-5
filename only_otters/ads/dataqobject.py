@@ -98,7 +98,6 @@ def dataqobject(cls):
         signals[key] = signal
         key = '%sChanged' % key
         setattr(ncls, key, signal)
-        print(getattr(ncls, key))
 
     # Build getters
     for key, type_ in old_annotations.items():

@@ -12,35 +12,9 @@ import sys
 from contextlib import contextmanager
 import os
 
-from qtobjcounter import FactCounter, Counter
+from .qtobjcounter import FactCounter, Counter
 
-
-@contextmanager
-def enter(type_, owner):
-    obj = type_(owner)
-    yield obj
-    owner.addWidget(obj)
-
-
-def QmlWidget(dataobjs: dict, qmlpath: str, parent: QtWidgets.QWidget):
-
-    qmlpath = os.fspath(qmlpath)
-
-    #
-    view = QQuickView()
-    engine = view.engine()
-
-    for name, obj in dataobjs.items():
-        engine.rootContext().setContextProperty(name, obj)
-
-    #
-    container = QtWidgets.QWidget.createWindowContainer(view, parent)
-    container.setMinimumSize(300, 300)
-    container.setMaximumSize(300, 300)
-    view.setSource(QUrl(qml_file))
-    # Load widget
-
-    return container
+from .qmltools import QmlWidget
 
 
 class TestWin(QtWidgets.QMainWindow):
@@ -70,25 +44,23 @@ if __name__ == "__main__":
     win = TestWin()
 
 
-    qml_file = 'Counter.qml'
+    qml_file = 'qml/Counter.qml'
     # qmlRegisterType(FactCounter, 'FactCounter', 1, 0, FactCounter.__name__)
 
-    fc = FactCounter(1000, 1, 200, 0)
-    # fc = Counter(1000, 1, 200, 0)
-    # fc = FactCounter(value=1000, offset=1, interval=200, precision=0)
-    # fc = Counter(value=1000, offset=1, interval=200, precision=0)
+    # fc = FactCounter(99590, 15, 200, 0)
+    # container =  QmlWidget(
+    #     { 'fact_counter': fc },
+    #     qmlpath=qml_file,
+    #     parent=win
+    # )
 
-    container =  QmlWidget(
-        { 'fact_counter': fc },
-        qmlpath=qml_file,
-        parent=win
-    )
+    from .facts import pick_fact
+
+    fact = pick_fact()
+    widget = fact.as_widget(win)
 
     win.show()
 
     e = app.exec_()
-
-    print(fc.value)
-    print(fc.x)
 
     sys.exit(e)

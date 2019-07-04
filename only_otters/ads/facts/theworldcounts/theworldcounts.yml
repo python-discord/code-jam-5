@@ -1,6 +1,6 @@
 
 url: https://www.theworldcounts.com/themes/our_environment
-dynamic: true
+dynamic: false
 content:
   loc: //div[@id="main"]//a[@class="counter-link"]/div[@class="row"]
   prefix: $ { single, list, map:strip }
@@ -11,3 +11,4 @@ content:
     subtitle: div[2]/div[@class="counter-title"]/span/text()
     start:    div[1]/div[@class="counter-number"]/script/text()
     cursor:   div[1]/div[@class="counter-number"]/script/text()
+    precision: div[1]/div[@class="counter-number"]/script/text()

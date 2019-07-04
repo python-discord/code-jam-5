@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 flake8 = "*"
+selenium = "*"
 
 [packages]
 pyqt5 = "*"
@@ -14,6 +15,7 @@ cachetools = "*"
 gtts = "*"
 lxml = "*"
 requests = "*"
+cached-property = "*"
 
 [requires]
 python_version = "3.7"

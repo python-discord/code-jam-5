@@ -4,10 +4,12 @@ import random
 
 from cached_property import cached_property
 
-from qmltools import QmlWidget
-from resourcely import ensure_field
+from only_otters.ads.qmltools import QmlWidget
+from only_otters.resourcely import ensure_field
 
-from qml import FactWidget
+from only_otters.ads.qml import FactWidget
+
+from PyQt5.QtCore import pyqtProperty, pyqtSignal, QObject
 
 """
 The idea is to have each source inherit from the following classes.
@@ -54,6 +56,9 @@ class FactFactory:
         self.records = []
         self.served_facts = 0
 
+    def fetcher(self):
+        raise NotImplementedError
+
     def fetch(self) -> list:
         new_records = []
         # fetch the remote data
@@ -65,7 +70,7 @@ class FactFactory:
 
         # if retrieval completed successfully
         # otherwise, keep previous records
-        self.records = new_records
+        self.records = list(new_records)
         return self.records
 
     def _build_widget(self, factobj, parent) -> QmlWidget:
@@ -76,21 +81,23 @@ class FactFactory:
             parent=parent
         )
 
-    @hotfetch
-    def _build_fact(self):
-        record = random.choice(self.records)
-        return Fact(
-            title=ensure_field(record, 'title'),
-            content=ensure_field(record, 'content'),
-            source=ensure_field(record, 'source'),
-            data=record
-        )
+    # @hotfetch
+    # def _build_fact(self):
+    #     record = random.choice(self.records)
+    #     record = self._record_to_fact(record)
+    #     return Fact(
+    #         _title=ensure_field(record, 'title'),
+    #         _content=ensure_field(record, 'content'),
+    #         _source=ensure_field(record, 'source'),
+    #         data=record,
+    #         factory=self
+    #     )
 
     @hotfetch
-    def get(self) -> Fact:
+    def get(self):
         # Pull a random fact
-
-        f = self._build_fact()
+        record = random.choice(self.records)
+        f = self._build_fact(record)
 
         self.served_facts += 1
         if self.served_facts > len(self.records):
@@ -105,13 +112,36 @@ class FactFactory:
     
 
 @dataclass
-class Fact:
+class Fact(QObject):
 
-    title: str
-    content: str
-    source: str
+    _title: str
+    _content: str
+    _source: str
     data: dict
     factory: FactFactory
 
+    def __post_init__(self):
+        QObject.__init__(self)
+
     def as_widget(self, parent) -> QmlWidget:
         return self.factory._build_widget(self, parent=parent)
+
+    
+    @pyqtProperty('QString', constant=True)
+    def title(self):
+        return self._title
+
+    @pyqtProperty('QString', constant=True)
+    def content(self):
+        return self._content
+
+    @pyqtProperty('QString', constant=True)
+    def source(self):
+        return self._source
+
+
+    # Define pyqtProperties
+
+
+
+# class FactCounter

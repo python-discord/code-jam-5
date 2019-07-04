@@ -4,8 +4,8 @@ from lxml import html as lhtml
 from functools import partial
 import re
 
-import scrapetools.util as util
-import scrapetools.autobrowser as autobrowser
+import only_otters.scrapetools.util as util
+import only_otters.scrapetools.autobrowser as autobrowser
 
 
 class HierarchicalXPathQuery:

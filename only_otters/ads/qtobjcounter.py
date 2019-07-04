@@ -11,7 +11,7 @@ import copy
 
 from PyQt5.QtCore import pyqtProperty, pyqtSignal, QObject
 
-from dataqobject import dataqobject
+from .dataqobject import dataqobject
 
 
 @dataqobject
@@ -25,18 +25,16 @@ class Counter:
 
 class FactCounter(QObject):
 
-    # value: float
-    # offset: float
-    # interval: int = 1000
-    # precision: int = 0
-
-    def __init__(self, value, offset, interval=1000, precision=0):
+    def __init__(self, value, offset, interval=1000, precision=0, text='', factory=None):
         QObject.__init__(self)
         
         self._value = value
         self._offset = offset
         self._interval = interval
         self._precision = precision
+        self._text = text
+        self.factory = factory
+
 
     @pyqtProperty(float, constant=True)
     def value(self):
@@ -53,6 +51,13 @@ class FactCounter(QObject):
     @pyqtProperty(int, constant=True)
     def precision(self):
         return self._precision
+
+    @pyqtProperty('QString', constant=True)
+    def text(self):
+        return self._text
+
+    def as_widget(self, parent):
+        return self.factory._build_widget(self, parent=parent)
 
     @property
     def x(self):
