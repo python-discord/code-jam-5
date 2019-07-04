@@ -8,8 +8,8 @@ from typing import List, Optional, Tuple
 import pygame as pg
 
 from project.constants import Color, HEIGHT, WIDTH
-from .game_state import GameState
 from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
+from .game_state import GameState
 
 
 logger = logging.getLogger(__name__)
