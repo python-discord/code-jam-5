@@ -16,6 +16,7 @@ def get_prefix(client, message):
 
 class FaithfulBot(commands.Bot):
     """An instance of the bot."""
+
     def __init__(self):
         super().__init__(command_prefix=get_prefix,
                          description="Climate Bot.")

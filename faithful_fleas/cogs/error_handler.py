@@ -69,3 +69,4 @@ def setup(bot):
     Our function called to add the cog to our bot.
     """
     bot.add_cog(ErrorHandler(bot))
+    logger.info("ErrorHandler cog loaded")
