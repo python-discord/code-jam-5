@@ -5,21 +5,21 @@ import os
 
 def main():
     pwd = os.path.dirname(os.path.realpath(__file__))
-    if not os.path.isdir(os.path.join(pwd, 'gsoy-latest')):
-        os.mkdir('gsoy-latest')
-        os.chdir('gsoy-latest')
+    if not os.path.isdir(os.path.join(pwd, 'gsom-latest')):
+        os.mkdir('gsom-latest')
+        os.chdir('gsom-latest')
 
         print("Downloading data files...")
         r = requests.get(
-            'https://www.ncei.noaa.gov/data/gsoy/archive/gsoy-latest.tar.gz',
+            'https://www.ncei.noaa.gov/data/gsom/archive/gsom-latest.tar.gz',
             allow_redirects=True
         )
-        with open('gsoy-latest.tar.gz', 'wb') as archive:
+        with open('gsom-latest.tar.gz', 'wb') as archive:
             archive.write(r.content)
         print("Download complete!")
 
         print("Extracting data files...")
-        with tarfile.open("gsoy-latest.tar.gz") as tar:
+        with tarfile.open("gsom-latest.tar.gz") as tar:
             members = tar.getmembers()
             total_members = len(members)
             ten_percent = int(total_members / 10)
