@@ -1,4 +1,3 @@
-import pyglet
 import random
 
 from .constants import CollisionType
