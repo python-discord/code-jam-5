@@ -23,7 +23,9 @@ def search():
 
     city = app.azavea.get_nearest_city(latitude, longitude)
     if city:
-        top = indicator.get_top_indicators(city, app.azavea)
+        with app.app_context():
+            top = indicator.get_top_indicators(city)
+
         results = '\n'.join(f'{i.label}: {i.rate}' for i in top)
     else:
         flash('Location not found.')
