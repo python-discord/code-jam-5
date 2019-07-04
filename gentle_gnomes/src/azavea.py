@@ -1,7 +1,6 @@
 from functools import partial
 from datetime import datetime
 
-import requests
 import aiohttp
 import typing as t
 import asyncio as aio
