@@ -1,5 +1,3 @@
-import pyglet
-
 from .constants import CollisionType
 from .object import PhysicalObject
 from .resources import SNOWBALL_IMAGE
