@@ -1,6 +1,7 @@
 import logging
 from dataclasses import dataclass
 from enum import Enum
+from pathlib import PurePath
 from random import choice
 from time import time
 from typing import Dict, List, Optional, Tuple
@@ -81,7 +82,7 @@ class Task(object):
         )
         self.is_done = True
 
-    def _get_image_for_biome(self, images: Dict[str, str]) -> None:
+    def _get_image_for_biome(self, images: Dict[str, str]) -> PurePath:
         """Gets an image that is of this biomes theme."""
         if isinstance(self.biome, BiomeCity):
             return images("city")

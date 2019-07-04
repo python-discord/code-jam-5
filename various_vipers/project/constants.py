@@ -10,16 +10,16 @@ LOG_LEVEL = logging.DEBUG
 
 FPS = 60
 
-WIDTH = 1285
-HEIGHT = 825
+WIDTH = 960
+HEIGHT = 720
 
 
 # Biomes are transformed to squares
 # Width of a single biome (biomes can be chained together)
-BIOME_WIDTH: int = 600
+BIOME_WIDTH: int = 480
 # Tile height is scaled based on how much the width scaled
 # Width of a single tile (BIOME_WIDTH should be divisable by TILE_WIDTH)
-TILE_WIDTH: int = 75
+TILE_WIDTH: int = 60
 # Number of tile columns per biome
 TILE_COLS: int = int(BIOME_WIDTH // TILE_WIDTH)
 # Number of tile rows per biome
