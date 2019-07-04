@@ -46,7 +46,7 @@ Below is the outline of what the dependancies do:
 
 ***NOTE: If you are on Windows, please use `set` instead of `export`***
 
-Install pipenv:
+Install `pipenv`:
 
 ```bash
 pip3 install pipenv
@@ -58,16 +58,22 @@ Install dependancies:
 pipenv install
 ```
 
+Jump into the `pipenv` shell:
+
+```bash
+pipenv shell
+```
+
 Make a totally secure secret key:
 
 ```bash
-pipenv run export API_SECRET_KEY=abc
+export API_SECRET_KEY=abc
 ```
 
 Pass in the bot token (leave it as `x` if you only want to test the webportal):
 
 ```bash
-pipenv run export CLIENT_TOKEN=x
+export CLIENT_TOKEN=x
 ```
 
 Run the api in the background:
@@ -79,13 +85,13 @@ python -m practical_porcupines flask-api &
 Run the discord bot in the background:
 
 ```bash
-pipenv run python -m practical_porcupines discord-bot &
+python -m practical_porcupines discord-bot &
 ```
 
 Run the web-portal in the background:
 
 ```bash
-pipenv run python -m practical_porcupines flask-webportal &
+python -m practical_porcupines flask-webportal &
 ```
 
 - Please navigate to 0.0.0.0:8081 (or whatever else is set in `config.toml`) to visit the web-portal mini-project.
