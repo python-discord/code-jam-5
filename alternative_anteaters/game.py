@@ -74,7 +74,8 @@ class MyGame(arcade.Window):
         # Clear the screen
         arcade.start_render()
 
-        """# Background
+        # Background
+        """
         arcade.draw_texture_rectangle(constants.SCREEN_WIDTH//2,
                                       constants.SCREEN_HEIGHT//2,
                                       constants.SCREEN_WIDTH,
@@ -110,6 +111,7 @@ class MyGame(arcade.Window):
     def update(self, delta_time):
 
         """ Game logic """
+
         # Update all sprites
         self.physics_engine.update()
 
