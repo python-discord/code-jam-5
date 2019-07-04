@@ -1,5 +1,5 @@
 import QtQuick 2.7
-
+import QtQuick.Layouts 1.0
 
 Item {
 
@@ -10,6 +10,8 @@ Item {
     property real precision:    fact_counter.precision
     // property real title:        fact_counter.title
     // property real subtitle:     fact_counter.subtitle
+
+    anchors.fill: parent
 
     function format(num) {
         num = '' + num.toFixed(precision);
@@ -25,23 +27,29 @@ Item {
         return num
     }
 
-    Row {
+    Column {
+
+        spacing: 5
+        padding: 8
 
         Text {
+            id: number
             text: format(god.value)// + ' [%1]'.arg(fact_counter.x)
             horizontalAlignment: Text.AlignRight
-            width: 200
 
-            Rectangle {
-                anchors.fill: parent
-                border.color: "#00B000"
-                border.width: 1
-                color: "transparent"
-            }
+            font.pixelSize: 20
+            font.bold: true
+
         }
 
         Text {
-            text: god.title
+            id: title
+            // text: god.title
+            text: "Seconds wasted, sdsdfs dfsd fsd fsd fsdf right now."
+            font.pixelSize: 15
+            width: god.width
+            wrapMode: Text.WordWrap
+
         }
 
     }
