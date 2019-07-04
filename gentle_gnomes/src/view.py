@@ -1,6 +1,6 @@
 import json
 
-from flask import Blueprint, current_app as app, flash, render_template, request
+from flask import Blueprint, current_app as app, render_template, request
 
 from . import indicator
 
@@ -19,15 +19,13 @@ def search():
         latitude = location['lat']
         longitude = location['lng']
     except (json.JSONDecodeError, KeyError):
-        flash('Location not found.')
-        return render_template('view/index.html')
+        return render_template('view/results.html')
 
     city = app.azavea.get_nearest_city(latitude, longitude)
     if city:
         with app.app_context():
             results = indicator.get_top_indicators(city)
     else:
-        flash('Location not found.')
         results = None
 
-    return render_template('view/index.html', city=city, results=results)
+    return render_template('view/results.html', city=city, results=results)

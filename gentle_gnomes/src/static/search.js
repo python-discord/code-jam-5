@@ -14,6 +14,17 @@ const sessionToken = new google.maps.places.AutocompleteSessionToken();
 
 function setLocation(location) {
     inputLocation.setAttribute('value', JSON.stringify(location));
+    const formData = new FormData(form);
+
+    fetch(form.getAttribute('action'), {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(response => {
+        document.getElementById('results').innerHTML = response
+    })
+    .catch(error => console.log('Error submitting form: ', error));
 }
 
 function getTopLocation(predictions, status) {
@@ -38,7 +49,7 @@ function getTopLocation(predictions, status) {
     });
 }
 
-form.addEventListener('submit', () => {
+form.addEventListener('submit', e => {
     const place = autocomplete.getPlace();
 
     if (place === undefined) {
@@ -52,4 +63,6 @@ form.addEventListener('submit', () => {
     } else {
         setLocation(place.geometry.location);
     }
+
+    e.preventDefault();
 });

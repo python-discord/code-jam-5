@@ -1,12 +1,10 @@
-<div class="mx-auto" style="width: 50%">
-    {% if results %}
-        <p>Showing results for nearest city: {{ city.name }}, {{ city.admin }}</p>
-        {% for indicator in results %}
-            <div>
-                <h3>{{ indicator.label }}</h3>
-                <p>{{ indicator.description }}</p>
-                <p>{{ '{0:0.2f}'.format(indicator.rate * 100) }} % change</p>
-            </div>
-        {% endfor %}
-    {% endif %}
-</div>
+{% if results %}
+    <p>Showing results for nearest city: {{ city.name }}, {{ city.admin }}</p>
+    {% for indicator in results %}
+        <div>
+            <h3>{{ indicator.label }}</h3>
+            <p>{{ indicator.description }}</p>
+            <p>{{ '{0:0.2f}'.format(indicator.rate * 100) }} % change</p>
+        </div>
+    {% endfor %}
+{% endif %}
