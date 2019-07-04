@@ -21,15 +21,10 @@ class Client:
     """Client for interacting with the Azavea Climate API."""
 
     def __init__(self, token: str):
-        self.headers = {'Authorization': f'Token {token}'}
-        self.proxy = AsyncProxy()
+        self.proxy = AsyncProxy(headers={'Authorization': f'Token {token}'})
 
     def _get(self, endpoint: str, **kwargs) -> t.Union[t.Dict, t.List]:
-        # Update headers with default
-        kwargs['headers'] = {**self.headers, **kwargs.get('headers', {})}
-
         return self.proxy.get(BASE_URL + endpoint, **kwargs)
-
 
     def get_cities(self, **kwargs) -> t.Iterator[City]:
         """Return all available cities."""
@@ -80,11 +75,12 @@ class Client:
 
 class AsyncProxy:
 
-    def __init__(self):
+    def __init__(self, **default_kwargs):
+        self._kwargs = default_kwargs
         self._pending = []  # [(url, kwargs), ...]
 
     async def _process_requests(self, *requests: t.Tuple[str, dict]) -> t.Tuple[t.Union[dict, list]]:
-        session = aiohttp.ClientSession()
+        session = aiohttp.ClientSession(**self._kwargs)
 
         async def make_request(request):
             url, kwargs = request
