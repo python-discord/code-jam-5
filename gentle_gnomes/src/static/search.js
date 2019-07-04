@@ -1,5 +1,4 @@
 const inputName = document.getElementById('name');
-const inputLocation = document.getElementById('location');
 const form = document.getElementById('search-form');
 const map = document.getElementById('map');
 
@@ -13,8 +12,8 @@ const placesService = new google.maps.places.PlacesService(map);
 const sessionToken = new google.maps.places.AutocompleteSessionToken();
 
 function setLocation(location) {
-    inputLocation.setAttribute('value', JSON.stringify(location));
     const formData = new FormData(form);
+    formData.set('location', JSON.stringify(location));
 
     fetch(form.getAttribute('action'), {
         method: 'POST',
