@@ -12,6 +12,7 @@ from project.constants import (
     CLOUD_LAYERS_BG,
     CLOUD_LAYERS_FG,
     FG_CLOUDS_SCROLL_SPEED,
+    FPS,
     HEIGHT,
     INDICATOR_ARROW,
     TILE_COLS,
@@ -56,6 +57,10 @@ class Earth(object):
     biomes: List[Biome]
     max_position: float
 
+    # Parameters to handle biomes entry after starting game
+    entry_y_offset: float = HEIGHT // 3
+    entry_speed: float = entry_y_offset // FPS
+
     visible_tiles: List[Tile]
 
     def __init__(self, screen: pg.Surface, biomes: List[Biome]):
@@ -82,15 +87,21 @@ class Earth(object):
 
     def update(self, event: pg.event) -> None:
         """Update game logic with each game tick."""
-        if not game_vars.open_task:
-            key_pressed = pg.key.get_pressed()
+        if game_vars.is_playing:
+            if self.entry_y_offset > 0:
+                self.entry_y_offset = max(self.entry_y_offset - self.entry_speed, 0)
 
-            if key_pressed[pg.K_a] or key_pressed[pg.K_LEFT]:
-                self.__scroll_left()
-            if key_pressed[pg.K_d] or key_pressed[pg.K_RIGHT]:
-                self.__scroll_right()
+            if not game_vars.open_task:
+                key_pressed = pg.key.get_pressed()
 
-            self.__update_tiles(event)
+                if key_pressed[pg.K_a] or key_pressed[pg.K_LEFT]:
+                    self.__scroll_left()
+                if key_pressed[pg.K_d] or key_pressed[pg.K_RIGHT]:
+                    self.__scroll_right()
+
+                self.__update_tiles(event)
+            else:
+                game_vars.open_task.update(event)
 
         self.current_cloud_bg_pos += BG_CLOUDS_SCROLL_SPEED
         self.current_cloud_fg_pos += FG_CLOUDS_SCROLL_SPEED
@@ -98,20 +109,16 @@ class Earth(object):
         self.__update_positions()
         self.__update_indicators()
 
-        open_task = game_vars.open_task
-        if open_task:
-            open_task.update(event)
-
     def draw(self, sun: Sun) -> None:
         """Draw all images related to the earth."""
         self.__draw_clouds()
-        self.__draw_biomes()
+        if game_vars.is_playing:
+            self.__draw_biomes()
         sun.draw()  # Need to draw sun before indicators
         self.__draw_indicators()
 
-        open_task = game_vars.open_task
-        if open_task:
-            open_task.draw()
+        if game_vars.open_task:
+            game_vars.open_task.draw()
 
     def fix_indicators(self) -> None:
         """Will add missing indicators. Should be called when indicator could appear."""
@@ -202,7 +209,8 @@ class Earth(object):
 
     def __prepare_draw_background(self, biome: Biome, biome_x: int) -> List[List[Any]]:
         """Returns list of parameters lists how to draw biome background."""
-        return [[biome.background, (biome_x, HEIGHT - biome.background.get_height())]]
+        biome_y = HEIGHT - biome.background.get_height() + self.entry_y_offset
+        return [[biome.background, (biome_x, biome_y)]]
 
     def __prepare_draw_tiles(self, biome: Biome, biome_x: int) -> List[List[Any]]:
         """Returns list of parameters lists how to draw biomes tiles."""
@@ -220,7 +228,11 @@ class Earth(object):
                 # Horizontally centered in it's possition
                 draw_x = biome_x + tile_x - (tile_image.get_width() - TILE_WIDTH) // 2
                 # Vertical align to bottom - will expand upwards
-                draw_y = tile_y - (tile_image.get_height() - TILE_WIDTH)
+                draw_y = (
+                    tile_y
+                    - (tile_image.get_height() - TILE_WIDTH)
+                    + self.entry_y_offset
+                )
                 tile.pos_x = draw_x
                 tile.pos_y = draw_y
                 draw_args.append([tile_image, (draw_x, draw_y)])

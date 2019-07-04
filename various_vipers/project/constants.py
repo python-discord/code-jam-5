@@ -94,7 +94,6 @@ MAZE_WALL = lambda biome: PurePath(PATH_MAZE_TASK).joinpath(f"{biome}/maze_wall.
 # UI assets
 
 # Backgrounds
-MAIN_MENU_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("main_menu.png")
 
 # Button images
 BUTTONS_NAMES = [p.rstrip("png").rstrip(".") for p in listdir(PATH_BUTTONS)]

@@ -15,3 +15,4 @@ class GameState(Singleton):
 
     open_task: Task = None
     current_heat: float = 0
+    is_playing: bool = False
