@@ -1,11 +1,13 @@
 import requests
 import json
 import random
+import tempfile
 req = requests.get('https://weather-1283198235129847.s3.amazonaws.com/weatherExtremesJSON.json')
-
+temp = tempfile.NamedTemporaryFile(prefix="weather_", suffix="_codejam5")
+open(temp.name, 'wb').write(req.content)
 
 def parseData(state):
-    jdata = json.loads(open('weather.json').read())
+    jdata = json.loads(open(temp.name).read())
     records = []
     # grab all useful records
     state = state.lower()
@@ -23,7 +25,7 @@ def parseData(state):
             date, type, value, location, stateData
         )
         records.append(message)
-
+    temp.close()
     return(records)
 
 

@@ -69,6 +69,8 @@ library is well suited for Test Driven Development.  Unit testing can be challen
 if you haven't developed this way before, expect to learn a lot of lessons along the way.
 
 
+
+
 ### Version Control
 
 Git and GitHub have great interfaces for managing branches and pull requests.
@@ -85,3 +87,21 @@ or you can simply use the command line to manage your branches.
 Once you've pushed your branch to the repository, you can open a pull request on
 the project's [GitHub Page][github_page].  This will allow the rest of the team to
 review code and ensure that the unit tests are passing before committing it to the master branch.
+
+
+### Local Testing ###
+To test your code locally please run:
+
+`python-lambda-local -f lambda_handler lambda_function.py tests/ohio.json` 
+
+You should see something similiar to the following. This is the json response that an echo/alexa device needs to recieve in order to make speech.
+``` 
+[root - INFO - 2019-07-05 15:23:30,307] Event: {'version': '1.0', 'session': {'new': False, 'sessionId': '', 'application': {'applicationId': ''}, 'user': {'userId': ''}}, 'context': {'System': {'application': {'applicationId': ''}, 'user': {'userId': ''}, 'device': {'deviceId': '', 'supportedInterfaces': {}}, 'apiEndpoint': 'https://api.amazonalexa.com', 'apiAccessToken': ''}, 'Viewport': {'experiences': [{'arcMinuteWidth': 246, 'arcMinuteHeight': 144, 'canRotate': False, 'canResize': False}], 'shape': 'RECTANGLE', 'pixelWidth': 1024, 'pixelHeight': 600, 'dpi': 160, 'currentPixelWidth': 1024, 'currentPixelHeight': 600, 'touch': ['SINGLE'], 'video': {'codecs': ['H_264_42', 'H_264_41']}}}, 'request': {'type': 'IntentRequest', 'requestId': '', 'timestamp': '2019-06-29T19:11:08Z', 'locale': 'en-US', 'intent': {'name': 'extreme', 'confirmationStatus': 'NONE', 'slots': {'state': {'name': 'state', 'value': 'Ohio', 'confirmationStatus': 'NONE', 'source': 'USER'}}}}}
+[root - INFO - 2019-07-05 15:23:30,307] START RequestId: c190d9ec-96d2-4ed2-8ab0-8eab81ed102a
+Incoming request...
+{'name': 'extreme', 'confirmationStatus': 'NONE', 'slots': {'state': {'name': 'state', 'value': 'Ohio', 'confirmationStatus': 'NONE', 'source': 'USER'}}}
+[root - INFO - 2019-07-05 15:23:30,309] END RequestId: c190d9ec-96d2-4ed2-8ab0-8eab81ed102a
+[root - INFO - 2019-07-05 15:23:30,310] RESULT:
+{'version': '1.0', 'sessionAttributes': {}, 'response': {'outputSpeech': {'type': 'PlainText', 'text': 'On November 14, 1996  an All-Time Maximum Snow Depth of 47 inches was recorded in CHARDON, Ohio '}, 'card': {'type': 'Simple', 'title': 'SessionSpeechlet - Extreme Weather', 'content': 'SessionSpeechlet - On November 14, 1996  an All-Time Maximum Snow Depth of 47 inches was recorded in CHARDON, Ohio '}, 'reprompt': {'outputSpeech': {'type': 'PlainText', 'text': 'You never responded to the first test message. Sending another one.'}}, 'shouldEndSession': False}}
+[root - INFO - 2019-07-05 15:23:30,310] REPORT RequestId: c190d9ec-96d2-4ed2-8ab0-8eab81ed102a  Duration: 2.41 ms
+```
