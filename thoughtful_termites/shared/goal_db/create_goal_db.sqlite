@@ -1,0 +1,19 @@
+pragma journal_mode=wal;
+pragma foreign_keys=on;
+
+drop table if exists goals;
+drop table if exists reminders;
+
+create table goals(
+	id integer primary key,
+	name text,
+	desc text
+);
+
+create table reminders(
+	id integer primary key,
+	day integer,
+	time integer,
+	goal_id integer,
+	foreign key (goal_id) references goals(id) on delete cascade
+);
