@@ -21,7 +21,7 @@ class Game(pyglet.window.Window):
 
         self.space = self.create_space()
         self.space.add(self.player)
-        for _ in range(5):
+        for _ in range(50):
             self.space.add(Enemy())
 
         # Add handlers
@@ -49,14 +49,13 @@ class Game(pyglet.window.Window):
                                     self.on_collision_snowball_enemy,
                                     Snowball.collides_with)
 
-        space.add_collision_handler(CollisionType.ROCKET,
-                                    CollisionType.ENEMY,
-                                    self.on_collision_rocket_enemy,
-                                    Snowball.collides_with)
-
+        # Unfortunately snowsplosions are a special case of projectiles
+        # in that they don't move and become inert after a certain
+        # amount of time. There's no easy way to resolve that while
+        # making it fit with the interface we have.
         space.add_collision_handler(CollisionType.SNOWSPLOSION,
                                     CollisionType.ENEMY,
-                                    self.on_collision_snowsplosion_enemy,
+                                    self.on_collision_snowball_enemy,
                                     Snowsplosion.collides_with)
 
         return space
@@ -95,19 +94,8 @@ class Game(pyglet.window.Window):
             self.score += enemy.score
             self.score_label.label.text = str(self.score)
 
-        enemy.on_collision_snowball(snowball)
+        snowball.on_collision_enemy(enemy)
 
-    def on_collision_rocket_enemy(self, rocket, enemy):
-        self.on_collision_snowball_enemy(rocket, enemy)
-        rocket.explode()
-
-    def on_collision_snowsplosion_enemy(self, snowsplosion, enemy):
-        if not self.is_over:
-            self.score += enemy.score
-            self.score_label.label.text = str(self.score)
-
-        # Don't remove the explosion
-        self.space.remove(enemy)
 
 class GameOverScreen(Object):
     def __init__(self, window):

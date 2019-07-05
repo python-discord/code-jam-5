@@ -13,8 +13,16 @@ __all__ = [
 ]
 
 
-class Snowball(PhysicalObject):
+class Projectile(PhysicalObject):
+    """Base class for all projectiles"""
+
     collision_type = CollisionType.SNOWBALL
+
+    def on_collision_enemy(self, enemy):
+        enemy.on_collision_snowball(self)
+
+
+class Snowball(Projectile):
     def __init__(self, x, y, angle, speed, image=None):
         if image is None:
             image = SNOWBALL_IMAGE
@@ -30,6 +38,21 @@ class Snowball(PhysicalObject):
     def update(self, dt):
         self.x += self.velocity_x * dt
         self.y += self.velocity_y * dt
+
+    def on_collision_enemy(self, enemy):
+        super().on_collision_enemy(enemy)
+        self.space.remove(self)
+
+
+class RocketBall(Snowball):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, image=ROCKET_IMAGE, **kwargs)
+
+    def on_collision_enemy(self, enemy):
+        super().on_collision_enemy(enemy)
+        self.space.add(Snowsplosion(self.x, self.y))
+        self.space.remove(self)
+
 
 class Snowsplosion(PhysicalObject):
     collision_type = CollisionType.SNOWSPLOSION
@@ -53,12 +76,5 @@ class Snowsplosion(PhysicalObject):
         if self.opacity <= 5:
             self.space.remove(self)
 
-class RocketBall(Snowball):
-    collision_type = CollisionType.ROCKET
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, image=ROCKET_IMAGE, **kwargs)
-
-    def explode(self):
-        self.space.add(Snowsplosion(self.x, self.y))
-        self.space.remove(self)
+    def on_collision_enemy(self, enemy):
+        self.space.remove(enemy)

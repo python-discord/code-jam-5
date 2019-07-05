@@ -22,4 +22,3 @@ class Enemy(PhysicalObject):
 
     def on_collision_snowball(self, snowball: Snowball):
         self.space.remove(self)
-        self.space.remove(snowball)
