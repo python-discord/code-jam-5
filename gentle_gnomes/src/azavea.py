@@ -10,7 +10,7 @@ class City(t.NamedTuple):
     admin: str
     id: int
 
-    async def __str__(self):
+    def __str__(self):
         return f'{self.name}, {self.admin}'
 
 
