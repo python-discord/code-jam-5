@@ -16,3 +16,5 @@ def load_image(filename: str, centered: bool = False):
 ENEMY_IMAGE = load_image("evil_business_man.png", centered=True)
 PLAYER_IMAGE = load_image("penguin.png", centered=True)
 SNOWBALL_IMAGE = load_image("snowball.png", centered=True)
+ROCKET_IMAGE = load_image('rocket.png', centered=True)
+SNOWSPLOSION_IMAGE = load_image('snowsplosion.png', centered=True)

@@ -7,7 +7,7 @@ from .constants import CollisionType
 from .object import PhysicalObject
 from .resources import PLAYER_IMAGE
 from .utils import angle_between, keys
-from .weapon import Weapon
+from .weapon import RocketPropelledSnowball
 
 
 class Player(PhysicalObject):
@@ -17,7 +17,7 @@ class Player(PhysicalObject):
     def __init__(self, x, y):
         super().__init__(PLAYER_IMAGE, x=x, y=y)
 
-        self.weapon = Weapon()
+        self.weapon = RocketPropelledSnowball()
         self.firing = False
 
     def update(self, dt):

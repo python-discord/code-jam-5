@@ -4,7 +4,7 @@ from .constants import CollisionType
 from .enemy import Enemy
 from .object import Object
 from .player import Player
-from .snowball import Snowball
+from .snowball import Snowball, Snowsplosion
 from .space import Space
 from .utils import keys
 
@@ -49,6 +49,16 @@ class Game(pyglet.window.Window):
                                     self.on_collision_snowball_enemy,
                                     Snowball.collides_with)
 
+        space.add_collision_handler(CollisionType.ROCKET,
+                                    CollisionType.ENEMY,
+                                    self.on_collision_rocket_enemy,
+                                    Snowball.collides_with)
+
+        space.add_collision_handler(CollisionType.SNOWSPLOSION,
+                                    CollisionType.ENEMY,
+                                    self.on_collision_snowsplosion_enemy,
+                                    Snowsplosion.collides_with)
+
         return space
 
     def create_ui(self) -> Space:
@@ -87,6 +97,17 @@ class Game(pyglet.window.Window):
 
         enemy.on_collision_snowball(snowball)
 
+    def on_collision_rocket_enemy(self, rocket, enemy):
+        self.on_collision_snowball_enemy(rocket, enemy)
+        rocket.explode()
+
+    def on_collision_snowsplosion_enemy(self, snowsplosion, enemy):
+        if not self.is_over:
+            self.score += enemy.score
+            self.score_label.label.text = str(self.score)
+
+        # Don't remove the explosion
+        self.space.remove(enemy)
 
 class GameOverScreen(Object):
     def __init__(self, window):

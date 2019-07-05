@@ -1,8 +1,7 @@
 import pyglet
 from math import radians
 
-from .snowball import Snowball
-from .utils import vector_from_angle
+from .snowball import *
 
 
 class Weapon:
@@ -12,27 +11,12 @@ class Weapon:
     def __init__(self):
         self.reloading = False
 
-    @staticmethod
-    def convert_angle(angle):
-        """Converts the angle from pyglet units (CCW, degrees)
-        to math units (CW, radians)
-        """
-
-        return -radians(angle)
-
     def reload(self, dt):
         self.reloading = False
 
     def get_projectiles(self, x, y, angle):
-        """Generate projectiles for the weapon"""
-
-        converted = self.convert_angle(angle)
-        velocity_x, velocity_y = vector_from_angle(converted, self.projectile_speed)
-
-        bullet = Snowball(x, y, velocity_x, velocity_y)
-        bullet.rotation = angle
-
-        yield bullet
+        """Generates projectiles for the weapon"""
+        raise NotImplementedError
 
     def fire(self, x, y, angle):
         """Fires the weapon and returns an iterable of bullets
@@ -46,3 +30,13 @@ class Weapon:
         self.reloading = True
         pyglet.clock.schedule_once(self.reload, self.reload_delay)
         return self.get_projectiles(x, y, angle)
+
+class Hand(Weapon):
+    def get_projectiles(self, x, y, angle):
+        yield Snowball(x, y, angle, self.projectile_speed)
+
+class RocketPropelledSnowball(Weapon):
+    reload_delay = 1
+
+    def get_projectiles(self, x, y, angle):
+        yield RocketBall(x, y, angle, self.projectile_speed)
