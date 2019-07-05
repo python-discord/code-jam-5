@@ -1,7 +1,7 @@
-import os
 import json
+import os
 
-from project.constants import USER_SETTINGS, PATH_DATA
+from project.constants import PATH_DATA, USER_SETTINGS
 
 
 def assert_user_settings():

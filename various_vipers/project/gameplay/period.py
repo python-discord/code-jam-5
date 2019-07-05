@@ -115,8 +115,7 @@ class Period(object):
 
     def __spawn_task(self) -> None:
         """Spawns a task on a random tile."""
-        # TODO :: add check if tile already has a task or not
-
+        # TODO :: add check if tile already has a task or not.
         # Get number of tiles between all biomes
         tile_count = TILE_COLS * TILE_ROWS * len(self.biomes)
         # Chose a random tile out of all

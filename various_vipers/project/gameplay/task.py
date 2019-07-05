@@ -17,10 +17,10 @@ from project.constants import (
     MAZE_PATH,
     MAZE_START,
     MAZE_WALL,
-    WIDTH,
-    X,
     O,
     TTT_GRID,
+    WIDTH,
+    X,
 )
 from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
 from .game_state import GameState
@@ -316,12 +316,15 @@ class TaskRockPaperScissors(Task):
     heat_add_failure: float = 0
 
     def start(self) -> None:
+        """User clicks on task."""
         super().start()
 
     def update(self, event: pg.event) -> None:
+        """Handles events."""
         super().update()
 
     def draw(self) -> None:
+        """Draws elements."""
         super().draw()
 
 
@@ -392,6 +395,11 @@ class TaskTicTacToe(Task):
         )
 
     def start(self) -> None:
+        """
+        When user click on task - random decide the turn.
+
+        Turn - human or computer.
+        """
         super().start()
 
         self.delay = time()
@@ -449,12 +457,6 @@ class TaskTicTacToe(Task):
             if cell.collidepoint(pg.mouse.get_pos()) and self.board[x][y] == 0:
                 self.screen.fill(self.bg_color_hover, cell)
 
-            # if cell.collidepoint(pg.mouse.get_pos()):
-            #     if self.board[x][y] == self.x:
-            #         self.screen.blit(self.x_image_hover, cell)
-            #     elif self.board[x][y] == self.x * -1:
-            #         self.screen.blit(self.o_image_hover, cell)
-            # else:
             if self.board[x][y] == self.human:
                 self.screen.blit(self.x_image, cell)
             elif self.board[x][y] == self.computer:
