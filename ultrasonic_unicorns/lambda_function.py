@@ -6,8 +6,10 @@ from __future__ import print_function
 import requests
 import json
 import random
+import tempfile
 
 # --------------- Helpers that build all of the responses ----------------------
+
 
 def build_speechlet_response(title, output, reprompt_text, should_end_session):
     return {
@@ -64,7 +66,6 @@ def get_codejame_response():
 
 def get_extreme_events(intent):
     session_attributes = {}
-    print(intent)
     card_title = "Extreme Weather"
     speech_output = return_record(intent['slots']['state']['value'])
     reprompt_text = "You never responded to the first test message. Sending another one."
@@ -86,6 +87,7 @@ def get_welcome_response():
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
+
 
 def parseData(state):
     req = requests.get('https://weather-1283198235129847.s3.amazonaws.com/weatherExtremesJSON.json')
@@ -121,6 +123,7 @@ def return_record(state):
     """
 
     return random.choice(parseData(state))
+
 
 def handle_session_end_request():
     card_title = "Session Ended"
