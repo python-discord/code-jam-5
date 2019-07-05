@@ -155,7 +155,6 @@ class Trivia(commands.Cog):
         • `>trivia "Entertainment: Japanese Anime & Manga"
         • `>trivia Geography`
         """
-        print(category, difficulty)
         if ctx.invoked_subcommand is not None:
             return
 
