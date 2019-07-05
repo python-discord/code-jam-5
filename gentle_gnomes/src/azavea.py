@@ -1,11 +1,11 @@
-from typing import Dict, Iterator, List, NamedTuple, Optional, Union
+import typing as t
 
 import requests
 
 BASE_URL = 'https://app.climate.azavea.com/api'
 
 
-class City(NamedTuple):
+class City(t.NamedTuple):
     name: str
     admin: str
     id: int
@@ -21,13 +21,13 @@ class Client:
         self.session = requests.Session()
         self.session.headers = {'Authorization': f'Token {token}'}
 
-    def _get(self, endpoint: str, **kwargs) -> Union[Dict, List]:
+    def _get(self, endpoint: str, **kwargs) -> t.Union[t.Dict, t.List]:
         response = self.session.get(BASE_URL + endpoint, ** kwargs)
         response.raise_for_status()
 
         return response.json()
 
-    def get_cities(self, **kwargs) -> Iterator[City]:
+    def get_cities(self, **kwargs) -> t.Iterator[City]:
         """Return all available cities."""
         params = {'page': 1}
         params.update(kwargs.get('params', {}))
@@ -43,7 +43,13 @@ class Client:
             for city in cities['features']:
                 yield City(city['properties']['name'], city['properties']['admin'], city['id'])
 
-    def get_nearest_city(self, lat: float, lon: float, limit: int = 1, **kwargs) -> Optional[City]:
+    def get_nearest_city(
+        self,
+        lat: float,
+        lon: float,
+        limit: int = 1,
+        **kwargs
+    ) -> t.Optional[City]:
         """Return the nearest city to the provided lat/lon or None if not found."""
         params = {
             'lat': lat,
@@ -57,18 +63,18 @@ class Client:
             city = cities['features'][0]
             return City(city['properties']['name'], city['properties']['admin'], city['id'])
 
-    def get_scenarios(self, **kwargs) -> List:
+    def get_scenarios(self, **kwargs) -> t.List:
         """Return all available scenarios."""
         return self._get('/scenario', **kwargs)
 
-    def get_indicators(self, **kwargs) -> Dict:
+    def get_indicators(self, **kwargs) -> t.Dict:
         """Return the full list of indicators."""
         return self._get('/indicator', **kwargs)
 
-    def get_indicator_details(self, indicator: str, **kwargs) -> Dict:
+    def get_indicator_details(self, indicator: str, **kwargs) -> t.Dict:
         """Return the description and parameters of a specified indicator."""
         return self._get(f'/indicator/{indicator}', **kwargs)
 
-    def get_indicator_data(self, city: int, scenario: str, indicator: str, **kwargs) -> Dict:
+    def get_indicator_data(self, city: int, scenario: str, indicator: str, **kwargs) -> t.Dict:
         """Return derived climate indicator data for the requested indicator."""
         return self._get(f'/climate-data/{city}/{scenario}/indicator/{indicator}', **kwargs)

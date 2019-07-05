@@ -1,10 +1,12 @@
 import json
 
-from flask import Blueprint, current_app as app, render_template, request
+import flask
+from flask import current_app as app
+from flask import render_template
 
 from . import indicator
 
-bp = Blueprint('view', __name__, url_prefix='/')
+bp = flask.Blueprint('view', __name__, url_prefix='/')
 
 
 @bp.route('/')
@@ -15,7 +17,7 @@ def index():
 @bp.route('/search', methods=['POST'])
 def search():
     try:
-        location = json.loads(request.form['location'])
+        location = json.loads(flask.request.form['location'])
         latitude = location['lat']
         longitude = location['lng']
     except (json.JSONDecodeError, KeyError):
