@@ -1,0 +1,19 @@
+{
+    "root": true,
+    "extends": "eslint:recommended",
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "rules": {
+        "arrow-spacing": "error",
+        "brace-style": "error",
+        "camelcase": "error",
+        "eol-last": "error",
+        "indent": "error",
+        "max-len": ["error", {"code": 100}],
+        "semi": "error",
+        "semi-style": "error",
+        "quotes": ["error", "single"]
+    }
+}

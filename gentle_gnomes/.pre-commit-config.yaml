@@ -28,3 +28,8 @@ repos:
           flake8-string-format,
           flake8-tidy-imports,
         ]
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v6.0.1
+    hooks:
+      - id: eslint
+        args: ['--fix']
