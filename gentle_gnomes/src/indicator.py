@@ -3,7 +3,7 @@ from itertools import chain
 from typing import Tuple
 
 import numpy as np
-from flask import current_app as app
+from quart import current_app as app
 from scipy import stats
 
 from .azavea import City
@@ -16,17 +16,17 @@ INDICATORS = (
 
 
 class Indicator:
-    def __init__(self, name: str, city: City):
+    async def __init__(self, name: str, city: City):
         self.name = name
         self.city = city
-        self._populate_data()
+        await self._populate_data()
 
-    def _populate_data(self):
+    async def _populate_data(self):
         items = []
         count = 0
 
         for scenario in ('historical', 'RCP85'):
-            response = app.azavea.get_indicator_data(self.city.id, scenario, self.name)
+            response = await app.azavea.get_indicator_data(self.city.id, scenario, self.name)
             self.label = response['indicator']['label']
             self.description = response['indicator']['description']
             self.units = response['units']
@@ -50,7 +50,7 @@ class Indicator:
         return slope
 
 
-def get_top_indicators(city: City, n: int = 5) -> Tuple[Indicator, ...]:
+async def get_top_indicators(city: City, n: int = 5) -> Tuple[Indicator, ...]:
     """Return the top n indicators with the highest rate of change."""
     rates = Counter()
     indicators = {}
