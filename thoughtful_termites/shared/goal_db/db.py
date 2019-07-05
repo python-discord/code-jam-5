@@ -111,7 +111,7 @@ class GoalDB:
         for row in result:
             yield Reminder.from_row(self, row)
 
-    def get_reminders_async(self):
+    async def get_reminders_async(self):
         for reminder in self.get_reminders():
             yield reminder
 
