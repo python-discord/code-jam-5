@@ -5,11 +5,11 @@ class Organization:
     while NGOs / non-profits will have positive affects
     """
 
-    def __init__(self, name: str, description: str) -> None:
+    def __init__(self, name: str, ceo: str, description: str) -> None:
         self.name = name
+        self.ceo = ceo
         self.description = description
 
     def __str__(self) -> str:
         summary = f"{self.name}\n{self.description}\n"
-
         return summary

@@ -8,6 +8,7 @@ class News:
 
     @property
     def short_description(self) -> str:
+        # TODO: improve this logic to not split words
         if len(self.long_description) < 80:
             return self.long_description
         else:

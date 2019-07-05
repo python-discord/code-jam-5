@@ -1,0 +1,106 @@
+[
+    {
+        "name": "News News Network",
+        "ceo": "",
+        "description": "Placeholder organization focusing on fair media distribution",
+        "policies": [
+            {
+                "name": "Raise Emissions Standards",
+                "description": "Raises the standards that must be met by businesses.",
+                "bio": 0,
+                "temperature": 0,
+                "co2": -50,
+                "habitable_land": 0,
+                "roi": 0
+            }
+        ]
+    },
+    {
+        "name": "Faux News",
+        "ceo": "Mupert Rochmur",
+        "description": "Placeholder organization focusing on spreading lies for financial gain",
+        "policies": []
+    },
+    {
+        "name": "Klaudius Foundation",
+        "ceo": "",
+        "description": "Placeholder organization focusing on deregulating businesses",
+        "policies": [
+            {
+                "name": "TransAmerican Pipeline",
+                "description": "A new pipeline spanning across America to lower crude oil costs.",
+                "bio": -100,
+                "temperature": 0,
+                "co2": 0,
+                "habitable_land": -100,
+                "roi": 10000
+            }
+        ]
+    },
+    {
+        "name": "Nature's Allies",
+        "ceo": "",
+        "description": "Placeholder organization focusing on conservation",
+        "policies": [
+            {
+                "name": "Goverment Solar Contracts",
+                "description": "Lobby the government to use your solar panel installer.",
+                "bio": 0,
+                "temperature": 0,
+                "co2": -50,
+                "habitable_land": 0,
+                "roi": 20000
+            },
+            {
+                "name": "Fund Land Reforestation",
+                "description": "Funds Reforestation accross the nation.",
+                "bio": 100,
+                "temperature": 0,
+                "co2": -10,
+                "habitable_land": 100,
+                "roi": -10000
+            }
+        ]
+    },
+    {
+        "name": "Dino Fuel Network",
+        "ceo": "",
+        "description": "Placeholder organization focusing on Fossil Fuels",
+        "policies": [
+            {
+                "name": "Goverment Coal Contracts",
+                "description": "Lobby the government to use your coal power plants exclusively.",
+                "bio": 0,
+                "temperature": 0,
+                "co2": 50,
+                "habitable_land": 0,
+                "roi": 30000
+            },
+            {
+                "name": "Lower Emissions Standards",
+                "description": "Removes emissions standards that must be met by businesses.",
+                "bio": 0,
+                "temperature": 0,
+                "co2": 50,
+                "habitable_land": 0,
+                "roi": 20000
+            }
+        ]
+    },
+    {
+        "name": "Future Energy Institute",
+        "ceo": "",
+        "description": "Placeholder organization focusing on renewables",
+        "policies": [
+            {
+                "name": "Electric Vehicle Incentives",
+                "description": "Offers consumers a tax credit for purchasing Electric Vehicles.",
+                "bio": 0,
+                "temperature": 0,
+                "co2": -20,
+                "habitable_land": 0,
+                "roi": 0
+            }
+        ]
+    }
+]
