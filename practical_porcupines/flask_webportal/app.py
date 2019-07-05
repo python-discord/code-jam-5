@@ -23,19 +23,18 @@ def index():
 
         api_url = f"http://{config_api.API_DOMAIN}:{config_api.API_PORT}"
 
-        try:
-            request_body = {"date_1": start_date_time, "date_2": end_date_time}
+        request_body = {"date_1": start_date_time, "date_2": end_date_time}
 
-            api_response = requests.get(api_url, data=request_body).json()
+        api_response = requests.get(api_url, data=request_body).json()
 
-            wl_difference = api_response["body"]["wl_difference"]
-            wl_string = f"The difference in GMSL between {start_date} and {end_date} was {wl_difference}mm"
+        wl_difference = api_response["body"]["wl_difference"]
+        wl_string = f"The difference in GMSL between {start_date} and {end_date} was {wl_difference}mm"
 
-            return redirect(url_for("index"), wl_string=wl_string)
-        except Exception as e:
-            flash("Error sending request to API")
+        return redirect(url_for("index"), wl_string=wl_string)
+        # except Exception as e:
+        #     flash("Error sending request to API")
 
-            return render_template("index.html", form=date_picker_form)
+        #     return render_template("index.html", form=date_picker_form)
 
     flash("Invalid Dates!")
 
