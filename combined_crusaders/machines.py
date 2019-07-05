@@ -29,9 +29,10 @@ class Machine(pygame.sprite.Sprite):
             center=count_coords_abs)
         self.cost_sprite = pygame.sprite.Sprite()
         self.cost_sprite.image = self.font.render(
-            self.cost, 0, self.text_color)
-        cost_coords_abs = (self.count_sprite.rect.x,
-                           self.count_sprite.rect.y + self.count_sprite.h)
+            f"${self.cost}", 0, self.text_color)
+        cost_coords_abs = (
+            self.count_sprite.rect.x,
+            self.count_sprite.rect.y + 2 * self.count_sprite.rect.h)
         self.cost_sprite.rect = self.count_sprite.image.get_rect(
             center=cost_coords_abs)
         self.count = 0

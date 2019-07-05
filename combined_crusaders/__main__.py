@@ -299,7 +299,9 @@ class ClimateClicker:
             [button.cost_display for button in self.upgrade_buttons],
             [button.level_display for button in self.upgrade_buttons],
             *self.machines.values(),
-            [machine.count_sprite for machine in self.machines.values()]
+            [machine.count_sprite for machine in self.machines.values()],
+            [machine.cost_sprite for machine in self.machines.values()],
+
         )
         self.sprite_layers = (
             pygame.sprite.RenderPlain(self.crank),
