@@ -1,7 +1,7 @@
 from typing import List
 from .news import News
 from .organization import Organization
-from .planetary_effects import PlanetaryEffects
+from .policy import Policy
 
 
 class Investment:
@@ -15,19 +15,22 @@ class Investment:
     def __init__(
         self,
         organization: Organization,
-        planetary_effects: PlanetaryEffects,
-        roi: float = 0.0,
+        policies: List[Policy],
         news_on_apperance: List[News] = None,
         news_on_investment: List[News] = None,
         news_on_no_investment: List[News] = None,
     ) -> None:
         self.organization = organization
-        self.planetary_effects = planetary_effects
+        self.policies = policies
         self.news_on_apperance = news_on_apperance
         self.news_on_investment = news_on_investment
         self.news_on_no_investment = news_on_no_investment
-        self.roi = roi
+        self.times_invested = 0
 
     def __str__(self) -> str:
-        output = f"{str(self.organization)}\nROI: {self.roi}\n\n{str(self.planetary_effects)}"
+        output = f"{str(self.organization)}\n{str(self.current_policy)}"
         return output
+
+    @property
+    def current_policy(self):
+        return self.policies[self.times_invested]
