@@ -19,7 +19,17 @@
         "name": "Faux News",
         "ceo": "Mupert Rochmur",
         "description": "Placeholder organization focusing on spreading lies for financial gain",
-        "policies": []
+        "policies": [
+            {
+                "name": "Spread Fake News",
+                "description": "Buy advertisments to help spread fake news about the previous presidents brithplace.",
+                "bio": 0,
+                "temperature": 0,
+                "co2": 0,
+                "habitable_land": 0,
+                "roi": 10000
+            }
+        ]
     },
     {
         "name": "Klaudius Foundation",
