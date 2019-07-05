@@ -1,10 +1,11 @@
-# TODO convert to load from json
+import json
+from pathlib import Path
+from typing import Dict
+
 from .investment import Investment
 from .organization import Organization
 from .planetary_effects import PlanetaryEffects
 from .policy import Policy
-import json
-from typing import Dict
 
 
 class InvestmentOptions:
@@ -26,30 +27,31 @@ class InvestmentOptions:
     def create_investements(self) -> Dict:
         """From a json file with CEOs, organization names and policies creates
             a dictionary of options for the player"""
-        raw_json = self._parse_json("../resources/data/organizations.json")
+        path = Path().cwd().resolve()
+        raw_json = self._parse_json(path / "resources" / "data" / "organizations.json")
         investement_list = []
         for entry in raw_json:
             org = Organization(entry["name"], entry["ceo"], entry["description"])
             policy_list = []
-            for polices in raw_json["polices"]:
+            for policies in entry["policies"]:
                 planet_effects = PlanetaryEffects(
-                    polices["bio"],
-                    polices["temperature"],
-                    polices["co2"],
-                    polices["habitable_land"],
+                    policies["bio"],
+                    policies["temperature"],
+                    policies["co2"],
+                    policies["habitable_land"],
                 )
                 policy = Policy(
-                    polices["name"],
-                    polices["description"],
+                    policies["name"],
+                    policies["description"],
                     planet_effects,
-                    polices["roi"],
+                    policies["roi"],
                 )
                 policy_list.append(policy)
-            new_investment = Investment(org, polices)
+            new_investment = Investment(org, policy_list)
             investement_list.append(new_investment)
 
         investement_options = {}
         for index, investment in enumerate(investement_list):
-            investement_options[str(index)] = investment
+            investement_options[str(index + 1)] = investment
 
         return investement_options

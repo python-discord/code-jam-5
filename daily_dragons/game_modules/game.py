@@ -13,17 +13,23 @@ class Game:
 
         self.quit_game = False
 
-        help_options = ("stats: view current player stats",
-                        "earth: view current planet health",
-                        "invest: choose an investment",
-                        "exit: quit the game",)
+        help_options = (
+            "stats: view current player stats",
+            "earth: view current planet health",
+            "invest: choose an investment",
+            "exit: quit the game",
+        )
         self.help_menu = "\n".join(help_options)
 
         self.player_stats_msg = f"Your current stats:\n{self.player}"
 
-        self.planet_stats_msg = "\n".join(["Earth's current stats:",
-                                           f"{self.earth.health_summary()}",
-                                           f"{self.earth}", ])
+        self.planet_stats_msg = "\n".join(
+            [
+                "Earth's current stats:",
+                f"{self.earth.health_summary()}",
+                f"{self.earth}",
+            ]
+        )
 
         self.error_msg = "Unrecognized input, try again or type help"
 
@@ -75,12 +81,15 @@ class Game:
             chosen_investment = self.investments.options[option]
             print(chosen_investment)
             print("Investing in ", chosen_investment.organization.name)
-            print("Are you sure? y/N")
+            print("Are you sure? y/n")
 
             player_input = input("").casefold()
 
             if player_input == "y" or player_input == "yes":
-                self.earth.affect_planet(chosen_investment.planetary_effects)
+                self.earth.affect_planet(
+                    chosen_investment.current_policy.planetary_effects
+                )
+                chosen_investment.times_invested += 1
                 return self.successful_order_msg
             else:
                 return self.cancelled_order_msg
@@ -101,12 +110,10 @@ class Game:
 
             try:
                 if args[0].casefold() == "invest":
-                    choice = ' '.join(args[1:])
-                    choice = str(self.investments.option_names.index(choice.casefold()) + 1)
-                    return self._invest(choice)
+
+                    return self._invest(args[1])
                 else:
-                    choice = str(self.investments.option_names.index(token.casefold()) + 1)
-                    return self.investments.options.get(choice, self.error_msg)
+                    return self.investments.options.get(args[1], self.error_msg)
 
             except ValueError:
                 return self.error_msg
