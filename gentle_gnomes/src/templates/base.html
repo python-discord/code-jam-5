@@ -1,15 +1,18 @@
 <!doctype html>
 <title>{% block title %}{% endblock %}</title>
+
 {% block scripts %}{% endblock %}
+
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 <section class="content">
     <header class="my-5 text-center">
         {% block header %}{% endblock %}
     </header>
     <div class="container">
         {% for message in get_flashed_messages() %}
-        <div class="alert alert-primary mx-auto" style="width: 50%" role="alert">{{ message }}</div>
+            <div class="alert alert-primary mx-auto" style="width: 50%" role="alert">{{ message }}</div>
         {% endfor %}
         {% block content %}{% endblock %}
     </div>

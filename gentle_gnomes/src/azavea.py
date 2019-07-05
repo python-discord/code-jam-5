@@ -51,7 +51,13 @@ class Client:
             for city in cities['features']:
                 yield City(city['properties']['name'], city['properties']['admin'], city['id'])
 
-    async def get_nearest_city(self, lat: float, lon: float, limit: int = 1, **kwargs) -> t.Optional[City]:
+    async def get_nearest_city(
+        self,
+        lat: float,
+        lon: float,
+        limit: int = 1,
+        **kwargs
+    ) -> t.Optional[City]:
         """Return the nearest city to the provided lat/lon or None if not found."""
         params = {
             'lat': lat,

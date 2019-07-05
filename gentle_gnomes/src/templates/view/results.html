@@ -1,6 +1,14 @@
-<div class="mx-auto" style="width: 50%">
-    {% if results %}
-        <p>Showing results for nearest city: {{ city }}</p>
-        <p>{{ results }}</p>
-    {% endif %}
-</div>
+{% if results %}
+    <p>Showing results for nearest city: {{ city.name }}, {{ city.admin }}</p>
+    {% for indicator in results %}
+        <div>
+            <h3>{{ indicator.label }}</h3>
+            <p>{{ indicator.description }}</p>
+            <p>{{ '{0:0.2f}'.format(indicator.rate * 100) }} % change</p>
+        </div>
+    {% else %}
+        <div class="alert alert-primary mx-auto" style="width: 50%" role="alert">
+            Location not found.
+        </div>
+    {% endfor %}
+{% endif %}

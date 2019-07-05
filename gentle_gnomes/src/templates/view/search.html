@@ -1,25 +1,19 @@
+{% block scripts %}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config['GOOGLE_KEY'] }}&libraries=places"></script>
+{% endblock %}
+
 <div class="mx-auto" style="width: 50%">
-    <form action="/search" method="post">
+    <form action="/search" method="post" id="search-form">
         <div class="input-group mb-3">
             <!-- <label for="location">Location</label> -->
             <input type="text" name="name" class="form-control" id="name" required>
-            <input type="hidden" name="location" id="location">
             <div class="input-group-append">
                 <input value="Search" class="btn btn-outline-secondary" type="submit" id="button-addon2">
             </div>
         </div>
     </form>
 </div>
-<script>
-    let inputName = document.getElementById('name');
-    let inputLocation = document.getElementById('location');
-    autocomplete = new google.maps.places.Autocomplete(inputName);
-    autocomplete.setFields(['geometry']);
-    autocomplete.setComponentRestrictions({'country': ['us']});
+<div id="map" style="display: none"></div>
+<div id="results" class="mx-auto" style="width: 50%"></div>
 
-    autocomplete.addListener('place_changed', () => {
-        let place = autocomplete.getPlace();
-        let location = JSON.stringify(place.geometry.location);
-        inputLocation.setAttribute('value', location);
-    });
-</script>
+<script src="{{ url_for('static', filename = 'search.js') }}"></script>

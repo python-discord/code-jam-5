@@ -19,6 +19,11 @@ pytest = "^4.6"
 coverage = "^4.5"
 flake8 = "^3.7"
 pytest-asyncio = "^0.10.0"
+pre-commit = "^1.17"
+flake8-bugbear = "^19.3"
+flake8-quotes = "^2.0"
+flake8-string-format = "^0.2.3"
+flake8-tidy-imports = "^2.0"
 
 [tool.poetry.scripts]
 start = "app:main"
