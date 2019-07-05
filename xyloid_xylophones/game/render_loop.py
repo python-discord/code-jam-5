@@ -1,14 +1,17 @@
 import pyglet
 from pyglet import gl
+from pyglet.image.codecs.png import PNGImageDecoder
 
 from config import *
 from . import game_window
 from . import zone_map
 from . import time_display
 from . import player
-from .input import handle_input
+from . import scene_list, sound_list, music_list, tick, elapsed_time
 
 def render_loop():
+    global cut_scene
+    global elapsed_time
     '''
     This contains the logic for the main render loop
 
@@ -28,17 +31,15 @@ def render_loop():
         gl.GL_TEXTURE_MAG_FILTER,
         gl.GL_NEAREST)
 
-    label = pyglet.text.Label(
-        'player x %s y %s zone %s' % (player.x, player.y, current_zone),
-        font_name='Times New Roman',
-        font_size=16,
-        x=game_window.width//3, y=24, color=(0, 0, 0, 255))
-
     # blank screen!
     game_window.clear()
     if cut_scene:
-        print('cut')
-
+        if elapsed_time < cut_scene_timeout:
+            scene = pyglet.image.load(cut_scene_name, file=scene_list[cut_scene_name].stream, decoder=PNGImageDecoder())
+            scene.draw()
+            elapsed_time = tick
+        else:
+            cut_scene = False
     else:
         # batch up all zone drawing
         batch = pyglet.graphics.Batch()
@@ -55,7 +56,7 @@ def render_loop():
                 i.x + i.width + offset_x, i.y + i.height + offset_y,
                 i.x + offset_x, i.y + i.width + offset_y)),
              ('c3B', i.color))
-            # pyglet.text.Label(
+            # pyglet.text.Label(  # this is very slow when > 20ish 60fps > 10fps
             #    i.name,
             #    batch=batch,
             #    font_name = 'Times New Roman',
@@ -83,5 +84,10 @@ def render_loop():
         player_label.draw()
 
     # UI / debug elements
+    label = pyglet.text.Label(
+        'player x %s y %s zone %s' % (player.x, player.y, current_zone),
+        font_name='Times New Roman',
+        font_size=16,
+        x=game_window.width//3, y=24, color=(0, 0, 0, 255))
     label.draw()
     time_display.draw()

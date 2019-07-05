@@ -1,15 +1,14 @@
 import pyglet
 from pyqtree import Index
 from config import *
-from config import game_width, game_height
 
 
 # 640x640 makes it easier to draw tiles
 game_window = pyglet.window.Window(width=game_width, height=game_height)
 
-# fps_display = pyglet.window.FPSDisplay(game_window)
-
 time_display = pyglet.clock.ClockDisplay()
+
+media = pyglet.media.Player()
 
 #List of current pressed keys
 keys = set()
@@ -45,6 +44,12 @@ class Item(Player):
     contains: str = 'default_nothing'
 
 
+class Resource:
+    full_path: str = ''
+    stream: None
+    data: None
+
+
 zone_map = {}
 for i in zone_names:
     zone_map[i] = Zone(Index(bbox=(-1024, -1024, 1024, 1024)))
@@ -63,7 +68,10 @@ player.height = sprite_height
 player.x_vel = 0
 player.y_vel = 0
 
-cut_scenes = {}
+tick = 0
+elapsed_time = 0
+
+scene_list = {}
 sound_list = {}
 music_list = {}
 
