@@ -35,12 +35,10 @@ class WaterLevel(Resource):
         args = wl_req.parse_args()
 
         cur_time = datetime.datetime.now().strftime(
-            # fmt: off
             "%Y-%m-%d %H:%M:%S"
         )
 
         output = {
-            # fmt: off
             "meta": {
                 "status_code": 200,
                 "dates": {
@@ -48,8 +46,6 @@ class WaterLevel(Resource):
                     "date_2": args["date_2"]
                 },
                 "time_sent": cur_time
-            },
-            "body": {
             }
         }
 
