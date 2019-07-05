@@ -68,9 +68,12 @@ class FactFactory:
             print(e)
             raise
 
+        print('::', type(new_records))
+
         # if retrieval completed successfully
         # otherwise, keep previous records
         self.records = list(new_records)
+        print(len(self.records))
         return self.records
 
     def _build_widget(self, factobj, parent) -> QmlWidget:

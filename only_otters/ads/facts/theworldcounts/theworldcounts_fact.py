@@ -83,3 +83,8 @@ def postprocess(item):
             item['precision'] = None
 
     return item
+
+
+@__factory__.fetcher.pipe
+def valid(item):
+    return item['start'] is not None

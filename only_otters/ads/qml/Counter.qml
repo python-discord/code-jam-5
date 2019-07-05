@@ -63,15 +63,15 @@ Item {
         onTriggered: parent.value += offset
     }
 
-    Button {
-        text: "Next Fact"
-        font.pixelSize: 14
-        height: 20
-        padding: 0
-        highlighted: true
-        anchors.right: parent.right
-        anchors.top: parent.top
-    }
+    // Button {
+    //     text: "Next Fact"
+    //     font.pixelSize: 14
+    //     height: 20
+    //     padding: 0
+    //     highlighted: true
+    //     anchors.right: parent.right
+    //     anchors.top: parent.top
+    // }
 
     Text {
         id: wsource

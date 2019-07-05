@@ -1,5 +1,6 @@
 
 import time
+import re
 
 
 """
@@ -14,7 +15,8 @@ def get_precision(num):
 
 
 def raw(num):
-    num = str(num)
+    num = '%.100f' % num
+    num = re.sub('0+$', '', num)
     num = num.replace('.', '')
     num = int(num)
     return num

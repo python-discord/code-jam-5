@@ -266,6 +266,21 @@ class HierarchicalXPathQuery:
     @classmethod
     def process_query(cls, tree: "lxml Element", xquery: dict, **properties):
 
+        ##
+        postprocess = xquery.pop('postdict', None)
+        if postprocess is not None:
+            # Get pipes,
+            _, pipes, _, _ = cls.resolve_pipe_expr(postprocess)
+            gen = cls.process_query(tree, xquery, **properties)
+            for pipe in pipes:
+                if type(pipe) == partial:# and type(pipe.func) in cls.HIGHER_ORDER_PIPES.values():
+                    gen = pipe(gen)
+                else:
+                    gen = map(pipe, gen)
+            yield from gen
+            return
+        ##
+
         loc_query = xquery['loc']
         query = xquery['query']
         prefix = xquery.get('prefix')

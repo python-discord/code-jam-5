@@ -31,7 +31,23 @@ class TestWin(QtWidgets.QMainWindow):
         self.main_layout = QtWidgets.QVBoxLayout(self.main_widget)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
 
+        self.new_fact_button = QtWidgets.QPushButton('New')
+        self.new_fact_button.clicked.connect(self.x)
+
+        self.main_layout.addWidget(self.new_fact_button)
+
         self.main_widget.setLayout(self.main_layout)
+
+    def new_widget(self, w):
+        self.main_layout.addWidget(w)
+
+    def x(self):
+    
+        from .facts import pick_fact
+
+        fact = pick_fact()
+        widget = fact.as_widget(parent=self)
+        self.new_widget(widget)
 
 
 if __name__ == "__main__":
@@ -53,11 +69,6 @@ if __name__ == "__main__":
     #     qmlpath=qml_file,
     #     parent=win
     # )
-
-    from .facts import pick_fact
-
-    fact = pick_fact()
-    widget = fact.as_widget(win)
 
     win.show()
 
