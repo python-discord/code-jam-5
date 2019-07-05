@@ -30,6 +30,11 @@ class Client:
         async with self.session.get(BASE_URL + endpoint, **kwargs) as response:
             return await response.json()
 
+    async def teardown(self):
+        if self.session is not None:
+            await self.session.close()
+
+
     async def get_cities(self, **kwargs) -> t.Iterator[City]:
         """Return all available cities."""
         params = {'page': 1}

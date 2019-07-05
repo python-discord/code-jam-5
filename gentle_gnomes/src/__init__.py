@@ -18,4 +18,8 @@ def create_app(test_config=None):
 
     app.azavea = azavea.Client(app.config['AZAVEA_TOKEN'])
 
+    @app.teardown_appcontext
+    async def teardown(*args):
+        await app.azavea.teardown()
+
     return app
