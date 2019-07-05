@@ -32,5 +32,8 @@ class Investment:
         return output
 
     @property
-    def current_policy(self):
-        return self.policies[self.times_invested]
+    def current_policy(self) -> (Policy, None):
+        if self.policies:
+            return self.policies[self.times_invested]
+        else:
+            return None
