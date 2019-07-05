@@ -100,7 +100,7 @@ pipenv run python -m practical_porcupines flask-webportal
 - Autoformat using `black` and try to do a final sweep with the custom `flake8` rulings.
 - Document everything in docstrings. `>` means overview of passing in, `<` means overview of returning, `x` is the execption handling and `-` are the argument specifics (use these like bullet points with them symbols).
 
-### Api Error codes
+### API Error codes
 
 - `400`: API was given a bad date format (`DateFormatError()`)
 - `1001`: API returning wrong values (usually happens in debugging when hooked upto a dummy api)
@@ -115,7 +115,7 @@ pipenv run python -m practical_porcupines flask-webportal
 ```none
 {
     [STRING: META]: {
-        [KEY: STATUS CODE]: [STRING: SUCSESS/FAIL],
+        [KEY: STATUS CODE]: [INT: STATUS], 
         [ARRAY: DATES]: {
             [STRING: 1ST DATE ARG],
             [STRING: 2ND DATE ARG]
