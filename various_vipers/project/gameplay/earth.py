@@ -98,7 +98,7 @@ class Earth(object):
 
     def update(self, event: pg.event) -> None:
         """Update game logic with each game tick."""
-        if game_vars.is_playing:
+        if game_vars.is_started:
             if self.entry_y_offset > 0:
                 self.entry_y_offset = max(self.entry_y_offset - self.entry_speed, 0)
 
@@ -123,7 +123,7 @@ class Earth(object):
     def draw(self, sun: Sun) -> None:
         """Draw all images related to the earth."""
         self.__draw_clouds()
-        if game_vars.is_playing:
+        if game_vars.is_started:
             self.__draw_biomes()
             self.__draw_polution()
         sun.draw()  # Need to draw sun before indicators

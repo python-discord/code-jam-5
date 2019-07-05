@@ -1,12 +1,21 @@
-# Documentation for your team's project
+# Various Vipers | saving the earth
 
-To do: Add documentation of your project here.
+(Python Discord code jam 5 submission)
+
+
+The climate change is a real danger to our planet, and if we don't help reduce the pollution, it will be destroyed. Your task is to save the earth!
+
+
+This game is about you - completing tasks that will decrease the pollution. Try to do as many tasks as you can, while it is still not too late.
+
+
+See `/docs` for more documentation.
 
 ## Requirements
 
 Requires python 3.6+ (with pip)
 
-## Setup
+## Setup (for development)
 
 To prepare for development, run commands (from this directory):
 
@@ -15,6 +24,23 @@ $ pip install pipenv
 $ pipenv install --dev
 $ pipenv run precommit
 ```
+
+## Setup
+
+To run the game, you will need to install all the dependencies (in Pipfile).
+
+Run commands (from this directory):
+
+```
+$ pip install pipenv
+$ pipenv install
+```
+
+## Start Game
+
+To start the game, simply run:
+
+`$ pipenv run start`
 
 ## Troubleshooting
 

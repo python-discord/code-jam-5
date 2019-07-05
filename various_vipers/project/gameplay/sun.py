@@ -47,7 +47,7 @@ class Sun:
         """Update is called every game tick."""
         self.update_angle()
 
-        if game_vars.is_playing:
+        if game_vars.is_started:
             # Increase heat based on uncompleted task count
             task_count = 0
             # Get uncompleted task count. weeeee
@@ -68,7 +68,7 @@ class Sun:
             self._image_cache[int(self.angle)], self.image.get_rect(center=(0, 0))
         )
 
-        if game_vars.is_playing:
+        if game_vars.is_started:
             # Draw current heat number
             font = pg.font.Font(None, 50)
             text = f"{str(int(game_vars.current_heat))} / {str(MAX_HEAT)}"
