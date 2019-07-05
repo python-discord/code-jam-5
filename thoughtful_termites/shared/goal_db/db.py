@@ -120,7 +120,8 @@ class GoalDB:
         Returns a goal by its ID.
 
         :param id: ID of goal.
-        :return: Goal with given ID.
+        :return: Goal with given ID,
+                or None if there is no goal with that ID.
         """
         result = self.connection.execute(
             'select * from goals where id=?', (id,)
@@ -134,7 +135,8 @@ class GoalDB:
         Returns a reminder by its ID.
 
         :param id: ID of reminder.
-        :return: Reminder with given ID.
+        :return: Reminder with given ID,
+                or None if there is no reminder with that ID.
         """
         result = self.connection.execute(
             'select * from reminders where id=?', (id,)
