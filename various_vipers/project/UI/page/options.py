@@ -13,7 +13,15 @@ from project.UI.element.button import Button
 from project.UI.element.slider import Slider
 from project.UI.element.vol_indicator import VolumeIndicator
 from project.UI.fx.sound import Sound
-from project.constants import BUTTONS as BTN, ButtonProperties, Color, WindowState
+from project.constants import (
+    BUTTONS as BTN,
+    ButtonProperties,
+    Color,
+    WindowState,
+    WIDTH,
+    HEIGHT,
+    PATH_OPTIONS_BG,
+)
 from project.utils.loader import Load, Save
 
 logger = logging.getLogger(__name__)
@@ -25,6 +33,11 @@ class Options:
     def __init__(self, screen: pg.Surface):
         self.screen = screen
         self.event = None
+
+        self.bg_rect_1 = pg.Rect(0, 0, WIDTH, HEIGHT)
+        self.bg_rect_2 = pg.Rect(-WIDTH, 0, WIDTH, HEIGHT)
+
+        self.background = pg.image.load(str(PATH_OPTIONS_BG)).convert_alpha()
 
         back_btn_img = pg.image.load(str(BTN["back-btn"])).convert_alpha()
         back_btn_img_hover = pg.image.load(str(BTN["back-btn-hover"])).convert_alpha()
@@ -116,7 +129,7 @@ class Options:
         self.event = event
         self.mouse_x, self.mouse_y = mouse_x, mouse_y
 
-        self.screen.fill(Color.black)
+        self.__draw_infinity_bg()
 
         if self.back_btn.rect.collidepoint(mouse_x, mouse_y):
             self.back_btn.draw(hover=True)
@@ -138,6 +151,18 @@ class Options:
 
         self.fps_label.draw()
         return WindowState.options, self.fps_checked
+
+    def __draw_infinity_bg(self):
+        self.bg_rect_1.left += 1
+        self.bg_rect_2.left += 1
+
+        if self.bg_rect_1.left == WIDTH:
+            self.bg_rect_1.left = -WIDTH
+        if self.bg_rect_2.left == WIDTH:
+            self.bg_rect_2.left = -WIDTH
+
+        self.screen.blit(self.background, self.bg_rect_1)
+        self.screen.blit(self.background, self.bg_rect_2)
 
     def __draw_volume_button(self):
         clicked = self.event.type == pg.MOUSEBUTTONDOWN

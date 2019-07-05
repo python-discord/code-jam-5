@@ -101,6 +101,10 @@ TTT_GRID = lambda biome: PurePath(PATH_TTT_TASK).joinpath(f"{biome}/grid.png")
 # UI assets
 
 # Backgrounds
+PATH_CREDITS = PurePath(PATH_UI_BACKGROUNDS).joinpath("credits.png")
+PATH_CREDITS_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("credits_bg.png")
+
+PATH_OPTIONS_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("options_bg.png")
 
 # Button images
 BUTTONS_NAMES = [p.rstrip("png").rstrip(".") for p in listdir(PATH_BUTTONS)]
