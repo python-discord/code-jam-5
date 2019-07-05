@@ -1,7 +1,6 @@
 import pyglet
-from math import radians
 
-from .snowball import *
+from .snowball import RocketBall, Snowball
 
 
 class Weapon:
@@ -31,9 +30,11 @@ class Weapon:
         pyglet.clock.schedule_once(self.reload, self.reload_delay)
         return self.get_projectiles(x, y, angle)
 
+
 class Hand(Weapon):
     def get_projectiles(self, x, y, angle):
         yield Snowball(x, y, angle, self.projectile_speed)
+
 
 class RocketPropelledSnowball(Weapon):
     reload_delay = 1
