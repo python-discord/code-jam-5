@@ -9,7 +9,7 @@ class PlanetaryEffects:
     """
 
     def __init__(
-        self, bio_diversity: int, temperature: int, co2: int, habitable_land: int
+        self, bio_diversity: int, temperature: float, co2: int, habitable_land: int
     ) -> None:
         """Track the stats as a direct change to the planets current stats
 
