@@ -18,6 +18,7 @@ class Player(PhysicalObject):
         super().__init__(PLAYER_IMAGE, x=x, y=y)
 
         self.weapon = Weapon()
+        self.firing = False
 
     def update(self, dt):
         if keys[key.W]:
@@ -29,8 +30,14 @@ class Player(PhysicalObject):
         if keys[key.D]:
             self.x += dt * self.speed
 
+        if self.firing:
+            self.fire()
+
     def fire(self):
-        for bullet in self.weapon.get_projectiles(self.x, self.y, self.rotation):
+        if self.weapon.reloading:
+            return
+
+        for bullet in self.weapon.fire(self.x, self.y, self.rotation):
             self.space.add(bullet)
 
     def on_mouse_motion(self, x, y, dx, dy):
@@ -41,4 +48,8 @@ class Player(PhysicalObject):
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == mouse.LEFT:
-            self.fire()
+            self.firing = True
+
+    def on_mouse_release(self, x, y, button, modifiers):
+        if button == mouse.LEFT:
+            self.firing = False
