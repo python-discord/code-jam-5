@@ -82,6 +82,7 @@ class GameView:
         """Update gets called every game tick."""
         if (
             game_vars.is_started
+            and game_vars.open_task is None
             and pg.key.get_pressed()[pg.K_ESCAPE]
             and time.time() > self.pause_start + 0.3
         ):
