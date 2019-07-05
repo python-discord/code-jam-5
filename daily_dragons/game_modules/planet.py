@@ -46,7 +46,7 @@ class Planet:
 
     def health_summary(self) -> str:
         """Provides a human readable summary of the health on the planet based on its stats"""
-        # Largely placeholder numbers / text, just wanted to get the idea down
+        # TODO: Largely placeholder numbers / text, just wanted to get the idea down
 
         health = []
 
