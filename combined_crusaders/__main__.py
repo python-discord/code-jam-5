@@ -336,10 +336,10 @@ class ClimateClicker:
                         button.clicked()
                 for machine in self.machines.values():
                     if machine.rect.collidepoint(pos):
-                        if self.score < machine.price:
+                        if self.score < machine.cost:
                             sounds["beep"].play()
                         else:
-                            self.score -= machine.price
+                            self.score -= machine.cost
                             machine.count += 1
                             self.events.send(f"buy_machine_{machine.name}")
 
