@@ -403,6 +403,7 @@ class TaskTicTacToe(Task):
         self.x = self.turn
 
     def update(self, event: pg.event) -> None:
+        """Handle events, user, input and makes computer moves."""
         super().update()
 
         for i, cell in enumerate(self.cells):
@@ -442,6 +443,7 @@ class TaskTicTacToe(Task):
                 return self._complete(False)
 
     def draw(self) -> None:
+        """Draw all elements and hover states."""
         super().draw()
         self.screen.fill(Color.forest, self.board_rect)
 
@@ -462,12 +464,8 @@ class TaskTicTacToe(Task):
                 elif self.board[x][y] == self.x * -1:
                     self.screen.blit(self.o_image, cell)
 
-    def __game_over(self):
-        if self.__won(self.board, self.human) or self.__won(self.board, self.computer):
-            return True
-        return False
-
     def __won(self, board, player):
+        """Checks  if given player is in winning positon."""
         win_boards = [
             [board[0][0], board[0][1], board[0][2]],
             [board[1][0], board[1][1], board[1][2]],
@@ -493,10 +491,12 @@ class TaskTicTacToe(Task):
         return cells
 
     def __insert_human_move(self, cell):
+        """Inserts human move in the board."""
         x, y = self.map_indexes[cell]
         self.board[x][y] = self.human
 
     def __make_computer_move(self):
+        """The main algorithm for making a computer move."""
         # win in the next move
         for cell in self.__cells_left():
             x, y = cell
