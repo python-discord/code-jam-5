@@ -65,7 +65,7 @@ class Game(pyglet.window.Window):
 
 class GameOverScreen(Object):
     def __init__(self, window):
-        self.label = pyglet.text.Label("Game Over",
+        self.label = pyglet.text.Label("Game Over!",
                                        font_name="Times New Roman",
                                        font_size=36,
                                        x=window.width // 2,
