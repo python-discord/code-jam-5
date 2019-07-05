@@ -1,6 +1,8 @@
 import asyncio
+import datetime
 import sqlite3
 
+from functools import partial
 from pathlib import Path
 from typing import Union
 
@@ -20,8 +22,9 @@ class GoalDB:
     This class describes the database of all goals/reminders.
     """
 
-    def __init__(self):
+    def __init__(self, loop: asyncio.BaseEventLoop = None):
         self.connection: sqlite3.Connection = None
+        self.loop = loop or asyncio.get_event_loop()
 
     @classmethod
     def create_new(cls, path):
@@ -168,3 +171,13 @@ class GoalDB:
     ):
         for reminder in self.get_reminders_on_day(day):
             yield reminder
+
+    def get_next_reminder(self):
+        now = datetime.datetime.now()
+        result = self.connection.execute("SELECT * FROM reminders WHERE day>=? AND time>=? ORDER BY day, time LIMIT 1;",
+                                         (now.day, now.hour))
+        row = result.fetchone()[0]
+        return Reminder.from_row(self, row)
+
+    async def get_next_reminder_async(self):
+        return await self.loop.run_in_executor(None, partial(self.get_next_reminder))

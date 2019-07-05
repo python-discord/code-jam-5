@@ -2,6 +2,7 @@ import asyncio
 import sqlite3
 import weakref
 
+from functools import partial
 from typing import TYPE_CHECKING, Union
 
 from .reminder_time import ReminderTime
@@ -40,6 +41,10 @@ class Reminder:
         self.db_ref: weakref.ref = None
         """
         Weak reference to the database object which created this object.
+        """
+        self.loop = asyncio.get_event_loop()
+        """
+        Asyncio loop to run blocking calls.
         """
 
     @classmethod
@@ -135,8 +140,7 @@ class Reminder:
             cursor.close()
 
     async def delete_async(self):
-        self.delete()
-        await asyncio.sleep(0)
+        return await self.loop.run_in_executor(None, partial(self.delete))
 
     @property
     def goal(self):
