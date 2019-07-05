@@ -9,8 +9,8 @@ class DatePickerForm(FlaskForm):
 
     def validate_on_submit(self):
         result = super(DatePickerForm, self).validate()
-        
+
         if self.start_date.data == None or self.end_date.data == None:
             return False
-        
+
         return True
