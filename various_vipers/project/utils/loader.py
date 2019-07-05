@@ -18,9 +18,6 @@ assert_user_settings()
 class Load:
     """Represents static methods for loading json data."""
 
-    with open(str(USER_SETTINGS), "r", encoding="utf-8") as f:
-        data = json.load(f)
-
     @staticmethod
     def volume() -> float:
         """
@@ -28,38 +25,44 @@ class Load:
 
         Output ready for pygame.Sound.set_volume function.
         """
-        if Load.data["mute"]:
+        with open(str(USER_SETTINGS), "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        if data["mute"]:
             return 0
-        return Load.data["volume"]
+        return data["volume"]
 
     @staticmethod
     def show_fps() -> float:
         """Returns show fps bool."""
-        return Load.data["show_fps"]
+        return data["show_fps"]
 
 
 class Save:
     """Represents static methods for saving to json format."""
 
-    with open(str(USER_SETTINGS), "r", encoding="utf-8") as f:
-        data = json.load(f)
-
     @staticmethod
     def volume(vol: int) -> None:
         """Saves the volume from project.UI.page.options slider."""
-        Save.data["volume"] = vol
+        with open(str(USER_SETTINGS), "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        data["volume"] = vol
 
         if vol == 0:
-            Save.data["mute"] = True
+            data["mute"] = True
         else:
-            Save.data["mute"] = False
+            data["mute"] = False
 
         with open(str(USER_SETTINGS), "w", encoding="utf-8") as f:
-            json.dump(Save.data, f)
+            json.dump(data, f)
 
     def show_fps(state: bool) -> None:
         """Saves the volume from project.UI.page.options slider."""
-        Save.data["show_fps"] = state
+        with open(str(USER_SETTINGS), "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        data["show_fps"] = state
 
         with open(str(USER_SETTINGS), "w", encoding="utf-8") as f:
-            json.dump(Save.data, f)
+            json.dump(data, f)
