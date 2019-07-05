@@ -222,8 +222,10 @@ if __name__ == '__main__':
 
     if sound:
         pyglet.have_avbin = True
-        media.queue(music_list['default'].data)
-        media.eos_action = pyglet.media.SourceGroup.loop
+        looper = pyglet.media.SourceGroup(music_list['default'].data.audio_format, None)
+        looper.loop = True
+        looper.queue(music_list['default'].data)
+        media.queue(looper)
         media.volume = 0.05
         media.play()
     pyglet.app.run()
