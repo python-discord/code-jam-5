@@ -54,24 +54,23 @@ class TextButton(pygame.sprite.Sprite):
 
 
 class ValueLabel(pygame.sprite.Sprite):
-    def __init__(self, coords, label, units):
+    def __init__(self, coords, descriptor, units):
         pygame.sprite.Sprite.__init__(self)
-        self.label = label
+        self.descriptor = descriptor
         self.coords = coords
         self.units = units
         self.font = pygame.font.SysFont("SegoeUI", 18)
         self.font.set_bold(1)
         self.color = Color('#ffffff')
         self._value = 0
-        msg = f"{self.label}: {'9'*10}"  # init rect to a wide size
-        self.image = self.font.render(msg, 0, self.color)
+        self.update()
         self.rect = self.image.get_rect()
         self.rect.move_ip(*in_pixels(self.coords))
         self.update()
 
     def update(self):
-        msg = f"{self.label}: {int(self.value)} {self.units}"
-        self.image = self.font.render(msg, 0, self.color)
+        text = f"{self.descriptor}: {int(self.value)} {self.units}"
+        self.image = self.font.render(text, 0, self.color)
 
     @property
     def value(self):
@@ -387,8 +386,12 @@ class ClimateClicker:
         self.events.send("save")
 
     def load(self):
-        with open("save_file.json", "r") as save_file:
-            save_data = json.load(save_file)
+        try:
+            with open("save_file.json", "r") as save_file:
+                save_data = json.load(save_file)
+        except FileNotFoundError:
+            self.events.send("fail_load")
+            return
         self.load_data(save_data)
         self.events.send("load")
 
