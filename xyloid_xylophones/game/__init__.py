@@ -42,11 +42,17 @@ class Player(Base):
     def load_player(self):
         '''Load all of the sprite sets for the player'''
         image = pyglet.image.load('assets/char.png')
-        self.sprite_grid = pyglet.image.ImageGrid(image, 32, 27)
+        self.sprite_grid = pyglet.image.ImageGrid(image, 32, 27) #Load grid
+
+        #Split the grid into subsections
         self.sprite_down = [self.sprite_grid[31, 1], self.sprite_grid[31, 2]]
         self.sprite_up = [self.sprite_grid[31, 7], self.sprite_grid[31, 8]]
         self.sprite_right = [self.sprite_grid[31, 3], self.sprite_grid[31, 5]]
-        self.current_sprite = self.sprite_grid[31,0]
+
+        #self.sprite_grid[31,3].anchor_x = int(self.sprite_grid[31,3].width / 2)
+        #self.sprite_grid[31,5].anchor_x = int(self.sprite_grid[31,5].width / 2)
+        #self.sprite_left = [self.sprite_grid[31, 3].get_texture().get_transform(flip_x=True), self.sprite_grid[31, 5].get_texture().get_transform(flip_x=True)]
+
         self.update_sprite()
 
     def update_sprite(self, sprite="default"):
@@ -57,6 +63,10 @@ class Player(Base):
             self.current_sprite = player.sprite_up[self.sprite_switch]
         elif (sprite=="right"):
             self.current_sprite = player.sprite_right[self.sprite_switch]
+        elif (sprite=="left"):
+            #TODO
+            pass
+            #self.current_sprite = self.sprite_left[self.sprite_switch]
         else:
             #Default sprite
             self.current_sprite = player.sprite_grid[31, 0]
