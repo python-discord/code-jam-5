@@ -60,7 +60,6 @@ class Space:
             if collision_handler is None:
                 obj1, obj2 = obj2, obj1
                 collision_handler = self.handlers.get((type2, type1))
-                continue
 
             if collision_handler is None:
                 continue

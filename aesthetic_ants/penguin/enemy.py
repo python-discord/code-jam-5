@@ -8,6 +8,7 @@ from .resources import ENEMY_IMAGE
 
 class Enemy(PhysicalObject):
     collision_type = CollisionType.ENEMY
+    score = 5
 
     def __init__(self):
         super().__init__(ENEMY_IMAGE)
