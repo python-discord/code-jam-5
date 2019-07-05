@@ -4,7 +4,6 @@ import pyglet.window.key as key
 import pyglet.window.mouse as mouse
 
 from .constants import CollisionType
-from .enemy import Enemy
 from .object import PhysicalObject
 from .resources import PLAYER_IMAGE
 from .utils import angle_between, keys
@@ -40,9 +39,3 @@ class Player(PhysicalObject):
     def on_mouse_press(self, x, y, button, modifiers):
         if button == mouse.LEFT:
             self.fire()
-
-    def on_collision_enemy(self, enemy: Enemy):
-        """
-        What happens when a player runs into an enemy
-        """
-        raise NotImplementedError
