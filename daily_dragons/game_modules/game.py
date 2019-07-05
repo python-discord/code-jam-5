@@ -1,5 +1,5 @@
 from typing import Dict
-
+from colorama import Fore, Style
 from .planet import Planet
 from .player import Player
 from .investment_options import InvestmentOptions
@@ -16,7 +16,8 @@ class Game:
         help_options = (
             "stats: view current player stats",
             "earth: view current planet health",
-            "invest: choose an investment",
+            "invest [option]: invest in [option] company",
+            "[option]: learn more about [option] company and their policies",
             "exit: quit the game",
         )
         self.help_menu = "\n".join(help_options)
@@ -31,13 +32,13 @@ class Game:
             ]
         )
 
-        self.error_msg = "Unrecognized input, try again or type help"
+        self.error_msg = Fore.RED + "Unrecognized input, try again or type help"
 
-        self.exit_msg = "Have a good day, thanks for playing!"
+        self.exit_msg = Fore.YELLOW + "Have a good day, thanks for playing!"
 
-        self.successful_order_msg = "Ok, we've sent that in!"
+        self.successful_order_msg = Fore.GREEN + "Ok, we've sent that in!"
 
-        self.cancelled_order_msg = "Ok, we'll cancel that order."
+        self.cancelled_order_msg = Fore.RED + "Ok, we'll cancel that order."
 
         self.input_options = {
             "help": self.help_menu,
@@ -70,7 +71,7 @@ class Game:
     def main(self) -> None:
         while not self.quit_game:
             print(self.investments)
-            player_input = input("")
+            player_input = input(Style.RESET_ALL + "")
 
             response = self.parse_input(player_input)
 
