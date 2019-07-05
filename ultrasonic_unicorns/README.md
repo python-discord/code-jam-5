@@ -1,5 +1,6 @@
-# untitled-ultrasonic-unicorn
-A placeholder for the ultrasonic unicorn project
+# ultrasonic-unicorn project
+
+[![Build Status](https://nectr.dev/buildStatus/icon?job=ultrasonic-unicorn)](https://nectr.dev/job/ultrasonic-unicorn/)
 
 This is a living document.  Feel free to make any corrections or additions you 
 think would be helpful.
@@ -79,7 +80,7 @@ Any work done for the project should be done in a git branch to allow the team t
 PyCharm has great [branch support](https://www.jetbrains.com/help/pycharm/manage-branches.html), 
 or you can simply use the command line to manage your branches.  
 
-#### Comitting Changes to the Repository
+#### Committing Changes to the Repository
 
 Once you've pushed your branch to the repository, you can open a pull request on
 the project's [GitHub Page][github_page].  This will allow the rest of the team to

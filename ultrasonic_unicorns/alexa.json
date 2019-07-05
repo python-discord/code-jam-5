@@ -1,0 +1,61 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "climate app for codejam",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "test",
+                    "slots": [],
+                    "samples": [
+                        "test"
+                    ]
+                },
+                {
+                    "name": "codejam",
+                    "slots": [],
+                    "samples": [
+                        "coding",
+                        "codejam",
+                        "info",
+                        "about",
+                        "tell me about this project",
+                        "jam",
+                        "code"
+                    ]
+                },
+                {
+                    "name": "extreme",
+                    "slots": [
+                        {
+                            "name": "state",
+                            "type": "AMAZON.US_STATE"
+                        }
+                    ],
+                    "samples": [
+                        "{state} records",
+                        "{state} climate events",
+                        "records for {state}",
+                        "extreme weather for {state}"
+                    ]
+                }
+            ],
+            "types": []
+        }
+    }
+}
