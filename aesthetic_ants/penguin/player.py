@@ -36,6 +36,9 @@ class Player(PhysicalObject):
     def on_mouse_motion(self, x, y, dx, dy):
         self.rotation = degrees(angle_between(self.x, self.y, x, y))
 
+    def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
+        self.rotation = degrees(angle_between(self.x, self.y, x, y))
+
     def on_mouse_press(self, x, y, button, modifiers):
         if button == mouse.LEFT:
             self.fire()
