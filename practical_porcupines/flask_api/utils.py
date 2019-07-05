@@ -1,6 +1,10 @@
 import datetime
 from typing import Union
-from practical_porcupines.utils import DateFormatError
+from practical_porcupines.utils import (
+    # fmt: off
+    PredictionNotImplamentedError,
+    DateFormatError,
+)
 
 
 def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:

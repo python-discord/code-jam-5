@@ -69,6 +69,6 @@ class WaterLevel(Resource):
 
         output["meta"]["status_code"] = status_code
 
-        return output, status_code
+        return output, 200
 
 api.add_resource(WaterLevel, "/")
