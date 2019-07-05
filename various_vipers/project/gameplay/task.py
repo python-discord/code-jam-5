@@ -19,9 +19,8 @@ from project.constants import (
     MAZE_WALL,
     WIDTH,
     X,
-    X_HOVER,
     O,
-    O_HOVER,
+    TTT_GRID,
 )
 from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
 from .game_state import GameState
@@ -347,7 +346,6 @@ class TaskTicTacToe(Task):
         self.board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
         self.first_move = int()
-
         side = self.window_rect.height * 0.9
 
         self.board_rect = pg.Rect(
@@ -372,6 +370,8 @@ class TaskTicTacToe(Task):
                 )
         self.last_click = float()
 
+        self.bg_color, self.bg_color_hover = self._get_colors_for_ttt()
+
         self.map_indexes = dict(
             zip(range(0, 9), [(i, j) for i in range(3) for j in range(3)])
         )
@@ -381,26 +381,21 @@ class TaskTicTacToe(Task):
             [self.cell_side] * 2,
         )
 
-        self.x_image_hover = scale(
-            load(str(self._get_image_for_biome(X_HOVER))).convert_alpha(),
-            [self.cell_side] * 2,
-        )
-
         self.o_image = scale(
             load(str(self._get_image_for_biome(O))).convert_alpha(),
             [self.cell_side] * 2,
         )
 
-        self.o_image_hover = scale(
-            load(str(self._get_image_for_biome(O_HOVER))).convert_alpha(),
-            [self.cell_side] * 2,
+        self.grid = scale(
+            load(str(self._get_image_for_biome(TTT_GRID))).convert_alpha(),
+            [self.board_rect.width, self.board_rect.height],
         )
 
     def start(self) -> None:
         super().start()
 
+        self.delay = time()
         self.turn = choice([self.human, self.computer])
-        self.x = self.turn
 
     def update(self, event: pg.event) -> None:
         """Handle events, user, input and makes computer moves."""
@@ -419,6 +414,7 @@ class TaskTicTacToe(Task):
                 and empty_cell
                 and self.turn == self.human
                 and (time() - self.last_click) > 0.3
+                and (time() - self.delay) > 0.3
             ):
 
                 self.last_click = time()
@@ -445,24 +441,39 @@ class TaskTicTacToe(Task):
     def draw(self) -> None:
         """Draw all elements and hover states."""
         super().draw()
-        self.screen.fill(Color.forest, self.board_rect)
+        self.screen.fill(self.bg_color, self.board_rect)
 
         for i, cell in enumerate(self.cells):
             x, y = self.map_indexes[i]
 
             if cell.collidepoint(pg.mouse.get_pos()) and self.board[x][y] == 0:
-                self.screen.fill(Color.forest_hover, cell)
+                self.screen.fill(self.bg_color_hover, cell)
 
-            if cell.collidepoint(pg.mouse.get_pos()):
-                if self.board[x][y] == self.x:
-                    self.screen.blit(self.x_image_hover, cell)
-                elif self.board[x][y] == self.x * -1:
-                    self.screen.blit(self.o_image_hover, cell)
-            else:
-                if self.board[x][y] == self.x:
-                    self.screen.blit(self.x_image, cell)
-                elif self.board[x][y] == self.x * -1:
-                    self.screen.blit(self.o_image, cell)
+            # if cell.collidepoint(pg.mouse.get_pos()):
+            #     if self.board[x][y] == self.x:
+            #         self.screen.blit(self.x_image_hover, cell)
+            #     elif self.board[x][y] == self.x * -1:
+            #         self.screen.blit(self.o_image_hover, cell)
+            # else:
+            if self.board[x][y] == self.human:
+                self.screen.blit(self.x_image, cell)
+            elif self.board[x][y] == self.computer:
+                self.screen.blit(self.o_image, cell)
+
+        self.screen.blit(self.grid, self.board_rect)
+
+    def _get_colors_for_ttt(self) -> tuple:
+        """Gets an Tic Tac Toe colors for background and hover in biome context."""
+        if isinstance(self.biome, BiomeCity):
+            return (Color.city, Color.city_hover)
+        elif isinstance(self.biome, BiomeDesert):
+            return (Color.desert, Color.desert_hover)
+        elif isinstance(self.biome, BiomeForest):
+            return (Color.forest, Color.forest_hover)
+        elif isinstance(self.biome, BiomeMountains):
+            return (Color.mountains, Color.mountains_hover)
+        else:
+            raise NameError(f"Colors not found for biome: {type(self)}")
 
     def __won(self, board, player):
         """Checks  if given player is in winning positon."""
