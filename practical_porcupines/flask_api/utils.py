@@ -1,5 +1,6 @@
 import datetime
 from typing import Union
+from practical_porcupines.utils import DateFormatError
 
 
 def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
