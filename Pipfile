@@ -15,6 +15,9 @@ flask-restful = "*"
 flask-sqlalchemy = "*"
 aiohttp = "*"
 toml = "*"
+numpy = "*"
+scipy = "*"
+sklearn = "*"
 
 [requires]
 python_version = "3.6"

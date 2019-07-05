@@ -11,7 +11,6 @@ from practical_porcupines.utils import (
 )
 from practical_porcupines.flask_api.difference_calc import WLDifference
 
-
 flask_api_app = Flask(__name__)
 api = Api(flask_api_app)
 wl_dif_obj = WLDifference()
@@ -74,5 +73,6 @@ class WaterLevel(Resource):
         output["meta"]["status_code"] = status_code
 
         return output, status_code
+
 
 api.add_resource(WaterLevel, "/")
