@@ -82,7 +82,7 @@ class Game:
             chosen_investment = self.investments.options[option]
             print(chosen_investment)
             print("Investing in ", chosen_investment.organization.name)
-            print("Are you sure? y/n")
+            print("Are you sure? y/N")
 
             player_input = input("").casefold()
 
