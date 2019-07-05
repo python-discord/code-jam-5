@@ -1,5 +1,6 @@
 from typing import Dict
 from .planetary_effects import PlanetaryEffects
+from colorama import Fore
 
 
 class Planet:
@@ -28,12 +29,24 @@ class Planet:
     @property
     def scoreboard(self) -> Dict[str, str]:
         """A dict of the stats for easy output by gui"""
-        current_stats = {
-            "bio_diversity": str(self.bio_diversity),
-            "temperature": str(self.temperature),
-            "co2": str(self.co2),
-            "habitable_land": str(self.habitable_land),
-        }
+        current_stats = (
+            Fore.GREEN
+            + f"Biodiversity:\t"
+            + Fore.WHITE
+            + f"{self.bio_diversity} species\n"
+            + Fore.GREEN
+            + f"Temperature:\t"
+            + Fore.WHITE
+            + f"{self.temperature} C\n"
+            + Fore.GREEN
+            + f"CO2:\t\t"
+            + Fore.WHITE
+            + f"{self.co2} ppm\n"
+            + Fore.GREEN
+            + f"Habitable Land:\t"
+            + Fore.WHITE
+            + f"{self.habitable_land} hectacres \n"
+        )
 
         return current_stats
 
