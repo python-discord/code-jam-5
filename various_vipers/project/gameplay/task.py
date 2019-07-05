@@ -2,7 +2,7 @@ import logging
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import PurePath
-from random import choice
+from random import choice, shuffle
 from time import time
 from typing import Dict, List, Optional, Tuple
 
@@ -18,6 +18,10 @@ from project.constants import (
     MAZE_START,
     MAZE_WALL,
     WIDTH,
+    X,
+    X_HOVER,
+    O,
+    O_HOVER,
 )
 from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
 from .game_state import GameState
@@ -336,6 +340,8 @@ class TaskTicTacToe(Task):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.game_over = False
+
         self.human = -1
         self.computer = +1
         self.board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
@@ -351,33 +357,126 @@ class TaskTicTacToe(Task):
             int(side),
         )
 
+        self.cell_side = int(self.board_rect.width / 3)
+        self.cells = list()
+
+        for y in range(3):
+            for x in range(3):
+                self.cells.append(
+                    pg.Rect(
+                        self.board_rect.left + (x * self.cell_side),
+                        self.board_rect.top + (y * self.cell_side),
+                        self.cell_side,
+                        self.cell_side,
+                    )
+                )
+        self.last_click = float()
+
+        self.map_indexes = dict(
+            zip(range(0, 9), [(i, j) for i in range(3) for j in range(3)])
+        )
+
+        self.x_image = scale(
+            load(str(self._get_image_for_biome(X))).convert_alpha(),
+            [self.cell_side] * 2,
+        )
+
+        self.x_image_hover = scale(
+            load(str(self._get_image_for_biome(X_HOVER))).convert_alpha(),
+            [self.cell_side] * 2,
+        )
+
+        self.o_image = scale(
+            load(str(self._get_image_for_biome(O))).convert_alpha(),
+            [self.cell_side] * 2,
+        )
+
+        self.o_image_hover = scale(
+            load(str(self._get_image_for_biome(O_HOVER))).convert_alpha(),
+            [self.cell_side] * 2,
+        )
+
     def start(self) -> None:
         super().start()
 
-        self.first_move = choice([self.human, self.computer])
+        self.turn = choice([self.human, self.computer])
+        self.x = self.turn
 
     def update(self, event: pg.event) -> None:
         super().update()
 
+        for i, cell in enumerate(self.cells):
+            mouse_hover = cell.collidepoint(pg.mouse.get_pos())
+            mouse_click = event.type == pg.MOUSEBUTTONDOWN
+
+            x, y = self.map_indexes[i]
+            empty_cell = self.board[x][y] == 0
+
+            if (
+                mouse_click
+                and mouse_hover
+                and empty_cell
+                and self.turn == self.human
+                and (time() - self.last_click) > 0.3
+            ):
+
+                self.last_click = time()
+                self.__insert_human_move(i)
+                self.turn *= -1
+
+        if self.__won(self.board, self.human):
+            return self._complete(True)
+
+        if self.turn == self.computer:
+            self.__make_computer_move()
+            self.turn *= -1
+
+        if not self.game_over and (
+            self.__won(self.board, self.computer) or len(self.__cells_left()) == 0
+        ):
+            self.last = time()
+            self.game_over = True
+
+        if self.game_over:
+            if time() - self.last > 0.5:
+                return self._complete(False)
+
     def draw(self) -> None:
         super().draw()
-        self.screen.fill(Color.white, self.board_rect)
+        self.screen.fill(Color.forest, self.board_rect)
+
+        for i, cell in enumerate(self.cells):
+            x, y = self.map_indexes[i]
+
+            if cell.collidepoint(pg.mouse.get_pos()) and self.board[x][y] == 0:
+                self.screen.fill(Color.forest_hover, cell)
+
+            if cell.collidepoint(pg.mouse.get_pos()):
+                if self.board[x][y] == self.x:
+                    self.screen.blit(self.x_image_hover, cell)
+                elif self.board[x][y] == self.x * -1:
+                    self.screen.blit(self.o_image_hover, cell)
+            else:
+                if self.board[x][y] == self.x:
+                    self.screen.blit(self.x_image, cell)
+                elif self.board[x][y] == self.x * -1:
+                    self.screen.blit(self.o_image, cell)
 
     def __game_over(self):
-        if self.won(self.board, self.human) or self.won(self.board, self.computer):
+        if self.__won(self.board, self.human) or self.__won(self.board, self.computer):
             return True
         return False
 
-    def __won(self, player):
+    def __won(self, board, player):
         win_boards = [
-            [self.board[0][0], self.board[0][1], self.board[0][2]],
-            [self.board[1][0], self.board[1][1], self.board[1][2]],
-            [self.board[2][0], self.board[2][1], self.board[2][2]],
-            [self.board[0][0], self.board[1][0], self.board[2][0]],
-            [self.board[0][1], self.board[1][1], self.board[2][1]],
-            [self.board[0][2], self.board[1][2], self.board[2][2]],
-            [self.board[0][0], self.board[1][1], self.board[2][2]],
-            [self.board[2][0], self.board[1][1], self.board[0][2]],
+            [board[0][0], board[0][1], board[0][2]],
+            [board[1][0], board[1][1], board[1][2]],
+            [board[2][0], board[2][1], board[2][2]],
+            [board[0][0], board[1][0], board[2][0]],
+            [board[0][1], board[1][1], board[2][1]],
+            [board[0][2], board[1][2], board[2][2]],
+            [board[0][0], board[1][1], board[2][2]],
+            [board[2][0], board[1][1], board[0][2]],
         ]
 
         if 3 * [player] in win_boards:
@@ -393,8 +492,47 @@ class TaskTicTacToe(Task):
                     cells.append([x, y])
         return cells
 
-    def __insert_human_move(self, x, y):
+    def __insert_human_move(self, cell):
+        x, y = self.map_indexes[cell]
         self.board[x][y] = self.human
 
-    def __make_computer_move(self, empty_cells):
-        pass
+    def __make_computer_move(self):
+        # win in the next move
+        for cell in self.__cells_left():
+            x, y = cell
+            self.board[x][y] = self.computer
+            if self.__won(self.board, self.computer):
+                self.board[x][y] = self.computer
+                return
+            else:
+                self.board[x][y] = 0
+
+        # block human win
+        for cell in self.__cells_left():
+            x, y = cell
+            self.board[x][y] = self.human
+            if self.__won(self.board, self.human):
+                self.board[x][y] = self.computer
+                return
+            else:
+                self.board[x][y] = 0
+
+        corners = [(0, 0), (0, 2), (2, 0), (2, 2)]
+
+        # take corners
+        shuffle(corners)
+        for cor in corners:
+            x, y = cor
+            if self.board[x][y] == 0:
+                self.board[x][y] = self.computer
+                return
+
+        # take center
+        if self.board[1][1] == 0:
+            self.board[1][1] = self.computer
+            return
+
+        # take random cell
+        if len(self.__cells_left()) > 0:
+            x, y = choice(self.__cells_left())
+            self.board[x][y] = self.computer

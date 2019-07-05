@@ -47,6 +47,7 @@ PATH_BACKGROUNDS = PurePath(PATH_PROJECT).joinpath("assets/images/background")
 PATH_TILES = PurePath(PATH_PROJECT).joinpath("assets/images/tiles")
 PATH_TASK = PurePath(PATH_PROJECT).joinpath("assets/images/task")
 PATH_MAZE_TASK = PurePath(PATH_TASK).joinpath("maze")
+PATH_TTC_TASK = PurePath(PATH_TASK).joinpath("tic-tac-toe")
 
 PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/UI/buttons")
 PATH_SLIDER = PurePath(PATH_PROJECT).joinpath("assets/images/UI/slider")
@@ -86,10 +87,17 @@ TILES_WATER = list(Path(PATH_TILES).joinpath("water").glob("*"))
 
 # Tasks
 
+# maze task
 MAZE_START = lambda biome: PurePath(PATH_MAZE_TASK).joinpath(f"{biome}/maze_start.png")
 MAZE_END = lambda biome: PurePath(PATH_MAZE_TASK).joinpath(f"{biome}/maze_end.png")
 MAZE_PATH = lambda biome: PurePath(PATH_MAZE_TASK).joinpath(f"{biome}/maze_path.png")
 MAZE_WALL = lambda biome: PurePath(PATH_MAZE_TASK).joinpath(f"{biome}/maze_wall.png")
+
+# tic tac toe task
+X = lambda biome: PurePath(PATH_TTC_TASK).joinpath(f"{biome}/x.png")
+X_HOVER = lambda biome: PurePath(PATH_TTC_TASK).joinpath(f"{biome}/x_h.png")
+O = lambda biome: PurePath(PATH_TTC_TASK).joinpath(f"{biome}/o.png")
+O_HOVER = lambda biome: PurePath(PATH_TTC_TASK).joinpath(f"{biome}/o_h.png")
 
 # UI assets
 
@@ -119,11 +127,14 @@ class Color:
 
     black = (0, 0, 0)
     white = (255, 255, 255)
+    gray = (200, 200, 200)
     red = (255, 0, 0)
     aqua = (0, 255, 255)
     sky = (207, 239, 252)
     orange = (225, 92, 30)
     green = (0, 255, 0)
+    forest = (118, 222, 162)
+    forest_hover = (74, 212, 132)
 
 
 class WindowState:
