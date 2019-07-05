@@ -6,6 +6,7 @@ import traceback
 from discord.ext import commands
 
 from thoughtful_termites.bot import config
+from thoughtful_termites.bot.cogs import hangman, climate_arguments
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -35,4 +36,7 @@ class ClimateBot(commands.Bot):
 
 
 bot = ClimateBot()
+bot.load_extension("cogs.climate_arguments")
+bot.load_extension("cogs.hangman")
+
 bot.run(config.bot_token)

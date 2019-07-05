@@ -20,10 +20,13 @@ emissions = {
 }
 
 
-def total_footprint(actions):
+def total_footprint(actions=None):
+    if actions is None:
+        actions = {}
+
     footprint = 0
 
-    for k, v in actions:
+    for (k, v) in actions.items():
         footprint += emissions[k] * v
 
     return footprint
