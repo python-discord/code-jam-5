@@ -22,5 +22,6 @@ class Moderation(commands.Cog):
 
 def setup(bot):
     """Moderation cog load."""
-    logger.info("Moderation cog loading...")
+
     bot.add_cog(Moderation(bot))
+    logger.info("Moderation cog loaded")

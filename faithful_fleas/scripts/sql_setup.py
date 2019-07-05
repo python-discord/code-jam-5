@@ -15,16 +15,6 @@ async def setup_sql():
     result = await sql.database_update(sql_code)
     print(result)
 
-# async def setup_sql():
-#     """A function that creates the location table in the database."""
-#
-#     sql_code = "SELECT * FROM locations"
-#     values = (100234567823529, 11.135323, 30.320035)
-#
-#     result = await sql.database_query(sql_code)
-#     print(result)
-
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(setup_sql())
-

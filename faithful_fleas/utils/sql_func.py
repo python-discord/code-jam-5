@@ -18,6 +18,7 @@ async def database_update(sql_code, values=()):
             logger.info(f"SQL code executed successfully"
                         f"SQL_CODE: {sql_code}"
                         f"Values: {values}")
+
             return True
 
     except Exception as e:
@@ -40,7 +41,6 @@ async def database_query(sql_code, values=()):
                 logger.info(f"SQL code executed successfully"
                             f"SQL_CODE: {sql_code}"
                             f"Values: {values}")
-
             return data
 
     except Exception as e:
