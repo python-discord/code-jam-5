@@ -20,11 +20,18 @@ class Sun:
     min_angle_vel: float = 0.5
     max_angle_vel: float = 4
 
-    def __init__(self, screen: pg.Surface, biomes: List[Biome], heat_per_task: float):
+    def __init__(
+        self,
+        screen: pg.Surface,
+        biomes: List[Biome],
+        heat_per_tick: float,
+        heat_per_task: float,
+    ):
         self.screen = screen
 
         self.biomes = biomes
-        self.heat_per_sec = heat_per_task
+        self.heat_per_tick = heat_per_tick
+        self.heat_per_task = heat_per_task
 
         self.image = pg.image.load(str(self.background_image)).convert_alpha()
         new_height = int(HEIGHT // 2)
@@ -40,7 +47,7 @@ class Sun:
         """Update is called every game tick."""
         self.update_angle()
 
-        if game_vars.is_playing:
+        if game_vars.is_started:
             # Increase heat based on uncompleted task count
             task_count = 0
             # Get uncompleted task count. weeeee
@@ -50,7 +57,9 @@ class Sun:
                         if tile.task:
                             task_count += 1
 
-            game_vars.current_heat += self.heat_per_sec * task_count
+            game_vars.current_heat += (
+                self.heat_per_tick + self.heat_per_task * task_count
+            )
             game_vars.current_heat = min(max(game_vars.current_heat, 0), MAX_HEAT)
 
     def draw(self) -> None:
@@ -59,7 +68,7 @@ class Sun:
             self._image_cache[int(self.angle)], self.image.get_rect(center=(0, 0))
         )
 
-        if game_vars.is_playing:
+        if game_vars.is_started:
             # Draw current heat number
             font = pg.font.Font(None, 50)
             text = f"{str(int(game_vars.current_heat))} / {str(MAX_HEAT)}"

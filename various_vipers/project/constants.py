@@ -66,6 +66,8 @@ CITY_BGS = list(Path(PATH_BACKGROUNDS).joinpath("city").glob("*.png"))
 FOREST_BGS = list(Path(PATH_BACKGROUNDS).joinpath("forest").glob("*.png"))
 MOUNTAINS_BGS = list(Path(PATH_BACKGROUNDS).joinpath("mountains").glob("*.png"))
 
+OZONE_LAYER = PurePath(PATH_BACKGROUNDS).joinpath("ozone_layer.png")
+
 # Background cloud layer will be behind foreground cloud layer
 PATH_CLOUD_LAYERS = PurePath(PATH_BACKGROUNDS).joinpath("clouds/layers")
 CLOUD_LAYERS_BG = [
@@ -103,8 +105,10 @@ TTT_GRID = lambda biome: PurePath(PATH_TTT_TASK).joinpath(f"{biome}/grid.png")
 # Backgrounds
 PATH_CREDITS = PurePath(PATH_UI_BACKGROUNDS).joinpath("credits.png")
 PATH_CREDITS_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("credits_bg.png")
-
 PATH_OPTIONS_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("options_bg.png")
+PATH_GAMEOVER_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("gameover_bg.png")
+
+PAUSE_WINDOW = PurePath(PATH_UI_BACKGROUNDS).joinpath("pause_window.png")
 
 # Button images
 BUTTONS_NAMES = [p.rstrip("png").rstrip(".") for p in listdir(PATH_BUTTONS)]
@@ -150,6 +154,7 @@ class WindowState:
     """Represents windows states."""
 
     game = "game"
+    gameover = "gameover"
     main_menu = "main_menu"
     options = "options"
     credit = "credit"

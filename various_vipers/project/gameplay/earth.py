@@ -11,14 +11,18 @@ from project.constants import (
     BIOME_WIDTH,
     CLOUD_LAYERS_BG,
     CLOUD_LAYERS_FG,
+    Color,
     FG_CLOUDS_SCROLL_SPEED,
     HEIGHT,
     INDICATOR_ARROW,
+    MAX_HEAT,
+    OZONE_LAYER,
     TILE_COLS,
     TILE_ROWS,
     TILE_WIDTH,
     WIDTH,
 )
+from project.utils.helpers import fit_to_range
 from .biome import Biome
 from .game_state import GameState
 from .indicator import Indicator
@@ -76,6 +80,14 @@ class Earth(object):
         ]
         self.cloud_layers_fg = []
 
+        self.ozone_image = load(str(OZONE_LAYER)).convert_alpha()
+        self.ozone_image = pg.transform.scale(self.ozone_image, (WIDTH, HEIGHT // 10))
+
+        self.polution_image = pg.Surface(
+            (WIDTH, int(2 * HEIGHT // 3) - self.ozone_image.get_rect().h // 2)
+        )
+        self.polution_image.fill(Color.desert)
+
         self.indicator_image = load(str(INDICATOR_ARROW)).convert_alpha()
 
         self.indicators = []
@@ -86,7 +98,7 @@ class Earth(object):
 
     def update(self, event: pg.event) -> None:
         """Update game logic with each game tick."""
-        if game_vars.is_playing:
+        if game_vars.is_started:
             if self.entry_y_offset > 0:
                 self.entry_y_offset = max(self.entry_y_offset - self.entry_speed, 0)
 
@@ -111,8 +123,9 @@ class Earth(object):
     def draw(self, sun: Sun) -> None:
         """Draw all images related to the earth."""
         self.__draw_clouds()
-        if game_vars.is_playing:
+        if game_vars.is_started:
             self.__draw_biomes()
+            self.__draw_polution()
         sun.draw()  # Need to draw sun before indicators
         self.__draw_indicators()
 
@@ -316,6 +329,21 @@ class Earth(object):
             i += 1
 
         return (i, _position - self.current_biome_pos)
+
+    def __draw_polution(self) -> None:
+        # Ozone layer - horizontal line, transparency depends on current heat.
+        ozone_alpha = fit_to_range(game_vars.current_heat, 0, MAX_HEAT, 0, 75)
+        _ozone = self.ozone_image.copy()
+        _ozone.fill((255, 255, 255, ozone_alpha), None, pg.BLEND_RGBA_MULT)
+
+        # Polution - yellow transparent background fill indicating toxic air.
+        polution_alpha = fit_to_range(game_vars.current_heat, 0, MAX_HEAT, 0, 150)
+        self.polution_image.set_alpha(polution_alpha)
+
+        self.screen.blit(
+            self.polution_image, (0, HEIGHT - self.polution_image.get_height())
+        )
+        self.screen.blit(_ozone, (0, int(HEIGHT // 3)))
 
     def __draw_indicators(self) -> None:
         for indicator in self.indicators:

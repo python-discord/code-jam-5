@@ -32,10 +32,12 @@ class Period(object):
     # Time passed after the last task spawn
     time_of_last_task_spawn: Optional[int] = None
     # How many game ticks between task spawns (will be floored and converted to int)
-    task_spawn_freq: float = 600
+    task_spawn_freq: float = 420
     # How much to increase task spawn frequency with each game tick
     task_spawn_freq_inc: float = 0.05
 
+    # How much heat goes up passively each game tick
+    heat_per_tick: float = 0.005
     # How much heat goes up per task each game tick
     heat_per_task: float = 0.01
     # How much heat does completing a task reduce
@@ -50,6 +52,10 @@ class Period(object):
     start_date: datetime = datetime.date(2000, 1, 1)
     # Time when game started
     start_time: time = None
+    # Time when the game was last paused
+    pause_time: time = None
+    # Time how long the game was paused for
+    pause_time_sum: float = 0
 
     def __init__(self, screen: pg.Surface):
         self.screen = screen
@@ -70,14 +76,21 @@ class Period(object):
         ]
 
         self.earth = Earth(self.screen, self.biomes)
-        self.sun = Sun(self.screen, self.earth.biomes, self.heat_per_task)
+        self.sun = Sun(
+            self.screen, self.earth.biomes, self.heat_per_tick, self.heat_per_task
+        )
+
+    @property
+    def elapsed(self) -> None:
+        """Returns time elapsed in seconds from the game start (ignore pause time)."""
+        return time.time() - self.start_time - self.pause_time_sum
 
     def update(self, event: pg.event) -> None:
         """Update gets called every game tick."""
         self.earth.update(event)
         self.sun.update(event)
 
-        if game_vars.is_playing:
+        if game_vars.is_started:
             if self.start_time is None:
                 self.start_time = time.time()
             self.__handle_task_spawn()
@@ -91,8 +104,13 @@ class Period(object):
     def draw_age(self) -> None:
         """Draw how long the earth lived."""
         if self.start_time is not None:
-            elapsed_sec = time.time() - self.start_time
-            age = self.start_date + datetime.timedelta(days=30 * elapsed_sec)
+            if game_vars.is_paused:
+                if not self.pause_time:
+                    self.pause_time = time.time()
+                self.pause_time_sum = time.time() - self.pause_time
+            else:
+                self.pause_time = None
+            age = self.start_date + datetime.timedelta(days=30 * self.elapsed)
             font = pg.font.Font(None, 50)
             age_indicator = font.render(
                 age.strftime("%Y - %B"), True, pg.Color("black")

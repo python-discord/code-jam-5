@@ -4,6 +4,7 @@ import logging
 import pygame as pg
 
 from project.UI.page.credits import Credits
+from project.UI.page.gameover import GameOver
 from project.UI.page.main_menu import MainMenu
 from project.UI.page.options import Options
 from project.constants import Color, FPS, HEIGHT, WIDTH, WindowState
@@ -34,21 +35,30 @@ class Game:
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.clock = pg.time.Clock()
 
-        self.window_state = WindowState.main_menu
+        self.show_fps = Load.show_fps()
 
         self.main_menu = MainMenu(self.screen)
         self.options = Options(self.screen)
         self.credits = Credits(self.screen)
-        self.game_view = GameView(self.screen)
+        self.gameover = GameOver(self.screen)
+        self.reset()
 
-        self.show_fps = Load.show_fps()
+    def reset(self) -> None:
+        """Reset and reinitialize main game view."""
+        if hasattr(self, "game_view"):
+            game_vars.reset(self.game_view.period)
+
+        self.window_state = WindowState.main_menu
+        self.game_view = GameView(self.screen)
 
     def run(self):
         """Draw and get events."""
         self.clock.tick(FPS)
         self._get_events()
-
         self._draw()
+
+        if game_vars.reset_game:
+            self.reset()
 
     def _get_events(self):
         self.mouse_x, self.mouse_y = pg.mouse.get_pos()
@@ -60,7 +70,9 @@ class Game:
 
     def _draw(self):
         self.game_view.update(self.event)
-        self.game_view.draw()
+
+        # Will either be gameover or current window state
+        self.window_state = self.game_view.draw(self.event) or self.window_state
 
         if self.window_state == WindowState.main_menu:
             self.window_state = self.main_menu.draw(
@@ -74,10 +86,15 @@ class Game:
             self.window_state = self.credits.draw(
                 self.mouse_x, self.mouse_y, self.event
             )
+        elif self.window_state == WindowState.gameover:
+            game_vars.is_started = False
+            self.window_state == self.gameover.draw(
+                self.mouse_x, self.mouse_y, self.event
+            )
         elif self.window_state == WindowState.quited:
             self.running = False
         elif self.window_state == WindowState.game:
-            game_vars.is_playing = True
+            game_vars.is_started = True
 
         if self.show_fps:
             self._draw_fps()
