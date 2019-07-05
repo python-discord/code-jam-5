@@ -5,4 +5,3 @@ class CollisionType(Enum):
     PLAYER = auto()
     ENEMY = auto()
     SNOWBALL = auto()
-    SNOWSPLOSION = auto()

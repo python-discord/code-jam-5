@@ -47,15 +47,24 @@ class Snowball(Projectile):
 class RocketBall(Snowball):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, image=ROCKET_IMAGE, **kwargs)
+        self.exploded = False
+
+    def collides_with(self, other):
+        if self.exploded:
+            return False
+
+        return super().collides_with(other)
 
     def on_collision_enemy(self, enemy):
         super().on_collision_enemy(enemy)
+
+        self.exploded = True
         self.space.add(Snowsplosion(self.x, self.y))
         self.space.remove(self)
 
 
 class Snowsplosion(PhysicalObject):
-    collision_type = CollisionType.SNOWSPLOSION
+    collision_type = CollisionType.SNOWBALL
 
     def __init__(self, x, y):
         super().__init__(img=SNOWSPLOSION_IMAGE, x=x, y=y)

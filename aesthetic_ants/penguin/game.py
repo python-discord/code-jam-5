@@ -4,9 +4,12 @@ from .constants import CollisionType
 from .enemy import Enemy
 from .object import Object
 from .player import Player
-from .snowball import Snowball, Snowsplosion
 from .space import Space
 from .utils import keys
+
+
+def _object_collides_with(obj1, obj2):
+    return obj1.collides_with(obj2)
 
 
 class Game(pyglet.window.Window):
@@ -42,21 +45,12 @@ class Game(pyglet.window.Window):
         space.add_collision_handler(CollisionType.PLAYER,
                                     CollisionType.ENEMY,
                                     self.on_collision_player_enemy,
-                                    Player.collides_with)
+                                    _object_collides_with)
 
         space.add_collision_handler(CollisionType.SNOWBALL,
                                     CollisionType.ENEMY,
                                     self.on_collision_snowball_enemy,
-                                    Snowball.collides_with)
-
-        # Unfortunately snowsplosions are a special case of projectiles
-        # in that they don't move and become inert after a certain
-        # amount of time. There's no easy way to resolve that while
-        # making it fit with the interface we have.
-        space.add_collision_handler(CollisionType.SNOWSPLOSION,
-                                    CollisionType.ENEMY,
-                                    self.on_collision_snowball_enemy,
-                                    Snowsplosion.collides_with)
+                                    _object_collides_with)
 
         return space
 
