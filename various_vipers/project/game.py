@@ -6,7 +6,7 @@ import pygame as pg
 from project.UI.page.credits import Credits
 from project.UI.page.main_menu import MainMenu
 from project.UI.page.options import Options
-from project.constants import FPS, HEIGHT, WIDTH, WindowState
+from project.constants import Color, FPS, HEIGHT, WIDTH, WindowState
 from project.gameplay.game_state import GameState
 from project.gameplay.game_view import GameView
 from project.utils.loader import Load
@@ -86,7 +86,5 @@ class Game:
 
     def _draw_fps(self) -> None:
         font = pg.font.Font(None, 50)
-        fps_indicator = font.render(
-            str(int(self.clock.get_fps())), True, pg.Color("red")
-        )
+        fps_indicator = font.render(str(int(self.clock.get_fps())), True, Color.orange)
         self.screen.blit(fps_indicator, (WIDTH - fps_indicator.get_width(), 0))
