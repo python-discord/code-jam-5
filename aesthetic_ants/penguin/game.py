@@ -2,6 +2,7 @@ import pyglet
 
 from .constants import CollisionType
 from .enemy import Enemy
+from .object import Object
 from .player import Player
 from .space import Space
 from .utils import keys
@@ -10,6 +11,7 @@ from .utils import keys
 class Game(pyglet.window.Window):
     def __init__(self, *, fps=120, **kwargs):
         super().__init__(caption='Penguin Snowball', **kwargs)
+        self.is_over = False
         self.fps = fps
 
         self.player = Player(self.width / 2, self.height / 2)
@@ -30,7 +32,7 @@ class Game(pyglet.window.Window):
 
         space.add_collision_handler(CollisionType.PLAYER,
                                     CollisionType.ENEMY,
-                                    Player.on_collision_enemy,
+                                    self.on_collision_player_enemy,
                                     Player.collides_with)
 
         space.add_collision_handler(CollisionType.ENEMY,
@@ -52,3 +54,25 @@ class Game(pyglet.window.Window):
 
         pyglet.clock.schedule_interval(self.update, 1/self.fps)
         pyglet.app.run()
+
+    def on_collision_player_enemy(self, player, enemy):
+        """When a player collides with an enemy, end the game"""
+        if not self.is_over:
+            self.is_over = True
+            game_over_screen = GameOverScreen(self)
+            self.space.add(game_over_screen)
+
+
+class GameOverScreen(Object):
+    def __init__(self, window):
+        self.label = pyglet.text.Label("Game Over!",
+                                       font_name="Times New Roman",
+                                       font_size=36,
+                                       x=window.width // 2,
+                                       y=window.height // 2,
+                                       anchor_x='center',
+                                       anchor_y='center')
+
+    def add_to_space(self, space):
+        super().add_to_space(space)
+        self.label.batch = space.batch
