@@ -98,23 +98,3 @@ class Space:
     def remove_collision_handler(self, type1, type2):
         """Removes a collision detection and handler callback from the space"""
         self.handlers.pop((type1, type2), None)
-
-
-def default_space() -> Space:
-    from .constants import CollisionType
-    from .enemy import Enemy
-    from .player import Player
-
-    space = Space()
-
-    space.add_collision_handler(CollisionType.PLAYER,
-                                CollisionType.ENEMY,
-                                Player.on_collision_enemy,
-                                Player.collides_with)
-
-    space.add_collision_handler(CollisionType.ENEMY,
-                                CollisionType.SNOWBALL,
-                                Enemy.on_collision_snowball,
-                                Enemy.collides_with)
-
-    return space
