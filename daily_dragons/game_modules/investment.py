@@ -16,7 +16,6 @@ class Investment:
         self,
         organization: Organization,
         policies: List[Policy],
-        roi: float = 0.0,
         news_on_apperance: List[News] = None,
         news_on_investment: List[News] = None,
         news_on_no_investment: List[News] = None,
@@ -26,15 +25,12 @@ class Investment:
         self.news_on_apperance = news_on_apperance
         self.news_on_investment = news_on_investment
         self.news_on_no_investment = news_on_no_investment
-        self.roi = roi
         self.times_invested = 0
 
     def __str__(self) -> str:
-        output = (
-            f"{str(self.organization)}\nROI: {self.roi}\n\n{str(self.current_policy)}"
-        )
+        output = f"{str(self.organization)}\n{str(self.current_policy)}"
         return output
 
     @property
     def current_policy(self):
-        return self.policy[self.times_invested]
+        return self.policies[self.times_invested]
