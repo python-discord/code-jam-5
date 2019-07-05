@@ -22,8 +22,9 @@ class CategoryConverter(commands.Converter):
         valid_categories = cog.trivia_categories
 
         if argument not in valid_categories:
-            raise commands.BadArgument(f"Valid category not supplied. Try one of the following:\n" +
-                                       '\n'.join(f'•`{n}`' for n in valid_categories))
+            raise commands.BadArgument(f"Valid category not supplied. Try one of the following:\n" + '\n'.join(
+                                       f'•`{n}`' for n in valid_categories)
+                                       )
         return argument
 
 
@@ -39,8 +40,9 @@ class DifficultyConverter(commands.Converter):
         valid_difficulties = cog.trivia_difficulties
 
         if argument not in valid_difficulties:
-            raise commands.BadArgument(f"Valid difficulty not supplied. Try one of the following:\n" +
-                                       '\n'.join(f'•`{n}`' for n in valid_difficulties))
+            raise commands.BadArgument(f"Valid difficulty not supplied. Try one of the following:\n" + '\n'.join(
+                                       f'•`{n}`' for n in valid_difficulties)
+                                       )
         return argument
 
 
