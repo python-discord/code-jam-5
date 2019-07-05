@@ -8,7 +8,9 @@ flake8 = '*'
 coverage = '*'
 
 [packages]
-python-lambda-local = '0.1.7'
+python-lambda-local = "<0.1.8"
+requests = "*"
+flake8 = "*"
 
 [requires]
 python_version = '3.7'

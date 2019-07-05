@@ -3,7 +3,9 @@ This is a Python template for Alexa to get you building skills (conversations) q
 """
 
 from __future__ import print_function
-
+import requests
+import json
+import random
 
 # --------------- Helpers that build all of the responses ----------------------
 
@@ -64,7 +66,7 @@ def get_extreme_events(intent):
     session_attributes = {}
     print(intent)
     card_title = "Extreme Weather"
-    speech_output = intent['slots']['state']['value'] + " has had some events test"
+    speech_output = return_record(value)
     reprompt_text = "You never responded to the first test message. Sending another one."
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
@@ -85,6 +87,37 @@ def get_welcome_response():
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
+def parseData(state):
+    jdata = json.loads(open('weather.json').read())
+    records = []
+    # grab all useful records
+    state = state.lower()
+    for record in jdata['records']:
+        if state != record['state'].lower():
+            continue
+        stateData = record['state']
+        # rename record element to type of record
+        type = record['element']
+        value = str(record['value']) + ' ' + record['units']
+        date = record['date']
+        location = record['location']
+        # we should ultimately only return one record but here is everything for now
+        message = "On {}  an {} of {} was recorded in {}, {} ".format(
+            date, type, value, location, stateData
+        )
+        records.append(message)
+
+    return(records)
+
+
+def return_record(state):
+    """
+    returns a random state record.
+    :param state:
+    :return:
+    """
+
+    return random.choice(parseData(state))
 
 def handle_session_end_request():
     card_title = "Session Ended"
