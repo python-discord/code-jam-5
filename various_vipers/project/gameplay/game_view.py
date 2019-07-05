@@ -7,7 +7,7 @@ from pygame.image import load
 
 from project.UI.element.button import Button
 from project.UI.fx.sound import Sound
-from project.constants import BUTTONS, Color, HEIGHT, MAX_HEAT, WIDTH
+from project.constants import BUTTONS, Color, HEIGHT, MAX_HEAT, PAUSE_WINDOW, WIDTH
 from .game_state import GameState
 from .period import PeriodFuture, PeriodMedieval, PeriodModern
 
@@ -38,6 +38,8 @@ class GameView:
         self.window_rect = pg.Rect(
             int(WIDTH * 0.375), int(HEIGHT * 0.2), int(WIDTH * 0.25), int(HEIGHT * 0.5)
         )
+        self.window_image = load(str(PAUSE_WINDOW)).convert_alpha()
+        self.window_image = pg.transform.scale(self.window_image, self.window_rect.size)
 
         btn_height = 80
         btn_offset_x = 20
@@ -101,7 +103,7 @@ class GameView:
             self._draw_pause_window(event)
 
     def _draw_pause_window(self, event: pg.event) -> None:
-        self.screen.fill(Color.black, self.window_rect)
+        self.screen.blit(self.window_image, self.window_rect)
 
         font = pg.font.Font(None, 60)
         pause_text = font.render("PAUSED", True, Color.orange)

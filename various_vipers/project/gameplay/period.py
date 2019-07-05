@@ -32,7 +32,7 @@ class Period(object):
     # Time passed after the last task spawn
     time_of_last_task_spawn: Optional[int] = None
     # How many game ticks between task spawns (will be floored and converted to int)
-    task_spawn_freq: float = 600
+    task_spawn_freq: float = 420
     # How much to increase task spawn frequency with each game tick
     task_spawn_freq_inc: float = 0.05
 
