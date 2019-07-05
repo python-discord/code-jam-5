@@ -67,7 +67,9 @@ def render_loop():
         # draw player fixed (static center)
         x = player.center_x
         y = player.center_y
-        quad = pyglet.graphics.vertex_list(
+        player.sprite.update(x=x, y=y) #Update player's position
+        player.sprite.draw() #Draw the player
+        '''quad = pyglet.graphics.vertex_list(
             4,
             ('v2i', (x, y,
                      x, y+player.height,
@@ -77,7 +79,7 @@ def render_loop():
                      0, 0, 255,
                      0, 0, 255,
                      0, 255, 255)))
-        quad.draw(pyglet.gl.GL_QUADS)
+        quad.draw(pyglet.gl.GL_QUADS)'''
         player_label = pyglet.text.Label(
             player.name, x=x, y=y, color=(255, 0, 0, 255))
         player_label.draw()

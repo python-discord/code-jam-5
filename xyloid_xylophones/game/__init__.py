@@ -33,10 +33,42 @@ class Zone(Base):
 
 # player object
 class Player(Base):
-    sprite: str = 'default_item'
+    sprite: str = 'char.png'
 
     def __init__(self, name):
         self.name = name
+        self.sprite_switch = 0 #Alternates images to create movement effect
+
+    def load_player(self):
+        '''Load all of the sprite sets for the player'''
+        image = pyglet.image.load('assets/char.png')
+        self.sprite_grid = pyglet.image.ImageGrid(image, 32, 27)
+        self.sprite_down = [self.sprite_grid[31, 1], self.sprite_grid[31, 2]]
+        self.sprite_up = [self.sprite_grid[31, 7], self.sprite_grid[31, 8]]
+        self.sprite_right = [self.sprite_grid[31, 3], self.sprite_grid[31, 5]]
+        self.current_sprite = self.sprite_grid[31,0]
+        self.update_sprite()
+
+    def update_sprite(self, sprite="default"):
+        '''Update the sprite for the player based on input'''
+        if (sprite=="down"):
+            self.current_sprite = player.sprite_down[self.sprite_switch]
+        elif (sprite=="up"):
+            self.current_sprite = player.sprite_up[self.sprite_switch]
+        elif (sprite=="right"):
+            self.current_sprite = player.sprite_right[self.sprite_switch]
+        else:
+            #Default sprite
+            self.current_sprite = player.sprite_grid[31, 0]
+
+        #Alternate sprite chosen
+        if (self.sprite_switch == 0):
+            self.sprite_switch = 1
+        else:
+            self.sprite_switch = 0
+
+        self.sprite = pyglet.sprite.Sprite(img=self.current_sprite)
+        self.sprite.scale = 4
 
 
 class Item(Player):

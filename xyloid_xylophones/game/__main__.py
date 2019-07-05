@@ -111,4 +111,5 @@ if __name__ == '__main__':
 
     pyglet.clock.schedule_interval(handle_input, 0.15)
     generate_random_zones()
+    player.load_player()
     pyglet.app.run()
