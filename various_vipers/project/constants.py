@@ -66,6 +66,8 @@ CITY_BGS = list(Path(PATH_BACKGROUNDS).joinpath("city").glob("*.png"))
 FOREST_BGS = list(Path(PATH_BACKGROUNDS).joinpath("forest").glob("*.png"))
 MOUNTAINS_BGS = list(Path(PATH_BACKGROUNDS).joinpath("mountains").glob("*.png"))
 
+OZONE_LAYER = PurePath(PATH_BACKGROUNDS).joinpath("ozone_layer.png")
+
 # Background cloud layer will be behind foreground cloud layer
 PATH_CLOUD_LAYERS = PurePath(PATH_BACKGROUNDS).joinpath("clouds/layers")
 CLOUD_LAYERS_BG = [
