@@ -2,8 +2,8 @@ import requests
 import json
 req = requests.get('https://weather-1283198235129847.s3.amazonaws.com/weatherExtremesJSON.json')
 
-with open("weather.json", "wb") as weather:
-    weather.write(req.content)
+#with open("weather.json", "wb") as weather:
+   # weather.write(req.content)
 jdata = json.loads(open('weather.json').read())
 
 # grab all useful records
