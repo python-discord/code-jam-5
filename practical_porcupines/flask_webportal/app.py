@@ -27,16 +27,34 @@ def index():
 
         api_response = requests.get(api_url, data=request_body).json()
 
-        wl_difference = api_response["body"]["wl_difference"]
-        wl_string = f"The difference in GMSL between {start_date} and {end_date} was {wl_difference}mm"
+        if "body" in api_response:
+            wl_difference = api_response["body"]["wl_difference"]
+            wl_string = f"The difference in GMSL between {start_date} and {end_date} was {wl_difference}mm"
+        else:
+            status_code = api_response["meta"]["status_code"]
+
+            if status_code == 400:
+                flash(
+                    "The API has been given a bad date format. This should not "
+                    "happen as all of this is automated!"
+                )
+            elif status_code == 1002:
+                flash(
+                    "You have gave a date ahead/behind the dataset and "
+                    "predictions are not currently implamented!"
+                )
+            else:
+                flash(f"MISC ERROR! Status code: {status_code}")
+
+            return render_template("index.html", form=date_picker_form)
 
         return redirect(url_for("index"), wl_string=wl_string)
-        # except Exception as e:
-        #     flash("Error sending request to API")
 
-        #     return render_template("index.html", form=date_picker_form)
-
-    flash("Invalid Dates!")
+    flash(
+        "The dates inputted into the form are not correct, please fix "
+        "them according to the format `%Y-%m-%d %T`. An example of this "
+        "format is `2019-07-07 12:00:00!"
+    )
 
     return render_template("index.html", form=date_picker_form)
 
