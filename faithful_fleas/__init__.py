@@ -9,6 +9,7 @@ console_handler.setLevel(level)
 
 # Silence irrelevant loggers
 logging.getLogger('discord').setLevel(logging.ERROR)
+logging.getLogger('aiosqlite').setLevel(logging.ERROR)
 logging.getLogger('websockets').setLevel(logging.ERROR)
 
 # Setup new logging configuration
