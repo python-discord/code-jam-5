@@ -6,7 +6,7 @@ from quart import render_template
 
 from . import indicator
 
-bp = quart.Blueprint('view', __name__, url_prefix='/')
+bp = quart.Blueprint('view', __name__)
 
 
 @bp.route('/')
