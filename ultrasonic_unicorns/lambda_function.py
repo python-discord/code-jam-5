@@ -66,7 +66,7 @@ def get_extreme_events(intent):
     session_attributes = {}
     print(intent)
     card_title = "Extreme Weather"
-    speech_output = return_record(value)
+    speech_output = return_record(intent['slots']['state']['value'])
     reprompt_text = "You never responded to the first test message. Sending another one."
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
