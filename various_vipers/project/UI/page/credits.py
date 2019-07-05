@@ -12,12 +12,11 @@ from project.UI.fx.sound import Sound
 from project.constants import (
     BUTTONS as BTN,
     ButtonProperties,
-    Color,
+    HEIGHT,
     PATH_CREDITS,
     PATH_CREDITS_BG,
-    WindowState,
     WIDTH,
-    HEIGHT,
+    WindowState,
 )
 
 logger = logging.getLogger(__name__)
@@ -49,7 +48,7 @@ class Credits:
 
     def draw(self, mouse_x: int, mouse_y: int, event):
         """Hadle all options events and draw elements."""
-        self.draw_infinity_bg()
+        self.__draw_infinity_bg()
         self.screen.blit(self.credits, (0, 0, WIDTH, HEIGHT))
 
         if self.back_btn.rect.collidepoint(mouse_x, mouse_y):
@@ -62,7 +61,7 @@ class Credits:
             self.back_btn.draw()
         return WindowState.credit
 
-    def draw_infinity_bg(self):
+    def __draw_infinity_bg(self):
         self.bg_rect_1.left += 1
         self.bg_rect_2.left += 1
 

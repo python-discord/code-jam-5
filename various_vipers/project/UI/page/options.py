@@ -16,11 +16,10 @@ from project.UI.fx.sound import Sound
 from project.constants import (
     BUTTONS as BTN,
     ButtonProperties,
-    Color,
-    WindowState,
-    WIDTH,
     HEIGHT,
     PATH_OPTIONS_BG,
+    WIDTH,
+    WindowState,
 )
 from project.utils.loader import Load, Save
 
