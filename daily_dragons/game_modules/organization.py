@@ -12,5 +12,4 @@ class Organization:
 
     def __str__(self) -> str:
         summary = f"{self.name}\n{self.description}\n"
-
         return summary
