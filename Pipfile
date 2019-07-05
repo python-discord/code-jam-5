@@ -16,6 +16,7 @@ flask-sqlalchemy = "*"
 aiohttp = "*"
 toml = "*"
 python-dotenv = "*"
+flask-wtf = "*"
 
 [requires]
 python_version = "3.6"
