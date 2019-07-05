@@ -15,8 +15,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.main_layout = QtWidgets.QVBoxLayout(self.central_widget)
         self.image_label = QtWidgets.QLabel(self.central_widget)
         self.status_bar = QtWidgets.QStatusBar(self)
-        self.horizontalSlider = QtWidgets.QSlider(self.central_widget,
-                                                  orientation=QtCore.Qt.Horizontal)
+        self.image_slider = QtWidgets.QSlider(self.central_widget,
+                                              orientation=QtCore.Qt.Horizontal)
         self.bottom_layout = QtWidgets.QHBoxLayout()
 
         self.move_year_left_button = QtWidgets.QPushButton()
@@ -29,13 +29,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.sdate_animate_layout = QtWidgets.QVBoxLayout()
         self.start_date_layout = QtWidgets.QHBoxLayout()
-        self.animate_layout = QtWidgets.QHBoxLayout()
 
-        self.animate_button = QtWidgets.QPushButton(enabled=False)
         self.start_year = QtWidgets.QSpinBox()
         self.start_month = QtWidgets.QComboBox()
+        self.animate_button = QtWidgets.QPushButton(enabled=False)
 
-        self.end_date_align_layout = QtWidgets.QVBoxLayout()
+        self.edate_pref_layout = QtWidgets.QVBoxLayout()
         self.end_date_layout = QtWidgets.QHBoxLayout()
 
         self.end_year = QtWidgets.QSpinBox()
@@ -65,10 +64,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.start_date_layout.addWidget(self.start_month)
         self.start_date_layout.addWidget(self.start_year)
 
-        self.animate_layout.addWidget(self.animate_button)
-
         self.sdate_animate_layout.addLayout(self.start_date_layout)
-        self.sdate_animate_layout.addLayout(self.animate_layout)
+        self.sdate_animate_layout.addWidget(self.animate_button)
 
         self.button_layout.addWidget(self.plot_button, alignment=QtCore.Qt.AlignCenter)
         self.button_layout.addWidget(self.stop_button, alignment=QtCore.Qt.AlignCenter)
@@ -76,8 +73,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.end_date_layout.addWidget(self.end_month)
         self.end_date_layout.addWidget(self.end_year)
 
-        self.end_date_align_layout.addLayout(self.end_date_layout)
-        self.end_date_align_layout.addWidget(self.preferences_button)
+        self.edate_pref_layout.addLayout(self.end_date_layout)
+        self.edate_pref_layout.addWidget(self.preferences_button)
 
         self.bottom_layout.addLayout(self.sdate_animate_layout)
         self.bottom_layout.addSpacerItem(spacer)
@@ -85,11 +82,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.bottom_layout.addLayout(self.button_layout)
         self.bottom_layout.addWidget(self.move_year_right_button)
         self.bottom_layout.addSpacerItem(spacer)
-        self.bottom_layout.addLayout(self.end_date_align_layout)
+        self.bottom_layout.addLayout(self.edate_pref_layout)
 
         self.main_layout.addWidget(self.image_label, alignment=QtCore.Qt.AlignCenter)
         self.main_layout.addSpacerItem(spacer)
-        self.main_layout.addWidget(self.horizontalSlider)
+        self.main_layout.addWidget(self.image_slider)
         self.main_layout.addLayout(self.bottom_layout)
 
         self.show()
@@ -100,27 +97,24 @@ class MainWindow(QtWidgets.QMainWindow):
         year_move_right = QtWidgets.QShortcut(
             QtGui.QKeySequence(QtCore.Qt.CTRL + QtCore.Qt.Key_Right), self)
 
-        year_move_right.activated.connect(lambda: self.horizontalSlider.setValue(
-            self.horizontalSlider.value() + int(12 / self.plot_step)))
+        year_move_right.activated.connect(lambda: self.move_slider(self.year_step))
 
         year_move_left = QtWidgets.QShortcut(
             QtGui.QKeySequence(QtCore.Qt.CTRL + QtCore.Qt.Key_Left), self)
 
-        year_move_left.activated.connect(lambda: self.horizontalSlider.setValue(
-            self.horizontalSlider.value() - int(12 / self.plot_step)))
+        year_move_left.activated.connect(lambda: self.move_slider(-self.year_step))
 
         month_move_right = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Right), self)
-        month_move_right.activated.connect(lambda: self.horizontalSlider.setValue(
-            self.horizontalSlider.value() + 1))
+        month_move_right.activated.connect(lambda: self.move_slider(1))
 
         month_move_left = QtWidgets.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_Left), self)
-        month_move_left.activated.connect(lambda: self.horizontalSlider.setValue(
-            self.horizontalSlider.value() - 1))
+        month_move_left.activated.connect(lambda: self.move_slider(-1))
 
     def set_sizes(self):
         self.setFixedSize(850, 650)
         self.image_label.setFixedSize(QtCore.QSize(796, 552))
 
+        # set year skip buttons to be square and 5 pixels wider than text in them
         font = QtGui.QFont()
         self.move_year_left_button.setFixedWidth(
             QtGui.QFontMetrics(font).boundingRect(self.move_year_left_button.text()).width() + 5)
@@ -137,8 +131,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.start_month.addItems(months)
         self.end_month.addItems(months)
 
-        self.horizontalSlider.setRange(-1, -1)
-        self.horizontalSlider.setValue(-1)
+        self.image_slider.setRange(0, 0)
+        self.image_slider.setValue(0)
 
         self.start_year.setRange(1850, 2010)
         self.end_year.setRange(1980, 2019)
@@ -146,7 +140,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.end_year.setValue(2010)
 
     def connect_signals(self):
-        self.horizontalSlider.valueChanged.connect(self.change_image)
+        self.image_slider.valueChanged.connect(self.change_image)
 
         # ensure only valid dates can be entered
         self.start_month.currentIndexChanged.connect(self.date_changed)
@@ -157,10 +151,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.plot_button.pressed.connect(self.plot)
         self.stop_button.pressed.connect(self.quit_current_tasks)
 
-        self.move_year_left_button.pressed.connect(lambda: self.horizontalSlider.setValue(
-            self.horizontalSlider.value() - int(12 / self.plot_step)))
-        self.move_year_right_button.pressed.connect(lambda: self.horizontalSlider.setValue(
-            self.horizontalSlider.value() + int(12 / self.plot_step)))
+        self.move_year_left_button.pressed.connect(lambda: self.move_slider(-self.year_step))
+        self.move_year_right_button.pressed.connect(lambda: self.move_slider(self.year_step))
 
     def retranslate_ui(self):
         self.setWindowTitle("Plotstats")
@@ -190,18 +182,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.plot_step = self.settings.value("Plot step", type=int)
         self.play_fps = self.settings.value("Playback FPS", type=int)
         self.color_map = self.settings.value("Color map")
+        self.year_step = max(int(12 / self.plot_step), 1)
 
     def refresh_settings(self, values):
         self.play_fps = int(values[0])
         self.plot_step = int(values[1])
         self.color_map = values[2]
+        self.year_step = max(int(12 / self.plot_step), 1)
 
     def set_status(self, message):
         self.status_bar.showMessage(message)
 
     def plot(self):
         self.image_count = 0
-        QtGui.QPixmapCache.clear()
+        QtGui.QPixmapCache.clear()  # clear qt image cache
         self.stop_button.setEnabled(True)
         self.plot_button.setEnabled(False)
         self.animate_button.setEnabled(False)
@@ -209,6 +203,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # send dates in decimal format to worker
         start_date = self.start_year.value() + (1 + self.start_month.currentIndex() * 2) / 24
         end_date = self.end_year.value() + (1 + self.end_month.currentIndex() * 2) / 24
+
         self.worker = plot.Plotter(start_date, end_date, self.plot_step, self.color_map, self)
         self.worker.image_increment_signal.connect(self.add_image)
         self.worker.finished.connect(self.del_worker)
@@ -223,18 +218,27 @@ class MainWindow(QtWidgets.QMainWindow):
         self.animate_button.setEnabled(True)
 
     def add_image(self):
-        self.horizontalSlider.setRange(0, self.image_count)
-
-        if self.horizontalSlider.value() == self.horizontalSlider.maximum() - 1:
-            self.horizontalSlider.setValue(self.image_count)
-
+        self.image_slider.setMaximum(self.image_count)
+        # move slider to max value if it was at max before
+        if self.image_slider.value() == self.image_slider.maximum() - 1:
+            self.move_slider(1)
         self.image_count += 1
+
+    def move_slider(self, amount: int):
+        """ move horizontalSlider by value"""
+        self.image_slider.setValue(self.image_slider.value() + amount)
 
     def change_image(self, index):
         pixmap = QtGui.QPixmap(f"plots/plot{index}")
         self.image_label.setPixmap(pixmap)
 
     def date_changed(self):
+        """Ensure only valid dates can be entered
+            if start and end years match, block out months above
+            chosen start month in end months
+
+            if year is 2019 allow only January-May range"""
+
         for item_index in range(0, 12):
             self.start_month.model().item(item_index).setEnabled(True)
             self.end_month.model().item(item_index).setEnabled(True)
@@ -261,19 +265,19 @@ class MainWindow(QtWidgets.QMainWindow):
         self.end_year.setRange(self.start_year.value(), 2019)
 
     def animate(self):
-        self.horizontalSlider.setValue(0)
+        self.image_slider.setValue(0)
         self.stop_button.setEnabled(True)
         self.animate_button.setEnabled(False)
         self.animate_timer.timeout.connect(self.animation)
         self.animate_timer.start(int(1000 / self.play_fps))
 
     def animation(self):
-        self.horizontalSlider.setValue(self.horizontalSlider.value() + 1)
-        if self.horizontalSlider.value() == self.horizontalSlider.maximum():
-            self.stop_timer()
+        self.move_slider(1)
+        if self.image_slider.value() == self.image_slider.maximum():
+            self.stop_animation()
             self.stop_button.setEnabled(False)
 
-    def stop_timer(self):
+    def stop_animation(self):
         self.animate_timer.stop()
         try:
             self.animate_timer.timeout.disconnect()
@@ -283,7 +287,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def quit_current_tasks(self):
         self.stop_plot_signal.emit()
-        self.stop_timer()
+        self.stop_animation()
         self.stop_button.setEnabled(False)
 
     def closeEvent(self, *args, **kwargs):
@@ -410,6 +414,7 @@ class ColorMapChooser(QtWidgets.QDialog):
 
     def send_choice(self, item):
         self.choice_signal.emit(item.text())
+        self.close()
 
 
 class CrashPop(QtWidgets.QDialog):

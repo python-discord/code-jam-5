@@ -1,5 +1,5 @@
-import numpy as np
 import h5py
+import numpy as np
 
 
 def get_variables_from_nc_file(nc_file_name):
@@ -53,4 +53,3 @@ def find_nearest_index(array, value):
     array = np.asarray(array)
     index = (np.abs(array - value)).argmin()
     return index
-

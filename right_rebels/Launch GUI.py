@@ -15,6 +15,7 @@ class ExceptionHandler:
         exc.extend(traceback.format_exception(exctype, value, tb))
         sys.__excepthook__(exctype, value, tb)
 
+        # close previous window if multiple exceptions occur
         try:
             self.w.close()
         except AttributeError:
@@ -24,6 +25,7 @@ class ExceptionHandler:
 
 
 if __name__ == "__main__":
+    # set exception handler for exceptions in qt app event loop
     sys.excepthook = ExceptionHandler().handler
     QtCore.QCoreApplication.setApplicationName("Temp Plotter")
     QtCore.QCoreApplication.setOrganizationName("Right Rebels")
