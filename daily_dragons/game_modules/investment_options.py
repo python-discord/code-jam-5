@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from typing import Dict
-
+from colorama import Fore
 from .investment import Investment
 from .organization import Organization
 from .planetary_effects import PlanetaryEffects
@@ -14,6 +14,7 @@ class InvestmentOptions:
 
     def __str__(self) -> str:
         menu = []
+        menu.append(Fore.CYAN + "Investment options:" + Fore.WHITE)
         for key, i in self.options.items():
             menu.append(f"{key}: {i.organization.name}")
         return "\n".join(menu)
