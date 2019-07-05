@@ -42,7 +42,7 @@ class Period(object):
     heat_reduce_from_task: float = 5
 
     # Chance to spawn certain task types
-    maze_chance: float = 0
+    maze_chance: float = 1.0
     rps_chance: float = 0
     ttt_chance: float = 1.0
 
