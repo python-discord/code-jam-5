@@ -6,7 +6,7 @@ from config import *
 # 640x640 makes it easier to draw tiles
 game_window = pyglet.window.Window(width=game_width, height=game_height)
 
-time_display = pyglet.clock.ClockDisplay()
+time_display = pyglet.window.FPSDisplay(game_window)
 
 media = pyglet.media.Player()
 

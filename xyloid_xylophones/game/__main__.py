@@ -102,7 +102,7 @@ def load_list(abstract_path):
         resource.stream = open(resource.full_path,'rb')
         if resource.full_path.endswith('.png'):
             resource.data = pyglet.image.load(i, file=resource.stream, decoder=PNGImageDecoder())
-        elif resource.full_path.endswith('.ogg'):
+        elif resource.full_path.endswith('.wav'):
             resource.data = pyglet.media.load(resource.full_path)
         result_list[i] = resource
         print('%s %s' % (i, join(fullpath, f)))
@@ -203,29 +203,21 @@ if __name__ == '__main__':
 
     scene_list = load_list(location_scene)
     # sound_list = load_list(location_sound)
-    music_list = load_list(location_music)
 
     generate_random_zones()
+
     pyglet.clock.schedule_interval(handle_input, 0.15)
     pyglet.clock.schedule_interval(ticker, 0.33)
 
-    # try block avbin then avbin64 then turn music / sound off?
-    # need to install on windows or include with build
-    sound = True
-    try:
-        pyglet.lib.load_library('avbin')
-    except:
-        try:
-            pyglet.lib.load_library('avbin64')
-        except:
-            sound = False
+    pyglet.options['audio'] = ('openal', 'pulse', 'directsound', 'silent')
+    pyglet.options['search_local_libs'] = True
 
-    if sound:
-        pyglet.have_avbin = True
-        looper = pyglet.media.SourceGroup(music_list['default'].data.audio_format, None)
-        looper.loop = True
-        looper.queue(music_list['default'].data)
-        media.queue(looper)
-        media.volume = 0.05
-        media.play()
+    music_list = load_list(location_music)
+
+    # looper = pyglet.media.SourceGroup(music_list['default'].data.audio_format, None)
+    # looper.loop = True
+    # looper.queue(music_list['default'].data)
+    media.queue(music_list['default'].data)
+    media.volume = 0.05
+    media.play()
     pyglet.app.run()

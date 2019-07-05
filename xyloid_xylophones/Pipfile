@@ -7,9 +7,10 @@ verify_ssl = true
 flake8 = "*"
 
 [packages]
-pyglet = "*"
+pyglet = "==1.4.0b1"
 pyqtree = "*"
-bbox = "*"
+#bbox = "*"
+#pyglet-ffmpeg = "*"
 
 [requires]
 python_version = "3.7"
