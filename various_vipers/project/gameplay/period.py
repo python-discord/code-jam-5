@@ -36,6 +36,8 @@ class Period(object):
     # How much to increase task spawn frequency with each game tick
     task_spawn_freq_inc: float = 0.05
 
+    # How much heat goes up passively each game tick
+    heat_per_tick: float = 0.005
     # How much heat goes up per task each game tick
     heat_per_task: float = 0.01
     # How much heat does completing a task reduce
@@ -70,7 +72,9 @@ class Period(object):
         ]
 
         self.earth = Earth(self.screen, self.biomes)
-        self.sun = Sun(self.screen, self.earth.biomes, self.heat_per_task)
+        self.sun = Sun(
+            self.screen, self.earth.biomes, self.heat_per_tick, self.heat_per_task
+        )
 
     def update(self, event: pg.event) -> None:
         """Update gets called every game tick."""

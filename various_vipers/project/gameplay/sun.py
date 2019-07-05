@@ -20,11 +20,18 @@ class Sun:
     min_angle_vel: float = 0.5
     max_angle_vel: float = 4
 
-    def __init__(self, screen: pg.Surface, biomes: List[Biome], heat_per_task: float):
+    def __init__(
+        self,
+        screen: pg.Surface,
+        biomes: List[Biome],
+        heat_per_tick: float,
+        heat_per_task: float,
+    ):
         self.screen = screen
 
         self.biomes = biomes
-        self.heat_per_sec = heat_per_task
+        self.heat_per_tick = heat_per_tick
+        self.heat_per_task = heat_per_task
 
         self.image = pg.image.load(str(self.background_image)).convert_alpha()
         new_height = int(HEIGHT // 2)
@@ -50,7 +57,9 @@ class Sun:
                         if tile.task:
                             task_count += 1
 
-            game_vars.current_heat += self.heat_per_sec * task_count
+            game_vars.current_heat += (
+                self.heat_per_tick + self.heat_per_task * task_count
+            )
             game_vars.current_heat = min(max(game_vars.current_heat, 0), MAX_HEAT)
 
     def draw(self) -> None:
