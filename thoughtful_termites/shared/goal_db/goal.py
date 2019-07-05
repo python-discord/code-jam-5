@@ -8,8 +8,8 @@ from .reminder import Reminder
 
 if TYPE_CHECKING:
     from .db import GoalDB
-    from .reminder_day import ReminderDay
-    from .reminder_time import ReminderTime
+    from .reminder_day import ReminderDay  # noqa
+    from .reminder_time import ReminderTime  # noqa
 
 
 class Goal:
