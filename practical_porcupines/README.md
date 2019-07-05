@@ -75,7 +75,7 @@ Below is the outline of what the dependancies do:
 ```none
 {
     [STRING: META]: {
-        [KEY: STATUS CODE]: [INT: STATUS], 
+        [KEY: STATUS CODE]: [INT: STATUS],
         [ARRAY: DATES]: {
             [STRING: 1ST DATE ARG],
             [STRING: 2ND DATE ARG]
