@@ -1,8 +1,9 @@
 import asyncio
+import discord
 import random
 import string
 
-import discord
+from datetime import datetime
 from discord.ext import commands
 
 
@@ -66,7 +67,7 @@ UNICODE_LETTERS = [
 
 
 class Hangman(commands.Cog):
-    def __init__(self, bot: discord.ext.commands.Bot):
+    def __init__(self, bot):
         self.bot = bot
 
         with open(WORDS_PATH, "r") as file:
@@ -97,54 +98,72 @@ class Hangman(commands.Cog):
         except (discord.Forbidden, discord.HTTPException):
             pass
 
-    def hangman_message(self, contents):
-        return f"{contents}\n\n```{HANGMAN_STATES[6 - self.lives]}```\n\nThe word is: {self.revealed()}\n\nLives: {self.lives} "
+    def hangman_embed(self, contents):
+        fmt = f"{contents}\n\n```{HANGMAN_STATES[6 - self.lives]}```\n\nThe word is: {self.revealed()}\n\nLives: {self.lives}"
+        embed = discord.Embed(colour=self.bot.colour,
+                              title="Hangman Game",
+                              description=fmt,
+                              timestamp=datetime.utcnow())
+        
+        return embed
 
     @commands.command()
     async def hangman(self, ctx, *, member: discord.Member = None):
+        embed = self.hangman_embed("Welcome to Hangman! Start the game by reacting to this message.")
         message: discord.Message = await ctx.send(
-            self.hangman_message("Welcome to Hangman! Start the game by reacting to this message.")
+            embed=embed
         )
 
         while not self.is_finished() and self.lives > 0:
             try:
                 reaction, user = await self.bot.wait_for("reaction_add", timeout=60)
             except asyncio.TimeoutError:
-                return await ctx.send("You took too long. Goodbye...")
+                await ctx.send("You took too long. Goodbye...")
+                return
 
             try:
                 letter = self.to_ascii(reaction)
             except ValueError:
-                return await ctx.send("Incorrect reaction. Goodbye...")
+                await ctx.send("Incorrect reaction. Goodbye...")
+                return
 
             if letter in self.guesses:
                 await message.edit(
-                    content=self.hangman_message("You've already guessed this letter!")
+                    embed=self.hangman_embed("You've already guessed this letter!")
                 )
-                await self.clear_reactions(message)
+
+                try:
+                    await message.clear_reactions()
+                except (discord.Forbidden, discord.HTTPException):
+                    pass
 
                 continue
 
             self.guesses += letter
 
             if letter in self.word:
+                embed.colour = discord.Colour.green()
                 await message.edit(
-                    content=self.hangman_message("You guessed a new letter! Congratulations!")
+                    embed=self.hangman_embed("You guessed a new letter! Congratulations!")
                 )
             else:
                 self.lives -= 1
+                embed.colour = discord.Colour.red()
                 await message.edit(
-                    content=self.hangman_message("You guessed a wrong letter!")
+                    embed=self.hangman_embed("You guessed a wrong letter!")
                 )
 
-            await self.clear_reactions(message)
+            try:
+                await message.clear_reactions()
+            except (discord.Forbidden, discord.HTTPException):
+                pass
+
+        await message.delete()
 
         if self.is_finished():
-            await message.edit(content=f"Congratulations! You solved the puzzle in {len(self.guesses)} guesses.")
-            await self.clear_reactions(message)
+            await ctx.send(content=f"Congratulations! You solved the puzzle in {len(self.guesses)} guesses.")
         elif self.lives == 0:
-            await message.edit(content=f"Unfortunately, you died at {len(self.guesses)} guesses. The word was {self.word}.")
-            await self.clear_reactions(message)
+            await ctx.send(content=f"Unfortunately, you died at {len(self.guesses)} guesses. The word was {self.word}.")
 
 
 def setup(bot):
