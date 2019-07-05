@@ -7,7 +7,15 @@ from pygame.image import load
 
 from project.UI.element.button import Button
 from project.UI.fx.sound import Sound
-from project.constants import BUTTONS, Color, HEIGHT, MAX_HEAT, PAUSE_WINDOW, WIDTH
+from project.constants import (
+    BUTTONS,
+    Color,
+    HEIGHT,
+    MAX_HEAT,
+    PAUSE_WINDOW,
+    WIDTH,
+    WindowState,
+)
 from .game_state import GameState
 from .period import PeriodFuture, PeriodMedieval, PeriodModern
 
@@ -43,7 +51,7 @@ class GameView:
 
         btn_height = 80
         btn_offset_x = 20
-        btn_offset_y = 30
+        btn_offset_y = 50
 
         exit_btn_image = load(str(BUTTONS["exit-btn"])).convert_alpha()
         exit_btn_hover = load(str(BUTTONS["exit-btn-hover"])).convert_alpha()
@@ -62,7 +70,7 @@ class GameView:
         self.resume_btn = Button(
             self.screen,
             self.window_rect.x + btn_offset_x,
-            self.exit_btn.rect.y - btn_height - btn_offset_y,
+            self.exit_btn.rect.y - btn_height - btn_offset_y // 2,
             self.window_rect.width - btn_offset_x * 2,
             btn_height,
             resume_btn_image,
@@ -92,16 +100,22 @@ class GameView:
         if not game_vars.is_paused:
             self.period.update(event)
 
+    def draw(self, event: pg.event) -> WindowState:
+        """
+        Draw main screen / period / difficulty of the game.
+
+        Returns GameOver WindowState if condition is met; else None.
+        """
         # Check for gameover condition
         if game_vars.current_heat >= MAX_HEAT:
-            logger.warning("GAMEOVER")
+            return WindowState.gameover
 
-    def draw(self, event: pg.event) -> None:
-        """Draw gets called every game tick."""
         self.period.draw()
 
         if game_vars.is_paused:
             self._draw_pause_window(event)
+
+        return None
 
     def _draw_pause_window(self, event: pg.event) -> None:
         self.screen.blit(self.window_image, self.window_rect)

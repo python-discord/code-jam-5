@@ -106,6 +106,7 @@ TTT_GRID = lambda biome: PurePath(PATH_TTT_TASK).joinpath(f"{biome}/grid.png")
 PATH_CREDITS = PurePath(PATH_UI_BACKGROUNDS).joinpath("credits.png")
 PATH_CREDITS_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("credits_bg.png")
 PATH_OPTIONS_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("options_bg.png")
+PATH_GAMEOVER_BG = PurePath(PATH_UI_BACKGROUNDS).joinpath("gameover_bg.png")
 
 PAUSE_WINDOW = PurePath(PATH_UI_BACKGROUNDS).joinpath("pause_window.png")
 
@@ -153,6 +154,7 @@ class WindowState:
     """Represents windows states."""
 
     game = "game"
+    gameover = "gameover"
     main_menu = "main_menu"
     options = "options"
     credit = "credit"

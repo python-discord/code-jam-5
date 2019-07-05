@@ -336,7 +336,7 @@ class TaskTicTacToe(Task):
     """
 
     # How much heat does success/failure add
-    heat_add_success: float = 0
+    heat_add_success: float = 3
     heat_add_failure: float = 0
 
     def __init__(self, *args, **kwargs):

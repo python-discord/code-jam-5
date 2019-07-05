@@ -4,6 +4,7 @@ import logging
 import pygame as pg
 
 from project.UI.page.credits import Credits
+from project.UI.page.gameover import GameOver
 from project.UI.page.main_menu import MainMenu
 from project.UI.page.options import Options
 from project.constants import Color, FPS, HEIGHT, WIDTH, WindowState
@@ -39,6 +40,7 @@ class Game:
         self.main_menu = MainMenu(self.screen)
         self.options = Options(self.screen)
         self.credits = Credits(self.screen)
+        self.gameover = GameOver(self.screen)
         self.reset()
 
     def reset(self) -> None:
@@ -68,7 +70,9 @@ class Game:
 
     def _draw(self):
         self.game_view.update(self.event)
-        self.game_view.draw(self.event)
+
+        # Will either be gameover or current window state
+        self.window_state = self.game_view.draw(self.event) or self.window_state
 
         if self.window_state == WindowState.main_menu:
             self.window_state = self.main_menu.draw(
@@ -80,6 +84,11 @@ class Game:
             )
         elif self.window_state == WindowState.credit:
             self.window_state = self.credits.draw(
+                self.mouse_x, self.mouse_y, self.event
+            )
+        elif self.window_state == WindowState.gameover:
+            game_vars.is_started = False
+            self.window_state == self.gameover.draw(
                 self.mouse_x, self.mouse_y, self.event
             )
         elif self.window_state == WindowState.quited:
