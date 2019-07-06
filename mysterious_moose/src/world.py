@@ -54,15 +54,15 @@ class World:
         self.co2_concentration = 300  # ppm
         self.temperature_rise = 0
         self.regions = self._load_regions()
-        self.population = 0
-        self.calculate_population()
+        self._population = 0
 
-    def calculate_population(self):
+    @property
+    def population(self):
         population = 0
         for region in self.regions:
             population += self.regions[region].population
 
-        self.population = population
+        self._population = population
         return population
 
     def _load_regions(self):

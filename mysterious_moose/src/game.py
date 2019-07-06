@@ -579,13 +579,21 @@ log.info("game logger initialised")
 
 def main():
     earth = World()
-    simulate_turn(
-        earth,
-        Virus(
-            10, 50, 70,
-            industry=INDUSTRIES.index('Chemical Manufacturing'),
-            start_region=earth.regions['West Europe'])
-    )
+    turn_number = 0
+    while True:
+        turn_number += 1
+        simulate_turn(
+            earth,
+            Virus(
+                10, 50, 70,
+                industry=INDUSTRIES.index('Chemical Manufacturing'),
+                start_region=earth.regions['West Europe'])
+        )
+        input(f'Earth population is now {earth.population}. Press any key + enter to continue')
+        if earth.population == 0:
+            print('Congrats! You killed off earth.')
+            print(f'It took {turn_number} days to do it.')
+            break
 
 
 if __name__ == '__main__':
