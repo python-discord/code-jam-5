@@ -1,11 +1,17 @@
 import pygame
 
-from assets import *  # Importing the images for the icons
+from assets import (
+    natural_gas, oil, coal,
+    solar, wind, hydro,
+    geothermal, biomass, nuclear,
+    hydrogen, ghg_capture_tech
+)  # Importing the images for the icons
 from random import randint, choice
 
 # Details about the window
 window_width = 1152
-window_height = 648
+aspect_ratio = 9/16
+window_height = aspect_ratio*window_width
 window_icon = None
 window_title = 'Name of game'
 
@@ -100,8 +106,10 @@ have to go back and recalculate all the icons' new positions.
 number_of_icons_in_a_row = 8  # Number of icons in a row
 icon_width = 64  # Width of the individual icons
 icon_area_width = 2 * window_width / 3  # Width of area containing the icons
-total_space_between_icons = icon_area_width - number_of_icons_in_a_row * icon_width  # Total amount of space between icons
-icon_spacing = total_space_between_icons / number_of_icons_in_a_row  # Spacing between individual icons
+# Total amount of space between icons (below)
+total_space_between_icons = icon_area_width - number_of_icons_in_a_row * icon_width
+# Spacing between individual icons (below)
+icon_spacing = total_space_between_icons / number_of_icons_in_a_row
 first_x_coordinate = window_width / 3  # The x-coordinate of the first icon in a row
 
 """
@@ -158,7 +166,6 @@ while running:
             icon_clicked()
 
     display_row()
-
 
     all_icons.update()
 
