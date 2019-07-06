@@ -14,28 +14,37 @@ clock = pygame.time.Clock()
 Scorefont = pygame.font.Font('freesansbold.ttf', 32)
 lose = False
 comp = False
+introduction = True
 
-def redraw(): 
-    win.blit(bg, (0,0))
-
-    if lose:
-        win.blit(pygame.image.load('LoseBox.png'), (276, 161))
-        win.blit(pygame.image.load('PlayButton.png'), (playagain.x, playagain.y))
-    elif comp:
-        win.blit(pygame.image.load('WinBox.png'), (276, 161))
-        win.blit(playagain.image, (playagain.x, playagain.y))
+def redraw():
+    if introduction:
+        win.blit(pygame.image.load('Introduction.png'),(0,0))
+        win.blit(play.image, (play.x, play.y))
+        win.blit(rulesbutton.image, (rulesbutton.x, rulesbutton.y))
+    elif rules:
+        win.blit(pygame.image.load('Rules.png'),(0,0))
+        win.blit(back.image, (back.x, back.y))
     else:
-        for item in onscreen:
-            if item.movecount + 1 >= len(item.move)*10:
-                item.movecount = 0    
-            win.blit(item.move[item.movecount//10], (item.x,item.y))
-            #pygame.draw.rect(win,(225,0,0),item.hitbox,2)
-            item.movecount += 1
+        win.blit(bg, (0,0))
 
-    DisplayScore = Scorefont.render('Score: '+str(score), True, (0,0,0))
-    ScoreRect = DisplayScore.get_rect()
-    ScoreRect.center = (100,40)
-    win.blit(DisplayScore, ScoreRect)
+        if lose:
+            win.blit(pygame.image.load('LoseBox.png'), (276, 161))
+            win.blit(playagain.image, (playagain.x, playagain.y))
+        elif comp:
+            win.blit(pygame.image.load('WinBox.png'), (276, 161))
+            win.blit(playagain.image, (playagain.x, playagain.y))
+        else:
+            for item in onscreen:
+                if item.movecount + 1 >= len(item.move)*10:
+                    item.movecount = 0    
+                win.blit(item.move[item.movecount//10], (item.x,item.y))
+                #pygame.draw.rect(win,(225,0,0),item.hitbox,2)
+                item.movecount += 1
+
+        DisplayScore = Scorefont.render('Score: '+str(score), True, (0,0,0))
+        ScoreRect = DisplayScore.get_rect()
+        ScoreRect.center = (100,40)
+        win.blit(DisplayScore, ScoreRect)
 
     pygame.display.update()
     
@@ -58,13 +67,16 @@ class button(object):
         global onscreen
         global lose
         global comp
-        print('Click')
         onscreen = []
         score = 0
         lose = False
         comp = False
         
-playagain = button(pygame.image.load('PlayButton.png'), 200, 106, 365, 330)
+playagain = button(pygame.image.load('PlayAgainButton.png'), 200, 106, 365, 330)
+play = button(pygame.image.load('PlayButton.png'), 200, 106, 365, 450)
+back = button(pygame.image.load('Back.png'), 100, 82, 20, 150)
+rulesbutton = button(pygame.image.load('RulesButton.png'), 200, 106, 365, 250)
+
 #set up car object
 class car(object):
     #If electric
@@ -124,14 +136,16 @@ class car(object):
         onscreen.remove(self)
 
 #Replace these with actual cars. These are placeholders.
-ambulance = car(False, [pygame.image.load('1.png'), pygame.image.load('2.png'), pygame.image.load('3.png'), pygame.image.load('2.png')], 5, 225, 110, 3)
-policecar = car(True, [pygame.image.load('P1.png'),pygame.image.load('P2.png'),pygame.image.load('P3.png'),pygame.image.load('P2.png')], 10, 225, 110, 5)
+ambulance = car(False, [pygame.image.load('1.png'), pygame.image.load('2.png'), pygame.image.load('3.png'), pygame.image.load('2.png')], 5, 225, 110, 5)
+policecar = car(True, [pygame.image.load('P1.png'),pygame.image.load('P2.png'),pygame.image.load('P3.png'),pygame.image.load('P2.png')], 10, 225, 110, 3)
 vehicles = [ambulance, policecar]
        
 #main loop
+introduction = True
+rules = False
 run = True
 while run:
-    clock.tick(40)
+    clock.tick(50)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -141,7 +155,15 @@ while run:
             for i in onscreen:
                 if  b < i.hitbox[1] + i.hitbox[3] and b > i.hitbox[1] and a > i.hitbox[0] and a < i.hitbox[0] + i.hitbox[2]:
                     i.hit()
-            if lose or comp:
+            if introduction:
+                if playagain.y + playagain.height and b > playagain.y and a > playagain.x and a < playagain.x + playagain.width:
+                    playagain.pressed()
+                    introduction = False
+                elif rulesbutton.y + rulesbutton.height and b > rulesbutton.y and a > rulesbutton.x and a < rulesbutton.x + rulesbutton.width:
+                    introduction = False
+                    rules = True
+      
+            elif lose or comp:
                 if b < playagain.y + playagain.height and b > playagain.y and a > playagain.x and a < playagain.x + playagain.width:
                     playagain.pressed()
 
@@ -165,4 +187,3 @@ while run:
     redraw()
 
 pygame.quit()
-
