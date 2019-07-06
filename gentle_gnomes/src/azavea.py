@@ -1,6 +1,6 @@
-import aiohttp
 import typing as t
-import asyncio as aio
+
+import aiohttp
 
 BASE_URL = 'https://app.climate.azavea.com/api'
 
@@ -17,7 +17,7 @@ class City(t.NamedTuple):
 class Client:
     """Client for interacting with the Azavea Climate API."""
 
-    # Wait for async event loop to instanstiate
+    # Wait for async event loop to instantiate
     session: aiohttp.ClientSession = None
 
     def __init__(self, token: str):
@@ -33,7 +33,6 @@ class Client:
     async def teardown(self):
         if self.session is not None:
             await self.session.close()
-
 
     async def get_cities(self, **kwargs) -> t.Iterator[City]:
         """Return all available cities."""
@@ -83,6 +82,12 @@ class Client:
         """Return the description and parameters of a specified indicator."""
         return await self._get(f'/indicator/{indicator}', **kwargs)
 
-    async def get_indicator_data(self, city: int, scenario: str, indicator: str, **kwargs) -> t.Dict:
+    async def get_indicator_data(
+        self,
+        city: int,
+        scenario: str,
+        indicator: str,
+        **kwargs
+    ) -> t.Dict:
         """Return derived climate indicator data for the requested indicator."""
         return await self._get(f'/climate-data/{city}/{scenario}/indicator/{indicator}', **kwargs)

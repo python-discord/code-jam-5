@@ -19,8 +19,12 @@ class Indicator:
     def __init__(self, name: str, city: City):
         self.name = name
         self.city = city
+        self.label = None
+        self.description = None
+        self.units = None
+        self.rate = None
 
-    async def _populate_data(self):
+    async def populate_data(self):
         items = []
         count = 0
 
@@ -56,7 +60,7 @@ async def get_top_indicators(city: City, n: int = 5) -> Tuple[Indicator, ...]:
 
     for name in INDICATORS:
         indicator = Indicator(name, city)
-        await self._populate_data()
+        await indicator.populate_data()
 
         rates[name] = indicator.rate
         indicators[name] = indicator
