@@ -30,9 +30,11 @@ def redraw():
         if lose:
             win.blit(pygame.image.load('LoseBox.png'), (276, 161))
             win.blit(playagain.image, (playagain.x, playagain.y))
+            win.blit(back.image, (290, 250))
         elif comp:
             win.blit(pygame.image.load('WinBox.png'), (276, 161))
             win.blit(playagain.image, (playagain.x, playagain.y))
+            win.blit(back.image, (290, 250))
         else:
             for item in onscreen:
                 if item.movecount + 1 >= len(item.move)*10:
@@ -162,10 +164,15 @@ while run:
                 elif rulesbutton.y + rulesbutton.height and b > rulesbutton.y and a > rulesbutton.x and a < rulesbutton.x + rulesbutton.width:
                     introduction = False
                     rules = True
-      
+            if rules:
+                if back.y + back.height and b > back.y and a > back.x and a < back.x + back.width:
+                  rules = False
+                  introduction = True
             elif lose or comp:
                 if b < playagain.y + playagain.height and b > playagain.y and a > playagain.x and a < playagain.x + playagain.width:
                     playagain.pressed()
+                if b < 250 + back.height and b > 250 and a > 290 and a < 290 + back.width:
+                    introduction = True
 
     if pygame.time.get_ticks()%100 == 0:
         onscreen.append(random.choice(vehicles))
