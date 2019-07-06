@@ -9,10 +9,12 @@ class Sound:
 
     pg.mixer.init()
     pg.mixer.music.load(str(BG_MUSIC))
-    pg.mixer.music.play()
+    pg.mixer.music.play(-1)
 
     click = pg.mixer.Sound(str(SND["click3"]))
     check = pg.mixer.Sound(str(SND["switch1"]))
+    task_completed = pg.mixer.Sound(str(SND["twoTone2"]))
+    task_failed = pg.mixer.Sound(str(SND["phaserUp1"]))
 
     @staticmethod
     def update(vol):
@@ -21,6 +23,8 @@ class Sound:
 
         Sound.click.set_volume(vol)
         Sound.check.set_volume(vol)
+        Sound.task_completed.set_volume(vol)
+        Sound.task_failed.set_volume(vol)
         pg.mixer.music.set_volume(vol / 6)
 
 

@@ -48,6 +48,7 @@ PATH_TILES = PurePath(PATH_PROJECT).joinpath("assets/images/tiles")
 PATH_TASK = PurePath(PATH_PROJECT).joinpath("assets/images/task")
 PATH_MAZE_TASK = PurePath(PATH_TASK).joinpath("maze")
 PATH_TTT_TASK = PurePath(PATH_TASK).joinpath("tic-tac-toe")
+PATH_RPS_TASK = PurePath(PATH_TASK).joinpath("rock-paper-scissors")
 
 PATH_BUTTONS = PurePath(PATH_PROJECT).joinpath("assets/images/UI/buttons")
 PATH_SLIDER = PurePath(PATH_PROJECT).joinpath("assets/images/UI/slider")
@@ -100,6 +101,12 @@ X = lambda biome: PurePath(PATH_TTT_TASK).joinpath(f"{biome}/x.png")
 O = lambda biome: PurePath(PATH_TTT_TASK).joinpath(f"{biome}/o.png")
 TTT_GRID = lambda biome: PurePath(PATH_TTT_TASK).joinpath(f"{biome}/grid.png")
 
+# rock paper and scissors
+ROCK = lambda biome: PurePath(PATH_RPS_TASK).joinpath(f"{biome}/rock.png")
+PAPER = lambda biome: PurePath(PATH_RPS_TASK).joinpath(f"{biome}/paper.png")
+SCISSORS = lambda biome: PurePath(PATH_RPS_TASK).joinpath(f"{biome}/scissors.png")
+QUESTION_MARK = lambda biome: PurePath(PATH_RPS_TASK).joinpath(f"{biome}/question.png")
+
 # UI assets
 
 # Backgrounds
@@ -126,7 +133,7 @@ SOUND_BUTTONS_PATHS = list(Path(PATH_UI_AUDIO).glob("*.ogg"))
 SOUNDS_BUTTONS = dict(zip(SOUNDS_BUTTONS_NAMES, SOUND_BUTTONS_PATHS))
 
 # Music
-BG_MUSIC = PurePath(PATH_MUSIC).joinpath("who-loves-the-sun.mp3")
+BG_MUSIC = PurePath(PATH_MUSIC).joinpath("game_music.mp3")
 
 
 class Color:

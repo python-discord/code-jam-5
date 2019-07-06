@@ -10,6 +10,7 @@ import pygame as pg
 from pygame.image import load
 from pygame.transform import scale
 
+from project.UI.fx.sound import Sound
 from project.constants import (
     Color,
     HEIGHT,
@@ -18,6 +19,10 @@ from project.constants import (
     MAZE_START,
     MAZE_WALL,
     O,
+    PAPER,
+    QUESTION_MARK,
+    ROCK,
+    SCISSORS,
     TTT_GRID,
     WIDTH,
     X,
@@ -79,6 +84,12 @@ class Task(object):
     def _complete(self, successful: bool) -> None:
         """Called when task was completed."""
         logger.debug(successful)
+
+        if successful:
+            Sound.task_completed.play()
+        else:
+            Sound.task_failed.play()
+
         game_vars.open_task = None
         game_vars.current_heat += (
             self.heat_add_success if successful else self.heat_add_failure
@@ -148,14 +159,17 @@ class TaskCursorMaze(Task):
             load(str(self._get_image_for_biome(MAZE_START))).convert_alpha(),
             self.cell_size,
         )
+
         self.end_image = scale(
             load(str(self._get_image_for_biome(MAZE_END))).convert_alpha(),
             self.cell_size,
         )
+
         self.path_image = scale(
             load(str(self._get_image_for_biome(MAZE_PATH))).convert_alpha(),
             self.cell_size,
         )
+
         self.wall_image = scale(
             load(str(self._get_image_for_biome(MAZE_WALL))).convert_alpha(),
             self.cell_size,
@@ -317,15 +331,107 @@ class TaskRockPaperScissors(Task):
 
     def start(self) -> None:
         """User clicks on task."""
+        self.mixing = False
+
+        self.color, self.color_hover = self.__get_colors_for_rpc()
+
+        self.choice_rect_side = int(self.window_rect.height / 3)
+        self.computer_rect_side = self.window_rect.height
+
+        self.choice_rects = list()
+
+        for i in range(3):
+            self.choice_rects.append(
+                pg.Rect(
+                    self.window_rect.left,
+                    self.choice_rect_side * i + self.window_rect.top,
+                    self.choice_rect_side,
+                    self.choice_rect_side,
+                )
+            )
+
+        self.computer_rect = pg.Rect(
+            self.window_rect.left + self.choice_rect_side,
+            self.window_rect.top,
+            self.computer_rect_side,
+            self.computer_rect_side,
+        )
+
+        self.images = [ROCK, PAPER, SCISSORS]
+        self.choice_images = list()
+        self.computer_images = list()
+
+        for img in self.images:
+            self.choice_images.append(
+                scale(
+                    load(str(self._get_image_for_biome(img))).convert_alpha(),
+                    [self.choice_rect_side] * 2,
+                )
+            )
+
+            self.computer_images.append(
+                scale(
+                    load(str(self._get_image_for_biome(img))).convert_alpha(),
+                    [self.computer_rect_side] * 2,
+                )
+            )
+        self.computer_images.append(
+            scale(
+                load(str(self._get_image_for_biome(QUESTION_MARK))).convert_alpha(),
+                [self.computer_rect_side] * 2,
+            )
+        )
+
         super().start()
 
     def update(self, event: pg.event) -> None:
         """Handles events."""
         super().update()
 
+        for rect in self.choice_rects:
+            mouse_hover = rect.collidepoint(pg.mouse.get_pos())
+            mouse_click = event.type == pg.MOUSEBUTTONDOWN
+
+            if mouse_hover and mouse_click:
+                self.mixing = True
+
     def draw(self) -> None:
         """Draws elements."""
         super().draw()
+        self.screen.fill(self.color, self.window_rect)
+
+        if self.mixing:
+            self.__draw_mixing()
+        else:
+            self.screen.blit(self.computer_images[3], self.computer_rect)
+
+        for rect in self.choice_rects:
+            mouse_hover = rect.collidepoint(pg.mouse.get_pos())
+
+            if mouse_hover:
+                self.screen.fill(self.color_hover, rect)
+
+        for i, rect in enumerate(self.choice_rects):
+            self.screen.blit(self.choice_images[i], rect)
+
+    def __draw_mixing(self):
+        for _ in range(1000):
+            for i in range(3):
+                self.screen.fill(self.color, self.window_rect)
+                self.screen.blit(self.computer_images[i], self.computer_rect)
+
+    def __get_colors_for_rpc(self) -> tuple:
+        """Gets an Tic Tac Toe colors for background and hover in biome context."""
+        if isinstance(self.biome, BiomeCity):
+            return (Color.city, Color.city_hover)
+        elif isinstance(self.biome, BiomeDesert):
+            return (Color.desert, Color.desert_hover)
+        elif isinstance(self.biome, BiomeForest):
+            return (Color.forest, Color.forest_hover)
+        elif isinstance(self.biome, BiomeMountains):
+            return (Color.mountains, Color.mountains_hover)
+        else:
+            raise NameError(f"Colors not found for biome: {type(self)}")
 
 
 class TaskTicTacToe(Task):
@@ -424,7 +530,7 @@ class TaskTicTacToe(Task):
                 and (time() - self.last_click) > 0.3
                 and (time() - self.delay) > 0.3
             ):
-
+                Sound.click.play()
                 self.last_click = time()
                 self.__insert_human_move(i)
                 self.turn *= -1

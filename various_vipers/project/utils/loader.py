@@ -6,7 +6,8 @@ from project.constants import PATH_DATA, USER_SETTINGS
 
 def assert_user_settings():
     """Asserts that user settings file is present in data."""
-    if "user_setting.json" not in os.listdir(str(PATH_DATA)):
+    if "user_settings.json" not in os.listdir(str(PATH_DATA)):
+        print("user_settings.json" not in os.listdir(str(PATH_DATA)))
         default_data = {"volume": 100, "mute": False, "show_fps": True}
         with open(str(USER_SETTINGS), "w", encoding="utf-8") as f:
             json.dump(default_data, f)
@@ -35,6 +36,9 @@ class Load:
     @staticmethod
     def show_fps() -> float:
         """Returns show fps bool."""
+        with open(str(USER_SETTINGS), "r", encoding="utf-8") as f:
+            data = json.load(f)
+
         return data["show_fps"]
 
 
