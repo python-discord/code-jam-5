@@ -16,7 +16,7 @@ class ClimateArguments(commands.Cog):
             self.raw_climate_arguments = json.load(fp)
 
     @commands.command(aliases=['cc', 'climcom'])
-    async def climate_commentary(self, ctx, argument_id: int=None):
+    async def climate_commentary(self, ctx, argument_id: int = None):
         """Get a random climate commentary.
 
         Parameters
