@@ -8,7 +8,7 @@ pygame.display.set_caption('Climate Change Project')
 bg = pygame.image.load('Background.png')
 
 onscreen = []
-score = 100
+score = 0
 lanes = [50, 300, 500]
 clock = pygame.time.Clock()
 Scorefont = pygame.font.Font('freesansbold.ttf', 32)
@@ -54,6 +54,10 @@ class button(object):
         self.y = y
         
     def pressed(self):
+        global score
+        global onscreen
+        global lose
+        global comp
         print('Click')
         onscreen = []
         score = 0
