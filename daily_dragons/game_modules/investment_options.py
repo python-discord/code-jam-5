@@ -16,7 +16,7 @@ class InvestmentOptions:
         menu = []
         menu.append(Fore.CYAN + "Investment options:" + Fore.WHITE)
         for key, i in self.options.items():
-            if i.organization.policies:
+            if i.current_policy:
                 menu.append(f"{key}: {i.organization.name}")
             else:
                 menu.append(Fore.RED + f"{key}: {i.organization.name}" + Fore.WHITE)
