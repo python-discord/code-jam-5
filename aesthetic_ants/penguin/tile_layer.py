@@ -1,21 +1,14 @@
 import pyglet
-
-from enum import Enum
-from pyglet.graphics import Batch
 import random
 
-from .constants import CollisionType
+from math import floor
+from pyglet.graphics import Batch
+
+from .constants import CollisionType, TileType
 from .object import Object
 from .resources import WATER_TILE, ICE_TILE, WEAK_ICE_TILE, WALL_TILE
 
 TILE_SIZE = 16  # tile size in pixels
-
-
-class TileType(Enum):
-    WATER_TILE = 1
-    WEAK_ICE_TILE = 2
-    ICE_TILE = 3
-    WALL_TILE = 4
 
 
 TILE_SERIALIZATION_MAP = {
