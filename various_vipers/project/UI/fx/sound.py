@@ -25,10 +25,22 @@ class Sound:
     def update():
         """Updates the volume of the sounds and music."""
         # edit the volume to be in 0.0 - 1.0 range
-        vol = user_data.volume / 100
 
-        Sound.click.set_volume(vol)
-        Sound.check.set_volume(vol)
-        Sound.task_completed.set_volume(vol)
-        Sound.task_failed.set_volume(vol)
-        pg.mixer.music.set_volume(vol / 6)
+        if user_data.sound_mute:
+            user_data.sound_volume = 0
+            sound_vol = 0
+        else:
+            sound_vol = user_data.sound_volume / 100
+
+        if user_data.music_mute:
+            user_data.music_volume = 0
+            music_vol = 0
+        else:
+            music_vol = user_data.music_volume / 100
+
+        Sound.click.set_volume(sound_vol)
+        Sound.check.set_volume(sound_vol)
+        Sound.task_completed.set_volume(sound_vol)
+        Sound.task_failed.set_volume(sound_vol)
+
+        pg.mixer.music.set_volume(music_vol)
