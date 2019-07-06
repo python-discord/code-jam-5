@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, flash
-from .forms import DatePickerForm
-from practical_porcupines.utils import ConfigApi
+import math
 import requests
+from flask import Flask, render_template, request, flash
+from practical_porcupines.utils import ConfigApi
+from practical_porcupines.flask_webportal.forms import DatePickerForm
 
 flask_webportal_app = Flask(__name__)
 config_api = ConfigApi()
@@ -35,12 +36,17 @@ def index():
 
             return render_template("index.html", form=date_picker_form)
 
+        is_prediction = False
+
         if "body" in api_response:
-            wl_difference = api_response["body"]["wl_difference"]
+            wl_difference = round(api_response["body"]["wl_difference"], 5)
             wl_string = (
                 f"The difference in water level between {start_date} and "
-                f"{end_date} was {wl_difference}mm"
+                f"{end_date} is {wl_difference}mm"
             )
+
+            if api_response["body"]["is_prediction"]:
+                is_prediction = True
         else:
             status_code = api_response["meta"]["status_code"]
 
@@ -60,7 +66,7 @@ def index():
             return render_template("index.html", form=date_picker_form)
 
         return render_template(
-            "index.html", wl_string=wl_string, form=date_picker_form
+            "index.html", wl_string=wl_string, form=date_picker_form, is_prediction=is_prediction
         )
 
     flash(

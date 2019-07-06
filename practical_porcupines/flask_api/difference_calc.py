@@ -22,6 +22,7 @@ class WLDifference:
         self.poly_file = Path(
             "practical_porcupines/flask_api/poly_fit_model.pkl"
         )
+
         if self.interp_file.exists():
             # load it again
             with open(self.interp_file, "rb") as fid:
@@ -53,11 +54,13 @@ class WLDifference:
         date_1, is_pred_1 = string_to_datetime(date_1)
         date_2, is_pred_2 = string_to_datetime(date_2)
 
+        dates = [date_1, date_2]
+
         # preform calc
         return (
             # fmt: off
-            self.evaluate_timestamp(date_2) -
-            self.evaluate_timestamp(date_1),
+            self.evaluate_timestamp(max(dates)) -
+            self.evaluate_timestamp(min(dates)),
             True if is_pred_1 or is_pred_2 else False  # prediction
         )
 
@@ -123,7 +126,7 @@ class WLDifference:
                 PolynomialFeatures(degree=3).fit_transform(
                     np.array([timestamp.timestamp()]).reshape(1, -1)
                 )
-            )
+            )[0][0]
 
         return self.model(timestamp.timestamp())
 

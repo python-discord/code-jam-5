@@ -35,5 +35,10 @@
 {% if wl_string %}
 <hr>
 <h4 class="green-text">{{ wl_string }}</h4>
+{% if is_prediction %}
+<p class="yellow-text">
+    <b><i>Please note that this value is a prediction and may not accuratly depict the future.</i></b>
+</p>
+{% endif %}
 {% endif %}
 {% endblock%}
