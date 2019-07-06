@@ -7,7 +7,7 @@ from .constants import CollisionType
 from .object import PhysicalObject
 from .resources import PLAYER_IMAGE
 from .utils import angle_between, keys
-from .weapon import SnowSpread
+from .weapon import Hand, RocketPropelledSnowball, SnowSpread
 
 
 class Player(PhysicalObject):
@@ -17,7 +17,13 @@ class Player(PhysicalObject):
     def __init__(self, x, y):
         super().__init__(PLAYER_IMAGE, x=x, y=y)
 
-        self.weapon = SnowSpread()
+        self.weapons = {
+            key._1: Hand(),
+            key._2: SnowSpread(),
+            key._3: RocketPropelledSnowball(),
+
+        }
+        self.weapon = self.weapons[key._1]
         self.firing = False
 
     def update(self, dt):
@@ -53,3 +59,10 @@ class Player(PhysicalObject):
     def on_mouse_release(self, x, y, button, modifiers):
         if button == mouse.LEFT:
             self.firing = False
+
+    def on_key_press(self, button, modifiers):
+        weapon = self.weapons.get(button)
+        if not weapon:
+            return
+
+        self.weapon = weapon
