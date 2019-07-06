@@ -29,6 +29,9 @@ TILE_ROWS: int = 4
 # Max heat before game over
 MAX_HEAT: float = 100
 
+# How many days ingame are equal to 1 second realtime
+SECONDS_TO_DAYS: float = 30
+
 INDICATOR_WIDTH: int = 100
 
 # How many pixels the background is allowed to move in 1 game tick
@@ -83,6 +86,8 @@ CLOUD_LAYERS_FG = [
 
 SUN_IMAGE = PurePath(PATH_OTHER).joinpath("sun.png")
 INDICATOR_ARROW = PurePath(PATH_OTHER).joinpath("indicator.png")
+STAR = PurePath(PATH_OTHER).joinpath("star.png")
+GOLD_COIN = PurePath(PATH_OTHER).joinpath("coinGold.png")
 
 # Tiles
 
