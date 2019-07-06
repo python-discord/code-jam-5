@@ -273,11 +273,11 @@ class ClimateClicker:
                            sounds['snap'])
         self.crank_overlay = StaticImage((0.5, 0.5), images['crank'])
         self.upgrade_buttons = (
-            UpgradeButton(self, (0.01, 0.05), 10, 1.5, "crank_speed",
+            UpgradeButton(self, (0.01, 0.06), 10, 1.5, "crank_speed",
                           images['upgrade_buttons1']),
-            UpgradeButton(self, (0.01, 0.175), 100, 10, "click_value",
+            UpgradeButton(self, (0.01, 0.185), 100, 10, "click_value",
                           images['upgrade_buttons2']),
-            UpgradeButton(self, (0.01, 0.3), 100, 2, "crank_inertia",
+            UpgradeButton(self, (0.01, 0.31), 100, 2, "crank_inertia",
                           images['upgrade_buttons3'])
         )
 
