@@ -89,3 +89,11 @@ class TileLayer(Object):
 
     def add_to_space(self, space):
         super().add_to_space(space)
+
+    def load_tiles(self, tile_filename):
+        """Loads a tile map from a level file. Levels are 40x30 tiles by default"""
+        with open(tile_filename, 'r') as level_file:
+            level_data = level_file.readlines()
+            for y, line in enumerate(level_data):
+                for x, tile in enumerate(line.strip()):
+                    self.create_tile(x, y, TILE_SERIALIZATION_MAP[tile])
