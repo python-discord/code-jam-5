@@ -47,11 +47,13 @@ class ExampleRequest(Request):
         #
         # print('\t', 'response sent:', response)
         self.bot.dispatch(self.message)
+        log.debug('Received message: %s - %s', handler.name, self)
 
     async def on_response(self, response: Response, handler: MessageHandler):
         # print(handler.name, '-', 'response received:', response)
         # print('\t', 'in response to:', self)
         # print()
+        log.debug('Response received: %s - %s', handler.name, response)
         pass
 
     @property
