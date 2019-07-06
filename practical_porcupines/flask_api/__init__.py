@@ -12,7 +12,8 @@ flask_api_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(flask_api_app)
 
-# NOTE Blueprint inits have to be below db init or the views cannot access the DB
-from practical_porcupines.flask_api.api import api_blueprint
+# NOTE Blueprint inits have to be below db init or
+# the views cannot access the DB
+from practical_porcupines.flask_api.api import api_blueprint  # noqa
 
 flask_api_app.register_blueprint(api_blueprint, url_prefix="/")

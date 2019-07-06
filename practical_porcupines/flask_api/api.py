@@ -11,8 +11,8 @@ from practical_porcupines.utils import (
 api_blueprint = Blueprint("api", __name__)
 api = Api(api_blueprint, prefix="/")
 
-wl_dif_obj = WLDifference() # core object init
-wl_req = RequestParser(bundle_errors=True) # reqparse init
+wl_dif_obj = WLDifference()  # core object init
+wl_req = RequestParser(bundle_errors=True)  # reqparse init
 
 wl_req.add_argument("date_1", type=str, required=True)
 wl_req.add_argument("date_2", type=str, required=True)

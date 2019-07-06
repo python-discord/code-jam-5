@@ -19,7 +19,9 @@ class WLDifference:
         self.interp_file = Path(
             "practical_porcupines/flask_api/interpolated_function.pkl"
         )
-        self.poly_file = Path("practical_porcupines/flask_api/poly_fit_model.pkl")
+        self.poly_file = Path(
+            "practical_porcupines/flask_api/poly_fit_model.pkl"
+        )
         if self.interp_file.exists():
             # load it again
             with open(self.interp_file, "rb") as fid:
@@ -61,10 +63,12 @@ class WLDifference:
 
     def _fit_model(self):
         """
-        Create a mathematical model to estimate any data between 1993 and 2019
-        This process takes some time, but will only be called if no model exists
+        Create a mathematical model to estimate any data between
+        1993 and 2019. This process takes some time, but will
+        only be called if no model exists.
 
-        < Returns `<'scipy.interpolate.interpolate.interp1d'>` class to eval all data in range
+        < Returns `<'scipy.interpolate.interpolate.interp1d'>` class
+          to eval all data in range
         """
 
         # get all the time and water level values from the database
@@ -81,10 +85,12 @@ class WLDifference:
 
     def _fit_poly_model(self):
         """
-        Create a mathematical model to estimate any data between before 1993 and after 2019
-        This process takes some time, but will only be called if no model exists
+        Create a mathematical model to estimate any data between
+        before 1993 and after 2019. This process takes some time,
+        but will only be called if no model exists.
 
-        < Returns `<sklearn.linear_model.LinearRegression'>` class to eval all data in range
+        < Returns `<sklearn.linear_model.LinearRegression'>` class to
+          eval all data in range
         """
 
         def flatten(l):
@@ -111,7 +117,8 @@ class WLDifference:
             datetime.date(1993, 1, 15) > timestamp.date()
             or datetime.date(2019, 2, 7) < timestamp.date()
         ):
-            # perform some data preparation before being able to pass it to the model
+            # Perform some data preparation before being
+            # able to pass it to the model
             return self.poly_model.predict(
                 PolynomialFeatures(degree=3).fit_transform(
                     np.array([timestamp.timestamp()]).reshape(1, -1)
@@ -132,7 +139,9 @@ class WLDifference:
 
         return (
             np.array([lm.wl for lm in LevelModel.query.all()]),  # water level
-            np.array([lm.date.timestamp() for lm in LevelModel.query.all()]),  # dates
+            np.array(
+                [lm.date.timestamp() for lm in LevelModel.query.all()]
+            ),  # dates
         )
 
     def decimal_to_datetime(self, decimal_date):
@@ -159,7 +168,7 @@ class WLDifference:
     def parse_data(self):
         """
         Parses the dataset from the NASA file.
-        
+
         < Returns a list of tuples
         """
 

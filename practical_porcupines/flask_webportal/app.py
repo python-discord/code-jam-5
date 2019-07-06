@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, flash
 from .forms import DatePickerForm
 from practical_porcupines.utils import ConfigApi
 import requests
@@ -29,22 +29,25 @@ def index():
             api_response = requests.get(api_url, data=request_body).json()
         except Exception as e:
             flash(
-                "An unknown error occurred when fetching data from the api and "
-                f"serializing the response! Full error: '{e}'."
+                "An unknown error occurred when fetching data from "
+                f"the api and serializing the response! Full error: '{e}'."
             )
 
             return render_template("index.html", form=date_picker_form)
 
         if "body" in api_response:
             wl_difference = api_response["body"]["wl_difference"]
-            wl_string = f"The difference in GMSL between {start_date} and {end_date} was {wl_difference}mm"
+            wl_string = (
+                f"The difference in water level between {start_date} and "
+                f"{end_date} was {wl_difference}mm"
+            )
         else:
             status_code = api_response["meta"]["status_code"]
 
             if status_code == 400:
                 flash(
-                    "The API has been given a bad date format. This should not "
-                    "happen as all of this is automated!"
+                    "The API has been given a bad date format. This should "
+                    "not happen as all of this is automated!"
                 )
             elif status_code == 1002:
                 flash(
@@ -56,7 +59,9 @@ def index():
 
             return render_template("index.html", form=date_picker_form)
 
-        return render_template("index.html", wl_string=wl_string, form=date_picker_form)
+        return render_template(
+            "index.html", wl_string=wl_string, form=date_picker_form
+        )
 
     flash(
         "The dates inputted into the form are not correct, please fix "
