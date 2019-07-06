@@ -22,7 +22,7 @@ class WLDifference:
         self.poly_file = Path(
             "practical_porcupines/flask_api/poly_fit_model.pkl"
         )
-        
+
         if self.interp_file.exists():
             # load it again
             with open(self.interp_file, "rb") as fid:
@@ -53,7 +53,7 @@ class WLDifference:
         # make sure both dates are valid and convert them to epoch times
         date_1, is_pred_1 = string_to_datetime(date_1)
         date_2, is_pred_2 = string_to_datetime(date_2)
-        
+
         dates = [date_1, date_2]
 
         # preform calc
@@ -124,9 +124,10 @@ class WLDifference:
             # able to pass it to the model
             return self.poly_model.predict(
                 PolynomialFeatures(degree=3).fit_transform(
-                    np.array([timestamp.timestamp()]).reshape(1, -1))
+                    np.array([timestamp.timestamp()]).reshape(1, -1)
+                )
             )[0][0]
-        
+
         return self.model(timestamp.timestamp())
 
     def _get_all_values(self):
@@ -145,7 +146,7 @@ class WLDifference:
                 [lm.date.timestamp() for lm in LevelModel.query.all()]
             ),  # dates
         )
-    
+
     def decimal_to_datetime(self, decimal_date):
         """
         Converts the `2017.344858` to a datetime objects
@@ -160,8 +161,8 @@ class WLDifference:
         base = datetime.datetime(year, 1, 1)
 
         seconds = (  # fmt: off
-                          base.replace(year=base.year + 1) - base
-                  ).total_seconds() * rem
+            base.replace(year=base.year + 1) - base
+        ).total_seconds() * rem
 
         result = base + datetime.timedelta(seconds=seconds)
 
