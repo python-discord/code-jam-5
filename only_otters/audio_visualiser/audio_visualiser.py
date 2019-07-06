@@ -15,6 +15,7 @@ class AudioVisualiser(QtWidgets.QWidget):
         self.min_radius = self.max_radius / 2.5
         self.fill_colour = QtCore.Qt.black
         self.pen_colour = QtCore.Qt.black
+        self.red_flames()
         self.amps = np.array([])
         self._draw_center_piece()
         self._start_visualising()
@@ -75,19 +76,25 @@ class AudioVisualiser(QtWidgets.QWidget):
         self.analyser_thread.calculated_visual.connect(self.set_amplitudes)
         self.analyser_thread.start()
 
+    def red_flames(self):
+        self.flames = [QtCore.Qt.red, QtGui.QColor('#E86100'), QtCore.Qt.yellow]
+    
+    def green_flames(self):
+        self.flames = [QtGui.QColor('#54ff47'), QtGui.QColor('#4be83f'), QtGui.QColor('#43d638')]
+
     def paintEvent(self, event):
         """Plots the amplitudes."""
         painter = QtGui.QPainter(self)
         polygon_red, polygon_orange, polygon_yellow = self.amp_polygon()
 
-        painter.setPen(QtCore.Qt.red)
-        painter.setBrush(QtCore.Qt.red)
+        painter.setPen(self.flames[0])
+        painter.setBrush(self.flames[0])
         painter.drawPolygon(polygon_red)
 
-        painter.setPen(QtGui.QColor('#E86100'))
-        painter.setBrush(QtGui.QColor('#E86100'))
+        painter.setPen(self.flames[1])
+        painter.setBrush(self.flames[1])
         painter.drawPolygon(polygon_orange)
 
-        painter.setPen(QtCore.Qt.yellow)
-        painter.setBrush(QtCore.Qt.yellow)
+        painter.setPen(self.flames[2])
+        painter.setBrush(self.flames[2])
         painter.drawPolygon(polygon_yellow)
