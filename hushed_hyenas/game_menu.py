@@ -25,7 +25,7 @@ def main_menu(width, height, func_run, func_menu):
         about_menu = thorpy.Menu(about_background)
         about_menu.play()
 
-    application = thorpy.Application((width, height), "Code Jam")
+    application = thorpy.Application((width, height), "Code Jam", icon='pyGame')
 
     normal, hover = 'assets/play-on.png', 'assets/play-off.png'
     normal_quit, hover_quit = 'assets/quit-on.png', 'assets/quit-off.png'

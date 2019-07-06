@@ -11,7 +11,7 @@ from news_list import get_level_1_news, get_level_2_news, get_level_3_news, \
     get_level_4_news, get_level_5_news
 from random import randint
 
-# Initializes pygame resources
+# Initializes pyGame resources
 pygame.init()
 
 # Place the pygame window in the center of the screen
@@ -52,7 +52,7 @@ class Game:
         self.current_scene = 'Map'
         self.country = None
         self.font = pygame.font.Font(None, 25)
-        self.turn_number = '1'
+        self.turn_number = 1
 
         # this checker is used for debugging purposes of the different levels of colors for news
         self.checker = 0
@@ -189,7 +189,7 @@ class Game:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         # If ESC is pressed during the world map state the menu is opened
-                        game.call_menu()
+                        self.call_menu()
 
             self.zoom_map_width = self.width
             self.zoom_map_height = self.height
@@ -252,7 +252,7 @@ class Game:
             environmental_index = '\n'.join(str(e) for e in environmental_list)
             boxes.environmental_indexes(window, self.height, environmental_index)
 
-            boxes.turn_number(window, self.width, '5')
+            boxes.turn_number(window, self.width, self.turn_number)
             self.start_scene = False
 
         # Draw "Buy upgrades" button on country screen
@@ -295,12 +295,11 @@ class Game:
                     # prints current location of mouse for debugging
                     print('button was pressed at {0}'.format(mouse_pos))
                     upgrade_menu()  # calls the buy upgrade menus from gameobjects.py
-
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.country = None
                     self.current_scene = 'Map'
-                    game.run()
+                    self.run()
 
     def run(self):
         # Game Loop
@@ -322,11 +321,11 @@ class Game:
                         # If ESC is pressed during the zoom state the world map is opened
                         self.country = None
                         self.current_scene = 'Map'
-                        game.run()
+                        self.run()
             pygame.display.update()
 
     def call_menu(self):
-        main_menu(self.width, self.height, Game().run, Game().call_menu)
+        main_menu(self.width, self.height, self.run, self.call_menu)
 
 
 # Game initializes with the menu being opened

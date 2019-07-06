@@ -3,7 +3,6 @@ File with objects used along the project, such as `Button`
 '''
 
 from time import sleep
-
 import pygame
 import thorpy
 from tkinter import *
@@ -31,7 +30,6 @@ def upgrade_menu():
     # insert sub-item, method 2
     tree.insert("", "end", "dir3", text="Dir 3")
     tree.insert("dir3", "end", text=" sub dir 3", values=("3A", "3B"))
-
     tree.pack()
 
     upgrade_window.mainloop()
@@ -90,8 +88,8 @@ class Boxes:
     def environmental_indexes(self, window, screen_height: int, index: str):
         """
         Creates the social object box
-        :param window:
-        :param screen_height:
+        :param window - Surface it wil be created on
+        :param screen_height - Height of the surface
         :param index - Which index will be displayed
         :return:
         """
@@ -107,8 +105,8 @@ class Boxes:
     def game_status(self, window, screen_width: int):
         """
         Display the game status for the main indexes
-        :param window:
-        :param screen_width:
+        :param window - Surface it wil be created on
+        :param screen_width - Width of the surface
         :return:
         """
         title = thorpy.OneLineText('Game Status')
@@ -134,11 +132,17 @@ class Boxes:
         box.blit()
         box.update()
 
-    def turn_number(self, window, screen_width, turn):
+    def turn_number(self, window, screen_width: int, turn_number: int):
+        """
+        :param window - Surface it wil be created on
+        :param screen_width - Width of the surface
+        :param turn_number - Number of the turn the players is on
+        :return:
+        """
         title = thorpy.OneLineText('Turn')
         title.set_font_color(self.white)
         title.set_font_size(18)
-        text = thorpy.OneLineText(turn)
+        text = thorpy.OneLineText(str(turn_number))  # Turn number must be transformed to string
         text.set_font_size(30)
         text.set_font_color(self.white)
         box = thorpy.Box(elements=[title, text])
