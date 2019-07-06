@@ -54,6 +54,14 @@ class World:
         self.co2_concentration = 300  # ppm
         self.temperature_rise = 0
         self.regions = self._load_regions()
+        self.population = self.calculate_population()
+
+    def calculate_population(self):
+        population = 0
+        for region in self.regions:
+            population += self.regions[region].population
+
+        return population
 
     def _load_regions(self):
         regions = {}
