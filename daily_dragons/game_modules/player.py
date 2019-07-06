@@ -4,6 +4,9 @@ class Player:
         self.net_worth = net_worth
         self.social_standing = social_standing
 
+    def get_roi(self, roi: float) -> None:
+        self.net_worth *= roi
+
     def __str__(self) -> str:
         player = (
             f"{self.name} is currently worth {self.net_worth}"

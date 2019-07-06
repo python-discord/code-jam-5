@@ -11,7 +11,7 @@
                 "temperature": 0,
                 "co2": -50,
                 "habitable_land": 0,
-                "roi": 0
+                "roi": 0.90
             }
         ]
     },
@@ -27,7 +27,7 @@
                 "temperature": 0,
                 "co2": 0,
                 "habitable_land": 0,
-                "roi": 10000
+                "roi": 1.1
             }
         ]
     },
@@ -43,7 +43,7 @@
                 "temperature": 0,
                 "co2": 0,
                 "habitable_land": -100,
-                "roi": 10000
+                "roi": 1.05
             }
         ]
     },
@@ -59,7 +59,7 @@
                 "temperature": 0,
                 "co2": -50,
                 "habitable_land": 0,
-                "roi": 20000
+                "roi": 0.80
             },
             {
                 "name": "Fund Land Reforestation",
@@ -68,7 +68,7 @@
                 "temperature": 0,
                 "co2": -10,
                 "habitable_land": 100,
-                "roi": -10000
+                "roi": 0.95
             }
         ]
     },
@@ -84,7 +84,7 @@
                 "temperature": 0,
                 "co2": 50,
                 "habitable_land": 0,
-                "roi": 30000
+                "roi": 1.15
             },
             {
                 "name": "Lower Emissions Standards",
@@ -93,7 +93,7 @@
                 "temperature": 0,
                 "co2": 50,
                 "habitable_land": 0,
-                "roi": 20000
+                "roi": 1.15
             }
         ]
     },
@@ -109,7 +109,7 @@
                 "temperature": 0,
                 "co2": -20,
                 "habitable_land": 0,
-                "roi": 0
+                "roi": 1.05
             }
         ]
     }
