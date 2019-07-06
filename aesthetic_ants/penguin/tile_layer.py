@@ -40,21 +40,21 @@ class TileLayer(Object):
             TileType.WALL_TILE: WALL_TILE
         }
 
+        self.batch = Batch()
+
         self.width = width
         self.height = height
 
         self.tile_width = width // TILE_SIZE
         self.tile_height = height // TILE_SIZE
 
-        self.tiles = [[Tile(WATER_TILE,
-                            self.tile_images[WATER_TILE],
+        self.tiles = [[Tile(TileType.WATER_TILE,
+                            img=self.tile_images[TileType.WATER_TILE],
                             x=x*TILE_SIZE,
                             y=y*TILE_SIZE,
                             batch=self.batch)
                        for y in range(self.tile_height)]
                       for x in range(self.tile_width)]
-
-        self.batch = Batch()
 
     def create_tile(self, tile_x: int, tile_y: int, tile_type: TileType):
         """
