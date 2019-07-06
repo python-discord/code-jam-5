@@ -69,11 +69,18 @@ class TileLayer(Object):
     def draw(self):
         self.batch.draw()
 
+    def erase_tiles(self):
+        """Resets the tile map by disconnecting sprites from the batch"""
+        for row in self.tiles:
+            for tile in row:
+                tile.batch = None
+        self.tiles = []
+
     def load_tiles(self, tile_filename):
-        """Loads a tile map from a level file. Levels are 40x30 tiles by default"""
+        """Loads a tile map from a level file"""
         with open(tile_filename, 'r') as level_file:
             level_data = level_file.readlines()
-            self.tiles = []
+            self.erase_tiles()
 
             for y, line in enumerate(level_data):
                 row = []
@@ -104,10 +111,13 @@ class TileLayer(Object):
                  for x in range(tile_width)
                  for y in range(tile_height)]
 
-        # Filter out tiles that have invalid coordinates
-        tiles = filter(lambda pos: len(self.tiles[0]) > pos[0] >= 0
-                       and len(self.tiles) > pos[1] >= 0,
-                       tiles)
+        grid_width = len(self.tiles[0])
+        grid_height = len(self.tiles)
+        for x, y in tiles:
+            # Check if coordinates are valid
+            if y < 0 or y >= grid_height:
+                continue
+            if x < 0 or x >= grid_width:
+                continue
 
-        for tile in tiles:
-            other.collide_tile(self.tiles[tile[1]][tile[0]])
+            other.collide_tile(self.tiles[y][x])
