@@ -1,8 +1,8 @@
-# Various Vipers | saving the earth
-
-(Python Discord code jam 5 submission)
-
-<img src="https://i.imgur.com/S14ouvw.png" align="center" width="256">
+<h2 align="center">Various Vipers | saving the earth</h2>
+<p align="center">
+  (Python Discord code jam 5 submission)<br>
+  <img src="https://i.imgur.com/S14ouvw.png" width="256">
+</p>
 
 The climate change is a real danger to our planet, and if we don't help reduce the pollution, it will be destroyed. Your task is to save the earth!
 
