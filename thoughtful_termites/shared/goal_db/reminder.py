@@ -140,7 +140,7 @@ class Reminder:
             cursor.close()
 
     async def delete_async(self):
-        return await self.loop.run_in_executor(None, partial(self.delete))
+        return await self.loop.run_in_executor(None, self.delete)
 
     @property
     def goal(self):
