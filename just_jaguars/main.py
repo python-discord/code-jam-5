@@ -1,4 +1,5 @@
 import pygame
+
 from assets import *  # Importing the images for the icons
 from random import randint, choice
 
@@ -157,6 +158,7 @@ while running:
             icon_clicked()
 
     display_row()
+
 
     all_icons.update()
 
