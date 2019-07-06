@@ -537,22 +537,29 @@ class TaskTicTacToe(Task):
                 self.__insert_human_move(i)
                 self.turn *= -1
 
-        if self.__won(self.board, self.human):
-            return self._complete(True)
+        if not self.game_over and (
+            self.__won(self.board, self.human) or len(self.__cells_left()) == 0
+        ):
+
+            self.last = time()
+            self.game_over = True
+            self.win = True
 
         if self.turn == self.computer:
             self.__make_computer_move()
             self.turn *= -1
 
-        if not self.game_over and (
-            self.__won(self.board, self.computer) or len(self.__cells_left()) == 0
-        ):
+        if not self.game_over and self.__won(self.board, self.computer):
             self.last = time()
             self.game_over = True
+            self.win = False
 
         if self.game_over:
             if time() - self.last > 0.5:
-                return self._complete(False)
+                if self.win:
+                    return self._complete(True)
+                else:
+                    return self._complete(False)
 
     def draw(self) -> None:
         """Draw all elements and hover states."""
