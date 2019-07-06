@@ -528,6 +528,7 @@ typing = ">=3.7.4"
 [[package]]
 category = "main"
 description = "Fast implementation of asyncio event loop on top of libuv"
+marker = "sys_platform == \"linux\" or sys_platform == \"darwin\""
 name = "uvloop"
 optional = false
 python-versions = "*"
@@ -581,7 +582,7 @@ python-versions = ">=2.7"
 version = "0.5.1"
 
 [metadata]
-content-hash = "fa98d5370c24f7325d923996c490f790c5e04bcc994880914c69087617e849c6"
+content-hash = "befca606b0d6d0dcd98c08588c853e8903db7ed817419fe205e0a5d1366fe2e7"
 python-versions = "^3.7"
 
 [metadata.hashes]

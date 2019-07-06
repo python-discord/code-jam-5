@@ -14,6 +14,33 @@ const placesService = new google.maps.places.PlacesService(map);
 const sessionToken = new google.maps.places.AutocompleteSessionToken();
 /* eslint-enable no-undef */
 
+function showResults(response) {
+    const results = document.getElementById('results');
+    results.innerHTML = response;
+
+    for (let indicator of document.getElementsByClassName('indicator')) {
+        const graph = indicator.querySelector('.graph');
+        if (!graph) {
+            console.error(`Could not find a graph element for ${indicator.id}`);
+            continue;
+        }
+
+        const trace = {
+            x: JSON.parse(graph.dataset.x),
+            y: JSON.parse(graph.dataset.y),
+            mode: 'lines+markers',
+            type: 'scatter'
+        };
+
+        const layout = {
+            xaxis: {'title': 'year'},
+            yaxis: {'title': graph.dataset.units}
+        };
+
+        Plotly.newPlot(graph, [trace], layout, {responsive: true}); // eslint-disable-line no-undef
+    }
+}
+
 function setLocation(location) {
     const formData = new FormData(form);
     formData.set('location', JSON.stringify(location));
@@ -23,9 +50,7 @@ function setLocation(location) {
         body: formData
     })
         .then(response => response.text())
-        .then(response => {
-            document.getElementById('results').innerHTML = response;
-        })
+        .then(showResults)
         .catch(error => console.log('Error submitting form: ', error));
 }
 
