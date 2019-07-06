@@ -11,7 +11,7 @@ from random import randint, choice
 # Details about the window
 window_width = 1152
 aspect_ratio = 9/16
-window_height = aspect_ratio*window_width
+window_height = int(aspect_ratio*window_width)
 window_icon = None
 window_title = 'Name of game'
 
@@ -103,10 +103,9 @@ Hard coding in the positions of the icons would make future changes to
 window size or number of icons in a row difficult because you would also
 have to go back and recalculate all the icons' new positions.
 """
-number_of_icons_in_a_row = 8  # Number of icons in a row
-icon_width = 64  # Width of the individual icons
+number_of_icons_in_a_row = 8
+icon_width = 64
 icon_area_width = 2 * window_width / 3  # Width of area containing the icons
-# Total amount of space between icons (below)
 total_space_between_icons = icon_area_width - number_of_icons_in_a_row * icon_width
 # Spacing between individual icons (below)
 icon_spacing = total_space_between_icons / number_of_icons_in_a_row
