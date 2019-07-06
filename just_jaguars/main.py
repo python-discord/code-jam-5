@@ -7,6 +7,7 @@ from assets import (
     hydrogen, ghg_capture_tech
 )  # Importing the images for the icons
 from random import randint, choice
+from time import time
 
 # Details about the window
 window_width = 1152
@@ -16,6 +17,10 @@ window_icon = None
 window_title = 'Name of game'
 
 fps = 60
+
+# Fonts
+pygame.font.init()
+arial = pygame.font.SysFont('Arial MT', 30)
 
 # Colors used
 black = (0, 0, 0)
@@ -155,7 +160,21 @@ def display_row():
 
 
 running = True
+frames = 0
+fps_displayed = str(60)
+
+fps_text = arial.render(fps_displayed + '/60', False, (0, 0, 0))
+start_time = time()
+
 while running:
+    frames += 1
+
+    if frames%30 == 0:
+        end_time = time()
+        fps_displayed = str(int(30/(end_time-start_time)))
+        fps_text = arial.render(fps_displayed + '/60', False, (0, 0, 0))
+        start_time = time()
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -171,6 +190,8 @@ while running:
     window.fill(white)
 
     all_icons.draw(window)
+
+    window.blit(fps_text,(0,0)) # fps
 
     pygame.display.update()
     clock.tick(fps)
