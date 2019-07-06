@@ -59,7 +59,7 @@ class Game(pyglet.window.Window):
 
     def create_tiles(self) -> TileLayer:
         """Creates the tile background layer"""
-        tiles = TileLayer(self.width, self.height)
+        tiles = TileLayer(0, 0)
         tiles.load_tiles("resources/levels/1.level")
 
         self.space.add_collision_handler(CollisionType.SNOWBALL,

@@ -1,5 +1,4 @@
 import pyglet
-import random
 
 from math import floor
 from pyglet.graphics import Batch
@@ -34,7 +33,7 @@ class TileLayer(Object):
     """
     collision_type = CollisionType.TILE_LAYER
 
-    def __init__(self, width: int, height: int):
+    def __init__(self, x, y):
         self.tile_images = {
             TileType.WATER: WATER_TILE,
             TileType.ICE: ICE_TILE,
@@ -42,38 +41,26 @@ class TileLayer(Object):
             TileType.WALL: WALL_TILE
         }
 
+        self.x = x
+        self.y = y
+
         self.batch = Batch()
 
-        self.width = width
-        self.height = height
+        # Tiles is in the format [y][x]
+        self.tiles = []
 
-        # Size of the tile layer in tiles
-        self.tile_width = width // TILE_SIZE
-        self.tile_height = height // TILE_SIZE
-
-        # Initialize all tiles to water
-        self.tiles = [[Tile(TileType.WATER,
-                            img=self.tile_images[
-                                random.choice([*self.tile_images.keys()])
-                            ],
-                            x=x*TILE_SIZE,
-                            y=y*TILE_SIZE,
-                            batch=self.batch)
-                       for y in range(self.tile_height)]
-                      for x in range(self.tile_width)]
-
-    def create_tile(self, tile_x: int, tile_y: int, tile_type: TileType):
+    def set_tile(self, tile_x: int, tile_y: int, tile_type: TileType):
         """
         Creates a new tile at a given position in the tile grid
         """
-        if self.tiles[tile_x][tile_y]:
-            self.tiles[tile_x][tile_y].batch = None
-            self.tiles[tile_x][tile_y].delete()
+        if self.tiles[tile_y][tile_x]:
+            self.tiles[tile_y][tile_x].batch = None
+            self.tiles[tile_y][tile_x].delete()
 
-        self.tiles[tile_x][tile_y] = Tile(tile_type,
+        self.tiles[tile_y][tile_x] = Tile(tile_type,
                                           self.tile_images[tile_type],
-                                          x=tile_x * TILE_SIZE,
-                                          y=tile_y * TILE_SIZE,
+                                          x=tile_x * TILE_SIZE + self.x,
+                                          y=tile_y * TILE_SIZE + self.y,
                                           batch=self.batch)
 
     def update(self, dt, **kwargs):
@@ -86,9 +73,19 @@ class TileLayer(Object):
         """Loads a tile map from a level file. Levels are 40x30 tiles by default"""
         with open(tile_filename, 'r') as level_file:
             level_data = level_file.readlines()
+            self.tiles = []
+
             for y, line in enumerate(level_data):
-                for x, tile in enumerate(line.strip()):
-                    self.create_tile(x, y, TILE_SERIALIZATION_MAP[tile])
+                row = []
+                for x, serialized_tile in enumerate(line.strip()):
+                    tile_type = TILE_SERIALIZATION_MAP[serialized_tile]
+                    tile = Tile(tile_type,
+                                self.tile_images[tile_type],
+                                x=x * TILE_SIZE + self.x,
+                                y=y * TILE_SIZE + self.y,
+                                batch=self.batch)
+                    row.append(tile)
+                self.tiles.append(row)
 
     def collide_tiles(self, other, _):
         """Determine which tiles collide with the passed object,
@@ -97,17 +94,17 @@ class TileLayer(Object):
         tile_width = floor(other.width * other.collision_leniency / TILE_SIZE)
         tile_height = floor(other.height * other.collision_leniency / TILE_SIZE)
         # Calculates the tile position of the object
-        tile_position = (other.x / TILE_SIZE, other.y / TILE_SIZE)
+        tile_position = ((other.x - self.x) / TILE_SIZE,
+                         (other.y - self.y) / TILE_SIZE)
         # Use the tile position as a base, making a small list of tile coordinates
         # that collide with the object
         tiles = [(floor(x + tile_position[0]), floor(y + tile_position[1]))
                  for x in range(tile_width)
                  for y in range(tile_height)]
-        # Filter out tiles that are greater than the max width or height
-        # or smaller than the min width or height of the layer
-        tiles = filter(lambda pos: self.tile_width >= pos[0] >= 0
-                       and self.tile_height >= pos[1] >= 0,
+        # Filter out tiles that have invalid coordinates
+        tiles = filter(lambda pos: len(self.tiles[0]) > pos[0] >= 0
+                       and len(self.tiles) >= pos[1] >= 0,
                        tiles)
 
         for tile in tiles:
-            other.collide_tile(self.tiles[tile[0]][tile[1]])
+            other.collide_tile(self.tiles[tile[1]][tile[0]])
