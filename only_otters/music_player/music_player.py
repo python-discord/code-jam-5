@@ -4,6 +4,8 @@ from .now_playing import NowPlayingWidget
 from .featured_songs import FeaturedSongs
 from pathlib import Path
 
+from only_otters.ads.facts import get_fact_by_tags
+
 
 class MusicPlayer(QtWidgets.QWidget):
     """Represents a MusicPlayer object, for playing/pausing/loading music."""
@@ -55,6 +57,17 @@ class MusicPlayer(QtWidgets.QWidget):
         self.main_content_layout.addWidget(self.open_file_button)
         self.main_content_layout.addItem(self.vertical_spacer)
 
+        #
+        self.fact_widget = get_fact_by_tags('ui').as_widget(self)
+        self.fact_widget.setMinimumSize(300, 80)
+
+        self.next_fact_button = QtWidgets.QPushButton("Next Fact", self)
+        self.next_fact_button.clicked.connect(self.refresh_fact)
+        
+        self.main_content_layout.addWidget(self.next_fact_button)
+        self.main_content_layout.addWidget(self.fact_widget)
+        #
+
         self.contents_layout.addLayout(self.main_content_layout)
         self.contents_layout.addLayout(self.sidebar_layout)
         self.contents_widget.setLayout(self.contents_layout)
@@ -93,3 +106,10 @@ class MusicPlayer(QtWidgets.QWidget):
                                         self.now_playing_widget.height() - scaled.height()*0.65)
         self.foreground_label.resize(self.width(), scaled.height())
         self.foreground_label.raise_()
+
+
+    def refresh_fact(self):
+        self.fact_widget.deleteLater()
+        self.fact_widget = get_fact_by_tags('ui').as_widget(self)
+        self.fact_widget.setMinimumSize(300, 80)
+        self.main_content_layout.addWidget(self.fact_widget)

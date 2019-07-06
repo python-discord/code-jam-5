@@ -1,6 +1,6 @@
 import os
 
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QPushButton
 from PyQt5.QtQuick import QQuickView
 from PyQt5.QtCore import QUrl
 
@@ -21,5 +21,8 @@ def QmlWidget(dataobjs: dict, qmlpath: str, parent: QWidget):
     container.setStyleSheet("Widget { padding: 7px; }")
     view.setSource(QUrl(qmlpath))
     # Load widget
+
+    next_fact_button = QPushButton("next")
+    
 
     return container
