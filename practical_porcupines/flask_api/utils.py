@@ -19,7 +19,7 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
     x Returns DateFormatError if incoming string isn\'t properly formatted
     """
 
-    possible_formats = [
+    possible_formats = (
         "%Y",
         "%Y-%m",
         "%Y/%m",
@@ -29,7 +29,8 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
         "%d.%m.%Y",
         "%m/%d/%Y",
         "%Y-%m-%d %H:%M:%S",
-    ]
+        "%Y-%m-%d",
+    )
 
     possible_dates = list()
 
