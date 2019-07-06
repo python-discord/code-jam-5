@@ -1,5 +1,5 @@
 import pygame
-from assets import *
+from assets import oil
 
 window_width = 1320
 window_height = 720
