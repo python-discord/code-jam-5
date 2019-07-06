@@ -16,5 +16,5 @@ class Snowball(PhysicalObject):
         self.y += self.velocity_y * dt
 
     def collide_tile(self, tile):
-        if tile.tile_type == TileType.WALL_TILE:
+        if tile.tile_type == TileType.WALL:
             self.space.remove(self)

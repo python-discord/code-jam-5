@@ -9,7 +9,7 @@ class CollisionType(Enum):
 
 
 class TileType(Enum):
-    WATER_TILE = auto()
-    WEAK_ICE_TILE = auto()
-    ICE_TILE = auto()
-    WALL_TILE = auto()
+    WATER = auto()
+    WEAK_ICE = auto()
+    ICE = auto()
+    WALL = auto()

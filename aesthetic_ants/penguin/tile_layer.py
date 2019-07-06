@@ -12,10 +12,10 @@ TILE_SIZE = 16  # tile size in pixels
 
 
 TILE_SERIALIZATION_MAP = {
-    "W": TileType.WALL_TILE,
-    "I": TileType.ICE_TILE,
-    "E": TileType.WEAK_ICE_TILE,
-    "A": TileType.WATER_TILE
+    "W": TileType.WALL,
+    "I": TileType.ICE,
+    "E": TileType.WEAK_ICE,
+    "A": TileType.WATER
 }
 
 
@@ -36,10 +36,10 @@ class TileLayer(Object):
 
     def __init__(self, width: int, height: int):
         self.tile_images = {
-            TileType.WATER_TILE: WATER_TILE,
-            TileType.ICE_TILE: ICE_TILE,
-            TileType.WEAK_ICE_TILE: WEAK_ICE_TILE,
-            TileType.WALL_TILE: WALL_TILE
+            TileType.WATER: WATER_TILE,
+            TileType.ICE: ICE_TILE,
+            TileType.WEAK_ICE: WEAK_ICE_TILE,
+            TileType.WALL: WALL_TILE
         }
 
         self.batch = Batch()
@@ -52,7 +52,7 @@ class TileLayer(Object):
         self.tile_height = height // TILE_SIZE
 
         # Initialize all tiles to water
-        self.tiles = [[Tile(TileType.WATER_TILE,
+        self.tiles = [[Tile(TileType.WATER,
                             img=self.tile_images[
                                 random.choice([*self.tile_images.keys()])
                             ],
