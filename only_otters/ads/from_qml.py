@@ -4,17 +4,10 @@
 # https://www.riverbankcomputing.com/static/Docs/PyQt5/qml.html
 
 from PyQt5 import QtWidgets, QtGui
-from PyQt5.QtQuick import QQuickView
-from PyQt5.QtCore import QUrl
-from PyQt5.QtQml import qmlRegisterType, QQmlComponent, QQmlEngine
 from pathlib import Path
 import sys
-from contextlib import contextmanager
-import os
 
-from .qtobjcounter import FactCounter, Counter
-
-from .qmltools import QmlWidget
+from .facts import get_fact_by_tags
 
 
 class TestWin(QtWidgets.QMainWindow):
@@ -39,7 +32,7 @@ class TestWin(QtWidgets.QMainWindow):
         self.main_widget.setLayout(self.main_layout)
 
     def new_widget(self, w):
-        
+
         if 'fwidget' in self.__dict__:
             # self.main_layout.removeItem(self.fwidget)
             self.fwidget.deleteLater()
@@ -48,8 +41,6 @@ class TestWin(QtWidgets.QMainWindow):
         self.main_layout.addWidget(self.fwidget)
 
     def x(self):
-    
-        from .facts import pick_fact, get_text_fact, get_fact_by_tags
 
         fact = get_fact_by_tags('ui')
         widget = fact.as_widget(parent=self)
@@ -59,12 +50,11 @@ class TestWin(QtWidgets.QMainWindow):
 if __name__ == "__main__":
 
     app = QtWidgets.QApplication(sys.argv)
-    
+
     font_path = Path('../fonts')
     QtGui.QFontDatabase.addApplicationFont(str(font_path / 'Raleway-Regular.ttf'))
-    
-    win = TestWin()
 
+    win = TestWin()
 
     qml_file = 'qml/Counter.qml'
     # qmlRegisterType(FactCounter, 'FactCounter', 1, 0, FactCounter.__name__)

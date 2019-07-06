@@ -1,4 +1,4 @@
-from only_otters.ads.facts.fact import Fact, FactFactory, hotfetch
+from only_otters.ads.facts.fact import Fact, FactFactory
 from only_otters.scrapetools.hquery import HierarchicalXPathQuery
 from only_otters.ads.qml import Counter as qmlCounter
 from only_otters.ads.qmltools import QmlWidget
@@ -11,7 +11,6 @@ from pathlib import Path
 __folder__ = Path(__file__).parent
 
 
-
 class TheWorldCountsFactFactory(FactFactory):
 
     def __init__(self):
@@ -20,21 +19,18 @@ class TheWorldCountsFactFactory(FactFactory):
 
     def _build_widget(self, factobj: Fact, parent) -> QmlWidget:
         return QmlWidget(
-            dataobjs={ 'fact_counter': factobj },
+            dataobjs={'fact_counter': factobj},
             qmlpath=qmlCounter.url,
             parent=parent
         )
 
     def _build_fact(self, record):
         # {
-        # 'figure': None, 
-        # 'title': 'World population', 
-        # 'subtitle': 'Right now', 
-        # 'start': '7677500838.070457', 
+        # 'figure': None,
+        # 'title': 'World population',
+        # 'subtitle': 'Right now',
+        # 'start': '7677500838.070457',
         # 'cursor': ' 2.538563344286236'}
-
-        # TODO: Parse scientific notation in counter.py:raw
-        # TODO: Remove None objs
 
         start = float(ensure_field(record, 'start'))
         offset = float(ensure_field(record, 'cursor'))
@@ -43,7 +39,7 @@ class TheWorldCountsFactFactory(FactFactory):
 
         offset, inter = counter(start, offset, mininterval=20)
         inter = inter * 1000
-        
+
         print(offset, inter)
 
         return FactCounter(
@@ -51,16 +47,16 @@ class TheWorldCountsFactFactory(FactFactory):
             offset=offset,
             interval=inter,
             precision=int(ensure_field(record, 'precision')),
-            text=ensure_field(record, 'title')  + ', ' + ensure_field(record, 'subtitle').lower(),
+            text=ensure_field(record, 'title') + ', ' + ensure_field(record, 'subtitle').lower(),
             factory=self
         )
-        
+
 
 __factory__ = TheWorldCountsFactFactory()
 __factory__.tags = ['counter', 'ui']
 
 
-@__factory__.fetcher.pipe # pipe should bind the pipe to an instance, not the class
+@__factory__.fetcher.pipe  # pipe should bind the pipe to an instance, not the class
 def postprocess(item):
 
     for key in item:

@@ -2,14 +2,11 @@ from dataclasses import dataclass
 from functools import wraps
 import random
 
-from cached_property import cached_property
-
 from only_otters.ads.qmltools import QmlWidget
-from only_otters.resourcely import ensure_field
 
 from only_otters.ads.qml import FactWidget
 
-from PyQt5.QtCore import pyqtProperty, pyqtSignal, QObject
+from PyQt5.QtCore import pyqtProperty, QObject
 
 """
 The idea is to have each source inherit from the following classes.
@@ -33,7 +30,7 @@ There should be a default widget with {title, content, source}
 if the source factory doesn't specify one
 
 
-And all this wrapped in 
+And all this wrapped in
 
 from facts import new_facts
 
@@ -80,22 +77,10 @@ class FactFactory:
     def _build_widget(self, factobj, parent) -> QmlWidget:
         # build widget then return it
         return QmlWidget(
-            dataobjs={ 'fact': factobj },
+            dataobjs={'fact': factobj},
             qmlpath=FactWidget.url,
             parent=parent
         )
-
-    # @hotfetch
-    # def _build_fact(self):
-    #     record = random.choice(self.records)
-    #     record = self._record_to_fact(record)
-    #     return Fact(
-    #         _title=ensure_field(record, 'title'),
-    #         _content=ensure_field(record, 'content'),
-    #         _source=ensure_field(record, 'source'),
-    #         data=record,
-    #         factory=self
-    #     )
 
     @hotfetch
     def get(self):
@@ -113,7 +98,7 @@ class FactFactory:
     def get_widget(self) -> QmlWidget:
         # Return a fact directly bundled in a widget
         return self._build_widget(self.get())
-    
+
 
 @dataclass
 class Fact(QObject):
@@ -130,7 +115,6 @@ class Fact(QObject):
     def as_widget(self, parent) -> QmlWidget:
         return self.factory._build_widget(self, parent=parent)
 
-    
     @pyqtProperty('QString', constant=True)
     def title(self):
         return self._title
@@ -142,10 +126,3 @@ class Fact(QObject):
     @pyqtProperty('QString', constant=True)
     def source(self):
         return self._source
-
-
-    # Define pyqtProperties
-
-
-
-# class FactCounter

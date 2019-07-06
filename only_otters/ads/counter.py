@@ -8,6 +8,7 @@ Refresh limit is set to 1 ms. (mininterval)
 Compute the offset to apply on trigger.
 """
 
+
 def get_precision(num):
     if type(num) == int:
         return 0
@@ -22,12 +23,12 @@ def raw(num):
     return num
 
 
-def counter(start, offset: "per:second", per=1000, mininterval=1):
+def counter(start, offset, per=1000, mininterval=1):
 
     offset_sign = offset > 0 or -1
     offset = abs(offset)
     ofraw = raw(offset)
-    
+
     if ofraw > per / mininterval:
         return (
             offset_sign * offset / (per / mininterval),
@@ -39,7 +40,7 @@ def counter(start, offset: "per:second", per=1000, mininterval=1):
             offset_sign * offset / ofraw,  # .5 /  5 => .1
             per / ofraw / per  # 1000 / 5 => 200 ; / 1000 => 0.2
         )
-        
+
 
 if __name__ == "__main__":
 
@@ -58,4 +59,3 @@ if __name__ == "__main__":
     for i in gen:
         print(i, end='\r')
         time.sleep(interval)
-

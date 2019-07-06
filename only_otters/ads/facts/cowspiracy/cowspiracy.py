@@ -1,4 +1,4 @@
-from only_otters.ads.facts.fact import Fact, FactFactory, hotfetch
+from only_otters.ads.facts.fact import Fact, FactFactory
 from only_otters.scrapetools.hquery import HierarchicalXPathQuery
 from only_otters.ads.qml import FactWidget as qmlFactWidget
 from only_otters.ads.qmltools import QmlWidget
@@ -11,7 +11,6 @@ from pathlib import Path
 __folder__ = Path(__file__).parent
 
 
-
 class CowspicaryFactFactory(FactFactory):
 
     def __init__(self):
@@ -20,7 +19,7 @@ class CowspicaryFactFactory(FactFactory):
 
     def _build_widget(self, factobj: Fact, parent) -> QmlWidget:
         return QmlWidget(
-            dataobjs={ 'fact': factobj },
+            dataobjs={'fact': factobj},
             qmlpath=qmlFactWidget.url,
             parent=parent
         )
@@ -34,7 +33,7 @@ class CowspicaryFactFactory(FactFactory):
             data=record,
             factory=self
         )
-        
+
 
 __factory__ = CowspicaryFactFactory()
 __factory__.tags = ['text', 'ui']
