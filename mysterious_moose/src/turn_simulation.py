@@ -56,13 +56,24 @@ def simulate_world_changes(world, virus):
     return world
 
 
-def simulate_virus_changes(virus):
+def simulate_virus_changes(world, virus):
 
-    pass
+    # each infected region will attempt to infect another region, this region may already be infected
+    for region in virus.affected_regions:
+        target = random.choice(world_regions)
+        if virus.virulence > random.randint(0, World.shortest_distance(region, target)):
+            virus.affected_regions.append(target)
+
+    # based on detectability each region has a random chance of stopping the virus
+    for region in virus.affected_regions:
+        if virus.detectability < random.randint(0, len(virus.affected_regions)):
+            virus.affected_regions.remove(region)
+
+    return virus
 
 def simulate_turn(world, virus):
     world = simulate_world_changes(world, virus)
-    virus = simulate_virus_changes(virus)
+    virus = simulate_virus_changes(world, virus)
     return [world, virus]
 
 
