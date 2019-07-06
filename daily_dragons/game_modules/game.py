@@ -43,7 +43,7 @@ class Game:
             "",
             "You can view the effects a certain option will",
             "have by typing the name or number of it. To",
-            # TODO: change instructions for gui if/when implemented
+            # TODO: add rules / game explaination
             "select an option type 'invest [option]'. For more",
             "help, you can type 'help'.",
             "",
@@ -88,6 +88,7 @@ class Game:
                 self.earth.affect_planet(
                     chosen_investment.current_policy.planetary_effects
                 )
+                self.player.get_roi(chosen_investment.current_policy.roi)
                 chosen_investment.times_invested += 1
                 return self.successful_order_msg
             else:
