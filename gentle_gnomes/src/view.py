@@ -19,8 +19,8 @@ async def search():
     try:
         form = await quart.request.form
         location = json.loads(form['location'])
-        latitude = location['lat']
-        longitude = location['lng']
+        latitude = str(location['lat'])
+        longitude = str(location['lng'])
     except (json.JSONDecodeError, KeyError):
         return render_template('view/results.html')
 

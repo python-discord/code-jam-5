@@ -52,8 +52,8 @@ class Client:
 
     async def get_nearest_city(
         self,
-        lat: float,
-        lon: float,
+        lat: str,
+        lon: str,
         limit: int = 1,
         **kwargs
     ) -> t.Optional[City]:
