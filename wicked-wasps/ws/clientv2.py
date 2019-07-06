@@ -1,8 +1,6 @@
-from tkinter import *
-from tkinter import messagebox
+from tkinter import Tk, Button, Entry
 import asyncio
 import threading
-import random
 import os
 import aiohttp
 from functools import partial
@@ -14,6 +12,7 @@ HOST = os.getenv('HOST', '0.0.0.0')
 PORT = int(os.getenv('PORT', 8080))
 URL = f'http://{HOST}:{PORT}/ws'
 
+
 def signal_handler(signal, frame):
     print('You pressed Ctrl+C!')
     sys.exit(0)
@@ -22,6 +21,7 @@ def signal_handler(signal, frame):
 signal.signal(signal.SIGINT, signal_handler)
 if sys.platform == 'linux':
     signal.pause()
+
 
 def _asyncio_thread(root, loop):
     loop.run_until_complete(connect(root))
@@ -42,7 +42,7 @@ async def connect(root):
                 break
             await asyncio.sleep(5)
     return
-                
+
 
 async def ws_send(ws, root):
     new_msg_to_send = root.entry.get()
@@ -55,8 +55,10 @@ async def ws_send(ws, root):
 def main(loop):
     root.entry = Entry(root)
     root.entry.pack()
-    Button(master=root, text='Start Posting', command=partial(do_tasks, root, loop)).pack()
+    Button(master=root, text='Start Posting',
+           command=partial(do_tasks, root, loop)).pack()
     root.mainloop()
+
 
 if __name__ == '__main__':
     root = Tk()
@@ -64,8 +66,8 @@ if __name__ == '__main__':
         loop = asyncio.get_event_loop()
         print('Press Ctrl+C to exit')
         main(loop)
-    except:
-        pass
+    except:  # noqa E722
+        raise
     finally:
         root.entry.config(text='exit')
         do_tasks(root, loop)

@@ -12,13 +12,15 @@ PORT = int(os.getenv('PORT', 8080))
 
 class Bot(commands.Bot):
     def __init__(self, **kwargs):
-        super().__init__(command_prefix=commands.when_mentioned_or('!'), **kwargs)
+        super().__init__(command_prefix=commands.when_mentioned_or('!'),
+                         **kwargs)
         for cog in cogs:
             self.load_extension(f'cogs.{cog}')
+
     async def on_ready(self):
         print('bot ready')
         self.channel = utils.get(self.get_all_channels(), name='codejam5')
-        
+
 
 async def handle(request):
     name = request.match_info.get('name', "Anonymous")
