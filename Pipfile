@@ -15,14 +15,11 @@ flask-restful = "*"
 flask-sqlalchemy = "*"
 aiohttp = "*"
 toml = "*"
-<<<<<<< HEAD
 numpy = "*"
 scipy = "*"
 sklearn = "*"
-=======
 python-dotenv = "*"
 flask-wtf = "*"
->>>>>>> master
 
 [requires]
 python_version = "3.6"
