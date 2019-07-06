@@ -41,14 +41,8 @@ class GameState(Singleton):
 
     def save_score(self, period: Period) -> None:
         """Save current score for this period."""
-        from .period import PeriodFuture, PeriodMedieval, PeriodModern
-
-        if isinstance(period, PeriodMedieval):
-            user_data.hiscore_medieval = max(period.elapsed, user_data.hiscore_medieval)
-        elif isinstance(period, PeriodModern):
-            user_data.hiscore_modern = max(period.elapsed, user_data.hiscore_modern)
-        elif isinstance(period, PeriodFuture):
-            user_data.hiscore_future = max(period.elapsed, user_data.hiscore_future)
+        if period.elapsed > period.hiscore:
+            period.hiscore = period.elapsed
 
         logger.debug(f"Saving score... {period.elapsed:.2f}s survived")
         user_data.save()

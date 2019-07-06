@@ -7,6 +7,8 @@ from typing import List, Optional
 import pygame as pg
 
 from project.constants import Color, TILE_COLS, TILE_ROWS, WIDTH
+from project.utils.helpers import realtime_to_ingame_formatted
+from project.utils.user_data import UserData
 from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
 from .earth import Earth
 from .game_state import GameState
@@ -16,6 +18,7 @@ from .task import TaskCursorMaze, TaskRockPaperScissors, TaskTicTacToe
 
 logger = logging.getLogger(__name__)
 game_vars = GameState()
+user_data = UserData()
 
 
 class Period(object):
@@ -52,6 +55,8 @@ class Period(object):
     start_date: datetime = datetime.date(2000, 1, 1)
     # Time when game started
     start_time: time = None
+    # Time when game ended
+    end_time: time = None
     # Time when the game was last paused
     pause_time: time = None
     # Time how long the game was paused for
@@ -81,8 +86,30 @@ class Period(object):
         )
 
     @property
+    def hiscore(self) -> float:
+        """Hiscore (seconds survived) for this game period."""
+        if isinstance(self, PeriodMedieval):
+            return user_data.hiscore_medieval
+        elif isinstance(self, PeriodModern):
+            return user_data.hiscore_modern
+        elif isinstance(self, PeriodFuture):
+            return user_data.hiscore_future
+
+    @hiscore.setter
+    def hiscore(self, new_hiscore: float) -> None:
+        """Sets a new hiscore for this game period."""
+        if isinstance(self, PeriodMedieval):
+            user_data.hiscore_medieval = new_hiscore
+        elif isinstance(self, PeriodModern):
+            user_data.hiscore_modern = new_hiscore
+        elif isinstance(self, PeriodFuture):
+            user_data.hiscore_future = new_hiscore
+
+    @property
     def elapsed(self) -> None:
         """Returns time elapsed in seconds from the game start (ignore pause time)."""
+        if self.end_time is not None:
+            return self.end_time - self.start_time - self.pause_time_sum
         return time.time() - self.start_time - self.pause_time_sum
 
     def update(self, event: pg.event) -> None:
@@ -91,9 +118,12 @@ class Period(object):
         self.sun.update(event)
 
         if game_vars.is_started:
+            self.end_time = None
             if self.start_time is None:
                 self.start_time = time.time()
             self.__handle_task_spawn()
+        elif self.end_time is None:
+            self.end_time = time.time()
 
     def draw(self) -> None:
         """Draw gets called every game tick."""
@@ -110,11 +140,9 @@ class Period(object):
                 self.pause_time_sum = time.time() - self.pause_time
             else:
                 self.pause_time = None
-            age = self.start_date + datetime.timedelta(days=30 * self.elapsed)
             font = pg.font.Font(None, 50)
-            age_indicator = font.render(
-                age.strftime("%Y - %B"), True, pg.Color("black")
-            )
+            text = realtime_to_ingame_formatted(self.elapsed, self.start_date)
+            age_indicator = font.render(text, True, pg.Color("black"))
             self.screen.blit(
                 age_indicator,
                 (int(WIDTH // 2) - int(age_indicator.get_width() // 2), 0),

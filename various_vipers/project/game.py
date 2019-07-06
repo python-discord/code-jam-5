@@ -90,7 +90,7 @@ class Game:
         elif self.window_state == WindowState.gameover:
             game_vars.is_started = False
             self.window_state == self.gameover.draw(
-                self.mouse_x, self.mouse_y, self.event
+                self.mouse_x, self.mouse_y, self.event, self.game_view.period
             )
         elif self.window_state == WindowState.quited:
             self.running = False
