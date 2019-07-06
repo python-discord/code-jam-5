@@ -104,4 +104,4 @@ venv.bak/
 .mypy_cache/
 
 # bot config file (w/ local access codes)
-bot/config.py
+thoughtful_termites/bot/config.py
