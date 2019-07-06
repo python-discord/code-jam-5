@@ -1,5 +1,5 @@
 <!--TODO: come up with a name-->
-# Welcome to {Game Name}
+# Welcome to `Who Wants To Be A Billionaire`
 
 In {Game Name} you take the role of a new billionaire trying to find
 their way around their new found wealth. 
@@ -15,7 +15,7 @@ afterwards.
 
 ```bash
 $python3 -m pip install -r requirements.txt
-$python3 ./main.py
+$python3 main.py
 ```
 
 # How to play
