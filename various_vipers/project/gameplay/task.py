@@ -2,7 +2,7 @@ import logging
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import PurePath
-from random import choice, shuffle
+from random import choice, shuffle, randint
 from time import time
 from typing import Dict, List, Optional, Tuple
 
@@ -334,6 +334,13 @@ class TaskRockPaperScissors(Task):
     def start(self) -> None:
         """User clicks on task."""
         self.mixing = False
+        self.choice = None
+        self.computer_choice = None
+
+        self.game_over = False
+        self.win = False
+        self.timer = 0
+        self.last = 0
 
         self.color, self.color_hover = self.__get_colors_for_rpc()
 
@@ -390,20 +397,58 @@ class TaskRockPaperScissors(Task):
         """Handles events."""
         super().update()
 
-        for rect in self.choice_rects:
+        for i, rect in enumerate(self.choice_rects):
             mouse_hover = rect.collidepoint(pg.mouse.get_pos())
             mouse_click = event.type == pg.MOUSEBUTTONDOWN
 
-            if mouse_hover and mouse_click:
+            if mouse_hover and mouse_click and self.choice not in [0, 1, 2]:
+                self.choice = i
                 self.mixing = True
+                self.timer = time()
+
+        if not self.game_over and (time() - self.timer <= 0.5):
+            self.computer_choice = randint(0, 2)
+
+            # if it is draw
+            if self.choice == self.computer_choice:
+                self.win = False
+            elif self.choice == 0:  # Rock
+                if self.computer_choice == 1:  # vs Paper
+                    self.win = False
+                elif self.computer_choice == 2:  # vs Scissors
+                    self.win = True
+            elif self.choice == 1:  # Paper
+                if self.computer_choice == 0:  # vs Rock
+                    self.win = True
+                elif self.computer_choice == 2:  # vs Scissors
+                    self.win = False
+            elif self.choice == 2:  # Scissors
+                if self.computer_choice == 1:  # vs Paper
+                    self.win = True
+                elif self.computer_choice == 0:  # vs Rock
+                    self.win = False
+            self.game_over = True
+            self.last = time()
+
+        if self.game_over:
+            if time() - self.last > 2:
+                if self.win:
+                    return self._complete(True)
+                else:
+                    return self._complete(False)
 
     def draw(self) -> None:
         """Draws elements."""
         super().draw()
         self.screen.fill(self.color, self.window_rect)
 
-        if self.mixing:
+        if self.mixing and (time() - self.timer < 0.5):
             self.__draw_mixing()
+        elif self.game_over and (time() - self.timer >= 0.5):
+            print(self.game_over, self.win)
+            self.screen.blit(
+                self.computer_images[self.computer_choice], self.computer_rect
+            )
         else:
             self.screen.blit(self.computer_images[3], self.computer_rect)
 
@@ -417,10 +462,8 @@ class TaskRockPaperScissors(Task):
             self.screen.blit(self.choice_images[i], rect)
 
     def __draw_mixing(self):
-        for _ in range(1000):
-            for i in range(3):
-                self.screen.fill(self.color, self.window_rect)
-                self.screen.blit(self.computer_images[i], self.computer_rect)
+        rand_img = self.computer_images[randint(0, 2)]
+        self.screen.blit(rand_img, self.computer_rect)
 
     def __get_colors_for_rpc(self) -> tuple:
         """Gets an Tic Tac Toe colors for background and hover in biome context."""
@@ -540,7 +583,6 @@ class TaskTicTacToe(Task):
         if not self.game_over and (
             self.__won(self.board, self.human) or len(self.__cells_left()) == 0
         ):
-
             self.last = time()
             self.game_over = True
             self.win = True

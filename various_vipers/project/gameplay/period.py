@@ -48,8 +48,8 @@ class Period(object):
 
     # Chance to spawn certain task types
     maze_chance: float = 0
-    rps_chance: float = 0
-    ttt_chance: float = 1.0
+    rps_chance: float = 1.0
+    ttt_chance: float = 0
 
     # Earth's age
     start_date: datetime = datetime.date(2000, 1, 1)
