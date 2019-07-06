@@ -2,6 +2,7 @@ import pyglet
 
 from enum import Enum
 from pyglet.graphics import Batch
+import random
 
 from .constants import CollisionType
 from .object import Object
@@ -49,7 +50,9 @@ class TileLayer(Object):
         self.tile_height = height // TILE_SIZE
 
         self.tiles = [[Tile(TileType.WATER_TILE,
-                            img=self.tile_images[TileType.WATER_TILE],
+                            img=self.tile_images[
+                                random.choice([*self.tile_images.keys()])
+                            ],
                             x=x*TILE_SIZE,
                             y=y*TILE_SIZE,
                             batch=self.batch)
