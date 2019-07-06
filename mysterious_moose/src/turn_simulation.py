@@ -2,7 +2,7 @@ import random
 import math
 import warnings
 
-from mysterious_moose.src.world import World, world_regions, earth
+from mysterious_moose.src.world import World, world_regions, INDUSTRY_TO_CO2
 
 weather_event_types = ['flood', 'heatwave', 'wildfire']
 
@@ -36,13 +36,14 @@ class WeatherEvent:
 
 def simulate_world_changes(world, virus):
     """Simulates one turn of world changes, returning a modified world object"""
-    industry_impacts = {0: 30, 1: 50, 2: 70}  # co2 impacts as given by industry id
+    industry_impacts = INDUSTRY_TO_CO2  # co2 impacts as given by industry id
     # calculate sea level rises
     initial_sea_level = world.sea_level
     sea_level_rise = (world.co2_concentration - 300) * 0.02
     world.sea_level += sea_level_rise
 
-    for region in world.regions:
+    regions = world.regions.values()
+    for region in regions:
         # assume population is evenly distributed between 1m and average elevation
         region.population -= math.ceil(((world.co2_concentration-300) * region.initial_population) / 7000000000)
         if region.population <= 0:
@@ -62,16 +63,16 @@ def simulate_virus_changes(world, virus):
     """Simulates one turn of a viruses spreading and being eliminated. Returns a modified virus object."""
     # each infected region will attempt to infect another region, this region may already be infected
     for region in virus.affected_regions:
-        target = random.choice(world_regions)
-        if virus.virulence * 0.2 > random.randint(0, World.shortest_distance(region, target)):
+        target = world.regions[random.choice(world_regions)]
+        if virus.virulence * 0.2 > random.randint(0, world.distance_between(region, target)):
             virus.affected_regions.append(target)
-            print(region + " is now infected with the virus!")
+            print(region.name + " is now infected with the virus!")
 
     # based on detectability each region has a random chance of stopping the virus
     for region in virus.affected_regions:
         if virus.detectability * 0.1 > random.randint(0, len(virus.affected_regions) + 10):
             virus.affected_regions.remove(region)
-            print(region + " successfully got rid of the virus!")
+            print(region.name + " successfully got rid of the virus!")
 
     return virus
 
@@ -81,7 +82,6 @@ def simulate_turn(world, virus):
     world = simulate_world_changes(world, virus)
     virus = simulate_virus_changes(world, virus)
     return [world, virus]
-
 
 # model extreme weather events
 # def simulate_weather_events():
