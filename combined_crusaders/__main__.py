@@ -1,12 +1,6 @@
 import pygame
 from pygame.rect import Rect
-from pygame.locals import (
-    KEYDOWN,
-    K_ESCAPE,
-    MOUSEBUTTONDOWN,
-    QUIT,
-    Color
-)
+from pygame.locals import KEYDOWN, K_ESCAPE, MOUSEBUTTONDOWN, QUIT, Color
 from media import sounds, images
 from machines import load_machines
 import time
@@ -15,23 +9,23 @@ from util import in_pixels, in_norm
 import json
 
 
-BACKGROUND_COLOR = Color('white')
-SCREEN_SIZE = (1024, 768)
-
-
-def say(message):
-    """Sends message to the user.
-    Change this method to reflect how you want the message to be sent.
-    Currently just changes the program bar name cuz it's cute."""
-    if message is not None:
-        pygame.display.set_caption(str(message))
-
-
 if not pygame.image.get_extended():
     raise SystemExit("Sorry, extended image module required")
 
 
-def score_to_image(score: int):
+def say(message) -> None:
+    """Send a message to the user.
+    Currently just changes the program bar name cuz it's cute.
+
+    :param message: Message to display.
+    :type message: Does not require type str, but must be castable to str.
+
+    """
+    if message is not None:
+        pygame.display.set_caption(str(message))
+
+
+def score_to_image(score: int) -> str:
     # TODO there must be a cleaner way to do this, especially when we have
     # more than just 3 states
     if score < 10000:
@@ -69,15 +63,16 @@ class ValueLabel(pygame.sprite.Sprite):
         self.update()
 
     def update(self):
+        """Update rendered text to match changes to object"""
         text = f"{self.descriptor}: {int(self.value)} {self.units}"
         self.image = self.font.render(text, 0, self.color)
 
     @property
-    def value(self):
+    def value(self) -> int:
         return self._value
 
     @value.setter
-    def value(self, value):
+    def value(self, value: int):
         self._value = value
         self.update()
 
@@ -92,7 +87,7 @@ class StaticImage(pygame.sprite.Sprite):
         self.area = screen.get_rect()
         self.rect.move_ip(*in_pixels(self.coords))
         if centered:
-            self.rect.move_ip(-self.rect.width / 2, -self.rect.height / 2)
+            self.rect.move_ip(-self.rect.w / 2, -self.rect.h / 2)
 
 
 class UpgradeButton(pygame.sprite.Sprite):
@@ -106,7 +101,7 @@ class UpgradeButton(pygame.sprite.Sprite):
         self.area = screen.get_rect()
         self.rect.move_ip(*in_pixels(coords))
         if centered:
-            self.rect.move_ip(-self.rect.width / 2, -self.rect.height / 2)
+            self.rect.move_ip(-self.rect.w / 2, -self.rect.h / 2)
 
         self._level = 0
         self.base_cost = base_cost
@@ -127,11 +122,11 @@ class UpgradeButton(pygame.sprite.Sprite):
         self.level_display = ValueLabel(level_coords, "Level", "")
 
     @property
-    def level(self):
+    def level(self) -> int:
         return self._level
 
     @level.setter
-    def level(self, value):
+    def level(self, value: int):
         self._level = value
         self.cost = self.base_cost*(self.cost_scaling**self.level)
         self.apply_upgrades()
@@ -139,12 +134,15 @@ class UpgradeButton(pygame.sprite.Sprite):
         self.level_display.value = self.level
 
     def clicked(self):
+        """Called when UI button is clicked. Purchase upgrade.
+        If user does not have enough watts, silently pass."""
         if self.parent.score >= self.cost:
             self.parent.score -= self.cost
             self.level += 1
             self.parent.events.send(f"buy_upgrade_{self.type}")
 
     def apply_upgrades(self):
+        """Given a change in upgrade level, reflect changes in the crank"""
         if self.type == "click_value":
             self.parent.click_value = 2**self.level
         elif self.type == "crank_speed":
@@ -177,7 +175,7 @@ class Crank(pygame.sprite.Sprite):
         self.spinning = 0
         self.rect.move_ip(*in_pixels(coords))
         # The crank should center itself around its assigned screen location
-        self.rect.move_ip(-self.rect.width / 2, -self.rect.height / 2)
+        self.rect.move_ip(-self.rect.w / 2, -self.rect.h / 2)
         self.rotation_speed = 0
         self.rotation_speed_inc = .5
         self.rotation_speed_base_decay = .015
@@ -203,9 +201,10 @@ class Crank(pygame.sprite.Sprite):
         return self.crank_images[index]
 
     def _spin(self):
-        "Spin the sprite one full revolution"
+        "Spin the sprite for one frame"
         center = self.rect.center
         self.spinning += self.rotation_speed
+        # TODO shouldn't this also depend on parent.time_delta?
 
         num_revolutions, self.spinning = divmod(self.spinning, 360)
         if num_revolutions:
@@ -228,7 +227,7 @@ class Crank(pygame.sprite.Sprite):
                                 / self.parent.time_delta)
 
     def clicked(self):
-        "this will cause the crank to start spinning"
+        "Called when user clicks the crank. Incrase crank speed."
         self.parent.events.send("crank")
         if not self.is_spinning:
             self.is_spinning = True
@@ -244,11 +243,11 @@ class ClimateClicker:
     Sprites and such should probably be held at class-level or module-level
      instead? maybe? idk lol
     """
-    def __init__(self):
+    def __init__(self, screen_size=(1024, 768), bg_color=Color('white')):
         pygame.mixer.pre_init(44100, -16, 2, 2048)
         pygame.init()
 
-        screenrect = Rect(0, 0, *SCREEN_SIZE)
+        screenrect = Rect(0, 0, *screen_size)
         bestdepth = pygame.display.mode_ok(screenrect.size, 0, 32)
         self.screen = pygame.display.set_mode(screenrect.size, 0, bestdepth)
         self.machines = load_machines()
@@ -259,7 +258,7 @@ class ClimateClicker:
         self.clock = pygame.time.Clock()
 
         self.background = images["environment_neutral"]
-        self.screen.fill(BACKGROUND_COLOR)
+        self.screen.fill(bg_color)
         self.screen.blit(self.background, (0, 0))
         pygame.display.flip()
 
@@ -318,7 +317,7 @@ class ClimateClicker:
                     for machine in self.machines.values()])
 
     def update(self):
-        """Called on new frame"""
+        """Called on new frame."""
         self.clock.tick(60)
         new_time = time.time()
         self.time_delta = new_time - self.last_update_time
@@ -356,12 +355,13 @@ class ClimateClicker:
         say(self.events.get_current_message())
 
     def play(self):
-        """Begins the game. Detect any exits and exit gracefully."""
+        """Begin the game. Detect any exits and exit gracefully."""
         while not self.exit_requested:
             self.update()
         pygame.quit()
 
     def as_dict(self):
+        """Get a serialized version of the game state, for saving"""
         return {
             "score": self.score,
             "machine_count": {
@@ -373,7 +373,12 @@ class ClimateClicker:
             "history": self.events.event_list
         }
 
-    def load_data(self, data):
+    def load_data(self, data: dict):
+        """Update the game state with the save data.
+
+        :param data: Data obtained from as_dict
+
+        """
         self.score = data["score"]
         for machine, machine_count in data["machine_count"].items():
             self.machines[machine].count = machine_count

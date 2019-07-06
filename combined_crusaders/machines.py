@@ -1,7 +1,7 @@
 import media
 import pygame
 from pygame.locals import Color
-from util import in_pixels, in_norm
+from util import in_pixels
 
 
 class Machine(pygame.sprite.Sprite):
@@ -29,7 +29,7 @@ class Machine(pygame.sprite.Sprite):
             center=count_coords_abs)
         self.cost_sprite = pygame.sprite.Sprite()
         self.cost_sprite.image = self.font.render(
-            f"${self.cost}", 0, self.text_color)
+            f"{self.cost} Watts", 0, self.text_color)
         cost_coords_abs = (
             self.count_sprite.rect.x,
             self.count_sprite.rect.y + 2 * self.count_sprite.rect.h)
