@@ -18,8 +18,6 @@ def QmlWidget(dataobjs: dict, qmlpath: str, parent: QWidget):
 
     #
     container = QWidget.createWindowContainer(view, parent)
-    container.setMinimumSize(300, 80)
-    container.setMaximumSize(300, 300)
     container.setStyleSheet("Widget { padding: 7px; }")
     view.setSource(QUrl(qmlpath))
     # Load widget
