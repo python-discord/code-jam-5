@@ -36,15 +36,15 @@ class Period(object):
     time_of_last_task_spawn: Optional[int] = None
     # How many game ticks between task spawns (will be floored and converted to int)
     task_spawn_freq: float = 420
+    # Maximum frequency for task spawns
+    task_spawn_freq_max: float = 30
     # How much to increase task spawn frequency with each game tick
     task_spawn_freq_inc: float = 0.05
 
     # How much heat goes up passively each game tick
     heat_per_tick: float = 0.005
     # How much heat goes up per task each game tick
-    heat_per_task: float = 0.01
-    # How much heat does completing a task reduce
-    heat_reduce_from_task: float = 5
+    heat_per_task: float = 0.005
 
     # Chance to spawn certain task types
     maze_chance: float = 0
@@ -157,7 +157,8 @@ class Period(object):
             self.__spawn_task()
         else:
             self.time_of_last_task_spawn += 1
-        self.task_spawn_freq = max(self.task_spawn_freq + self.task_spawn_freq_inc, 0)
+        self.task_spawn_freq = self.task_spawn_freq - self.task_spawn_freq_inc
+        self.task_spawn_freq = max(self.task_spawn_freq, self.task_spawn_freq_max)
 
     def __spawn_task(self) -> None:
         """Spawns a task on a random tile."""

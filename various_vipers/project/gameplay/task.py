@@ -328,7 +328,7 @@ class TaskRockPaperScissors(Task):
     """
 
     # How much heat does success/failure add
-    heat_add_success: float = 0
+    heat_add_success: float = 2
     heat_add_failure: float = 0
 
     def start(self) -> None:
