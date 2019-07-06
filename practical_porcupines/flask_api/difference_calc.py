@@ -47,15 +47,15 @@ class WLDifference:
         # make sure both dates are valid and convert them to epoch times
         date_1, is_pred_1 = string_to_datetime(date_1)
         date_2, is_pred_2 = string_to_datetime(date_2)
-
+        dates = [date_1, date_2]
         if not (date_1 or date_2):
             return None
 
         # preform calc
         return (
             # fmt: off
-            self.evaluate_timestamp(date_2) -
-            self.evaluate_timestamp(date_1),
+            self.evaluate_timestamp(max(dates)) -
+            self.evaluate_timestamp(min(dates)),
             True if is_pred_1 or is_pred_2 else False  # prediction
         )
 
@@ -113,7 +113,7 @@ class WLDifference:
             return self.poly_model.predict(
                 PolynomialFeatures(degree=3).fit_transform(
                     np.array([timestamp.timestamp()]).reshape(1, -1))
-            )
+            )[0][0]
         return self.model(timestamp.timestamp())
 
     @staticmethod
