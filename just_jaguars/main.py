@@ -34,11 +34,6 @@ class Icon(pygame.sprite.Sprite):
         self.rect.y += 5
         if self.rect.top > window_height:
             self.rect.bottom = 0
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            pos = pygame.mouse.get_pos()
-            if self.rect.collidepoint(pos):
-                print(f'You clicked on a {self.type} icon!')
-                icon.kill()
 
 
 pygame.init()
@@ -57,6 +52,15 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_position = pygame.mouse.get_pos()
+            print('Mouse down at {0}, {1}!'.format(*mouse_position))
+
+            for icon in all_icons:
+                if icon.rect.collidepoint(mouse_position):
+                    print(f'You clicked on a {icon.type} icon!')
+                    icon.kill()
 
     all_icons.update()
 
