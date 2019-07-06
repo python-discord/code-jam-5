@@ -103,7 +103,7 @@ class TileLayer(Object):
                  for y in range(tile_height)]
         # Filter out tiles that have invalid coordinates
         tiles = filter(lambda pos: len(self.tiles[0]) > pos[0] >= 0
-                       and len(self.tiles) >= pos[1] >= 0,
+                       and len(self.tiles) > pos[1] >= 0,
                        tiles)
 
         for tile in tiles:
