@@ -84,10 +84,13 @@ CLOUD_LAYERS_FG = [
     PurePath(PATH_CLOUD_LAYERS).joinpath("cloudLayerB2.png"),
 ]
 
+# Other
 SUN_IMAGE = PurePath(PATH_OTHER).joinpath("sun.png")
 INDICATOR_ARROW = PurePath(PATH_OTHER).joinpath("indicator.png")
 STAR = PurePath(PATH_OTHER).joinpath("star.png")
 GOLD_COIN = PurePath(PATH_OTHER).joinpath("coinGold.png")
+THERMO = PurePath(PATH_OTHER).joinpath("thermometer.png")
+THERMO_FILL = PurePath(PATH_OTHER).joinpath("thermometer-fill.png")
 
 # Tiles
 
@@ -139,7 +142,7 @@ SOUND_BUTTONS_PATHS = list(Path(PATH_UI_AUDIO).glob("*.ogg"))
 SOUNDS_BUTTONS = dict(zip(SOUNDS_BUTTONS_NAMES, SOUND_BUTTONS_PATHS))
 
 # Music
-BG_MUSIC = PurePath(PATH_MUSIC).joinpath("game_music_6.mp3")
+BG_MUSIC = PurePath(PATH_MUSIC).joinpath("the-snow-queen-by-kevin-macleod.mp3")
 
 
 class Color:
