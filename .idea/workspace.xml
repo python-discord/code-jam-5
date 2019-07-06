@@ -2,6 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c89091fd-5895-4d0a-a385-cc07f64cdc26" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/biomass.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/coal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/geothermal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/ghg_capture_tech.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/hydro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/hydrogen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/natural_gas.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/nuclear.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/solar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/wind.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/just_jaguars/assets.py" beforeDir="false" afterPath="$PROJECT_DIR$/just_jaguars/assets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/just_jaguars/assets/attributions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/just_jaguars/assets/attributions.txt" afterDir="false" />
@@ -20,8 +30,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/just_jaguars/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="86" column="36" lean-forward="true" selection-start-line="86" selection-start-column="36" selection-end-line="86" selection-end-column="36" />
+            <state relative-caret-position="178">
+              <caret line="82" lean-forward="true" selection-start-line="82" selection-end-line="82" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
                 <element signature="e#366#527#1" />
@@ -230,15 +240,15 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" x="17" y="269" width="784" height="545" id="Run" order="2" type="WINDOWED" weight="0.32887402" />
+      <window_info anchor="bottom" x="17" y="269" width="784" height="545" id="Run" order="2" type="WINDOWED" visible="true" weight="0.32887402" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32995495" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32995495" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -289,8 +299,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/just_jaguars/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="86" column="36" lean-forward="true" selection-start-line="86" selection-start-column="36" selection-end-line="86" selection-end-column="36" />
+        <state relative-caret-position="178">
+          <caret line="82" lean-forward="true" selection-start-line="82" selection-end-line="82" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#366#527#1" />
