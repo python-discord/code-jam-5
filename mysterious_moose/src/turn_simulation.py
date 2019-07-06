@@ -36,6 +36,38 @@ class WeatherEvent:
             World.co2_concentation += 0.5
 
 
+class PopulationChange:
+    def __init__(self, world):
+        self.regions = {}
+        for region in world.regions:
+            self.regions[region] = {"int_pop": world.regions[region].population,
+                                    "fin_pop": 0,
+                                    "percentage_change": 0}
+
+    def __str__(self):
+        """Prints the object in a human readable table format"""
+
+        print("|Region              |Initial population  |Final population    |Percentage change   ")
+        print("-------------------------------------------------------------------------------------")
+        for region in self.regions:
+            print("|" + region + " " * (20 - len(region)) +
+                  "|" + str(self.regions[region]["int_pop"]) +
+                  " " * (20 - len(str(self.regions[region]["int_pop"]))) +
+                  "|" + str(self.regions[region]["fin_pop"]) +
+                  " " * (20 - len(str(self.regions[region]["fin_pop"]))) +
+                  "|" + str(self.regions[region]["percentage_change"])
+                  )
+
+    def set_final_population(self, region, fin_pop):
+        int_pop = self.regions[region]["int_pop"]
+        self.regions[region]["fin_pop"] = fin_pop
+
+        if int_pop == 0:
+            self.regions[region]["percentage_change"] = 0
+        else:
+            self.regions[region]["percentage_change"] = 100 * ((int_pop - fin_pop) / int_pop)
+
+
 def simulate_world_changes(world, virus):
     """Simulates one turn of world changes, returning a modified world object"""
     industry_impacts = INDUSTRY_TO_CO2  # co2 impacts as given by industry id
@@ -44,12 +76,13 @@ def simulate_world_changes(world, virus):
     sea_level_rise = (world.co2_concentration - 300) * 0.02
     world.sea_level += sea_level_rise
 
-    population_change = 0
+    population_change = PopulationChange(world)
     regions = world.regions.values()
     for region in regions:
         # assume population is evenly distributed between 1m and average elevation
         region.population -= math.ceil(((world.co2_concentration-300) * region.initial_population) / 7000000000)
         population_change += math.ceil(((world.co2_concentration-300) * region.initial_population) / 7000000000)
+        population_change.set_final_population(region.population, region)
         if region.population <= 0:
             region.population = 0
             region.destroyed = 1
@@ -60,7 +93,7 @@ def simulate_world_changes(world, virus):
     for region in virus.affected_regions:
         world.co2_concentration += virus.impact * industry_impacts[virus.industry] * 0.001
 
-    return world
+    return [world, population_change]
 
 
 def simulate_virus_changes(world, virus):
@@ -120,6 +153,7 @@ def simulate_turn(world, virus):
         )
         print()
         return [world, virus, population_change]
+
 
 # model extreme weather events
 # def simulate_weather_events():
