@@ -30,7 +30,7 @@ def index():
         except Exception as e:
             flash(
                 "An unknown error occurred when fetching data from the api and "
-                f"serializing it! Full error: '{e}'."
+                f"serializing the response! Full error: '{e}'."
             )
 
             return render_template("index.html", form=date_picker_form)
