@@ -252,8 +252,8 @@ class GoalDB:
         result = self.connection.execute("SELECT * FROM reminders WHERE day>=? AND time>=? ORDER BY day, time LIMIT 1;",
                                          (now.isoweekday(), now_int)
                                          )
-        row = result.fetchone()[0]
-        return Reminder.from_row(self, row)
+        for row in result:
+            return Reminder.from_row(self, row)
 
     async def get_next_reminder_async(self):
         """Coroutine helper to get the next reminder."""

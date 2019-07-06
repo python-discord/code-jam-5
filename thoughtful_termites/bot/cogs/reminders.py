@@ -4,7 +4,15 @@ import discord
 
 from discord.ext import commands
 
-from ...shared.goal_db.reminder_day import day_to_int as reminder_days
+REMINDER_DAYS = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday'
+]
 
 
 class ReminderTimeConverter(commands.Converter):
@@ -21,9 +29,9 @@ class ReminderTimeConverter(commands.Converter):
         ---------
         reminder : :class:`list` of :class:`~Reminder`: The reminder being requested.
         """
-        if argument in reminder_days.keys():
+        if argument.lower() in REMINDER_DAYS:
             # it's a day of week
-            reminder = await ctx.db.get_reminders_on_day_async(argument)
+            reminder = ctx.db.get_reminders_on_day(argument.capitalize())
             if not reminder:
                 raise commands.BadArgument(f'No reminders found on {argument}.')
             return list(reminder)
@@ -48,12 +56,12 @@ class ReminderTimeConverter(commands.Converter):
 class Reminders(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self._reminder_task = bot.loop.create_task(self.wait_for_reminders)
+        self._reminder_task = bot.loop.create_task(self.wait_for_reminders())
 
     async def cog_command_error(self, ctx, error):
         """Send errors to the user if a bad argument has been passed.
         """
-        if isinstance(error, commands.BadArgument):
+        if isinstance(error, (commands.BadArgument, commands.MissingRequiredArgument)):
             return await ctx.send(str(error))
 
     async def get_next_reminder(self):
@@ -64,6 +72,9 @@ class Reminders(commands.Cog):
         reminder: :class:`~Reminder` - this also has a `delta` attribute: time delta until called.
         """
         next_reminder = await self.bot.db.get_next_reminder_async()
+        if not next_reminder:
+            return None
+
         now = datetime.datetime.now()
 
         days = now.day - int(next_reminder.day)
@@ -81,7 +92,11 @@ class Reminders(commands.Cog):
         """
         try:
             while not self.bot.is_closed():
+                await self.bot.wait_until_ready()
                 reminder = await self.get_next_reminder()
+                if not reminder:
+                    continue
+
                 seconds = reminder.delta.total_seconds()
 
                 if seconds > 0:
@@ -92,7 +107,7 @@ class Reminders(commands.Cog):
             raise
         except Exception:
             self._reminder_task.cancel()
-            self._reminder_task = self.bot.loop.create_task(self.wait_for_reminders)
+            self._reminder_task = self.bot.loop.create_task(self.wait_for_reminders())
 
     @commands.Cog.listener()
     async def on_reminder_complete(self, reminder):
