@@ -99,7 +99,7 @@ class TileLayer(Object):
                  for x in range(tile_width)
                  for y in range(tile_height)]
         tiles = filter(lambda pos: self.tile_width >= pos[0] >= 0
-                                   and self.tile_height >= pos[1] >= 0,
+                       and self.tile_height >= pos[1] >= 0,
                        tiles)
 
         for tile in tiles:
