@@ -115,8 +115,10 @@ def get_level_4_news():
 
 def get_level_5_news():
     news1 = "Your X index is down X%, XYZ thing just happened"
-    news2 = "The Amazon River, the biggest in the world, dries up and becomes the world's biggest desert"
-    news3 = "Plants can no longer recognize what season we are on. They now bloom at random moments of the year"
+    news2 = "The Amazon River, the biggest in the world, dries up and becomes the world's " \
+            "biggest desert"
+    news3 = "Plants can no longer recognize what season we are on. They now bloom at random " \
+            "moments of the year"
 
     news = {
         'news1': news1,
