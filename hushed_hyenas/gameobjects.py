@@ -5,12 +5,12 @@ File with objects used along the project, such as `Button`
 from time import sleep
 import pygame
 import thorpy
-from tkinter import *
 from tkinter import ttk
+import tkinter as tk
 
 
 def upgrade_menu():
-    upgrade_window = Tk()
+    upgrade_window = tk.Tk()
     upgrade_window.geometry('400x400+0+0')
     upgrade_window.title("Upgrades window")
 
