@@ -15,11 +15,16 @@ Item {
         Text {
             id: wtitle
             text: god.title
+            wrapMode: Text.WordWrap
+            width: god.width
         }
 
         Text {
             id: wcontent
             text: god.content
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignJustify
+            width: god.width
         }
 
     }
