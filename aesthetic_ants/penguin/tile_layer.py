@@ -18,6 +18,14 @@ class TileType(Enum):
     WALL_TILE = 4
 
 
+TILE_SERIALIZATION_MAP = {
+    "W": TileType.WALL_TILE,
+    "I": TileType.ICE_TILE,
+    "E": TileType.WEAK_ICE_TILE,
+    "A": TileType.WATER_TILE
+}
+
+
 class Tile(pyglet.sprite.Sprite):
     """
     Represents an individual tile in a tiled layer
