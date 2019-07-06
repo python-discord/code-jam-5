@@ -6,20 +6,29 @@ from time import sleep
 
 import pygame
 import thorpy
+from tkinter import *
+
+
+def upgrade_menu():
+    upgrade_window = Tk()
+    upgrade_window.geometry('400x400+0+0')
+    upgrade_window.title("Upgrades window")
+
+    upgrade_window.mainloop()
 
 
 class Boxes:
     def __init__(self):
         self.font = pygame.font.Font(None, 25)
-        self.blue = (135, 206, 250, 210)
-        self.gray = (225, 225, 225, 210)
-        self.green = (144, 238, 144, 210)
-        self.yellow = (250, 250, 40, 180)
-        self.purple = (221, 160, 221, 180)
-        self.black = (0, 0, 0, 170)
+        self.blue = (135, 206, 250, 90)
+        self.gray = (225, 225, 225, 90)
+        self.green = (144, 238, 144, 90)
+        self.yellow = (250, 250, 40, 80)
+        self.purple = (221, 160, 221, 90)
+        self.black = (0, 0, 0, 90)
         self.white = (255, 255, 255)
-        self.status_color = (42, 38, 38, 180)
-        self.turn_main_color = (22, 21, 60, 180)
+        self.status_color = (42, 38, 38, 120)
+        self.turn_main_color = (22, 21, 60, 120)
 
         # Distance used for better visual effect when placing objects
         self.distance_from_border = 4
@@ -85,6 +94,7 @@ class Boxes:
         title = thorpy.OneLineText('Game Status')
         title.set_font_size(15)
         title.set_font_color(self.white)
+        thorpy.theme.set_theme('human')
 
         cfc = thorpy.Element("CFC: 8%")
         cfc.set_font_size(10)

@@ -6,7 +6,7 @@ import json
 import math
 import os
 from game_menu import main_menu
-from gameobjects import Boxes
+from gameobjects import Boxes, upgrade_menu
 from news_list import get_level_1_news, get_level_2_news, get_level_3_news, \
     get_level_4_news, get_level_5_news
 from random import randint
@@ -24,7 +24,7 @@ news_3 = get_level_3_news()
 news_4 = get_level_4_news()
 news_5 = get_level_5_news()
 
-# Instantiate the News class for better usage
+# Instantiate the News and Button classes for better usage
 boxes = Boxes()
 
 #   name , max_latitude , min_latitude , max_longitude , min_longitude
@@ -186,7 +186,6 @@ class Game:
                         self.checker = 4
                     else:
                         self.checker = 5
-
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         # If ESC is pressed during the world map state the menu is opened
@@ -256,6 +255,14 @@ class Game:
             boxes.turn_number(window, self.width, '5')
             self.start_scene = False
 
+        # Draw "Buy upgrades" button on country screen
+        upgrade_button = pygame.draw.rect(window, (216, 142, 239),
+                                          pygame.Rect((self.width / 2) - 65,
+                                                      self.height - 45, 130, 41))
+        text = self.font.render('Buy Upgrades', True, (255, 255, 255))
+        text_rect = text.get_rect(center=(self.width / 2, self.height - 23))
+        window.blit(text, text_rect)
+
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
@@ -281,6 +288,13 @@ class Game:
                     self.checker = 2
                 else:
                     self.checker = 3
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = event.pos  # gets mouse position
+                # checks if mouse position is over the upgrade button
+                if upgrade_button.collidepoint(mouse_pos):
+                    # prints current location of mouse for debugging
+                    print('button was pressed at {0}'.format(mouse_pos))
+                    upgrade_menu()  # calls the buy upgrade menus from gameobjects.py
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -309,7 +323,6 @@ class Game:
                         self.country = None
                         self.current_scene = 'Map'
                         game.run()
-
             pygame.display.update()
 
     def call_menu(self):
