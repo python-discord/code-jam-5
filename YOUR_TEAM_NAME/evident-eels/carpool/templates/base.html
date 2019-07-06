@@ -1,9 +1,23 @@
-<div>
-	Carpool:
-	<a href="{{ url_for('index') }}">Home</a>
-	{% if current_user.is_anonymous %}
-	<a href="{{ url_for('login') }}">Login</a>
-	{% else %}
-	<a href="{{ url_for('logout') }}">Logout</a>
-	{% endif %}
-</div>
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }} - Carpools</title>
+      {% else %}
+      <title>Carpools App</title>
+      {% endif %}
+    </head>
+    <body>
+        <div>Carpools App: <a href="/index">Home</a></div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+	<div>
+        Carpools:
+        <a href="{{ url_for('index') }}">Home</a>
+        {% if current_user.is_anonymous %}
+        <a href="{{ url_for('login') }}">Login</a>
+        {% else %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+    </div>
+</html>

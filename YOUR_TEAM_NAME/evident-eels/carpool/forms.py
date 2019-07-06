@@ -1,7 +1,9 @@
-from wtforms import Form, StringField, PasswordField, validators, SubmitField
+from wtforms import Form, StringField, PasswordField, BooleanField, validators, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, Optional
+from flask_wtf import FlaskForm
+from carpool.models import User
 
-class SignupForm(Form):
+class SignupForm(FlaskForm):
     """User Signup Form."""
 
     name = StringField('Name',
@@ -27,10 +29,11 @@ class SignupForm(Form):
         if user is not None:
             raise ValidationError('Please use a different email address.')
         
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     """User Login Form."""
-
+    username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators = [DataRequired('Please enter a valid emaill address.'),
                                                Email('Please enter a valid email address.')])
     password = PasswordField('Password', validators = [DataRequired('Do not forget your password!?')])
+    remember_me = BooleanField('Remember Me')
     submit = SubmitField('Log In')

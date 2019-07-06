@@ -8,10 +8,13 @@ from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.secret_key = 'testing123'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login_manager = LoginManager()
 login_manager.login_view = 'login'
+login_manager.init_app(app)
+
 
 from carpool import routes, models  # noqa
 

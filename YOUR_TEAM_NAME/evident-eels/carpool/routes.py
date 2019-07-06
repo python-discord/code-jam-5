@@ -1,10 +1,9 @@
-from flask import render_template, request
+from flask import render_template, request, flash
 from carpool import app
 from carpool.models import User
-from flask_login import logout_user
 from werkzeug.urls import url_parse
-from flask_login import login_required
-from carpool.forms import SignupForm
+from flask_login import login_required, logout_user, current_user, login_user
+from carpool.forms import SignupForm, LoginForm
 
 
 @app.route("/")
