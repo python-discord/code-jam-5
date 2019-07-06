@@ -28,12 +28,15 @@ class Investment:
         self.times_invested = 0
 
     def __str__(self) -> str:
-        output = f"{str(self.organization)}\n{str(self.current_policy)}"
+        if self.current_policy:
+            output = f"{str(self.organization)}\n{str(self.current_policy)}"
+        else:
+            output = f"{str(self.organization)}\nNo remaining policies"
         return output
 
     @property
     def current_policy(self) -> (Policy, None):
-        if self.policies:
+        if self.policies and self.times_invested < len(self.policies):
             return self.policies[self.times_invested]
         else:
             return None
