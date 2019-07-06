@@ -47,9 +47,11 @@ class TileLayer(Object):
         self.width = width
         self.height = height
 
+        # Size of the tile layer in tiles
         self.tile_width = width // TILE_SIZE
         self.tile_height = height // TILE_SIZE
 
+        # Initialize all tiles to water
         self.tiles = [[Tile(TileType.WATER_TILE,
                             img=self.tile_images[
                                 random.choice([*self.tile_images.keys()])
@@ -92,12 +94,20 @@ class TileLayer(Object):
                     self.create_tile(x, y, TILE_SERIALIZATION_MAP[tile])
 
     def collide_tiles(self, other, _):
+        """Determine which tiles collide with the passed object,
+        and call collide_tile for each"""
+        # Calculate the width and height in tiles of the object
         tile_width = floor(other.width * other.collision_leniency / TILE_SIZE)
         tile_height = floor(other.height * other.collision_leniency / TILE_SIZE)
+        # Calculates the tile position of the object
         tile_position = (other.x / TILE_SIZE, other.y / TILE_SIZE)
+        # Use the tile position as a base, making a small list of tile coordinates
+        # that collide with the object
         tiles = [(floor(x + tile_position[0]), floor(y + tile_position[1]))
                  for x in range(tile_width)
                  for y in range(tile_height)]
+        # Filter out tiles that are greater than the max width or height
+        # or smaller than the min width or height of the layer
         tiles = filter(lambda pos: self.tile_width >= pos[0] >= 0
                        and self.tile_height >= pos[1] >= 0,
                        tiles)
