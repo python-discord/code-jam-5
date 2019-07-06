@@ -48,7 +48,7 @@ def index():
 
             return render_template("index.html", form=date_picker_form)
 
-        return redirect(url_for("index"), wl_string=wl_string)
+        return render_template("index.html", wl_string=wl_string, form=date_picker_form)
 
     flash(
         "The dates inputted into the form are not correct, please fix "
