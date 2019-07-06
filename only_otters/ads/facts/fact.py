@@ -55,6 +55,7 @@ class FactFactory:
     def __init__(self):
         self.records = []
         self.served_facts = 0
+        self.tags = []
 
     def fetcher(self):
         raise NotImplementedError
