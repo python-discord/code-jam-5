@@ -195,7 +195,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def plot(self):
         self.image_count = 0
-        QtGui.QPixmapCache.clear()  # clear qt image cache
         self.stop_button.setEnabled(True)
         self.plot_button.setEnabled(False)
         self.animate_button.setEnabled(False)

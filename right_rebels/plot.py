@@ -18,7 +18,7 @@ class Plotter(QtCore.QThread):
     PLOTS_DIR = "plots/"
     NC_FILE_NAME = "Complete_TMAX_LatLong1.nc"
     LONGITUDES, LATITUDES, DATES, TEMPERATURES, \
-    TEMPERATURE_UNIT = helpers.get_variables_from_nc_file(NC_FILE_NAME)
+        TEMPERATURE_UNIT = helpers.get_variables_from_nc_file(NC_FILE_NAME)
     image_increment_signal = QtCore.pyqtSignal()
     status_signal = QtCore.pyqtSignal(str)
 
