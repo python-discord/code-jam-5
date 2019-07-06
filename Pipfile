@@ -16,4 +16,5 @@ pyqt5-stubs = "*"
 python_version = "3.7"
 
 [scripts]
+start = "python -m thoughtful_termites"
 lint = "python -m flake8"
