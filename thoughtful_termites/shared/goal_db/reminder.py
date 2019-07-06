@@ -132,7 +132,8 @@ class Reminder:
 
         if commit:
             self.db.connection.commit()
-            cursor.close()
+
+        cursor.close()
 
     async def delete_async(self):
         self.delete()
@@ -156,15 +157,15 @@ class Reminder:
         """
         cursor = self.db.connection.execute(
             'update reminders '
-            'set day=?, '
-            'set time=? '
+            'set (day, time) = (?, ?) '
             'where id=?',
             (int(self.day), int(self.time), self.id)
         )
 
         if commit:
             self.db.connection.commit()
-            cursor.close()
+
+        cursor.close()
 
     def __str__(self):
         return f'Reminder({self.goal}, {self.day}, {self.time})'
