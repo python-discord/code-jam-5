@@ -39,13 +39,19 @@ class TestWin(QtWidgets.QMainWindow):
         self.main_widget.setLayout(self.main_layout)
 
     def new_widget(self, w):
-        self.main_layout.addWidget(w)
+        
+        if 'fwidget' in self.__dict__:
+            # self.main_layout.removeItem(self.fwidget)
+            self.fwidget.deleteLater()
+
+        self.fwidget = w
+        self.main_layout.addWidget(self.fwidget)
 
     def x(self):
     
-        from .facts import pick_fact
+        from .facts import pick_fact, get_text_fact, get_fact_by_tags
 
-        fact = pick_fact()
+        fact = get_fact_by_tags('ui')
         widget = fact.as_widget(parent=self)
         self.new_widget(widget)
 
