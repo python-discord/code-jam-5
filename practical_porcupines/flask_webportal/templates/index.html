@@ -1,10 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Practical Porcupine</h1>
-<p class="lead">Welcome to Practical Porcupine, a small project made for the 5th Python CodeJam!<br><br>This website
-    takes in 2 dates of your choosing and calculates the difference in global water level (GMWL) between the two! If you
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<h1>Practical Porcupines</h1>
+<p class="lead">Welcome to Practical Porcupines; a small project made for the 5th Python Code Jam!<br><br>This website
+    takes in 2 dates of your choosing and calculates the difference in global water level (GMWL) between them! If you
     would like to read more about it, please visit the <a href="{{ url_for('about') }}">about page</a>.</p>
 <hr>
-<p><i>More coming soon!</i></p>
-{% endblock %}
+<form action="{{ url_for('index') }}" method="POST">
+    {{form.csrf_token}}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">{{form.start_date.label}}</div>
+            <div class='col-sm-2'>{{form.end_date.label}}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">{{form.start_date(autocomplete="off",class="form-control")}}</div>
+            <div class="col-sm-2"> {{form.end_date(autocomplete="off",class="form-control")}}</div>
+            <div class="col-sm-1.5">{{form.submit(class="form-control")}}</div>
+        </div>
+    </div>
+</form>
+{% if wl_string %}
+<hr>
+<h4 class="green-text">{{ wl_string }}</h4>
+{% endif %}
+{% endblock%}

@@ -18,6 +18,8 @@ toml = "*"
 numpy = "*"
 scipy = "*"
 sklearn = "*"
+python-dotenv = "*"
+flask-wtf = "*"
 
 [requires]
 python_version = "3.6"

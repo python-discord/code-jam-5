@@ -73,9 +73,9 @@ async def gmwl(ctx, date_1, date_2):
         await ctx.send(
             embed=embed_generator(
                 "Misc date!",
-                "Got a misc error we can't handle for the `string_to_datetime` "
-                "function! The exception follows below, please send it "
-                "to the developers:"
+                "Got a misc error we can't handle for the "
+                "`string_to_datetime` function! The exception "
+                "follows below, please send it to the developers:"
                 f"\n\n*{e}*",
                 0xA31523,
                 discord,
@@ -84,7 +84,9 @@ async def gmwl(ctx, date_1, date_2):
 
         return
     else:
-        embed_desc_text = f"Operation completed sucsessfully, result is {result}mm."
+        embed_desc_text = (
+            f"Operation completed sucsessfully, result is {result}mm."
+        )
 
         if is_prediction:
             embed_desc_text += (
@@ -111,17 +113,16 @@ async def about(ctx):
 
     about_text = (
         "Practical Porcupine is a project hacked together for the 5th Python "
-        "code jam, with the theme of **Global Warming**. This web-portal "
-        "connects to an api (that you are most likely running on your computer "
-        "right now (If you are, it may be here!: <http://0.0.0.0:8080>)! It gets "
-        "2 dates, as seen on the home page (usually <http://0.0.0.0:8081>) and "
-        "calculates the difference between the GMWL (Global Mean Water Level) in mm."
+        "code jam, with the theme of Global Warming. This web-portal "
+        "connects to an api (that you are most likely running on your "
+        "computer right now (If you are, it may be here)! It gets 2 dates, "
+        "as seen on the home page and calculates the difference between the "
+        "GMWL (Global Mean Water Level) in mm."
         "\n\n"
-        "To save database space and *show off*, we use data year by year, "
-        "meaning that we pick a mean of each year from our data sources and "
-        "store them. Once we have the mean of each year, we can interpolate "
-        "that for current dates & get a prediction using fancy machine learning "
-        "of what it'll be like in the *future*!"
+        "To save database space and show off, we have a large dataset that "
+        "has been interpolated to give you precise times of the GMWL. There "
+        "is also a simple prediction algorithm that was going to be machine "
+        "learning but there was not enough time to test unforunatly."
     )
 
     await ctx.send(  # fmt: off

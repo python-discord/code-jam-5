@@ -33,17 +33,19 @@ async def get_difference(date_1, date_2):
                     resp_jsonized["body"]["is_prediction"],
                 )
 
-            raise_error_codes(status_code)
+            await raise_error_codes(resp_jsonized["meta"]["status_code"])
 
         raise ApiReturnBad()
 
 
-async def add_embeds(status_code, discord):
+async def raise_error_codes(status_code):
     """
-    > Gets status code
-    - status_code: int http return code
-    < Raises errors
-    x Does nothing
+    Raises exceptions depending on the status code
+
+    - status_code: int http status/response code
+        x PredictionNotImplamentedError if 1002
+        x DateFormatError if 400
+    < Returns nothing if passed
     """
 
     if status_code == 400:
