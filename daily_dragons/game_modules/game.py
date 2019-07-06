@@ -12,6 +12,7 @@ class Game:
         self.investments = InvestmentOptions()
 
         self.quit_game = False
+        self.round = 0
 
         help_options = (
             "stats: view current player stats",
@@ -66,14 +67,22 @@ class Game:
         player_stats_msg = f"Your current stats:\n{self.player}"
         return player_stats_msg
 
+    def final_score(self) -> str:
+        # return the final score board at the end of the game
+        pass
+
     def main(self) -> None:
         while not self.quit_game:
-            print(self.investments)
-            player_input = input(Style.RESET_ALL + "")
+            self.round += 1
+            if self.round > 10 or self.player.net_worth <= 0:
+                self.quit_game = True
+                print(self.final_score())
+            else:
+                print(self.investments)
+                player_input = input(Style.RESET_ALL + "")
+                response = self.parse_input(player_input)
 
-            response = self.parse_input(player_input)
-
-            print(response, "\n\n")
+                print(response, "\n\n")
 
     def _invest(self, option) -> str:
         try:
