@@ -93,14 +93,17 @@ class TileLayer(Object):
         # Calculate the width and height in tiles of the object
         tile_width = floor(other.width * other.collision_leniency / TILE_SIZE)
         tile_height = floor(other.height * other.collision_leniency / TILE_SIZE)
+
         # Calculates the tile position of the object
         tile_position = ((other.x - self.x) / TILE_SIZE,
                          (other.y - self.y) / TILE_SIZE)
+
         # Use the tile position as a base, making a small list of tile coordinates
         # that collide with the object
         tiles = [(floor(x + tile_position[0]), floor(y + tile_position[1]))
                  for x in range(tile_width)
                  for y in range(tile_height)]
+
         # Filter out tiles that have invalid coordinates
         tiles = filter(lambda pos: len(self.tiles[0]) > pos[0] >= 0
                        and len(self.tiles) > pos[1] >= 0,
