@@ -394,18 +394,22 @@ class TaskRockPaperScissors(Task):
         super().start()
 
     def update(self, event: pg.event) -> None:
-        """Handles events."""
+        """Handles clicks, make computer choice and complete the task."""
         super().update()
 
+        # iterate all human rect choices
         for i, rect in enumerate(self.choice_rects):
             mouse_hover = rect.collidepoint(pg.mouse.get_pos())
             mouse_click = event.type == pg.MOUSEBUTTONDOWN
 
             if mouse_hover and mouse_click and self.choice not in [0, 1, 2]:
+                # if mouse clicked on button and not choosed yet
                 self.choice = i
                 self.mixing = True
                 self.timer = time()
+                # set timer for computer shuffling (animation)
 
+        # make computer choose and evaluate if it is a win
         if not self.game_over and (time() - self.timer <= 0.5):
             self.computer_choice = randint(0, 2)
 
@@ -429,9 +433,10 @@ class TaskRockPaperScissors(Task):
                     self.win = False
             self.game_over = True
             self.last = time()
+            # set timer for lasting - not instant quit
 
         if self.game_over:
-            if time() - self.last > 2:
+            if time() - self.last > 2:  # seconds of lasting
                 if self.win:
                     return self._complete(True)
                 else:
@@ -440,18 +445,22 @@ class TaskRockPaperScissors(Task):
     def draw(self) -> None:
         """Draws elements."""
         super().draw()
+        # fill it biome color
         self.screen.fill(self.color, self.window_rect)
 
         if self.mixing and (time() - self.timer < 0.5):
+            # draw the animation mixing for 0.5 seconds
             self.__draw_mixing()
         elif self.game_over and (time() - self.timer >= 0.5):
-            print(self.game_over, self.win)
+            # if it is not mixing anymore - draw the computer choice
             self.screen.blit(
                 self.computer_images[self.computer_choice], self.computer_rect
             )
         else:
+            # else blit the question mark
             self.screen.blit(self.computer_images[3], self.computer_rect)
 
+        # draw choice images and hover states
         for rect in self.choice_rects:
             mouse_hover = rect.collidepoint(pg.mouse.get_pos())
 
@@ -466,7 +475,7 @@ class TaskRockPaperScissors(Task):
         self.screen.blit(rand_img, self.computer_rect)
 
     def __get_colors_for_rpc(self) -> tuple:
-        """Gets an Tic Tac Toe colors for background and hover in biome context."""
+        """Gets an Rock, Paper, Scissors colors for background and hover in biome context."""
         if isinstance(self.biome, BiomeCity):
             return (Color.city, Color.city_hover)
         elif isinstance(self.biome, BiomeDesert):
