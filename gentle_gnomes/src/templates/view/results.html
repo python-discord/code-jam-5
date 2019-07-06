@@ -1,17 +1,24 @@
 {% if results %}
-<h3 class="text-center my-2">{{ city.name }}, {{ city.admin }}</h1>
+<h3 class="text-left my-2">{{ city.name }}, {{ city.admin }}</h1>
+    <ul class="nav flex-column">
+    {% for indicator in results %}
+        <li class="nav-item" >
+            <a class="nav-link" href="#{{ indicator.name }}">{{ indicator.label }}</a>
+        </li>
+    </ul>
+    {% endfor %}
     {% for indicator in results %}
     <div class="indicator my-5" id="{{ indicator.name }}">
         <div class="row">
-            <div class="col-11"><h2 class="text-secondary">{{ indicator.label }}</h2></div>
-            <div class="col"><span class="badge badge-info text-right" title="{{ indicator.description }}">?</span></div>
+            <div class="col-11"><h2 class="text-secondary">{{ indicator.label }}
+                <small class="text-muted">{{ '{0:0.2f}'.format(indicator.rate * 100) }}%</small></h2></div>
+            <div class="col"><span class="badge badge-info text-right" title="{{ indicator.description }}" style="cursor: default;">?</span></div>
         </div>
-        <p>{{ '{0:0.2f}'.format(indicator.rate * 100) }} % change</p>
         <div class="graph" data-x="{{ indicator.x }}" data-y="{{ indicator.y }}" data-units="{{ indicator.units }}"></div>
     </div>
     {% endfor %}
-    {% else %}
-    <div class="alert alert-primary mx-auto" style="width: 50%" role="alert">
-        Location not found.
-    </div>
-    {% endif %}
+{% else %}
+<div class="alert alert-primary mx-auto" style="width: 50%" role="alert">
+    Location not found.
+</div>
+{% endif %}
