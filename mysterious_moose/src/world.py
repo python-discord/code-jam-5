@@ -18,37 +18,24 @@ class Region:
         'powerplant': Industry('Power Plant', 70),
     }
 
-    def __init__(self, name, detectability, destroyed=0):
+    def __init__(self, name, elevation, population):
         self.name = name
-        self.detectability = detectability
-        self.destroyed = destroyed
+        self.elevation = elevation
+        self.population = population
+        self.destroyed = 0
+
+
+world_regions = ['USA', 'Canada', 'Mexico', 'Peru', 'Argentina', 'Brazil', 'West Europe', 'India', 'Australia',
+           'North Africa', 'South Africa', 'East Europe', 'Madagascar', 'Indonesia', 'Japan', 'Middle East',
+           'New Zealand', 'China', 'Greenland', 'Cuba']
 
 
 class World:
 
-    REGIONS = {
-        'Canada': Region('Canada', 70),
-        'USA': Region('USA', 90),
-        'Mexico': Region('Mexico', 30),
-        'Peru': Region('Peru', 20),
-        'Brazil': Region('Brazil', 30),
-        'Greenland': Region('Greenland', 10),
-        'West Europe': Region('West Europe', 80),
-        'North Africa': Region('North Africa', 10),
-        'South Africa': Region('South Africa', 20),
-        'East Europe': Region('East Europe', 40),
-        'Russia': Region('Russia', 80),
-        'Middle East': Region('Middle East', 40),
-        'China': Region('China', 90),
-        'India': Region('India', 50),
-        'Indonesia': Region('Indonesia', 50),
-        'Australia': Region('Australia', 70),
-        'New Zealand': Region('New Zealand', 60),
-    }
-
     DISTANCES = {
         'Canada': {'Greenland': 9, 'USA': 3},
-        'USA': {'West Europe': 14, 'Mexico': 4},
+        'USA': {'West Europe': 14, 'Mexico': 4, 'Cuba': 4},
+        'Cuba': {'Mexico': 2},
         'Mexico': {'North Africa': 16, 'Peru': 4},
         'Peru': {'Brazil': 4, 'Argentina': 5},
         'Brazil': {'South Africa': 11},
@@ -64,6 +51,24 @@ class World:
         'Indonesia': {'Australia': 5},
         'Australia': {'New Zealand': 5},
     }
+
+    def __init__(self):
+        self.sea_level = 0
+        self.co2_concentration = 410  # ppm
+        self.temperature_rise = 0
+        self.regions = self._load_regions()
+
+    def _load_regions(self):
+        regions = {}
+        with open('../data/regions.txt', 'r') as region_file:
+            for line in region_file:
+                split_line = line.split('\t')
+                name = split_line[0]
+                average_elevation = split_line[1]
+                population = split_line[2]
+                regions[name] = Region(name, average_elevation, population)
+
+        return regions
 
     def distance_between(self, region1, region2):
         shortest_path = self._find_shortest_path(region1, region2)
@@ -94,4 +99,4 @@ class World:
         return zip(a, b)
 
 
-
+earth = World()
