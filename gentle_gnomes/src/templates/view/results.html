@@ -1,10 +1,15 @@
 {% if results %}
-    <p>Showing results for nearest city: {{ city.name }}, {{ city.admin }}</p>
+    <h3 class="text-right my-1">{{ city.name }}, {{ city.admin }}</h1>
     {% for indicator in results %}
-        <div>
-            <h3>{{ indicator.label }}</h3>
-            <p>{{ indicator.description }}</p>
-            <p>{{ '{0:0.2f}'.format(indicator.rate * 100) }} % change</p>
+        <div class="my-5">
+            <div class="row">
+                <div class="col-11"><h2 class="text-secondary">{{ indicator.label }}</h2></div>
+                <div class="col"><span class="badge badge-info text-right" title="{{ indicator.description }}">?</span></div>
+            </div>
+            <div>
+                <!-- <p>{{ indicator.description }}</p> -->
+                <p>{{ '{0:0.2f}'.format(indicator.rate * 100) }} % change</p>
+            </div>
         </div>
     {% else %}
         <div class="alert alert-primary mx-auto" style="width: 50%" role="alert">
