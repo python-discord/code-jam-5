@@ -1,22 +1,13 @@
 import itertools
 
 
-class Industry:
-    """Specify stats for various industries"""
+INDUSTRIES = ['Chemical Manufacturing', 'Vehicle Production', 'Power Plant']
 
-    def __init__(self, name, impact):
-        self.name = name
-        self.impact = impact
+INDUSTRY_TO_CO2 = {0: 30, 1: 50, 2: 70}
 
 
 class Region:
     """Main class for region"""
-
-    INDUSTRIES = {
-        'chem_manu': Industry('Chemical Manufacturing', 30),
-        'car_prod': Industry('Vehicle Production', 50),
-        'powerplant': Industry('Power Plant', 70),
-    }
 
     def __init__(self, name, elevation, population):
         self.name = name
@@ -62,19 +53,22 @@ class World:
 
     def _load_regions(self):
         regions = {}
-        with open('data/regions.txt', 'r') as region_file:
+        with open('../data/regions.txt', 'r') as region_file:
             for line in region_file:
                 split_line = line.split('\t')
                 name = split_line[0]
                 average_elevation = split_line[1]
-                population = split_line[2]
+                population = int(split_line[2])
                 regions[name] = Region(name, average_elevation, population)
 
         return regions
 
     def distance_between(self, region1, region2):
-        shortest_path = self._find_shortest_path(region1, region2)
-        distance = sum(self.DISTANCES[region1][region2] for region1, region2 in self._pairwise(shortest_path))
+        shortest_path = self._find_shortest_path(region1.name, region2.name)
+        distance = sum(
+            self.DISTANCES[region1.name][region2.name]
+            for region1.name, region2.name in self._pairwise(shortest_path)
+        )
         return distance
 
     def _find_shortest_path(self, start, end, path=None):
