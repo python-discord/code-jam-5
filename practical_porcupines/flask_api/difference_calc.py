@@ -117,8 +117,8 @@ class WLDifference:
 
     def evaluate_timestamp(self, timestamp):
         if (
-            datetime.date(1993, 1, 15) > timestamp.date()
-            or datetime.date(2019, 2, 7) < timestamp.date()
+                datetime.date(1993, 1, 15) > timestamp.date()
+                or datetime.date(2019, 2, 7) < timestamp.date()
         ):
             # Perform some data preparation before being
             # able to pass it to the model
@@ -159,8 +159,8 @@ class WLDifference:
         base = datetime.datetime(year, 1, 1)
 
         seconds = (  # fmt: off
-            base.replace(year=base.year + 1) - base
-        ).total_seconds() * rem
+                          base.replace(year=base.year + 1) - base
+                  ).total_seconds() * rem
 
         result = base + datetime.timedelta(seconds=seconds)
 
