@@ -1,24 +1,24 @@
 [
     {
-        "name": "News News Network",
-        "ceo": "",
-        "description": "Placeholder organization focusing on fair media distribution",
+        "name": "National News Network",
+        "ceo": "Karl Man",
+        "description": "Organization focusing on fair media distribution",
         "policies": [
             {
-                "name": "Raise Emissions Standards",
-                "description": "Raises the standards that must be met by businesses.",
+                "name": "",
+                "description": "",
                 "bio": 0,
                 "temperature": 0,
-                "co2": -50,
+                "co2": 0,
                 "habitable_land": 0,
-                "roi": -0.10
+                "roi": 0.0
             }
         ]
     },
     {
         "name": "Faux News",
         "ceo": "Mupert Rochmur",
-        "description": "Placeholder organization focusing on spreading lies for financial gain",
+        "description": "Propaganda organization of the global elite focusing on spreading lies for financial gain",
         "policies": [
             {
                 "name": "Spread Fake News",
@@ -32,9 +32,9 @@
         ]
     },
     {
-        "name": "Klaudius Foundation",
-        "ceo": "",
-        "description": "Placeholder organization focusing on deregulating businesses",
+        "name": "Koke Foundation",
+        "ceo": "Charlie \"Snow\" Catto",
+        "description": "Libertarian organization focusing on deregulating businesses",
         "policies": [
             {
                 "name": "TransAmerican Pipeline",
@@ -49,8 +49,8 @@
     },
     {
         "name": "Nature's Allies",
-        "ceo": "",
-        "description": "Placeholder organization focusing on conservation",
+        "ceo": "Jenny Diamond and Morgan Rabbit",
+        "description": "Organization focusing on conservation and forest preservation",
         "policies": [
             {
                 "name": "Goverment Solar Contracts",
@@ -74,8 +74,8 @@
     },
     {
         "name": "Dino Fuel Network",
-        "ceo": "",
-        "description": "Placeholder organization focusing on Fossil Fuels",
+        "ceo": "Tex Rillerson",
+        "description": "Organization obsessed with money and burning fossil fuels.",
         "policies": [
             {
                 "name": "Goverment Coal Contracts",
@@ -94,13 +94,31 @@
                 "co2": 50,
                 "habitable_land": 0,
                 "roi": 0.15
+            },
+            {
+                "name": "Nuclear Meltdown",
+                "description": "Sabotage the nuclear power plant on Five Mile Island to cause the biggest nuclear disaster since Chernobyl.",
+                "bio": 0,
+                "temperature": 0,
+                "co2": 50,
+                "habitable_land": 0,
+                "roi": 0.15
+            },
+            {
+                "name": "Sign one trillion dollar drilling deal",
+                "description": "Make a pact with your once long time enemy and now closest friend for Arctic oil drilling",
+                "bio": 0,
+                "temperature": 0,
+                "co2": 75,
+                "habitable_land": 0,
+                "roi": 0.20
             }
         ]
     },
     {
         "name": "Future Energy Institute",
         "ceo": "",
-        "description": "Placeholder organization focusing on renewables",
+        "description": "Organization focusing on making renewables the exclusive energy source",
         "policies": [
             {
                 "name": "Electric Vehicle Incentives",
@@ -110,6 +128,15 @@
                 "co2": -20,
                 "habitable_land": 0,
                 "roi": 0.05
+            },
+            {
+                "name": "Raise Emissions Standards",
+                "description": "Raises the standards of vehicles",
+                "bio": 0,
+                "temperature": 0,
+                "co2": -50,
+                "habitable_land": 0,
+                "roi": -0.10
             }
         ]
     }
