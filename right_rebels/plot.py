@@ -6,7 +6,17 @@ import matplotlib
 import matplotlib.pyplot as plot
 import numpy as np
 from PyQt5 import QtCore
-from mpl_toolkits.basemap import Basemap
+try:
+    from mpl_toolkits.basemap import Basemap
+except ImportError:
+    raise ImportError("""\
+Missing Basemap library!
+
+For windows users, install it from here:
+https://www.lfd.uci.edu/~gohlke/pythonlibs/#basemap
+
+For linux users, install `libgeos` and install from here:
+https://github.com/matplotlib/basemap/archive/master.zip""")
 
 import helpers
 

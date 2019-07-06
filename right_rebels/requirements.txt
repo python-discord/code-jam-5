@@ -2,4 +2,3 @@ matplotlib
 numpy
 PyQt5
 h5py
-https://github.com/matplotlib/basemap/archive/master.zip
