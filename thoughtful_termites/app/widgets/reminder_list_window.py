@@ -1,16 +1,20 @@
 from thoughtful_termites.app import qt
 
 from .reminder_list import ReminderList
-from .add_reminder_window import AddReminderWindow
+from .reminder_list import ReminderListItem
+from .edit_reminder_window import EditReminderWindow
+from .edit_daily_reminder_window import EditDailyReminderWindow
 
-active_reminder_windows = set()
+from thoughtful_termites.shared.goal_db import Goal
+from thoughtful_termites.shared.goal_db.reminder_day import day_to_int
 
 
 class ReminderListWindow(qt.QDialog):
-    def __init__(self, parent: qt.QWidget):
+    def __init__(self, parent: qt.QWidget, goal: Goal):
         super().__init__(parent)
 
-        self.reminder_list = ReminderList()
+        self.goal = goal
+        self.reminder_list = ReminderList(goal)
 
         self.add_reminder_button = qt.QPushButton()
         self.add_reminder_button.setText('Add Reminder')
@@ -18,32 +22,59 @@ class ReminderListWindow(qt.QDialog):
             self.on_add_reminder
         )
 
+        self.add_daily_reminder_button = qt.QPushButton()
+        self.add_daily_reminder_button.setText('Add Daily Reminder')
+        self.add_daily_reminder_button.clicked.connect(
+            self.on_add_daily_reminder
+        )
+
         self.main_layout = qt.QVBoxLayout(self)
+        """
+        The layout containing all this window's widgets.
+        """
         self.main_layout.setContentsMargins(0, 0, 0, 0)
         self.main_layout.setSpacing(0)
         self.main_layout.addWidget(self.reminder_list)
         self.main_layout.addWidget(self.add_reminder_button)
+        self.main_layout.addWidget(self.add_daily_reminder_button)
 
         self.setWindowTitle('Reminder List')
         self.setModal(True)
 
     def on_add_reminder(self):
-        add_reminder_window = AddReminderWindow(self)
+        window = EditReminderWindow(self)
 
-        def add_reminder_callback(window: AddReminderWindow):
-            def callback():
-                item = qt.QListWidgetItem(
-                    f'{window.day_box.currentText()} - '
-                    f'{window.time_box.date().toString()}'
+        def callback():
+            time = window.time_box.time().toPyTime()
+            time = f'{time.hour}:{time.minute}'
+            day = window.day_box.currentText()
+
+            reminder = self.goal.new_reminder(
+                day, time
+            )
+
+            item = ReminderListItem(reminder)
+            self.reminder_list.addItem(item)
+            window.done(0)
+
+        window.done_button.clicked.connect(callback)
+        window.exec()
+
+    def on_add_daily_reminder(self):
+        window = EditDailyReminderWindow(self)
+
+        def callback():
+            time = window.time_box.time().toPyTime()
+            time = f'{time.hour}:{time.minute}'
+
+            for day in day_to_int.keys():
+                reminder = self.goal.new_reminder(
+                    day, time
                 )
-
+                item = ReminderListItem(reminder)
                 self.reminder_list.addItem(item)
-                window.done(0)
 
-            return callback
+            window.done(0)
 
-        add_reminder_window.done_button.clicked.connect(
-            add_reminder_callback(add_reminder_window)
-        )
-        active_reminder_windows.add(add_reminder_window)
-        add_reminder_window.exec()
+        window.done_button.clicked.connect(callback)
+        window.exec()
