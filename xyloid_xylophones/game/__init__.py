@@ -2,7 +2,7 @@ import pyglet
 from pyqtree import Index
 from config import *
 from config import game_width, game_height
-
+from math import ceil
 
 # 640x640 makes it easier to draw tiles
 game_window = pyglet.window.Window(width=game_width, height=game_height)
@@ -38,7 +38,7 @@ class Player(Base):
     def __init__(self, name):
         self.name = name
         self.sprite_switch = 0 #Alternates images to create movement effect
-
+        self.scale_x = 1
     def load_player(self):
         '''Load all of the sprite sets for the player'''
         image = pyglet.image.load('assets/char.png')
@@ -47,26 +47,27 @@ class Player(Base):
         #Split the grid into subsections
         self.sprite_down = [self.sprite_grid[31, 1], self.sprite_grid[31, 2]]
         self.sprite_up = [self.sprite_grid[31, 7], self.sprite_grid[31, 8]]
-        self.sprite_right = [self.sprite_grid[31, 3], self.sprite_grid[31, 5]]
+        self.sprite_right = [self.sprite_grid[31, 3].get_texture(), self.sprite_grid[31, 5].get_texture()]
 
-        #self.sprite_grid[31,3].anchor_x = int(self.sprite_grid[31,3].width / 2)
-        #self.sprite_grid[31,5].anchor_x = int(self.sprite_grid[31,5].width / 2)
-        #self.sprite_left = [self.sprite_grid[31, 3].get_texture().get_transform(flip_x=True), self.sprite_grid[31, 5].get_texture().get_transform(flip_x=True)]
+        self.sprite_left = [self.sprite_grid[31, 3], self.sprite_grid[31, 5]]
 
         self.update_sprite()
 
     def update_sprite(self, sprite="default"):
         '''Update the sprite for the player based on input'''
+
         if (sprite=="down"):
             self.current_sprite = player.sprite_down[self.sprite_switch]
         elif (sprite=="up"):
             self.current_sprite = player.sprite_up[self.sprite_switch]
         elif (sprite=="right"):
+            self.scale_x = 1
+            self.sprite.image.anchor_x = 0
             self.current_sprite = player.sprite_right[self.sprite_switch]
         elif (sprite=="left"):
-            #TODO
-            pass
-            #self.current_sprite = self.sprite_left[self.sprite_switch]
+            self.scale_x = -1
+            self.sprite.image.anchor_x = self.sprite.image.width // 2
+            self.current_sprite = self.sprite_left[self.sprite_switch]
         else:
             #Default sprite
             self.current_sprite = player.sprite_grid[31, 0]

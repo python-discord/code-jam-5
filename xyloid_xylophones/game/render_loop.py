@@ -67,7 +67,7 @@ def render_loop():
         # draw player fixed (static center)
         x = player.center_x
         y = player.center_y
-        player.sprite.update(x=x, y=y) #Update player's position
+        player.sprite.update(x=x, y=y,scale_x=player.scale_x) #Update player's position
         player.sprite.draw() #Draw the player
         '''quad = pyglet.graphics.vertex_list(
             4,
