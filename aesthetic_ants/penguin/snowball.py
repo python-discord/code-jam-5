@@ -1,4 +1,4 @@
-from .constants import CollisionType
+from .constants import CollisionType, TileType
 from .object import PhysicalObject
 from .resources import SNOWBALL_IMAGE
 
@@ -14,3 +14,7 @@ class Snowball(PhysicalObject):
     def update(self, dt):
         self.x += self.velocity_x * dt
         self.y += self.velocity_y * dt
+
+    def collide_tile(self, tile):
+        if tile.tile_type == TileType.WALL_TILE:
+            self.space.remove(self)
