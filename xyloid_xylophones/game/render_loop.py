@@ -42,7 +42,7 @@ def render_loop():
     else:
         # batch up all zone drawing
         batch = pyglet.graphics.Batch()
-        offset_x = -1024 + ((4+(zone_width-player.x)) * sprite_width)
+        offset_x = -1024 + ((4+(zone_width-(player.x))) * sprite_width)
         offset_y = -1024 + ((4+(zone_height-player.y)) * sprite_height)
         for i in zone_map[current_zone].index.intersect(bbox=(
                 -1024+((player.x-view_distance)*sprite_width),
@@ -67,8 +67,8 @@ def render_loop():
         # draw player fixed (static center)
         x = player.center_x
         y = player.center_y
-        player.sprite.update(x=x, y=y,scale_x=player.scale_x) #Update player's position
         player.sprite.draw() #Draw the player
+        player.adjustment = 0
         '''quad = pyglet.graphics.vertex_list(
             4,
             ('v2i', (x, y,

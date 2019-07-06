@@ -39,6 +39,7 @@ class Player(Base):
         self.name = name
         self.sprite_switch = 0 #Alternates images to create movement effect
         self.scale_x = 1
+        self.adjustment = 0
     def load_player(self):
         '''Load all of the sprite sets for the player'''
         image = pyglet.image.load('assets/char.png')
@@ -50,26 +51,28 @@ class Player(Base):
         self.sprite_right = [self.sprite_grid[31, 3].get_texture(), self.sprite_grid[31, 5].get_texture()]
 
         self.sprite_left = [self.sprite_grid[31, 3], self.sprite_grid[31, 5]]
-
+        self.sprite = pyglet.sprite.Sprite(img=self.sprite_down[0])
         self.update_sprite()
 
     def update_sprite(self, sprite="default"):
         '''Update the sprite for the player based on input'''
-
+        #player.sprite.update(x=x+player.width//2, y=y,scale_x=player.scale_x) #Update player's position
+        self.scale_x = 1
+        self.sprite.image.anchor_x = 0
         if (sprite=="down"):
             self.current_sprite = player.sprite_down[self.sprite_switch]
         elif (sprite=="up"):
             self.current_sprite = player.sprite_up[self.sprite_switch]
         elif (sprite=="right"):
-            self.scale_x = 1
-            self.sprite.image.anchor_x = 0
             self.current_sprite = player.sprite_right[self.sprite_switch]
         elif (sprite=="left"):
             self.scale_x = -1
+            self.adjustment = self.sprite.image.width
             self.sprite.image.anchor_x = self.sprite.image.width // 2
             self.current_sprite = self.sprite_left[self.sprite_switch]
         else:
             #Default sprite
+
             self.current_sprite = player.sprite_grid[31, 0]
 
         #Alternate sprite chosen
@@ -80,6 +83,7 @@ class Player(Base):
 
         self.sprite = pyglet.sprite.Sprite(img=self.current_sprite)
         self.sprite.scale = 4
+        self.sprite.update(x=self.center_x + self.adjustment, y=self.center_y, scale_x=self.scale_x)
 
 
 class Item(Player):
