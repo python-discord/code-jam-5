@@ -11,19 +11,19 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">User</th>
+                        <th scope="col">Created by</th>
                         <th scope="col">ID</th>
                         <th scope="col">Date</th>
-                        <th scope="col">Location</th>
+                        <th scope="col">Summary</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for carpool in carpools %}
                         <tr>
-                            <td>{{ carpool["user"] }}</td>
+                            <td>{{ carpool["creator"]["name"] }}</td>
                             <td>{{ carpool["id"] }}</td>
-                            <td>{{ carpool["date"] }}</td>
-                            <td>{{ carpool["location"] }}</td>
+                            <td>{{ carpool["time_created"].strftime('%d-%m-%Y %H:%M:%S') }}</td>
+                            <td>{{ carpool["summary"] }}</td>
                             <td><a class="btn btn-outline-secondary" href="/carpools/{{ carpool['id'] }}">View page</a></td>
                         </tr>
                     {% endfor %}

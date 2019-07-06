@@ -1,14 +1,11 @@
 from flask import render_template, request
 from carpool import app
+from carpool.models import Carpool
 
 
 @app.route("/")
 def index():
-    test_carpools = [
-        {"user": "fluzz", "id": "js832kc", "date": "yesterday", "location": "my house"}
-    ]
-
-    return render_template("index.html", carpools=test_carpools)
+    return render_template("index.html", carpools=Carpool.get_all())
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -58,8 +55,9 @@ def carpools(carpool_id):
     """
     View a particular carpool by its id
     """
-
-    pass
+    return render_template(
+        "carpool.html", carpool=Carpool.query.filter(Carpool.id == carpool_id).first()
+    )
 
 
 @app.route("/search")
