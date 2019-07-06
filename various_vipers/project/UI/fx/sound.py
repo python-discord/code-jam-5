@@ -7,6 +7,7 @@ from project.utils.loader import Load
 class Sound:
     """Represents all sounds and settings for the UI."""
 
+    pg.mixer.pre_init(44100, -16, 2, 2048)
     pg.mixer.init()
     pg.mixer.music.load(str(BG_MUSIC))
     pg.mixer.music.play(-1)
