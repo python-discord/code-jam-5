@@ -2,6 +2,8 @@ import datetime
 from typing import Union
 from practical_porcupines.utils import PredictionNotImplamentedError, DateFormatError
 
+from practical_porcupines.utils import DateFormatError
+
 
 def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
     """
@@ -17,7 +19,7 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
     x Returns DateFormatError if incoming string isn\'t properly formatted
     """
 
-    possible_formats = [
+    possible_formats = (
         "%Y",
         "%Y-%m",
         "%Y/%m",
@@ -27,7 +29,8 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
         "%d.%m.%Y",
         "%m/%d/%Y",
         "%Y-%m-%d %H:%M:%S",
-    ]
+        "%Y-%m-%d",
+    )
 
     possible_dates = list()
 
@@ -55,9 +58,9 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
         datetime.date(1993, 1, 15) > date.date()
         or datetime.date(2019, 2, 7) < date.date()
     ):
-        raise PredictionNotImplamentedError(
-            "Predictions are not implamented at this current time!"
-        )
+        # raise PredictionNotImplamentedError(
+        #    "Predictions are not implamented at this current time!"
+        # )
 
         is_prediction = True
 

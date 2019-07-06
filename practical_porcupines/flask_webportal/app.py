@@ -25,7 +25,15 @@ def index():
 
         request_body = {"date_1": start_date_time, "date_2": end_date_time}
 
-        api_response = requests.get(api_url, data=request_body).json()
+        try:
+            api_response = requests.get(api_url, data=request_body).json()
+        except Exception as e:
+            flash(
+                "An unknown error occurred when fetching data from the api and "
+                f"serializing the response! Full error: '{e}'."
+            )
+
+            return render_template("index.html", form=date_picker_form)
 
         if "body" in api_response:
             wl_difference = api_response["body"]["wl_difference"]
@@ -48,7 +56,7 @@ def index():
 
             return render_template("index.html", form=date_picker_form)
 
-        return redirect(url_for("index"), wl_string=wl_string)
+        return render_template("index.html", wl_string=wl_string, form=date_picker_form)
 
     flash(
         "The dates inputted into the form are not correct, please fix "
