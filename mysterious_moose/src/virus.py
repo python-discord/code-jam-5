@@ -5,13 +5,14 @@ import pygame
 
 class Virus:
     """ Main Virus class """
-    def __init__(self, renderer):
+    def __init__(self, renderer, start_region):
         self.blocks = []
         self.impact, self.virulence, self.detectability = 0, 0, 0
         self.graphic = VirusGraphic(renderer)
         self.name = ""
         self.industry = -1  # the industry the virus is attacking
         self.released = False  # whether the virus has been launched or not
+        self.affected_regions = [start_region]
 
     def update_stats(self):
         """ updates a virus's key stats to current block values"""
