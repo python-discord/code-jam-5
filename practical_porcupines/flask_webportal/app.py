@@ -28,7 +28,7 @@ def index():
         try:
             api_response = requests.get(api_url, data=request_body).json()
         except Exception as e:
-            Flash(
+            flash(
                 "An unknown error occurred when fetching data from the api and "
                 f"serializing it! Full error: '{e}'."
             )
