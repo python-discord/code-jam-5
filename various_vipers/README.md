@@ -50,6 +50,8 @@ To start the game, simply run:
 
 > 20 images for each tile on map (scaled by 2.5% each time)
 
+* The sun looks "laggy" when spinning slowly, because it only rotates at a full 1 degree angle each time (instead of a smoothed floating point value angle).
+
 ## Troubleshooting
 
 1) `ERROR: Could not find a version that matches black`
