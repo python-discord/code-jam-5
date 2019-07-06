@@ -46,6 +46,7 @@ class WLDifference:
         < Returns float/double: difference in mm
         < Returns bool: if it is a prediction or not
         """
+
         # make sure both dates are valid and convert them to epoch times
         date_1, is_pred_1 = string_to_datetime(date_1)
         date_2, is_pred_2 = string_to_datetime(date_2)

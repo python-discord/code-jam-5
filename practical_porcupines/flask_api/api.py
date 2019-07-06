@@ -1,26 +1,15 @@
 import datetime
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask import Blueprint
 from flask_restful import Api, Resource
 from flask_restful.reqparse import RequestParser
+from practical_porcupines.flask_api.difference_calc import WLDifference
 from practical_porcupines.utils import (
-    ConfigApi,
     DateFormatError,
     PredictionNotImplamentedError,
 )
-from practical_porcupines.flask_api.difference_calc import WLDifference
 
-flask_api_app = Flask(__name__)
-api = Api(flask_api_app)
-wl_dif_obj = WLDifference()
-
-db_url = "sqlite:///waterlevel.sqlite3"
-
-flask_api_app.config["SECRET_KEY"] = ConfigApi().SECRET_KEY
-flask_api_app.config["SQLALCHEMY_DATABASE_URI"] = db_url
-flask_api_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-db = SQLAlchemy(flask_api_app)
+api_blueprint = Blueprint("api", __name__)
+api = Api(api_blueprint, prefix="/")
 
 wl_req = RequestParser(bundle_errors=True)
 
