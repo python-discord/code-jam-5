@@ -107,17 +107,9 @@ class BiomeDesert(Biome):
 
     unique_tiles: List[str] = []
 
-    def __init__(
-        self,
-        unique_chance: float = 0.6,
-        city_chance: float = 0.05,
-        water_chance: float = 0.05,
-    ):
-        self.unique_tiles_chance = unique_chance
-        self.city_tiles_chance = city_chance
-        self.water_tiles_chance = water_chance
-
-        super().__init__()
+    unique_tiles_chance: float = 0.6
+    city_tiles_chance: float = 0.05
+    water_tiles_chance: float = 0.05
 
 
 class BiomeCity(Biome):
@@ -127,17 +119,9 @@ class BiomeCity(Biome):
 
     unique_tiles: List[str] = []
 
-    def __init__(
-        self,
-        unique_chance: float = 0.3,
-        city_chance: float = 0.5,
-        water_chance: float = 0.05,
-    ):
-        self.unique_tiles_chance = unique_chance
-        self.city_tiles_chance = city_chance
-        self.water_tiles_chance = water_chance
-
-        super().__init__()
+    unique_tiles_chance: float = 0.3
+    city_tiles_chance: float = 0.5
+    water_tiles_chance: float = 0.05
 
 
 class BiomeForest(Biome):
@@ -147,17 +131,9 @@ class BiomeForest(Biome):
 
     unique_tiles: List[str] = []
 
-    def __init__(
-        self,
-        unique_chance: float = 0.6,
-        city_chance: float = 0.2,
-        water_chance: float = 0.1,
-    ):
-        self.unique_tiles_chance = unique_chance
-        self.city_tiles_chance = city_chance
-        self.water_tiles_chance = water_chance
-
-        super().__init__()
+    unique_tiles_chance: float = 0.6
+    city_tiles_chance: float = 0.2
+    water_tiles_chance: float = 0.1
 
 
 class BiomeMountains(Biome):
@@ -167,14 +143,6 @@ class BiomeMountains(Biome):
 
     unique_tiles: List[str] = []
 
-    def __init__(
-        self,
-        unique_chance: float = 0.8,
-        city_chance: float = 0.1,
-        water_chance: float = 0.1,
-    ):
-        self.unique_tiles_chance = unique_chance
-        self.city_tiles_chance = city_chance
-        self.water_tiles_chance = water_chance
-
-        super().__init__()
+    unique_tiles_chance: float = 0.8
+    city_tiles_chance: float = 0.1
+    water_tiles_chance: float = 0.1
