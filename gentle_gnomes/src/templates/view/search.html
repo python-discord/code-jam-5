@@ -1,0 +1,19 @@
+{% block scripts %}
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ config['GOOGLE_KEY'] }}&libraries=places"></script>
+{% endblock %}
+
+<div class="mx-auto" style="width: 50%">
+    <form action="/search" method="post" id="search-form">
+        <div class="input-group mb-3">
+            <!-- <label for="location">Location</label> -->
+            <input type="text" name="name" class="form-control" id="name" required>
+            <div class="input-group-append">
+                <input value="Search" class="btn btn-outline-secondary" type="submit" id="button-addon2">
+            </div>
+        </div>
+    </form>
+</div>
+<div id="map" style="display: none"></div>
+<div id="results" class="mx-auto" style="width: 50%"></div>
+
+<script src="{{ url_for('static', filename = 'search.js') }}"></script>

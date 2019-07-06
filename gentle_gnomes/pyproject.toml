@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "gentle_gnomes"
+version = "0.1.0"
+description = "Gentle gnomes code jam submission."
+authors = ["Noah <noah@coronasoftware.net>"]
+license = "MIT"
+packages = [ { include = "src" } ]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+python-dotenv = "^0.10.3"
+scipy = "^1.3"
+aiohttp = "^3.5"
+quart = "^0.9.1"
+uvloop = "^0.12.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^4.6"
+coverage = "^4.5"
+flake8 = "^3.7"
+pytest-asyncio = "^0.10.0"
+pre-commit = "^1.17"
+flake8-bugbear = "^19.3"
+flake8-quotes = "^2.0"
+flake8-string-format = "^0.2.3"
+flake8-tidy-imports = "^2.0"
+
+[tool.poetry.scripts]
+start = "app:main"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

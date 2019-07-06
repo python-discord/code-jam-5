@@ -1,3 +1,20 @@
-# Documentation for your team's project
+Gentle Gnomes
+-------------
+## Dependencies
+* python 3.7
+* poetry https://poetry.eustace.io/docs/#installation
 
-To do: Add documentation of your project here.
+## Setup
+```bash
+poetry install  # --no-dev if production
+```
+
+## Run
+```bash
+poetry run start
+```
+
+## Test
+```bash
+poetry run pytest
+```
