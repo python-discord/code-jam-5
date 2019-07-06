@@ -65,5 +65,4 @@ class WaterLevel(Resource):
         return output, 200
 
 
-
 api.add_resource(WaterLevel, "/")

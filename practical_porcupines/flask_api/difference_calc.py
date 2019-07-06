@@ -16,22 +16,20 @@ class WLDifference:
     def __init__(self):
         # if there is a saved model, load it.
         # re-fitting the model takes time. It is faster to load it from a file
-        self.interp_file = Path("practical_porcupines/flask_api/interpolated_function.pkl")
+        self.interp_file = Path(
+            "practical_porcupines/flask_api/interpolated_function.pkl"
+        )
         self.poly_file = Path("practical_porcupines/flask_api/poly_fit_model.pkl")
         if self.interp_file.exists():
             # load it again
-            with open(
-                    self.interp_file, "rb"
-            ) as fid:
+            with open(self.interp_file, "rb") as fid:
                 self.model = pickle.load(fid)
         else:
             self.model = self._fit_model()
 
         if os.path.exists(self.poly_file):
             # load it again
-            with open(
-                    self.poly_file, "rb"
-            ) as fid:
+            with open(self.poly_file, "rb") as fid:
                 self.poly_model = pickle.load(fid)
         else:
             self.poly_model = self._fit_poly_model()
@@ -71,9 +69,7 @@ class WLDifference:
         # create the model
         model = interp1d(dates, water, kind="cubic")
         # save the interp function
-        with open(
-                self.interp_file, "wb"
-        ) as fid:
+        with open(self.interp_file, "wb") as fid:
             pickle.dump(model, fid)
 
         return model
@@ -84,6 +80,7 @@ class WLDifference:
         This process takes some time, but will only be called if no model exists
         < returns '<class 'sklearn.linear_model.LinearRegression'>' to eval any data in range
         """
+
         def flatten(l):
             return [item for sublist in l for item in sublist]
 
@@ -98,21 +95,20 @@ class WLDifference:
         poly_model = LinearRegression()
         poly_model.fit(x_poly, y.reshape(-1, 1))
 
-        with open(
-                self.poly_file, "wb"
-        ) as fid:
+        with open(self.poly_file, "wb") as fid:
             pickle.dump(poly_model, fid)
         return poly_model
 
     def evaluate_timestamp(self, timestamp):
         if (
-                datetime.date(1993, 1, 15) > timestamp.date()
-                or datetime.date(2019, 2, 7) < timestamp.date()
+            datetime.date(1993, 1, 15) > timestamp.date()
+            or datetime.date(2019, 2, 7) < timestamp.date()
         ):
             # perform some data preparation before being able to pass it to the model
             return self.poly_model.predict(
                 PolynomialFeatures(degree=3).fit_transform(
-                    np.array([timestamp.timestamp()]).reshape(1, -1))
+                    np.array([timestamp.timestamp()]).reshape(1, -1)
+                )
             )
         return self.model(timestamp.timestamp())
 
@@ -134,8 +130,8 @@ class WLDifference:
         base = datetime.datetime(year, 1, 1)
 
         seconds = (  # fmt: off
-                          base.replace(year=base.year + 1) - base
-                  ).total_seconds() * rem
+            base.replace(year=base.year + 1) - base
+        ).total_seconds() * rem
 
         result = base + datetime.timedelta(seconds=seconds)
 

@@ -54,8 +54,8 @@ def string_to_datetime(date_string: str) -> Union[datetime.datetime, None]:
     is_prediction = False
 
     if (
-            datetime.date(1993, 1, 15) > date.date()
-            or datetime.date(2019, 2, 7) < date.date()
+        datetime.date(1993, 1, 15) > date.date()
+        or datetime.date(2019, 2, 7) < date.date()
     ):
         # raise PredictionNotImplamentedError(
         #    "Predictions are not implamented at this current time!"
