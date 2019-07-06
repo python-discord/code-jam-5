@@ -14,6 +14,10 @@ class UserData(Singleton):
     volume: float = 50
     mute: bool = False
     show_fps: bool = False
+    # Hiscores (seconds survived) in each game difficulty
+    hiscore_medieval: float = 0
+    hiscore_modern: float = 0
+    hiscore_future: float = 0
 
     def save(self) -> None:
         """Serialize and save user data to the file."""

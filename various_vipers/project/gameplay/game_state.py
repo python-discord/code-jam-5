@@ -4,6 +4,7 @@ import logging
 from typing import TYPE_CHECKING
 
 from project.utils.singleton import Singleton
+from project.utils.user_data import UserData
 
 if TYPE_CHECKING:
     # Avoid cyclic imports
@@ -13,6 +14,7 @@ if TYPE_CHECKING:
 
 
 logger = logging.getLogger(__name__)
+user_data = UserData()
 
 
 class GameState(Singleton):
@@ -39,4 +41,14 @@ class GameState(Singleton):
 
     def save_score(self, period: Period) -> None:
         """Save current score for this period."""
+        from .period import PeriodFuture, PeriodMedieval, PeriodModern
+
+        if isinstance(period, PeriodMedieval):
+            user_data.hiscore_medieval = max(period.elapsed, user_data.hiscore_medieval)
+        elif isinstance(period, PeriodModern):
+            user_data.hiscore_modern = max(period.elapsed, user_data.hiscore_modern)
+        elif isinstance(period, PeriodFuture):
+            user_data.hiscore_future = max(period.elapsed, user_data.hiscore_future)
+
         logger.debug(f"Saving score... {period.elapsed:.2f}s survived")
+        user_data.save()
