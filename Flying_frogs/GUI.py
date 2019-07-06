@@ -1,3 +1,12 @@
+'''
+To do:
+-Tell user to install pygame
+-Comment code
+-Make cars
+-Change rules to be clearer on how to destroy a car
+-Find out how to and submit work
+'''
+
 try:
     import pygame
     import random
