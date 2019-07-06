@@ -36,18 +36,19 @@ class WLDifference:
 
     def calculate(self, date_1, date_2):
         """
+        Frontend function for calculating GMWL according to interpolation
+        and cubic model predictions. Will get 2 dates and return difference
+        and if it was a prediction or not
+
         > Gets 2 dates
         - date_1: First string date
         - date_2: Second string date
-        < Returns difference in mm
-        < Returns if it is a prediction or not (currently always False)
+        < Returns float/double: difference in mm
+        < Returns bool: if it is a prediction or not
         """
         # make sure both dates are valid and convert them to epoch times
         date_1, is_pred_1 = string_to_datetime(date_1)
         date_2, is_pred_2 = string_to_datetime(date_2)
-
-        if not (date_1 or date_2):
-            return None
 
         # preform calc
         return (
@@ -61,13 +62,16 @@ class WLDifference:
         """
         Create a mathematical model to estimate any data between 1993 and 2019
         This process takes some time, but will only be called if no model exists
-        < returns '<class 'scipy.interpolate.interpolate.interp1d'>' to eval any data in range
+
+        < Returns `<'scipy.interpolate.interpolate.interp1d'>` class to eval all data in range
         """
 
         # get all the time and water level values from the database
         dates, water = self._get_all_values()
+
         # create the model
         model = interp1d(dates, water, kind="cubic")
+
         # save the interp function
         with open(self.interp_file, "wb") as fid:
             pickle.dump(model, fid)
@@ -78,7 +82,8 @@ class WLDifference:
         """
         Create a mathematical model to estimate any data between before 1993 and after 2019
         This process takes some time, but will only be called if no model exists
-        < returns '<class 'sklearn.linear_model.LinearRegression'>' to eval any data in range
+
+        < Returns `<sklearn.linear_model.LinearRegression'>` class to eval all data in range
         """
 
         def flatten(l):
@@ -97,6 +102,7 @@ class WLDifference:
 
         with open(self.poly_file, "wb") as fid:
             pickle.dump(poly_model, fid)
+
         return poly_model
 
     def evaluate_timestamp(self, timestamp):
@@ -110,18 +116,30 @@ class WLDifference:
                     np.array([timestamp.timestamp()]).reshape(1, -1)
                 )
             )
+
         return self.model(timestamp.timestamp())
 
-    @staticmethod
-    def _get_all_values():
-        water_levels = np.array([lm.wl for lm in LevelModel.query.all()])
-        dates = np.array([lm.date.timestamp() for lm in LevelModel.query.all()])
-        return dates, water_levels
-
-    @staticmethod
-    def decimal_to_datetime(decimal_date):
+    def _get_all_values(self):
         """
-        TODO add Docstring
+        Gets all relevant values from database (LevelModel)
+
+        < Returns waterlevel as a np array
+        < Returns date as a np array
+
+        NOTE Both returns corrospond with eachother
+        """
+
+        return (
+            np.array([lm.wl for lm in LevelModel.query.all()]),  # water level
+            np.array([lm.date.timestamp() for lm in LevelModel.query.all()]),  # dates
+        )
+
+    def decimal_to_datetime(self, decimal_date):
+        """
+        Converts the `2017.344858` to a datetime objects
+
+        - decimal_date: the `2017.344858` float
+        < Returns datetime object
         """
 
         year = int(decimal_date)
@@ -139,9 +157,11 @@ class WLDifference:
 
     def parse_data(self):
         """
-        > Parses the dataset from the NASA file.
-        < List of tuples
+        Parses the dataset from the NASA file.
+        
+        < Returns a list of tuples
         """
+
         dataset_path = os.path.join(  # fmt: off
             os.path.dirname(__file__), "DATASET_GMSL.txt"
         )
