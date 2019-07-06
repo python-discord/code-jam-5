@@ -1,10 +1,16 @@
-import uvloop
+import asyncio
+
 from quart import Quart
 
 from . import azavea
 from . import view
 
-uvloop.install()
+try:
+    import uvloop
+    uvloop.install()
+except ImportError:
+    # For some reason asyncio.get_event_loop() fails without this
+    asyncio.set_event_loop(asyncio.new_event_loop())
 
 
 def create_app(test_config=None):
