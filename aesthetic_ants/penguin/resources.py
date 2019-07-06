@@ -16,3 +16,7 @@ def load_image(filename: str, centered: bool = False):
 ENEMY_IMAGE = load_image("evil_business_man.png", centered=True)
 PLAYER_IMAGE = load_image("penguin.png", centered=True)
 SNOWBALL_IMAGE = load_image("snowball.png", centered=True)
+WATER_TILE = load_image("tiles/water.png"),
+ICE_TILE = load_image("tiles/ice.png"),
+WEAK_ICE_TILE = load_image("tiles/weak_ice.png"),
+WALL_TILE = load_image("tiles/wall.png")
