@@ -45,7 +45,9 @@ To start the game, simply run:
 ## Notes
 
 * The game is not optimized and will eat ~550 MB of RAM to hold cached images of sun and tiles.
+
 > 361 images of sun (for each angle of rotation)
+
 > 20 images for each tile on map (scaled by 2.5% each time)
 
 ## Troubleshooting
