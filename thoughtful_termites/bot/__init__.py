@@ -38,5 +38,6 @@ class ClimateBot(commands.Bot):
 bot = ClimateBot()
 bot.load_extension("cogs.climate_arguments")
 bot.load_extension("cogs.hangman")
+bot.load_extension("cogs.minesweeper")
 
 bot.run(config.bot_token)

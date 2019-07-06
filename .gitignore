@@ -102,3 +102,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# bot config file (w/ local access codes)
+bot/config.py
