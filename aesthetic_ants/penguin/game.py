@@ -6,6 +6,7 @@ from .object import Object
 from .player import Player
 from .snowball import Snowball
 from .space import Space
+from .tile_layer import TileLayer
 from .utils import keys
 
 
@@ -23,6 +24,9 @@ class Game(pyglet.window.Window):
         self.space.add(self.player)
         for _ in range(5):
             self.space.add(Enemy())
+
+        self.tiles = TileLayer(self.width, self.height)
+        self.space.add(self.tiles)
 
         # Add handlers
         self.push_handlers(self.player)
