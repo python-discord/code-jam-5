@@ -22,13 +22,13 @@ async def search():
         latitude = str(location['lat'])
         longitude = str(location['lng'])
     except (json.JSONDecodeError, KeyError):
-        return render_template('view/results.html')
+        return await render_template('view/results.html')
 
     city = await app.azavea.get_nearest_city(latitude, longitude)
     if city:
-        with app.app_context():
+        async with app.app_context():
             results = await indicator.get_top_indicators(city)
     else:
         results = None
 
-    return render_template('view/results.html', city=city, results=results)
+    return await render_template('view/results.html', city=city, results=results)
