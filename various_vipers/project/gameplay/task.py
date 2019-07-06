@@ -403,6 +403,7 @@ class TaskRockPaperScissors(Task):
             mouse_click = event.type == pg.MOUSEBUTTONDOWN
 
             if mouse_hover and mouse_click and self.choice not in [0, 1, 2]:
+                Sound.click.play()
                 # if mouse clicked on button and not choosed yet
                 self.choice = i
                 self.mixing = True
@@ -475,7 +476,7 @@ class TaskRockPaperScissors(Task):
         self.screen.blit(rand_img, self.computer_rect)
 
     def __get_colors_for_rpc(self) -> tuple:
-        """Gets an Rock, Paper, Scissors colors for background and hover in biome context."""
+        """Gets a Rock, Paper, Scissors colors for background and hover in biome context."""
         if isinstance(self.biome, BiomeCity):
             return (Color.city, Color.city_hover)
         elif isinstance(self.biome, BiomeDesert):
