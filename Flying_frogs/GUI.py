@@ -8,28 +8,59 @@ pygame.display.set_caption('Climate Change Project')
 bg = pygame.image.load('Background.png')
 
 onscreen = []
-score = 0
-lanes = [200, 0, 419]
+score = 100
+lanes = [50, 300, 500]
 clock = pygame.time.Clock()
-font = pygame.font.Font('freesansbold.ttf', 32)
+Scorefont = pygame.font.Font('freesansbold.ttf', 32)
+lose = False
+comp = False
 
 def redraw(): 
     win.blit(bg, (0,0))
 
-    for item in onscreen:
-        if item.movecount + 1 >= len(item.move)*10:
-            item.movecount = 0    
-        win.blit(item.move[item.movecount//10], (item.x,item.y))
-        #pygame.draw.rect(win,(225,0,0),item.hitbox,2)
-        item.movecount += 1
+    if lose:
+        win.blit(pygame.image.load('LoseBox.png'), (276, 161))
+        win.blit(pygame.image.load('PlayButton.png'), (playagain.x, playagain.y))
+    elif comp:
+        win.blit(pygame.image.load('WinBox.png'), (276, 161))
+        win.blit(playagain.image, (playagain.x, playagain.y))
+    else:
+        for item in onscreen:
+            if item.movecount + 1 >= len(item.move)*10:
+                item.movecount = 0    
+            win.blit(item.move[item.movecount//10], (item.x,item.y))
+            #pygame.draw.rect(win,(225,0,0),item.hitbox,2)
+            item.movecount += 1
 
-    DisplayScore = font.render('Score: '+str(score), True, (0,0,0))
+    DisplayScore = Scorefont.render('Score: '+str(score), True, (0,0,0))
     ScoreRect = DisplayScore.get_rect()
     ScoreRect.center = (100,40)
     win.blit(DisplayScore, ScoreRect)
 
     pygame.display.update()
+    
+class button(object):
+    image = ''
+    width = 0
+    height = 0
+    x = 0
+    y = 0
 
+    def __init__(self, image, width, height, x, y):
+        self.image = image
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
+        
+    def pressed(self):
+        print('Click')
+        onscreen = []
+        score = 0
+        lose = False
+        comp = False
+        
+playagain = button(pygame.image.load('PlayButton.png'), 200, 106, 365, 330)
 #set up car object
 class car(object):
     #If electric
@@ -89,8 +120,8 @@ class car(object):
         onscreen.remove(self)
 
 #Replace these with actual cars. These are placeholders.
-ambulance = car(False, [pygame.image.load('1.png'), pygame.image.load('2.png'), pygame.image.load('3.png'), pygame.image.load('2.png')], 5, 256, 256, 3)
-policecar = car(True, [pygame.image.load('P1.png'),pygame.image.load('P2.png'),pygame.image.load('P3.png'),pygame.image.load('P2.png')], 10, 256, 256, 5)
+ambulance = car(False, [pygame.image.load('1.png'), pygame.image.load('2.png'), pygame.image.load('3.png'), pygame.image.load('2.png')], 5, 225, 110, 3)
+policecar = car(True, [pygame.image.load('P1.png'),pygame.image.load('P2.png'),pygame.image.load('P3.png'),pygame.image.load('P2.png')], 10, 225, 110, 5)
 vehicles = [ambulance, policecar]
        
 #main loop
@@ -106,6 +137,9 @@ while run:
             for i in onscreen:
                 if  b < i.hitbox[1] + i.hitbox[3] and b > i.hitbox[1] and a > i.hitbox[0] and a < i.hitbox[0] + i.hitbox[2]:
                     i.hit()
+            if lose or comp:
+                if b < playagain.y + playagain.height and b > playagain.y and a > playagain.x and a < playagain.x + playagain.width:
+                    playagain.pressed()
 
     if pygame.time.get_ticks()%100 == 0:
         onscreen.append(random.choice(vehicles))
@@ -113,6 +147,16 @@ while run:
     for item in onscreen:
         item.x-=item.vel
         item.hitbox = (item.x, item.y, item.width, item.height)
+        if item.x < 0-item.width:
+            item.letgo()
+
+    if score<0:
+        lose = True
+        onscreen = []
+
+    if score>=100:
+        onscreen = []
+        comp = True
 
     redraw()
 
