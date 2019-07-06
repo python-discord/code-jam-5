@@ -3,8 +3,9 @@ import pyglet
 from enum import Enum
 from pyglet.graphics import Batch
 
-from .utils import loader
-
+from .constants import CollisionType
+from .object import Object
+from .resources import WATER_TILE, ICE_TILE, WEAK_ICE_TILE, WALL_TILE
 
 TILE_SIZE = 16  # tile size in pixels
 
@@ -25,16 +26,18 @@ class Tile(pyglet.sprite.Sprite):
         super().__init__(*args, **kwargs)
 
 
-class TileLayer:
+class TileLayer(Object):
     """
     A class that manages a large array of tile sprites
     """
+    collision_type = CollisionType.TILE_LAYER
+
     def __init__(self, width: int, height: int):
         self.tile_images = {
-            TileType.WATER_TILE: loader.image("tiles/water.png"),
-            TileType.ICE_TILE: loader.image("tiles/ice.png"),
-            TileType.WEAK_ICE_TILE: loader.image("tiles/weak_ice.png"),
-            TileType.WALL_TILE: loader.image("tiles/wall.png")
+            TileType.WATER_TILE: WATER_TILE,
+            TileType.ICE_TILE: ICE_TILE,
+            TileType.WEAK_ICE_TILE: WEAK_ICE_TILE,
+            TileType.WALL_TILE: WALL_TILE
         }
 
         self.width = width
@@ -43,26 +46,22 @@ class TileLayer:
         self.tile_width = width // TILE_SIZE
         self.tile_height = height // TILE_SIZE
 
-        self.tiles = [[None] * self.tile_height] * self.tile_width
-
-        self.init()
+        self.tiles = [[Tile(WATER_TILE,
+                            self.tile_images[WATER_TILE],
+                            x=x*TILE_SIZE,
+                            y=y*TILE_SIZE,
+                            batch=self.batch)
+                       for y in range(self.tile_height)]
+                      for x in range(self.tile_width)]
 
         self.batch = Batch()
-
-    def init(self):
-        """
-        Initializes the tileset with waters
-        """
-        for x, tile_row in enumerate(self.tiles):
-            for y, tile in enumerate(tile_row):
-                self.create_tile(x, y, TileType.WATER_TILE)
 
     def create_tile(self, tile_x: int, tile_y: int, tile_type: TileType):
         """
         Creates a new tile at a given position in the tile grid
         """
         if self.tiles[tile_x][tile_y]:
-            del self.tiles[tile_x][tile_y].batch
+            self.tiles[tile_x][tile_y].batch = None
             self.tiles[tile_x][tile_y].delete()
 
         self.tiles[tile_x][tile_y] = Tile(tile_type,
@@ -76,3 +75,6 @@ class TileLayer:
 
     def draw(self):
         self.batch.draw()
+
+    def add_to_space(self, space):
+        super().add_to_space(space)
