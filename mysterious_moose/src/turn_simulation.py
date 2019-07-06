@@ -35,6 +35,7 @@ class WeatherEvent:
 
 
 def simulate_world_changes(world, virus):
+    """Simulates one turn of world changes, returning a modified world object"""
     industry_impacts = {0: 30, 1: 50, 2: 70}  # co2 impacts as given by industry id
     # calculate sea level rises
     initial_sea_level = world.sea_level
@@ -47,6 +48,7 @@ def simulate_world_changes(world, virus):
         if region.population <= 0:
             region.population = 0
             region.destroyed = 1
+            print(region.name + " has been wiped out")
 
     world.temperature_rise += (world.co2_concentration - 300) * 0.05
 
@@ -57,21 +59,25 @@ def simulate_world_changes(world, virus):
 
 
 def simulate_virus_changes(world, virus):
-
+    """Simulates one turn of a viruses spreading and being eliminated. Returns a modified virus object."""
     # each infected region will attempt to infect another region, this region may already be infected
     for region in virus.affected_regions:
         target = random.choice(world_regions)
-        if virus.virulence > random.randint(0, World.shortest_distance(region, target)):
+        if virus.virulence * 0.2 > random.randint(0, World.shortest_distance(region, target)):
             virus.affected_regions.append(target)
+            print(region + " is now infected with the virus!")
 
     # based on detectability each region has a random chance of stopping the virus
     for region in virus.affected_regions:
-        if virus.detectability < random.randint(0, len(virus.affected_regions)):
+        if virus.detectability * 0.1 > random.randint(0, len(virus.affected_regions) + 10):
             virus.affected_regions.remove(region)
+            print(region + " successfully got rid of the virus!")
 
     return virus
 
+
 def simulate_turn(world, virus):
+    """"Simulates one turn of world changes, returning a list comprising of a world and virus object"""
     world = simulate_world_changes(world, virus)
     virus = simulate_virus_changes(world, virus)
     return [world, virus]
