@@ -5,7 +5,7 @@ tmp_assets
 *.pdn
 
 # user data
-user_settings.json
+user_settings
 
 # IDEs folders
 .vscode

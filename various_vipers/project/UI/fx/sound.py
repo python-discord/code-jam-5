@@ -1,7 +1,10 @@
 import pygame as pg
 
 from project.constants import BG_MUSIC, SOUNDS_BUTTONS as SND
-from project.utils.loader import Load
+from project.utils.user_data import UserData
+
+
+user_data = UserData()
 
 
 class Sound:
@@ -9,6 +12,7 @@ class Sound:
 
     pg.mixer.pre_init(44100, -16, 2, 2048)
     pg.mixer.init()
+    pg.mixer.music.set_volume(0)
     pg.mixer.music.load(str(BG_MUSIC))
     pg.mixer.music.play(-1)
 
@@ -18,15 +22,13 @@ class Sound:
     task_failed = pg.mixer.Sound(str(SND["phaserUp1"]))
 
     @staticmethod
-    def update(vol):
+    def update():
         """Updates the volume of the sounds and music."""
-        vol /= 100  # edit the volume to be in 0.0 - 1.0 range
+        # edit the volume to be in 0.0 - 1.0 range
+        vol = user_data.volume / 100
 
         Sound.click.set_volume(vol)
         Sound.check.set_volume(vol)
         Sound.task_completed.set_volume(vol)
         Sound.task_failed.set_volume(vol)
         pg.mixer.music.set_volume(vol / 6)
-
-
-Sound.update(Load.volume())

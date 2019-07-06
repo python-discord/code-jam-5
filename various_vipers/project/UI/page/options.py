@@ -21,9 +21,11 @@ from project.constants import (
     WIDTH,
     WindowState,
 )
-from project.utils.loader import Load, Save
+from project.utils.user_data import UserData
+
 
 logger = logging.getLogger(__name__)
+user_data = UserData()
 
 
 class Options:
@@ -116,8 +118,6 @@ class Options:
             image=fps_label_img,
             image_hover=fps_label_img,
         )
-        self.mute = bool(Load.volume())
-        self.fps_checked = Load.show_fps()
 
         self.last_click = int()
         self.slider = Slider(self.screen)
@@ -135,7 +135,8 @@ class Options:
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 Sound.click.play()
-                return WindowState.main_menu, self.fps_checked
+                user_data.save()
+                return WindowState.main_menu
         else:
             self.back_btn.draw()
 
@@ -149,7 +150,7 @@ class Options:
         self.volume_indicator.draw()
 
         self.fps_label.draw()
-        return WindowState.options, self.fps_checked
+        return WindowState.options
 
     def __draw_infinity_bg(self):
         self.bg_rect_1.left += 1
@@ -165,9 +166,9 @@ class Options:
 
     def __draw_volume_button(self):
         clicked = self.event.type == pg.MOUSEBUTTONDOWN
-        self.mute = self.slider.volume == 0
+        user_data.mute = self.slider.volume == 0
 
-        if self.mute:
+        if user_data.mute:
             if self.vol_btn_mute.rect.collidepoint(self.mouse_x, self.mouse_y):
                 self.vol_btn_mute.draw(hover=True)
 
@@ -178,9 +179,8 @@ class Options:
                     self.slider.volume = 5
                     self.slider.update()
 
-                    Save.volume(self.slider.volume)
-                    Sound.update(self.slider.volume)
-                    self.mute = False
+                    Sound.update()
+                    user_data.mute = False
             else:
                 self.vol_btn_mute.draw()
         else:
@@ -194,16 +194,15 @@ class Options:
                     self.slider.volume = 0
                     self.slider.update()
 
-                    Save.volume(self.slider.volume)
-                    Sound.update(self.slider.volume)
-                    self.mute = True
+                    Sound.update()
+                    user_data.mute = True
             else:
                 self.vol_btn.draw()
 
     def __draw_fps_checker_button(self):
         clicked = self.event.type == pg.MOUSEBUTTONDOWN
 
-        if self.fps_checked:
+        if user_data.show_fps:
             if self.fps_checker_checked_btn.rect.collidepoint(
                 self.mouse_x, self.mouse_y
             ):
@@ -212,8 +211,7 @@ class Options:
                 if clicked and (time.time() - self.last_click) > 0.3:
                     Sound.click.play()
                     self.last_click = time.time()
-                    self.fps_checked = False
-                    Save.show_fps(self.fps_checked)
+                    user_data.show_fps = False
             else:
                 self.fps_checker_checked_btn.draw()
         else:
@@ -223,7 +221,6 @@ class Options:
                 if clicked and (time.time() - self.last_click) > 0.3:
                     Sound.click.play()
                     self.last_click = time.time()
-                    self.fps_checked = True
-                    Save.show_fps(self.fps_checked)
+                    user_data.show_fps = True
             else:
                 self.fps_checker_btn.draw()

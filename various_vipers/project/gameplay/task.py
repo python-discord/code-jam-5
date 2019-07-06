@@ -131,6 +131,8 @@ class TaskCursorMaze(Task):
     heat_add_success: float = -5
     heat_add_failure: float = 0
 
+    time_limit: float = 15
+
     maze: List["Cell"]
 
     maze_start: Tuple[int, int] = (5, 7)  # Y, X

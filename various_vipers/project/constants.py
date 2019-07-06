@@ -58,7 +58,8 @@ PATH_MUSIC = PurePath(PATH_PROJECT).joinpath("assets/audio/music")
 PATH_OTHER = PurePath(PATH_PROJECT).joinpath("assets/images/other")
 
 
-USER_SETTINGS = PurePath(PATH_DATA).joinpath("user_settings.json")
+USER_SETTINGS = PurePath(PATH_DATA).joinpath("user_settings")
+
 # Game assets
 
 # Background images

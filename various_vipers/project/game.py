@@ -3,6 +3,7 @@ import logging
 
 import pygame as pg
 
+from project.UI.fx.sound import Sound
 from project.UI.page.credits import Credits
 from project.UI.page.gameover import GameOver
 from project.UI.page.main_menu import MainMenu
@@ -10,11 +11,12 @@ from project.UI.page.options import Options
 from project.constants import Color, FPS, HEIGHT, WIDTH, WindowState
 from project.gameplay.game_state import GameState
 from project.gameplay.game_view import GameView
-from project.utils.loader import Load
+from project.utils.user_data import UserData
 
 
 logger = logging.getLogger(__name__)
 game_vars = GameState()
+user_data = UserData()
 
 
 class Game:
@@ -23,6 +25,8 @@ class Game:
     def __init__(self):
         """Set initial values."""
         pg.init()
+        user_data.load()
+        Sound.update()
 
         pg.display.set_caption("Various Vipers game in development")
 
@@ -33,8 +37,6 @@ class Game:
 
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.clock = pg.time.Clock()
-
-        self.show_fps = Load.show_fps()
 
         self.main_menu = MainMenu(self.screen)
         self.options = Options(self.screen)
@@ -78,7 +80,7 @@ class Game:
                 self.mouse_x, self.mouse_y, self.event
             )
         elif self.window_state == WindowState.options:
-            self.window_state, self.show_fps = self.options.draw(
+            self.window_state = self.options.draw(
                 self.mouse_x, self.mouse_y, self.event
             )
         elif self.window_state == WindowState.credit:
@@ -95,7 +97,7 @@ class Game:
         elif self.window_state == WindowState.game:
             game_vars.is_started = True
 
-        if self.show_fps:
+        if user_data.show_fps:
             self._draw_fps()
 
         pg.display.flip()
