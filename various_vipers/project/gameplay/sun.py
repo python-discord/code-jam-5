@@ -3,7 +3,7 @@ from typing import List
 
 import pygame as pg
 
-from project.constants import HEIGHT, MAX_HEAT, SUN_IMAGE, WIDTH
+from project.constants import HEIGHT, MAX_HEAT, SUN_IMAGE, THERMO, THERMO_FILL, WIDTH
 from .biome import Biome
 from .game_state import GameState
 
@@ -15,7 +15,6 @@ game_vars = GameState()
 class Sun:
     """Class holds information about sun, its state and current heat."""
 
-    background_image: pg.Surface = SUN_IMAGE
     angle: float = 0
     min_angle_vel: float = 0.5
     max_angle_vel: float = 4
@@ -33,7 +32,11 @@ class Sun:
         self.heat_per_tick = heat_per_tick
         self.heat_per_task = heat_per_task
 
-        self.image = pg.image.load(str(self.background_image)).convert_alpha()
+        self.thermo = pg.image.load(str(THERMO)).convert_alpha()
+        self.thermo_fill = pg.image.load(str(THERMO_FILL)).convert_alpha()
+
+        # Sun image
+        self.image = pg.image.load(str(SUN_IMAGE)).convert_alpha()
         new_height = int(HEIGHT // 2)
         scale_percent = new_height / self.image.get_height()
         new_width = int(self.image.get_width() * scale_percent)
@@ -69,14 +72,15 @@ class Sun:
         )
 
         if game_vars.is_started:
-            # Draw current heat number
-            font = pg.font.Font(None, 50)
-            text = f"{str(int(game_vars.current_heat))} / {str(MAX_HEAT)}"
-            heat_indicator = font.render(text, True, pg.Color("black"))
-            # screen middle top
-            text_x = int(WIDTH // 2) - int(heat_indicator.get_width() // 2)
-            text_y = 40
-            self.screen.blit(heat_indicator, (text_x, text_y))
+            percent = game_vars.current_heat / MAX_HEAT
+            fill_rect = self.thermo_fill.get_rect()
+            fill_rect.y = int(self.thermo_fill.get_height() * max(0.9 - percent, 0))
+            self.screen.blit(self.thermo, (WIDTH - self.thermo.get_width() - 10, 10))
+            self.screen.blit(
+                self.thermo_fill,
+                (WIDTH - self.thermo_fill.get_width() - 10, 10 + fill_rect.y),
+                fill_rect,
+            )
 
     def update_angle(self) -> None:
         """Update suns angle relative to itself. Called every game tick."""

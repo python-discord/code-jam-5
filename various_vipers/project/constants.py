@@ -84,10 +84,13 @@ CLOUD_LAYERS_FG = [
     PurePath(PATH_CLOUD_LAYERS).joinpath("cloudLayerB2.png"),
 ]
 
+# Other
 SUN_IMAGE = PurePath(PATH_OTHER).joinpath("sun.png")
 INDICATOR_ARROW = PurePath(PATH_OTHER).joinpath("indicator.png")
 STAR = PurePath(PATH_OTHER).joinpath("star.png")
 GOLD_COIN = PurePath(PATH_OTHER).joinpath("coinGold.png")
+THERMO = PurePath(PATH_OTHER).joinpath("thermometer.png")
+THERMO_FILL = PurePath(PATH_OTHER).joinpath("thermometer-fill.png")
 
 # Tiles
 
