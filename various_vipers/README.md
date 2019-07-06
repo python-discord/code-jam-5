@@ -13,7 +13,7 @@ See `/docs` for more documentation.
 
 ## Requirements
 
-Requires python 3.6+ (with pip)
+Requires python 3.7+ (with pip)
 
 ## Setup (for development)
 
@@ -41,6 +41,12 @@ $ pipenv install
 To start the game, simply run:
 
 `$ pipenv run start`
+
+## Notes
+
+* The game is not optimized and will eat ~550 MB of RAM to hold cached images of sun and tiles.
+> 361 images of sun (for each angle of rotation)
+> 20 images for each tile on map (scaled by 2.5% each time)
 
 ## Troubleshooting
 
