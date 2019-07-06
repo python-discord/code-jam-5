@@ -65,7 +65,8 @@ def handle_input(dt=None):
             if (new_move[0] != player.x) | (new_y != player.y):
                 move(new_move[0], new_move[1])
     else:
-        player.update_sprite()
+        pass
+        #player.update_sprite()
 
 
 def move(new_x, new_y):
