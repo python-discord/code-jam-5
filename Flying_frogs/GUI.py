@@ -11,6 +11,7 @@ onscreen = []
 score = 0
 lanes = [200, 0, 419]
 clock = pygame.time.Clock()
+font = pygame.font.Font('freesansbold.ttf', 32)
 
 def redraw(): 
     win.blit(bg, (0,0))
@@ -20,7 +21,12 @@ def redraw():
             item.movecount = 0    
         win.blit(item.move[item.movecount//10], (item.x,item.y))
         #pygame.draw.rect(win,(225,0,0),item.hitbox,2)
-        item.movecount += 1    
+        item.movecount += 1
+
+    DisplayScore = font.render('Score: '+str(score), True, (0,0,0))
+    ScoreRect = DisplayScore.get_rect()
+    ScoreRect.center = (100,40)
+    win.blit(DisplayScore, ScoreRect)
 
     pygame.display.update()
 
