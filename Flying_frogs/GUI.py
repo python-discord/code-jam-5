@@ -1,5 +1,9 @@
-import pygame
-import random
+try:
+    import pygame
+    import random
+except ImportError:
+    print('Could not import modules. Please check your connection and try again later.')
+    
 pygame.init()
 
 win = pygame.display.set_mode((922,675))
