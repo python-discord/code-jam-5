@@ -13,6 +13,6 @@ def load_image(filename: str, centered: bool = False):
     return image
 
 
-ENEMY_IMAGE = load_image("circle.png", centered=True)
+ENEMY_IMAGE = load_image("evil_business_man.png", centered=True)
 PLAYER_IMAGE = load_image("penguin.png", centered=True)
 SNOWBALL_IMAGE = load_image("snowball.png", centered=True)
