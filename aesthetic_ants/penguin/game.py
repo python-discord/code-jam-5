@@ -25,6 +25,7 @@ class Game(pyglet.window.Window):
         for _ in range(5):
             self.space.add(Enemy())
 
+        # Create background layer
         self.tiles = TileLayer(self.width, self.height)
         self.space.add(self.tiles)
 
@@ -64,6 +65,7 @@ class Game(pyglet.window.Window):
 
     def on_draw(self):
         self.clear()
+        self.tiles.draw()
         self.space.draw()
         self.ui_space.draw()
 
