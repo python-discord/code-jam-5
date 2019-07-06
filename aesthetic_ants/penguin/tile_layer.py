@@ -90,3 +90,17 @@ class TileLayer(Object):
             for y, line in enumerate(level_data):
                 for x, tile in enumerate(line.strip()):
                     self.create_tile(x, y, TILE_SERIALIZATION_MAP[tile])
+
+    def collide_tiles(self, object, _):
+        tile_width = floor(object.width * object.collision_leniency / TILE_SIZE)
+        tile_height = floor(object.height * object.collision_leniency / TILE_SIZE)
+        tile_position = (object.x / TILE_SIZE, object.y / TILE_SIZE)
+        tiles = [(floor(x + tile_position[0]), floor(y + tile_position[1]))
+                 for x in range(tile_width)
+                 for y in range(tile_height)]
+        tiles = filter(lambda pos: self.tile_width >= pos[0] >= 0
+                                   and self.tile_height >= pos[1] >= 0,
+                       tiles)
+
+        for tile in tiles:
+            object.collide_tile(self.tiles[tile[0]][tile[1]])
