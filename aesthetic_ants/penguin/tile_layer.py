@@ -82,9 +82,6 @@ class TileLayer(Object):
     def draw(self):
         self.batch.draw()
 
-    def add_to_space(self, space):
-        super().add_to_space(space)
-
     def load_tiles(self, tile_filename):
         """Loads a tile map from a level file. Levels are 40x30 tiles by default"""
         with open(tile_filename, 'r') as level_file:
