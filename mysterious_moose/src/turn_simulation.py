@@ -35,27 +35,29 @@ class WeatherEvent:
 
 
 def simulate_world_changes(world, virus):
+    industry_impacts = {0: 30, 1: 50, 2: 70}  # co2 impacts as given by industry id
     # calculate sea level rises
     initial_sea_level = world.sea_level
-    sea_level_rise = (world.co2_concentration - 410) * 0.02
+    sea_level_rise = (world.co2_concentration - 300) * 0.02
     world.sea_level += sea_level_rise
 
     for region in world.regions:
         # assume population is evenly distributed between 1m and average elevation
-        region.population -= math.ceil((world.sea_level - initial_sea_level - 1) / region.population)
+        region.population -= math.ceil(((world.co2_concentration-300) * region.initial_population) / 7000000000)
         if region.population <= 0:
             region.population = 0
             region.destroyed = 1
 
-    world.temperature_rise += (world.co2_concentration - 410) * 0.05
+    world.temperature_rise += (world.co2_concentration - 300) * 0.05
 
     for region in virus.affected_regions:
-        world.co2_concentration += virus.impact
+        world.co2_concentration += virus.impact * industry_impacts[virus.industry] * 0.001
 
     return world
 
 
 def simulate_virus_changes(virus):
+
     pass
 
 def simulate_turn(world, virus):

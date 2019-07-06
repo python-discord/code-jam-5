@@ -22,12 +22,14 @@ class Region:
         self.name = name
         self.elevation = elevation
         self.population = population
+        self.initial_population = population
         self.destroyed = 0
 
 
 world_regions = ['USA', 'Canada', 'Mexico', 'Peru', 'Argentina', 'Brazil', 'West Europe', 'India', 'Australia',
            'North Africa', 'South Africa', 'East Europe', 'Madagascar', 'Indonesia', 'Japan', 'Middle East',
            'New Zealand', 'China', 'Greenland', 'Cuba']
+
 
 
 class World:
@@ -54,7 +56,7 @@ class World:
 
     def __init__(self):
         self.sea_level = 0
-        self.co2_concentration = 410  # ppm
+        self.co2_concentration = 300  # ppm
         self.temperature_rise = 0
         self.regions = self._load_regions()
 
