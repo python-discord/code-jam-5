@@ -20,15 +20,15 @@ def upgrade_menu():
 class Boxes:
     def __init__(self):
         self.font = pygame.font.Font(None, 25)
-        self.blue = (135, 206, 250, 90)
-        self.gray = (225, 225, 225, 90)
-        self.green = (144, 238, 144, 90)
-        self.yellow = (250, 250, 40, 80)
-        self.purple = (221, 160, 221, 90)
-        self.black = (0, 0, 0, 90)
+        self.blue = (135, 206, 250, 190)
+        self.gray = (225, 225, 225, 190)
+        self.green = (144, 238, 144, 190)
+        self.yellow = (250, 250, 40, 160)
+        self.purple = (221, 160, 221, 160)
+        self.black = (0, 0, 0, 170)
         self.white = (255, 255, 255)
-        self.status_color = (42, 38, 38, 120)
-        self.turn_main_color = (22, 21, 60, 120)
+        self.status_color = (42, 38, 38, 160)
+        self.turn_main_color = (22, 21, 60, 160)
 
         # Distance used for better visual effect when placing objects
         self.distance_from_border = 4
@@ -94,7 +94,6 @@ class Boxes:
         title = thorpy.OneLineText('Game Status')
         title.set_font_size(15)
         title.set_font_color(self.white)
-        thorpy.theme.set_theme('human')
 
         cfc = thorpy.Element("CFC: 8%")
         cfc.set_font_size(10)
