@@ -30,6 +30,7 @@ class MessageHandlerThread(th.Thread):
         """
 
     def run(self) -> None:
+        asyncio.set_event_loop(self.event_loop)
         self.event_loop.run_until_complete(
             self.handler.inbox_loop()
         )

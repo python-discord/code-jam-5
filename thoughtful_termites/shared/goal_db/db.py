@@ -65,6 +65,7 @@ class GoalDB:
             timeout=30,
         )
         result.connection.row_factory = sqlite3.Row
+        result.connection.execute('PRAGMA foreign_keys=ON;')
         return result
 
     @classmethod
