@@ -7,7 +7,7 @@ import logging
 
 from mysterious_moose.src.turn_simulation import simulate_turn
 from mysterious_moose.src.virus import Virus
-from mysterious_moose.src.world import earth, INDUSTRIES
+from mysterious_moose.src.world import World, INDUSTRIES
 
 log = logging.getLogger("main.game")
 log.setLevel(logging.INFO)
@@ -578,6 +578,7 @@ log.info("game logger initialised")
 
 
 def main():
+    earth = World()
     simulate_turn(
         earth,
         Virus(

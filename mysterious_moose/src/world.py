@@ -68,10 +68,12 @@ class World:
         return regions
 
     def distance_between(self, region1, region2):
-        shortest_path = self._find_shortest_path(region1.name, region2.name)
+        region1_name = region1.name
+        region2_name = region2.name
+        shortest_path = self._find_shortest_path(region1_name, region2_name)
         distance = sum(
-            self.DISTANCES[region1.name][region2.name]
-            for region1.name, region2.name in self._pairwise(shortest_path)
+            self.DISTANCES[region1_name][region2_name]
+            for region1_name, region2_name in self._pairwise(shortest_path)
         )
         return distance
 
@@ -98,5 +100,3 @@ class World:
         next(b, None)
         return zip(a, b)
 
-
-earth = World()
