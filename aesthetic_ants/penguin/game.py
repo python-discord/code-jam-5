@@ -78,7 +78,7 @@ class Game(pyglet.window.Window):
         if not self.is_over:
             self.is_over = True
             game_over_screen = GameOverScreen(self)
-            self.space.add(game_over_screen)
+            self.ui_space.add(game_over_screen)
 
     def on_collision_snowball_enemy(self, snowball, enemy):
         if not self.is_over:
