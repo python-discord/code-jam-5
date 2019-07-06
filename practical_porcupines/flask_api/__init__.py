@@ -1,4 +1,3 @@
-import datetime
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from practical_porcupines.utils import ConfigApi
