@@ -11,7 +11,7 @@
                 "temperature": 0,
                 "co2": -50,
                 "habitable_land": 0,
-                "roi": 0.90
+                "roi": -0.10
             }
         ]
     },
@@ -27,7 +27,7 @@
                 "temperature": 0,
                 "co2": 0,
                 "habitable_land": 0,
-                "roi": 1.1
+                "roi": 0.10
             }
         ]
     },
