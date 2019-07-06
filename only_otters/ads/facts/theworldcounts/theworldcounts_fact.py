@@ -57,6 +57,7 @@ class TheWorldCountsFactFactory(FactFactory):
         
 
 __factory__ = TheWorldCountsFactFactory()
+__factory__.tags = ['counter', 'ui']
 
 
 @__factory__.fetcher.pipe # pipe should bind the pipe to an instance, not the class
