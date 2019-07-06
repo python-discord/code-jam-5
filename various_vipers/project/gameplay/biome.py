@@ -1,14 +1,15 @@
 import logging
 import random
-from typing import Generator, List
+from pathlib import PurePath
+from typing import Callable, Generator, List, Tuple
 
-import pygame as pg
 from pygame.image import load
 from pygame.transform import scale
 
 from project.constants import (
     BIOME_WIDTH,
     CITY_BGS,
+    Color,
     DESERT_BGS,
     FOREST_BGS,
     MOUNTAINS_BGS,
@@ -44,13 +45,10 @@ class Biome(object):
     water_tiles: List[str] = TILES_WATER
     water_tiles_chance: float = 0.2
 
-    # -----------------------
-    # Current values
-
-    # Current tilemap for this biome
-    tilemap: List[List[Tile]] = []
-    # Current background
-    background: pg.image = None
+    # Text that shows up when task is completed successfully
+    text_task_success: str = ""
+    # Text that shows up when task is completed unsuccessfully
+    text_task_fail: str = ""
 
     def __init__(self):
         self.tilemap = self.__generate_tilemap(TILE_COLS, TILE_ROWS)
@@ -60,6 +58,33 @@ class Biome(object):
             str(random.choice(self.background_images))
         ).convert_alpha()
         self.background = scale(self.background, (BIOME_WIDTH, BIOME_WIDTH))
+
+    @property
+    def color(self) -> Tuple[Color, Color]:
+        """Returns color of this biome's type. [color, color for hover]."""
+        if isinstance(self, BiomeCity):
+            return (Color.city, Color.city_hover)
+        elif isinstance(self, BiomeDesert):
+            return (Color.desert, Color.desert_hover)
+        elif isinstance(self, BiomeForest):
+            return (Color.forest, Color.forest_hover)
+        elif isinstance(self, BiomeMountains):
+            return (Color.mountains, Color.mountains_hover)
+        else:
+            raise NameError(f"Colors not found for biome: {type(self)}")
+
+    def image_from(self, images: Callable[[str], PurePath]) -> PurePath:
+        """Get image from callable function of images that is of this biome's type."""
+        if isinstance(self, BiomeCity):
+            return images("city")
+        elif isinstance(self, BiomeDesert):
+            return images("desert")
+        elif isinstance(self, BiomeForest):
+            return images("forest")
+        elif isinstance(self, BiomeMountains):
+            return images("mountains")
+        else:
+            raise NameError(f"Task image not found for biome: {type(self)}")
 
     def __choose_tiles(self, k: int = 1) -> Generator[Tile, None, None]:
         """Returns k number of random tiles based on set tile sprites and weights to spawn."""
@@ -111,6 +136,9 @@ class BiomeDesert(Biome):
     city_tiles_chance: float = 0.05
     water_tiles_chance: float = 0.05
 
+    text_task_success: str = "Solar panels installed"
+    text_task_fail: str = "Factory was built"
+
 
 class BiomeCity(Biome):
     """City themed biome."""
@@ -122,6 +150,9 @@ class BiomeCity(Biome):
     unique_tiles_chance: float = 0.3
     city_tiles_chance: float = 0.5
     water_tiles_chance: float = 0.05
+
+    text_task_success: str = "Pollution decreased"
+    text_task_fail: str = "Pollution increased"
 
 
 class BiomeForest(Biome):
@@ -135,6 +166,9 @@ class BiomeForest(Biome):
     city_tiles_chance: float = 0.2
     water_tiles_chance: float = 0.1
 
+    text_task_success: str = "You saved the forest"
+    text_task_fail: str = "The forest was destroyed"
+
 
 class BiomeMountains(Biome):
     """Mountain themed biome."""
@@ -146,3 +180,6 @@ class BiomeMountains(Biome):
     unique_tiles_chance: float = 0.8
     city_tiles_chance: float = 0.1
     water_tiles_chance: float = 0.1
+
+    text_task_success: str = "Mountains saved"
+    text_task_fail: str = "Mountains not saved"

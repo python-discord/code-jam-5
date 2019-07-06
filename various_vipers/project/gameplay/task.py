@@ -1,10 +1,9 @@
 import logging
 from dataclasses import dataclass
 from enum import Enum
-from pathlib import PurePath
-from random import choice, shuffle, randint
+from random import choice, randint, shuffle
 from time import time
-from typing import Dict, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 import pygame as pg
 from pygame.image import load
@@ -27,7 +26,7 @@ from project.constants import (
     WIDTH,
     X,
 )
-from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
+from .biome import Biome
 from .game_state import GameState
 
 
@@ -96,19 +95,6 @@ class Task(object):
         )
         self.is_done = True
 
-    def _get_image_for_biome(self, images: Dict[str, str]) -> PurePath:
-        """Gets an image that is of this biomes theme."""
-        if isinstance(self.biome, BiomeCity):
-            return images("city")
-        elif isinstance(self.biome, BiomeDesert):
-            return images("desert")
-        elif isinstance(self.biome, BiomeForest):
-            return images("forest")
-        elif isinstance(self.biome, BiomeMountains):
-            return images("mountains")
-        else:
-            raise NameError(f"Task image not found for biome: {type(self)}")
-
     def _draw_timer(self) -> None:
         font = pg.font.Font(None, 70)
         time_left = self._time_left
@@ -158,23 +144,19 @@ class TaskCursorMaze(Task):
 
         # Prepare images for the maze
         self.start_image = scale(
-            load(str(self._get_image_for_biome(MAZE_START))).convert_alpha(),
-            self.cell_size,
+            load(str(self.biome.image_from(MAZE_START))).convert_alpha(), self.cell_size
         )
 
         self.end_image = scale(
-            load(str(self._get_image_for_biome(MAZE_END))).convert_alpha(),
-            self.cell_size,
+            load(str(self.biome.image_from(MAZE_END))).convert_alpha(), self.cell_size
         )
 
         self.path_image = scale(
-            load(str(self._get_image_for_biome(MAZE_PATH))).convert_alpha(),
-            self.cell_size,
+            load(str(self.biome.image_from(MAZE_PATH))).convert_alpha(), self.cell_size
         )
 
         self.wall_image = scale(
-            load(str(self._get_image_for_biome(MAZE_WALL))).convert_alpha(),
-            self.cell_size,
+            load(str(self.biome.image_from(MAZE_WALL))).convert_alpha(), self.cell_size
         )
 
     def start(self) -> None:
@@ -342,7 +324,7 @@ class TaskRockPaperScissors(Task):
         self.timer = 0
         self.last = 0
 
-        self.color, self.color_hover = self.__get_colors_for_rpc()
+        self.color, self.color_hover = self.biome.color
 
         self.choice_rect_side = int(self.window_rect.height / 3)
         self.computer_rect_side = self.window_rect.height
@@ -373,20 +355,20 @@ class TaskRockPaperScissors(Task):
         for img in self.images:
             self.choice_images.append(
                 scale(
-                    load(str(self._get_image_for_biome(img))).convert_alpha(),
+                    load(str(self.biome.image_from(img))).convert_alpha(),
                     [self.choice_rect_side] * 2,
                 )
             )
 
             self.computer_images.append(
                 scale(
-                    load(str(self._get_image_for_biome(img))).convert_alpha(),
+                    load(str(self.biome.image_from(img))).convert_alpha(),
                     [self.computer_rect_side] * 2,
                 )
             )
         self.computer_images.append(
             scale(
-                load(str(self._get_image_for_biome(QUESTION_MARK))).convert_alpha(),
+                load(str(self.biome.image_from(QUESTION_MARK))).convert_alpha(),
                 [self.computer_rect_side] * 2,
             )
         )
@@ -474,19 +456,6 @@ class TaskRockPaperScissors(Task):
         rand_img = self.computer_images[randint(0, 2)]
         self.screen.blit(rand_img, self.computer_rect)
 
-    def __get_colors_for_rpc(self) -> tuple:
-        """Gets an Rock, Paper, Scissors colors for background and hover in biome context."""
-        if isinstance(self.biome, BiomeCity):
-            return (Color.city, Color.city_hover)
-        elif isinstance(self.biome, BiomeDesert):
-            return (Color.desert, Color.desert_hover)
-        elif isinstance(self.biome, BiomeForest):
-            return (Color.forest, Color.forest_hover)
-        elif isinstance(self.biome, BiomeMountains):
-            return (Color.mountains, Color.mountains_hover)
-        else:
-            raise NameError(f"Colors not found for biome: {type(self)}")
-
 
 class TaskTicTacToe(Task):
     """
@@ -533,24 +502,22 @@ class TaskTicTacToe(Task):
                 )
         self.last_click = float()
 
-        self.bg_color, self.bg_color_hover = self._get_colors_for_ttt()
+        self.bg_color, self.bg_color_hover = self.biome.color
 
         self.map_indexes = dict(
             zip(range(0, 9), [(i, j) for i in range(3) for j in range(3)])
         )
 
         self.x_image = scale(
-            load(str(self._get_image_for_biome(X))).convert_alpha(),
-            [self.cell_side] * 2,
+            load(str(self.biome.image_from(X))).convert_alpha(), [self.cell_side] * 2
         )
 
         self.o_image = scale(
-            load(str(self._get_image_for_biome(O))).convert_alpha(),
-            [self.cell_side] * 2,
+            load(str(self.biome.image_from(O))).convert_alpha(), [self.cell_side] * 2
         )
 
         self.grid = scale(
-            load(str(self._get_image_for_biome(TTT_GRID))).convert_alpha(),
+            load(str(self.biome.image_from(TTT_GRID))).convert_alpha(),
             [self.board_rect.width, self.board_rect.height],
         )
 
@@ -629,19 +596,6 @@ class TaskTicTacToe(Task):
                 self.screen.blit(self.o_image, cell)
 
         self.screen.blit(self.grid, self.board_rect)
-
-    def _get_colors_for_ttt(self) -> tuple:
-        """Gets an Tic Tac Toe colors for background and hover in biome context."""
-        if isinstance(self.biome, BiomeCity):
-            return (Color.city, Color.city_hover)
-        elif isinstance(self.biome, BiomeDesert):
-            return (Color.desert, Color.desert_hover)
-        elif isinstance(self.biome, BiomeForest):
-            return (Color.forest, Color.forest_hover)
-        elif isinstance(self.biome, BiomeMountains):
-            return (Color.mountains, Color.mountains_hover)
-        else:
-            raise NameError(f"Colors not found for biome: {type(self)}")
 
     def __won(self, board, player):
         """Checks  if given player is in winning positon."""
