@@ -1,8 +1,7 @@
-<!--TODO: come up with a name-->
 # Welcome to `Who Wants To Be A Billionaire`
 
-In {Game Name} you take the role of a new billionaire trying to find
-their way around their new found wealth. 
+In `Who Wants To Be A Billionaire` you take the role of a new 
+billionaire trying to find their way around their new found wealth. 
 
 You will have a series of opportunities to choose investments, each
 decision you make will have consequences on the world around you.
@@ -14,8 +13,8 @@ afterwards.
 # Setup
 
 ```bash
-$python3 -m pip install -r requirements.txt
-$python3 main.py
+$ python3 -m pip install -r requirements.txt
+$ python3 main.py
 ```
 
 # How to play
@@ -29,10 +28,10 @@ will go. <br>
 You can view the impact a certain investment will have on your world by
 submitting the company's number. You can then choose your investment by
 submitting: `invest <number>`. <br>
-Once you have made the investments you wish to make, or you run out of 
-funds, the round will end. Each round takes place over five years. You 
-will be presented with news of the current state of the world, and you
-will then choose your investments for the next round. <br>
+Once you have chosen which you want to invest in and confirm your 
+selection, the round will end. Each round takes place over five years. 
+You will be presented with news of the current state of the world, and 
+you will then choose your investment for the next round. <br>
 <br>
 After ten rounds your final score will be calculated as a function of 
 your net worth and how much money you managed to make. Feel free to 
