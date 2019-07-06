@@ -66,7 +66,7 @@ def simulate_virus_changes(world, virus):
         target = world.regions[random.choice(world_regions)]
         if virus.virulence * 0.2 > random.randint(0, world.distance_between(region, target)):
             virus.affected_regions.append(target)
-            print(region.name + " is now infected with the virus!")
+            print(target.name + " is now infected with the virus!")
 
     # based on detectability each region has a random chance of stopping the virus
     for region in virus.affected_regions:
