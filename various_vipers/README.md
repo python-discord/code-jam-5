@@ -2,6 +2,7 @@
 
 (Python Discord code jam 5 submission)
 
+<img src="https://i.imgur.com/S14ouvw.png" align="center" width="256">
 
 The climate change is a real danger to our planet, and if we don't help reduce the pollution, it will be destroyed. Your task is to save the earth!
 
