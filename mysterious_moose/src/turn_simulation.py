@@ -39,8 +39,8 @@ class WeatherEvent:
 class PopulationChange:
     def __init__(self, world):
         self.regions = {}
-        for region in world.regions:
-            self.regions[region] = {"int_pop": world.regions[region].population,
+        for region_name in world.regions:
+            self.regions[region_name] = {"int_pop": world.regions[region_name].population,
                                     "fin_pop": 0,
                                     "percentage_change": 0}
 
@@ -49,28 +49,33 @@ class PopulationChange:
 
         print("|Region              |Initial population  |Final population    |Percentage change   ")
         print("-------------------------------------------------------------------------------------")
-        for region in self.regions:
-            print("|" + region + " " * (20 - len(region)) +
-                  "|" + str(self.regions[region]["int_pop"]) +
-                  " " * (20 - len(str(self.regions[region]["int_pop"]))) +
-                  "|" + str(self.regions[region]["fin_pop"]) +
-                  " " * (20 - len(str(self.regions[region]["fin_pop"]))) +
-                  "|" + str(self.regions[region]["percentage_change"])
+        for region_name in self.regions:
+            print("|" + region_name + " " * (20 - len(region_name)) +
+                  "|" + str(self.regions[region_name]["int_pop"]) +
+                  " " * (20 - len(str(self.regions[region_name]["int_pop"]))) +
+                  "|" + str(self.regions[region_name]["fin_pop"]) +
+                  " " * (20 - len(str(self.regions[region_name]["fin_pop"]))) +
+                  "|" + str(self.regions[region_name]["percentage_change"])
                   )
 
-    def set_final_population(self, region, fin_pop):
-        int_pop = self.regions[region]["int_pop"]
-        self.regions[region]["fin_pop"] = fin_pop
+    def set_final_population(self, region_name, fin_pop):
+        int_pop = self.regions[region_name]["int_pop"]
+        self.regions[region_name]["fin_pop"] = fin_pop
 
         if int_pop == 0:
-            self.regions[region]["percentage_change"] = 0
+            self.regions[region_name]["percentage_change"] = 0
         else:
-            self.regions[region]["percentage_change"] = 100 * ((int_pop - fin_pop) / int_pop)
+            self.regions[region_name]["percentage_change"] = 100 * ((int_pop - fin_pop) / int_pop)
 
 
 def simulate_world_changes(world, virus):
     """Simulates one turn of world changes, returning a modified world object"""
     industry_impacts = INDUSTRY_TO_CO2  # co2 impacts as given by industry id
+
+    # implement virus affect on CO2
+    for region in virus.affected_regions:
+        world.co2_concentration += virus.impact * industry_impacts[virus.industry] * 0.001
+
     # calculate sea level rises
     initial_sea_level = world.sea_level
     sea_level_rise = (world.co2_concentration - 300) * 0.02
@@ -81,8 +86,7 @@ def simulate_world_changes(world, virus):
     for region in regions:
         # assume population is evenly distributed between 1m and average elevation
         region.population -= math.ceil(((world.co2_concentration-300) * region.initial_population) / 7000000000)
-        population_change += math.ceil(((world.co2_concentration-300) * region.initial_population) / 7000000000)
-        population_change.set_final_population(region.population, region)
+        population_change.set_final_population(region.name, region.population)
         if region.population <= 0:
             region.population = 0
             region.destroyed = 1
@@ -90,8 +94,7 @@ def simulate_world_changes(world, virus):
 
     world.temperature_rise += (world.co2_concentration - 300) * 0.05
 
-    for region in virus.affected_regions:
-        world.co2_concentration += virus.impact * industry_impacts[virus.industry] * 0.001
+
 
     return [world, population_change]
 
