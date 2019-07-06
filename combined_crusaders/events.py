@@ -66,7 +66,8 @@ msgs = {
     "buy_wind_turbine": "Ah, quite a large crank right there!",
     "upgrade_crank_inertia": "YES! We be discoverin' perpetual motion!",
     "load": "Welcome back! Or maybe not, temporal mechanics confuses me.",
-    "save": "Time ain't a toy, boy. You can't save energy by saving a game."
+    "save": "Time ain't a toy, boy. You can't save energy by saving a game.",
+    "fail_load": "Y'ain't got any save file, boy!"
 }
 
 
@@ -111,6 +112,8 @@ class Events:
             return msgs["load"]
         elif short_history[-1] == "save":
             return msgs["save"]
+        elif short_history[-1] == "fail_load":
+            return msgs["fail_load"]
 
         if self.previous_message == msgs["went_away"]:
             return msgs["welcome_back"]
