@@ -1,11 +1,11 @@
 import pyglet
 
 from .constants import CollisionType
-from .enemy import Enemy
 from .object import Object
 from .player import Player
 from .snowball import Snowball
 from .space import Space
+from .spawner import Spawner
 from .tile_layer import TileLayer
 from .utils import keys
 
@@ -18,12 +18,14 @@ class Game(pyglet.window.Window):
         self.is_over = False
         self.fps = fps
 
-        self.player = Player(self.width / 2, self.height / 2)
-
         self.space = self.create_space()
+
+        self.player = Player(self.width / 2, self.height / 2)
         self.space.add(self.player)
-        for _ in range(5):
-            self.space.add(Enemy())
+
+        self.spawner = Spawner()
+        self.spawner.add_spawn_point(0, 0)
+        self.space.add(self.spawner)
 
         # Create background layer
         self.tiles = self.create_tiles()

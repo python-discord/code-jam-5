@@ -10,8 +10,8 @@ class Enemy(PhysicalObject):
     collision_type = CollisionType.ENEMY
     score = 5
 
-    def __init__(self):
-        super().__init__(ENEMY_IMAGE)
+    def __init__(self, x, y):
+        super().__init__(ENEMY_IMAGE, x=x, y=y)
 
         self.velocity_x = random.randint(0, 100)
         self.velocity_y = random.randint(0, 100)
