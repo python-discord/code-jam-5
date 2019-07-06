@@ -15,6 +15,7 @@ const sessionToken = new google.maps.places.AutocompleteSessionToken();
 /* eslint-enable no-undef */
 
 function showResults(response) {
+    document.getElementById('loading-spinner').hidden = true;
     const results = document.getElementById('results');
     results.innerHTML = response;
 
@@ -79,6 +80,7 @@ function getTopLocation(predictions, status) {
 }
 
 form.addEventListener('submit', e => {
+    document.getElementById('loading-spinner').hidden = false;
     const place = autocomplete.getPlace(); // eslint-disable-line no-undef
 
     if (place === undefined) {
