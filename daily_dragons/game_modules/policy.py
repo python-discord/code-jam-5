@@ -1,4 +1,5 @@
 from .planetary_effects import PlanetaryEffects
+from colorama import Fore
 
 
 class Policy:
@@ -15,5 +16,9 @@ class Policy:
         self.roi = roi
 
     def __str__(self) -> str:
-        output = f"{str(self.name)}\n{self.description}\n{str(self.planetary_effects)}"
+        output = (
+            "" + Fore.CYAN + f"{str(self.name)}\n"
+            "" + Fore.WHITE + f"{self.description}\n"
+            f"{str(self.planetary_effects)}"
+        )
         return output
