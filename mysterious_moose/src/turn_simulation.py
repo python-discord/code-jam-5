@@ -44,10 +44,12 @@ def simulate_world_changes(world, virus):
     sea_level_rise = (world.co2_concentration - 300) * 0.02
     world.sea_level += sea_level_rise
 
+    population_change = 0
     regions = world.regions.values()
     for region in regions:
         # assume population is evenly distributed between 1m and average elevation
         region.population -= math.ceil(((world.co2_concentration-300) * region.initial_population) / 7000000000)
+        population_change += math.ceil(((world.co2_concentration-300) * region.initial_population) / 7000000000)
         if region.population <= 0:
             region.population = 0
             region.destroyed = 1
@@ -101,8 +103,11 @@ def simulate_turn(world, virus):
         ', '.join([region.name for region in virus.affected_regions])
     )
     print()
-    world = simulate_world_changes(world, virus)
+    world_and_population_change = simulate_world_changes(world, virus)
+    world = world_and_population_change[0]
+    population_change = world_and_population_change[1]
     virus = simulate_virus_changes(world, virus)
+
     print('The turn has ended.')
     print('-'*100)
     if not virus.affected_regions:
@@ -114,7 +119,7 @@ def simulate_turn(world, virus):
             ', '.join([region.name for region in virus.affected_regions])
         )
         print()
-        return [world, virus]
+        return [world, virus, population_change]
 
 # model extreme weather events
 # def simulate_weather_events():
