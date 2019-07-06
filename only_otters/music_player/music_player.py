@@ -7,14 +7,22 @@ from pathlib import Path
 from only_otters.ads.facts import get_fact_by_tags
 
 
+from only_otters.ads.tts import as_callack_audio
+
+
 class MusicPlayer(QtWidgets.QWidget):
     """Represents a MusicPlayer object, for playing/pausing/loading music."""
+
+    # Every {} songs, an ad will be played automatically
+    total_songs_between_adverts: int = 1
 
     def __init__(self):
         super().__init__()
         self.player = QtMultimedia.QMediaPlayer()
         self.playlist = QtMultimedia.QMediaPlaylist()
         self.player.setPlaylist(self.playlist)
+
+        self.advert_counter = 0  # self.__class__.total_songs_between_adverts
 
         self.init_ui()
 
@@ -74,6 +82,8 @@ class MusicPlayer(QtWidgets.QWidget):
 
         self.controls = ControlsWidget(self.player)
 
+        self.player.mediaStatusChanged.connect(self.status_changed)
+
         self.main_layout.addWidget(self.now_playing_widget)
         self.main_layout.addWidget(self.contents_widget)
         self.main_layout.addWidget(self.controls)
@@ -95,6 +105,32 @@ class MusicPlayer(QtWidgets.QWidget):
         else:
             self.controls._next_song()
         self.controls.duration_label.setText('0')
+
+    def status_changed(self, status):
+        """
+        Callback for every time the media player's status changes.
+        Will play an ad after each song. 'ADVERT' is a on/off
+        """
+        if status == self.player.EndOfMedia:
+            if not self.advert_counter:
+                self.advert_counter = self.__class__.total_songs_between_adverts  # could be in an external config file
+                self.controls.enabled(False)
+                self.play_ad()
+            else:
+                self.advert_counter -= 1
+                self.controls.enabled()
+
+    def play_ad(self):
+        file = as_callack_audio(
+            "Green tip number 34:"
+            "This is over Anakin! I have the high ground."
+            "?"
+            "You underestimate my power."
+        )
+        url = QtCore.QUrl.fromLocalFile(file)
+        self.player.setMedia(QtMultimedia.QMediaContent(url))
+        self.player.play()
+
 
     def resizeEvent(self, event):
         """Handles the positioning and sizing of the moon foreground image."""

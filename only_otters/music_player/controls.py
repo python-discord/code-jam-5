@@ -3,6 +3,7 @@ from .seeker import Seeker
 from pathlib import Path
 
 from only_otters.images import buttons as imgButtons
+from only_otters.ads.tts import as_callack_audio
 
 
 class ControlsWidget(QtWidgets.QFrame):
@@ -15,6 +16,7 @@ class ControlsWidget(QtWidgets.QFrame):
         self.setObjectName('controls')
         self.setFixedHeight(50)
         self.init_ui()
+
 
     def init_ui(self):
         """Create the UI."""
@@ -41,6 +43,9 @@ class ControlsWidget(QtWidgets.QFrame):
         self.duration_label.setFont(QtGui.QFont('Raleway'))
         self.seeker.timestamp_updated.connect(self.duration_label.setText)
 
+        # debug
+        self.play_pause_button.clicked.connect(self._open_file)
+
         self.main_layout.addWidget(self.previous_song_button)
         self.main_layout.addWidget(self.play_pause_button)
         self.main_layout.addWidget(self.next_song_button)
@@ -63,6 +68,7 @@ class ControlsWidget(QtWidgets.QFrame):
             self.play_pause_button.setIcon(self.pause_song_icon)
             self.player.play()
 
+
     def _next_song(self):
         """Plays the next song in the playlist."""
         self.player.playlist().next()
@@ -74,5 +80,36 @@ class ControlsWidget(QtWidgets.QFrame):
         """Plays previous song in the playlist."""
         self.player.playlist().previous()
         if self.player.state() == QtMultimedia.QMediaPlayer.PausedState:
-            self.toggle_play()
+            self._toggle_play()
 
+    def enabled(self, status: bool = True):
+        """Enable or disable the control buttons."""
+        self.previous_song_button.setEnabled(status)
+        self.next_song_button.setEnabled(status)
+        self.play_pause_button.setEnabled(status)
+
+    def _open_file(self):
+        """Opens an audio file and adds it to the playlist."""
+        # song = QtWidgets.QFileDialog.getOpenFileName(self, "Open Song", "", "Sound Files (*.mp3)")
+
+        # if song[0]:
+        #     url = QtCore.QUrl.fromLocalFile(song[0])
+
+        #     if not self.player.playlist().mediaCount():
+        #         self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))
+        #         self._toggle_play()
+        #     else:
+        #         self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))
+
+
+
+        file = as_callack_audio("Green tip number 34:"
+            "This is over Anakin! I have the high ground."
+            "?"
+            "You underestimate my power."
+        )
+
+        url = QtCore.QUrl.fromLocalFile(file)
+
+        self.player.setMedia(QtMultimedia.QMediaContent(url))
+        self.player.play()
