@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
+from project.utils.notification import Notification
 from project.utils.singleton import Singleton
 from project.utils.user_data import UserData
 
@@ -24,6 +25,9 @@ class GameState(Singleton):
     current_heat: float = 0
     is_started: bool = False
     is_paused: bool = False
+
+    # Notification to be displayed on screen
+    notification: Optional[Notification] = None
 
     # Set this when the game should be reset
     # Will be watched from Game class

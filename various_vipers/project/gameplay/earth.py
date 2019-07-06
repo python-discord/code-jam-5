@@ -128,6 +128,7 @@ class Earth(object):
             self.__draw_polution()
         sun.draw()  # Need to draw sun before indicators
         self.__draw_indicators()
+        self.__draw_notification()
 
         if game_vars.open_task:
             game_vars.open_task.draw()
@@ -348,6 +349,10 @@ class Earth(object):
     def __draw_indicators(self) -> None:
         for indicator in self.indicators:
             indicator.draw()
+
+    def __draw_notification(self) -> None:
+        if game_vars.notification:
+            game_vars.notification = game_vars.notification.draw(self.screen)
 
     def __scroll_left(self) -> None:
         self.current_biome_pos -= BG_SCROLL_SPEED

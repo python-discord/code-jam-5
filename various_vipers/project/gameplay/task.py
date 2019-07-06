@@ -26,6 +26,7 @@ from project.constants import (
     WIDTH,
     X,
 )
+from project.utils.notification import Notification
 from .biome import Biome
 from .game_state import GameState
 
@@ -93,6 +94,12 @@ class Task(object):
         game_vars.current_heat += (
             self.heat_add_success if successful else self.heat_add_failure
         )
+
+        game_vars.notification = Notification(
+            self.biome.text_task_success if successful else self.biome.text_task_fail,
+            Color.green if successful else Color.red,
+        )
+
         self.is_done = True
 
     def _draw_timer(self) -> None:
