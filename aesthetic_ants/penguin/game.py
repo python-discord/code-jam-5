@@ -27,6 +27,8 @@ class Game(pyglet.window.Window):
 
         # Create background layer
         self.tiles = TileLayer(self.width, self.height)
+        self.tiles.load_tiles("resources/levels/1.level")
+
         self.space.add(self.tiles)
 
         # Add handlers
