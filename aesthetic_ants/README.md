@@ -1,3 +1,30 @@
-# Documentation for your team's project
+# Penguin Means Business
 
-To do: Add documentation of your project here.
+You are a penguin. Strange evil-looking business men in suits and sunglasses are here to heat up the planet and destroy your beautiful ice world. All you have are snowballs, but that's all you need to defend your homeland and make the ice world great again!
+
+## Installation
+Install `pipenv` first
+```
+pip install pipenv
+```
+
+Then go to the `aesthetic_ants` directory and install the dependencies using `pipenv`
+```
+pipenv install
+```
+
+## Running the game
+Inside the `aesthetic_ants` directory, run:
+```
+pipenv run main
+```
+
+## Controls
+WASD to move
+Mouse to aim and throw snowballs at the evil business men.
+
+## Credits
+Ikusaba-san = Leader
+bast0006 and kozzza = Team Members
+
+Assets were drawn by Koza.
