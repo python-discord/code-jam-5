@@ -4,6 +4,8 @@ import warnings
 
 from mysterious_moose.src.world import World, world_regions, INDUSTRY_TO_CO2
 
+VIRULENCE_FACTOR = 0.1
+
 weather_event_types = ['flood', 'heatwave', 'wildfire']
 
 
@@ -62,26 +64,57 @@ def simulate_world_changes(world, virus):
 def simulate_virus_changes(world, virus):
     """Simulates one turn of a viruses spreading and being eliminated. Returns a modified virus object."""
     # each infected region will attempt to infect another region, this region may already be infected
-    for region in virus.affected_regions:
-        target = world.regions[random.choice(world_regions)]
-        if virus.virulence * 0.2 > random.randint(0, world.distance_between(region, target)):
-            virus.affected_regions.append(target)
-            print(target.name + " is now infected with the virus!")
+    print(f'Let us see how far the virus spreads. Virus virulence is {virus.virulence} out of 100.')
+    affected_regions_at_beginning_of_attack = virus.affected_regions.copy()
+    for region in affected_regions_at_beginning_of_attack:
+        print(f'Let us see how far the virus spreads from {region.name}.')
+        for target in world.regions.values():
+            if virus.virulence * VIRULENCE_FACTOR > random.randint(0, world.distance_between(region, target)):      # todo fix virulence to feel linked to factor
+                if target in virus.affected_regions:
+                    # country was already infected
+                    continue
+                else:
+                    virus.affected_regions.append(target)
+                    print(target.name + " is now infected with the virus!")
+    print()
 
     # based on detectability each region has a random chance of stopping the virus
-    for region in virus.affected_regions:
+    print(f'Let us see which regions can kick the virus out. Virus detectability is {virus.detectability} out of 100.')
+    affected_regions_at_beginning_of_defence = virus.affected_regions.copy()
+    for region in affected_regions_at_beginning_of_defence:
+        print(f'Let us see if {region.name} can kick the virus out.')
         if virus.detectability * 0.1 > random.randint(0, len(virus.affected_regions) + 10):
             virus.affected_regions.remove(region)
             print(region.name + " successfully got rid of the virus!")
-
+        else:
+            print(region.name + " could not get rid of the virus!")
+        print()
     return virus
 
 
 def simulate_turn(world, virus):
     """"Simulates one turn of world changes, returning a list comprising of a world and virus object"""
+    print('-'*100)
+    print('The turn is to begin.')
+    print(
+        'Currently infected regions at beginning of turn:',
+        ', '.join([region.name for region in virus.affected_regions])
+    )
+    print()
     world = simulate_world_changes(world, virus)
     virus = simulate_virus_changes(world, virus)
-    return [world, virus]
+    print('The turn has ended.')
+    print('-'*100)
+    if not virus.affected_regions:
+        print('The virus has been wiped out!')
+        return
+    else:
+        print(
+            'Currently infected regions at end of turn:',
+            ', '.join([region.name for region in virus.affected_regions])
+        )
+        print()
+        return [world, virus]
 
 # model extreme weather events
 # def simulate_weather_events():
