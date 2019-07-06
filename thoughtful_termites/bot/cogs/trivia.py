@@ -16,6 +16,9 @@ class Trivia(commands.Cog):
         with open(TRIVIA_QUESTIONS_PATH) as fp:
             self.raw_trivia_questions = json.load(fp)
 
+        self.trivia_categories = set(n[0] for n in self.raw_trivia_questions)
+        self.trivia_difficulties = set(n[2] for n in self.raw_trivia_questions)
+
     def get_trivia_question(self, difficulty, category):
         def pred(result):
             if category:
@@ -46,44 +49,30 @@ class Trivia(commands.Cog):
                               timestamp=datetime.utcnow())
         return embed, answers, results['correct_answer']
 
-    @commands.group()
-    async def trivia(self, ctx, difficulty: str=None, *, category: str=None):
-        lookup = {'\N{REGIONAL INDICATOR SYMBOL LETTER A}': 0,
-                  '\N{REGIONAL INDICATOR SYMBOL LETTER B}': 1,
-                  '\N{REGIONAL INDICATOR SYMBOL LETTER C}': 2,
-                  '\N{REGIONAL INDICATOR SYMBOL LETTER D}': 3
-                  }
+    async def do_trivia(self, ctx, difficulty, category):
+        lookup = ['\N{REGIONAL INDICATOR SYMBOL LETTER A}',
+                  '\N{REGIONAL INDICATOR SYMBOL LETTER B}',
+                  '\N{REGIONAL INDICATOR SYMBOL LETTER C}',
+                  '\N{REGIONAL INDICATOR SYMBOL LETTER D}'
+                  ]
         embed, answers, correct_answer = self.prepare_embed(difficulty, category)
         embed.set_author(name=ctx.author, icon_url=ctx.author.icon_url)
         msg = await ctx.send(embed=embed)
         for i in range(len(answers)):
-            await msg.add_reaction(lookup.keys()[i])
+            await msg.add_reaction(lookup[i])
 
         def check(r, u):
-            if not u.id == ctx.author.id:
-                return False
-            if not r.channel.id == ctx.channel.id:
+            if not (u == ctx.author and r.channel == ctx.channel):
                 return False
             if not str(r) in lookup:
                 return False
             return True
 
-        try:
-            reaction, user = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
-        except asyncio.TimeoutError:
-            embed.description += f"\n\nTimed out waiting. The correct answer was:\n`{correct_answer}`"
-            await msg.edit(embed=embed)
-            try:
-                await msg.clear_reactions()
-            except (discord.Forbidden, discord.HTTPException):
-                pass
-            return
+        reaction, user = await self.bot.wait_for('reaction_add', check=check)
 
-        answer = answers[lookup[str(reaction)]]
-        if answer == correct_answer:
-            correct = True
-        else:
-            correct = False
+        answer = answers[lookup.index(str(reaction))]
+        correct = True if answer == correct_answer else False
+
         embed.description += f"\n\n{'Correct!' if correct else 'Incorrect.'} " \
                              f"The answer was:\n`{correct_answer}`"
         embed.colour = discord.Colour.green() if correct else discord.Colour.red()
@@ -92,16 +81,59 @@ class Trivia(commands.Cog):
             await msg.clear_reactions()
         except (discord.Forbidden, discord.HTTPException):
             pass
-        return
+        return correct
+
+    @commands.group(invoke_without_subcommand=True)
+    async def trivia(self, ctx, difficulty: str = None, *, category: str = None):
+        # TODO: Validate difficulty and category with custom converter
+        await self.do_trivia(ctx, difficulty, category)
 
     @trivia.command()
-    async def game(self, ctx, difficulty: str=None, *, category: str=None):
-        # 1. Prompt: do you want friends?
-        # 2. Wait for friends if so
-        # 3. Start game
-        # 4. 5 questions each
-        # 5. Winner found
-        pass
+    async def game(self, ctx, difficulty: str = None, *, category: str = None):
+        def check(m):
+            return m.author == ctx.author and m.channel == ctx.channel
+        msg = await ctx.send('How many rounds would you like to play? A number like `5`, or `20` would be appropriate.')
+        try:
+            rounds = await self.bot.wait_for('message', check=check, timeout=60.0)
+        except asyncio.TimeoutError:
+            return await ctx.send('You took too long. Goodbye...')
+        try:
+            rounds = int(rounds)
+        except ValueError:
+            return await ctx.send('That wasn\'t a valid number. Goodbye...')
+        if not rounds > 0:
+            return await ctx.send('You can\'t have a negative number of rounds!')
+        await msg.delete()
+
+        attempts = 0
+        wins = 0
+        losses = 0
+        for i in range(rounds):
+            result = await self.do_trivia(ctx, difficulty, category)
+            attempts += 1
+            if result:
+                wins += 1
+            else:
+                losses += 1
+
+        fmt = f'Game Over!\nAttempts: {attempts}\nCorrect: {wins}\n' \
+              f'Incorrect: {losses}\nCorrect %: {wins/attempts:2f}\n\n' \
+              f'Thanks for playing!'
+        await ctx.send(embed=discord.Embed(colour=self.bot.colour,
+                                           description=fmt,
+                                           timestamp=datetime.utcnow()
+                                           )
+                       )
+
+    @trivia.commands()
+    async def categories(self, ctx):
+        fmt = '\n'.join(f'•`{n}`' for n in self.categories)
+        await ctx.send(embed=discord.Embed(colour=self.bot.colour,
+                                           description=fmt,
+                                           timestamp=datetime.utcnow()
+                                           )
+                       )
+
 
 
 def setup(bot):
