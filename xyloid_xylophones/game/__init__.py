@@ -1,7 +1,14 @@
 import pyglet
 from pyqtree import Index
 from config import *
+import os
 
+from .gamemap import Map
+
+assets_path = os.path.split(os.path.realpath(__file__))[0] + '/../assets/'
+b1 = pyglet.image.load(assets_path + '1.png')
+b2 = pyglet.image.load(assets_path + '2.png')
+level1map = Map(assets_path + 'myfile.map', {1: b1, 2: b2})
 
 # 640x640 makes it easier to draw tiles
 game_window = pyglet.window.Window(width=game_width, height=game_height)

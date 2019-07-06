@@ -8,7 +8,8 @@ from pyglet.image.codecs.png import PNGImageDecoder
 
 #from .render_loop import render_loop
 from . import game_window, player, zone_map, Item, sound_list, music_list, scene_list, Resource, tick
-from . import keys, time_display, elapsed_time, media
+from . import keys, time_display, elapsed_time, media, level1map
+from .gamemap import Map
 from random import getrandbits
 from .input import mouse_input, handle_input
 
@@ -146,29 +147,7 @@ def render_loop():
         else:
             cut_scene = False
     else:
-        # batch up all zone drawing
-        batch = pyglet.graphics.Batch()
-        offset_x = -1024 + ((4+(zone_width-player.x)) * sprite_width)
-        offset_y = -1024 + ((4+(zone_height-player.y)) * sprite_height)
-        for i in zone_map[current_zone].index.intersect(bbox=(
-                -1024+((player.x-view_distance)*sprite_width),
-                -1024+((player.y-view_distance)*sprite_height),
-                -1024+((player.x+view_distance)*sprite_width),
-                -1024+((player.y+view_distance)*sprite_height))):
-            batch.add(4, pyglet.gl.GL_QUADS, None, ('v2i', (
-                i.x + offset_x, i.y + offset_y,
-                i.x+i.width + offset_x, i.y + offset_y,
-                i.x + i.width + offset_x, i.y + i.height + offset_y,
-                i.x + offset_x, i.y + i.width + offset_y)),
-             ('c3B', i.color))
-            # pyglet.text.Label(  # this is very slow when > 20ish 60fps > 10fps
-            #    i.name,
-            #    batch=batch,
-            #    font_name = 'Times New Roman',
-            #    font_size = 16,
-            #    x=i.x + offset_x + 5,
-            #    y=i.y + offset_y + 5)
-        batch.draw()
+        level1map.draw()
 
         # draw player fixed (static center)
         x = player.center_x
@@ -218,7 +197,7 @@ if __name__ == '__main__':
     # looper = pyglet.media.SourceGroup(music_list['default'].data.audio_format, None)
     # looper.loop = True
     # looper.queue(music_list['default'].data)
-    media.queue(music_list['default'].data)
-    media.volume = 0.05
-    media.play()
+    #media.queue(music_list['default'].data)
+    #media.volume = 0.05
+    #media.play()
     pyglet.app.run()
