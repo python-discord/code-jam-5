@@ -121,12 +121,9 @@ class MusicPlayer(QtWidgets.QWidget):
                 self.controls.enabled()
 
     def play_ad(self):
-        file = as_callack_audio(
-            "Green tip number 34:"
-            "This is over Anakin! I have the high ground."
-            "?"
-            "You underestimate my power."
-        )
+        fact = get_fact_by_tags('text')
+        text = "Did you know that ..." + fact.content
+        file = as_callack_audio(text)
         url = QtCore.QUrl.fromLocalFile(file)
         self.player.setMedia(QtMultimedia.QMediaContent(url))
         self.player.play()
