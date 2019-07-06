@@ -26,8 +26,7 @@ class Game(pyglet.window.Window):
             self.space.add(Enemy())
 
         # Create background layer
-        self.tiles = TileLayer(self.width, self.height)
-        self.tiles.load_tiles("resources/levels/1.level")
+        self.tiles = self.create_tiles()
 
         self.space.add(self.tiles)
 
@@ -57,6 +56,18 @@ class Game(pyglet.window.Window):
                                     Snowball.collides_with)
 
         return space
+
+    def create_tiles(self) -> TileLayer:
+        """Creates the tile background layer"""
+        tiles = TileLayer(self.width, self.height)
+        tiles.load_tiles("resources/levels/1.level")
+
+        self.space.add_collision_handler(CollisionType.SNOWBALL,
+                                         CollisionType.TILE_LAYER,
+                                         tiles.collide_tiles,
+                                         lambda _, _1: True)
+
+        return tiles
 
     def create_ui(self) -> Space:
         """Returns the user interface space"""
