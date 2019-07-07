@@ -63,7 +63,8 @@ class FactFactory:
             new_records = [
                 ErrorFact(
                     title='Error',
-                    content='Could not retrieve remote data for source %s: %s' % (self.fetcher.url, e),
+                    content='Could not retrieve remote data for source %s: (%s)%s' % (
+                        self.fetcher.url, type(e), e),
                     source=self.fetcher.url,
                     exception=e,
                     factory=self
@@ -169,7 +170,6 @@ class ErrorFact(Fact):
             factory=factory
         )
 
-        self.factory = factory
         self.exception = exception
 
     def as_widget(self, parent: QWidget) -> QmlWidget:
