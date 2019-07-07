@@ -84,6 +84,8 @@ class Game:
 
                 print(response, "\n\n")
 
+            if all(i > -10 for i in )
+
     def _invest(self, option) -> str:
         try:
             chosen_investment = self.investments.options[option]
