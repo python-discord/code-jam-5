@@ -1,4 +1,8 @@
-# Leafify
+# Leafify => Awareness Campaign Music Player
+
+<center>
+![leafify](images/spotleafy.png)
+</center>
 
 Leafify is a simple, climate change / environment focused music player, which aims to encourage action against climate change/environmental crisis in a subtle but effective manner. The project allows you to play your music in a beautiful interface while also being reminded of interesting climate change facts. 
 
@@ -47,11 +51,16 @@ player.play()
 
 However, because of the adverts which had to play before each song, it made more sense to integrate a QMediaPlaylist, in which an advert and desired song are added together at the same time every time you want to play something.
 
-The controls
+### The controls
+
 The controls are fairly simple, a play/pause button, seeker bar and a label for displaying the current time/duration. The seeker bar was created using a custom QProgressBar, which detected for QMouseEvents to allow the user to “seek” through the song. Also, the progress bar “knob” was created by overriding the paintEvent function and drawing a circle at the current value of the progress bar.
-The audio visualizer
+
+## The audio visualizer
+
 The audio visualiser changes depending on what is being played. If an advert is being played, the audio visualiser will be green; if any other song is being played, the audio visualiser will be coloured as if the Earth is on fire (to represent global warming). The amplitudes are calculated in a QThread which are then passed to the main program using PyQt’s signal/slot mechanics.
-The calculations
+
+### The calculations
+
 The audio visualiser was created using an FFT (fast fourier transform) algorithm to calculate the amplitudes and frequencies of the samples. Using numpy and pydub, the values were calculated using the following method:
 
 ```python
@@ -135,11 +144,11 @@ $ { map:strip, map:upper }
 ```
 ### New pipes & higher-order pipes
 
-To easily extend the library of pipes available to use, we have implemented decorators `HierarchicalXPathQuery.pipe` and `HierarchicalXPathQuery.high_pipe` which allow you to easily register your own functions as pipe elements. They will be summonable under their associated nickname in the a query you pass to the object that registered them.
+To easily extend the library of pipes available to use, we have implemented decorators `HierarchicalXPathQuery.pipe` and `HierarchicalXPathQuery.high_pipe` which allow you to easily register your own functions as pipe elements. They will be summonable under their associated nickname in a query you pass to the object that registered them.
 
 ### QML WIdgets
 
-With this, there is minimal effort to be made out of adding new sources (even though we have like, 2 of them).
+With this, there is minimal effort to be made out of adding new sources.
 
 ### Fact Factories
 
@@ -153,3 +162,7 @@ Fact factories each have a set of tags which allows for selecting between facts 
 
 Audio ads are provided by the fact factories in the same fashion as for the UI facts.
 Every song the user selects will first be preceded by an audio ad which read a fact aloud using `gtts`, a Python package which interfaces with Google Translate’s text-to-speech API. 
+
+## Future features
+
+## Talk about the default song folder

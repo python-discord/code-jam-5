@@ -59,7 +59,7 @@ class MediaLibrary(QtWidgets.QFrame):
         title_font = QtGui.QFont('Raleway', 16)
         title_font.setBold(True)
 
-        self.media_library_title = QtWidgets.QLabel('Media Library...')
+        self.media_library_title = QtWidgets.QLabel('Media Library')
         self.media_library_title.setFont(title_font)
 
         self.title_layout.addWidget(self.media_library_title)
@@ -90,6 +90,7 @@ class MediaLibrary(QtWidgets.QFrame):
         self.change_path_button.clicked.connect(self.choose_path)
 
     def choose_path(self):
+        """Open a file dialog to allow the user to select a folder within the local filesystem."""
         folder_path = QtWidgets.QFileDialog.getExistingDirectory()
         if folder_path:
             self.set_root_path(folder_path)
