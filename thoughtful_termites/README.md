@@ -76,6 +76,10 @@ including:
     - Repeat!
     - Check your balance with `>farmertown balance`
 
+    Note:
+    - You can disable the cooldowns imposed upon `>farmertown sow` and `>farmertown results` with
+        `>farmertown ignore_cooldowns`. Less fun, but it makes testing easy...
+
 Some minigames are available once you finish a certain number of goals:
 
 - `>climate_commentary` (1 goal): Offers a variety of different comments
