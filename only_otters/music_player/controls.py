@@ -1,15 +1,19 @@
-from PyQt5 import QtWidgets, QtMultimedia, QtCore, QtGui
+# local
+from only_otters.images import buttons as imgButtons
 from .seeker import Seeker
-from pathlib import Path
+
+# qt
+from PyQt5 import QtWidgets, QtMultimedia, QtGui, QtCore
 
 
 class ControlsWidget(QtWidgets.QFrame):
     """Contains all the controls for a QMediaPlayer."""
 
-    def __init__(self, player):
+    def __init__(self, player: 'MusicPlayer'):  # noqa: F821
         super().__init__()
         self.player = player
         self.player.mediaStatusChanged.connect(self._update_controls_on_stop)
+        self.player.playlist().currentMediaChanged.connect(self._update_play_pause_button)
         self.setObjectName('controls')
         self.setFixedHeight(50)
         self.init_ui()
@@ -18,17 +22,31 @@ class ControlsWidget(QtWidgets.QFrame):
         """Create the UI."""
         self.main_layout = QtWidgets.QHBoxLayout()
         self.main_layout.setContentsMargins(6, 6, 6, 6)
-        self.setStyleSheet('QFrame#controls { background: qlineargradient(spread:pad, x1:0.494682, y1:0, x2:0.5, y2:1,'
-                           'stop:0 rgba(136, 140, 141, 255), stop:1 rgba(113, 116, 117, 255)); }'
-                           'QPushButton { background: transparent; color: white; }')
+        self.setStyleSheet("""
+            QFrame#controls {
+                background: qlineargradient(
+                    spread: pad,
+                    x1: 0.494682,
+                    y1: 0,
+                    x2: 0.5,
+                    y2: 1,
+                    stop: 0 rgba(136, 140, 141, 255),
+                    stop: 1 rgba(113, 116, 117, 255)
+                );
+            }
+            QPushButton {
+                border: none;
+                background: none;
+                color: white;
+            }
+        """)
 
         self.seeker = Seeker(self.player)
 
-        icons_path = Path('only_otters/images')
-        self.previous_song_icon = QtGui.QIcon(str(icons_path / 'previous.png'))
-        self.pause_song_icon = QtGui.QIcon(str(icons_path / 'pause.png'))
-        self.play_song_icon = QtGui.QIcon(str(icons_path / 'play.png'))
-        self.next_song_icon = QtGui.QIcon(str(icons_path / 'next.png'))
+        self.previous_song_icon = QtGui.QIcon(imgButtons.Previous.str)
+        self.pause_song_icon = QtGui.QIcon(imgButtons.Pause.str)
+        self.play_song_icon = QtGui.QIcon(imgButtons.Play.str)
+        self.next_song_icon = QtGui.QIcon(imgButtons.Next.str)
 
         self.previous_song_button = QtWidgets.QPushButton(self.previous_song_icon, '')
         self.previous_song_button.clicked.connect(self._previous_song)
@@ -49,18 +67,26 @@ class ControlsWidget(QtWidgets.QFrame):
         self.setLayout(self.main_layout)
 
     def _update_controls_on_stop(self, status):
+        """Update stop control button icon depending on status."""
         if status == self.player.EndOfMedia:
             self.play_pause_button.setIcon(self.play_song_icon)
             self.seeker.setValue(0)
 
+    def _update_play_pause_button(self, state):
+        """Switch from play to pause icon depending on music player state."""
+        if self.player.state() == self.player.PlayingState:
+            self.play_pause_button.setIcon(self.pause_song_icon)
+        else:
+            self.play_pause_button.setIcon(self.play_song_icon)
+
     def toggle_play(self):
         """Toggle between play and pause."""
         if self.player.state() == self.player.PlayingState:
-            self.play_pause_button.setIcon(self.play_song_icon)
             self.player.pause()
+            self.play_pause_button.setIcon(self.play_song_icon)
         elif self.player.playlist().mediaCount():
-            self.play_pause_button.setIcon(self.pause_song_icon)
             self.player.play()
+            self.play_pause_button.setIcon(self.pause_song_icon)
 
     def _next_song(self):
         """Plays the next song in the playlist."""
@@ -75,3 +101,15 @@ class ControlsWidget(QtWidgets.QFrame):
         if self.player.state() == QtMultimedia.QMediaPlayer.PausedState:
             self.toggle_play()
 
+    def _open_file(self):
+        """Opens an audio file and adds it to the playlist."""
+        song = QtWidgets.QFileDialog.getOpenFileName(self, "Open Song", "", "Sound Files (*.mp3)")
+
+        if song[0]:
+            url = QtCore.QUrl.fromLocalFile(song[0])
+
+            if not self.player.playlist().mediaCount():
+                self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))
+                self.toggle_play()
+            else:
+                self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))

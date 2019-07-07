@@ -1,0 +1,5 @@
+resources:
+  type: namespace
+  Raleway:
+    Regular: Raleway-Regular.ttf
+    SemiBold: Raleway-SemiBold.ttf

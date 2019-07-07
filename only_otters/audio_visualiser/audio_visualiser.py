@@ -1,13 +1,20 @@
-from PyQt5 import QtWidgets, QtGui, QtCore
+# local
 from .fft_analyser import FFTAnalyser
+
+# std
 from pathlib import Path
+
+# qt
+from PyQt5 import QtWidgets, QtGui, QtCore
+
+# other
 import numpy as np
 
 
 class AudioVisualiser(QtWidgets.QWidget):
     """Shows a visual representation of audio from a QMediaPlayer."""
 
-    def __init__(self, player):
+    def __init__(self, player: 'MusicPlayer'):  # noqa: F821
         super().__init__()
         self.player = player
         self.setFixedSize(200, 200)
@@ -78,7 +85,7 @@ class AudioVisualiser(QtWidgets.QWidget):
 
     def red_flames(self):
         self.flames = [QtCore.Qt.red, QtGui.QColor('#E86100'), QtCore.Qt.yellow]
-    
+
     def green_flames(self):
         self.flames = [QtGui.QColor('#54ff47'), QtGui.QColor('#4be83f'), QtGui.QColor('#43d638')]
 

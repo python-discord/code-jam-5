@@ -1,18 +1,21 @@
+# std
 import time
 import threading
 from pathlib import Path
 
-__folder__ = Path(__file__).parent
-
+# other
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+
+
+__folder__ = Path(__file__).parent
 
 
 DRIVER = None
 LOCK = threading.RLock()
 
 
-def make_driver(headless=True):
+def make_driver(headless: bool = True) -> webdriver:
     """
     Creates a selenium driver interface for Chrome.
     You need to install the chromedriver provided by
@@ -31,7 +34,8 @@ def make_driver(headless=True):
     return driver
 
 
-def fetch(url, wait=0) -> bytes:
+def fetch(url: str, wait: int = 0) -> bytes:
+    """Fetch the content of the page through the puppet browser."""
 
     global DRIVER, LOCK
 

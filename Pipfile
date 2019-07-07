@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 flake8 = "*"
+selenium = "*"
 
 [packages]
 pyqt5 = "*"
@@ -14,7 +15,9 @@ cachetools = "*"
 gtts = "*"
 lxml = "*"
 requests = "*"
+cached-property = "*"
 pyyaml = "*"
+spacy = "*"
 
 [requires]
 python_version = "3.7"
@@ -22,3 +25,4 @@ python_version = "3.7"
 [scripts]
 lint = "python -m flake8"
 start = "python -m only_otters"
+setup-nlp = "python -m spacy download en"

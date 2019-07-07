@@ -1,8 +1,13 @@
-from PyQt5 import QtCore
-from pydub import AudioSegment
-import numpy as np
+# std
 import time
 import os
+
+# qt
+from PyQt5 import QtCore
+
+# other
+from pydub import AudioSegment
+import numpy as np
 
 
 class FFTAnalyser(QtCore.QThread):
@@ -10,7 +15,7 @@ class FFTAnalyser(QtCore.QThread):
 
     calculated_visual = QtCore.pyqtSignal(np.ndarray)
 
-    def __init__(self, player):
+    def __init__(self, player: 'MusicPlayer'):  # noqa: F821
         super().__init__()
         self.player = player
         self.reset_media()
@@ -24,13 +29,17 @@ class FFTAnalyser(QtCore.QThread):
         if os.name == 'nt' and audio_file.startswith('/'):
             audio_file = audio_file[1:]
         if audio_file:
-            self.song = AudioSegment.from_file(audio_file).set_channels(1)
-            self.samples = np.array(self.song.get_array_of_samples())
+            try:
+                self.song = AudioSegment.from_file(audio_file).set_channels(1)
+            except PermissionError:
+                self.start_animate = False
+            else:
+                self.samples = np.array(self.song.get_array_of_samples())
 
-            self.max_sample = self.samples.max()
-            self.maximum_amp = self.max_sample // 4
-            self.points = np.zeros(self.resolution)
-            self.start_animate = True
+                self.max_sample = self.samples.max()
+                self.maximum_amp = self.max_sample // 4
+                self.points = np.zeros(self.resolution)
+                self.start_animate = True
         else:
             self.start_animate = False
 

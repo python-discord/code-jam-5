@@ -1,11 +1,41 @@
-import yaml
-import requests
-from lxml import html as lhtml
+# local
+import only_otters.scrapetools.autobrowser as autobrowser
+import only_otters.scrapetools.util as util
+
+# std
 from functools import partial
 import re
+from typing import Any, Generator, Dict, Optional
 
-import scrapetools.util as util
-import scrapetools.autobrowser as autobrowser
+# other
+from lxml import html as lhtml
+import requests
+import yaml
+
+
+class Keywords:
+    """A simple structure to store the string representations of each keyword."""
+
+    class Root:
+
+        url: str = 'url'
+        dynamic: bool = 'dynamic'
+        content: dict = 'content'
+
+    class Query:
+
+        location: str = 'loc'
+        properties: dict = 'properties'
+        body: dict = 'body'
+
+        prefix: str = 'prefix'
+        postdict: str = 'postdict'
+        postfix: str = 'finally'
+
+    class Properties:
+
+        propagation: str = 'propagate_queries'
+        pipes: str = 'pipes'
 
 
 class HierarchicalXPathQuery:
@@ -26,7 +56,7 @@ class HierarchicalXPathQuery:
     # Use <class>.pipe to register a function as a new pipe.
     # Said function must take only one argument, e.g. 'item'.
     # --------------------------------------------------------------------------
-    PIPES = {
+    PIPES: Dict[str, callable] = {
         'single': util.one_or_many,
         'astype': util.astype,
         'int': int,
@@ -53,7 +83,7 @@ class HierarchicalXPathQuery:
     # Extensible with <class>.high_pipe (decorator)
     # Said function must take two arguments: a callable and an iterable.
     # --------------------------------------------------------------------------
-    HIGHER_ORDER_PIPES = {
+    HIGHER_ORDER_PIPES: Dict[str, callable] = {
         'map': map,
         'filter': filter,
         'lmap': lambda f, n: list(map(f, n)),
@@ -64,9 +94,8 @@ class HierarchicalXPathQuery:
     # --------------------------------------------------------------------------
     # Default modes.
     # Modes are pipes that are fixed at the end of the pipeline.
-    # TODO: [mode] decorator
     # --------------------------------------------------------------------------
-    MODES = {
+    MODES: Dict[str, callable] = {
         's': str,
         'l': list,
         'u': util.one_or_many
@@ -74,25 +103,22 @@ class HierarchicalXPathQuery:
 
     # --------------------------------------------------------------------------
     # Default higher-horder modes.
-    # TODO: decorator
     # --------------------------------------------------------------------------
-    HIGHER_ORDER_MODES = {
+    HIGHER_ORDER_MODES: Dict[str, callable] = {
         'm': lambda f, gen: list(map(f, gen)),
         'f': lambda f, gen: list(filter(f, gen))
     }
 
     # --------------------------------------------------------------------------
 
-    @classmethod
-    def resolve_mode(cls, name: str, high: bool = False) -> callable:
+    def resolve_mode(self, name: str, high: bool = False) -> callable:
         """Return mode from name. If high is true, look in higher-order modes list."""
-        mode = (cls.MODES if not high else cls.HIGHER_ORDER_MODES).get(name)
+        mode = (self.MODES if not high else self.HIGHER_ORDER_MODES).get(name)
         if mode is None:
             raise UserWarning('No such %smode: %s' % ('higher-order ' * high, name))
         return mode
 
-    @classmethod
-    def resolve_pipe(cls, name: str) -> callable:
+    def resolve_pipe(self, name: str) -> callable:
         """
         Return pipe from name.
         If pipe has format 'a:b', return left member higher-order pipe partial
@@ -102,8 +128,8 @@ class HierarchicalXPathQuery:
         if ':' in name:
             hopipename, pipename = name.split(':', maxsplit=1)
 
-            hopipe = cls.HIGHER_ORDER_PIPES.get(hopipename)
-            pipe = cls.PIPES.get(pipename)
+            hopipe = self.HIGHER_ORDER_PIPES.get(hopipename)
+            pipe = self.PIPES.get(pipename)
 
             if hopipe is None:
                 raise UserWarning('No such high-order pipe: %s' % hopipename)
@@ -113,16 +139,17 @@ class HierarchicalXPathQuery:
 
             return partial(hopipe, pipe)
 
-        pipe = cls.PIPES.get(name)
+        pipe = self.PIPES.get(name)
         if pipe is None:
             raise UserWarning('No such pipe: %s' % name)
 
         return pipe
 
-    @classmethod
-    def resolve_pipe_expr(cls,
-                          expr: str,
-                          pipe_prefix: str = None) -> (str, list, list, callable):
+    def resolve_pipe_expr(
+        self,
+        expr: str,
+        pipe_prefix: str = None
+    ) -> (str, list, list, callable):
         """
         Translate a pipe expression into a multi-function wrapper for a regular
         XPath path expression.
@@ -154,6 +181,7 @@ class HierarchicalXPathQuery:
             expr = pipe_prefix + ' ' + expr
 
         regex = r'^\s*\$\s*([a-z]:)?([a-z]+)?\s*{\s*((?:[\w:]+\s*[,]?\s*)+)\s*}'
+        # Find examples here: https://regex101.com/r/pGzH6o/3
 
         pipes = []
         modes = []
@@ -163,15 +191,13 @@ class HierarchicalXPathQuery:
         while match is not None:
             _ho_mode, _modes, _pipes = match.groups()
 
-            # TODO: Resolve modes & pipes before runnning Xpath expr
-
             # Parse modes
             if _ho_mode is not None:
                 _ho_mode = _ho_mode.strip(':')
                 if len(_ho_mode) > 1 or ho_mode:
                     raise UserWarning('There can only be one \
                         mode of higher-order. %s' % ho_mode)
-                ho_mode = cls.resolve_mode(_ho_mode, high=True)
+                ho_mode = self.resolve_mode(_ho_mode, high=True)
 
             # Parse pipes
             _pipes = _pipes.split(',')
@@ -185,22 +211,21 @@ class HierarchicalXPathQuery:
 
         # Resolve pipes + ho_mode
         for idx, pipename in enumerate(pipes):
-            fn = cls.resolve_pipe(pipename)
+            fn = self.resolve_pipe(pipename)
             if ho_mode is not None:
                 fn = partial(ho_mode, fn)
             pipes[idx] = fn
 
         for idx, mode in enumerate(modes):
-            fn = cls.resolve_mode(mode)
+            fn = self.resolve_mode(mode)
             modes[idx] = fn
 
         return expr, pipes[::-1], modes, ho_mode
 
-    @classmethod
-    def resolve_xpath(cls, element, expr: str, pipe_prefix: bool = None):
+    def resolve_xpath(self, element, expr: str, pipe_prefix: bool = None) -> Any:
         """Resolve a composite XPath expression."""
-        expr, pipes, modes, _ = cls.resolve_pipe_expr(expr,
-                                                      pipe_prefix=pipe_prefix)
+        expr, pipes, modes, _ = self.resolve_pipe_expr(expr,
+                                                       pipe_prefix=pipe_prefix)
 
         result = element.xpath(expr)
 
@@ -212,83 +237,118 @@ class HierarchicalXPathQuery:
 
         return result
 
-    @classmethod
-    def register_pipe(cls, fn: callable, name: str = None, high: bool = False):
-
+    @util.both_class_instance
+    def register_pipe(
+        self,
+        fn: callable,
+        name: Optional[str] = None,
+        high: bool = False
+    ):
+        """Register a new pipe function so that it can be used in a query."""
         if name is not None:
             if not re.match(r'^\w+$', name):
                 raise UserWarning('{!r} is not a compliant name. \
                     Allowed characters: [a-zA-Z0-9_]'.format(name))
+        else:
+            name = fn.__name__
 
         if not high:
-            cls.PIPES[name or fn.__name__] = fn
+            self.PIPES[name] = fn
         else:
-            cls.HIGHER_ORDER_PIPES[name or fn.__name__] = fn
+            self.HIGHER_ORDER_PIPES[name] = fn
 
-    @classmethod
-    def pipe(cls, name: str = None):  # A pipe decorator
+    @util.both_class_instance
+    def pipe(self, name: Optional[str] = None):  # A pipe decorator
         """
         Register a function as a pipe under the specified name.
         If no name is provided, the function __name__ is used instead.
         To accomplish the latter case, this decorator can be used without ().
         """
         if callable(name):
-            return cls.register_pipe(name)
-        return partial(cls.register_pipe, name=name)
+            return self.register_pipe(name)
+        return partial(self.register_pipe, name=name)
 
-    @classmethod
-    def high_pipe(cls, name: str = None):
+    @util.both_class_instance
+    def high_pipe(self, name: Optional[str] = None):
         """Register a function as a higher-order pipe."""
         if callable(name):
-            return cls.register_pipe(name, high=True)
-        return partial(cls.register_pipe, name=name, high=True)
+            return self.register_pipe(name, high=True)
+        return partial(self.register_pipe, name=name, high=True)
 
-    @classmethod
-    def apply_pipes(cls, fn: callable, pipe_properties: dict):
+    def process_query(self, tree, xquery: dict, **properties: dict) -> Generator:
+        """
+        Process a hierarchical query. The following fields are available:
 
-        pipes = []
+        :body
+        A dictionary embodying what the resulting record should look like. Given the 'loc' element,
+        each key-value pair will have its pair replaced by the result of evaluating the expression.
 
-        for name, kargs in pipe_properties.items():
+        ```
+        body: title: //title/text()
+        => { "title": "Google" }
+        ```
 
-            target = cls.PIPES.get(name)
-            if target is None:
-                raise KeyError('No such pipe function: %s' % name)
+        :loc
+        The XPath expression returning one or more elements to be used as root
+        for the query's relative XPath expressions. The principle is that the query
+        found in 'body' will be run on each of those elements, and return a dict per element.
 
-            pipes.append(
-                partial(target, **kargs)
-            )
+        :prefix
+        A pipe expression that will prepend every expression in the query's body.
+        This means that the pipes found in it will be executed AFTER the pipes already found
+        in the body expression.
 
-        if pipes:
-            return util.pipe(*pipes)(fn)
+        :postdict
 
-        return fn
+        :finally
+        A pipe expression that will be run on the query result as a whole (the list of records).
+        Hence, $ { postprocess } will apply this pipe to every record.
 
-    @classmethod
-    def process_query(cls, tree: "lxml Element", xquery: dict, **properties):
+        Result := [finally] <= [postdict] <= {
+                                              [prefix] <= [pipes] <= //a/li
+                                              [prefix] <= [pipes] <= //a/li/text()
+                                              ...
+                                            }
 
-        loc_query = xquery['loc']
-        query = xquery['query']
-        prefix = xquery.get('prefix')
-        postfix = xquery.get('postfix')
+        """
+        ##
+        postprocess = xquery.pop(Keywords.Query.postfix, None)
+        if postprocess is not None:
+            _, pipes, _, _ = self.resolve_pipe_expr(postprocess)
+            gen = self.process_query(tree, xquery, **properties)
+            for pipe in pipes:
+                if type(pipe) == partial:
+                    gen = pipe(gen)
+                else:
+                    gen = map(pipe, gen)
+            yield from gen
+            return
+        ##
+
+        loc_query = xquery[Keywords.Query.location]
+        query = xquery[Keywords.Query.body]
+        prefix = xquery.get(Keywords.Query.prefix)
+        postdict = xquery.get(Keywords.Query.postdict)
 
         # Process properties
         properties = properties or {}
-        properties.update(xquery.get('properties', {}))
+        properties.update(xquery.get(Keywords.Query.properties, {}))
 
         # Prepare to propagate properties to nested queries
         propagated_properties = {}
-        if properties.get('propagate_properties'):
+        if properties.get(Keywords.Properties.propagation):
             propagated_properties = properties
 
-        process_xpath = cls.resolve_xpath
+        process_xpath = self.resolve_xpath
 
-        # Set up the pipes
-        pipe_properties = properties.get('pipes')
-        if pipe_properties is not None:
-            process_xpath = cls.apply_pipes(cls.resolve_xpath, pipe_properties)
-
+        # Apply prefix if provided
         if prefix is not None:
             process_xpath = partial(process_xpath, pipe_prefix=prefix)
+
+        # Resolve postdict
+        postdict_pipes = []
+        if postdict is not None:
+            _, postdict_pipes, _, _ = self.resolve_pipe_expr(postdict)
 
         for loc in tree.xpath(loc_query):
 
@@ -297,7 +357,7 @@ class HierarchicalXPathQuery:
             for key, value in query.items():
 
                 if type(value) == dict:
-                    value = [*cls.process_query(loc, value, **propagated_properties)]
+                    value = [*self.process_query(loc, value, **propagated_properties)]
 
                 elif type(value) in (list, tuple):
                     value = [
@@ -310,29 +370,53 @@ class HierarchicalXPathQuery:
 
                 result[key] = value
 
-            # Apply postfix expression
-            if postfix:
-                _, pipes, _, _ = cls.resolve_pipe_expr(postfix)
-                for pipe in pipes:
-                    result = pipe(result)
+            # Apply postdict expression
+            for pipe in postdict_pipes:
+                result = pipe(result)
 
             yield result
 
     @classmethod
-    def from_yml(cls, filepath: str):
+    def from_yml(cls, filepath: str) -> 'HierarchicalXPathQuery':
         """Builds a <class> object from a YAML file."""
         data = yaml.safe_load(open(filepath))
         return cls(**data)
 
-    def __init__(self, *, content: dict, url: str = None, dynamic: bool = False):
+    def __init__(
+        self,
+        *,
+        content: dict,
+        url: Optional[str] = None,
+        dynamic: bool = False
+    ):
+        """
+        :url
+        The url at which we will send a GET request to fetch content we wish to
+        scrape data from.
 
+        :content
+        The top-level hierarchical query.
+
+        :dynamic
+        Whether the source requires a full in-browser experience, with enabled Javascript.
+
+        """
         self.url = url
         self.content = content
         self.dynamic = dynamic
 
-    def get(self, url: str = None, dynamic: bool = None) -> bytes:
+        # Copy class pipes & modes into instance
+        self.PIPES = {**self.PIPES}
+        self.MODES = {**self.MODES}
+        self.HIGHER_ORDER_PIPES = {**self.HIGHER_ORDER_PIPES}
+        self.HIGHER_ORDER_MODES = {**self.HIGHER_ORDER_MODES}
 
-        url = url or self.url
+    def get(
+        self,
+        url: Optional[str] = None,
+        dynamic: Optional[bool] = None
+    ) -> str:
+        """Fetch the content found at the provided url."""
 
         if dynamic is None:
             dynamic = self.dynamic
@@ -346,7 +430,12 @@ class HierarchicalXPathQuery:
 
         return response.content
 
-    def __call__(self, url: str = None, html: str = None) -> dict:
+    def __call__(
+        self,
+        url: Optional[str] = None,
+        html: Optional[str] = None
+    ) -> Generator:
+        """Fetch remote content and run query against it."""
 
         url = url or self.url
 
@@ -355,4 +444,4 @@ class HierarchicalXPathQuery:
 
         tree = lhtml.fromstring(html)
 
-        return self.__class__.process_query(tree, self.content)
+        return self.process_query(tree, self.content)

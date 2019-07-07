@@ -1,8 +1,12 @@
 from functools import wraps, partial
 import types
+from typing import Union, List, Any, Iterable, Generator, Tuple
 
 
-def one_or_many(items: list, default=''):
+def one_or_many(
+    items: List[Any],
+    default: Any = ''
+) -> Union[List, Any]:
     """
     Taking a list as input,
     return the first item if there is only one item,
@@ -16,8 +20,9 @@ def one_or_many(items: list, default=''):
     return default
 
 
-def pipe(*fns):
-    def decorator(fn):
+def pipe(*fns: Tuple[callable, ...]) -> callable:
+    """Pipes the output of a function through a set of functions."""
+    def decorator(fn) -> callable:
         @wraps(fn)
         def wrapper(*a, **kw):
             r = fn(*a, **kw)
@@ -28,8 +33,9 @@ def pipe(*fns):
     return decorator
 
 
-def astype(typename):
-
+def astype(typename: str) -> callable:
+    """From a string name, retrieve the related callable which is expected to be a type converter
+    or a constructor of some sort."""
     try:
         type_ = globals()[typename]
     except KeyError:
@@ -41,7 +47,8 @@ def astype(typename):
     return type_
 
 
-def flatten(array):
+def flatten(array: Iterable) -> Generator:
+    """Flattens a multi-dimensional iterable."""
     for item in array:
         if (
             isinstance(array, types.GeneratorType) or
@@ -52,25 +59,16 @@ def flatten(array):
             yield item
 
 
-def exceptprint(*e):
+class both_class_instance:
+    """
+    Allow a method to apply to both a class object and its instance objects.
+    Either will be passed as the first parameter of the method.
+    A.do()
+    A().do()
+    """
 
-    def decorator(fn, excepts=(Exception,)):
+    def __init__(self, meth: callable):
+        self.meth = meth
 
-        @wraps(fn)
-        def wrapper(*a, **kw):
-            try:
-                return fn(*a, **kw)
-            except excepts as ex:
-                print(
-                    'e=%s:%s, f=%s, args=%s, kw=%s' % (
-                        type(ex).__name__, ex,
-                        fn, a, kw
-                    )
-                )
-                raise
-        return wrapper
-
-    if len(e) == 1 and not isinstance(e[0], Exception):
-        return decorator(e[0])
-
-    return partial(decorator, excepts=e)
+    def __get__(self, instance: object, owner: type) -> partial:
+        return partial(self.meth, instance or owner)

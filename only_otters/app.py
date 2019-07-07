@@ -1,14 +1,19 @@
-from PyQt5 import QtWidgets
+# locale
 from .music_player import MusicPlayer
+from only_otters.images import icons
+
+# qt
+from PyQt5 import QtWidgets, QtGui
 
 
-class Spotleafy(QtWidgets.QMainWindow):
+class Leafify(QtWidgets.QMainWindow):
     """A music player designed to encourage action against climate change."""
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Spotleafy')
-        self.setMinimumSize(950, 600)
+        self.setWindowTitle('Leafify')
+        self.setWindowIcon(QtGui.QIcon(icons.Logo.str))
+        self.setMinimumSize(950, 650)
         self.init_gui()
 
     def init_gui(self):
