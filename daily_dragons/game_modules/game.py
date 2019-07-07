@@ -7,6 +7,7 @@ from .investment_options import InvestmentOptions
 
 class Game:
     def __init__(self, name) -> None:
+        """Creates the player and planet objects, as well as sets up some message variables"""
         self.player = Player(name)
         self.earth = Planet()
         self.investments = InvestmentOptions()
@@ -69,6 +70,7 @@ class Game:
         )
 
     def planet_stats_msg(self) -> str:
+        """Outputs the current planet stats"""
         planet_stats_msg = "\n".join(
             [
                 Fore.GREEN + "Earth's current stats:" + Fore.WHITE,
@@ -80,10 +82,12 @@ class Game:
         return planet_stats_msg
 
     def player_stats_msg(self) -> str:
+        """Outputs the current player stats"""
         player_stats_msg = f"Your current stats:\n{self.player}"
         return player_stats_msg
 
     def final_score(self) -> str:
+        """Calculates the final score if round 10 has completed"""
         final_score = 0
         for stat in self.earth.stats.values():
             if stat >= 0:
@@ -94,6 +98,7 @@ class Game:
         return f"Final score: {final_score}"
 
     def main(self) -> None:
+        """Main game loop"""
         while not self.quit_game:
             if self.round > 10:
                 self.quit_game = True
@@ -125,6 +130,7 @@ class Game:
                 print(response, "\n\n")
 
     def _invest(self, option) -> str:
+        """Confirmation of player's investment choice once 'invest [option]' was input"""
         try:
             chosen_investment = self.investments.options[option]
             print(chosen_investment)
@@ -148,7 +154,7 @@ class Game:
             return self.error_msg
 
     def parse_input(self, token: str) -> Dict.values:
-
+        """Parses the player's input and outputs the necessary information"""
         input_options = {
             "help": self.help_menu,
             "exit": self.exit_msg,
