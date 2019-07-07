@@ -1,8 +1,5 @@
-
-<h1 align="center"> [Only Otters] Leafify </h1>
 <p align="center">
-  <a href="https://github.com/python-discord/code-jam-5"> PythonDiscord/Code-Jam-5 </a> submission <br>
-  <img src="images/spotleafy.png" width="256">
+<img width="600" src="https://i.imgur.com/PMQv01Y.png">
 </p>
 
 Leafify is a simple, climate change / environment focused music player, which aims to encourage action against climate change/environmental crisis in a subtle but effective manner. The project allows you to play your music in a beautiful interface while also being reminded of interesting climate change facts. 
