@@ -9,7 +9,7 @@ from .textbox import TextBox
 from . import game_window, level_map, Resource, Item, player, zone_map, level_key, media, tick, \
     time_display, keys, elapsed_time
 from config import location_scene, location_sound, location_music, zone_names, zone_height, zone_width, sprite_height, \
-    sprite_width, cut_scene_timeout, cut_scene_name, current_zone, view_distance, cut_scene
+    sprite_width, cut_scene_timeout, cut_scene_name, view_distance, cut_scene
 from pathlib import Path
 
 
@@ -46,26 +46,22 @@ def on_mouse_press(x, y, button, modifiers):
     mouse_input(x, y)
 
 
-def load_zones(file_name):
-    '''
-    load the map file
-    :return: None
-    '''
-    t = [[]]
-    i = 0
-    with open(file_name, 'rb') as f:
-        key = f.read(1)
-        while key != b'':
-            ikey = int.from_bytes(key, 'big')
-            if ikey > 0:
-                t[i].append(ikey)
-            else:
-                i += 1
-                t.append([])
-            key = f.read(1)
-    map_size = i
-
+def load_zones(path_name):
     for i in zone_names:
+        t = [[]]
+        v = 0
+        with open(path_name + '/' + i + '.map', 'rb') as f:
+            key = f.read(1)
+            while key != b'':
+                ikey = int.from_bytes(key, 'big')
+                if ikey > 0:
+                    t[v].append(ikey)
+                else:
+                    v += 1
+                    t.append([])
+                key = f.read(1)
+        map_size = v
+
         for y in range(0, zone_height):
             for x in range(0, zone_width):
                 item = Item('x%sy%s' % (x, y))
@@ -92,6 +88,8 @@ def load_zones(file_name):
                 # double check we didn't create more then one in a square
                 if item.sprite == 20:  # house
                     item.contains = "start_quest"
+                if item.sprite == 19:  # rocks are zone moves
+                    item.contains = "zone_northern tundra"
                 if not zone_map[i].index.intersect(bbox=(item.x,
                                                          item.y,
                                                          item.x + item.width,
@@ -171,7 +169,7 @@ def render_loop():
         sprites = []
         offset_x = -1024 + ((4 + (zone_width - (player.x))) * sprite_width)
         offset_y = -1024 + ((4 + (zone_height - player.y)) * sprite_height)
-        for i in zone_map[current_zone].index.intersect(bbox=(
+        for i in zone_map[player.current_zone].index.intersect(bbox=(
                 -1024 + ((player.x - view_distance) * sprite_width),
                 -1024 + ((player.y - view_distance) * sprite_height),
                 -1024 + ((player.x + view_distance) * sprite_width),
@@ -191,12 +189,16 @@ def render_loop():
 
     #  actions / quests
     if player.action:
-        t = TextBox('an action is happening:' + player.action, scene_list['text'].data)
-        t.draw()
+        if player.action.startswith('zone'):
+            player.current_zone = player.action.split('_', 1)[1]
+            player.action = None  # we don't want to be zoning over and over!
+        else:
+            t = TextBox('an action is happening:' + player.action, scene_list['text'].data)
+            t.draw()
 
     # UI / debug elements
     label = pyglet.text.Label(
-        'player x %s y %s zone %s' % (player.x, player.y, current_zone),
+        'player x %s y %s zone %s' % (player.x, player.y, player.current_zone),
         font_name='Times New Roman',
         font_size=16,
         x=game_window.width // 3, y=24, color=(0, 0, 0, 255))
@@ -237,17 +239,15 @@ if __name__ == '__main__':
     scene_list = load_list(location_scene)
     sound_list = load_list(location_sound)
 
-    load_zones(join(Path(__file__).resolve().parents[1], Path('assets/myfile.map')))
+    load_zones(join(Path(__file__).resolve().parents[1], Path('assets/')))
     player.load_player()
 
     pyglet.clock.schedule_interval(handle_input, 0.15)
     pyglet.clock.schedule_interval(ticker, 0.33)
-
-    music_list = load_list(location_music)
-
-    media.queue(music_list['default'].data)
-    # media.volume = 0.05
-    media.loop = True
-    media.volume = 0.05
-    media.play()
+    if pyglet.media.have_ffmpeg():
+        music_list = load_list(location_music)
+        media.queue(music_list['default'].data)
+        media.loop = True
+        media.volume = 0.05
+        media.play()
     pyglet.app.run()

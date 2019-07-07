@@ -4,6 +4,10 @@
 Our adventurer Steve wakes up in a desolate wasteland, will Steve make the right choses and make things better.
 
 ## Starting the Game
+    for windows users please download [FFmpeg](https://ffmpeg.zeranoe.com/builds/)
+        select version 4.x - same architecture as python - Shared
+            extract contents of bin into xyloid_xylophones\game\lib
+
     TODO:pipenv??
     python -m game
 
