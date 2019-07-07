@@ -40,7 +40,7 @@ class Game(pyglet.window.Window):
         # Create UI
         self.ui_space = self.create_ui()
 
-        self.score_label = ScoreLabel(self)
+        self.score_label = ScoreLabel(self, self.ui_space)
         self.ui_space.add(self.score_label)
 
     def create_space(self) -> Space:
@@ -112,7 +112,7 @@ class Game(pyglet.window.Window):
     def game_over(self, fell=False):
         if not self.is_over:
             self.is_over = True
-            game_over_screen = GameOverScreen(self)
+            game_over_screen = GameOverScreen(self, self.ui_space)
             self.ui_space.add(game_over_screen)
             if fell:
                 self.space.remove(self.player)

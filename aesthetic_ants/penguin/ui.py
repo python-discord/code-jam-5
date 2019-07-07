@@ -15,7 +15,7 @@ class UiSpace(Space):
 
 
 class GameOverScreen(Object):
-    def __init__(self, window):
+    def __init__(self, window, space):
         self.label = pyglet.text.Label("Game Over!",
                                        font_name="Times New Roman",
                                        font_size=36,
@@ -23,7 +23,8 @@ class GameOverScreen(Object):
                                        x=window.width // 2,
                                        y=window.height // 2,
                                        anchor_x='center',
-                                       anchor_y='center')
+                                       anchor_y='center',
+                                       group=space.foreground)
 
         self.shadow = pyglet.text.Label("Game Over!",
                                         font_name="Times New Roman",
@@ -32,20 +33,18 @@ class GameOverScreen(Object):
                                         x=(window.width // 2) + 1,
                                         y=(window.height // 2) - 1,
                                         anchor_x='center',
-                                        anchor_y='center')
+                                        anchor_y='center',
+                                        group=space.background)
 
     def add_to_space(self, space):
         super().add_to_space(space)
 
         self.shadow.batch = space.batch
-        self.shadow.group = space.background
-
         self.label.batch = space.batch
-        self.label.group = space.foreground
 
 
 class ScoreLabel(Object):
-    def __init__(self, window):
+    def __init__(self, window, space):
         self.label = pyglet.text.Label("0",
                                        font_name="Times New Roman",
                                        font_size=18,
@@ -53,7 +52,8 @@ class ScoreLabel(Object):
                                        x=SCORE_POS[0],
                                        y=window.height - SCORE_POS[1],
                                        anchor_x='left',
-                                       anchor_y='top')
+                                       anchor_y='top',
+                                       group=space.foreground)
 
         self.shadow = pyglet.text.Label("0",
                                         font_name="Times New Roman",
@@ -62,7 +62,8 @@ class ScoreLabel(Object):
                                         x=SCORE_POS[0] + 1,
                                         y=window.height - SCORE_POS[1] - 1,
                                         anchor_x='left',
-                                        anchor_y='top')
+                                        anchor_y='top',
+                                        group=space.background)
 
     def set_label(self, value):
         self.label.text = str(value)
@@ -72,7 +73,4 @@ class ScoreLabel(Object):
         super().add_to_space(space)
 
         self.shadow.batch = space.batch
-        self.shadow.group = space.background
-
         self.label.batch = space.batch
-        self.label.group = space.foreground
