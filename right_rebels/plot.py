@@ -130,9 +130,60 @@ class Plotter(QtCore.QThread):
         plot.savefig(file_path, dpi=142, bbox_inches="tight", facecolor=(0.94, 0.94, 0.94))
         plot.close()
 
+    def create_graph(self):
+        """
+            Creates graph with data from TEMPERATURES from range start_date to end_date
+            Output is saved as graph.png
+            Works with step value, example step of 12 will only plot values for each year.
+            Note that end_date doesn't necessarily has to be plotted, for example if step
+            is 12 and start_date = 1998.125 , end_date = 2000.7083333333333 the last plotted
+            date will be 2000.125
+        """
+
+        # We need to slice the arrays so it only has values from start_date to end_date
+        dates_start_index = helpers.find_nearest_index(Plotter.DATES, self.start_date)
+        # +1 to make the end_date included
+        dates_end_index = helpers.find_nearest_index(Plotter.DATES, self.end_date) + 1
+
+        # Slice the TEMPERATURES array so that values only fall in start_date to end_date range
+        # Remember that the format of TEMPERATURE array is [[time][latitude][longitude]]
+        sliced_temperatures = Plotter.TEMPERATURES[dates_start_index:dates_end_index]
+
+        # Find the mean value of temperature anomaly for each step in sliced_temperatures
+        # Exclude nan values - those are just areas with no measurements, like parts of oceans
+        # and in older dates part of land masses without weather stations.
+        # We don't necessarily calculate the mean for each date, depending on the step value.
+        # If, for example, step is 3 then each third temperature sublist will be calculated.
+        temperature_means_to_plot = [np.nanmean(sliced_temperatures[i]) for i in
+                                     range(0, len(sliced_temperatures), self.step)]
+
+        # Slice the DATES array so that values only fall in start_date to end_date range
+        sliced_dates = Plotter.DATES[dates_start_index:dates_end_index]
+
+        # Depending on step, not all dates from sliced_dates will be plotted, example for
+        # step 3 each third date will be plotted.
+        dates_to_plot = [sliced_dates[i] for i in range(0, len(sliced_dates), self.step)]
+
+        # Set plot size for the plot
+        plot.rcParams["figure.figsize"] = (8, 8)
+
+        # Create the plot space upon which to plot the data
+        fig, ax = plot.subplots()
+
+        # Add the x-axis and the y-axis to the plot
+        ax.plot(dates_to_plot, temperature_means_to_plot, color="red", linewidth=0.5)
+        ax.set(xlabel="Month", ylabel="Average Air Surface Temperature Anomaly (C)")
+
+        # Save the plot to image file
+        file_path = f"{Plotter.PLOTS_DIR}graph.png"
+        plot.savefig(file_path, dpi=142, bbox_inches="tight", facecolor=(0.94, 0.94, 0.94))
+        plot.close()
+
 
 if __name__ == "__main__":
-    p = Plotter(1994.125, 2000.7083333333333, 1, "seismic")
+    """p = Plotter(1994.125, 2000.7083333333333, 1, "seismic")
     p.start()
     while not p.isFinished():
-        time.sleep(10)
+        time.sleep(10)"""
+    p = Plotter(1998.125, 2000.7083333333333, 7, "seismic")
+    p.create_graph()
