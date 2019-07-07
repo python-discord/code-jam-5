@@ -28,7 +28,7 @@ class Game:
         user_data.load()
         Sound.update()
 
-        pg.display.set_caption("Various Vipers | saving the earth")
+        pg.display.set_caption("Various Vipers | Saving the Earth")
 
         self.running = True
 
