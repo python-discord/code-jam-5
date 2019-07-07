@@ -82,7 +82,6 @@ class Game:
 
     def main(self) -> None:
         while not self.quit_game:
-            self.round += 1
             if self.round > 10:
                 self.quit_game = True
 
@@ -139,6 +138,7 @@ class Game:
         }
 
         if token.isdigit():
+            self.round += 1
             return self.investments.options.get(token, self.error_msg)
         elif token.casefold() == "exit":
             self.quit_game = True
