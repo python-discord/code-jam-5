@@ -1,8 +1,10 @@
 <h1 align="center">
 $ Practical Porcupines_
 </h1>
+<p align="center">
+    <img src="../logo.png" width="300">
+</p>
 
-![Logo](../logo.png)
 
 ## **Overview**
 
