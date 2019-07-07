@@ -33,7 +33,7 @@ WEAK_TILE_DECAY_INFLUENCE = 0.5
 DECAY_VARIANCE = (0, 2)
 
 # Precomputed "nearby tiles" that influence tile decay
-NEARBY_TILES = itertools.product([-1, 0, 1], [-1, 0, 1])
+NEARBY_TILES = list(itertools.product([-1, 0, 1], [-1, 0, 1]))
 
 
 # Maps tiles from their level-file character to tile type
@@ -197,7 +197,6 @@ class TileLayer(Object):
                     if self.tiles[y + offset_y][x + offset_x].tile_type in WEAK_TILES:
                         tile_weakness += WEAK_TILE_DECAY_INFLUENCE
 
-                print(x, y, dt)
                 tile.health -= DECAY_VARIANCE[0] \
                     + random.random() * DECAY_VARIANCE[1] \
                     + tile_weakness
