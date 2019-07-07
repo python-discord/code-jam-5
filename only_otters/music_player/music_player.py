@@ -77,7 +77,7 @@ class MusicPlayer(QtWidgets.QWidget):
         self.fact_title_layout = QtWidgets.QHBoxLayout()
         title_font = QtGui.QFont('Raleway', 16)
         title_font.setBold(True)
-        self.fact_title_label = QtWidgets.QLabel('Interesting Facts')
+        self.fact_title_label = QtWidgets.QLabel('Climate Change Facts')
         self.fact_title_label.setFont(title_font)
         self.fact_title_layout.addWidget(self.fact_title_label)
         self.fact_title_frame.setLayout(self.fact_title_layout)
