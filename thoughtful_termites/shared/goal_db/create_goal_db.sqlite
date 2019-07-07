@@ -4,6 +4,8 @@ pragma foreign_keys=on;
 drop table if exists goals;
 drop table if exists reminders;
 drop table if exists unlocks;
+drop table if exists farmerdecisions;
+drop table if exists farmertown;
 
 create table goals(
 	id integer primary key,
