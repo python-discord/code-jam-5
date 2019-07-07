@@ -116,7 +116,8 @@ class WeaponIndicator(Object):
             return
 
         self.sprite.image = icon
-        self.sprite.x = self.window.width - icon.width
+        self.sprite.x = self.window.width - icon.width * 1.25
+        self.sprite.y = icon.height // 4
         self.icon = icon
 
     def weapon_text(self, weapon):
