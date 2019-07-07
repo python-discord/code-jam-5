@@ -5,12 +5,57 @@
         "description": "Organization focusing on fair media distribution",
         "policies": [
             {
-                "name": "",
-                "description": "",
+                "name": "State of the World Campaign I",
+                "description": "Help launch a knowledge campaign to spread the truth about our emissions and their effects.",
                 "bio": 0,
+                "temperature": 0,
+                "co2": 2,
+                "habitable_land": 0,
+                "roi": 0.0
+            },
+            {
+                "name": "State of the World Campaign II",
+                "description": "Introduce stories into the media about the state of our wildlife and biodiversity.",
+                "bio": 2,
                 "temperature": 0,
                 "co2": 0,
                 "habitable_land": 0,
+                "roi": 0.0
+            },
+            {
+                "name": "State of the World Campaign III",
+                "description": "Keep spreading news about damage to our atmosphere, bring the news to new parts of the world.",
+                "bio": 0,
+                "temperature": 1,
+                "co2": 3,
+                "habitable_land": 0,
+                "roi": 0.0
+            },
+            {
+                "name": "State of the World Campaign IV",
+                "description": "Keep spreading news about damage to our biodiversity, bring the news to new parts of the world.",
+                "bio": 3,
+                "temperature": 0,
+                "co2": 0,
+                "habitable_land": 1,
+                "roi": 0.0
+            },
+            {
+                "name": "State of the World Campaign V",
+                "description": "Help the knowledge campaign to spread the truth about our emissions and their effects to the remaining parts of the globe.",
+                "bio": 0,
+                "temperature": 2,
+                "co2": 5,
+                "habitable_land": 0,
+                "roi": 0.0
+            },
+            {
+                "name": "State of the World Campaign VI",
+                "description": "Help the knowledge campaign to spread the truth about our biodiversity to the remaining parts of the globe.",
+                "bio": 5,
+                "temperature": 0,
+                "co2": 0,
+                "habitable_land": 2,
                 "roi": 0.0
             }
         ]
@@ -22,7 +67,7 @@
         "policies": [
             {
                 "name": "Spread Fake News",
-                "description": "Buy advertisments to help spread fake news about the previous presidents brithplace.",
+                "description": "Buy advertisements to help spread fake news about the previous presidents birthplace.",
                 "bio": 0,
                 "temperature": 0,
                 "co2": 0,
