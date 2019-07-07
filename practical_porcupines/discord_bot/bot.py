@@ -72,10 +72,9 @@ async def gmwl(ctx, date_1, date_2):
     except Exception as e:
         await ctx.send(
             embed=embed_generator(
-                "Misc date!",
-                "Got a misc error we can't handle for the "
-                "`string_to_datetime` function! The exception "
-                "follows below, please send it to the developers:"
+                "Misc error!",
+                "There was a misc error when sending/getting data from the "
+                "api and serializing it! The error goes as follows:"
                 f"\n\n*{e}*",
                 0xA31523,
                 discord,
@@ -84,21 +83,24 @@ async def gmwl(ctx, date_1, date_2):
 
         return
     else:
+        embed_color = 0x3BA315
         embed_desc_text = (
-            f"Operation completed sucsessfully, result is {result}mm."
+            f"The water level between {date_1} and {date_2} has been "
+            f"caluclated sucessfully! The result is **{round(result, 5)}mm**."
         )
 
         if is_prediction:
+            embed_color = 0xa3a315
             embed_desc_text += (
-                "\n\n*Please note that this is a prediction and may not "
+                "\n\n***NOTE:*** *This is a prediction and may not "
                 "be accurate. We use data from Early 1993 to Feburary "
                 "2019.*"
             )
 
         embed = embed_generator(
             "Result",
-            f"Operation completed sucsessfully, result is {result}mm",
-            0x3BA315,
+            embed_desc_text,
+            embed_color,
             discord,
         )
 

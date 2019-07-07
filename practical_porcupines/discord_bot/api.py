@@ -33,9 +33,7 @@ async def get_difference(date_1, date_2):
                     resp_jsonized["body"]["is_prediction"],
                 )
 
-            await raise_error_codes(resp_jsonized["meta"]["status_code"])
-
-        raise ApiReturnBad()
+        await raise_error_codes(resp_jsonized["meta"]["status_code"])
 
 
 async def raise_error_codes(status_code):
