@@ -1,7 +1,6 @@
 import aiohttp
 import discord
 import logging
-import traceback as tb
 
 from discord.ext import commands
 
