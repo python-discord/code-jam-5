@@ -17,7 +17,7 @@ This is done in 3 ways:
 * The ability to play songs from your local computer as you select them through a file browser; (the program will attempt to use `~/Music` as the root folder by default)
 * Between each song, an audio ad is played. This audio ad is a climate change fact scraped from the web from a list of curated sources, then played using `gtts`.
 * An audio visualizer circling around the Earth, which turns red for regular songs (to figure the earth burning, under the effect of impending global warming) and green for ads;
-* An embedded fact widget which refreshes itself every 6 seconds. The facts shown here are fetched by the same components has the audio ads.
+* An embedded fact widget which refreshes itself every 8 seconds. The facts shown here are fetched by the same components has the audio ads.
 
 ## Install & Use
 
@@ -143,6 +143,9 @@ $ m:{ strip, upper }
 Is equivalent to
 $ { map:strip, map:upper }
 ```
+
+You can find out more details in `scrapetools/hquery.py`.
+
 ### New pipes & higher-order pipes
 
 To easily extend the library of pipes available to use, we have implemented decorators `HierarchicalXPathQuery.pipe` and `HierarchicalXPathQuery.high_pipe` which allow you to easily register your own functions as pipe elements. They will be summonable under their associated nickname in a query you pass to the object that registered them.
@@ -162,7 +165,7 @@ $ { filter:is_valid } //li/text()
 
 To add on to this philosophy of least overhead cost on integrating new sources, we use Qt widgets written in QML to speed up the process. They represent a minor part of the Qt code written in this project, as they are meant to be simple.
 
-They are found in `qml`.
+They are found in the `qml` folder.
 
 ### Fact Factories
 
