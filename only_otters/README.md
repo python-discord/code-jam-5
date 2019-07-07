@@ -47,11 +47,11 @@ player.play()
 
 However, because of the adverts which had to play before each song, it made more sense to integrate a QMediaPlaylist, in which an advert and desired song are added together at the same time every time you want to play something.
 
-The controls
+### The controls
 The controls are fairly simple, a play/pause button, seeker bar and a label for displaying the current time/duration. The seeker bar was created using a custom QProgressBar, which detected for QMouseEvents to allow the user to “seek” through the song. Also, the progress bar “knob” was created by overriding the paintEvent function and drawing a circle at the current value of the progress bar.
-The audio visualizer
+## The audio visualizer
 The audio visualiser changes depending on what is being played. If an advert is being played, the audio visualiser will be green; if any other song is being played, the audio visualiser will be coloured as if the Earth is on fire (to represent global warming). The amplitudes are calculated in a QThread which are then passed to the main program using PyQt’s signal/slot mechanics.
-The calculations
+### The calculations
 The audio visualiser was created using an FFT (fast fourier transform) algorithm to calculate the amplitudes and frequencies of the samples. Using numpy and pydub, the values were calculated using the following method:
 
 ```python
@@ -68,7 +68,7 @@ amps = 2/samples.size * np.abs(fourier)
 ```
 
 To learn more about FFTs go here https://www.nti-audio.com/en/support/know-how/fast-fourier-transform-fft
-The visuals
+### The visuals
 The audio visualiser is displayed using polar coordinate formulae, if you didn’t know, you can plot into a circle very easily using the equations
 
 ```
