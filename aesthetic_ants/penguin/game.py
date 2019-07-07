@@ -1,14 +1,15 @@
 import pyglet
 
 from .constants import CollisionType
+from .enemy import Enemy
 from .player import Player
 from .resources import LEVEL_1
 from .space import Space
 from .spawner import Spawner
 from .tile_layer import TileLayer
-from .ui import GameOverScreen, ScoreLabel, UiSpace
+from .ui import GameOverScreen, ScoreLabel, UiSpace, WaveLabel
 from .utils import keys
-from .wave import Wave
+from .wave import Wave, all_waves
 
 
 def _object_collides_with(obj1, obj2):
@@ -17,6 +18,7 @@ def _object_collides_with(obj1, obj2):
 
 class Game(pyglet.window.Window):
     score = 0
+    wave_transition_time = 3
 
     def __init__(self, *, fps=120, **kwargs):
         super().__init__(caption='Penguin Means Business!', **kwargs)
@@ -31,7 +33,6 @@ class Game(pyglet.window.Window):
 
         self.spawner = Spawner(self.player)
         self.spawner.add_spawn_point(64, self.height / 2)
-        self.spawner.wave = Wave.load('resources/waves/1.wave')
         self.space.add(self.spawner)
 
         # Create background layer
@@ -48,6 +49,10 @@ class Game(pyglet.window.Window):
 
         self.score_label = ScoreLabel(self, self.ui_space)
         self.ui_space.add(self.score_label)
+
+        self.wave_transitioning = False
+        self.waves = enumerate(all_waves(), 1)
+        self.transition_wave()
 
     def create_space(self) -> Space:
         """Returns a space usable for the game"""
@@ -105,11 +110,31 @@ class Game(pyglet.window.Window):
         self.space.update(dt)
         self.ui_space.update(dt)
 
+        if (
+            self.spawner.done()
+            and not self.wave_transitioning
+            and not any(isinstance(obj, Enemy) for obj in self.space.objects)
+        ):
+            self.transition_wave()
+
     def run(self):
         """Runs the game"""
 
         pyglet.clock.schedule_interval(self.update, 1/self.fps)
         pyglet.app.run()
+
+    def transition_wave(self):
+        self.wave_transitioning = True
+        wave_number, wave = next(self.waves)
+        wave_text = WaveLabel(self, self.ui_space, wave_number)
+        self.ui_space.add(wave_text)
+
+        def next_wave(dt):
+            self.wave_transitioning = False
+            self.ui_space.remove(wave_text)
+            self.spawner.wave = wave
+
+        pyglet.clock.schedule_once(next_wave, self.wave_transition_time)
 
     def on_collision_player_enemy(self, player, enemy):
         """When a player collides with an enemy, end the game"""

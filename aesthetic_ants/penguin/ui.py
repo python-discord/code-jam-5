@@ -48,6 +48,11 @@ class ShadowedLabel:
         self.label.batch = batch
         self.shadow.batch = batch
 
+    def delete(self):
+        self.batch = None
+        self.label.delete()
+        self.shadow.delete()
+
 
 class GameOverScreen(Object):
     def __init__(self, window, space):
@@ -84,3 +89,27 @@ class ScoreLabel(Object):
     def add_to_space(self, space):
         super().add_to_space(space)
         self.label.batch = space.batch
+
+
+class WaveLabel(Object):
+    def __init__(self, window, space, number):
+        self.label = ShadowedLabel(space,
+                                   f"Wave {number}",
+                                   font_name="Times New Roman",
+                                   font_size=72,
+                                   color=(255, 0, 0, 255),
+                                   x=window.width // 2,
+                                   y=window.height // 2,
+                                   anchor_x='center',
+                                   anchor_y='center')
+
+    def set_label(self, value):
+        self.label.text = str(value)
+
+    def add_to_space(self, space):
+        super().add_to_space(space)
+        self.label.batch = space.batch
+
+    def remove_from_space(self):
+        super().remove_from_space()
+        self.label.delete()
