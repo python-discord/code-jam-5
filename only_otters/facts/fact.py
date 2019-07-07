@@ -60,13 +60,14 @@ class FactFactory:
         try:
             new_records = self.fetcher()
         except Exception as e:
-            print(e)
             new_records = [
-                {
-                    'title': 'Error',
-                    'content': 'Could not retrieve remote data for source %s' % self.fetcher.url,
-                    'source': self.fetcher.url
-                }
+                ErrorFact(
+                    title='Error',
+                    content='Could not retrieve remote data for source %s: %s' % (self.fetcher.url, e),
+                    source=self.fetcher.url,
+                    exception=e,
+                    factory=self
+                )
             ]
 
         self.records = list(new_records)
@@ -96,6 +97,10 @@ class FactFactory:
             self.fetch()
 
         record: dict = random.choice(self.records)
+
+        if isinstance(record, ErrorFact):
+            return record
+
         fact: Fact = self._build_fact(record)
 
         return fact
@@ -136,3 +141,40 @@ class Fact(QObject):
     @pyqtProperty('QString', constant=True)
     def source(self) -> str:
         return self._source
+
+
+class ErrorFact(Fact):
+
+    exception: Exception
+    title: str
+    content: str
+    source: str
+    factory: FactFactory
+
+    def __init__(
+        self,
+        *,
+        exception: Exception,
+        title: str,
+        content: str,
+        source: str,
+        factory: FactFactory
+    ):
+
+        super().__init__(
+            _title=title,
+            _content=content,
+            _source=source,
+            data={},
+            factory=factory
+        )
+
+        self.factory = factory
+        self.exception = exception
+
+    def as_widget(self, parent: QWidget) -> QmlWidget:
+        return QmlWidget(
+            qmlpath=FactWidget.url,
+            context={'fact': self},
+            parent=parent
+        )
