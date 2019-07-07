@@ -1,4 +1,4 @@
-from thoughtful_termites.app import qt
+from thoughtful_termites.shared import qt
 from thoughtful_termites.shared.goal_db import Goal
 from thoughtful_termites.shared.goal_db import Reminder
 from thoughtful_termites.shared.goal_db import ReminderDay

@@ -1,4 +1,4 @@
-from thoughtful_termites.app import qt
+from thoughtful_termites.shared import qt
 from .reminder_list_window import ReminderListWindow
 from .edit_goal_window import EditGoalWindow
 

@@ -1,4 +1,4 @@
-from .. import qt
+from thoughtful_termites.shared import qt
 
 
 class EditReminderWindow(qt.QDialog):

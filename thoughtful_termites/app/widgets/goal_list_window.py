@@ -1,4 +1,4 @@
-from thoughtful_termites.app import qt
+from thoughtful_termites.shared import qt
 
 from .goal_list import GoalList
 from .goal_list import GoalListItem
@@ -12,7 +12,7 @@ from thoughtful_termites.shared.goal_db import (
     # Days
 )
 
-from thoughtful_termites.shared.constants import get_db
+from thoughtful_termites.shared.database import get_db
 
 
 class GoalListWindow(qt.QWidget):

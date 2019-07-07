@@ -1,4 +1,4 @@
-from thoughtful_termites.app import qt
+from thoughtful_termites.shared import qt
 
 from .reminder_list import ReminderList
 from .reminder_list import ReminderListItem
