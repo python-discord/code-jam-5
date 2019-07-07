@@ -19,7 +19,7 @@ class Planet:
         bio diversity tracks the change in the total number of species
         temperature is the change in C (celsius)
         co2 is tracked in ppm (parts per million)
-        habitable land is in hectacres (100 acres)
+        habitable land is in hectares (100 acres)
         """
         self.stats = {
             "bio_diversity": bio_diversity,
@@ -62,7 +62,7 @@ class Planet:
             + Fore.GREEN
             + f"Habitable Land:\t"
             + Fore.WHITE
-            + f"{land} hectacres \n"
+            + f"{land} hectares \n"
         )
 
         return current_stats
