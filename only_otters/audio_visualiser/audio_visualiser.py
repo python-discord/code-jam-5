@@ -17,9 +17,9 @@ class AudioVisualiser(QtWidgets.QWidget):
     def __init__(self, player: 'MusicPlayer'):  # noqa: F821
         super().__init__()
         self.player = player
-        self.setFixedSize(200, 200)
+        self.setFixedSize(250, 250)
         self.max_radius = min(self.width(), self.height())//2
-        self.min_radius = self.max_radius / 2.5
+        self.min_radius = self.max_radius / 3
         self.fill_colour = QtCore.Qt.black
         self.pen_colour = QtCore.Qt.black
         self.red_flames()

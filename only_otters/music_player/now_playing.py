@@ -16,7 +16,7 @@ class NowPlayingWidget(QtWidgets.QFrame):
         self.player = player
         self.player.playlist().currentMediaChanged.connect(self._media_changed)
         self.setObjectName('now_playing')
-        self.setMaximumHeight(218)
+        self.setMaximumHeight(250)
         self.init_ui()
 
     def init_ui(self):
@@ -26,11 +26,13 @@ class NowPlayingWidget(QtWidgets.QFrame):
         self.background_label = QtWidgets.QLabel(self)
 
         self.main_layout = QtWidgets.QHBoxLayout()
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
 
         self.audio_visualiser = AudioVisualiser(self.player)
 
         now_playing_font = QtGui.QFont('Raleway', 24)
         self.now_playing_label = QtWidgets.QLabel('Not Playing Anything')
+        self.now_playing_label.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignLeft)
         self.now_playing_label.setStyleSheet('color: white;')
         self.now_playing_label.setFont(now_playing_font)
 
