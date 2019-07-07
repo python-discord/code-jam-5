@@ -5,6 +5,7 @@ from dataclasses import dataclass
 import yaml
 import json
 from argparse import Namespace
+import re
 
 
 __folder__ = pathlib.Path(__file__).parent
@@ -178,3 +179,8 @@ def expand(resources: Namespace, context: dict):
     allow the user to expand the resource namespace in a module's namespace."""
     for key, value in dict(resources._get_kwargs()).items():
         context[key] = value
+
+
+def get_domain_name(url):
+    """Retrieve domain name without protocol prefix or subpath."""
+    return re.search(r'https?://([\w.-]+?)(?:/.*)?$', url).groups()[0]
