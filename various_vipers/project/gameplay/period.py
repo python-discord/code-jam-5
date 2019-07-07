@@ -34,6 +34,8 @@ class Period(object):
 
     # Time passed after the last task spawn
     time_of_last_task_spawn: Optional[int] = None
+    # Maximum number of tasks that can be spawned
+    task_max_count: int = 10
     # How many game ticks between task spawns (will be floored and converted to int)
     task_spawn_freq: float = 420
     # Maximum frequency for task spawns
@@ -47,9 +49,9 @@ class Period(object):
     heat_per_task: float = 0.005
 
     # Chance to spawn certain task types
-    maze_chance: float = 1.0
+    maze_chance: float = 0  # 1.0
     rps_chance: float = 1.0
-    ttt_chance: float = 1.0
+    ttt_chance: float = 0  # 1.0
 
     # Earth's age
     start_date: datetime = datetime.date(2000, 1, 1)
@@ -149,7 +151,8 @@ class Period(object):
             )
 
     def __handle_task_spawn(self) -> None:
-        if (
+        task_count = sum(b.tilemap.task_count for b in self.biomes)
+        if task_count < self.task_max_count and (
             self.time_of_last_task_spawn is None
             or self.time_of_last_task_spawn >= self.task_spawn_freq
         ):

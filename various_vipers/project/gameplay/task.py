@@ -425,27 +425,11 @@ class TaskRockPaperScissors(Task):
         if not self.game_over and (time() - self.timer <= 0.5):
             self.computer_choice = randint(0, 2)
 
-            # if it is draw
-            if self.choice == self.computer_choice:
-                self.win = False
-            elif self.choice == 0:  # Rock
-                if self.computer_choice == 1:  # vs Paper
-                    self.win = False
-                elif self.computer_choice == 2:  # vs Scissors
-                    self.win = True
-            elif self.choice == 1:  # Paper
-                if self.computer_choice == 0:  # vs Rock
-                    self.win = True
-                elif self.computer_choice == 2:  # vs Scissors
-                    self.win = False
-            elif self.choice == 2:  # Scissors
-                if self.computer_choice == 1:  # vs Paper
-                    self.win = True
-                elif self.computer_choice == 0:  # vs Rock
-                    self.win = False
+            # We win if the computer chose the same as we did
+            self.win = self.choice == self.computer_choice
             self.game_over = True
-            self.last = time()
             # set timer for lasting - not instant quit
+            self.last = time()
 
         if self.game_over:
             if time() - self.last > 2:  # seconds of lasting
