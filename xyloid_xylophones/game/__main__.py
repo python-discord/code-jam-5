@@ -1,14 +1,16 @@
 import pyglet
-from config import *
 from os import listdir
 from os.path import isfile, join, isdir, basename, splitext, realpath, split
-from pathlib import Path
 from pyglet import gl
 from pyglet.image.codecs.png import PNGImageDecoder
 from math import floor
-from . import game_window, player, zone_map, Item, sound_list, music_list, scene_list, Resource, elapsed_time, keys, \
-    time_display, media, level_map, level_key, tick
 from .input import mouse_input, handle_input
+from .textbox import TextBox
+from . import game_window, level_map, Resource, Item, player, zone_map, level_key, media, tick, \
+    time_display, keys, elapsed_time
+from config import location_scene, location_sound, location_music, zone_names, zone_height, zone_width, sprite_height, \
+    sprite_width, cut_scene_timeout, cut_scene_name, current_zone, view_distance, cut_scene
+from pathlib import Path
 
 
 @game_window.event
@@ -69,7 +71,8 @@ def load_zones(file_name):
                 item = Item('x%sy%s' % (x, y))
                 item.y = -1024 + (y * sprite_height)
                 item.x = -1024 + (x * sprite_width)
-                item.sprite = t[(map_size-1) - (y - (floor(y / map_size) * map_size))][x - (floor(x / map_size) * map_size)]
+                item.sprite = t[(map_size - 1) - (y - (floor(y / map_size) * map_size))][
+                    x - (floor(x / map_size) * map_size)]
                 # tiny offset for grid view
                 item.width = sprite_width - 1
                 item.height = sprite_height - 1
@@ -87,6 +90,8 @@ def load_zones(file_name):
                     # otherwise draw as green
                     item.color = (0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0)
                 # double check we didn't create more then one in a square
+                if item.sprite == 20:  # house
+                    item.contains = "start_quest"
                 if not zone_map[i].index.intersect(bbox=(item.x,
                                                          item.y,
                                                          item.x + item.width,
@@ -131,6 +136,7 @@ def ticker(dt=None):
 def render_loop():
     global cut_scene
     global elapsed_time
+    global tick
     '''
     This contains the logic for the main render loop
 
@@ -183,6 +189,11 @@ def render_loop():
             player.name, x=x, y=y, color=(255, 0, 0, 255))
         player_label.draw()
 
+    #  actions / quests
+    if player.action:
+        t = TextBox('an action is happening:' + player.action, scene_list['text'].data)
+        t.draw()
+
     # UI / debug elements
     label = pyglet.text.Label(
         'player x %s y %s zone %s' % (player.x, player.y, current_zone),
@@ -234,10 +245,9 @@ if __name__ == '__main__':
 
     music_list = load_list(location_music)
 
-    # looper = pyglet.media.SourceGroup(music_list['default'].data.audio_format, None)
-    # looper.loop = True
-    # looper.queue(music_list['default'].data)
     media.queue(music_list['default'].data)
     # media.volume = 0.05
+    media.loop = True
+    media.volume = 0.05
     media.play()
     pyglet.app.run()

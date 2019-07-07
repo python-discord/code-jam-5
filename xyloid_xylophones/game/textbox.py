@@ -1,16 +1,14 @@
 import pyglet
 
-
 class TextBox:
     '''
     A convenience wrapper around a pyglet sprite and label.
     '''
 
-    def __init__(self, text, filename, color=(255, 255, 255, 255), label_x=0, label_y=0, font_name='', font_size=None,
+    def __init__(self, text, text_box_image, color=(255, 255, 255, 255), label_x=0, label_y=0, font_name='', font_size=None,
                  screen_width=640):
         self.text = text
-        self.filename = filename
-        self.image = scene_list['text_box_default'].data
+        self.image = text_box_image
         self.color = color
         self.label_x = label_x
         self.width = screen_width

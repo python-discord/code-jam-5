@@ -1,8 +1,7 @@
 import pyglet
 from pyqtree import Index
-from config import *
 from config import game_width, game_height, char_sheet_cols, char_sheet_rows, sprite_row, sprite_up_col, \
-    sprite_down_col, sprite_right_col
+    sprite_down_col, sprite_right_col, zone_names, player_name, zone_width, zone_height, sprite_width, sprite_height
 from os.path import join
 from pathlib import Path
 
@@ -10,7 +9,10 @@ from pathlib import Path
 level_map = []
 
 # map of no collision / collision
-level_key = [False, False, False, False, False, True, True, True, False, False, True, True, True, False, False, False,
+level_key = [False,
+             False, False, False, False, True,
+             True, True, False, False, True,
+             True, True, False, False, False,
              True, True, True, True, True]
 
 # 640x640 makes it easier to draw tiles
@@ -50,6 +52,7 @@ class Player(Base):
         self.sprite_switch = 0  # Alternates images to create movement effect
         self.scale_x = 1
         self.adjustment = 0
+        self.action = None
 
     def load_player(self):
         '''Load all of the sprite sets for the player'''
