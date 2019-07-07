@@ -197,6 +197,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def plot(self):
         self.image_count = 0
+        QtGui.QPixmapCache.clear()  # clear qt image cache
         self.stop_button.setEnabled(True)
         self.plot_button.setEnabled(False)
         self.animate_button.setEnabled(False)
@@ -226,7 +227,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.image_count += 1
 
     def move_slider(self, amount: int):
-        """ move horizontalSlider by value"""
+        """ move image_slider by value"""
         self.image_slider.setValue(self.image_slider.value() + amount)
 
     def change_image(self, index):
@@ -266,7 +267,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.end_year.setRange(self.start_year.value(), 2019)
 
     def animate(self):
-        self.image_slider.setValue(0)
+        self.image_slider.setValue(1)
         self.stop_button.setEnabled(True)
         self.animate_button.setEnabled(False)
         self.animate_timer.timeout.connect(self.animation)
