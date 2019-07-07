@@ -20,6 +20,16 @@ player_name = 'Steve'
 sprite_width = 64
 sprite_height = 64
 
+# Sprite Options
+# Dimensions of the spritesheet
+char_sheet_rows = 32
+char_sheet_cols = 27
+#Position of the desired sprite
+sprite_row = 31
+sprite_down_col = 1
+sprite_up_col = 7
+sprite_right_col = 3
+
 # number of squares to find around us (screen_size / sprite_width / 2 )
 view_distance = 6
 

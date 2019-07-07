@@ -1,7 +1,7 @@
 import pyglet
 from pyqtree import Index
 from config import *
-from config import game_width, game_height
+from config import game_width, game_height, char_sheet_cols, char_sheet_rows, sprite_row, sprite_up_col, sprite_down_col, sprite_right_col
 from math import ceil
 
 # 640x640 makes it easier to draw tiles
@@ -43,13 +43,13 @@ class Player(Base):
     def load_player(self):
         '''Load all of the sprite sets for the player'''
         image = pyglet.image.load('assets/char.png')
-        self.sprite_grid = pyglet.image.ImageGrid(image, 32, 27) #Load grid
+
+        self.sprite_grid = pyglet.image.ImageGrid(image, char_sheet_rows, char_sheet_cols) #Load grid
 
         #Split the grid into subsections
-        self.sprite_down = [self.sprite_grid[31, 1], self.sprite_grid[31, 2]]
-        self.sprite_up = [self.sprite_grid[31, 7], self.sprite_grid[31, 8]]
-        self.sprite_right = [self.sprite_grid[31, 3].get_texture(), self.sprite_grid[31, 5].get_texture()]
-
+        self.sprite_down = [self.sprite_grid[sprite_row, sprite_down_col], self.sprite_grid[sprite_row, sprite_down_col + 1]]
+        self.sprite_up = [self.sprite_grid[sprite_row, sprite_up_col], self.sprite_grid[sprite_row, sprite_up_col + 1]]
+        self.sprite_right = [self.sprite_grid[sprite_row, sprite_right_col], self.sprite_grid[sprite_row, sprite_right_col+1]]
         self.sprite = pyglet.sprite.Sprite(img=self.sprite_down[0]) #Initialize player
         self.update_sprite()
 
@@ -73,7 +73,7 @@ class Player(Base):
             self.current_sprite = self.sprite_right[self.sprite_switch]
         else:
             #Default sprite
-            self.current_sprite = player.sprite_grid[31, 0]
+            self.current_sprite = self.sprite_down[0]
 
         #Alternate sprite chosen
         if (self.sprite_switch == 0):
