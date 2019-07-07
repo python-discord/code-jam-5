@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, QtMultimedia, QtGui, QtCore
 from .controls import ControlsWidget
 from .now_playing import NowPlayingWidget
-from .featured_songs import FeaturedSongs
+from .media_library import MediaLibrary
 from only_otters.images import buttons as imgButtons
 from pathlib import Path
 
@@ -53,14 +53,15 @@ class MusicPlayer(QtWidgets.QWidget):
                                            QtWidgets.QSizePolicy.Expanding)
         self.contents_layout = QtWidgets.QHBoxLayout()
         self.contents_layout.setContentsMargins(50, 60, 50, 50)
+        self.contents_layout.setSpacing(30)
         self.main_content_layout = QtWidgets.QVBoxLayout()
         self.main_content_layout.setAlignment(QtCore.Qt.AlignLeft)
         self.sidebar_layout = QtWidgets.QVBoxLayout()
 
-        self.featured_songs = FeaturedSongs()
-        self.featured_songs.chosen_song.connect(self.play_song)
+        self.media_library = MediaLibrary()
+        self.media_library.song_triggered.connect(self.play_song)
 
-        self.main_content_layout.addWidget(self.featured_songs)
+        self.main_content_layout.addWidget(self.media_library)
         self.main_content_layout.addItem(self.vertical_spacer)
 
         #
@@ -70,8 +71,9 @@ class MusicPlayer(QtWidgets.QWidget):
         self.next_fact_button = QtWidgets.QPushButton("Next Fact", self)
         self.next_fact_button.clicked.connect(self.refresh_fact)
         
-        self.main_content_layout.addWidget(self.next_fact_button)
-        self.main_content_layout.addWidget(self.fact_widget)
+        self.sidebar_layout.addWidget(self.fact_widget)
+        self.sidebar_layout.addWidget(self.next_fact_button)
+
         #
 
         self.contents_layout.addLayout(self.main_content_layout)
@@ -149,4 +151,4 @@ class MusicPlayer(QtWidgets.QWidget):
         self.fact_widget.deleteLater()
         self.fact_widget = get_fact_by_tags('ui').as_widget(self)
         self.fact_widget.setMinimumSize(300, 80)
-        self.main_content_layout.addWidget(self.fact_widget)
+        self.sidebar_layout.insertWidget(0, self.fact_widget)
