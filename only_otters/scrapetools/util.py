@@ -74,3 +74,18 @@ def exceptprint(*e):
         return decorator(e[0])
 
     return partial(decorator, excepts=e)
+
+
+class both_class_instance:
+    """
+    Allow a method to apply to both a class object and its instance objects.
+    Either will be passed as the first parameter of the method.
+    A.do()
+    A().do()
+    """
+
+    def __init__(self, meth):
+        self.meth = meth
+
+    def __get__(self, instance, owner):
+        return partial(self.meth, instance or owner)

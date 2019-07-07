@@ -1,0 +1,7 @@
+resources:
+  type: namespace # must specify this to be considered a namespace
+  buttons:
+    Next: next.png
+    Pause: pause.png
+    Previous: previous.png
+    Play: play.png

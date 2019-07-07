@@ -1,18 +1,34 @@
 from PyQt5 import QtWidgets, QtMultimedia, QtGui, QtCore
 from .controls import ControlsWidget
 from .now_playing import NowPlayingWidget
-from .featured_songs import FeaturedSongs
+from .media_library import MediaLibrary
+from only_otters.images import buttons as imgButtons
 from pathlib import Path
+
+from only_otters.ads.facts import get_fact_by_tags
+
+
+from only_otters.ads.tts import as_callack_audio
 
 
 class MusicPlayer(QtWidgets.QWidget):
     """Represents a MusicPlayer object, for playing/pausing/loading music."""
+
+    # Every {} songs, an ad will be played automatically
+    total_songs_between_adverts: int = 1
+
+    # 
+    fact_refresh_rate = 6
 
     def __init__(self):
         super().__init__()
         self.player = QtMultimedia.QMediaPlayer()
         self.playlist = QtMultimedia.QMediaPlaylist()
         self.player.setPlaylist(self.playlist)
+        self.player.playlist().currentMediaChanged.connect(self.disable_advert_controls)
+        self.advert_in_progress = False
+
+        self.advert_counter = self.total_songs_between_adverts - 1
 
         self.init_ui()
 
@@ -42,21 +58,51 @@ class MusicPlayer(QtWidgets.QWidget):
                                            QtWidgets.QSizePolicy.Expanding)
         self.contents_layout = QtWidgets.QHBoxLayout()
         self.contents_layout.setContentsMargins(50, 60, 50, 50)
+        self.contents_layout.setSpacing(30)
         self.main_content_layout = QtWidgets.QVBoxLayout()
         self.main_content_layout.setAlignment(QtCore.Qt.AlignLeft)
         self.sidebar_layout = QtWidgets.QVBoxLayout()
+        self.sidebar_layout.setSpacing(0)
 
-        self.featured_songs = FeaturedSongs()
-        self.featured_songs.chosen_song.connect(self.play_song)
-        self.featured_songs.chosen_song.connect(
-            self.now_playing_widget.audio_visualiser.green_flames)
+        self.media_library = MediaLibrary()
+        self.media_library.song_triggered.connect(self.play_song)
 
-        self.open_file_button = QtWidgets.QPushButton('Open File to Play')
-        self.open_file_button.clicked.connect(self.open_file)
-
-        self.main_content_layout.addWidget(self.featured_songs)
-        self.main_content_layout.addWidget(self.open_file_button)
+        self.main_content_layout.addWidget(self.media_library)
         self.main_content_layout.addItem(self.vertical_spacer)
+
+        #
+        self.fact_title_frame = QtWidgets.QFrame()
+        self.fact_title_frame.setStyleSheet('background: #57bd4f;'
+                                            'border-top-left-radius: 6px;'
+                                            'border-top-right-radius: 6px;'
+                                            'color: white;')
+        self.fact_title_layout = QtWidgets.QHBoxLayout()
+        title_font = QtGui.QFont('Raleway', 16)
+        title_font.setBold(True)
+        self.fact_title_label = QtWidgets.QLabel('Climate Change Facts')
+        self.fact_title_label.setFont(title_font)
+        self.fact_title_layout.addWidget(self.fact_title_label)
+        self.fact_title_frame.setLayout(self.fact_title_layout)
+
+        self.fact_widget = get_fact_by_tags('ui').as_widget(self)
+        self.fact_widget.setMinimumSize(300, 200)
+
+        self.next_fact_button = QtWidgets.QPushButton("Next Fact", self)
+        self.next_fact_button.clicked.connect(self.refresh_fact)
+        self.next_fact_button.setStyleSheet('background: #78543b;'
+                                            'padding: 7px;'
+                                            'border-bottom-left-radius: 6px;'
+                                            'border-bottom-right-radius: 6px;'
+                                            'color: white;')
+        
+        self.refresh_fact_timer = QtCore.QTimer(self)
+        self.refresh_fact_timer.timeout.connect(self.refresh_fact)
+        self.refresh_fact_timer.start(self.fact_refresh_rate * 1000)
+
+        self.sidebar_layout.addWidget(self.fact_title_frame)
+        self.sidebar_layout.addWidget(self.fact_widget)
+        self.sidebar_layout.addWidget(self.next_fact_button)
+        self.sidebar_layout.addItem(self.vertical_spacer)
 
         self.contents_layout.addLayout(self.main_content_layout)
         self.contents_layout.addLayout(self.sidebar_layout)
@@ -70,22 +116,53 @@ class MusicPlayer(QtWidgets.QWidget):
 
         self.setLayout(self.main_layout)
 
-    def open_file(self):
-        song = QtWidgets.QFileDialog.getOpenFileName(self, "Open Song", "", "Sound Files (*.mp3)")
-        if song:
-            self.now_playing_widget.audio_visualiser.red_flames()
-            self.play_song(song[0])
-
     def play_song(self, song):
+        self.player.playlist().clear()
         self.controls.duration_label.setText('Loading...')
         url = QtCore.QUrl.fromLocalFile(song)
-        self.player.playlist().insertMedia(self.player.playlist().nextIndex(),
-                                           QtMultimedia.QMediaContent(url))
-        if self.player.playlist().mediaCount() == 1:
-            self.controls.toggle_play()
+
+        if self.check_advert_intermission():
+            self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))
         else:
-            self.controls._next_song()
+            self.player.playlist().insertMedia(self.player.playlist().nextIndex(), QtMultimedia.QMediaContent(url))
+
+            if self.player.playlist().mediaCount() == 1:
+                self.controls.toggle_play()
+            else:
+                self.controls._next_song()
         self.controls.duration_label.setText('0')
+        self.controls.play_pause_button.setIcon(QtGui.QIcon(imgButtons.Pause.str))
+
+    def disable_advert_controls(self, media):
+        if self.advert_in_progress:
+            self.now_playing_widget.audio_visualiser.green_flames()
+            self.controls.setEnabled(False)
+            self.advert_in_progress = False
+        else:
+            self.now_playing_widget.audio_visualiser.red_flames()
+            self.controls.setEnabled(True)
+
+    def play_ad(self):
+        self.advert_in_progress = True
+        fact = get_fact_by_tags('text')
+        text = "Did you know that ..." + fact.content
+        file = as_callack_audio(text)
+        self.play_song(file)
+        self.now_playing_widget.now_playing_label.setText('Now Playing: Advert Intermission')
+
+    def check_advert_intermission(self):
+        """
+        Callback for every time the media player's status changes.
+        Will play an ad after each song. 'ADVERT' is a on/off
+        """
+        if not self.advert_counter:
+            self.advert_counter = self.total_songs_between_adverts  # could be in an external config file
+            self.play_ad()
+            return True
+        else:
+            self.advert_counter -= 1
+            self.controls.enabled()
+            return False
 
     def resizeEvent(self, event):
         """Handles the positioning and sizing of the moon foreground image."""
@@ -97,3 +174,10 @@ class MusicPlayer(QtWidgets.QWidget):
                                    self.now_playing_widget.height() - scaled.height()*0.65)
         self.foreground_label.resize(self.width(), scaled.height())
         self.foreground_label.raise_()
+
+    def refresh_fact(self):
+        self.fact_widget.deleteLater()
+        self.fact_widget = get_fact_by_tags('ui').as_widget(self)
+        self.fact_widget.setMinimumSize(300, 200)
+        self.sidebar_layout.insertWidget(1, self.fact_widget)
+        self.refresh_fact_timer.start(self.fact_refresh_rate * 1000)

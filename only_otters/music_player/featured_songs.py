@@ -41,7 +41,8 @@ class FeaturedSongs(QtWidgets.QFrame):
         songs = ensure_field(yaml_data, 'songs')
 
         for song in songs:
-            self.add_featured_song(images_path / ensure_field(song, 'img'),
+
+            self.add_featured_song(images_path / ensure_field(song, 'img'), 
                                    songs_path / ensure_field(song, 'audio'))
 
     def init_ui(self):

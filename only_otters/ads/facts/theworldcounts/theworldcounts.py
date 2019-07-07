@@ -1,4 +1,11 @@
-import json
+from only_otters.ads.facts.fact import Fact, FactFactory
+from only_otters.scrapetools.hquery import HierarchicalXPathQuery
+from only_otters.ads.qml import Counter as qmlCounter
+from only_otters.ads.qmltools import QmlWidget
+from only_otters.ads.qtobjcounter import FactCounter
+from only_otters.resourcely import ensure_field
+from only_otters.ads.counter import counter
+
 from pathlib import Path
 from scrapetools.hquery import HierarchicalXPathQuery
 from scrapetools import autobrowser
@@ -13,8 +20,43 @@ An application of the Remote Resource template to URL:
 https://www.theworldcounts.com/themes/our_environment
 """
 
+class TheWorldCountsFactFactory(FactFactory):
 
-@HierarchicalXPathQuery.pipe
+    def __init__(self):
+        super().__init__()
+        self.fetcher = HierarchicalXPathQuery.from_yml(__folder__ / 'theworldcounts.yml')
+
+    def _build_widget(self, factobj: Fact, parent) -> QmlWidget:
+        return QmlWidget(
+            dataobjs={'fact_counter': factobj},
+            qmlpath=qmlCounter.url,
+            parent=parent
+        )
+
+    def _build_fact(self, record):
+
+        start = float(ensure_field(record, 'start'))
+        offset = float(ensure_field(record, 'cursor'))
+
+        offset, inter = counter(start, offset, mininterval=20)
+        inter = inter * 1000
+
+        return FactCounter(
+            value=start,
+            offset=offset,
+            interval=inter,
+            precision=int(ensure_field(record, 'precision')),
+            text=ensure_field(record, 'title') + ', ' + ensure_field(record, 'subtitle').lower(),
+            source=self.fetcher.url,
+            factory=self
+        )
+      
+
+__factory__ = TheWorldCountsFactFactory()
+__factory__.tags = ['counter', 'ui']
+
+
+@__factory__.fetcher.pipe
 def postprocess(item):
 
     for key in item:
@@ -26,27 +68,19 @@ def postprocess(item):
     if item['cursor'].count(',') == 1:
         item['cursor'] = None
         item['start'] = None
+        item['precision'] = None
     else:
         try:
-            item['cursor'] = item['cursor'].split(',')[1]
-            item['start'] = item['start'].split(',')[0].split('(')[1]
-        except IndexError:
+            item['cursor'] = float(item['cursor'].split(',')[1])
+            item['start'] = float(item['start'].split(',')[0].split('(')[1])
+            item['precision'] = item['precision'].split(',')[2].strip()
+        except (IndexError, ValueError):
             item['cursor'] = None
             item['start'] = None
+            item['precision'] = None
 
     return item
 
-
-if __name__ == "__main__":
-
-    hxq = HierarchicalXPathQuery.from_yml(__folder__ / 'theworldcounts.yml')
-
-    pulled_resources = [*hxq()]
-
-    print(json.dumps(
-        pulled_resources,
-        indent=4
-    ))
-
-    if autobrowser.DRIVER is not None:
-        autobrowser.DRIVER.close()
+@__factory__.fetcher.pipe
+def valid(item):
+    return item['start'] is not None
