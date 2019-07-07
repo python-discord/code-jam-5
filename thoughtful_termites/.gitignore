@@ -105,6 +105,8 @@ venv.bak/
 
 # config
 shared/config.json
+
+# database
 shared/goals.db
 shared/goals.db-shm
 shared/goals.db-wal
