@@ -75,7 +75,11 @@ class UnlocksWindow(qt.QDialog):
             unlock = self.db.get_unlock_by_name(name)
             unlock.is_unlocked = True
 
-            qt.QMessageBox.about(self, "Success!", f"You have unlocked the '{name}' minigame.")
+            qt.QMessageBox.about(
+                self,
+                "Success!",
+                f"You have unlocked the '{name}' minigame. Type '>{name}' in Discord to try it out!"
+            )
 
             unlock.update()
 

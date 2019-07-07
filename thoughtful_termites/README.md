@@ -14,7 +14,8 @@ to become more eco-friendly by setting environmentally green goals.
 3. Configure the bot using the 'Configure Bot' button. This will require
 you to set up your own Discord bot
 [here](https://discordapp.com/developers/applications/). Enter in the
-bot's token and client ID as prompted.
+bot's token and client ID as prompted. **NOTE: You need to create a new
+server and invite the bot to that server to run commands.**
 
 4. Configure goals and reminders using the 'Open Goals' button. More info
 on this in the Usage section below.
