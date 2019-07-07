@@ -1,5 +1,8 @@
+
+<h1 align="center"> [Only Otters] Leafify </h1>
 <p align="center">
-<img width="600" src="https://i.imgur.com/PMQv01Y.png">
+  <a href="https://github.com/python-discord/code-jam-5"> PythonDiscord/Code-Jam-5 </a> submission <br>
+  <img src="images/spotleafy.png" width="256">
 </p>
 
 Leafify is a simple, climate change / environment focused music player, which aims to encourage action against climate change/environmental crisis in a subtle but effective manner. The project allows you to play your music in a beautiful interface while also being reminded of interesting climate change facts. 
@@ -13,7 +16,7 @@ This is done in 3 ways:
 ## Features Summary
 
 * A environment-themed user interface;
-* The ability to play songs from your local computer as you select them through a file browser;
+* The ability to play songs from your local computer as you select them through a file browser; (the program will attempt to use `~/Music` by default)
 * Between each song, an audio ad is played. This audio ad is a climate change fact scraped from the web from a list of curated sources, then played using `gtts`.
 * An audio visualizer circling around the Earth, which turns red for regular songs (to figure the earth burning, under the effect of impending global warming) and green for ads;
 * An embedded fact widget which refreshes itself every 6 seconds. The facts shown here are fetched by the same components has the audio ads.
@@ -74,8 +77,10 @@ frequencies = np.fft.fftfreq(fourier.size, d=song.duration)
 amps = 2/samples.size * np.abs(fourier)
 ```
 
-To learn more about FFTs go here https://www.nti-audio.com/en/support/know-how/fast-fourier-transform-fft
-The visuals
+To learn more about FFTs go [here](https://www.nti-audio.com/en/support/know-how/fast-fourier-transform-fft).
+
+### The visuals
+
 The audio visualiser is displayed using polar coordinate formulae, if you didn’t know, you can plot into a circle very easily using the equations
 
 ```
@@ -163,4 +168,6 @@ Every song the user selects will first be preceded by an audio ad which read a f
 
 ## Future features
 
-## Talk about the default song folder
+To make the ads more relevant to increase user engagement, we wanted to implement a progress bar to which each heard ad would add progress to. At completion, a tree would be planted, in the same fashion [Ecosia](https://www.ecosia.org/) does. This would give the user a goal to look forward to, and entice them to continue using the application (A sense of accomplishment and all that).
+
+
