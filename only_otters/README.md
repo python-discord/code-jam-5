@@ -31,6 +31,8 @@ then, to start the application:
 pipenv run start
 ```
 
+The `requirements.txt` is there for reference.
+
 ## The music player
 
 The music player contains 2 fundamental parts:
