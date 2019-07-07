@@ -5,7 +5,7 @@ from typing import Type
 
 from pathlib import Path
 
-bot_script_path = Path(__file__).parents[1] / 'bot' / '__init__.py'
+bot_script_path = Path(__file__).parents[1] / 'bot' / '__main__.py'
 
 
 class ControlledProcess(qt.QThread):
