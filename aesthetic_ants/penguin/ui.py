@@ -94,7 +94,7 @@ class WeaponIndicator(Object):
                                    self.weapon_text(self.player.weapon),
                                    font_name="Times New Roman",
                                    font_size=32,
-                                   color=(255, 0, 255, 255),
+                                   color=(158, 158, 158, 255),
                                    x=window.width - WEAPON_POS[0],
                                    y=0,
                                    anchor_x='right',
