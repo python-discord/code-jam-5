@@ -12,12 +12,6 @@ afterwards.
 
 # Setup
 
-Executables are located in daily_dragons/production. We have provided 
-.exe in production/windows and a .deb in production/linux. <br>
-<br>
-
-If neither of these work for you, or you'd prefer to run from source, 
-follow the below instructions:
 ```
 $ git clone https://github.com/AvianAnalyst/code-jam-5.git
 $ cd code-jam-5/daily_dragons
