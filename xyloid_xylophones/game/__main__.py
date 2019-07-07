@@ -57,15 +57,14 @@ def load_zones(path_name):
             for l in content:
                 t.insert(v, l.split(','))
                 v += 1
-        map_size = v - 1
+        sz = v - 1
 
         for y in range(0, zone_height):
             for x in range(0, zone_width):
                 item = Item('x%sy%s' % (x, y))
                 item.y = -1024 + (y * sprite_height)
                 item.x = -1024 + (x * sprite_width)
-                item.sprite = int(t[map_size - (y - (floor(y / map_size) * map_size))][
-                              x - (floor(x / map_size) * map_size)])
+                item.sprite = int(t[sz - (y - (floor(y / sz) * sz))][x - (floor(x / sz) * sz)])
                 # tiny offset for grid view
                 item.width = sprite_width - 1
                 item.height = sprite_height - 1
