@@ -30,7 +30,13 @@ function plot(indicator) {
         x: JSON.parse(graph.dataset.x),
         y: JSON.parse(graph.dataset.y),
         mode: 'lines+markers',
-        type: 'scatter'
+        type: 'scatter',
+        marker: {
+            color: 'rgb(19, 132, 150)',
+        },
+        line: {
+            color: 'rgb(60, 130, 142)',
+        },
     };
 
     const layout = {
