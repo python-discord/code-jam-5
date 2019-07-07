@@ -126,13 +126,58 @@
         "description": "Libertarian organization focusing on deregulating businesses",
         "policies": [
             {
-                "name": "TransAmerican Pipeline",
+                "name": "TransAmerican Pipeline I",
                 "description": "A new pipeline spanning across America to lower crude oil costs.",
-                "bio": -100,
+                "bio": -2,
                 "temperature": 0,
-                "co2": 0,
-                "habitable_land": -100,
+                "co2": -1,
+                "habitable_land": 0,
                 "roi": 0.05
+            },
+            {
+                "name": "Fracking I",
+                "description": "Introduce Fracking to new environments allowing the tapping of new oil deposits.",
+                "bio": 0,
+                "temperature": 0,
+                "co2": -1,
+                "habitable_land": -2,
+                "roi": 0.05
+            },
+            {
+                "name": "TransAmerican Pipeline II",
+                "description": "Continue construction work after overcoming protests.",
+                "bio": -4,
+                "temperature": -1,
+                "co2": -2,
+                "habitable_land": 0,
+                "roi": 0.09
+            },
+            {
+                "name": "Fracking II",
+                "description": "Engineer more efficient equipment, reducing operating costs and increasing yield.",
+                "bio": 0,
+                "temperature": -1,
+                "co2": -2,
+                "habitable_land": -4,
+                "roi": 1.00
+            },
+            {
+                "name": "TransAmerican Pipeline III",
+                "description": "Finish construction.",
+                "bio": -4,
+                "temperature": -2,
+                "co2": -3,
+                "habitable_land": 0,
+                "roi": 1.30
+            },
+            {
+                "name": "Fracking III",
+                "description": "A new pipeline spanning across America to lower crude oil costs.",
+                "bio": 0,
+                "temperature": -2,
+                "co2": -3,
+                "habitable_land": -4,
+                "roi": 1.75
             }
         ]
     },
@@ -142,7 +187,7 @@
         "description": "Organization focusing on conservation and forest preservation",
         "policies": [
             {
-                "name": "Goverment Solar Contracts",
+                "name": "Government Solar Contracts",
                 "description": "Lobby the government to use your solar panel installer.",
                 "bio": 0,
                 "temperature": 0,
