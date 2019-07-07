@@ -46,7 +46,7 @@ class Period(object):
     # How much heat goes up passively each game tick
     heat_per_tick: float = 1 / 60 / 2
     # How much heat goes up per task each game tick
-    heat_per_task: float = 1 / 60 / 10
+    heat_per_task: float = (1 / 60) * (9 / 100)
 
     # Chance to spawn certain task types
     maze_chance: float = 0.4
