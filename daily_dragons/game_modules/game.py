@@ -29,14 +29,20 @@ class Game:
             Fore.YELLOW + "Have a good day, thanks for playing!" + Style.RESET_ALL
         )
 
-        self.fail_msg = Fore.RED + "You have destroyed your planet. Enjoy the rest of your life " \
-                                   "knowing you've doomed humanity."
+        self.fail_msg = (
+            Fore.RED + "You have destroyed your planet. Enjoy the rest of your life "
+            "knowing you've doomed humanity."
+        )
 
-        self.success_ending = Fore.GREEN + "Congratuations! You've managed to save your world."
+        self.success_ending = (
+            Fore.GREEN + "Congratuations! You've managed to save your world."
+        )
 
-        self.medium_ending = Fore.YELLOW + "You managed to not destroy the world, but try better" \
-                                           " next time. You could have actually done some good " \
-                                           "in your life for once."
+        self.medium_ending = (
+            Fore.YELLOW + "You managed to not destroy the world, but try better"
+            " next time. You could have actually done some good "
+            "in your life for once."
+        )
 
         self.successful_order_msg = Fore.GREEN + "Ok, we've sent that in!"
 
@@ -96,6 +102,7 @@ class Game:
                 print(self.final_score())
 
             elif self.player.net_worth <= 0:
+                self.quit_game = True
                 print("You've run out of money.", self.exit_msg)
 
             elif not all(i > -10 for i in self.earth.stats.values()):
@@ -103,7 +110,11 @@ class Game:
                 print(self.fail_msg)
 
             else:
-                print(Fore.BLUE + f"Welcome to round {self.round}.", self.investments, sep="\n")
+                print(
+                    Fore.BLUE + f"Welcome to round {self.round}.",
+                    self.investments,
+                    sep="\n",
+                )
                 player_input = input(Style.RESET_ALL + "")
                 response = self.parse_input(player_input)
 
