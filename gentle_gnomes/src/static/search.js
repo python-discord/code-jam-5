@@ -64,11 +64,12 @@ function showIndicator(response) {
     if (results.hidden) {
         results.hidden = false;
 
-        /* eslint-disable no-undef */
+        // eslint-disable-next-line no-undef
         $('#sidebar li:first-child a').tab('show');
-        $('[data-toggle="tooltip"]').tooltip();
-        /* eslint-enable no-undef */
     }
+
+    // eslint-disable-next-line no-undef
+    $('[data-toggle="tooltip"]').tooltip();
 }
 
 /**
