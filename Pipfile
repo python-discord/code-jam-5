@@ -17,6 +17,7 @@ lxml = "*"
 requests = "*"
 cached-property = "*"
 pyyaml = "*"
+spacy = "*"
 
 [requires]
 python_version = "3.7"
