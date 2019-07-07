@@ -26,7 +26,7 @@ db_path = Path(__file__).parent.parent / 'shared/goal_db/goals.db'
 extensions = [
     'cogs.climate_arguments',
     'cogs.hangman',
-    'cogs.minesweeper',
+    'cogs.treefinder',
     'cogs.rankings',
     'cogs.reminders',
     'cogs.trivia',

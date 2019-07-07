@@ -3,6 +3,7 @@ pragma foreign_keys=on;
 
 drop table if exists goals;
 drop table if exists reminders;
+drop table if exists unlocks;
 
 create table goals(
 	id integer primary key,
@@ -38,3 +39,14 @@ CREATE TABLE farmerdecisions(
     loss INTEGER,
     used NUMERIC
 );
+
+create table unlocks(
+    id integer primary key,
+    name text,
+    is_unlocked integer
+);
+
+insert into unlocks (name, is_unlocked) values ("commentary", 0);
+insert into unlocks (name, is_unlocked) values ("hangman", 0);
+insert into unlocks (name, is_unlocked) values ("treefinder", 0);
+insert into unlocks (name, is_unlocked) values ("rankings", 0);

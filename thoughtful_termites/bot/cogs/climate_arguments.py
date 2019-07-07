@@ -5,6 +5,8 @@ import random
 
 from discord.ext import commands
 
+from thoughtful_termites.bot import unlocks
+
 CLIMATE_ARGUMENT_PATH = './resources/climate_arguments.json'
 
 
@@ -35,6 +37,10 @@ class ClimateArguments(commands.Cog):
         `?cc`
         `?climcom`
         """
+        if not unlocks.has_unlocked(ctx, "commentary"):
+            await ctx.send(unlocks.unlock_message("Climate Commentary"))
+            return
+
         if not argument_id:
             argument_id = random.randint(0, len(self.raw_climate_arguments) - 1)
 
