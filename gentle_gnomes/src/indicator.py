@@ -1,3 +1,4 @@
+import json
 from collections import Counter
 from itertools import chain
 from typing import Tuple
@@ -51,8 +52,9 @@ class Indicator:
 
         self.rate = stats.linregress(x, y)[0]
 
-        self.x = x.tolist()
-        self.y = y.tolist()
+        # Convert to JSON just to be safe...
+        self.x = json.dumps(x.tolist())
+        self.y = json.dumps(y.tolist())
 
 
 async def get_top_indicators(city: City, n: int = 5) -> Tuple[Indicator, ...]:
