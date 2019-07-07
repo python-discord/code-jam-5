@@ -1,1 +1,1 @@
-from .theworldcounts_fact import __factory__
+from .theworldcounts import __factory__
