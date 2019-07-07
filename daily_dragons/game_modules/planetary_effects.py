@@ -26,21 +26,31 @@ class PlanetaryEffects:
     def __sign_helper(self, stat: int) -> str:
         if stat > 0:
             return "+"
-        else:
+        elif stat < 0:
             return ""
+        else:
+            return " "
+
+    def __level_helper(self, stat: int) -> str:
+        if stat == 0:
+            return " -"
+        elif stat == 1:
+            return f"{self.__sign_helper(stat)}{str(stat)} level"
+        else:
+            return f"{self.__sign_helper(stat)}{str(stat)} levels"
 
     def __str__(self) -> str:
 
-        bio = self.__sign_helper(self.bio_diversity) + str(self.bio_diversity)
-        temp = self.__sign_helper(self.temperature) + str(self.temperature)
-        carbon = self.__sign_helper(self.co2) + str(self.co2)
-        land = self.__sign_helper(self.habitable_land) + str(self.habitable_land)
+        bio = self.__level_helper(self.bio_diversity)
+        temp = self.__level_helper(self.temperature)
+        carbon = self.__level_helper(self.co2)
+        land = self.__level_helper(self.habitable_land)
 
         net_effects = (
-            "" + Fore.GREEN + f"Biodiversity:\t" + Fore.WHITE + f"{bio} level\n"
-            "" + Fore.GREEN + f"Temperature:\t" + Fore.WHITE + f"{temp} level\n"
-            "" + Fore.GREEN + f"CO2:\t\t" + Fore.WHITE + f"{carbon} level\n"
-            "" + Fore.GREEN + f"Habitable Land:\t" + Fore.WHITE + f"{land} level\n"
+            "" + Fore.GREEN + f"Biodiversity:\t" + Fore.WHITE + f"{bio}\n"
+            "" + Fore.GREEN + f"Temperature:\t" + Fore.WHITE + f"{temp}\n"
+            "" + Fore.GREEN + f"CO2:\t\t" + Fore.WHITE + f"{carbon}\n"
+            "" + Fore.GREEN + f"Habitable Land:\t" + Fore.WHITE + f"{land}\n"
         )
 
         return net_effects
