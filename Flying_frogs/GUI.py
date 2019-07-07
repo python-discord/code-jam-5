@@ -7,18 +7,19 @@ To do:
 -Find out how to and submit work
 '''
 
+
 try:
     import pygame
     import random
 except ImportError:
     print('Could not import modules. Please check your connection and try again later.')
-    
+
 pygame.init()
 
-win = pygame.display.set_mode((922,675))
+win = pygame.display.set_mode((922, 675))
 pygame.display.set_caption('Climate Change Project')
 
-bg = pygame.image.load('Background.png')
+bg = pygame.image.load('Backgrounds//Background.png')
 
 onscreen = []
 score = 0
@@ -29,16 +30,17 @@ lose = False
 comp = False
 introduction = True
 
+
 def redraw():
     if introduction:
-        win.blit(pygame.image.load('Introduction.png'),(0,0))
+        win.blit(pygame.image.load('Backgrounds//Introduction.png'), (0, 0))
         win.blit(play.image, (play.x, play.y))
         win.blit(rulesbutton.image, (rulesbutton.x, rulesbutton.y))
     elif rules:
-        win.blit(pygame.image.load('Rules.png'),(0,0))
+        win.blit(pygame.image.load('Backgrounds//Rules.png'), (0, 0))
         win.blit(back.image, (back.x, back.y))
     else:
-        win.blit(bg, (0,0))
+        win.blit(bg, (0, 0))
 
         if lose:
             win.blit(pygame.image.load('LoseBox.png'), (276, 161))
@@ -51,18 +53,18 @@ def redraw():
         else:
             for item in onscreen:
                 if item.movecount + 1 >= len(item.move)*10:
-                    item.movecount = 0    
-                win.blit(item.move[item.movecount//10], (item.x,item.y))
-                #pygame.draw.rect(win,(225,0,0),item.hitbox,2)
+                    item.movecount = 0
+                win.blit(item.move[item.movecount//10], (item.x, item.y))
                 item.movecount += 1
 
-        DisplayScore = Scorefont.render('Score: '+str(score), True, (0,0,0))
+        DisplayScore = Scorefont.render('Score: '+str(score), True, (0, 0, 0))
         ScoreRect = DisplayScore.get_rect()
-        ScoreRect.center = (100,40)
+        ScoreRect.center = (100, 40)
         win.blit(DisplayScore, ScoreRect)
 
     pygame.display.update()
-    
+
+
 class button(object):
     image = ''
     width = 0
@@ -76,7 +78,7 @@ class button(object):
         self.height = height
         self.x = x
         self.y = y
-        
+
     def pressed(self):
         global score
         global onscreen
@@ -86,36 +88,38 @@ class button(object):
         score = 0
         lose = False
         comp = False
-        
-playagain = button(pygame.image.load('PlayAgainButton.png'), 200, 106, 365, 330)
-play = button(pygame.image.load('PlayButton.png'), 200, 106, 365, 450)
-back = button(pygame.image.load('Back.png'), 100, 82, 20, 150)
-rulesbutton = button(pygame.image.load('RulesButton.png'), 200, 106, 365, 250)
 
-#set up car object
+
+playagain = button(pygame.image.load('Buttons//PlayAgainButton.png'), 200, 106, 365, 330)
+play = button(pygame.image.load('Buttons//PlayButton.png'), 200, 106, 365, 450)
+back = button(pygame.image.load('Buttons//Back.png'), 100, 82, 20, 150)
+rulesbutton = button(pygame.image.load('Buttons//RulesButton.png'), 200, 106, 365, 250)
+
+
+# Set up car object
 class car(object):
-    #If electric
+    # If electric
     electric = False
-    #Start position
+    # Start position
     x = 922
     y = random.choice(lanes)
-    #Size of image
+    # Size of image
     width = 256
     height = 256
-    #How fast it moves
+    # How fast it moves
     vel = 5
     hitbox = ()
-    #Images of movement
+    # Images of movement
     move = []
-    #Images of destruction
-    #destroy = []
+    # Images of destruction
+    # destroy = []
     movecount = 0
     scorechange = 0
-    
-    #How much the score changes by if guessed correctly or incorrectly
+
+    # How much the score changes by if guessed correctly or incorrectly
     scorechange = 0
 
-    def __init__(self,electric,move,vel,width,height,scorechange):
+    def __init__(self, electric, move, vel, width, height, scorechange):
         self.electric = electric
         self.move = move
         self.vel = vel
@@ -124,11 +128,11 @@ class car(object):
         self.scorechange = scorechange
         self.hitbox = (self.x, self.y, self.width, self.height)
         self.y = random.choice(lanes)
-        
+
     def show(self):
         onscreen.append(self)
 
-    #Shows car, asks if electric or not, produces approptiate output
+    # Shows car, asks if electric or not, produces approptiate output
     def hit(self):
         global score
         self.y = random.choice(lanes)
@@ -137,7 +141,6 @@ class car(object):
             score -= self.scorechange
         elif not self.electric:
             score += self.scorechange
-        #win.blit(self.destroy, (self.x,self.y))
         onscreen.remove(self)
 
     def letgo(self):
@@ -150,12 +153,14 @@ class car(object):
             score -= self.scorechange
         onscreen.remove(self)
 
-#Replace these with actual cars. These are placeholders.
+
+# Replace these with actual cars. These are placeholders.
 ambulance = car(False, [pygame.image.load('1.png'), pygame.image.load('2.png'), pygame.image.load('3.png'), pygame.image.load('2.png')], 5, 225, 110, 5)
-policecar = car(True, [pygame.image.load('P1.png'),pygame.image.load('P2.png'),pygame.image.load('P3.png'),pygame.image.load('P2.png')], 10, 225, 110, 3)
+policecar = car(True, [pygame.image.load('P1.png'), pygame.image.load('P2.png'), pygame.image.load('P3.png'), pygame.image.load('P2.png')], 10, 225, 110, 3)
+
 vehicles = [ambulance, policecar]
-       
-#main loop
+
+# Main loop
 introduction = True
 rules = False
 run = True
@@ -166,9 +171,9 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            (a,b) = pygame.mouse.get_pos()
+            (a, b) = pygame.mouse.get_pos()
             for i in onscreen:
-                if  b < i.hitbox[1] + i.hitbox[3] and b > i.hitbox[1] and a > i.hitbox[0] and a < i.hitbox[0] + i.hitbox[2]:
+                if b < i.hitbox[1] + i.hitbox[3] and b > i.hitbox[1] and a > i.hitbox[0] and a < i.hitbox[0] + i.hitbox[2]:
                     i.hit()
             if introduction:
                 if playagain.y + playagain.height and b > playagain.y and a > playagain.x and a < playagain.x + playagain.width:
@@ -179,28 +184,28 @@ while run:
                     rules = True
             if rules:
                 if back.y + back.height and b > back.y and a > back.x and a < back.x + back.width:
-                  rules = False
-                  introduction = True
+                    rules = False
+                    introduction = True
             elif lose or comp:
                 if b < playagain.y + playagain.height and b > playagain.y and a > playagain.x and a < playagain.x + playagain.width:
                     playagain.pressed()
                 if b < 250 + back.height and b > 250 and a > 290 and a < 290 + back.width:
                     introduction = True
 
-    if pygame.time.get_ticks()%100 == 0:
+    if pygame.time.get_ticks() % 100 == 0:
         onscreen.append(random.choice(vehicles))
-    
+
     for item in onscreen:
-        item.x-=item.vel
+        item.x -= item.vel
         item.hitbox = (item.x, item.y, item.width, item.height)
         if item.x < 0-item.width:
             item.letgo()
 
-    if score<0:
+    if score < 0:
         lose = True
         onscreen = []
 
-    if score>=100:
+    if score >= 100:
         onscreen = []
         comp = True
 
