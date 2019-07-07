@@ -46,7 +46,7 @@ To start the game, simply run:
 
 ## Notes
 
-* The game is not optimized and will eat ~550 MB of RAM to hold cached images of sun and tiles.
+* The game will eat ~550 MB of RAM to hold cached images of sun and tiles.
 
 > 361 images of sun (for each angle of rotation)
 
@@ -54,15 +54,6 @@ To start the game, simply run:
 
 * The sun looks "laggy" when spinning slowly, because it only rotates at a full 1 degree angle each time (instead of a smoothed floating point value angle).
 
-## Troubleshooting
-
-1) `ERROR: Could not find a version that matches black`
-
-Your Pipenv lock file might be corrupt, try running command:
-
-```
-$ pipenv lock --pre --clear
-```
 ## How to play
 
 The global temperature is drastically increasing. Your mission is to save the Earth through completing tasks - saving the forests and mountains ice, building solar panels and decreasing the pollution.
@@ -140,6 +131,16 @@ Show fps and boost fps checkers.
 
 **Show fps** displays a number of the fps in the top right corner.
 **Boost fps** removes some animations in the game to increase the performance. 
+
+## Troubleshooting
+
+1) `ERROR: Could not find a version that matches black`
+
+Your Pipenv lock file might be corrupt, try running command:
+
+```
+$ pipenv lock --pre --clear
+```
 
 ## Credits
 
