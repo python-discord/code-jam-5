@@ -52,7 +52,7 @@ class FactFactory:
         self.fetcher: HierarchicalXPathQuery = None
 
     def fetch(self) -> list:
-
+        """Fetch the remote data through the Hquery object."""
         self.served_facts = 0
         new_records: List[Dict[str, Any]] = []
 
@@ -67,7 +67,7 @@ class FactFactory:
         return self.records
 
     def _build_widget(self, factobj: 'Fact', parent: QWidget) -> QmlWidget:
-        """TODO:# build widget then return it"""
+        """Build a widget depending on the source and fact object."""
         return QmlWidget(
             qmlpath=FactWidget.url,
             context={'fact': factobj},
@@ -102,6 +102,10 @@ class FactFactory:
 
 @dataclass
 class Fact(QObject):
+
+    """
+    A simple dataclass with its attributes exposed to QML.
+    """
 
     _title: str
     _content: str
