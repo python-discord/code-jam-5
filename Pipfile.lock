@@ -15,8 +15,7 @@
             }
         ]
     },
-    "default": {}
-    },
+    "default": {},
     "develop": {
         "entrypoints": {
             "hashes": [
