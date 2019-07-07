@@ -24,9 +24,14 @@ ENEMY_TRUCK_IMAGE = load_image("truck.png", centered=True)
 PLAYER_IMAGE = load_image("penguin.png", centered=True)
 
 # Projectile images
-SNOWBALL_IMAGE = load_image("snowball.png", centered=True)
-ROCKET_IMAGE = load_image("snowball_rocket.png", centered=True)
-SNOWSPLOSION_IMAGE = load_image("snowsplosion.png", centered=True)
+SNOWBALL_IMAGE = load_image("snowball.png")
+ROCKET_IMAGE = load_image("snowball_rocket.png")
+SNOWSPLOSION_IMAGE = load_image("snowsplosion.png")
+
+# Projectile icons
+SNOWBALL_ICON = load_image("snowball_icon.png")
+SHOTGUN_ICON = load_image("shotgun_icon.png")
+RPG_ICON = load_image("rpg_icon.png")
 
 # Tile images
 WATER_TILE = load_image("tiles/water.png")

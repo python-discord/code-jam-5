@@ -5,7 +5,7 @@ from .space import Space
 
 
 SCORE_POS = (20, 15)
-WEAPON_POS = (64, 32)
+WEAPON_POS = (48, 0)
 
 
 class UiSpace(Space):
@@ -94,6 +94,7 @@ class ScoreLabel(Object):
 
 class WeaponIndicator(Object):
     def __init__(self, window, space, player):
+        self.window = window
         self.player = player
         self.label = ShadowedLabel(space,
                                    self.weapon_text(self.player.weapon),
@@ -104,6 +105,19 @@ class WeaponIndicator(Object):
                                    y=0,
                                    anchor_x='right',
                                    anchor_y='bottom')
+
+        self.icon = None
+        self.sprite = pyglet.sprite.Sprite(self.player.weapon.icon)
+        self.update_icon(self.player.weapon)
+
+    def update_icon(self, weapon):
+        icon = weapon.icon
+        if self.icon == icon:
+            return
+
+        self.sprite.image = icon
+        self.sprite.x = self.window.width - icon.width
+        self.icon = icon
 
     def weapon_text(self, weapon):
         if weapon is None:
@@ -122,10 +136,12 @@ class WeaponIndicator(Object):
 
     def update(self, dt):
         self.label.text = self.weapon_text(self.player.weapon)
+        self.update_icon(self.player.weapon)
 
     def add_to_space(self, space):
         super().add_to_space(space)
         self.label.batch = space.batch
+        self.sprite.batch = space.batch
 
 
 class WaveLabel(Object):

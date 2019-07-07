@@ -1,5 +1,6 @@
 import pyglet
 
+from .resources import RPG_ICON, SHOTGUN_ICON, SNOWBALL_ICON
 from .snowball import RocketBall, Snowball
 
 
@@ -9,6 +10,7 @@ class Weapon:
     projectile_speed = 600
     unlock_score = 0
     clip_size = None
+    icon = None
 
     def __init__(self):
         self.locked = True
@@ -55,6 +57,7 @@ class Weapon:
 
 class Hand(Weapon):
     locked = False
+    icon = SNOWBALL_ICON
 
     def get_projectiles(self, x, y, angle):
         yield Snowball(x, y, angle, self.projectile_speed)
@@ -64,6 +67,7 @@ class SnowSpread(Weapon):
     fire_delay = 0.625
     unlock_score = 1000
     clip_size = 16
+    icon = SHOTGUN_ICON
 
     def get_projectiles(self, x, y, angle):
         for i in range(-2, 3):
@@ -74,6 +78,7 @@ class RocketPropelledSnowball(Weapon):
     fire_delay = 1
     unlock_score = 10000
     clip_size = 4
+    icon = RPG_ICON
 
     def get_projectiles(self, x, y, angle):
         yield RocketBall(x, y, angle, self.projectile_speed)
