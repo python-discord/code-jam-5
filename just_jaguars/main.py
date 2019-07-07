@@ -1,60 +1,22 @@
 import pygame
 from random import randint, choice
-from assets import (
-    natural_gas, oil, coal,
-    solar, wind, hydro,
-    geothermal, biomass, nuclear,
-    hydrogen, ghg_capture_tech)  # Importing the images for the icons
-import tutorial  # Tutorial
+import config
 
+# tutorial:
+import tutorial
 tutorial.__dict__  # because flake8 ;-;
-
-# Details about the window:
-window_width = 1152
-aspect_ratio = 9 / 16
-window_height = int(aspect_ratio * window_width)
-window_icon = None
-window_title = 'Iconic Energy, Inc.'
 
 # Boiler-plate:
 pygame.init()
-window = pygame.display.set_mode((window_width, window_height))
-pygame.display.set_caption(window_title)
+window = pygame.display.set_mode((config.window_width, config.window_height))
+pygame.display.set_caption(config.window_title)
 clock = pygame.time.Clock()
 all_icons = pygame.sprite.Group()  # All icons on the screen are put into this Group object.
-
-# Colors used:
-white = (255, 255, 255)
-gray = (124, 124, 124)
-dark_red = (157, 49, 30)
-yellow = (255, 255, 0)
-black = (0, 0, 0)
-darkish_brown = (81, 54, 26)
-green = (0, 255, 0)
-grayish_light_blue = (59, 131, 189)
 
 # Fonts used:
 pygame.font.init()
 arial = pygame.font.SysFont('Arial MT', 30)
 big_arial = pygame.font.SysFont('Arial', 120)
-
-# Game settings:
-fps = 60
-icon_speed = 4  # Speed the icons fall at, y-pixels per frame.
-number_of_icons_in_a_row = 8
-icon_width = 64  # Width of the icons' images in pixels
-num_ghg_capture_icons_per_minute = 3
-greenhouse_gas_limit = 500000
-energy_demand = 1000
-
-"""
-The following are the two energy types an icon can be, which energy sources
-fall into those types, as well as a greenhouse gas capture technology type.
-"""
-fossil_fuel_types = (natural_gas, oil, coal)
-green_energy_types = (solar, wind, hydro, geothermal,
-                      biomass, nuclear, hydrogen)
-ghg_capture_technology = ghg_capture_tech
 
 # Initial game state values:
 atmospheric_ghg_levels = 0
@@ -86,9 +48,9 @@ def pollute():
 
 
 def check_if_lost():
-    if atmospheric_ghg_levels >= greenhouse_gas_limit:
+    if atmospheric_ghg_levels >= config.greenhouse_gas_limit:
         return True
-    elif energy_output < energy_demand:
+    elif energy_output < config.energy_demand:
         return True
     return False
 
@@ -101,93 +63,93 @@ def check_if_won():
 
 def draw_ghg_levels_bar():
     """Draws the Atmospheric GHG Levels stat bar onto the screen"""
-    if atmospheric_ghg_levels <= greenhouse_gas_limit:
-        pygame.draw.rect(window, gray,
-                         pygame.Rect(icon_spacing,
-                                     1.5 * icon_spacing,
-                                     stat_bar_width,
-                                     stat_bar_height))
+    if atmospheric_ghg_levels <= config.greenhouse_gas_limit:
+        pygame.draw.rect(window, config.gray,
+                         pygame.Rect(config.icon_spacing,
+                                     1.5 * config.icon_spacing,
+                                     config.stat_bar_width,
+                                     config.stat_bar_height))
 
-        pygame.draw.rect(window, dark_red,
-                         pygame.Rect(icon_spacing,
-                                     1.5 * icon_spacing,
-                                     stat_bar_width * atmospheric_ghg_levels / greenhouse_gas_limit,
-                                     stat_bar_height))
+        pygame.draw.rect(window, config.dark_red,
+                         pygame.Rect(config.icon_spacing,
+                                     1.5 * config.icon_spacing,
+                                     config.stat_bar_width * atmospheric_ghg_levels / config.greenhouse_gas_limit,
+                                     config.stat_bar_height))
     else:
-        pygame.draw.rect(window, dark_red,
-                         pygame.Rect(icon_spacing,
-                                     1.5 * icon_spacing,
-                                     stat_bar_width,
-                                     stat_bar_height))
+        pygame.draw.rect(window, config.dark_red,
+                         pygame.Rect(config.icon_spacing,
+                                     1.5 * config.icon_spacing,
+                                     config.stat_bar_width,
+                                     config.stat_bar_height))
 
     text = arial.render('Atmospheric GHG Levels', False, (0, 0, 0))
-    window.blit(text, (icon_spacing, 0.5 * icon_spacing))
+    window.blit(text, (config.icon_spacing, 0.5 * config.icon_spacing))
 
 
 def draw_energy_demand_bar():
     """Draws the Energy Demand stat bar onto the screen """
-    if energy_output <= 2 * energy_demand:
-        pygame.draw.rect(window, gray,
-                         pygame.Rect(icon_spacing,
-                                     1.5 * icon_spacing + window_height / 5,
-                                     stat_bar_width,
-                                     stat_bar_height))
+    if energy_output <= 2 * config.energy_demand:
+        pygame.draw.rect(window, config.gray,
+                         pygame.Rect(config.icon_spacing,
+                                     1.5 * config.icon_spacing + config.window_height / 5,
+                                     config.stat_bar_width,
+                                     config.stat_bar_height))
 
-        pygame.draw.rect(window, yellow,
-                         pygame.Rect(icon_spacing,
-                                     1.5 * icon_spacing + window_height / 5,
-                                     (stat_bar_width / 2) * energy_output / energy_demand,
-                                     stat_bar_height))
+        pygame.draw.rect(window, config.yellow,
+                         pygame.Rect(config.icon_spacing,
+                                     1.5 * config.icon_spacing + config.window_height / 5,
+                                     (config.stat_bar_width / 2) * energy_output / config.energy_demand,
+                                     config.stat_bar_height))
     else:
-        pygame.draw.rect(window, yellow,
-                         pygame.Rect(icon_spacing,
-                                     1.5 * icon_spacing + window_height / 5,
-                                     stat_bar_width,
-                                     stat_bar_height))
-    pygame.draw.rect(window, black,
-                     pygame.Rect(icon_spacing + stat_bar_width / 2 - 2,
-                                 1.5 * icon_spacing + window_height / 5 - 4,
+        pygame.draw.rect(window, config.yellow,
+                         pygame.Rect(config.icon_spacing,
+                                     1.5 * config.icon_spacing + config.window_height / 5,
+                                     config.stat_bar_width,
+                                     config.stat_bar_height))
+    pygame.draw.rect(window, config.black,
+                     pygame.Rect(config.icon_spacing + config.stat_bar_width / 2 - 2,
+                                 1.5 * config.icon_spacing + config.window_height / 5 - 4,
                                  4,
-                                 stat_bar_height + 8))
+                                 config.stat_bar_height + 8))
 
     text = arial.render('Energy Output & Demand', False, (0, 0, 0))
-    window.blit(text, (icon_spacing, 0.5 * icon_spacing + window_height / 5))
+    window.blit(text, (config.icon_spacing, 0.5 * config.icon_spacing + config.window_height / 5))
 
 
 def draw_ratio_bar():
     """Draws the Green Energy : Fossil Fuels ratio stat bar onto the screen"""
-    pygame.draw.rect(window, darkish_brown,
-                     pygame.Rect(icon_spacing,
-                                 1.5 * icon_spacing + 2 * window_height / 5,
-                                 stat_bar_width,
-                                 stat_bar_height))
+    pygame.draw.rect(window, config.darkish_brown,
+                     pygame.Rect(config.icon_spacing,
+                                 1.5 * config.icon_spacing + 2 * config.window_height / 5,
+                                 config.stat_bar_width,
+                                 config.stat_bar_height))
 
-    pygame.draw.rect(window, green,
-                     pygame.Rect(icon_spacing,
-                                 1.5 * icon_spacing + 2 * window_height / 5,
-                                 stat_bar_width * percent_green_energy / 100,
-                                 stat_bar_height))
+    pygame.draw.rect(window, config.green,
+                     pygame.Rect(config.icon_spacing,
+                                 1.5 * config.icon_spacing + 2 * config.window_height / 5,
+                                 config.stat_bar_width * percent_green_energy / 100,
+                                 config.stat_bar_height))
 
     text = arial.render('Green Energy : Fossil Fuels', False, (0, 0, 0))
-    window.blit(text, (icon_spacing, 0.5 * icon_spacing + 2 * window_height / 5))
+    window.blit(text, (config.icon_spacing, 0.5 * config.icon_spacing + 2 * config.window_height / 5))
 
 
 def draw_emission_offset_bar():
     """Draws the Emissions Offset stat bar onto the screen"""
-    pygame.draw.rect(window, gray,
-                     pygame.Rect(icon_spacing,
-                                 1.5 * icon_spacing + 3 * window_height / 5,
-                                 stat_bar_width,
-                                 stat_bar_height))
+    pygame.draw.rect(window, config.gray,
+                     pygame.Rect(config.icon_spacing,
+                                 1.5 * config.icon_spacing + 3 * config.window_height / 5,
+                                 config.stat_bar_width,
+                                 config.stat_bar_height))
 
-    pygame.draw.rect(window, grayish_light_blue,
-                     pygame.Rect(icon_spacing,
-                                 1.5 * icon_spacing + 3 * window_height / 5,
-                                 stat_bar_width * num_of_ghg_capture_techs / 100,
-                                 stat_bar_height))
+    pygame.draw.rect(window, config.grayish_light_blue,
+                     pygame.Rect(config.icon_spacing,
+                                 1.5 * config.icon_spacing + 3 * config.window_height / 5,
+                                 config.stat_bar_width * num_of_ghg_capture_techs / 100,
+                                 config.stat_bar_height))
 
     text = arial.render('Emissions Offset', False, (0, 0, 0))
-    window.blit(text, (icon_spacing, 0.5 * icon_spacing + 3 * window_height / 5))
+    window.blit(text, (config.icon_spacing, 0.5 * config.icon_spacing + 3 * config.window_height / 5))
 
 
 def draw_stat_bars():
@@ -197,8 +159,8 @@ def draw_stat_bars():
     draw_ratio_bar()
     draw_emission_offset_bar()
     text = arial.render('Press P to Pause', False, (0, 0, 0))
-    window.blit(text, (icon_spacing + stat_bar_width / 4,
-                       0.5 * icon_spacing + 4 * window_height / 5 + stat_bar_height / 2))
+    window.blit(text, (config.icon_spacing + config.stat_bar_width / 4,
+                       0.5 * config.icon_spacing + 4 * config.window_height / 5 + config.stat_bar_height / 2))
 
 
 class Icon(pygame.sprite.Sprite):
@@ -213,11 +175,11 @@ class Icon(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.bottom = 0
         self.rect.left = left_coordinate
-        if energy_source in fossil_fuel_types:
+        if energy_source in config.fossil_fuel_types:
             self.type = 'fossil fuel'
-        elif energy_source in green_energy_types:
+        elif energy_source in config.green_energy_types:
             self.type = 'green energy'
-        elif energy_source == ghg_capture_tech:
+        elif energy_source == config.ghg_capture_tech:
             self.type = 'ghg capture tech'
 
     def update(self):
@@ -225,8 +187,8 @@ class Icon(pygame.sprite.Sprite):
         Every frame each icon falls down the screen at the specified
         speed. When it reaches the bottom it is removed.
         """
-        self.rect.y += icon_speed
-        if self.rect.top > window_height:
+        self.rect.y += config.icon_speed
+        if self.rect.top > config.window_height:
             self.kill()
 
 
@@ -264,54 +226,6 @@ def icon_clicked():
     else:
         pass
 
-
-"""
-The following variables are used to generalize the spacing and layout of
-the icons and stat bars relative to window size and the chosen number of
-icons in a row. Hard coding in the positions of the icons and stat bars
-would make future changes to window size or number of icons in a row
-difficult because you would also have to go back and recalculate all the
-icons' new positions.
-"""
-# Width of area containing the icons:
-icon_area_width = 2 * window_width / 3
-
-# Width of area containing the stat bars:
-stat_area_width = window_width - icon_area_width
-
-# Total amount of horizontal space between all icons in a row:
-total_space_between_icons = icon_area_width - number_of_icons_in_a_row * icon_width
-
-# Horizontal spacing between individual icons:
-icon_spacing = total_space_between_icons / number_of_icons_in_a_row
-
-# Width of the stat bars:
-stat_bar_width = stat_area_width - 2 * icon_spacing
-
-# Height of the stat bars:
-stat_bar_height = window_height / 5 - 2 * icon_spacing
-
-# The x-coordinate of the first icon in a row:
-first_x_coordinate = window_width / 3
-
-"""
-The following variables are used to determine how rare a ghg_capture_tech
-icon should be given an x desired amount of ghg_capture_tech icons per
-minute (specified in game settings).
-"""
-# Time for an icon to fall to bottom of screen, in seconds:
-time_for_icon_to_fall = (window_height / icon_speed) / fps
-
-# How many icons are on screen at any point in time (except in the beginning):
-num_of_icons_on_screen = window_height / (icon_width + icon_spacing) * number_of_icons_in_a_row
-
-# How many icons are shown on the screen in one minute:
-num_of_icons_shown_in_one_minute = (60 / time_for_icon_to_fall) * num_of_icons_on_screen
-
-# Rarity of the ghg capture icon,
-# i.e. how many icons go by on the screen (on average) before you see one:
-ghg_capture_icon_rarity = int(num_of_icons_shown_in_one_minute / num_ghg_capture_icons_per_minute)
-
 """
 This list keeps track of all the rows created. It is used to create the
 first row, and also to tell where the previous row created is located so
@@ -324,15 +238,15 @@ def create_row():
     """This creates a list of icons. It does not display them to the screen."""
     global list_of_rows
     row = []
-    for i in range(number_of_icons_in_a_row):
-        n = randint(0, ghg_capture_icon_rarity)
-        if n == ghg_capture_icon_rarity:
-            energy = ghg_capture_technology
+    for i in range(config.number_of_icons_in_a_row):
+        n = randint(0, config.ghg_capture_icon_rarity)
+        if n == config.ghg_capture_icon_rarity:
+            energy = config.ghg_capture_technology
         elif n % 2 == 0:
-            energy = choice(fossil_fuel_types)
+            energy = choice(config.fossil_fuel_types)
         else:
-            energy = choice(green_energy_types)
-        icon = Icon(energy, first_x_coordinate + i * (64 + icon_spacing))
+            energy = choice(config.green_energy_types)
+        icon = Icon(energy, config.first_x_coordinate + i * (64 + config.icon_spacing))
         row.append(icon)
     list_of_rows.append(row)
     return row
@@ -346,8 +260,8 @@ def display_row():
         for icon in row:
             all_icons.add(icon)
     else:
-        for i in range(number_of_icons_in_a_row):
-            if list_of_rows[-1][i].rect.top < icon_spacing:
+        for i in range(config.number_of_icons_in_a_row):
+            if list_of_rows[-1][i].rect.top < config.icon_spacing:
                 pass
             else:
                 row = create_row()
@@ -366,7 +280,7 @@ def fps_counter():
     if frames % 10 == 0:  # Update FPS counter on screen every 10 frames
         fps_displayed = str(int(clock.get_fps()))
         fps_text = arial.render(f'FPS: {fps_displayed}/60', False, (0, 0, 0))
-    window.blit(fps_text, (0, window_height - 20))
+    window.blit(fps_text, (0, config.window_height - 20))
 
 
 pause = False
@@ -397,7 +311,7 @@ while running:
                     pause = False
                     running = False
 
-    window.fill(white)
+    window.fill(config.white)
 
     pollute()
 
@@ -428,7 +342,7 @@ while running:
             window.fill(eval(color), special_flags=pygame.BLEND_MULT)
             pygame.display.update()
             tint += 0.05
-            clock.tick(fps)
+            clock.tick(config.fps)
 
         from_color = eval(color)
 
@@ -437,7 +351,7 @@ while running:
             window.fill(eval(color))
             pygame.display.update()
             tint += 0.1
-            clock.tick(fps)
+            clock.tick(config.fps)
 
         text = 'You '
         if check_if_lost():
@@ -456,6 +370,6 @@ while running:
                 if event.type == pygame.QUIT:
                     running = False
 
-    clock.tick(fps)
+    clock.tick(config.fps)
 
 pygame.quit()
