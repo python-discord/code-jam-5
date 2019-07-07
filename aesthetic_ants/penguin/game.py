@@ -2,12 +2,12 @@ import pyglet
 
 from .constants import CollisionType
 from .enemy import BigEnemy, FastEnemy
-from .object import Object
 from .player import Player
 from .resources import LEVEL_1
 from .snowball import Snowball
 from .space import Space
 from .tile_layer import TileLayer
+from .ui import GameOverScreen, ScoreLabel, UiSpace
 from .utils import keys
 
 
@@ -40,7 +40,7 @@ class Game(pyglet.window.Window):
         # Create UI
         self.ui_space = self.create_ui()
 
-        self.score_label = ScoreLabel(self)
+        self.score_label = ScoreLabel(self, self.ui_space)
         self.ui_space.add(self.score_label)
 
     def create_space(self) -> Space:
@@ -82,10 +82,10 @@ class Game(pyglet.window.Window):
 
         return tiles
 
-    def create_ui(self) -> Space:
+    def create_ui(self) -> UiSpace:
         """Returns the user interface space"""
 
-        space = Space()
+        space = UiSpace()
 
         return space
 
@@ -112,7 +112,7 @@ class Game(pyglet.window.Window):
     def game_over(self, fell=False):
         if not self.is_over:
             self.is_over = True
-            game_over_screen = GameOverScreen(self)
+            game_over_screen = GameOverScreen(self, self.ui_space)
             self.ui_space.add(game_over_screen)
             if fell:
                 self.space.remove(self.player)
@@ -121,36 +121,6 @@ class Game(pyglet.window.Window):
     def on_collision_snowball_enemy(self, snowball, enemy):
         if not self.is_over:
             self.score += enemy.score
-            self.score_label.label.text = str(self.score)
+            self.score_label.set_label(self.score)
 
         enemy.on_collision_snowball(snowball)
-
-
-class GameOverScreen(Object):
-    def __init__(self, window):
-        self.label = pyglet.text.Label("Game Over!",
-                                       font_name="Times New Roman",
-                                       font_size=36,
-                                       x=window.width // 2,
-                                       y=window.height // 2,
-                                       anchor_x='center',
-                                       anchor_y='center')
-
-    def add_to_space(self, space):
-        super().add_to_space(space)
-        self.label.batch = space.batch
-
-
-class ScoreLabel(Object):
-    def __init__(self, window):
-        self.label = pyglet.text.Label("0",
-                                       font_name="Times New Roman",
-                                       font_size=18,
-                                       x=10,
-                                       y=window.height - 10,
-                                       anchor_x='left',
-                                       anchor_y='top')
-
-    def add_to_space(self, space):
-        super().add_to_space(space)
-        self.label.batch = space.batch
