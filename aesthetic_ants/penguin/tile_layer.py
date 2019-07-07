@@ -116,9 +116,9 @@ class TileLayer(Object):
         grid_height = len(self.tiles)
         for x, y in tiles:
             # Check if coordinates are valid
-            if y < 0 or y >= grid_height:
+            if not 0 <= y < grid_height:
                 continue
-            if x < 0 or x >= grid_width:
+            if not 0 <= x < grid_width:
                 continue
 
             other.collide_tile(self.tiles[y][x])
