@@ -76,7 +76,13 @@ def exceptprint(*e):
     return partial(decorator, excepts=e)
 
 
-class both:
+class both_class_instance:
+    """
+    Allow a method to both a class object and its instance objects.
+    Either will be passed as the first parameter of the method.
+    A.do()
+    A().do()
+    """
 
     def __init__(self, meth):
         self.meth = meth

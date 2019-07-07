@@ -231,6 +231,7 @@ class HierarchicalXPathQuery:
         return result
 
     # @classmethod
+    @util.both_class_instance
     def register_pipe(self, fn: callable, name: str = None, high: bool = False):
         """Register a new pipe function so that it can be used in a query."""
         if name is not None:
@@ -246,6 +247,7 @@ class HierarchicalXPathQuery:
             self.HIGHER_ORDER_PIPES[name] = fn
 
     # @classmethod
+    @util.both_class_instance
     def pipe(self, name: str = None):  # A pipe decorator
         """
         Register a function as a pipe under the specified name.
@@ -257,6 +259,7 @@ class HierarchicalXPathQuery:
         return partial(self.register_pipe, name=name)
 
     # @classmethod
+    @util.both_class_instance
     def high_pipe(self, name: str = None):
         """Register a function as a higher-order pipe."""
         if callable(name):
