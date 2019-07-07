@@ -14,9 +14,6 @@ class Investment:
     def __init__(self, organization: Organization, policies: List[Policy]) -> None:
         self.organization = organization
         self.policies = policies
-        self.news_on_apperance = news_on_apperance
-        self.news_on_investment = news_on_investment
-        self.news_on_no_investment = news_on_no_investment
         self.times_invested = 0
 
     def __str__(self) -> str:
