@@ -1,17 +1,20 @@
 [[source]]
-name = "pypi"
-url = "https://pypi.org/simple"
+name = 'pypi'
+url = 'https://pypi.org/simple'
 verify_ssl = true
 
 [dev-packages]
-flake8 = "*"
-coverage = "*"
+flake8 = '*'
+coverage = '*'
 
 [packages]
+python-lambda-local = "<0.1.8"
+requests = "*"
+flake8 = "*"
 
 [requires]
-python_version = "3.7"
+python_version = '3.7'
 
 [scripts]
-lint = "python -m flake8 -v"
-test = "python -m unittest discover -v -s tests"
+lint = 'python -m flake8 -v'
+test = 'python -m unittest discover -v -s tests'

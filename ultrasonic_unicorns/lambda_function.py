@@ -3,9 +3,13 @@ This is a Python template for Alexa to get you building skills (conversations) q
 """
 
 from __future__ import print_function
-
+import requests
+import json
+import random
+import tempfile
 
 # --------------- Helpers that build all of the responses ----------------------
+
 
 def build_speechlet_response(title, output, reprompt_text, should_end_session):
     return {
@@ -62,9 +66,8 @@ def get_codejame_response():
 
 def get_extreme_events(intent):
     session_attributes = {}
-    print(intent)
     card_title = "Extreme Weather"
-    speech_output = intent['slots']['state']['value'] + " has had some events test"
+    speech_output = return_record(intent['slots']['state']['value'])
     reprompt_text = "You never responded to the first test message. Sending another one."
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
@@ -84,6 +87,42 @@ def get_welcome_response():
     should_end_session = False
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
+
+
+def parseData(state):
+    req = requests.get('https://weather-1283198235129847.s3.amazonaws.com/weatherExtremesJSON.json')
+    temp = tempfile.NamedTemporaryFile(prefix="weather_", suffix="_codejam5")
+    open(temp.name, 'wb').write(req.content)
+    jdata = json.loads(open(temp.name).read())
+    records = []
+    # grab all useful records
+    state = state.lower()
+    for record in jdata['records']:
+        if state != record['state'].lower():
+            continue
+        stateData = record['state']
+        # rename record element to type of record
+        type = record['element']
+        value = str(record['value']) + ' ' + record['units']
+        date = record['date']
+        location = record['location']
+        # we should ultimately only return one record but here is everything for now
+        message = "On {}  an {} of {} was recorded in {}, {} ".format(
+            date, type, value, location, stateData
+        )
+        records.append(message)
+
+    return(records)
+
+
+def return_record(state):
+    """
+    returns a random state record.
+    :param state:
+    :return:
+    """
+
+    return random.choice(parseData(state))
 
 
 def handle_session_end_request():
