@@ -9,7 +9,7 @@ from thoughtful_termites.shared.constants import config_path
 from thoughtful_termites.shared.bot_config import Config
 
 log = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 description = "A simple climate bot made for the 5th code jam."
 
