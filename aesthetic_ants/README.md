@@ -30,10 +30,15 @@ Inside the `aesthetic_ants` directory, run:
 pipenv run main
 ```
 
-## Controls
+## How to play
 WASD to move
 
 Mouse to aim and throw snowballs at the evil business men.
+
+Try to fend off as many business people as you can; these guys will accelerate
+the warming of your precious world and will melt all the ice around you!
+
+Be careful not to fall into the acid water, either.
 
 ## Credits
 Ikusaba-san = Leader
