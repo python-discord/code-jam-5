@@ -9,15 +9,16 @@ import pathlib
 from typing import List
 
 
+SOURCES_FOLDER = 'sources'
 __folder__ = pathlib.Path(__file__).parent
 
 
 def list_available_factories() -> List[FactFactory]:
     """Retrieve the list of available factories in the package."""
-    ls = os.walk(__folder__)
+    ls = os.walk(__folder__ / SOURCES_FOLDER)
     dirs = next(ls)[1]
     return [
-        importlib.import_module('.' + dir, package=__name__).__factory__
+        importlib.import_module('.' + dir, package=__name__ + '.%s' % SOURCES_FOLDER).__factory__
         for dir in dirs
     ]
 

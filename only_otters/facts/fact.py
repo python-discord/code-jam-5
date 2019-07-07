@@ -1,6 +1,6 @@
 # local
-from only_otters.ads.qmltools import QmlWidget
-from only_otters.ads.qml import FactWidget
+from only_otters.qmltools import QmlWidget
+from only_otters.qml import FactWidget
 from only_otters.scrapetools.hquery import HierarchicalXPathQuery
 
 # std

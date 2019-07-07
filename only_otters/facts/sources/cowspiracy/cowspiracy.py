@@ -1,7 +1,7 @@
 # local
-from only_otters.ads.facts.fact import Fact, FactFactory
-from only_otters.ads.qml import FactWidget as qmlFactWidget
-from only_otters.ads.qmltools import QmlWidget
+from only_otters.facts import Fact, FactFactory
+from only_otters.qml import FactWidget as qmlFactWidget
+from only_otters.qmltools import QmlWidget
 from only_otters.resourcely import ensure_field
 from only_otters.scrapetools.hquery import HierarchicalXPathQuery
 

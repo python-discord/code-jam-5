@@ -2,8 +2,8 @@
 from .controls import ControlsWidget
 from .media_library import MediaLibrary
 from .now_playing import NowPlayingWidget
-from only_otters.ads.facts import get_fact_by_tags
-from only_otters.ads.tts import text_to_audio
+from only_otters.facts import get_fact_by_tags
+from only_otters.facts.audio import text_to_audio
 from only_otters.images import buttons as imgButtons
 
 # std
