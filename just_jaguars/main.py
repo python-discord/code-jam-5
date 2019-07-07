@@ -73,7 +73,8 @@ def draw_ghg_levels_bar():
         pygame.draw.rect(window, config.dark_red,
                          pygame.Rect(config.icon_spacing,
                                      1.5 * config.icon_spacing,
-                                     config.stat_bar_width * atmospheric_ghg_levels / config.greenhouse_gas_limit,
+                                     (config.stat_bar_width * atmospheric_ghg_levels)
+                                     / config.greenhouse_gas_limit,
                                      config.stat_bar_height))
     else:
         pygame.draw.rect(window, config.dark_red,
@@ -98,7 +99,8 @@ def draw_energy_demand_bar():
         pygame.draw.rect(window, config.yellow,
                          pygame.Rect(config.icon_spacing,
                                      1.5 * config.icon_spacing + config.window_height / 5,
-                                     (config.stat_bar_width / 2) * energy_output / config.energy_demand,
+                                     (config.stat_bar_width / 2)
+                                     * energy_output / config.energy_demand,
                                      config.stat_bar_height))
     else:
         pygame.draw.rect(window, config.yellow,
@@ -131,7 +133,8 @@ def draw_ratio_bar():
                                  config.stat_bar_height))
 
     text = arial.render('Green Energy : Fossil Fuels', False, (0, 0, 0))
-    window.blit(text, (config.icon_spacing, 0.5 * config.icon_spacing + 2 * config.window_height / 5))
+    window.blit(text, (config.icon_spacing, 0.5 *
+                config.icon_spacing + 2 * config.window_height / 5))
 
 
 def draw_emission_offset_bar():
@@ -149,7 +152,8 @@ def draw_emission_offset_bar():
                                  config.stat_bar_height))
 
     text = arial.render('Emissions Offset', False, (0, 0, 0))
-    window.blit(text, (config.icon_spacing, 0.5 * config.icon_spacing + 3 * config.window_height / 5))
+    window.blit(text, (config.icon_spacing, 0.5 *
+                config.icon_spacing + 3 * config.window_height / 5))
 
 
 def draw_stat_bars():
@@ -160,7 +164,8 @@ def draw_stat_bars():
     draw_emission_offset_bar()
     text = arial.render('Press P to Pause', False, (0, 0, 0))
     window.blit(text, (config.icon_spacing + config.stat_bar_width / 4,
-                       0.5 * config.icon_spacing + 4 * config.window_height / 5 + config.stat_bar_height / 2))
+                       0.5 * config.icon_spacing + 4 * config.window_height / 5
+                       + config.stat_bar_height / 2))
 
 
 class Icon(pygame.sprite.Sprite):
@@ -225,6 +230,7 @@ def icon_clicked():
         icon.kill()
     else:
         pass
+
 
 """
 This list keeps track of all the rows created. It is used to create the

@@ -1,7 +1,8 @@
 import cv2
 import time
 
-def tutorial():
+
+def play_tutorial():
     """Credit goes to https://docs.opencv.org/master/dd/d43/tutorial_py_video_display.html"""
     cap = cv2.VideoCapture('assets/tutorial.mov')
 
@@ -17,12 +18,17 @@ def tutorial():
     cap.release()
     cv2.destroyAllWindows()
 
-# test if the tutorial needs to be played
 
+# test if the tutorial needs to be played
 try:
     tutorial_file = open('saves/tutorial.txt')  # error causing function 1
+
+    tutorial_content = tutorial_file.read()
+    tutorial_file.close()
+
+    assert tutorial_content == 'done'
 except Exception:
-    tutorial()
-    
+    play_tutorial()
+
     with open('saves/tutorial.txt', 'w') as f:
         f.write('done')
