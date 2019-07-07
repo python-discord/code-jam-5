@@ -149,7 +149,7 @@
             ],
             "index": "pypi",
             "version": "==5.12.1.0"
-        }
+        },
         "websockets": {
             "hashes": [
                 "sha256:0e2f7d6567838369af074f0ef4d0b802d19fa1fee135d864acc656ceefa33136",
