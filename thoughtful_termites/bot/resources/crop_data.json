@@ -1,0 +1,65 @@
+[
+  {
+    "name": "wheat",
+    "price": 80,
+    "drought_risk": 5,
+    "sale_value": 250,
+    "average_germination": 85
+  },
+  {
+    "name": "corn",
+    "price": 100,
+    "drought_risk": 8,
+    "sale_value": 270,
+    "average_germination": 90
+  },
+  {
+    "name": "barley",
+    "price": 110,
+    "drought_risk": 15,
+    "sale_value": 350,
+    "average_germination": 92
+  },
+  {
+    "name": "sorghum",
+    "price": 120,
+    "drought_risk": 5,
+    "sale_value": 240,
+    "average_germination": 85
+  },
+  {
+    "name": "canola",
+    "price": 250,
+    "drought_risk": 10,
+    "sale_value": 642,
+    "average_germination": 70
+  },
+  {
+    "name": "sugar",
+    "price": 2,
+    "drought_risk": 0,
+    "sale_value": 18,
+    "average_germination": 96
+  },
+  {
+    "name": "grapes",
+    "price": 50,
+    "drought_risk": 60,
+    "sale_value": 1050,
+    "average_germination": 80
+  },
+  {
+    "name": "tomatoes",
+    "price": 60,
+    "drought_risk": 40,
+    "sale_value": 1200,
+    "average_germination": 60
+  },
+  {
+    "name": "oilseed",
+    "price": 140,
+    "drought_risk": 20,
+    "sale_value": 680,
+    "average_germination": 40
+  }
+]

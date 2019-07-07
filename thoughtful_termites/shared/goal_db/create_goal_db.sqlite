@@ -17,3 +17,24 @@ create table reminders(
 	goal_id integer,
 	foreign key (goal_id) references goals(id) on delete cascade
 );
+
+CREATE TABLE farmertown(
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER,
+    farmer_name TEXT,
+    cash INTEGER,
+    debt INTEGER,
+    banked INTEGER,
+    last_used NUMERIC
+);
+
+CREATE TABLE farmerdecisions(
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER,
+    crop_name TEXT,
+    drought TEXT,
+    germination NUMERIC,
+    profit INTEGER,
+    loss INTEGER,
+    used NUMERIC
+);

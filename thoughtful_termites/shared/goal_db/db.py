@@ -10,6 +10,7 @@ from .goal import Goal
 from .reminder import Reminder
 from .reminder_day import ReminderDay
 from .reminder_time import ReminderTime
+from .farmertown import FarmerTownMain, FarmerTownDecision
 
 cd = Path(__file__).parent
 creation_script_path = cd/'create_goal_db.sqlite'
@@ -261,3 +262,27 @@ class GoalDB:
     async def get_next_reminder_async(self):
         """Coroutine helper to get the next reminder."""
         return await self.loop.run_in_executor(None, self.get_next_reminder)
+
+    async def create_farm(self, user_id, farmer_name):
+        """Create a farmer town account with given user id and farmer name.
+        :param: user_id: The user id to create account for.
+        :param: farmer_name: The user's farmer name.
+        """
+        def execute():
+            self.connection.execute("INSERT INTO farmertown (user_id, farmer_name) "
+                                    "VALUES (?, ?)", (user_id, farmer_name))
+            self.connection.commit()
+
+        await self.loop.run_in_executor(None, execute)
+
+    async def get_farmertown(self, user_id):
+        """Get a FarmerTown account for a given user_id
+        :param: user_id: The user id to fetch account for.
+        :return: :class:`FarmerTownMain` - the farmer town account.
+        """
+        def fetch():
+            return self.connection.execute("SELECT * FROM farmertown WHERE user_id=?", (user_id, ))
+        result = await self.loop.run_in_executor(None, fetch)
+        for row in result:
+            return FarmerTownMain(self, row)
+
