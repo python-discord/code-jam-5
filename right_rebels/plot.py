@@ -180,7 +180,7 @@ class Plotter(QtCore.QThread):
 
         # Add the x-axis and the y-axis to the plot
         axis.plot(dates_to_plot, temperature_means_to_plot, color="red", linewidth=0.5)
-        axis.set(xlabel="Month", ylabel="Average Air Surface Temperature Anomaly (C)")
+        axis.set(xlabel="Year", ylabel="Average Air Surface Temperature Anomaly (C)")
 
         # Save the plot to image file
         file_path = f"{Plotter.PLOTS_DIR}plot0.png"
