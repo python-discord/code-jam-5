@@ -23,6 +23,9 @@ class GoalListWindow(qt.QWidget):
         self.goal_list = GoalList(self.db)
 
         self.add_goal_button = qt.QPushButton()
+        """
+        The button used to bring up the dialog for adding goals.
+        """
         self.add_goal_button.setText('Add Goal')
         self.add_goal_button.clicked.connect(
             self.on_add_goal

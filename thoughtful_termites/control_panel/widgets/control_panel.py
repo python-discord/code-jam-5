@@ -12,6 +12,10 @@ from thoughtful_termites.shared.resources import leaf_icon_path
 
 
 class ControlPanel(qt.QWidget):
+    """
+    This class describes the control panel widget
+    used as the primary point of access to the program.
+    """
     def __init__(self):
         super().__init__()
 
@@ -82,6 +86,7 @@ class ControlPanel(qt.QWidget):
         self.setWindowIcon(leaf_icon)
 
     def event(self, event: qt.QEvent) -> bool:
+        # overridden to handle minimization
         if event.type() == qt.QEvent.WindowStateChange:
             if self.isMinimized():
                 self.hide()
@@ -95,6 +100,10 @@ class ControlPanel(qt.QWidget):
         return super().event(event)
 
     def super_show(self):
+        """
+        A more aggressive version of show thatll bring the window to the
+        front.
+        """
         self.setWindowState(
             self.windowState() &
             ~qt.constants.WindowMinimized |

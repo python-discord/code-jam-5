@@ -98,3 +98,10 @@ accidentally remove the trees!
 - If you want to bypass the unlocks, edit the file
 `shared/goal_db/completed_goals.txt` to any number above 8.
 If no such file exists, create one and put any number above 8 in.
+
+### Credits
+
+Program icon courtesy of Vignesh P, accessed via 
+https://www.iconfinder.com/icons/2189582/ecology_green_leaf_plant_spring_icon
+
+Released under the Creative Commons Attribution 3.0 Unported license. https://creativecommons.org/licenses/by/3.0/
