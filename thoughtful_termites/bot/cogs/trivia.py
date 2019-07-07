@@ -275,7 +275,7 @@ class Trivia(commands.Cog):
                        )
 
     @commands.command(aliases=['cc', 'climcom'])
-    @has_unlocked('climate')
+    @has_unlocked('commentary')
     async def climate_commentary(self, ctx, argument_id: int = None):
         """Get a random climate commentary.
 
@@ -313,4 +313,7 @@ class Trivia(commands.Cog):
 
 
 def setup(bot):
+    with open(trivia_questions_path) as fp:
+        print(set(n["difficulty"].lower() for n in json.load(fp)))
+
     bot.add_cog(Trivia(bot))

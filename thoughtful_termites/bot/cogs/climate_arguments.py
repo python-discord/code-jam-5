@@ -25,7 +25,7 @@ class ClimateArguments(commands.Cog):
             return await ctx.send(str(error))
 
     @commands.command(aliases=['cc', 'climcom'])
-    @has_unlocked('climate')
+    @has_unlocked('commentary')
     async def climate_commentary(self, ctx, argument_id: int = None):
         """Get a random climate commentary.
 

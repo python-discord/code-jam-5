@@ -74,6 +74,7 @@ class ControlPanel(qt.QWidget):
         self.main_layout.addWidget(self.configure_bot_button)
         self.main_layout.addWidget(self.run_bot_button)
         self.main_layout.addWidget(self.open_goals_button)
+        self.main_layout.addWidget(self.unlock_button)
 
         self.setMaximumHeight(0)
         self.setFixedWidth(360)
