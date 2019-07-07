@@ -2,21 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c89091fd-5895-4d0a-a385-cc07f64cdc26" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/biomass.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/coal.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/geothermal.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/ghg_capture_tech.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/hydro.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/hydrogen.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/natural_gas.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/nuclear.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/solar.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/just_jaguars/assets/wind.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/just_jaguars/assets.py" beforeDir="false" afterPath="$PROJECT_DIR$/just_jaguars/assets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/just_jaguars/assets/attributions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/just_jaguars/assets/attributions.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/just_jaguars/assets/oil.png" beforeDir="false" afterPath="$PROJECT_DIR$/just_jaguars/assets/oil.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/just_jaguars/assets/oil2.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/just_jaguars/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/just_jaguars/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,15 +15,14 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/just_jaguars/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="82" lean-forward="true" selection-start-line="82" selection-end-line="82" />
+            <state relative-caret-position="529">
+              <caret line="41" column="36" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#366#527#1" />
-                <element signature="e#850#1076#1" />
-                <element signature="e#1473#1594#1" />
-                <element signature="e#2221#2592#1" />
-                <element signature="e#3089#3320#1" />
+                <element signature="e#827#986#1" />
+                <element signature="e#1394#1620#1" />
+                <element signature="e#2326#2467#1" />
+                <element signature="e#5656#5871#1" />
               </folding>
             </state>
           </provider>
@@ -62,6 +46,14 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>energy_output</find>
+      <find>ghg_cap</find>
+      <find>window</find>
+      <find>event</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -71,6 +63,7 @@
         <option value="$PROJECT_DIR$/just_jaguars/__init__.py" />
         <option value="$PROJECT_DIR$/just_jaguars/main2.py" />
         <option value="$PROJECT_DIR$/just_jaguars/assets.py" />
+        <option value="$USER_HOME$/Desktop/main2.py" />
         <option value="$PROJECT_DIR$/just_jaguars/main.py" />
       </list>
     </option>
@@ -86,7 +79,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="891" />
+    <option name="x" value="851" />
+    <option name="y" value="13" />
     <option name="width" value="1036" />
     <option name="height" value="1047" />
   </component>
@@ -97,36 +91,12 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="code-jam-5" type="b2602c69:ProjectViewProjectNode" />
-              <item name="code-jam-5" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="code-jam-5" type="b2602c69:ProjectViewProjectNode" />
-              <item name="code-jam-5" type="462c0819:PsiDirectoryNode" />
-              <item name="just_jaguars" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="code-jam-5" type="b2602c69:ProjectViewProjectNode" />
-              <item name="code-jam-5" type="462c0819:PsiDirectoryNode" />
-              <item name="just_jaguars" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/just_jaguars" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/main2.py" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RecentsManager">
@@ -146,7 +116,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.__init__">
+  <component name="RunManager" selected="Python.main">
     <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="code-jam-5" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -212,8 +182,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.__init__" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.__init__" />
         <item itemvalue="Python.main2" />
       </list>
     </recent_temporary>
@@ -232,15 +202,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="891" y="0" width="1036" height="1047" extended-state="0" />
+    <frame x="419" y="0" width="1036" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.20294426" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" x="17" y="269" width="784" height="545" id="Run" order="2" type="WINDOWED" visible="true" weight="0.32887402" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32995495" />
+      <window_info active="true" anchor="bottom" x="-1075" y="323" width="784" height="545" id="Run" order="2" type="WINDOWED" visible="true" weight="0.32887402" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -297,17 +267,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/just_jaguars/main.py">
+    <entry file="file://$USER_HOME$/Desktop/main2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="82" lean-forward="true" selection-start-line="82" selection-end-line="82" />
+        <state relative-caret-position="4830">
+          <caret line="222" column="22" lean-forward="true" selection-start-line="222" selection-start-column="22" selection-end-line="222" selection-end-column="22" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#366#527#1" />
-            <element signature="e#850#1076#1" />
-            <element signature="e#1473#1594#1" />
-            <element signature="e#2221#2592#1" />
-            <element signature="e#3089#3320#1" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/just_jaguars/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="41" column="36" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#827#986#1" />
+            <element signature="e#1394#1620#1" />
+            <element signature="e#2326#2467#1" />
+            <element signature="e#5656#5871#1" />
           </folding>
         </state>
       </provider>
