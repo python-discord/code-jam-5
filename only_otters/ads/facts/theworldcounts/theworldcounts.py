@@ -25,22 +25,12 @@ class TheWorldCountsFactFactory(FactFactory):
         )
 
     def _build_fact(self, record):
-        # {
-        # 'figure': None,
-        # 'title': 'World population',
-        # 'subtitle': 'Right now',
-        # 'start': '7677500838.070457',
-        # 'cursor': ' 2.538563344286236'}
 
         start = float(ensure_field(record, 'start'))
         offset = float(ensure_field(record, 'cursor'))
 
-        print(start, offset)
-
         offset, inter = counter(start, offset, mininterval=20)
         inter = inter * 1000
-
-        print(offset, inter)
 
         return FactCounter(
             value=start,
