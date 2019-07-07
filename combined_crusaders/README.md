@@ -8,7 +8,8 @@ A clicker based game where you work to power the earth through climate friendly 
 
 Navigate to this directory and then use pipenv.  It should load all necessary dependencies.
 
-* `pipenv run start`
+1. `pipenv install`
+2. `pipenv run start`
 
 ### Without pipenv
 
