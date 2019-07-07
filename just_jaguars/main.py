@@ -74,7 +74,7 @@ class Icon(pygame.sprite.Sprite):
             self.kill()
 
 
-def icon_clicked():
+def icon_clicked(event):
     """This runs if an icon is clicked."""
     mouse_position = pygame.mouse.get_pos()
     for icon in all_icons:
@@ -164,12 +164,12 @@ frames = 0
 fps_displayed = str(60)
 
 fps_text = arial.render(fps_displayed + '/60', False, (0, 0, 0))
-start_time = time()
+start_time = last_frame = time()
 
 while running:
     frames += 1
 
-    if frames%30 == 0:
+    if frames%30 == 0: # update fps
         end_time = time()
         fps_displayed = str(int(30/(end_time-start_time)))
         fps_text = arial.render(fps_displayed + '/60', False, (0, 0, 0))
@@ -179,16 +179,14 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            icon_clicked(event)
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            icon_clicked()
+    window.fill(white)
 
     display_row()
 
     all_icons.update()
-
-    window.fill(white)
-
     all_icons.draw(window)
 
     window.blit(fps_text,(0,0)) # fps
