@@ -30,7 +30,7 @@ class Game:
         self.fail_msg = Fore.RED + "You have destroyed your planet. Enjoy the rest of your life " \
                                    "knowing you've doomed humanity."
 
-        self.success_ending =  Fore.GREEN + "Congratuations! You've managed to save your world."
+        self.success_ending = Fore.GREEN + "Congratuations! You've managed to save your world."
 
         self.medium_ending = Fore.YELLOW + "You managed to not destroy the world, but try better" \
                                            " next time. You could have actually done some good " \
