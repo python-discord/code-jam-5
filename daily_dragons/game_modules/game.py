@@ -92,17 +92,27 @@ class Game:
             if stat == 10:
                 perfect_tens += 1
 
-        if perfect_tens >= 3:
-            message = f"{self.success_ending}\nFinal score: {final_score}"
-        elif perfect_tens == 2:
-            message = f"{self.medium_ending}\nFinal score: {final_score}"
+        if perfect_tens >= 2:
+            message = (
+                f"{self.success_ending}\n"
+                + Style.RESET_ALL
+                + f"Final score: {final_score}"
+            )
+        elif perfect_tens == 1:
+            message = (
+                f"{self.medium_ending}\n"
+                + Style.RESET_ALL
+                + f"Final score: {final_score}"
+            )
         else:
-            message = f"{self.fail_msg}\nFinal score: {final_score}"
+            message = (
+                f"{self.fail_msg}\n" + Style.RESET_ALL + f"Final score: {final_score}"
+            )
         return message
 
     def main(self) -> None:
         while not self.quit_game:
-            if self.round > 10:
+            if self.round >= 10:
                 self.quit_game = True
 
                 if sum(i >= 10 for i in self.earth.stats.values()) >= 2:
