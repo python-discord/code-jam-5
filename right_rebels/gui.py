@@ -1,3 +1,6 @@
+# Temp plotter
+# Copyright (C) 2019  Right Rebels
+
 import sys
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -194,6 +197,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def plot(self):
         self.image_count = 0
+        QtGui.QPixmapCache.clear()  # clear qt image cache
         self.stop_button.setEnabled(True)
         self.plot_button.setEnabled(False)
         self.animate_button.setEnabled(False)
@@ -223,7 +227,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.image_count += 1
 
     def move_slider(self, amount: int):
-        """ move horizontalSlider by value"""
+        """ move image_slider by value"""
         self.image_slider.setValue(self.image_slider.value() + amount)
 
     def change_image(self, index):
@@ -263,7 +267,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.end_year.setRange(self.start_year.value(), 2019)
 
     def animate(self):
-        self.image_slider.setValue(0)
+        self.image_slider.setValue(1)
         self.stop_button.setEnabled(True)
         self.animate_button.setEnabled(False)
         self.animate_timer.timeout.connect(self.animation)
@@ -319,6 +323,7 @@ class SettingsPop(QtWidgets.QDialog):
         self.settings = settings
 
         self.save_button = QtWidgets.QPushButton()
+        self.license_button = QtWidgets.QPushButton()
 
     def setup_ui(self):
         spacer = QtWidgets.QSpacerItem(1, 1, QtWidgets.QSizePolicy.MinimumExpanding,
@@ -344,10 +349,12 @@ class SettingsPop(QtWidgets.QDialog):
         self.main_layout.addLayout(self.color_map_layout)
         self.main_layout.addSpacerItem(spacer)
         self.main_layout.addWidget(self.save_button, alignment=QtCore.Qt.AlignCenter)
+        self.main_layout.addWidget(self.license_button, alignment=QtCore.Qt.AlignCenter)
 
         self.setWindowFlag(QtCore.Qt.WindowContextHelpButtonHint, False)
         self.color_map.pressed.connect(self.color_map_chooser)
         self.save_button.pressed.connect(self.save_settings)
+        self.license_button.pressed.connect(self.show_license)
 
         self.retranslate_ui()
         self.grab_settings()
@@ -358,6 +365,7 @@ class SettingsPop(QtWidgets.QDialog):
         self.step_label.setText("Step of plotter")
         self.color_map.setText("Choose color map")
         self.save_button.setText("Save preferences")
+        self.license_button.setText("License")
 
     def grab_settings(self):
         self.fps_spin.setValue(self.settings.value("Playback FPS", type=int))
@@ -382,6 +390,10 @@ class SettingsPop(QtWidgets.QDialog):
 
     def set_label(self, text):
         self.color_map_label.setText(text)
+
+    def show_license(self):
+        w = License(self)
+        w.setup()
 
     def closeEvent(self, *args, **kwargs):
         super(QtWidgets.QDialog, self).closeEvent(*args, **kwargs)
@@ -447,3 +459,23 @@ class CrashPop(QtWidgets.QDialog):
     def closeEvent(self, *args, **kwargs):
         super(QtWidgets.QDialog, self).closeEvent(*args, **kwargs)
         sys.exit(-1)
+
+
+class License(QtWidgets.QDialog):
+
+    def __init__(self, parent=None):
+        super(License, self).__init__(parent)
+        self.main_layout = QtWidgets.QVBoxLayout()
+        self.text = QtWidgets.QTextBrowser()
+
+    def setup(self):
+        self.text.setText("Temp Plotter Copyright (C) 2019 Right Rebels\n"
+                          "This program comes with ABSOLUTELY NO WARRANTY.\n"
+                          "This is free software, and you are welcome to redistribute it")
+        self.text.append('under certain conditions; <a href="https://www.gnu.org/licenses/">'
+                         'click here</a> for details')
+        self.main_layout.addWidget(self.text)
+        self.text.setOpenExternalLinks(True)
+        self.setLayout(self.main_layout)
+        self.setWindowFlag(QtCore.Qt.WindowContextHelpButtonHint, False)
+        self.show()
