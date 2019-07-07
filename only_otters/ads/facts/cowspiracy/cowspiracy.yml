@@ -4,5 +4,6 @@ dynamic: false
 content:
   loc: //div[@class="sqs-block-content"]/h2/strong
   prefix: $ { single }
+  finally: $ { filter:not_empty }
   body:
     content: $ { list, filter:sound, map:clean } text()

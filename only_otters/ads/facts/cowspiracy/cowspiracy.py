@@ -29,6 +29,7 @@ class CowspicaryFactFactory(FactFactory):
         )
 
     def _build_fact(self, record):
+        print(record)
         return Fact(
             _title='Did you know that ...',
             _content=ensure_field(record, 'content'),
@@ -54,3 +55,8 @@ def clean(item):
 def sound(item):
     """Only keep elements which contains coherent sentences."""
     return {'VBP', 'VBZ', 'MD'} & {token.tag_ for token in NLP(item)}
+
+
+@__factory__.fetcher.pipe
+def not_empty(record):
+    return record['content'].strip()
