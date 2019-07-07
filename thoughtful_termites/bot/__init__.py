@@ -25,6 +25,22 @@ extensions = [
 ]
 
 
+class Help(commands.DefaultHelpCommand):
+    def get_command_signature(self, command):
+        parent = command.full_parent_name
+        if len(command.aliases) > 0:
+            aliases = ', '.join(command.aliases)
+            fmt = f'[aliases: {aliases}]'
+            if parent:
+                fmt = f'{self.clean_prefix}{parent} {fmt}'
+            else:
+                fmt = f'{self.clean_prefix}{command.name} {fmt}'
+            alias = fmt
+        else:
+            alias = f'{self.clean_prefix}{parent} {command.name}'
+        return alias
+
+
 class ClimateBot(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix=commands.when_mentioned_or('>'),
@@ -38,6 +54,7 @@ class ClimateBot(commands.Bot):
         self.owner_id = config.owner_id
         self.session = aiohttp.ClientSession(loop=self.loop)
         self.colour = discord.Colour.blurple()
+        self.help_command = Help()
 
         self.db = get_db()
 
