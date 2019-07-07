@@ -40,9 +40,6 @@ class Player(PhysicalObject):
             self.fire()
 
     def fire(self):
-        if self.weapon.reloading:
-            return
-
         for bullet in self.weapon.fire(self.x, self.y, self.rotation):
             self.space.add(bullet)
 

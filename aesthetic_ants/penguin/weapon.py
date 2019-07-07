@@ -4,16 +4,16 @@ from .snowball import RocketBall, Snowball
 
 
 class Weapon:
-    reload_delay = 0.25
+    fire_delay = 0.25
     projectile_speed = 600
     unlock_score = 0
 
     def __init__(self):
         self.locked = True
-        self.reloading = False
+        self.firing = False
 
     def reload(self, dt):
-        self.reloading = False
+        self.firing = False
 
     def get_projectiles(self, x, y, angle):
         """Generates projectiles for the weapon"""
@@ -22,14 +22,14 @@ class Weapon:
     def fire(self, x, y, angle):
         """Fires the weapon and returns an iterable of bullets
 
-        Returns an empty list if the weapon is still reloading.
+        Returns an empty list if the weapon is still firing.
         """
 
-        if self.reloading:
+        if self.firing:
             return []
 
-        self.reloading = True
-        pyglet.clock.schedule_once(self.reload, self.reload_delay)
+        self.firing = True
+        pyglet.clock.schedule_once(self.reload, self.fire_delay)
         return self.get_projectiles(x, y, angle)
 
 
@@ -41,7 +41,7 @@ class Hand(Weapon):
 
 
 class SnowSpread(Weapon):
-    reload_delay = 0.625
+    fire_delay = 0.625
     unlock_score = 1000
 
     def get_projectiles(self, x, y, angle):
@@ -50,7 +50,7 @@ class SnowSpread(Weapon):
 
 
 class RocketPropelledSnowball(Weapon):
-    reload_delay = 1
+    fire_delay = 1
     unlock_score = 10000
 
     def get_projectiles(self, x, y, angle):
