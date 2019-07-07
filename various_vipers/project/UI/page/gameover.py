@@ -90,7 +90,7 @@ class GameOver:
         font3 = pg.font.Font(None, 60)
         color = Color.black
 
-        text_title = "GAMEOVER !"
+        text_title = "GAME OVER !"
         text_subtitle = "NEW HISCORE !" if period.elapsed > period.hiscore else ""
         text_current_elapsed = realtime_to_ingame_delta_formatted(period.elapsed)
         text_best_elapsed = realtime_to_ingame_delta_formatted(

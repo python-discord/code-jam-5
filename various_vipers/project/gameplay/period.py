@@ -47,8 +47,8 @@ class Period(object):
     heat_per_task: float = 0.005
 
     # Chance to spawn certain task types
-    maze_chance: float = 0
-    rps_chance: float = 0
+    maze_chance: float = 1.0
+    rps_chance: float = 1.0
     ttt_chance: float = 1.0
 
     # Earth's age
