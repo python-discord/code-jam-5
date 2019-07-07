@@ -90,7 +90,7 @@ async def gmwl(ctx, date_1, date_2):
         )
 
         if is_prediction:
-            embed_color = 0xa3a315
+            embed_color = 0xA3A315
             embed_desc_text += (
                 "\n\n***NOTE:*** *This is a prediction and may not "
                 "be accurate. We use data from Early 1993 to Feburary "
@@ -98,10 +98,7 @@ async def gmwl(ctx, date_1, date_2):
             )
 
         embed = embed_generator(
-            "Result",
-            embed_desc_text,
-            embed_color,
-            discord,
+            "Result", embed_desc_text, embed_color, discord
         )
 
     await ctx.send(embed=embed)

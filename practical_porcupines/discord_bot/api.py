@@ -1,7 +1,6 @@
 import aiohttp
 from practical_porcupines.utils import (  # fmt: off
     ConfigApi,
-    ApiReturnBad,
     PredictionNotImplamentedError,
     DateFormatError,
 )

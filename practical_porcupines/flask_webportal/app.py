@@ -1,4 +1,3 @@
-import math
 import requests
 from flask import Flask, render_template, request, flash
 from practical_porcupines.utils import ConfigApi
@@ -66,7 +65,10 @@ def index():
             return render_template("index.html", form=date_picker_form)
 
         return render_template(
-            "index.html", wl_string=wl_string, form=date_picker_form, is_prediction=is_prediction
+            "index.html",
+            wl_string=wl_string,
+            form=date_picker_form,
+            is_prediction=is_prediction,
         )
 
     flash(
