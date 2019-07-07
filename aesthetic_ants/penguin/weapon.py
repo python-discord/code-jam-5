@@ -62,7 +62,7 @@ class Hand(Weapon):
 
 class SnowSpread(Weapon):
     fire_delay = 0.625
-    unlock_score = 1000*0
+    unlock_score = 1000
     clip_size = 16
 
     def get_projectiles(self, x, y, angle):
@@ -72,7 +72,7 @@ class SnowSpread(Weapon):
 
 class RocketPropelledSnowball(Weapon):
     fire_delay = 1
-    unlock_score = 10000*0
+    unlock_score = 10000
     clip_size = 4
 
     def get_projectiles(self, x, y, angle):
