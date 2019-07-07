@@ -33,7 +33,8 @@ class Slider:
 
         self.click = False
 
-    def __calculate_body_properties(self):
+    def __calculate_body_properties(self) -> None:
+        """Calculate the properties of the body of the slider."""
         self.x = SliderProperties.body_x
         self.y = SliderProperties.body_y
         self.width = SliderProperties.body_width
@@ -42,7 +43,8 @@ class Slider:
         if self.number == 2:
             self.y += 120
 
-    def __calculate_indicator_properties(self):
+    def __calculate_indicator_properties(self) -> None:
+        """Calculate the properties of the indicator of the slider."""
         self.indicator_pos = (self.width / 100) * self.volume
 
         self.x_i = self.x + self.indicator_pos
@@ -54,7 +56,8 @@ class Slider:
         if self.number == 2:
             self.y_i += 120
 
-    def __create_rectangles(self):
+    def __create_rectangles(self) -> None:
+        """Creates Rect objects for the body and indicator of the slider."""
         self.slider_body = Rect(self.x, self.y, self.width, self.height)
         self.slider_indicator = Rect(self.x_i, self.y_i, self.width_i, self.height_i)
 
