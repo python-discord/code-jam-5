@@ -8,6 +8,26 @@ import only_otters.scrapetools.util as util
 import only_otters.scrapetools.autobrowser as autobrowser
 
 
+class Keywords:
+    class Root:
+        url: str = 'url'
+        dynamic: bool = 'dynamic'
+        content: dict = 'content'
+
+    class Query:
+        location: str = 'loc'
+        properties: dict = 'properties'
+        body: dict = 'query'
+
+        prefix: str = 'prefix'
+        suffix: str = 'postfix'
+        postfix: str = 'postdict'
+
+    class Properties:
+        propagation: str = 'propagate_queries'
+        pipes: str = 'pipes'
+
+
 class HierarchicalXPathQuery:
     """
     A class allowing you to make dict-like XPath queries.
@@ -267,7 +287,7 @@ class HierarchicalXPathQuery:
     def process_query(cls, tree, xquery: dict, **properties):
 
         ##
-        postprocess = xquery.pop('postdict', None)
+        postprocess = xquery.pop(Keywords.Query.postfix, None)
         if postprocess is not None:
             # Get pipes,
             _, pipes, _, _ = cls.resolve_pipe_expr(postprocess)
@@ -281,24 +301,24 @@ class HierarchicalXPathQuery:
             return
         ##
 
-        loc_query = xquery['loc']
-        query = xquery['query']
-        prefix = xquery.get('prefix')
-        postfix = xquery.get('postfix')
+        loc_query = xquery[Keywords.Query.location]
+        query = xquery[Keywords.Query.body]
+        prefix = xquery.get(Keywords.Query.prefix)
+        suffix = xquery.get(Keywords.Query.suffix)
 
         # Process properties
         properties = properties or {}
-        properties.update(xquery.get('properties', {}))
+        properties.update(xquery.get(Keywords.Query.properties, {}))
 
         # Prepare to propagate properties to nested queries
         propagated_properties = {}
-        if properties.get('propagate_properties'):
+        if properties.get(Keywords.Properties.propagation):
             propagated_properties = properties
 
         process_xpath = cls.resolve_xpath
 
         # Set up the pipes
-        pipe_properties = properties.get('pipes')
+        pipe_properties = properties.get(Keywords.Properties.pipes)
         if pipe_properties is not None:
             process_xpath = cls.apply_pipes(cls.resolve_xpath, pipe_properties)
 
@@ -326,8 +346,8 @@ class HierarchicalXPathQuery:
                 result[key] = value
 
             # Apply postfix expression
-            if postfix:
-                _, pipes, _, _ = cls.resolve_pipe_expr(postfix)
+            if suffix:
+                _, pipes, _, _ = cls.resolve_pipe_expr(suffix)
                 for pipe in pipes:
                     result = pipe(result)
 
