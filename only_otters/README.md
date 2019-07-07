@@ -157,8 +157,8 @@ hxq = HierarchicalXPathQuery.from_yml('query.yml')
 def is_valid(item):
   return 'doctor' in item
 
-# ...
-$ { filter:is_valid } //li/text()
+# then you can do this:
+# $ { filter:is_valid } //li/text()
 ```
 
 ### QML WIdgets
