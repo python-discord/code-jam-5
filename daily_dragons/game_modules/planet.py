@@ -122,28 +122,48 @@ class Planet:
         status_messages = []
         for stat in self._get_seperate_stats():
             if stat > 10:
-                status_messages.append("You have saved this stat.")
+                status_messages.append(
+                    f"You have saved this stat. (current level: {stat})"
+                )
             elif stat > 5:
-                status_messages.append("You have caused a major net gain.")
+                status_messages.append(
+                    f"You have caused a major net gain. (current level: {stat})"
+                )
             elif stat > 0:
-                status_messages.append("You have caused a net gain.")
+                status_messages.append(
+                    f"You have caused a net gain. (current level: {stat})"
+                )
             elif stat == 0:
-                status_messages.append("This stat is at the starting baseline.")
+                status_messages.append(
+                    f"This stat is at the starting baseline. (current level: {stat})"
+                )
             elif stat > -5:
-                status_messages.append("You have caused a net loss.")
+                status_messages.append(
+                    f"You have caused a net loss. (current level: {stat})"
+                )
             elif stat > -10:
-                status_messages.append("You have caused a major net loss.")
+                status_messages.append(
+                    f"You have caused a major net loss. (current level: {stat})"
+                )
             else:
                 status_messages.append(
-                    "You have ruined this beyond the point of return. You've "
-                    "destroyed the world."
+                    f"You have ruined this beyond the point of return. You've "
+                    f"destroyed the world. (current level: {stat})"
                 )
 
         current_stats = (
-            f"bio_diversity: {status_messages[0]} \n"
-            f"temperature: {status_messages[1]} \n"
-            f"co2: {status_messages[2]} \n"
-            f"habitable_land: {status_messages[3]} \n"
+            Fore.GREEN + f"Biodiversity:\t" + Fore.WHITE + f"{status_messages[0]} \n"
+            ""
+            + Fore.GREEN
+            + f"Temperature:\t"
+            + Fore.WHITE
+            + f"{status_messages[1]} \n"
+            "" + Fore.GREEN + f"CO2:\t\t" + Fore.WHITE + f"{status_messages[2]} \n"
+            ""
+            + Fore.GREEN
+            + f"Habitable Land:\t"
+            + Fore.WHITE
+            + f"{status_messages[3]} \n"
         )
 
         return current_stats
