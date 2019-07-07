@@ -9,7 +9,7 @@ class PlanetaryEffects:
     """
 
     def __init__(
-        self, bio_diversity: int, temperature: float, co2: int, habitable_land: int
+        self, bio_diversity: int, temperature: int, co2: int, habitable_land: int
     ) -> None:
         """Track the stats as a direct change to the planets current stats
 
@@ -37,10 +37,10 @@ class PlanetaryEffects:
         land = self.__sign_helper(self.habitable_land) + str(self.habitable_land)
 
         net_effects = (
-            "" + Fore.GREEN + f"Biodiversity:\t" + Fore.WHITE + f"{bio} species\n"
-            "" + Fore.GREEN + f"Temperature:\t" + Fore.WHITE + f"{temp} C\n"
-            "" + Fore.GREEN + f"CO2:\t\t" + Fore.WHITE + f"{carbon} ppm\n"
-            "" + Fore.GREEN + f"Habitable Land:\t" + Fore.WHITE + f"{land} hectacres \n"
+            "" + Fore.GREEN + f"Biodiversity:\t" + Fore.WHITE + f"{bio} level\n"
+            "" + Fore.GREEN + f"Temperature:\t" + Fore.WHITE + f"{temp} level\n"
+            "" + Fore.GREEN + f"CO2:\t\t" + Fore.WHITE + f"{carbon} level\n"
+            "" + Fore.GREEN + f"Habitable Land:\t" + Fore.WHITE + f"{land} level\n"
         )
 
         return net_effects
