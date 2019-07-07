@@ -59,7 +59,9 @@ class GameBoard:
         self.players.rotate(-1)
         return running_bd
 
-    def run(self):
+    def run(self, tk=False):
+        if tk:
+            self.root = tk
         self._start_phase()
         self._mid_phase()
         self._end_phase()

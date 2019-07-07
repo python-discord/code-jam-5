@@ -18,7 +18,7 @@ class Characters:
         def __init__(self, *args, **kwargs):
             super().__init__(*args)
 
-    class Zilla(polluter):
+    class Zilla(Denier):
         def __init__(self, *args, **kwargs):
             super().__init__(*args)
 
