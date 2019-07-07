@@ -166,7 +166,7 @@ class Hangman(commands.Cog):
         """
         embed = self.hangman_embed(
             "Welcome to Hangman! "
-            "Start the game by reacting to this message."
+            "Start the game by reacting to this message with the letter you want to guess."
         )
         message: discord.Message = await ctx.send(
             embed=embed
