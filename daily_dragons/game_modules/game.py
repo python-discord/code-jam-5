@@ -25,7 +25,9 @@ class Game:
 
         self.error_msg = Fore.RED + "Unrecognized input, try again or type help"
 
-        self.exit_msg = Fore.YELLOW + "Have a good day, thanks for playing!"
+        self.exit_msg = (
+            Fore.YELLOW + "Have a good day, thanks for playing!" + Style.RESET_ALL
+        )
 
         self.successful_order_msg = Fore.GREEN + "Ok, we've sent that in!"
 
