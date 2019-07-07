@@ -12,7 +12,6 @@
     </div>
 {% endblock %}
 
-
 {% block content %}
     <div class="text-center my-5" id="loading-spinner" hidden>
         <div class="spinner-border" role="status" style="width: 4rem; height: 4rem;" >
@@ -29,8 +28,10 @@
     {% if lat is not none and lng is not none %}
         <script>
             setLocation({
-                lat: {{ lat }},
-                lng: {{ lng }}
+                toJSON: () => ({
+                    lat: {{ lat }},
+                    lng: {{ lng }},
+                })
             });
         </script>
     {% endif %}
