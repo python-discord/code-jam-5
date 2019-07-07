@@ -76,10 +76,10 @@ Item {
     Text {
         id: wsource
         // https://stackoverflow.com/questions/12536416/qml-text-element-hyperlink
-        text: "<html><a href='%1'/> here </a></html>".arg('http://theme.typora.io')// fact_counter.source
+        text: "<html><a href='%1'/> %1 </a></html>".arg(fact_counter.source)// fact_counter.source
         font.pixelSize: 12
         color: "#888"
-        anchors.bottom: parent.bottom
+        anchors.top: parent.top
         anchors.right: parent.right
         padding: 2
         onLinkActivated: Qt.openUrlExternally(link)
