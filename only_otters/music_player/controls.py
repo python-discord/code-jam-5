@@ -58,9 +58,9 @@ class ControlsWidget(QtWidgets.QFrame):
         self.duration_label.setFont(QtGui.QFont('Raleway'))
         self.seeker.timestamp_updated.connect(self.duration_label.setText)
 
-        self.main_layout.addWidget(self.previous_song_button)
+        #self.main_layout.addWidget(self.previous_song_button)
         self.main_layout.addWidget(self.play_pause_button)
-        self.main_layout.addWidget(self.next_song_button)
+        #self.main_layout.addWidget(self.next_song_button)
         self.main_layout.addWidget(self.seeker)
         self.main_layout.addWidget(self.duration_label)
 
