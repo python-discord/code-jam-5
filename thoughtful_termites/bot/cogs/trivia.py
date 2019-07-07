@@ -7,8 +7,7 @@ import typing
 from datetime import datetime
 from discord.ext import commands
 
-from thoughtful_termites.bot.resources import trivia_questions_path, climate_arguments_path
-from thoughtful_termites.bot.unlocks import has_unlocked
+from thoughtful_termites.bot.resources import trivia_questions_path
 
 
 class CategoryConverter(commands.Converter):
@@ -61,9 +60,6 @@ class Trivia(commands.Cog):
 
         with open(trivia_questions_path) as fp:
             self.raw_trivia_questions = json.load(fp)
-
-        with open(climate_arguments_path) as fp:
-            self.raw_climate_arguments = json.load(fp)
 
         self.trivia_categories = set(n['category'].lower() for n in self.raw_trivia_questions)
         self.trivia_difficulties = set(n['difficulty'].lower() for n in self.raw_trivia_questions)
@@ -274,46 +270,6 @@ class Trivia(commands.Cog):
                                            )
                        )
 
-    @commands.command(aliases=['cc', 'climcom'])
-    @has_unlocked('commentary')
-    async def climate_commentary(self, ctx, argument_id: int = None):
-        """Get a random climate commentary.
-
-        Parameters
-        --------------
-        Pass in any of the following:
-            • Argument ID - The Argument ID to fetch. If None is passed, it will find a random one.
-
-        Example
-        ------------
-        `?climate_commentary`
-        `?cc 192`
-
-        Aliases
-        -----------
-        `?climate_commentary` (primary)
-        `?cc`
-        `?climcom`
-        """
-        if not argument_id:
-            argument_id = random.randint(0, len(self.raw_climate_arguments) - 1)
-
-        if not 0 < argument_id < len(self.raw_climate_arguments):
-            raise commands.BadArgument(
-                f'Argument ID must be between 0 and {len(self.raw_climate_arguments)}'
-            )
-
-        choice = self.raw_climate_arguments[argument_id]
-        embed = discord.Embed(colour=self.bot.colour,
-                              title='Random Climate Commentary',
-                              description=choice['body'],
-                              timestamp=datetime.utcnow())
-        embed.set_footer(text=f'This was ID No. {argument_id}')
-        await ctx.send(embed=embed)
-
 
 def setup(bot):
-    with open(trivia_questions_path) as fp:
-        print(set(n["difficulty"].lower() for n in json.load(fp)))
-
     bot.add_cog(Trivia(bot))

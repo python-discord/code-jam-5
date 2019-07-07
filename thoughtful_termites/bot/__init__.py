@@ -75,6 +75,9 @@ class ClimateBot(commands.Bot):
             f'Bot is logged in as {str(self.user)}'
             ' (ID: {self.user.id}). Prefix is >'
         )
+        cog = self.get_cog('ClimateArguments')
+        if not cog:
+            self.load_extension('cogs.climate_arguments')
 
     @property
     def owner(self):
@@ -85,3 +88,4 @@ def run():
     config = Config.load(config_path)
     bot = ClimateBot()
     bot.run(config.bot_token)
+run()
