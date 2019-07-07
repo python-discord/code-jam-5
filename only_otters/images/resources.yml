@@ -5,3 +5,5 @@ resources:
     Pause: pause.png
     Previous: previous.png
     Play: play.png
+  icons:
+    Logo: spotleafy.png
