@@ -18,7 +18,7 @@ class Game(pyglet.window.Window):
     score = 0
 
     def __init__(self, *, fps=120, **kwargs):
-        super().__init__(caption='Penguin Snowball', **kwargs)
+        super().__init__(caption='Penguin Means Business!', **kwargs)
         self.is_over = False
         self.fps = fps
 
