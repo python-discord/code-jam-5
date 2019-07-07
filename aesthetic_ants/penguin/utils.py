@@ -48,4 +48,16 @@ def circles_collide(x1: float, y1: float, r1: float, x2: float, y2: float, r2: f
     return distance_between_sq(x1, y1, x2, y2) <= (r1 + r2)**2
 
 
+def normalized(x: float, y: float) -> typing.Tuple[float, float]:
+    """
+    Returns a unit vector version of x, y
+    """
+
+    magnitude = math.hypot(x, y)
+    if magnitude == 0:
+        return 0, 0
+
+    return x / magnitude, y / magnitude
+
+
 keys = pyglet.window.key.KeyStateHandler()
