@@ -6,6 +6,7 @@ from .object import Object
 from .player import Player
 from .snowball import Snowball
 from .space import Space
+from .tile_layer import TileLayer
 from .utils import keys
 
 
@@ -23,6 +24,11 @@ class Game(pyglet.window.Window):
         self.space.add(self.player)
         for _ in range(5):
             self.space.add(Enemy())
+
+        # Create background layer
+        self.tiles = self.create_tiles()
+
+        self.space.add(self.tiles)
 
         # Add handlers
         self.push_handlers(self.player)
@@ -51,6 +57,18 @@ class Game(pyglet.window.Window):
 
         return space
 
+    def create_tiles(self) -> TileLayer:
+        """Creates the tile background layer"""
+        tiles = TileLayer(0, 0)
+        tiles.load_tiles("resources/levels/1.level")
+
+        self.space.add_collision_handler(CollisionType.SNOWBALL,
+                                         CollisionType.TILE_LAYER,
+                                         tiles.collide_tiles,
+                                         lambda _, _1: True)
+
+        return tiles
+
     def create_ui(self) -> Space:
         """Returns the user interface space"""
 
@@ -60,6 +78,7 @@ class Game(pyglet.window.Window):
 
     def on_draw(self):
         self.clear()
+        self.tiles.draw()
         self.space.draw()
         self.ui_space.draw()
 
