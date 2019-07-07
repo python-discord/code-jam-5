@@ -121,7 +121,8 @@ class GameView:
         self.screen.blit(self.window_image, self.window_rect)
 
         font = pg.font.Font(None, 60)
-        pause_text = font.render("PAUSED", True, Color.orange)
+        font.set_bold(True)
+        pause_text = font.render("PAUSED", True, Color.white)
         text_x = (
             self.window_rect.x
             + (self.window_rect.width // 2)
