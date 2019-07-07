@@ -11,4 +11,8 @@ Written by:
 Requirements
 -
 You must have pygame installed. To do this, you can run `python -m pip install pygame` in the command prompt.
-To start the game, just run the python file GUI.py
+To start the game, just run the python file GUI.py.
+
+Future Releases
+-
+In future releases, our plan would be to add more cars, more gamemodes, a scoreboard, glitch fixes an more once we have more experience of pygame (we started with none).
