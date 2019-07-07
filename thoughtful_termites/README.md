@@ -31,12 +31,13 @@ right clicking and choosing "Edit". You can also delete them by selecting
 "Delete".
 
 4. Once you believe you have completed your goal, select "Complete Goal" 
-after right-clicking it. This will accrue internal reward points used to 
+after right-clicking it. This will accrue points used to 
 unlock mini games.
 
 5. After you have finished a certain number of goals, you can go to
-the "Unlock" window to unlock various minigames or features, accessible
-on the Discord bot.
+the "Unlocks" window to unlock various minigames or features, accessible
+on the Discord bot. This is accessible from the 'View Unlocks' button
+at the Control Panel.
 
 ### Minigames & Features
 
