@@ -1,7 +1,7 @@
 import pyglet
 
 from .constants import CollisionType
-from .enemy import Enemy
+from .enemy import BigEnemy, FastEnemy
 from .object import Object
 from .player import Player
 from .resources import LEVEL_1
@@ -24,7 +24,8 @@ class Game(pyglet.window.Window):
         self.space = self.create_space()
         self.space.add(self.player)
         for _ in range(5):
-            self.space.add(Enemy())
+            self.space.add(BigEnemy(10, 5))
+            self.space.add(FastEnemy(15, 5))
 
         # Create background layer
         self.tiles = self.create_tiles()

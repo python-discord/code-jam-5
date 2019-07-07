@@ -18,7 +18,8 @@ def load_level(filename: str):
 
 
 # Sprite images
-ENEMY_IMAGE = load_image("evil_business_man.png", centered=True)
+ENEMY_BIG_IMAGE = load_image("evil_business_man_big.png", centered=True)
+ENEMY_FAST_IMAGE = load_image("evil_business_man_fast.png", centered=True)
 PLAYER_IMAGE = load_image("penguin.png", centered=True)
 
 # Projectile images
