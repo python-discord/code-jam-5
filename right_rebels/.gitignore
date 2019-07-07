@@ -1,7 +1,3 @@
-# NC files (NetCDF) used for plotting are quite huge so avoid
-# those in repo
-*.nc
-
 # PyCharm project
 .idea/
 
