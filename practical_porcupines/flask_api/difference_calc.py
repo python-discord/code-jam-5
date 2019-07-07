@@ -99,10 +99,12 @@ class WLDifference:
         def flatten(l):
             return [item for sublist in l for item in sublist]
 
-        X = np.linspace(726188400, 1551999600, 1376352).reshape((-1, 1))
-        y = np.array([self.model(x) for x in X])
-        X = np.array(flatten(X))
-        y = np.array(flatten(y))
+        X = np.array(
+            flatten(
+                np.linspace(726188400, 1551999600, 1376352).reshape((-1, 1))
+            )
+        )
+        y = np.array(flatten(np.array([self.model(x) for x in X])))
 
         polynomial_features = PolynomialFeatures(degree=3)
         x_poly = polynomial_features.fit_transform(X.reshape(-1, 1))
@@ -116,6 +118,14 @@ class WLDifference:
         return poly_model
 
     def evaluate_timestamp(self, timestamp):
+        """
+        Gets datetime object and calculates as a prediction or as an
+        interpolation
+
+        - timestamp: datetime object (date_1/date_2 in `calculate`)
+        > Returns float of prediction or interpolation
+        """
+
         if (
             datetime.date(1993, 1, 15) > timestamp.date()
             or datetime.date(2019, 2, 7) < timestamp.date()
