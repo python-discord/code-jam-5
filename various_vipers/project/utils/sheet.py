@@ -1,11 +1,13 @@
 import pygame as pg
 
+from project.utils.helpers import load_img
+
 
 class Sheet:
     """Represents tool for extracting images from spritesheet."""
 
     def __init__(self, sheet_path):
-        self.spritesheet = pg.image.load(sheet_path).convert_alpha()
+        self.spritesheet = load_img(sheet_path)
 
     def get_image(self, x, y, width, height, alpha=False):
         """

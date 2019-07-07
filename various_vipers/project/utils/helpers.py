@@ -1,6 +1,17 @@
 import datetime
+from pathlib import PurePath
+
+from pygame import Surface
+from pygame.image import load
 
 from project.constants import SECONDS_TO_DAYS
+
+
+def load_img(path: PurePath, convert_alpha: bool = True) -> Surface:
+    """Loads an image from path. Optionally user per-pixel alpha conversion."""
+    if convert_alpha:
+        return load(str(path)).convert_alpha()
+    return load(str(path)).convert()
 
 
 def fit_to_range(val: float, a: float, b: float, a1: float, b1: float) -> float:

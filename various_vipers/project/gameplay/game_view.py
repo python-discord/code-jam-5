@@ -3,7 +3,6 @@ import time
 from typing import List
 
 import pygame as pg
-from pygame.image import load
 
 from project.UI.element.button import Button
 from project.UI.fx.sound import Sound
@@ -16,6 +15,7 @@ from project.constants import (
     WIDTH,
     WindowState,
 )
+from project.utils.helpers import load_img
 from .game_state import GameState
 from .period import PeriodFuture, PeriodMedieval, PeriodModern
 
@@ -46,15 +46,15 @@ class GameView:
         self.window_rect = pg.Rect(
             int(WIDTH * 0.375), int(HEIGHT * 0.2), int(WIDTH * 0.25), int(HEIGHT * 0.5)
         )
-        self.window_image = load(str(PAUSE_WINDOW)).convert_alpha()
+        self.window_image = load_img(PAUSE_WINDOW)
         self.window_image = pg.transform.scale(self.window_image, self.window_rect.size)
 
         btn_height = 80
         btn_offset_x = 20
         btn_offset_y = 50
 
-        exit_btn_image = load(str(BUTTONS["exit-btn"])).convert_alpha()
-        exit_btn_hover = load(str(BUTTONS["exit-btn-hover"])).convert_alpha()
+        exit_btn_image = load_img(BUTTONS["exit-btn"])
+        exit_btn_hover = load_img(BUTTONS["exit-btn-hover"])
         self.exit_btn = Button(
             self.screen,
             self.window_rect.x + btn_offset_x,
@@ -65,8 +65,8 @@ class GameView:
             exit_btn_hover,
         )
 
-        resume_btn_image = load(str(BUTTONS["resume-btn"])).convert_alpha()
-        resume_btn_hover = load(str(BUTTONS["resume-btn-hover"])).convert_alpha()
+        resume_btn_image = load_img(BUTTONS["resume-btn"])
+        resume_btn_hover = load_img(BUTTONS["resume-btn-hover"])
         self.resume_btn = Button(
             self.screen,
             self.window_rect.x + btn_offset_x,

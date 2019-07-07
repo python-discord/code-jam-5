@@ -7,7 +7,6 @@ import logging
 import time
 
 import pygame as pg
-from pygame.image import load
 
 from project.UI.element.button import Button
 from project.UI.element.slider import Slider
@@ -21,6 +20,7 @@ from project.constants import (
     WIDTH,
     WindowState,
 )
+from project.utils.helpers import load_img
 from project.utils.user_data import UserData
 
 
@@ -39,28 +39,26 @@ class Options:
         self.bg_rect_1 = pg.Rect(0, 0, WIDTH, HEIGHT)
         self.bg_rect_2 = pg.Rect(-WIDTH, 0, WIDTH, HEIGHT)
 
-        self.background = pg.image.load(str(PATH_OPTIONS_BG)).convert_alpha()
+        self.background = load_img(PATH_OPTIONS_BG)
 
-        back_btn_img = pg.image.load(str(BTN["back-btn"])).convert_alpha()
-        back_btn_img_hover = pg.image.load(str(BTN["back-btn-hover"])).convert_alpha()
+        back_btn_img = load_img(BTN["back-btn"])
+        back_btn_img_hover = load_img(BTN["back-btn-hover"])
 
-        vol_btn_img = load(str(BTN["vol-btn"])).convert_alpha()
-        vol_btn_img_hover = load(str(BTN["vol-btn-hover"])).convert_alpha()
+        vol_btn_img = load_img(BTN["vol-btn"])
+        vol_btn_img_hover = load_img(BTN["vol-btn-hover"])
 
-        vol_btn_img_mute = load(str(BTN["vol-btn-mute"])).convert_alpha()
-        vol_btn_img_mute_hover = load(str(BTN["vol-btn-mute-hover"])).convert_alpha()
+        vol_btn_img_mute = load_img(BTN["vol-btn-mute"])
+        vol_btn_img_mute_hover = load_img(BTN["vol-btn-mute-hover"])
 
-        checker_btn = load(str(BTN["checker"])).convert_alpha()
-        checker_btn_hover = load(str(BTN["checker-hover"])).convert_alpha()
+        checker_btn = load_img(BTN["checker"])
+        checker_btn_hover = load_img(BTN["checker-hover"])
 
-        checker_btn_checked = load(str(BTN["checker-checked"])).convert_alpha()
-        checker_btn_checked_hover = load(
-            str(BTN["checker-checked-hover"])
-        ).convert_alpha()
+        checker_btn_checked = load_img(BTN["checker-checked"])
+        checker_btn_checked_hover = load_img(BTN["checker-checked-hover"])
 
-        fps_label_img = load(str(BTN["show-fps-label"])).convert_alpha()
-        sound_label_img = load(str(BTN["sound-label"])).convert_alpha()
-        music_label_img = load(str(BTN["music-label"])).convert_alpha()
+        fps_label_img = load_img(BTN["show-fps-label"])
+        sound_label_img = load_img(BTN["sound-label"])
+        music_label_img = load_img(BTN["music-label"])
 
         self.back_btn = Button(
             self.screen,

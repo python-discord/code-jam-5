@@ -22,7 +22,7 @@ from project.constants import (
 )
 from project.gameplay.game_state import GameState
 from project.gameplay.period import Period
-from project.utils.helpers import realtime_to_ingame_delta_formatted
+from project.utils.helpers import load_img, realtime_to_ingame_delta_formatted
 
 
 logger = logging.getLogger(__name__)
@@ -34,14 +34,14 @@ class GameOver:
 
     def __init__(self, screen: pg.Surface):
         self.screen = screen
-        home_btn_img = pg.image.load(str(BTN["main-menu-btn"])).convert_alpha()
-        home_btn_img_h = pg.image.load(str(BTN["main-menu-btn-hover"])).convert_alpha()
+        home_btn_img = load_img(BTN["main-menu-btn"])
+        home_btn_img_h = load_img(BTN["main-menu-btn-hover"])
 
-        self.background = pg.image.load(str(PATH_GAMEOVER_BG)).convert_alpha()
+        self.background = load_img(PATH_GAMEOVER_BG)
 
-        self.star = pg.image.load(str(STAR)).convert_alpha()
+        self.star = load_img(STAR)
         self.star = pg.transform.scale(self.star, (40, 40))
-        self.gold_coin = pg.image.load(str(GOLD_COIN)).convert_alpha()
+        self.gold_coin = load_img(GOLD_COIN)
         self.gold_coin = pg.transform.scale(self.gold_coin, (40, 40))
 
         self.bg_rect_1 = pg.Rect(0, 0, WIDTH, HEIGHT)

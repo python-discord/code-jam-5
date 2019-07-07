@@ -18,6 +18,8 @@ from project.constants import (
     WIDTH,
     WindowState,
 )
+from project.utils.helpers import load_img
+
 
 logger = logging.getLogger(__name__)
 
@@ -27,11 +29,11 @@ class Credits:
 
     def __init__(self, screen: pg.Surface):
         self.screen = screen
-        back_btn_img = pg.image.load(str(BTN["back-btn"])).convert_alpha()
-        back_btn_img_h = pg.image.load(str(BTN["back-btn-hover"])).convert_alpha()
+        back_btn_img = load_img(BTN["back-btn"])
+        back_btn_img_h = load_img(BTN["back-btn-hover"])
 
-        self.credits = pg.image.load(str(PATH_CREDITS)).convert_alpha()
-        self.background = pg.image.load(str(PATH_CREDITS_BG)).convert_alpha()
+        self.credits = load_img(PATH_CREDITS)
+        self.background = load_img(PATH_CREDITS_BG)
 
         self.bg_rect_1 = pg.Rect(0, 0, WIDTH, HEIGHT)
         self.bg_rect_2 = pg.Rect(-WIDTH, 0, WIDTH, HEIGHT)

@@ -4,6 +4,7 @@ from typing import List
 import pygame as pg
 
 from project.constants import HEIGHT, MAX_HEAT, SUN_IMAGE, THERMO, THERMO_FILL, WIDTH
+from project.utils.helpers import load_img
 from .biome import Biome
 from .game_state import GameState
 
@@ -32,11 +33,11 @@ class Sun:
         self.heat_per_tick = heat_per_tick
         self.heat_per_task = heat_per_task
 
-        self.thermo = pg.image.load(str(THERMO)).convert_alpha()
-        self.thermo_fill = pg.image.load(str(THERMO_FILL)).convert_alpha()
+        self.thermo = load_img(THERMO)
+        self.thermo_fill = load_img(THERMO_FILL)
 
         # Sun image
-        self.image = pg.image.load(str(SUN_IMAGE)).convert_alpha()
+        self.image = load_img(SUN_IMAGE)
         new_height = int(HEIGHT // 2)
         scale_percent = new_height / self.image.get_height()
         new_width = int(self.image.get_width() * scale_percent)

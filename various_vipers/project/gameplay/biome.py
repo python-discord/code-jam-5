@@ -3,7 +3,6 @@ import random
 from pathlib import PurePath
 from typing import Callable, Generator, List, Tuple
 
-from pygame.image import load
 from pygame.transform import scale
 
 from project.constants import (
@@ -18,6 +17,7 @@ from project.constants import (
     TILE_COLS,
     TILE_ROWS,
 )
+from project.utils.helpers import load_img
 from .task import Task
 from .tile import Tile
 
@@ -55,9 +55,7 @@ class Biome(object):
         self.tilemap = self.Tilemap(self, TILE_COLS, TILE_ROWS)
 
         # scale background to 0.8 of screen height
-        self.background = load(
-            str(random.choice(self.background_images))
-        ).convert_alpha()
+        self.background = load_img(random.choice(self.background_images))
         self.background = scale(self.background, (BIOME_WIDTH, BIOME_WIDTH))
 
     @property

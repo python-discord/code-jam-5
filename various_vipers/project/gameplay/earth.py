@@ -3,7 +3,6 @@ import random
 from typing import Any, List, Tuple
 
 import pygame as pg
-from pygame.image import load
 
 from project.constants import (
     BG_CLOUDS_SCROLL_SPEED,
@@ -23,7 +22,7 @@ from project.constants import (
     TILE_WIDTH,
     WIDTH,
 )
-from project.utils.helpers import fit_to_range
+from project.utils.helpers import fit_to_range, load_img
 from .biome import Biome
 from .game_state import GameState
 from .indicator import Indicator
@@ -72,16 +71,12 @@ class Earth(object):
 
         self.biomes = biomes
 
-        self.cloud_layers_bg_pool = [
-            load(str(image)).convert_alpha() for image in CLOUD_LAYERS_BG
-        ]
+        self.cloud_layers_bg_pool = [load_img(image) for image in CLOUD_LAYERS_BG]
         self.cloud_layers_bg = []
-        self.cloud_layers_fg_pool = [
-            load(str(image)).convert_alpha() for image in CLOUD_LAYERS_FG
-        ]
+        self.cloud_layers_fg_pool = [load_img(image) for image in CLOUD_LAYERS_FG]
         self.cloud_layers_fg = []
 
-        self.ozone_image = load(str(OZONE_LAYER)).convert_alpha()
+        self.ozone_image = load_img(OZONE_LAYER)
         self.ozone_image = pg.transform.scale(self.ozone_image, (WIDTH, HEIGHT // 10))
         self.ozone_pos = (0, int(HEIGHT // 3))
 
@@ -91,7 +86,7 @@ class Earth(object):
         self.polution_image.fill(Color.desert)
         self.polution_pos = (0, HEIGHT - self.polution_image.get_height())
 
-        self.indicator_image = load(str(INDICATOR_ARROW)).convert_alpha()
+        self.indicator_image = load_img(INDICATOR_ARROW)
 
         self.indicators = []
         self.visible_tiles = []

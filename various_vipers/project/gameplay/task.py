@@ -6,7 +6,6 @@ from time import time
 from typing import List, Optional, Tuple
 
 import pygame as pg
-from pygame.image import load
 from pygame.transform import scale
 
 from project.UI.fx.sound import Sound
@@ -26,6 +25,7 @@ from project.constants import (
     WIDTH,
     X,
 )
+from project.utils.helpers import load_img
 from project.utils.notification import Notification
 from .game_state import GameState
 
@@ -150,19 +150,19 @@ class TaskCursorMaze(Task):
 
         # Prepare images for the maze
         self.start_image = scale(
-            load(str(self.biome.image_from(MAZE_START))).convert_alpha(), self.cell_size
+            load_img(self.biome.image_from(MAZE_START)), self.cell_size
         )
 
         self.end_image = scale(
-            load(str(self.biome.image_from(MAZE_END))).convert_alpha(), self.cell_size
+            load_img(self.biome.image_from(MAZE_END)), self.cell_size
         )
 
         self.path_image = scale(
-            load(str(self.biome.image_from(MAZE_PATH))).convert_alpha(), self.cell_size
+            load_img(self.biome.image_from(MAZE_PATH)), self.cell_size
         )
 
         self.wall_image = scale(
-            load(str(self.biome.image_from(MAZE_WALL))).convert_alpha(), self.cell_size
+            load_img(self.biome.image_from(MAZE_WALL)), self.cell_size
         )
 
     def start(self) -> None:
@@ -380,17 +380,13 @@ class TaskRockPaperScissors(Task):
             # load it from current biome and
             # scale it for human choice
             self.choice_images.append(
-                scale(
-                    load(str(self.biome.image_from(img))).convert_alpha(),
-                    [self.choice_rect_side] * 2,
-                )
+                scale(load_img(self.biome.image_from(img)), [self.choice_rect_side] * 2)
             )
             # load it from current biome and
             # scale it for computer choice
             self.computer_images.append(
                 scale(
-                    load(str(self.biome.image_from(img))).convert_alpha(),
-                    [self.computer_rect_side] * 2,
+                    load_img(self.biome.image_from(img)), [self.computer_rect_side] * 2
                 )
             )
         # one more extra image for the computer
@@ -398,7 +394,7 @@ class TaskRockPaperScissors(Task):
         # till the human makes a choice
         self.computer_images.append(
             scale(
-                load(str(self.biome.image_from(QUESTION_MARK))).convert_alpha(),
+                load_img(self.biome.image_from(QUESTION_MARK)),
                 [self.computer_rect_side] * 2,
             )
         )
@@ -561,17 +557,13 @@ class TaskTicTacToe(Task):
         # X is always the human
         # O is always the computer
 
-        self.x_image = scale(
-            load(str(self.biome.image_from(X))).convert_alpha(), [self.cell_side] * 2
-        )
+        self.x_image = scale(load_img(self.biome.image_from(X)), [self.cell_side] * 2)
 
-        self.o_image = scale(
-            load(str(self.biome.image_from(O))).convert_alpha(), [self.cell_side] * 2
-        )
+        self.o_image = scale(load_img(self.biome.image_from(O)), [self.cell_side] * 2)
 
         # load the square grid image
         self.grid = scale(
-            load(str(self.biome.image_from(TTT_GRID))).convert_alpha(),
+            load_img(self.biome.image_from(TTT_GRID)),
             [self.board_rect.width, self.board_rect.height],
         )
 

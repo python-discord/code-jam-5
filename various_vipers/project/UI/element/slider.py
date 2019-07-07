@@ -2,10 +2,10 @@
 
 import pygame as pg
 from pygame import Rect
-from pygame.image import load
 
 from project.UI.fx.sound import Sound
 from project.constants import SLIDER_BODY, SLIDER_INDICATOR, SliderProperties
+from project.utils.helpers import load_img
 from project.utils.user_data import UserData
 
 
@@ -25,8 +25,8 @@ class Slider:
         else:
             self.volume = user_data.music_volume
 
-        self.body_img = load(str(SLIDER_BODY)).convert_alpha()
-        self.indicator_img = load(str(SLIDER_INDICATOR)).convert_alpha()
+        self.body_img = load_img(SLIDER_BODY)
+        self.indicator_img = load_img(SLIDER_INDICATOR)
 
         self.__calculate_body_properties()
         self.__calculate_indicator_properties()

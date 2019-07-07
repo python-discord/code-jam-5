@@ -8,7 +8,6 @@ import time
 import webbrowser
 
 import pygame as pg
-from pygame.image import load
 
 from project.UI.element.button import Button, generate_main_buttons
 from project.UI.fx.sound import Sound
@@ -20,6 +19,8 @@ from project.constants import (
     WIDTH,
     WindowState,
 )
+from project.utils.helpers import load_img
+
 
 logger = logging.getLogger(__name__)
 
@@ -49,9 +50,7 @@ class MainMenu:
 
         # load two types of images for the buttons
         # normal state and hover state
-        self.images = [
-            tuple([load(str(j)).convert_alpha() for j in i]) for i in img_paths
-        ]
+        self.images = [tuple([load_img(j) for j in i]) for i in img_paths]
 
     def draw(self, mouse_x: int, mouse_y: int, event) -> str:
         """Hadles all main menu events and draw every elements."""
@@ -94,8 +93,8 @@ class MainMenu:
         ]
 
     def __load_set_github_button(self):
-        image = load(str(BTN["github"])).convert_alpha()
-        image_hover = load(str(BTN["github-hover"])).convert_alpha()
+        image = load_img(BTN["github"])
+        image_hover = load_img(BTN["github-hover"])
 
         self.github_btn = Button(
             screen=self.screen,

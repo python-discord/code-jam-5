@@ -6,6 +6,7 @@ from typing import Optional, TYPE_CHECKING
 import pygame as pg
 
 from project.constants import TILE_WIDTH
+from project.utils.helpers import load_img
 from .game_state import GameState
 
 if TYPE_CHECKING:
@@ -44,7 +45,7 @@ class Tile:
     breathing_direction: int = 1  # 1 -> outwards, -1 -> inwards
 
     def __init__(self, image: str):
-        self._image = pg.image.load(image).convert_alpha()
+        self._image = load_img(image)
 
         scale_percent = TILE_WIDTH / self._image.get_width()
         new_height = int(self._image.get_height() * scale_percent)
