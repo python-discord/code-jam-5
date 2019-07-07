@@ -1,7 +1,6 @@
 import sys
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from matplotlib import cm
 
 import plot
 
@@ -404,7 +403,7 @@ class ColorMapChooser(QtWidgets.QDialog):
         self.move(self.start_pos)
         self.main_layout.addWidget(self.color_list)
         self.setLayout(self.main_layout)
-        self.color_list.addItems(cm.cmap_d.keys())
+        self.color_list.addItems(plot.Plotter.get_color_maps())
 
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint, True)
         self.setWindowFlags(QtCore.Qt.Popup)

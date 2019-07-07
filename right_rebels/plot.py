@@ -28,7 +28,6 @@ class Plotter(QtCore.QThread):
         self.end_date = end_date
         self.step = step
         self.stop_plot = False
-        # https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
         self.color_map = plot.get_cmap(color_map)
         self.world_map = Plotter.get_map_format()
         if parent_window is not None:
@@ -48,6 +47,12 @@ class Plotter(QtCore.QThread):
             self.status_signal.emit(f"{self.PLOTS_DIR} directory not found, exiting")
             return False
         return True
+
+    @staticmethod
+    def get_color_maps():
+        # https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
+        color_maps = ["seismic", "coolwarm", "bwr", "gnuplot2", "jet"]
+        return color_maps
 
     @staticmethod
     def get_map_format():
