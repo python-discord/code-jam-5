@@ -1,27 +1,32 @@
 import pyglet
 
 from .constants import CollisionType
-from .object import Object
 from .player import Player
-from .snowball import Snowball
+from .resources import LEVEL_1
 from .space import Space
 from .spawner import Spawner
 from .tile_layer import TileLayer
+from .ui import GameOverScreen, ScoreLabel, UiSpace
 from .utils import keys
 from .wave import Wave
+
+
+def _object_collides_with(obj1, obj2):
+    return obj1.collides_with(obj2)
 
 
 class Game(pyglet.window.Window):
     score = 0
 
     def __init__(self, *, fps=120, **kwargs):
-        super().__init__(caption='Penguin Snowball', **kwargs)
+        super().__init__(caption='Penguin Means Business!', **kwargs)
         self.is_over = False
         self.fps = fps
 
         self.space = self.create_space()
 
         self.player = Player(self.width / 2, self.height / 2)
+        self.player.game_over = self.game_over
         self.space.add(self.player)
 
         self.spawner = Spawner()
@@ -42,7 +47,7 @@ class Game(pyglet.window.Window):
         # Create UI
         self.ui_space = self.create_ui()
 
-        self.score_label = ScoreLabel(self)
+        self.score_label = ScoreLabel(self, self.ui_space)
         self.ui_space.add(self.score_label)
 
     def create_space(self) -> Space:
@@ -53,31 +58,41 @@ class Game(pyglet.window.Window):
         space.add_collision_handler(CollisionType.PLAYER,
                                     CollisionType.ENEMY,
                                     self.on_collision_player_enemy,
-                                    Player.collides_with)
+                                    _object_collides_with)
 
         space.add_collision_handler(CollisionType.SNOWBALL,
                                     CollisionType.ENEMY,
                                     self.on_collision_snowball_enemy,
-                                    Snowball.collides_with)
+                                    _object_collides_with)
 
         return space
 
     def create_tiles(self) -> TileLayer:
         """Creates the tile background layer"""
         tiles = TileLayer(0, 0)
-        tiles.load_tiles("resources/levels/1.level")
+        tiles.load_tiles(LEVEL_1)
 
         self.space.add_collision_handler(CollisionType.SNOWBALL,
                                          CollisionType.TILE_LAYER,
                                          tiles.collide_tiles,
                                          lambda _, _1: True)
 
+        self.space.add_collision_handler(CollisionType.ENEMY,
+                                         CollisionType.TILE_LAYER,
+                                         tiles.collide_tiles,
+                                         lambda _, _1: True)
+
+        self.space.add_collision_handler(CollisionType.PLAYER,
+                                         CollisionType.TILE_LAYER,
+                                         tiles.collide_tiles,
+                                         lambda _, _1: True)
+
         return tiles
 
-    def create_ui(self) -> Space:
+    def create_ui(self) -> UiSpace:
         """Returns the user interface space"""
 
-        space = Space()
+        space = UiSpace()
 
         return space
 
@@ -99,44 +114,21 @@ class Game(pyglet.window.Window):
 
     def on_collision_player_enemy(self, player, enemy):
         """When a player collides with an enemy, end the game"""
+        self.game_over(fell=False)
+
+    def game_over(self, fell=False):
         if not self.is_over:
             self.is_over = True
-            game_over_screen = GameOverScreen(self)
+            game_over_screen = GameOverScreen(self, self.ui_space)
             self.ui_space.add(game_over_screen)
+            if fell:
+                self.space.remove(self.player)
+                self.remove_handlers(self.player)
 
     def on_collision_snowball_enemy(self, snowball, enemy):
         if not self.is_over:
             self.score += enemy.score
-            self.score_label.label.text = str(self.score)
+            self.score_label.set_label(self.score)
+            self.player.unlock_weapons(self.score)
 
         enemy.on_collision_snowball(snowball)
-
-
-class GameOverScreen(Object):
-    def __init__(self, window):
-        self.label = pyglet.text.Label("Game Over!",
-                                       font_name="Times New Roman",
-                                       font_size=36,
-                                       x=window.width // 2,
-                                       y=window.height // 2,
-                                       anchor_x='center',
-                                       anchor_y='center')
-
-    def add_to_space(self, space):
-        super().add_to_space(space)
-        self.label.batch = space.batch
-
-
-class ScoreLabel(Object):
-    def __init__(self, window):
-        self.label = pyglet.text.Label("0",
-                                       font_name="Times New Roman",
-                                       font_size=18,
-                                       x=10,
-                                       y=window.height - 10,
-                                       anchor_x='left',
-                                       anchor_y='top')
-
-    def add_to_space(self, space):
-        super().add_to_space(space)
-        self.label.batch = space.batch

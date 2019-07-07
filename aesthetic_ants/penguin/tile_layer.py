@@ -1,15 +1,41 @@
+import itertools
 import pyglet
+import random
 
 from math import floor
 from pyglet.graphics import Batch
 
 from .constants import CollisionType, TileType
+from .enemy import Enemy
 from .object import Object
 from .resources import WATER_TILE, ICE_TILE, WEAK_ICE_TILE, WALL_TILE
 
-TILE_SIZE = 16  # tile size in pixels
+# Tile size in pixels
+TILE_SIZE = 16
+
+# Ticks until a decayable tile decays
+ICE_HEALTH = 25
+WEAK_ICE_HEALTH = 35
+
+# Base decay rate, per second
+DECAY_RATE = 30
+
+# How much enemy number should weight the decay
+# Each enemy adds this much to DECAY_RATE while it is alive
+ENEMY_DECAY_INFLUENCE = 5
+
+# How much nearby weak tiles should weight the decay
+# Each weak tile within NEARBY_TILES adds this to the decay rate
+WEAK_TILE_DECAY_INFLUENCE = 1.5
+
+# How much health is lost each "tick" of a tile, random within the range
+DECAY_VARIANCE = (0, 1)
+
+# Precomputed "nearby tiles" that influence tile decay
+NEARBY_TILES = list(itertools.product([-1, 0, 1], [-1, 0, 1]))
 
 
+# Maps tiles from their level-file character to tile type
 TILE_SERIALIZATION_MAP = {
     "W": TileType.WALL,
     "I": TileType.ICE,
@@ -18,12 +44,34 @@ TILE_SERIALIZATION_MAP = {
 }
 
 
+# Maps decayable tiles to their descendant tile type
+DECAY_MAP = {
+    TileType.ICE: TileType.WEAK_ICE,
+    TileType.WEAK_ICE: TileType.WATER
+}
+
+# Tiles that are weak enough that nearby tiles decay faster
+WEAK_TILES = {TileType.WEAK_ICE, TileType.WATER}
+
+
 class Tile(pyglet.sprite.Sprite):
     """
     Represents an individual tile in a tiled layer
     """
-    def __init__(self, tile: TileType, *args, **kwargs):
+
+    def __init__(self, tile: TileType, *args, health=0, **kwargs):
         self.tile_type = tile
+
+        if not health:
+            if self.tile_type == TileType.ICE:
+                self.health = random.random() * ICE_HEALTH
+            elif self.tile_type == TileType.WEAK_ICE:
+                self.health = random.random() * WEAK_ICE_HEALTH
+            else:
+                self.health = -1
+        else:
+            self.health = health
+
         super().__init__(*args, **kwargs)
 
 
@@ -32,6 +80,7 @@ class TileLayer(Object):
     A class that manages a large array of tile sprites
     """
     collision_type = CollisionType.TILE_LAYER
+    decay = 0
 
     def __init__(self, x: int, y: int):
         self.tile_images = {
@@ -63,8 +112,8 @@ class TileLayer(Object):
                                           y=tile_y * TILE_SIZE + self.y,
                                           batch=self.batch)
 
-    def update(self, dt, **kwargs):
-        pass
+    def update(self, dt: float, **kwargs):
+        self.decay_tiles(dt)
 
     def draw(self):
         self.batch.draw()
@@ -77,23 +126,22 @@ class TileLayer(Object):
                 tile.delete()
         self.tiles = []
 
-    def load_tiles(self, tile_filename: str):
+    def load_tiles(self, level):
         """Loads a tile map from a level file"""
-        with open(tile_filename, 'r') as level_file:
-            level_data = level_file.readlines()
-            self.erase_tiles()
+        level_data = level.text.split("\n")
+        self.erase_tiles()
 
-            for y, line in enumerate(level_data):
-                row = []
-                for x, serialized_tile in enumerate(line.strip()):
-                    tile_type = TILE_SERIALIZATION_MAP[serialized_tile]
-                    tile = Tile(tile_type,
-                                self.tile_images[tile_type],
-                                x=x * TILE_SIZE + self.x,
-                                y=y * TILE_SIZE + self.y,
-                                batch=self.batch)
-                    row.append(tile)
-                self.tiles.append(row)
+        for y, line in enumerate(level_data):
+            row = []
+            for x, serialized_tile in enumerate(line):
+                tile_type = TILE_SERIALIZATION_MAP[serialized_tile]
+                tile = Tile(tile_type,
+                            self.tile_images[tile_type],
+                            x=x * TILE_SIZE + self.x,
+                            y=y * TILE_SIZE + self.y,
+                            batch=self.batch)
+                row.append(tile)
+            self.tiles.append(row)
 
     def collide_tiles(self, other, _):
         """Determine which tiles collide with the passed object,
@@ -122,3 +170,52 @@ class TileLayer(Object):
                 continue
 
             other.collide_tile(self.tiles[y][x])
+
+    def enemy_decay_influence(self):
+        """Determines how much pollution enemies release"""
+        return sum(isinstance(o, Enemy) for o in self.space.objects)
+
+    def neighbors(self, x, y):
+        grid_width = len(self.tiles[0])
+        grid_height = len(self.tiles)
+
+        for offset_x, offset_y in NEARBY_TILES:
+            # Skip out of bounds tiles
+            if not 0 <= x + offset_x < grid_width:
+                continue
+            if not 0 <= y + offset_y < grid_height:
+                continue
+
+            yield self.tiles[y + offset_y][x + offset_x]
+
+    def decay_tiles(self, dt: float):
+        """Updates the decay state of the map"""
+        # Decay carries over between ticks, as it's normalized by dt
+        self.decay += DECAY_RATE * dt
+        self.decay += dt * ENEMY_DECAY_INFLUENCE * self.enemy_decay_influence()
+
+        grid_width = len(self.tiles[0])
+        grid_height = len(self.tiles)
+
+        # Handle what decay we can this tick
+        while self.decay >= 1:
+            self.decay -= 1
+
+            x = random.randrange(grid_width)
+            y = random.randrange(grid_height)
+            tile = self.tiles[y][x]
+            if tile.tile_type not in DECAY_MAP:
+                continue
+
+            # Weak nearby tiles make a tile decay faster
+            tile_weakness = 0
+            for neighbor in self.neighbors(x, y):
+                if neighbor.tile_type in WEAK_TILES:
+                    tile_weakness += WEAK_TILE_DECAY_INFLUENCE
+
+            tile.health -= DECAY_VARIANCE[0] \
+                + random.random() * DECAY_VARIANCE[1] \
+                + tile_weakness
+
+            if tile.health < 0:
+                self.set_tile(x, y, DECAY_MAP[tile.tile_type])

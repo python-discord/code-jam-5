@@ -13,10 +13,25 @@ def load_image(filename: str, centered: bool = False):
     return image
 
 
-ENEMY_IMAGE = load_image("evil_business_man.png", centered=True)
+def load_level(filename: str):
+    return loader.text(filename)
+
+
+# Sprite images
+ENEMY_BIG_IMAGE = load_image("evil_business_man_big.png", centered=True)
+ENEMY_FAST_IMAGE = load_image("evil_business_man_fast.png", centered=True)
 PLAYER_IMAGE = load_image("penguin.png", centered=True)
+
+# Projectile images
 SNOWBALL_IMAGE = load_image("snowball.png", centered=True)
+ROCKET_IMAGE = load_image("snowball_rocket.png", centered=True)
+SNOWSPLOSION_IMAGE = load_image("snowsplosion.png", centered=True)
+
+# Tile images
 WATER_TILE = load_image("tiles/water.png")
 ICE_TILE = load_image("tiles/ice.png")
 WEAK_ICE_TILE = load_image("tiles/weak_ice.png")
 WALL_TILE = load_image("tiles/wall.png")
+
+# Levels
+LEVEL_1 = load_level("levels/1.level")
