@@ -46,4 +46,15 @@ Install third party libraries:
 
 * Progress through various stages of the world and see what could become if we all focused on more sustainable forms of energy generation.
 
-* Try to generate enough power for an entire year of the real world's needs! (Unless you're presenting this on a livestream, in which case you can just cheat with the save file) ^_^
+* Try to generate enough power for an entire year of the real world's needs! (Unless you're presenting this on a livestream, in which case you can just cheat with the save file)
+
+
+## Credits
+
+Music created by missingfragment#1983
+Snap sound by Makusu2#2222's fingers
+All sprites created by missingfragment#1983
+Backgrounds found on pixabay.com
+    * https://pixabay.com/photos/industry-sunrise-air-pollution-1752876/
+    * https://pixabay.com/photos/power-plant-water-mirroring-3878137/
+    * https://pixabay.com/photos/windmill-holland-tradition-dutch-316029/
