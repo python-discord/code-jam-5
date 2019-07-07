@@ -12,7 +12,6 @@
     </div>
 {% endblock %}
 
-
 {% block content %}
     <div class="text-center my-5" id="loading-spinner" hidden>
         <div class="spinner-border" role="status" style="width: 4rem; height: 4rem;" >
@@ -22,15 +21,27 @@
     </div>
 
     <div id="map" style="display: none"></div>
-    <div id="results" class="mx-auto" style="width: 100%"></div>
+    <div id="results" class="mx-auto" style="width: 100%" hidden>
+        <div class="row">
+            <div class="position-sticky sticky-top col">
+                <h3 class="text-left text-info my-2" id="city-name"></h3>
+                <h3 class="text-left text-info my-2" id="city-admin"></h3>
+                <hr class="my-1">
+                <ul class="nav nav-tabs flex-column" id="sidebar" role="tablist"></ul>
+            </div>
+            <div class="col-9 tab-content ml-5" id="indicators"></div>
+        </div>
+    </div>
 
     <script src="{{ url_for('static', filename = 'search.js') }}"></script>
 
     {% if lat is not none and lng is not none %}
         <script>
-            setLocation({
-                lat: {{ lat }},
-                lng: {{ lng }}
+            getCity({
+                toJSON: () => ({
+                    lat: {{ lat }},
+                    lng: {{ lng }},
+                })
             });
         </script>
     {% endif %}

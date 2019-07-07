@@ -1,7 +1,8 @@
+import asyncio
 import json
+import typing as t
 from collections import Counter
 from itertools import chain
-from typing import Tuple
 
 import numpy as np
 from quart import current_app as app
@@ -17,7 +18,7 @@ INDICATORS = (
 
 
 class Indicator:
-    def __init__(self, name: str, city: City):
+    def __init__(self, name: str, city: int):
         self.name = name
         self.city = city
 
@@ -25,16 +26,22 @@ class Indicator:
         self.description = None
         self.units = None
         self.rate = None
-        self.plot = None
         self.x = None
         self.y = None
 
+    async def _get_data(self) -> t.List[t.Dict]:
+        tasks = []
+        for scenario in ('historical', 'RCP85'):
+            tasks.append(app.azavea.get_indicator_data(self.city, scenario, self.name))
+
+        return await asyncio.gather(*tasks)
+
     async def populate_data(self):
+        """Populate the indicator with data from the API for the historical and RCP85 scenarios."""
         items = []
         count = 0
 
-        for scenario in ('historical', 'RCP85'):
-            response = await app.azavea.get_indicator_data(self.city.id, scenario, self.name)
+        for response in await self._get_data():
             self.label = response['indicator']['label']
             self.description = response['indicator']['description']
             self.units = response['units']
@@ -57,16 +64,17 @@ class Indicator:
         self.y = json.dumps(y.tolist())
 
 
-async def get_top_indicators(city: City, n: int = 5) -> Tuple[Indicator, ...]:
+async def _create_indicator(name, city):
+    indicator = Indicator(name, city)
+    await indicator.populate_data()
+    return name, indicator
+
+
+async def get_top_indicators(city: City, n: int = 5) -> t.Tuple[Indicator, ...]:
     """Return the top n indicators with the highest rate of change."""
-    rates = Counter()
-    indicators = {}
+    tasks = [_create_indicator(name, city) for name in INDICATORS]
+    indicators = dict(await asyncio.gather(*tasks))
 
-    for name in INDICATORS:
-        indicator = Indicator(name, city)
-        await indicator.populate_data()
-
-        rates[name] = indicator.rate
-        indicators[name] = indicator
+    rates = Counter({name: abs(indicator.rate) for name, indicator in indicators.items()})
 
     return tuple(indicators[k] for k, _ in rates.most_common(n))

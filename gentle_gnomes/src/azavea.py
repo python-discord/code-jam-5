@@ -1,11 +1,17 @@
+import asyncio
+import logging
 import typing as t
+from dataclasses import dataclass
 
 import aiohttp
+
+log = logging.getLogger(__name__)
 
 BASE_URL = 'https://app.climate.azavea.com/api'
 
 
-class City(t.NamedTuple):
+@dataclass(frozen=True)
+class City:
     name: str
     admin: str
     id: int
@@ -27,8 +33,21 @@ class Client:
         if self.session is None:
             self.session = aiohttp.ClientSession(headers=self.headers)
 
-        async with self.session.get(BASE_URL + endpoint, **kwargs) as response:
-            return await response.json()
+        # Don't want to deal with recursion
+        while True:
+            log.debug(f'GET {endpoint}')
+            async with self.session.get(BASE_URL + endpoint, **kwargs) as response:
+                # Rate limited; sleep and try again.
+                if response.status == 429:
+                    retry_after = int(response.headers['Retry-After'])
+                    log.warning(f'Rate limited; trying again in {retry_after} seconds.')
+                    await asyncio.sleep(retry_after)
+
+                    continue
+                elif 'raise_for_status' in kwargs:
+                    response.raise_for_status()
+
+                return await response.json()
 
     async def teardown(self):
         if self.session is not None:
