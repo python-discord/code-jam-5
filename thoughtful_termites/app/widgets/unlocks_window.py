@@ -6,11 +6,22 @@ from thoughtful_termites.shared.constants import completed_goals_path
 class UnlocksWindow(qt.QDialog):
     @staticmethod
     def set_completed_goals(n: int):
+        """
+        Update the number of goals completed by the user into completed_goals_path.
+
+        :param n: The updated number of goals that have been completed by the user
+        """
         with open(completed_goals_path, 'w') as f:
             f.write(str(n))
 
     @staticmethod
     def completed_goals():
+        """
+        Fetches the number of goals that the user has completed in completed_goals_path.
+        If no such path exists, the user hasn't completed any goals so far.
+
+        :return: The number of goals the user has completed
+        """
         if completed_goals_path.exists():
             with open(completed_goals_path, "r") as f:
                 contents = f.read().strip()
@@ -71,6 +82,13 @@ class UnlocksWindow(qt.QDialog):
         self.setWindowTitle("Unlock Minigames")
 
     def on_unlock(self, name):
+        """
+        Callback that activates when the user clicks a button that unlocks a
+        minigame.
+
+        :param name: The name of the minigame, according to the database
+        :return: A callback function that unlocks a certain minigame
+        """
         def inner():
             unlock = self.db.get_unlock_by_name(name)
             unlock.is_unlocked = True
@@ -78,7 +96,9 @@ class UnlocksWindow(qt.QDialog):
             qt.QMessageBox.about(
                 self,
                 "Success!",
-                f"You have unlocked the '{name}' minigame. Type '>{name}' in Discord to try it out!"
+                f"You have unlocked the '{name}' minigame."
+                f" Type '>{'climate_commentary' if name == 'commentary' else name}'"
+                f" in the Discord bot to try it out!"
             )
 
             unlock.update()
