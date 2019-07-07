@@ -41,3 +41,4 @@ Ikusaba-san = Leader
 bast0006 and kozzza = Team Members
 
 Assets were drawn by Koza.
+Tiles were drawn by Bast.
