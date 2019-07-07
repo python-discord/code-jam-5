@@ -12,10 +12,12 @@ afterwards.
 
 # Setup
 
-```bash
+```
 $ python3 -m pip install -r requirements.txt
 $ python3 main.py
 ```
+Please note that on your specific system the python command may be 
+different.
 
 # How to play
 

@@ -32,7 +32,7 @@ class InvestmentOptions:
         """From a json file with CEOs, organization names and policies creates
             a dictionary of options for the player"""
         path = Path().cwd().resolve()
-        raw_json = self._parse_json(path / "resources" / "data" / "organizations.json")
+        raw_json = self._parse_json(path / "resources" / "organizations.json")
         investement_list = []
         for entry in raw_json:
             org = Organization(entry["name"], entry["ceo"], entry["description"])
