@@ -125,7 +125,8 @@ class Goal:
 
         if commit:
             self.db.connection.commit()
-            cursor.close()
+
+        cursor.close()
 
     async def delete_async(self):
         self.delete()
@@ -156,15 +157,15 @@ class Goal:
         """
         cursor = self.db.connection.execute(
             'update goals '
-            'set name=?, '
-            'set desc=? '
+            'set (name, desc) = (?, ?) '
             'where id=?',
             (self.name, self.desc, self.id)
         )
 
         if commit:
             self.db.connection.commit()
-            cursor.close()
+
+        cursor.close()
 
     def __str__(self):
         return f'Goal ({self.name}, {self.desc})'
