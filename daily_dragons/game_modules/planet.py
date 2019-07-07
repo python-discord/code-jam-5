@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 from .planetary_effects import PlanetaryEffects
 from colorama import Fore
 
@@ -28,11 +28,17 @@ class Planet:
             "habitable_land": habitable_land,
         }
 
-    def _get_seperate_stats(self):
-        bio_div = self.stats.get("bio_diversity", "That wasn't here. Please restart the game.")
-        temperature = self.stats.get("temperature", "That wasn't here. Please restart the game.")
+    def _get_seperate_stats(self) -> List[int]:
+        bio_div = self.stats.get(
+            "bio_diversity", "That wasn't here. Please restart the game."
+        )
+        temperature = self.stats.get(
+            "temperature", "That wasn't here. Please restart the game."
+        )
         co2 = self.stats.get("co2", "That wasn't here. Please restart the game.")
-        land = self.stats.get("habitable_land", "That wasn't here. Please restart the game.")
+        land = self.stats.get(
+            "habitable_land", "That wasn't here. Please restart the game."
+        )
 
         return bio_div, temperature, co2, land
 
@@ -77,28 +83,38 @@ class Planet:
         # Estimates have us around 9 million species
         # Extinction events appear to be ~75% of all species dying
         if bio_div >= 10:
-            health.append("Species have returned en masse and the ecosystem is doing wonderfully.")
+            health.append(
+                "Species have returned en masse and the ecosystem is doing wonderfully."
+            )
         elif bio_div >= 5:
             health.append("Species thought to be extinct are beginning to return.")
         elif bio_div >= -5:
-            health.append("There has been no noticeable change in the number of species.")
+            health.append(
+                "There has been no noticeable change in the number of species."
+            )
         elif bio_div > -10:
             health.append("Species are dying en masse.")
         else:
             health.append("A mass extinction event has occurred.")
 
         if temperature >= 10:
-            health.append("Temperatures have been brought down to healthy levels, the ice caps have"
-                          " refrozen.")
+            health.append(
+                "Temperatures have been brought down to healthy levels, the ice caps have"
+                " refrozen."
+            )
         elif temperature >= 5:
             health.append("The ice caps are beginning to regrow.")
         elif temperature >= -5:
-            health.append("There has been no noticeable change in the temperature or ice caps.")
+            health.append(
+                "There has been no noticeable change in the temperature or ice caps."
+            )
         elif temperature > -10:
             health.append("The ice caps are beginning to shrink.")
         else:
-            health.append("The ice caps have completely shrunk, and the world is now unbearably "
-                          "hot.")
+            health.append(
+                "The ice caps have completely shrunk, and the world is now unbearably "
+                "hot."
+            )
 
         return " ".join(health)
 
@@ -118,8 +134,10 @@ class Planet:
             elif stat > -10:
                 status_messages.append("You have caused a major net loss.")
             else:
-                status_messages.append("You have ruined this beyond the point of return. You've "
-                                       "destroyed the world.")
+                status_messages.append(
+                    "You have ruined this beyond the point of return. You've "
+                    "destroyed the world."
+                )
 
         current_stats = (
             f"bio_diversity: {status_messages[0]} \n"
