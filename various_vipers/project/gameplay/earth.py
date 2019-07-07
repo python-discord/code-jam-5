@@ -8,7 +8,6 @@ from project.constants import (
     BG_CLOUDS_SCROLL_SPEED,
     BG_SCROLL_SPEED,
     BIOME_WIDTH,
-    BOOST_FPS,
     CLOUD_LAYERS_BG,
     CLOUD_LAYERS_FG,
     Color,
@@ -23,6 +22,7 @@ from project.constants import (
     WIDTH,
 )
 from project.utils.helpers import fit_to_range, load_img
+from project.utils.user_data import UserData
 from .biome import Biome
 from .game_state import GameState
 from .indicator import Indicator
@@ -32,6 +32,9 @@ from .tile import Tile
 
 logger = logging.getLogger(__name__)
 game_vars = GameState()
+
+user_data = UserData()
+user_data.load()
 
 
 class Earth(object):
@@ -123,7 +126,7 @@ class Earth(object):
         self.__draw_clouds()
         if game_vars.is_started:
             self.__draw_biomes()
-            if not BOOST_FPS:
+            if not user_data.boost_fps:
                 self.__draw_polution()
         sun.draw()  # Need to draw sun before indicators
         self.__draw_indicators()

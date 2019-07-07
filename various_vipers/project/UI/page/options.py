@@ -57,6 +57,8 @@ class Options:
         checker_btn_checked_hover = load_img(BTN["checker-checked-hover"])
 
         fps_label_img = load_img(BTN["show-fps-label"])
+        boost_fps_label_img = load_img(BTN["boost-fps-label"])
+
         sound_label_img = load_img(BTN["sound-label"])
         music_label_img = load_img(BTN["music-label"])
 
@@ -110,6 +112,26 @@ class Options:
             image_hover=checker_btn_checked_hover,
         )
 
+        self.boost_fps_checker_btn = Button(
+            self.screen,
+            x=ButtonProperties.vol_btn_x,
+            y=ButtonProperties.vol_btn_y + 390,
+            width=ButtonProperties.vol_btn_w,
+            height=ButtonProperties.vol_btn_h,
+            image=checker_btn,
+            image_hover=checker_btn_hover,
+        )
+
+        self.boost_fps_checker_checked_btn = Button(
+            self.screen,
+            x=ButtonProperties.vol_btn_x,
+            y=ButtonProperties.vol_btn_y + 390,
+            width=ButtonProperties.vol_btn_w,
+            height=ButtonProperties.vol_btn_h,
+            image=checker_btn_checked,
+            image_hover=checker_btn_checked_hover,
+        )
+
         self.fps_label = Button(
             self.screen,
             x=ButtonProperties.vol_btn_x + 100,
@@ -118,6 +140,16 @@ class Options:
             height=100,
             image=fps_label_img,
             image_hover=fps_label_img,
+        )
+
+        self.boost_fps_label = Button(
+            self.screen,
+            x=ButtonProperties.vol_btn_x + 100,
+            y=ButtonProperties.vol_btn_y + 390,
+            width=500,
+            height=100,
+            image=boost_fps_label_img,
+            image_hover=boost_fps_label_img,
         )
 
         self.vol_btn2 = Button(
@@ -188,6 +220,7 @@ class Options:
         self.__draw_volume_button(self.vol_btn2, self.vol_btn_mute2, self.slider2)
 
         self.__draw_fps_checker_button()
+        self.__draw_boost_fps_checker_button()
 
         self.slider.move_indicator(mouse_x, mouse_y, event)
         self.slider.draw()
@@ -202,6 +235,7 @@ class Options:
         self.volume_indicator2.draw()
 
         self.fps_label.draw()
+        self.boost_fps_label.draw()
         self.sound_label.draw()
         self.music_label.draw()
         return WindowState.options
@@ -290,3 +324,29 @@ class Options:
                     user_data.show_fps = True
             else:
                 self.fps_checker_btn.draw()
+
+    def __draw_boost_fps_checker_button(self):
+        clicked = self.event.type == pg.MOUSEBUTTONDOWN
+
+        if user_data.boost_fps:
+            if self.boost_fps_checker_checked_btn.rect.collidepoint(
+                self.mouse_x, self.mouse_y
+            ):
+                self.boost_fps_checker_checked_btn.draw(hover=True)
+
+                if clicked and (time.time() - self.last_click) > 0.3:
+                    Sound.click.play()
+                    self.last_click = time.time()
+                    user_data.boost_fps = False
+            else:
+                self.boost_fps_checker_checked_btn.draw()
+        else:
+            if self.boost_fps_checker_btn.rect.collidepoint(self.mouse_x, self.mouse_y):
+                self.boost_fps_checker_btn.draw(hover=True)
+
+                if clicked and (time.time() - self.last_click) > 0.3:
+                    Sound.click.play()
+                    self.last_click = time.time()
+                    user_data.boost_fps = True
+            else:
+                self.boost_fps_checker_btn.draw()

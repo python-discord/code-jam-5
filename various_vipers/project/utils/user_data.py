@@ -18,6 +18,7 @@ class UserData(Singleton):
     music_mute: bool = False
 
     show_fps: bool = False
+    boost_fps: bool = False
     # Hiscores (seconds survived) in each game difficulty
     hiscore_medieval: float = 0
     hiscore_modern: float = 0
