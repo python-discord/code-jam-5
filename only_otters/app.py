@@ -7,7 +7,7 @@ class Spotleafy(QtWidgets.QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Spotleafy')
+        self.setWindowTitle('Leafify')
         self.setWindowIcon(QtGui.QIcon(icons.Logo.str))
         self.setMinimumSize(950, 650)
         self.init_gui()
