@@ -1,12 +1,15 @@
+# local
+from only_otters.ads.qmltools import QmlWidget
+from only_otters.ads.qml import FactWidget
+
+# std
 from dataclasses import dataclass
 from functools import wraps
 import random
 
-from only_otters.ads.qmltools import QmlWidget
-
-from only_otters.ads.qml import FactWidget
-
+# qt
 from PyQt5.QtCore import pyqtProperty, QObject
+
 
 """
 The idea is to have each source inherit from the following classes.

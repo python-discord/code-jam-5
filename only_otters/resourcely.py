@@ -1,11 +1,14 @@
-from typing import Union, Any
+# std
+import json
 import os
 import pathlib
-from dataclasses import dataclass
-import yaml
-import json
-from argparse import Namespace
 import re
+from argparse import Namespace
+from dataclasses import dataclass
+from typing import Union, Any
+
+# other
+import yaml
 
 
 __folder__ = pathlib.Path(__file__).parent

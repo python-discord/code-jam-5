@@ -1,13 +1,16 @@
+# local
 from only_otters.ads.facts.fact import Fact, FactFactory
-from only_otters.scrapetools.hquery import HierarchicalXPathQuery
 from only_otters.ads.qml import FactWidget as qmlFactWidget
 from only_otters.ads.qmltools import QmlWidget
 from only_otters.resourcely import ensure_field
+from only_otters.scrapetools.hquery import HierarchicalXPathQuery
 
-import spacy
-
-import re
+# standard
 from pathlib import Path
+import re
+
+# other
+import spacy
 
 
 __folder__ = Path(__file__).parent
@@ -15,7 +18,7 @@ NLP = spacy.load('en')
 
 
 class CowspicaryFactFactory(FactFactory):
-
+    """FactFactory implementation for the website cowspiracy.com."""
     def __init__(self):
         super().__init__()
         self.fetcher = HierarchicalXPathQuery.from_yml(__folder__ / 'cowspiracy.yml')
@@ -28,7 +31,6 @@ class CowspicaryFactFactory(FactFactory):
         )
 
     def _build_fact(self, record):
-        # print(record)
         return Fact(
             _title='Did you know that ... ',
             _content=ensure_field(record, 'content'),

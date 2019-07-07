@@ -1,11 +1,15 @@
-import yaml
-import requests
-from lxml import html as lhtml
+# local
+import only_otters.scrapetools.autobrowser as autobrowser
+import only_otters.scrapetools.util as util
+
+# std
 from functools import partial
 import re
 
-import only_otters.scrapetools.util as util
-import only_otters.scrapetools.autobrowser as autobrowser
+# other
+from lxml import html as lhtml
+import requests
+import yaml
 
 
 class Keywords:

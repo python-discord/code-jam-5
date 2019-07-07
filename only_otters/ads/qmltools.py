@@ -1,5 +1,7 @@
+# std
 import os
 
+# qt
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtQuick import QQuickView
 from PyQt5.QtCore import QUrl
