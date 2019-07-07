@@ -444,4 +444,4 @@ class HierarchicalXPathQuery:
 
         tree = lhtml.fromstring(html)
 
-        return self.process_query(tree, self.content)
+        return self.process_query(tree, {**self.content})
