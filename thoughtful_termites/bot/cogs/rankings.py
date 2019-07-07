@@ -5,12 +5,22 @@ from datetime import datetime
 import discord
 from discord.ext import commands
 
+from thoughtful_termites.bot import unlocks
 
 RANKINGS_DATA_PATH = "./resources/rankings_data.csv"
 
 
 class Rankings(commands.Cog):
+    """
+    The cog that contains the mechanics for the Rankings game.
+    """
     def __init__(self, bot):
+        """
+        Initialise the states for the ranking game, taking raw statistics
+        from rankings_data.csv.
+
+        :param bot: ClimateBot, used by setup()
+        """
         self.bot = bot
 
         with open(RANKINGS_DATA_PATH, "r", encoding="utf-8-sig") as f:
@@ -18,16 +28,29 @@ class Rankings(commands.Cog):
 
     @staticmethod
     def to_ranks(ls: list):
+        """
+        Given a list of values, return their "ranks" from smallest to largest.
+
+        :param ls: A possibly unsorted list of numerical values
+        :return: A list of those values' ranks (e.g. [1, 3, 4, 5, 2])
+        """
         sorted_ls = sorted(ls)
         ranks = []
 
         for item in sorted_ls:
-            ranks.append(ls.index(item))
+            ranks.append(5 - ls.index(item))
 
         return ranks
 
     @staticmethod
     def ranks_to_string(ls):
+        """
+        Convert raw statistics data, as well as the user's predicted ranks,
+        into a human-readable format.
+
+        :param ls: The list containing country statistics and user-predicted ranks
+        :return: A human-readable version of that list
+        """
         rows = []
         choices = "ABCDE"
 
@@ -45,6 +68,13 @@ class Rankings(commands.Cog):
         return "\n".join(rows)
 
     def rankings_embed(self, message, rankings):
+        """
+        Generates a discord.Embed for the Rankings game.
+
+        :param message: The message to display at the top of the discord.Embed
+        :param rankings: The country/user-prediction data
+        :return: A discord.Embed carrying all of that information
+        """
         fmt = f"{message}\n\n{self.ranks_to_string(rankings)}"
 
         embed = discord.Embed(colour=self.bot.colour,
@@ -56,6 +86,16 @@ class Rankings(commands.Cog):
 
     @commands.command()
     async def rankings(self, ctx, *, member: discord.Member = None):
+        """
+        The Rankings command called by the user. Call >rankings to start.
+
+        :param ctx: The context at which the command was called
+        :param member: The member that called the command
+        """
+        if not unlocks.has_unlocked(ctx, "rankings"):
+            await ctx.send(unlocks.unlock_message("Rankings"))
+            return
+
         question_type = random.random()
         countries = random.sample(self.raw_rankings, 5)
 

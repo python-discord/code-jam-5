@@ -10,9 +10,10 @@ from .goal import Goal
 from .reminder import Reminder
 from .reminder_day import ReminderDay
 from .reminder_time import ReminderTime
+from .unlocks import Unlock
 
 cd = Path(__file__).parent
-creation_script_path = cd/'create_goal_db.sqlite'
+creation_script_path = cd / 'create_goal_db.sqlite'
 """
 script used to create the goals/reminders database
 """
@@ -148,7 +149,7 @@ class GoalDB:
         :return: Goal with given name.
         """
         result = self.connection.execute(
-            "SELECT * FROM goals WHERE name=?", (goal_name, )
+            "SELECT * FROM goals WHERE name=?", (goal_name,)
         )
         for row in result:
             return Goal.from_row(self, row)
@@ -190,7 +191,7 @@ class GoalDB:
         :return: Reminder with the given goal name.
         """
         result = self.connection.execute('SELECT * FROM reminders INNER JOIN goals '
-                                         'ON goals.id = reminders.goal_id WHERE goals.name=?', (goal_name, ))
+                                         'ON goals.id = reminders.goal_id WHERE goals.name=?', (goal_name,))
         for row in result:
             return Reminder.from_row(self, row)
 
@@ -208,7 +209,7 @@ class GoalDB:
         :param: goal_id: The goal ID of the reminder.
         :return: Reminder with the given goal ID
         """
-        result = self.connection.execute("SELECT * FROM reminders WHERE goal_id=?", (goal_id, ))
+        result = self.connection.execute("SELECT * FROM reminders WHERE goal_id=?", (goal_id,))
         for row in result:
             return Reminder.from_row(self, row)
 
@@ -261,3 +262,21 @@ class GoalDB:
     async def get_next_reminder_async(self):
         """Coroutine helper to get the next reminder."""
         return await self.loop.run_in_executor(None, self.get_next_reminder)
+
+    def get_unlocks(self):
+        result = self.connection.execute("SELECT * FROM unlocks")
+
+        for row in result:
+            yield Unlock.from_row(self, row)
+
+    def get_unlock_by_id(self, unlock_id):
+        result = self.connection.execute("SELECT * FROM unlocks WHERE id=?", unlock_id)
+
+        for row in result:
+            return Unlock.from_row(self, row)
+
+    def get_unlock_by_name(self, name):
+        result = self.connection.execute("SELECT * FROM unlocks WHERE name=?", name)
+
+        for row in result:
+            return Unlock.from_row(self, row)
