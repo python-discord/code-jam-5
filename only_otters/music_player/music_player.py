@@ -145,7 +145,7 @@ class MusicPlayer(QtWidgets.QWidget):
     def play_ad(self):
         self.advert_in_progress = True
         fact = get_fact_by_tags('text')
-        text = "Did you know that ..." + fact.content
+        text = "Did you know that ... " + fact.content
         file = as_callack_audio(text)
         self.play_song(file)
         self.now_playing_widget.now_playing_label.setText('Now Playing: Advert Intermission')

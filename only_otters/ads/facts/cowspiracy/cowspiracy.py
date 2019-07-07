@@ -30,7 +30,7 @@ class CowspicaryFactFactory(FactFactory):
 
     def _build_fact(self, record):
         return Fact(
-            _title='Did you know that ...',
+            _title='Did you know that ... ',
             _content=ensure_field(record, 'content'),
             _source=self.fetcher.url,
             data=record,
