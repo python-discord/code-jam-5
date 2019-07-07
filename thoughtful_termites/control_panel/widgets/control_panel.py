@@ -1,5 +1,6 @@
 import sys
 
+from thoughtful_termites.app.widgets import UnlocksWindow
 from thoughtful_termites.shared import qt
 from ..controlled_processes import (
     ControlledProcess,
@@ -27,6 +28,9 @@ class ControlPanel(qt.QWidget):
 
         self.open_goals_button = qt.QPushButton('Open Goals')
         self.open_goals_button.clicked.connect(self.goals_process.toggle)
+
+        self.unlock_button = qt.QPushButton('Unlock Minigames')
+        self.unlock_button.clicked.connect(self.on_unlock)
 
         self.goals_process.started.connect(
             lambda: self.open_goals_button.setText('Close Goals')
@@ -145,6 +149,10 @@ class ControlPanel(qt.QWidget):
                 break
 
         config.save(config_path)
+
+    def on_unlock(self):
+        window = UnlocksWindow(self)
+        window.exec()
 
     # def closeEvent(self, event: qt.QCloseEvent) -> None:
     #     event.ignore()
