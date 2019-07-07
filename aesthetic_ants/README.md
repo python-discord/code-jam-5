@@ -31,9 +31,15 @@ pipenv run main
 ```
 
 ## How to play
+
+### Controls
 WASD to move
 
 Mouse to aim and throw snowballs at the evil business men.
+
+R to reload your weapon.
+
+### Summmary
 
 Try to fend off as many business people as you can; these guys will accelerate
 the warming of your precious world and will melt all the ice around you!
@@ -45,6 +51,24 @@ warming the planet. So acidic, that if the penguin falls into the water, it will
 die.
 
 So, be very careful and don't fall into the water.
+
+### Weapons
+
+You can switch weapons by pressing the number keys, so as long as you've
+unlocked them, of course.
+
+Here are the weapons:
+1. **Your hand**: This just throws a normal snowball, nothing special, but it 
+has infinite ammo
+
+2. **Snow-shotgun**: This bad boy can shoot 5 snowballs at a time. 
+
+(Unlocks at **1000** points)
+
+3. **Snow-shotgun**: It's a snowball, but with a rocket inside, and it will
+explode, and hit all enemies around it.
+
+(Unlocks at **10000** points)
 
 
 ## Credits
