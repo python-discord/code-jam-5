@@ -1,82 +1,126 @@
 '''
 To do:
 -Tell user to install pygame
--Comment code
 -Make cars
--Change rules to be clearer on how to destroy a car
--Find out how to and submit work
 '''
 
+# Import modules
 try:
     import pygame
     import random
 except ImportError:
     print('Could not import modules. Please check your connection and try again later.')
-    
+    quit()
+
+# Initialise pygame
 pygame.init()
 
-win = pygame.display.set_mode((922,675))
+# Set up window
+win = pygame.display.set_mode((922, 675))
 pygame.display.set_caption('Climate Change Project')
 
-bg = pygame.image.load('Background.png')
+# Set up background
+bg = pygame.image.load('Backgrounds//Background.png')
 
+# Define control variables:
+# Veichles on screen
 onscreen = []
+# Player's score
 score = 0
+# y coordinates of the three lanes
 lanes = [50, 300, 500]
+# Set up clock
 clock = pygame.time.Clock()
+# Set up font for the score
 Scorefont = pygame.font.Font('freesansbold.ttf', 32)
+# To show if the player has lost or won
 lose = False
 comp = False
+# To show what screen the player is on
 introduction = True
+rules = False
 
+
+# Function to redraw the window
 def redraw():
+
+    # Introduction screen
     if introduction:
-        win.blit(pygame.image.load('Introduction.png'),(0,0))
+        # Background
+        win.blit(pygame.image.load('Backgrounds//Introduction.png'), (0, 0))
+        # Buttons
         win.blit(play.image, (play.x, play.y))
         win.blit(rulesbutton.image, (rulesbutton.x, rulesbutton.y))
-    elif rules:
-        win.blit(pygame.image.load('Rules.png'),(0,0))
-        win.blit(back.image, (back.x, back.y))
-    else:
-        win.blit(bg, (0,0))
 
+    # Rules screen
+    elif rules:
+        # Background
+        win.blit(pygame.image.load('Backgrounds//Rules.png'), (0, 0))
+        # Buttons
+        win.blit(back.image, (back.x, back.y))
+
+    # Game screen
+    else:
+        # Background
+        win.blit(bg, (0, 0))
+
+        # If the player has lost
         if lose:
+            # Box
             win.blit(pygame.image.load('LoseBox.png'), (276, 161))
+            # Buttons
             win.blit(playagain.image, (playagain.x, playagain.y))
             win.blit(back.image, (290, 250))
+
+        # If the player has won
         elif comp:
+            # Box
             win.blit(pygame.image.load('WinBox.png'), (276, 161))
+            # Buttons
             win.blit(playagain.image, (playagain.x, playagain.y))
             win.blit(back.image, (290, 250))
+
+        # If the game is ongoing
         else:
             for item in onscreen:
-                if item.movecount + 1 >= len(item.move)*10:
-                    item.movecount = 0    
-                win.blit(item.move[item.movecount//10], (item.x,item.y))
-                #pygame.draw.rect(win,(225,0,0),item.hitbox,2)
+                # Check which image should be showing and show it
+                if item.movecount + 1 >= len(item.move) * 10:
+                    item.movecount = 0
+                win.blit(item.move[item.movecount // 10], (item.x, item.y))
                 item.movecount += 1
 
-        DisplayScore = Scorefont.render('Score: '+str(score), True, (0,0,0))
+        # Display score
+        DisplayScore = Scorefont.render(
+            'Score: ' + str(score), True, (0, 0, 0))
         ScoreRect = DisplayScore.get_rect()
-        ScoreRect.center = (100,40)
+        ScoreRect.center = (100, 40)
         win.blit(DisplayScore, ScoreRect)
 
+    # Update display
     pygame.display.update()
-    
+
+
+# Button class
 class button(object):
+
+    # Image to load for the button
     image = ''
+    # Dimentions of image
     width = 0
     height = 0
+    # Position on screen
     x = 0
     y = 0
 
+    # Initialisation
     def __init__(self, image, width, height, x, y):
         self.image = image
         self.width = width
         self.height = height
         self.x = x
         self.y = y
-        
+
+    # Resets game (not used for all buttons)
     def pressed(self):
         global score
         global onscreen
@@ -86,36 +130,45 @@ class button(object):
         score = 0
         lose = False
         comp = False
-        
-playagain = button(pygame.image.load('PlayAgainButton.png'), 200, 106, 365, 330)
-play = button(pygame.image.load('PlayButton.png'), 200, 106, 365, 450)
-back = button(pygame.image.load('Back.png'), 100, 82, 20, 150)
-rulesbutton = button(pygame.image.load('RulesButton.png'), 200, 106, 365, 250)
 
-#set up car object
+
+# Define buttons
+playagain = button(
+    pygame.image.load('Buttons//PlayAgainButton.png'),
+    200,
+    106,
+    365,
+    330)
+play = button(pygame.image.load('Buttons//PlayButton.png'), 200, 106, 365, 450)
+back = button(pygame.image.load('Buttons//Back.png'), 100, 82, 20, 150)
+rulesbutton = button(pygame.image.load(
+    'Buttons//RulesButton.png'), 200, 106, 365, 250)
+
+
+# Car class
 class car(object):
-    #If electric
+
+    # Shows if car is electric
     electric = False
-    #Start position
+    # Start position
     x = 922
     y = random.choice(lanes)
-    #Size of image
+    # Size of image
     width = 256
     height = 256
-    #How fast it moves
+    # How fast it moves
     vel = 5
+    # Hitbox (to be calculated)
     hitbox = ()
-    #Images of movement
+    # Images of movement in order
     move = []
-    #Images of destruction
-    #destroy = []
+    # Keep track of which image to be on
     movecount = 0
-    scorechange = 0
-    
-    #How much the score changes by if guessed correctly or incorrectly
+    # How much the score changes by when destroyed or let go
     scorechange = 0
 
-    def __init__(self,electric,move,vel,width,height,scorechange):
+    # Initialisation
+    def __init__(self, electric, move, vel, width, height, scorechange):
         self.electric = electric
         self.move = move
         self.vel = vel
@@ -124,86 +177,164 @@ class car(object):
         self.scorechange = scorechange
         self.hitbox = (self.x, self.y, self.width, self.height)
         self.y = random.choice(lanes)
-        
+
+    # Show the car
     def show(self):
         onscreen.append(self)
 
-    #Shows car, asks if electric or not, produces approptiate output
+    # What happens when destroyed
     def hit(self):
         global score
+        # Reset x and y values
         self.y = random.choice(lanes)
         self.x = 922
+        # Change score appropriate to being electric or not
         if self.electric:
             score -= self.scorechange
         elif not self.electric:
             score += self.scorechange
-        #win.blit(self.destroy, (self.x,self.y))
+        # Remove itself from veiw
         onscreen.remove(self)
 
+    # What happens when let go
     def letgo(self):
         global score
+        # Reset x and y values
         self.y = random.choice(lanes)
         self.x = 922
+        # Change score appropriate to being electric or not
         if self.electric:
             score += self.scorechange
         elif not self.electric:
             score -= self.scorechange
+        # Remove itself from veiw
         onscreen.remove(self)
 
-#Replace these with actual cars. These are placeholders.
-ambulance = car(False, [pygame.image.load('1.png'), pygame.image.load('2.png'), pygame.image.load('3.png'), pygame.image.load('2.png')], 5, 225, 110, 5)
-policecar = car(True, [pygame.image.load('P1.png'),pygame.image.load('P2.png'),pygame.image.load('P3.png'),pygame.image.load('P2.png')], 10, 225, 110, 3)
-vehicles = [ambulance, policecar]
-       
-#main loop
-introduction = True
-rules = False
+
+# Define cars
+# Replace these with actual cars. These are placeholders.
+E1 = car(True,
+         [pygame.image.load('Cars\\1.png')],
+         5,
+         168,
+         91,
+         3)
+E2 = car(True,
+                [pygame.image.load('Cars\\2.png')],
+                10,
+                168,
+                94,
+                3)
+F1 = car(False,
+                [pygame.image.load('Cars\\P1.png')],
+                5,
+                265,
+                137,
+                5)
+F2 = car(False,
+                [pygame.image.load('Cars\\P2.png')],
+                7,
+                168,
+                101,
+                5)
+
+# List of available vehicles to chose from
+vehicles = [E1, E2, F1, F2]
+
+
+# To show if the game is running
 run = True
+
+# Main loop
 while run:
+    # Control the frame rate by ticking the clock
     clock.tick(50)
 
+    # Respond to events
     for event in pygame.event.get():
+        # Quit when closed
         if event.type == pygame.QUIT:
             run = False
+        # Respond to mouse click
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            (a,b) = pygame.mouse.get_pos()
+            # Get mouse position
+            (a, b) = pygame.mouse.get_pos()
+            # Check if car has been hit
             for i in onscreen:
-                if  b < i.hitbox[1] + i.hitbox[3] and b > i.hitbox[1] and a > i.hitbox[0] and a < i.hitbox[0] + i.hitbox[2]:
+                if b < i.hitbox[1] + \
+                        i.hitbox[3] and b > i.hitbox[1] \
+                        and a > i.hitbox[0] and a < i.hitbox[0] + i.hitbox[2]:
                     i.hit()
+
+            # Check if button has been clicked
+            # On introducton screen
             if introduction:
-                if playagain.y + playagain.height and b > playagain.y and a > playagain.x and a < playagain.x + playagain.width:
+                if playagain.y + playagain.height and b > playagain.y \
+                        and a > playagain.x and a < playagain.x + playagain.width:
+                    # Start game
                     playagain.pressed()
                     introduction = False
-                elif rulesbutton.y + rulesbutton.height and b > rulesbutton.y and a > rulesbutton.x and a < rulesbutton.x + rulesbutton.width:
+                elif rulesbutton.y + rulesbutton.height \
+                        and b > rulesbutton.y and a > rulesbutton.x \
+                        and a < rulesbutton.x + rulesbutton.width:
+                    # Display rules screen
                     introduction = False
                     rules = True
+
+            # On rules screen
             if rules:
                 if back.y + back.height and b > back.y and a > back.x and a < back.x + back.width:
-                  rules = False
-                  introduction = True
-            elif lose or comp:
-                if b < playagain.y + playagain.height and b > playagain.y and a > playagain.x and a < playagain.x + playagain.width:
-                    playagain.pressed()
-                if b < 250 + back.height and b > 250 and a > 290 and a < 290 + back.width:
+                    # Display introduction screen
+                    rules = False
                     introduction = True
 
-    if pygame.time.get_ticks()%100 == 0:
-        onscreen.append(random.choice(vehicles))
-    
-    for item in onscreen:
-        item.x-=item.vel
-        item.hitbox = (item.x, item.y, item.width, item.height)
-        if item.x < 0-item.width:
-            item.letgo()
+            # If the player has won or lost
+            elif lose or comp:
+                if b < playagain.y + \
+                        playagain.height and b > playagain.y \
+                        and a > playagain.x and a < playagain.x + playagain.width:
+                    # Restart game
+                    playagain.pressed()
+                if b < 250 + back.height and b > 250 and a > 290 and a < 290 + back.width:
+                    # Show introduction screen
+                    introduction = True
+                    rules = False
 
-    if score<0:
+    # Add a random new car at intervals
+    if pygame.time.get_ticks() % 75 == 0:
+        random.choice(vehicles).show()
+
+    # Move cars their assigned  distance
+    for car in onscreen:
+        car.x -= car.vel
+        # Move their hitbox with them
+        car.hitbox = (car.x, car.y, car.width, car.height)
+        # Remove them and change score if moved offscreen
+        if car.x < 0 - car.width:
+            car.letgo()
+
+    # Check for collisions
+    for car in onscreen:
+        # car is the car coming up behind
+        for testcar in onscreen:
+            # testcar is the car that might be ahead
+            if not car == testcar:
+                if car.y == testcar.y and car.x < testcar.x + testcar.width and car.x > testcar.x:
+                    # car will travel directly behind testcar
+                    car.x = testcar.x + testcar.width
+
+    # Clear screen and lose if score is below 0
+    if score < 0:
         lose = True
         onscreen = []
 
-    if score>=100:
+    # Clear screen and win if score is above 100
+    if score >= 100:
         onscreen = []
         comp = True
 
+    # Redraw window
     redraw()
 
+# Quit if loop ends
 pygame.quit()
