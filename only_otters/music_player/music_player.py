@@ -8,7 +8,7 @@ from pathlib import Path
 from only_otters.ads.facts import get_fact_by_tags
 
 
-from only_otters.ads.tts import as_callack_audio
+from only_otters.ads.tts import text_to_audio
 
 
 class MusicPlayer(QtWidgets.QWidget):
@@ -146,7 +146,7 @@ class MusicPlayer(QtWidgets.QWidget):
         self.advert_in_progress = True
         fact = get_fact_by_tags('text')
         text = "Did you know that ... " + fact.content + '. Thank you for listening to Leafify'
-        file = as_callack_audio(text)
+        file = text_to_audio(text)
         self.play_song(file)
         self.now_playing_widget.now_playing_label.setText('Advert Intermission')
 

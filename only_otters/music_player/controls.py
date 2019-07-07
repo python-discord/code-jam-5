@@ -3,7 +3,6 @@ from .seeker import Seeker
 from pathlib import Path
 
 from only_otters.images import buttons as imgButtons
-from only_otters.ads.tts import as_callack_audio
 
 
 class ControlsWidget(QtWidgets.QFrame):
