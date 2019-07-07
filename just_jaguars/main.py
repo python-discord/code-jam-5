@@ -39,7 +39,7 @@ fps = 60
 icon_speed = 4  # Speed the icons fall at, y-pixels per frame.
 number_of_icons_in_a_row = 8
 icon_width = 64  # Width of the icons' images in pixels
-num_ghg_capture_icons_per_minute = 3  # How many ghg capture icons appear on the screen per minute, on average
+num_ghg_capture_icons_per_minute = 3
 greenhouse_gas_limit = 500000
 energy_demand = 1000
 
@@ -56,7 +56,7 @@ ghg_capture_technology = ghg_capture_tech
 atmospheric_ghg_levels = 0
 
 num_of_green_energies = 0
-num_of_fossil_fuels = 50  # Begin with 50 fossil fuel units when game starts (enough to meet energy demand)
+num_of_fossil_fuels = 50
 num_of_ghg_capture_techs = 0
 
 energy_output = 20 * num_of_fossil_fuels + num_of_green_energies
@@ -68,9 +68,11 @@ percent_green_energy = 0
 
 def percentage_update():
     """Updates the percentage of energy resources that are fossil fuels and green energies"""
+    total = (num_of_fossil_fuels + num_of_green_energies)
+
     global percent_fossil_fuel, percent_green_energy
-    percent_fossil_fuel = int(100 * num_of_fossil_fuels / (num_of_fossil_fuels + num_of_green_energies))
-    percent_green_energy = int(100 * num_of_green_energies / (num_of_fossil_fuels + num_of_green_energies))
+    percent_fossil_fuel = int(100 * (num_of_fossil_fuels / total))
+    percent_green_energy = int(100 * (num_of_green_energies / total))
 
 
 def pollute():
@@ -229,7 +231,8 @@ class Icon(pygame.sprite.Sprite):
 
 def icon_clicked():
     """This runs if an icon is clicked."""
-    global num_of_fossil_fuels, num_of_green_energies, num_of_ghg_capture_techs, energy_output, capture_offset
+    global num_of_fossil_fuels, num_of_green_energies, num_of_ghg_capture_techs
+    global energy_output, capture_offset
 
     if event.button == 1:  # Left-click
         if icon.type == 'fossil fuel':
@@ -304,7 +307,8 @@ num_of_icons_on_screen = window_height / (icon_width + icon_spacing) * number_of
 # How many icons are shown on the screen in one minute:
 num_of_icons_shown_in_one_minute = (60 / time_for_icon_to_fall) * num_of_icons_on_screen
 
-# Rarity of the ghg capture icon, i.e. how many icons go by on the screen (on average) before you see one:
+# Rarity of the ghg capture icon,
+# i.e. how many icons go by on the screen (on average) before you see one:
 ghg_capture_icon_rarity = int(num_of_icons_shown_in_one_minute / num_ghg_capture_icons_per_minute)
 
 """
