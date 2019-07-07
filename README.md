@@ -1,11 +1,3 @@
-# TODO :: before last submission !
-
-Cleaup root directory:
-- remove `.pre-commit-config.yaml`
-- revert changes in `.gitignore`
-- check for other merge conflicts to fork upstream
-
-
 # Python Discord Code Jam 5: It's getting hot in here!
 Welcome to the fifth Python Discord code-jam!
 

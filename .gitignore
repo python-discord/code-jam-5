@@ -1,13 +1,3 @@
-## CUSTOM ignores
-
-# IDEs folders
-.vscode
-.vscode/
-.idea
-.idea/
-
-## PYTHON related ignores
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

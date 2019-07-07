@@ -12,7 +12,6 @@ flake8-todo = "*"
 flake8-string-format = "*"
 flake8-docstrings = "*"
 pre-commit = "*"
-
 black = "==19.3b0"
 
 [packages]
