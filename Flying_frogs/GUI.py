@@ -8,8 +8,8 @@ To do:
 try:
     import pygame
     import random
-except ImportError:
-    print('Could not import modules. Please check your connection and try again later.')
+except ImportError as err:
+    print('Could not import modules. Please check you have got pygame. Error:\n' + str(err))
     quit()
 
 # Initialise pygame
