@@ -1,3 +1,4 @@
+import json
 from collections import Counter
 from itertools import chain
 from typing import Tuple
@@ -19,10 +20,14 @@ class Indicator:
     def __init__(self, name: str, city: City):
         self.name = name
         self.city = city
+
         self.label = None
         self.description = None
         self.units = None
         self.rate = None
+        self.plot = None
+        self.x = None
+        self.y = None
 
     async def populate_data(self):
         items = []
@@ -45,12 +50,11 @@ class Indicator:
             x[i] = int(year)
             y[i] = values['avg']
 
-        self.rate = self._calc_slope(x, y)
+        self.rate = stats.linregress(x, y)[0]
 
-    @staticmethod
-    def _calc_slope(x: np.ndarray, y: np.ndarray) -> float:
-        slope, *_ = stats.linregress(x, y)
-        return slope
+        # Convert to JSON just to be safe...
+        self.x = json.dumps(x.tolist())
+        self.y = json.dumps(y.tolist())
 
 
 async def get_top_indicators(city: City, n: int = 5) -> Tuple[Indicator, ...]:
