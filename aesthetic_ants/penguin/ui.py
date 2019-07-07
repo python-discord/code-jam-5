@@ -5,6 +5,7 @@ from .space import Space
 
 
 SCORE_POS = (20, 15)
+WEAPON_POS = (64, 32)
 
 
 class UiSpace(Space):
@@ -80,6 +81,42 @@ class ScoreLabel(Object):
 
     def set_label(self, value):
         self.label.text = str(value)
+
+    def add_to_space(self, space):
+        super().add_to_space(space)
+        self.label.batch = space.batch
+
+
+class WeaponIndicator(Object):
+    def __init__(self, window, space, player):
+        self.player = player
+        self.label = ShadowedLabel(space,
+                                   self.weapon_text(self.player.weapon),
+                                   font_name="Times New Roman",
+                                   font_size=32,
+                                   color=(255, 0, 255, 255),
+                                   x=window.width - WEAPON_POS[0],
+                                   y=0,
+                                   anchor_x='right',
+                                   anchor_y='bottom')
+
+    def weapon_text(self, weapon):
+        if weapon is None:
+            return ''
+
+        if weapon.reloading:
+            return 'Reloading...'
+
+        if weapon.ammo is None:
+            return '\u221e'
+
+        if weapon.ammo == 0:
+            return 'Reload!'
+
+        return str(weapon.ammo)
+
+    def update(self, dt):
+        self.label.text = self.weapon_text(self.player.weapon)
 
     def add_to_space(self, space):
         super().add_to_space(space)

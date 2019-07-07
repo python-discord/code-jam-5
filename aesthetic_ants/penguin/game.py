@@ -6,7 +6,7 @@ from .resources import LEVEL_1
 from .space import Space
 from .spawner import Spawner
 from .tile_layer import TileLayer
-from .ui import GameOverScreen, ScoreLabel, UiSpace
+from .ui import GameOverScreen, ScoreLabel, UiSpace, WeaponIndicator
 from .utils import keys
 from .wave import Wave
 
@@ -48,6 +48,9 @@ class Game(pyglet.window.Window):
 
         self.score_label = ScoreLabel(self, self.ui_space)
         self.ui_space.add(self.score_label)
+
+        self.weapon_label = WeaponIndicator(self, self.ui_space, self.player)
+        self.ui_space.add(self.weapon_label)
 
     def create_space(self) -> Space:
         """Returns a space usable for the game"""
