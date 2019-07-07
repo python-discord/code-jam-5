@@ -160,7 +160,9 @@ class GoalDB:
 
         :param: goal_name: The name of the goal
         :return: Goal with the given name"""
-        return await self.loop.run_in_executor(None, partial(self.get_goal_by_name, goal_name))
+        return await self.loop.run_in_executor(
+            None, partial(self.get_goal_by_name, goal_name)
+        )
 
     def get_reminder_by_id(self, id):
         """
@@ -183,7 +185,9 @@ class GoalDB:
         :param: id: ID of the reminder.
         :return: Reminder with the given ID.
         """
-        return await self.loop.run_in_executor(None, partial(self.get_reminder_by_id, id))
+        return await self.loop.run_in_executor(
+            None, partial(self.get_reminder_by_id, id)
+        )
 
     def get_reminder_by_goal_name(self, goal_name):
         """Returns a reminder for goal name passed.
@@ -191,8 +195,13 @@ class GoalDB:
         :param: goal_name: the goal name of the reminder.
         :return: Reminder with the given goal name.
         """
-        result = self.connection.execute('SELECT * FROM reminders INNER JOIN goals '
-                                         'ON goals.id = reminders.goal_id WHERE goals.name=?', (goal_name,))
+
+        result = self.connection.execute(
+            'SELECT * FROM reminders INNER JOIN goals '
+            'ON goals.id = reminders.goal_id WHERE goals.name=?',
+            (goal_name,)
+        )
+
         for row in result:
             return Reminder.from_row(self, row)
 
@@ -202,7 +211,9 @@ class GoalDB:
         :param: goal_name: the goal name of the reminder.
         :return: Reminder with the given goal name.
         """
-        return await self.loop.run_in_executor(None, partial(self.get_reminder_by_goal_name, goal_name))
+        return await self.loop.run_in_executor(
+            None, partial(self.get_reminder_by_goal_name, goal_name)
+        )
 
     def get_reminder_by_goal_id(self, goal_id):
         """Get a reminder with given goal ID
@@ -210,7 +221,11 @@ class GoalDB:
         :param: goal_id: The goal ID of the reminder.
         :return: Reminder with the given goal ID
         """
-        result = self.connection.execute("SELECT * FROM reminders WHERE goal_id=?", (goal_id,))
+
+        result = self.connection.execute(
+            "SELECT * FROM reminders WHERE goal_id=?", (goal_id, )
+        )
+
         for row in result:
             return Reminder.from_row(self, row)
 
@@ -220,7 +235,9 @@ class GoalDB:
         :param: goal_id: The goal ID of the reminder.
         :return: Reminder with the given goal ID
         """
-        return await self.loop.run_in_executor(None, partial(self.get_reminder_by_goal_id, goal_id))
+        return await self.loop.run_in_executor(
+            None, partial(self.get_reminder_by_goal_id, goal_id)
+        )
 
     def get_reminders_on_day(self, day: Union[int, str, ReminderDay]):
         """
@@ -254,9 +271,12 @@ class GoalDB:
         now = datetime.datetime.now()
         now_int = int(ReminderTime.from_timestamp(now.strftime('%H:%M')))
 
-        result = self.connection.execute("SELECT * FROM reminders WHERE day>=? AND time>=? ORDER BY day, time LIMIT 1;",
-                                         (now.isoweekday(), now_int)
-                                         )
+        result = self.connection.execute(
+            "SELECT * FROM reminders WHERE day>=? AND time>=? "
+            "ORDER BY day, time LIMIT 1;",
+            (now.isoweekday(), now_int)
+        )
+
         for row in result:
             return Reminder.from_row(self, row)
 

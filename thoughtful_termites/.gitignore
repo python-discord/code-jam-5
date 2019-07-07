@@ -104,4 +104,10 @@ venv.bak/
 .mypy_cache/
 
 # config
-bot/config.py
+shared/config.json
+
+# database
+shared/goals.db
+shared/goals.db-shm
+shared/goals.db-wal
+
