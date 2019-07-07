@@ -86,6 +86,15 @@ temperature the value of 12 is recommended.
 Color map is just how the data will be colored on the map. Most of them are similar,
 blue represent negative temperature anomaly while the red represent positive.
 
+## Data sets
+
+Currently we are using **Gridded Monthly Land High Temperature (TMAX)**  data set from
+[berkeleyearth.org](http://berkeleyearth.org/data/) which only has the data for land masses 
+(less size compared to full world map plot).
+
+If you want to plot both **Monthly Land + Ocean** you can download the data set from there.
+It needs to be in **1º x 1º Latitude-Longitude Grid** format.
+
 ## Authors
 
 * **[martmists](https://github.com/martmists)** - *Team leader*
