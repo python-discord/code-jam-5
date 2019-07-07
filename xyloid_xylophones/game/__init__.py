@@ -1,7 +1,7 @@
 import pyglet
 from pyqtree import Index
 from config import game_width, game_height, char_sheet_cols, char_sheet_rows, sprite_row, sprite_up_col, \
-    sprite_down_col, sprite_right_col, zone_names, player_name, zone_width, zone_height, sprite_width, sprite_height
+    sprite_down_col, sprite_right_col, zone_names, zone_width, zone_height, sprite_width, sprite_height
 from os.path import join
 from pathlib import Path
 
@@ -122,7 +122,7 @@ for i in zone_names:
     zone_map[i] = Zone(Index(bbox=(-1024, -1024, 1024, 1024)))
     zone_map[i].name = i
 
-player = Player(player_name)
+player = Player('Steve')
 # static center of player square
 player.center_x = 4 * 64
 player.center_y = 4 * 64

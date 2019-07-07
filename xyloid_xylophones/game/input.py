@@ -1,6 +1,6 @@
 '''Handles all user input from keyboard and mouse'''
 import pyglet
-from config import current_zone, game_width, game_height
+from config import game_width, game_height
 from . import keys, player, zone_map, current_display
 
 
@@ -112,7 +112,7 @@ def check_collision(new_x, new_y):
     query_x = -1024 + (new_x * player.width)
     query_y = -1024 + (new_y * player.height)
     # print('queried %s,%s' % (query_x, query_y))
-    zone_query = zone_map[current_zone].index.intersect(
+    zone_query = zone_map[player.current_zone].index.intersect(
         bbox=(query_x, query_y, query_x, query_y)
     )
     for i in zone_query:
@@ -130,7 +130,7 @@ def check_action(new_x, new_y):
     query_x = -1024 + (new_x * player.width)
     query_y = -1024 + (new_y * player.height)
     # print('queried %s,%s' % (query_x, query_y))
-    zone_query = zone_map[current_zone].index.intersect(
+    zone_query = zone_map[player.current_zone].index.intersect(
         bbox=(query_x, query_y, query_x, query_y)
     )
     for i in zone_query:

@@ -50,25 +50,21 @@ def load_zones(path_name):
     for i in zone_names:
         t = [[]]
         v = 0
-        with open(path_name + '/' + i + '.map', 'rb') as f:
-            key = f.read(1)
-            while key != b'':
-                ikey = int.from_bytes(key, 'big')
-                if ikey > 0:
-                    t[v].append(ikey)
-                else:
-                    v += 1
-                    t.append([])
-                key = f.read(1)
-        map_size = v
+        with open(path_name + '/' + i + '.txt', 'r') as f:
+            content = f.readlines()
+            content = [x.strip() for x in content]
+            for l in content:
+                t.insert(v, l.split(','))
+                v += 1
+        map_size = v-1
 
         for y in range(0, zone_height):
             for x in range(0, zone_width):
                 item = Item('x%sy%s' % (x, y))
                 item.y = -1024 + (y * sprite_height)
                 item.x = -1024 + (x * sprite_width)
-                item.sprite = t[(map_size - 1) - (y - (floor(y / map_size) * map_size))][
-                    x - (floor(x / map_size) * map_size)]
+                item.sprite = int(t[map_size - (y - (floor(y / map_size) * map_size))][
+                    x - (floor(x / map_size) * map_size)])
                 # tiny offset for grid view
                 item.width = sprite_width - 1
                 item.height = sprite_height - 1

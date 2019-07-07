@@ -10,12 +10,6 @@ location_scene = 'assets/scenes/'
 # zone names
 zone_names = ['desolate wasteland', 'northern tundra', 'lush forest']
 
-# starter zone name
-current_zone = 'desolate wasteland'
-
-# default player name
-player_name = 'Steve'
-
 # assuming all our sprites will be uniform (player == tile == object(item))
 sprite_width = 64
 sprite_height = 64
