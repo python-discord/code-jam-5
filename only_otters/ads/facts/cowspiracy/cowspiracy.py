@@ -53,8 +53,4 @@ def clean(item):
 @__factory__.fetcher.pipe
 def sound(item):
     """Only keep elements which contains coherent sentences."""
-    doc = NLP(item)
-    v = {'VBP', 'VBZ', 'MD'} & {token.tag_ for token in doc}
-    # if not v:
-    #     print('rejected:', item, [(token.text, token.tag_, token.pos_) for token in doc])
-    return v
+    return {'VBP', 'VBZ', 'MD'} & {token.tag_ for token in NLP(item)}
