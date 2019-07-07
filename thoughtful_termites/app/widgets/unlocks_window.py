@@ -24,19 +24,19 @@ class UnlocksWindow(qt.QDialog):
         self.db = get_db()
 
         self.unlock_commentary_button = qt.QPushButton()
-        self.unlock_commentary_button.setText("Climate Commentary")
+        self.unlock_commentary_button.setText("Climate Commentary\n(1 goal)")
         self.unlock_commentary_button.clicked.connect(self.on_unlock("commentary"))
 
         self.unlock_rankings_button = qt.QPushButton()
-        self.unlock_rankings_button.setText("Rankings Minigame")
+        self.unlock_rankings_button.setText("Rankings Minigame\n(2 goals)")
         self.unlock_rankings_button.clicked.connect(self.on_unlock("rankings"))
 
         self.unlock_hangman_button = qt.QPushButton()
-        self.unlock_hangman_button.setText("Hangman")
+        self.unlock_hangman_button.setText("Hangman\n(4 goals)")
         self.unlock_hangman_button.clicked.connect(self.on_unlock("hangman"))
 
         self.unlock_treefinder_button = qt.QPushButton()
-        self.unlock_treefinder_button.setText("Treefinder")
+        self.unlock_treefinder_button.setText("Treefinder\n(8 goals)")
         self.unlock_treefinder_button.clicked.connect(self.on_unlock("treefinder"))
 
         completed_goals = UnlocksWindow.completed_goals()
