@@ -39,3 +39,5 @@ class EditDailyReminderWindow(qt.QDialog):
 
         self.setModal(True)
         self.setWindowTitle('Edit Daily Reminder')
+        self.setFixedWidth(96)
+        self.setMaximumHeight(0)

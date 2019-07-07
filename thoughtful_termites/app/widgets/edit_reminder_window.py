@@ -52,3 +52,5 @@ class EditReminderWindow(qt.QDialog):
 
         self.setModal(True)
         self.setWindowTitle('Edit Reminder')
+        self.setFixedWidth(96)
+        self.setMaximumHeight(0)

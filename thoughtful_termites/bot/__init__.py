@@ -1,6 +1,7 @@
 import aiohttp
 import discord
 import logging
+import traceback as tb
 
 from discord.ext import commands
 
@@ -18,7 +19,7 @@ extensions = [
     'cogs.hangman',
     'cogs.treefinder',
     'cogs.rankings',
-    # 'cogs.reminders',
+    'cogs.reminders',
     'cogs.trivia',
     'cogs.farmer_game',
 ]
