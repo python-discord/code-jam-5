@@ -45,7 +45,7 @@ class TheWorldCountsFactFactory(FactFactory):
             offset=offset,
             interval=inter,
             precision=int(ensure_field(record, 'precision')),
-            text=ensure_field(record, 'title') + ', ' + ensure_field(record, 'subtitle').lower(),
+            content=ensure_field(record, 'title') + ', ' + ensure_field(record, 'subtitle').lower(),
             source=self.fetcher.url,
             factory=self
         )

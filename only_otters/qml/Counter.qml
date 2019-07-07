@@ -6,15 +6,19 @@ import QtQuick.Controls.Styles 1.4
 
 Item {
 
-    id: god
+    id: core
     property real value:        fact_counter.value
     property real offset:       fact_counter.offset
     property real interval:     fact_counter.interval
     property real precision:    fact_counter.precision
-    property string fctext:     fact_counter.text
+    property string fctext:     fact_counter.content
 
     anchors.fill: parent
 
+    /**
+    Produces a number format for rounded numbers (precision = 0)
+    3000000 => 3,000,000
+    */
     function format(num) {
         num = '' + num.toFixed(precision);
         if (!precision) {
@@ -42,7 +46,7 @@ Item {
 
         Text {
             id: number
-            text: format(god.value)
+            text: format(core.value)
             horizontalAlignment: Text.AlignRight
 
             font.pixelSize: 20
@@ -55,10 +59,10 @@ Item {
         Text {
             id: title
 
-            text: god.fctext
+            text: core.fctext
 
             font.pixelSize: 15
-            width: god.width * .9
+            width: core.width * .9
             wrapMode: Text.WordWrap
             color: "#fff"
         }
@@ -84,7 +88,7 @@ Item {
         wrapMode: Text.WrapAnywhere
         textFormat: Text.RichText
         horizontalAlignment: Text.AlignRight
-        width: god.width
+        width: core.width
         font.underline: true
         font.pixelSize: 10
         padding: 5

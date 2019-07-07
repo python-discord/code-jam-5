@@ -3,7 +3,7 @@ import QtQuick 2.7
 
 Item {
 
-    id: god
+    id: core
     property string title:    fact.title
     property string content:  fact.content
     property string source:   fact.source
@@ -24,9 +24,9 @@ Item {
 
         Text {
             id: wtitle
-            text: god.title
+            text: core.title
 
-            width: god.width * .9
+            width: core.width * .9
             font.pixelSize: 16
             font.bold: true
             wrapMode: Text.WordWrap
@@ -35,11 +35,11 @@ Item {
 
         Text {
             id: wcontent
-            text: god.content
+            text: core.content
 
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignJustify
-            width: god.width * .9
+            width: core.width * .9
             color: "#fff"
         }
 
@@ -56,7 +56,7 @@ Item {
         wrapMode: Text.WrapAnywhere
         textFormat: Text.RichText
         horizontalAlignment: Text.AlignRight
-        width: god.width
+        width: core.width
         font.underline: true
         font.pixelSize: 10
         padding: 5
