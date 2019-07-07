@@ -7,7 +7,7 @@ from .constants import CollisionType, TileType
 from .object import PhysicalObject
 from .resources import PLAYER_IMAGE
 from .utils import angle_between, keys
-from .weapon import Weapon
+from .weapon import Hand, RocketPropelledSnowball, SnowSpread
 
 
 FALL_RATE = 60
@@ -27,7 +27,14 @@ class Player(PhysicalObject):
         self.original_width = PLAYER_IMAGE.width
         self.original_height = PLAYER_IMAGE.height
 
-        self.weapon = Weapon()
+        self.weapons = {
+            key._1: Hand(),
+            key._2: SnowSpread(),
+            key._3: RocketPropelledSnowball(),
+
+        }
+        self.weapon = self.weapons[key._1]
+        self.firing = False
 
     def update(self, dt):
         # Fall into water if there's too much under our feet
@@ -58,16 +65,50 @@ class Player(PhysicalObject):
         if keys[key.D]:
             self.x += dt * self.speed
 
+        if self.firing:
+            self.fire()
+
     def fire(self):
-        for bullet in self.weapon.get_projectiles(self.x, self.y, self.rotation):
+        for bullet in self.weapon.fire(self.x, self.y, self.rotation):
             self.space.add(bullet)
+
+    def unlock_weapons(self, score):
+        for weapon in self.weapons.values():
+            if score >= weapon.unlock_score:
+                weapon.locked = False
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.rotation = degrees(angle_between(self.x, self.y, x, y))
 
+    def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
+        self.rotation = degrees(angle_between(self.x, self.y, x, y))
+
     def on_mouse_press(self, x, y, button, modifiers):
         if button == mouse.LEFT:
-            self.fire()
+            self.firing = True
+
+    def on_mouse_release(self, x, y, button, modifiers):
+        if button == mouse.LEFT:
+            self.firing = False
+
+    def on_key_press(self, button, modifiers):
+        if button == key.R:
+            self.weapon.reload()
+            return
+
+        # Avoid switching weapons while our current weapon is reloading
+        # as that might be cheaty
+        if self.weapon.reloading:
+            return
+
+        weapon = self.weapons.get(button)
+        if not weapon:
+            return
+
+        if weapon.locked:
+            return
+
+        self.weapon = weapon
 
     def collide_tile(self, tile):
         if tile.tile_type == TileType.WATER:

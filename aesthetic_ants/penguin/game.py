@@ -11,6 +11,10 @@ from .ui import GameOverScreen, ScoreLabel, UiSpace
 from .utils import keys
 
 
+def _object_collides_with(obj1, obj2):
+    return obj1.collides_with(obj2)
+
+
 class Game(pyglet.window.Window):
     score = 0
 
@@ -51,12 +55,12 @@ class Game(pyglet.window.Window):
         space.add_collision_handler(CollisionType.PLAYER,
                                     CollisionType.ENEMY,
                                     self.on_collision_player_enemy,
-                                    Player.collides_with)
+                                    _object_collides_with)
 
         space.add_collision_handler(CollisionType.SNOWBALL,
                                     CollisionType.ENEMY,
                                     self.on_collision_snowball_enemy,
-                                    Snowball.collides_with)
+                                    _object_collides_with)
 
         return space
 
@@ -124,3 +128,4 @@ class Game(pyglet.window.Window):
             self.score_label.set_label(self.score)
 
         enemy.on_collision_snowball(snowball)
+
