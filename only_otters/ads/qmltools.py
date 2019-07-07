@@ -17,6 +17,6 @@ def QmlWidget(dataobjs: dict, qmlpath: str, parent: QWidget):
 
     container = QWidget.createWindowContainer(view, parent)
     container.setStyleSheet("Widget { padding: 7px; }")
-    view.setSource(QUrl(qmlpath))
+    view.setSource(QUrl.fromLocalFile(qmlpath))
 
     return container

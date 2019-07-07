@@ -298,11 +298,6 @@ class HierarchicalXPathQuery:
                                               ...
                                             }
 
-        Hence:
-            postdict: $ { postprocess }
-            is equivalent to
-            finally: $ { map:postprocess }
-
         """
         ##
         postprocess = xquery.pop(Keywords.Query.postfix, None)
