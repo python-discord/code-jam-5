@@ -98,6 +98,9 @@ THERMO_FILL = PurePath(PATH_OTHER).joinpath("thermometer-fill.png")
 # Tiles
 
 TILES_GRASS = list(Path(PATH_TILES).joinpath("grass").glob("*"))
+TILES_GROUND = list(Path(PATH_TILES).joinpath("ground").glob("*"))
+TILES_CITY = list(Path(PATH_TILES).joinpath("city").glob("*"))
+TILES_DESERT = list(Path(PATH_TILES).joinpath("desert").glob("*"))
 TILES_WATER = list(Path(PATH_TILES).joinpath("water").glob("*"))
 
 # Tasks
