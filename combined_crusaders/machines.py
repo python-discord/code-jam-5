@@ -1,10 +1,10 @@
 """Module to deal with organization of machines.
 'Machines' references the purchasable items which produce energy over time.
 """
-import media
 import pygame
 from pygame.locals import Color
 from util import in_pixels
+import media
 
 
 class Machine(pygame.sprite.Sprite):
@@ -49,6 +49,7 @@ class Machine(pygame.sprite.Sprite):
 
     @property
     def count(self):
+        """Number of machines of a given type currently owned"""
         return self._count
 
     @count.setter

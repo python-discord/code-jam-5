@@ -9,14 +9,14 @@ def detect_event_update(func):
     """Using the result of a message function, update the class properties."""
     def inner(self, *args, **kwargs):
         new_message = func(self, *args, **kwargs)
-        if new_message is not None and new_message != self.previous_message:
+        if new_message and new_message != self.previous_message:
             self.previous_message = new_message
             self.previous_message_time = time.time()
         return new_message
     return inner
 
 
-special_messages = [
+SPECIAL_MESSAGES = [
     "Geese are NEAT",
     "How can mirrors be real if our eyes aren't real",
     "I'm the captain now",
@@ -40,7 +40,7 @@ special_messages = [
 ]
 
 
-msgs = {
+MSGS = {
     "one_thing": "You uh, sure like doing that, and uh, not anything else",
     "only_crank": "Crank away, m'boy!",
     "went_away": "Hey, you still there? What're you doin",
@@ -78,7 +78,6 @@ class Events:
         self.previous_message_time = current_time
         self.previous_message = None
         self.event_list = []
-        # TODO there's probably a more optimal data structure for this
 
     def send(self, event: str):
         """Receive an event code.
@@ -90,7 +89,7 @@ class Events:
     def get_current_message(self,
                             max_history_length=100):
         """Returns what the current message should be.
-        Return None if the message should not change.
+        Return empty string if the message should not change.
         """
         current_time = time.time()
         time_delta = current_time - self.previous_message_time
@@ -104,55 +103,56 @@ class Events:
 
         if not short_history:
             if full_history:
-                return msgs["went_away"]
-            elif current_time - self.start_time < 5:
-                return None
-            else:
-                return msgs["no_history"]
+                return MSGS["went_away"]
+            if current_time - self.start_time < 5:
+                return ""
+            return MSGS["no_history"]
 
         if "win" in short_history:
-            return msgs["win"]
+            return MSGS["win"]
 
         if short_history[-1] == "load":
-            return msgs["load"]
-        elif short_history[-1] == "save":
-            return msgs["save"]
-        elif short_history[-1] == "fail_load":
-            return msgs["fail_load"]
+            return MSGS["load"]
+        if short_history[-1] == "save":
+            return MSGS["save"]
+        if short_history[-1] == "fail_load":
+            return MSGS["fail_load"]
 
-        if self.previous_message == msgs["went_away"]:
-            return msgs["welcome_back"]
+        if self.previous_message == MSGS["went_away"]:
+            return MSGS["welcome_back"]
 
         if random.random() < 0.0001:
-            return random.choice(special_messages)
+            return random.choice(SPECIAL_MESSAGES)
 
         if "buy_upgrade_crank_speed" in supershort_history:
-            return msgs["upgrade_crank_speed"]
+            return MSGS["upgrade_crank_speed"]
         if "buy_upgrade_click_value" in supershort_history:
-            return msgs["upgrade_crank_points"]
+            return MSGS["upgrade_crank_points"]
         if "buy_upgrade_crank_inertia" in supershort_history:
-            return msgs["upgrade_crank_inertia"]
+            return MSGS["upgrade_crank_inertia"]
         if "buy_machine_solar_panel" in supershort_history:
-            return msgs["buy_solar_panel"]
+            return MSGS["buy_solar_panel"]
         if "buy_machine_wind_turbine" in supershort_history:
-            return msgs["buy_wind_turbine"]
+            return MSGS["buy_wind_turbine"]
 
         if time_delta < 0.5:
             # Following messages aren't important enough to overwrite that fast
-            return None
+            return ""
 
         if self.parent.speed_sprite.value > 500:
-            return msgs["crank_fast_4"]
+            return MSGS["crank_fast_4"]
         if self.parent.speed_sprite.value > 100:
-            return msgs["crank_fast_3"]
+            return MSGS["crank_fast_3"]
         if self.parent.speed_sprite.value > 50:
-            return msgs["crank_fast_2"]
+            return MSGS["crank_fast_2"]
         if self.parent.speed_sprite.value > 10:
-            return msgs["crank_fast_1"]
+            return MSGS["crank_fast_1"]
 
         if "crank" in short_history and self.parent.energy_per_second > 100:
-            return msgs["unnecessary_crank"]
+            return MSGS["unnecessary_crank"]
         if len(set(short_history)) == 1:
             if short_history[0] == "crank":
-                return msgs["only_crank"]
-            return msgs["one_thing"]
+                return MSGS["only_crank"]
+            return MSGS["one_thing"]
+
+        return ""

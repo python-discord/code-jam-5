@@ -1,3 +1,4 @@
+"""Module to deal with logic functions not specific to any one other module"""
 import pygame
 import numpy as np
 

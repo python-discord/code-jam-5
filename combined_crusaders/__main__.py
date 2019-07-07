@@ -1,50 +1,40 @@
+import json
+import time
 import pygame
 from pygame.rect import Rect
 from pygame.locals import KEYDOWN, K_ESCAPE, MOUSEBUTTONDOWN, QUIT, Color
 from media import sounds, images
 from machines import load_machines
-import time
 import events
 from util import in_pixels, in_norm
-import json
 
 
 if not pygame.image.get_extended():
     raise SystemExit("Sorry, extended image module required")
 
 
-def say(message):
+def say(message: str):
     """Send a message to the user.
     Currently just changes the program bar name cuz it's cute.
-
-    :param message: Message to display.
-    :type message: Does not require type str, but must be castable to str.
-
     """
-    if message is not None:
-        pygame.display.set_caption(str(message))
+    if message:
+        pygame.display.set_caption(message)
 
 
 def score_to_image(score: int):
-    # TODO there must be a cleaner way to do this, especially when we have
-    # more than just 3 states
-    if score < 10000:
-        return "environment_negative"
-    elif score >= 10000 and score < 500000:
-        return "environment_neutral"
-    elif score >= 500000:
-        return "environment_positive"
-    raise RuntimeError("Score didn't make sense")
+    return ("environment_positive" if score >= 500000
+            else "environment_neutral" if score >= 10000
+            else "environment_negative")
 
 
 class TextButton(pygame.sprite.Sprite):
+    """Button that displays text and performs an action on click.
+    clicked: Function to run when the button is clicked
+    image: Font with a rendered version of the button text
+    rect: pygame rect representing the button's boundaries
+    """
     def __init__(self, coords, text, clicked,
                  font=None, color=Color('#222222')):
-        """Button that displays text and performs an action on click.
-        clicked: Function to run when the button is clicked
-        image: Font with a rendered version of the button text
-        rect: pygame rect representing the button's boundaries
-        """
         pygame.sprite.Sprite.__init__(self)
         font = font or pygame.font.Font(None, 20)
         self.clicked = clicked
@@ -82,6 +72,7 @@ class ValueLabel(pygame.sprite.Sprite):
 
     @property
     def value(self):
+        """Constant (numeric) part of the label"""
         return self._value
 
     @value.setter
@@ -115,7 +106,7 @@ class UpgradeButton(pygame.sprite.Sprite):
     base_cost: Initial cost of the upgrade
     cost: Current cost of the upgrade
     cost_scaling: Logarithmic base to use when calculating cost from base_cost
-    type: The type of upgrade
+    upgrade_type: The type of upgrade
         Should be one of ["click_value", "crank_speed", "crank_inertia"]
     parent: The parent object, of class ClimateClicker
     cost_display: pygame display for the cost of the upgrade
@@ -123,7 +114,7 @@ class UpgradeButton(pygame.sprite.Sprite):
     level: Current level of the upgrade
     """
     def __init__(self, parent, coords, base_cost, cost_scaling,
-                 type, image, locked_image, centered=False):
+                 upgrade_type, image, locked_image, centered=False):
         pygame.sprite.Sprite.__init__(self)
         self.coords = coords
         self.image = locked_image
@@ -137,7 +128,7 @@ class UpgradeButton(pygame.sprite.Sprite):
         self.base_cost = base_cost
         self.cost = self.base_cost
         self.cost_scaling = cost_scaling
-        self.type = type
+        self.upgrade_type = upgrade_type
 
         self.parent = parent
 
@@ -153,6 +144,7 @@ class UpgradeButton(pygame.sprite.Sprite):
 
     @property
     def level(self):
+        """Current level of the upgrade; higher is better"""
         return self._level
 
     @level.setter
@@ -170,17 +162,17 @@ class UpgradeButton(pygame.sprite.Sprite):
         if self.parent.score >= self.cost:
             self.parent.score -= self.cost
             self.level += 1
-            self.parent.events.send(f"buy_upgrade_{self.type}")
+            self.parent.events.send(f"buy_upgrade_{self.upgrade_type}")
 
     def apply_upgrades(self):
         """Given a change in upgrade level, reflect changes in the crank"""
-        if self.type == "click_value":
+        if self.upgrade_type == "click_value":
             self.parent.click_value = 2**self.level
-        elif self.type == "crank_speed":
+        elif self.upgrade_type == "crank_speed":
             self.parent.crank.max_rotation_speed = (
                 self.parent.crank.base_max_rotation_speed
                 * (self.level + 1))
-        elif self.type == "crank_inertia":
+        elif self.upgrade_type == "crank_inertia":
             if not self.level:
                 self.parent.crank_rotation_speed_decay = (
                     self.parent.crank.rotation_speed_base_decay)
@@ -390,6 +382,7 @@ class ClimateClicker:
 
     @property
     def energy_per_second(self):
+        """Current wattage, NOT counting variable energy output (the crank)"""
         return sum([machine.energy_per_second * machine.count
                     for machine in self.machines.values()])
 
@@ -405,7 +398,7 @@ class ClimateClicker:
                                       and event.key == K_ESCAPE):
                 self.exit_requested = True
                 return
-            elif event.type == MOUSEBUTTONDOWN:
+            if event.type == MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 if self.crank.rect.collidepoint(pos):
                     self.crank.clicked()
@@ -448,7 +441,7 @@ class ClimateClicker:
                 machine_name: machine.count
                 for machine_name, machine in self.machines.items()},
             "upgrade_level": {
-                upgrade.type: upgrade.level
+                upgrade.upgrade_type: upgrade.level
                 for upgrade in self.upgrade_buttons},
             "history": self.events.event_list
         }
@@ -459,7 +452,7 @@ class ClimateClicker:
         for machine, machine_count in data["machine_count"].items():
             self.machines[machine].count = machine_count
         for upgrade in self.upgrade_buttons:
-            upgrade.level = data["upgrade_level"][upgrade.type]
+            upgrade.level = data["upgrade_level"][upgrade.upgrade_type]
         self.events.event_list = data["history"]
 
     def save(self):
@@ -482,6 +475,7 @@ class ClimateClicker:
 
     @property
     def score(self):
+        """Current score, in joules"""
         return self.score_sprite.value
 
     @score.setter
@@ -491,6 +485,7 @@ class ClimateClicker:
 
     @property
     def speed(self):
+        """Current roational speed of the crank in rotations per second"""
         return self.speed_sprite.value
 
     @speed.setter
