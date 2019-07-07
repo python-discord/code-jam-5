@@ -44,16 +44,18 @@ class ExceptionHandler:
 if __name__ == "__main__":
     # set exception handler for exceptions in qt app event loop
     sys.excepthook = ExceptionHandler().handler
-    path = QtCore.QStandardPaths.writableLocation(QtCore.QStandardPaths.AppConfigLocation)
     # create org and app folders if not found
+    app = QtWidgets.QApplication(sys.argv)
+    app.setOrganizationName("Right_Rebels")
+    app.setApplicationName("Temp_Plotter")
+    app.setStyle("Fusion")
+
+    path = QtCore.QStandardPaths.writableLocation(QtCore.QStandardPaths.AppConfigLocation)
     if not os.path.isdir(path):
         if not os.path.isdir(path[:path.rfind("/")]):
             os.mkdir(path[:path.rfind("/")])
         os.mkdir(path)
-    app = QtWidgets.QApplication(sys.argv)
-    app.setOrganizationName("Right Rebels")
-    app.setApplicationName("Temp Plotter")
-    app.setStyle("Fusion")
+
     settings = QtCore.QSettings(path + "/config.ini", QtCore.QSettings.IniFormat)
     ui = gui.MainWindow(settings)
     ui.setup_ui()
