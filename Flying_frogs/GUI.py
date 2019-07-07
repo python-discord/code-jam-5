@@ -35,6 +35,7 @@ comp = False
 # To show what screen the player is on
 introduction = True
 rules = False
+meaning = False
 
 
 # Function to redraw the window
@@ -47,11 +48,18 @@ def redraw():
         # Buttons
         win.blit(play.image, (play.x, play.y))
         win.blit(rulesbutton.image, (rulesbutton.x, rulesbutton.y))
+        win.blit(meaningbutton.image, (meaningbutton.x, meaningbutton.y))
 
     # Rules screen
     elif rules:
         # Background
         win.blit(pygame.image.load('Backgrounds//Rules.png'), (0, 0))
+        # Buttons
+        win.blit(back.image, (back.x, back.y))
+
+    elif meaning:
+        # Background
+        win.blit(pygame.image.load('Backgrounds//Meaning.png'), (0, 0))
         # Buttons
         win.blit(back.image, (back.x, back.y))
 
@@ -98,7 +106,7 @@ def redraw():
         MistakesRect = DisplayMistakes.get_rect()
         MistakesRect.center = (822, 40)
         win.blit(DisplayMistakes, MistakesRect)
-        
+
     # Update display
     pygame.display.update()
 
@@ -136,16 +144,16 @@ class button(object):
 
 
 # Define buttons
-playagain = button(
-    pygame.image.load('Buttons//PlayAgainButton.png'),
-    200,
-    106,
-    365,
-    330)
-play = button(pygame.image.load('Buttons//PlayButton.png'), 200, 106, 365, 450)
-back = button(pygame.image.load('Buttons//Back.png'), 100, 82, 20, 150)
+playagain = button(pygame.image.load(
+    'Buttons//PlayAgainButton.png'), 200, 106, 365, 330)
+back = button(pygame.image.load(
+    'Buttons//Back.png'), 100, 82, 20, 150)
+play = button(pygame.image.load(
+    'Buttons//PlayButton.png'), 200, 106, 365, 200)
 rulesbutton = button(pygame.image.load(
-    'Buttons//RulesButton.png'), 200, 106, 365, 250)
+    'Buttons//RulesButton.png'), 200, 106, 365, 350)
+meaningbutton = button(pygame.image.load(
+    'Buttons//MeaningButton.png'), 200, 106, 365, 500)
 
 
 # Car class
@@ -248,7 +256,6 @@ F2 = car(False,
          5)
 
 
-
 # List of available vehicles to chose from
 vehicles = [E1, E2, F1, F2]
 
@@ -280,17 +287,28 @@ while run:
             # Check if button has been clicked
             # On introducton screen
             if introduction:
-                if playagain.y + playagain.height and b > playagain.y \
-                        and a > playagain.x and a < playagain.x + playagain.width:
+                # Check if mouse coordinates match the button/car's
+                if b < play.y + play.height and b > play.y \
+                        and a > play.x and a < play.x + play.width:
                     # Start game
                     playagain.pressed()
                     introduction = False
-                elif rulesbutton.y + rulesbutton.height \
+                    rules = False
+                    meaning = False
+                elif b < rulesbutton.y + rulesbutton.height \
                         and b > rulesbutton.y and a > rulesbutton.x \
                         and a < rulesbutton.x + rulesbutton.width:
                     # Display rules screen
                     introduction = False
                     rules = True
+                    meaning = False
+                if b < meaningbutton.y + meaningbutton.height \
+                        and b > meaningbutton.y and a > meaningbutton.x \
+                        and a < meaningbutton.x + meaningbutton.width:
+                    # Display meaning screen
+                    introduction = False
+                    rules = False
+                    meaning = True
 
             # On rules screen
             if rules:
@@ -298,6 +316,14 @@ while run:
                     # Display introduction screen
                     rules = False
                     introduction = True
+                    meaning = False
+
+            if meaning:
+                if back.y + back.height and b > back.y and a > back.x and a < back.x + back.width:
+                    # Display introduction screen
+                    rules = False
+                    introduction = True
+                    meaning = False
 
             # If the player has won or lost
             elif lose or comp:
