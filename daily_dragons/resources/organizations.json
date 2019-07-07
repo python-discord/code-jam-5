@@ -191,19 +191,55 @@
                 "name": "Government Solar Contracts",
                 "description": "Lobby the government to use your solar panel installer.",
                 "bio": 0,
-                "temperature": -3,
-                "co2": -5,
+                "temperature": 2,
+                "co2": 3,
                 "habitable_land": 0,
                 "roi": -0.10
             },
             {
                 "name": "Fund Land Reforestation",
                 "description": "Funds Reforestation accross the nation.",
-                "bio": 100,
-                "temperature": 0,
-                "co2": -10,
-                "habitable_land": 100,
+                "bio": 3,
+                "temperature": 1,
+                "co2": 3,
+                "habitable_land": 5,
                 "roi": -0.05
+            },
+            {
+                "name": "Wind contact with government",
+                "description": "Enter negotiations with government to install wind turbines.",
+                "bio": 0,
+                "temperature": 3,
+                "co2": 3,
+                "habitable_land": -1,
+                "roi": -0.05
+            },
+            {
+                "name": "Government switch to solar",
+                "description": "Complete transition to solar energy.",
+                "bio": 0,
+                "temperature": -3,
+                "co2": -5,
+                "habitable_land": 0,
+                "roi": 1.10
+            },
+            {
+                "name": "Establish wildlife sanctuaries",
+                "description": "Open sanctuaries for various regions.",
+                "bio": 7,
+                "temperature": 0,
+                "co2": 0,
+                "habitable_land": 7,
+                "roi": 0.5
+            },
+            {
+                "name": "Install wind turbines",
+                "description": "Complete the government's transition to renewable energy sources.",
+                "bio": 0,
+                "temperature": 4,
+                "co2": 4,
+                "habitable_land": -1,
+                "roi": 0.10
             }
         ]
     },
