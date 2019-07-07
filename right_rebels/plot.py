@@ -1,3 +1,6 @@
+# Temp plotter
+# Copyright (C) 2019  Right Rebels
+
 import fnmatch
 import os
 import time
@@ -6,6 +9,7 @@ import matplotlib
 import matplotlib.pyplot as plot
 import numpy as np
 from PyQt5 import QtCore
+
 try:
     from mpl_toolkits.basemap import Basemap
 except ImportError:

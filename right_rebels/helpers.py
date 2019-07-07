@@ -1,3 +1,6 @@
+# Temp plotter
+# Copyright (C) 2019  Right Rebels
+
 import h5py
 import numpy as np
 
