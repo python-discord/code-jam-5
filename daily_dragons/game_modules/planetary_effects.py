@@ -14,9 +14,9 @@ class PlanetaryEffects:
         """Track the stats as a direct change to the planets current stats
 
         `bio_diversity` tracks the change in the total number of species
-        `tempature` is the change in C (celsius)
+        `temperature` is the change in C (celsius)
         `co2` is tracked in ppm (parts per million)
-        `habitable_land` is in hectacres (100 acres)
+        `habitable_land` is in hectares (100 acres)
         """
         self.bio_diversity = bio_diversity
         self.temperature = temperature

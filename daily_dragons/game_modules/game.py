@@ -36,7 +36,7 @@ class Game:
         )
 
         self.success_ending = (
-            Fore.GREEN + "Congratuations! You've managed to save your world."
+            Fore.GREEN + "Congratulations! You've managed to save your world."
         )
 
         self.medium_ending = (
