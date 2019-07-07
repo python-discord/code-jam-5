@@ -44,8 +44,6 @@ cut_scene_name = 'default_cut_scene'
 
 __all__ = [
     'zone_names',
-    'current_zone',
-    'player_name',
     'sprite_width',
     'sprite_height',
     'view_distance',
