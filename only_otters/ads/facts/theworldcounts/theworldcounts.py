@@ -7,13 +7,9 @@ from only_otters.resourcely import ensure_field
 from only_otters.ads.counter import counter
 
 from pathlib import Path
-from scrapetools.hquery import HierarchicalXPathQuery
-from scrapetools import autobrowser
-import sys
 
 __folder__ = Path(__file__).parent
 
-sys.path.append('../..')
 
 """
 An application of the Remote Resource template to URL:
