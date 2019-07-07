@@ -9,7 +9,7 @@ from .textbox import TextBox
 from . import game_window, level_map, Resource, Item, player, zone_map, level_key, media, tick, \
     time_display, keys, elapsed_time
 from config import location_scene, location_sound, location_music, zone_names, zone_height, zone_width, sprite_height, \
-    sprite_width, cut_scene_timeout, cut_scene_name, view_distance, cut_scene
+    sprite_width, cut_scene_timeout, cut_scene_name, view_distance, cut_scene, quest_text_start, quest_text_end
 from pathlib import Path
 
 
@@ -83,9 +83,11 @@ def load_zones(path_name):
                     item.color = (0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0)
                 # double check we didn't create more then one in a square
                 if item.sprite == 20:  # house
-                    item.contains = "start_quest"
+                    item.contains = quest_text_start
                 if item.sprite == 19:  # rocks are zone moves
-                    item.contains = "zone_northern tundra"
+                    item.contains = "zone_northern tundra_"
+                if item.sprite == 41:  # ending flower
+                    item.contains = quest_text_end
                 if not zone_map[i].index.intersect(bbox=(item.x,
                                                          item.y,
                                                          item.x + item.width,
@@ -186,11 +188,13 @@ def render_loop():
     #  actions / quests
     if player.action:
         if player.action.startswith('zone'):
-            player.current_zone = player.action.split('_', 1)[1]
+            player.current_zone = player.action.split('_')[1]
+            player.dialog = player.action.split('_')[2]
             player.action = None  # we don't want to be zoning over and over!
-        else:
-            t = TextBox('an action is happening:' + player.action, scene_list['text'].data)
-            t.draw()
+
+    if len(player.dialog) > 0:
+        t = TextBox(player.dialog, scene_list['text'].data)
+        t.draw()
 
     # UI / debug elements
     label = pyglet.text.Label(

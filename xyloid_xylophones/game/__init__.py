@@ -54,6 +54,7 @@ class Player(Base):
         self.adjustment = 0
         self.action = None
         self.current_zone = 'desolate wasteland'
+        self.dialog = ''
 
     def load_player(self):
         '''Load all of the sprite sets for the player'''

@@ -1,11 +1,17 @@
-#Dimensions of game Window
+# Dimensions of game Window
 game_width = 640
 game_height = 640
 
-#Locations
+# Locations
 location_sound = 'assets/sounds/'
 location_music = 'assets/music/'
 location_scene = 'assets/scenes/'
+
+# quest texts
+quest_text_start = "zone_desolate wasteland_I'm not happy in this waist land! " \
+                   "I should find the rock of transportation and try to fix things!"
+quest_text_end = "zone_lush forest_I found a plant I will dedicate my life " \
+                 "to nurture it and reverse climate change! yay!"
 
 # zone names
 zone_names = ['desolate wasteland', 'northern tundra', 'lush forest']
@@ -18,7 +24,7 @@ sprite_height = 64
 # Dimensions of the spritesheet
 char_sheet_rows = 32
 char_sheet_cols = 27
-#Position of the desired sprite
+# Position of the desired sprite
 sprite_row = 31
 sprite_down_col = 1
 sprite_up_col = 7

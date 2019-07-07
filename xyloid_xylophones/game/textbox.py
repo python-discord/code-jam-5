@@ -6,7 +6,7 @@ class TextBox:
     A convenience wrapper around a pyglet sprite and label.
     '''
 
-    def __init__(self, text, text_box_image, color=(255, 255, 255, 255), label_x=0, label_y=0, font_name='',
+    def __init__(self, text, text_box_image, color=(0, 0, 0, 255), label_x=32, label_y=32, font_name='',
                  font_size=None,
                  screen_width=640):
         self.text = text
@@ -23,7 +23,7 @@ class TextBox:
             y=self.label_y,
             anchor_y='top',
             multiline=True,
-            width=(self.width - self.label_x),
+            width=(self.width - (self.label_x*2)),
             color=color,
             font_name=font_name,
             font_size=font_size)

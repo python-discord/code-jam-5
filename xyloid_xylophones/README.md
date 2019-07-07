@@ -8,7 +8,7 @@ Our adventurer Steve wakes up in a desolate wasteland, will Steve make the right
         select version 4.x - same architecture as python - Shared
             extract contents of bin into xyloid_xylophones\game\lib
 
-    TODO:pipenv??
+    pipenv update
     python -m game
 
 ## Credits

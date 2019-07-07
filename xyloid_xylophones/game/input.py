@@ -4,7 +4,6 @@ from config import game_width, game_height
 from . import keys, player, zone_map, current_display
 
 
-
 def mouse_input(x, y):
     if (current_display == 'zone'):
         move_towards_coord(x, y, True)
@@ -42,6 +41,7 @@ def move_towards_coord(x, y, from_mouse=False):
             player.update_sprite("down")
     if from_mouse:
         action = check_action(new_x, new_y)
+        player.dialog = ''
 
     new_move = allowed_move(new_x, new_y)
     move(new_move[0], new_move[1], action)  # Move towards the new point
@@ -67,12 +67,14 @@ def handle_input(dt=None):
             player.update_sprite("right")
         if pyglet.window.key.ENTER in keys:
             action = check_action(new_x, new_y)
+            player.dialog = ''
         elif pyglet.window.key.SPACE in keys:
             action = check_action(new_x, new_y)
+            player.dialog = ''
 
-        if (new_x != player.x) | (new_y != player.y):
+        if (new_x != player.x) | (new_y != player.y) | (action is not None):
             new_move = allowed_move(new_x, new_y)
-            if (new_move[0] != player.x) | (new_y != player.y):
+            if (new_move[0] != player.x) | (new_y != player.y | (action is not None)):
                 move(new_move[0], new_move[1], action)
     else:
         pass
