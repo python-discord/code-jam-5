@@ -8,9 +8,6 @@ class Player:
         self.net_worth += investment_return
 
     def __str__(self) -> str:
-        player = (
-            f"{self.name} is currently worth {self.net_worth}"
-            f" and has {self.social_standing} social standing"
-        )
+        player = f"{self.name} is currently worth {self.net_worth}"
 
         return player
