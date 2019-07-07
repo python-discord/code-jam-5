@@ -28,7 +28,8 @@ CREATE TABLE farmertown(
     cash INTEGER,
     debt INTEGER,
     banked INTEGER,
-    last_used NUMERIC
+    last_used NUMERIC,
+    ignore_cooldowns TEXT
 );
 
 CREATE TABLE farmerdecisions(
