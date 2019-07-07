@@ -2,7 +2,6 @@
 To do:
 -Tell user to install pygame
 -Make cars
--Change rules to be clearer on how to destroy a car
 '''
 
 # Import modules
@@ -214,19 +213,33 @@ class car(object):
 
 # Define cars
 # Replace these with actual cars. These are placeholders.
-E1 = car(True, [pygame.image.load('Cars\\ElectricCar1.png')], 5, 168, 91, 5)
-policecar = car(True,
-                [pygame.image.load('Cars\\P1.png'),
-                 pygame.image.load('Cars\\P2.png'),
-                 pygame.image.load('Cars\\P3.png'),
-                 pygame.image.load('Cars\\P2.png')],
+E1 = car(True,
+         [pygame.image.load('Cars\\ElectricCar1.png')],
+         5,
+         168,
+         91,
+         3)
+E2 = car(True,
+                [pygame.image.load('Cars\\ElectricCar2.png')],
                 10,
-                225,
-                110,
+                168,
+                94,
                 3)
+F1 = car(False,
+                [pygame.image.load('Cars\\FossilCar1.png')],
+                10,
+                265,
+                137,
+                5)
+F2 = car(False,
+                [pygame.image.load('Cars\\FossilCar2.png')],
+                10,
+                168,
+                101,
+                5)
 
 # List of available vehicles to chose from
-vehicles = [policecar, E1]
+vehicles = [E1, E2, F1, F2]
 
 
 # To show if the game is running
