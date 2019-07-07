@@ -101,7 +101,6 @@ class HierarchicalXPathQuery:
 
     # --------------------------------------------------------------------------
 
-    # @classmethod
     def resolve_mode(self, name: str, high: bool = False) -> callable:
         """Return mode from name. If high is true, look in higher-order modes list."""
         mode = (self.MODES if not high else self.HIGHER_ORDER_MODES).get(name)
@@ -109,7 +108,6 @@ class HierarchicalXPathQuery:
             raise UserWarning('No such %smode: %s' % ('higher-order ' * high, name))
         return mode
 
-    # @classmethod
     def resolve_pipe(self, name: str) -> callable:
         """
         Return pipe from name.
@@ -137,7 +135,6 @@ class HierarchicalXPathQuery:
 
         return pipe
 
-    # @classmethod
     def resolve_pipe_expr(self,
                           expr: str,
                           pipe_prefix: str = None) -> (str, list, list, callable):
@@ -214,7 +211,6 @@ class HierarchicalXPathQuery:
 
         return expr, pipes[::-1], modes, ho_mode
 
-    # @classmethod
     def resolve_xpath(self, element, expr: str, pipe_prefix: bool = None):
         """Resolve a composite XPath expression."""
         expr, pipes, modes, _ = self.resolve_pipe_expr(expr,
@@ -230,7 +226,6 @@ class HierarchicalXPathQuery:
 
         return result
 
-    # @classmethod
     @util.both_class_instance
     def register_pipe(self, fn: callable, name: str = None, high: bool = False):
         """Register a new pipe function so that it can be used in a query."""
@@ -246,7 +241,6 @@ class HierarchicalXPathQuery:
         else:
             self.HIGHER_ORDER_PIPES[name] = fn
 
-    # @classmethod
     @util.both_class_instance
     def pipe(self, name: str = None):  # A pipe decorator
         """
@@ -258,7 +252,6 @@ class HierarchicalXPathQuery:
             return self.register_pipe(name)
         return partial(self.register_pipe, name=name)
 
-    # @classmethod
     @util.both_class_instance
     def high_pipe(self, name: str = None):
         """Register a function as a higher-order pipe."""
@@ -266,7 +259,6 @@ class HierarchicalXPathQuery:
             return self.register_pipe(name, high=True)
         return partial(self.register_pipe, name=name, high=True)
 
-    # @classmethod
     def apply_pipes(self, fn: callable, pipe_properties: dict):
 
         pipes = []
@@ -286,7 +278,6 @@ class HierarchicalXPathQuery:
 
         return fn
 
-    # @classmethod
     def process_query(self, tree, xquery: dict, **properties):
 
         ##
