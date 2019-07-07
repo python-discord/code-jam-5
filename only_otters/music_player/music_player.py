@@ -60,6 +60,7 @@ class MusicPlayer(QtWidgets.QWidget):
         self.main_content_layout = QtWidgets.QVBoxLayout()
         self.main_content_layout.setAlignment(QtCore.Qt.AlignLeft)
         self.sidebar_layout = QtWidgets.QVBoxLayout()
+        self.sidebar_layout.setSpacing(0)
 
         self.media_library = MediaLibrary()
         self.media_library.song_triggered.connect(self.play_song)
@@ -68,18 +69,38 @@ class MusicPlayer(QtWidgets.QWidget):
         self.main_content_layout.addItem(self.vertical_spacer)
 
         #
+        self.fact_title_frame = QtWidgets.QFrame()
+        self.fact_title_frame.setStyleSheet('background: #57bd4f;'
+                                            'border-top-left-radius: 6px;'
+                                            'border-top-right-radius: 6px;'
+                                            'color: white;')
+        self.fact_title_layout = QtWidgets.QHBoxLayout()
+        title_font = QtGui.QFont('Raleway', 16)
+        title_font.setBold(True)
+        self.fact_title_label = QtWidgets.QLabel('Interesting Facts')
+        self.fact_title_label.setFont(title_font)
+        self.fact_title_layout.addWidget(self.fact_title_label)
+        self.fact_title_frame.setLayout(self.fact_title_layout)
+
         self.fact_widget = get_fact_by_tags('ui').as_widget(self)
-        self.fact_widget.setMinimumSize(300, 80)
+        self.fact_widget.setMinimumSize(300, 200)
 
         self.next_fact_button = QtWidgets.QPushButton("Next Fact", self)
         self.next_fact_button.clicked.connect(self.refresh_fact)
+        self.next_fact_button.setStyleSheet('background: #78543b;'
+                                            'padding: 7px;'
+                                            'border-bottom-left-radius: 6px;'
+                                            'border-bottom-right-radius: 6px;'
+                                            'color: white;')
         
         self.refresh_fact_timer = QtCore.QTimer(self)
         self.refresh_fact_timer.timeout.connect(self.refresh_fact)
         self.refresh_fact_timer.start(self.fact_refresh_rate * 1000)
 
+        self.sidebar_layout.addWidget(self.fact_title_frame)
         self.sidebar_layout.addWidget(self.fact_widget)
         self.sidebar_layout.addWidget(self.next_fact_button)
+        self.sidebar_layout.addItem(self.vertical_spacer)
 
         self.contents_layout.addLayout(self.main_content_layout)
         self.contents_layout.addLayout(self.sidebar_layout)
@@ -155,6 +176,6 @@ class MusicPlayer(QtWidgets.QWidget):
     def refresh_fact(self):
         self.fact_widget.deleteLater()
         self.fact_widget = get_fact_by_tags('ui').as_widget(self)
-        self.fact_widget.setMinimumSize(300, 80)
-        self.sidebar_layout.insertWidget(0, self.fact_widget)
+        self.fact_widget.setMinimumSize(300, 200)
+        self.sidebar_layout.insertWidget(1, self.fact_widget)
         self.refresh_fact_timer.start(self.fact_refresh_rate * 1000)

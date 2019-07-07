@@ -8,7 +8,7 @@ class Spotleafy(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Spotleafy')
-        self.setMinimumSize(950, 600)
+        self.setMinimumSize(950, 650)
         self.init_gui()
 
     def init_gui(self):
