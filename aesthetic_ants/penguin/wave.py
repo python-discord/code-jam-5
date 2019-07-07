@@ -1,8 +1,12 @@
 import argparse
+import itertools
 import inspect
 import shlex
 
+import pyglet
+
 from . import enemy
+from .resources import loader
 
 
 def enemy_class(type):
@@ -38,7 +42,7 @@ def _create_parser():
 
     rush_parser = subparsers.add_parser('rush', help='summons an enemy rush')
     rush_parser.set_defaults(func=command_rush)
-    rush_parser.add_argument('-t', '--type', type=enemy_class, nargs='?', default=enemy.FastEnemy)
+    rush_parser.add_argument('-t', '--type', type=enemy_class, nargs='?', default=enemy.NormalEnemy)
     rush_parser.add_argument('-c', '--count', type=int)
     rush_parser.add_argument('-d', '--delay', type=float)
 
@@ -67,10 +71,21 @@ class Wave:
 
     @classmethod
     def load(cls, filename):
-        with open(filename) as f:
-            return cls(f.read())
+        text = loader.text(filename)
+        return cls(text.text)
 
     def _next_instruction(self):
         instruction = next(self.instructions)
         args = _PARSER.parse_args(shlex.split(instruction))
         return args.func(args)
+
+
+def all_waves():
+    for i in itertools.count(1):
+        try:
+            yield Wave.load(f'waves/{i}.wave')
+        except pyglet.resource.ResourceNotFoundException:
+            break
+
+    while True:
+        yield Wave.load('waves/endless.wave')

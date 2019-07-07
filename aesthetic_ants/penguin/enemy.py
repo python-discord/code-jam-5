@@ -1,11 +1,12 @@
 import math
+import random
 
 import pyglet
 
 from .snowball import Snowball
 from .constants import CollisionType, TileType
 from .object import PhysicalObject
-from .resources import ENEMY_BIG_IMAGE, ENEMY_FAST_IMAGE
+from .resources import ENEMY_BIG_IMAGE, ENEMY_FAST_IMAGE, ENEMY_TRUCK_IMAGE
 from .utils import normalized
 
 
@@ -14,7 +15,8 @@ class Enemy(PhysicalObject):
     score = 5
 
     unstun_time = 0.5
-    speed = 50
+    speed_min = 50
+    speed_max = 50
     hearts = 1
     enemy_image = ''
 
@@ -22,6 +24,7 @@ class Enemy(PhysicalObject):
         super().__init__(self.enemy_image, x, y)
         self.velocity_x = 1
         self.velocity_y = 1
+        self.speed = random.uniform(self.speed_min, self.speed_max)
 
         self.tracking = True
         self.player = player
@@ -72,13 +75,49 @@ class Enemy(PhysicalObject):
                     self.velocity_y *= -1
 
 
+class NormalEnemy(Enemy):
+    speed_min = 50
+    speed_max = 100
+    enemy_image = ENEMY_FAST_IMAGE
+
+
 class BigEnemy(Enemy):
-    speed = 50
+    speed_min = 20
+    speed_max = 50
     hearts = 2
     enemy_image = ENEMY_BIG_IMAGE
 
 
 class FastEnemy(Enemy):
-    speed = 100
+    speed_min = 100
+    speed_max = 250
     hearts = 1
     enemy_image = ENEMY_FAST_IMAGE
+
+
+class Truck(Enemy):
+    speed_min = 20
+    speed_max = 40
+    hearts = 10
+    score = 100
+    enemy_image = ENEMY_TRUCK_IMAGE
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.delay = random.uniform(0.5, 1)
+
+    def spawn_enemy(self):
+        clses = [NormalEnemy, BigEnemy, FastEnemy]
+        weights = [0.5, 0.2, 0.2]
+
+        cls = random.choices(clses, weights)[0]
+        self.space.add(cls(self.x, self.y, self.player))
+
+        self.delay = random.uniform(0.5, 1)
+
+    def update(self, dt):
+        super().update(dt)
+
+        self.delay -= dt
+        if self.delay <= 0:
+            self.spawn_enemy()
