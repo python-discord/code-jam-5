@@ -173,8 +173,7 @@ class TileLayer(Object):
 
     def enemy_decay_influence(self):
         """Determines how much pollution enemies release"""
-        enemies = list(filter(lambda obj: isinstance(obj, Enemy), self.space.objects))
-        return len(enemies)
+        return sum(isinstance(o, Enemy) for o in self.space.objects)
 
     def neighbors(self, x, y):
         grid_width = len(self.tiles[0])
