@@ -1,13 +1,14 @@
 import pyglet
 
 from .constants import CollisionType
-from .enemy import BigEnemy, FastEnemy
 from .player import Player
 from .resources import LEVEL_1
 from .space import Space
+from .spawner import Spawner
 from .tile_layer import TileLayer
 from .ui import GameOverScreen, ScoreLabel, UiSpace
 from .utils import keys
+from .wave import Wave
 
 
 def _object_collides_with(obj1, obj2):
@@ -22,14 +23,17 @@ class Game(pyglet.window.Window):
         self.is_over = False
         self.fps = fps
 
+        self.space = self.create_space()
+
         self.player = Player(self.width / 2, self.height / 2)
         self.player.game_over = self.game_over
-
-        self.space = self.create_space()
         self.space.add(self.player)
-        for _ in range(5):
-            self.space.add(BigEnemy(10, 5))
-            self.space.add(FastEnemy(15, 5))
+
+        self.spawner = Spawner()
+        self.spawner.add_spawn_point(64, self.height / 2)
+        self.spawner.add_spawn_point(self.width - 64, self.height / 2)
+        self.spawner.wave = Wave.load('resources/waves/1.wave')
+        self.space.add(self.spawner)
 
         # Create background layer
         self.tiles = self.create_tiles()
