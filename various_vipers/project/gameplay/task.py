@@ -322,6 +322,9 @@ class TaskRockPaperScissors(Task):
 
     def start(self) -> None:
         """User clicks on task."""
+        super().start()
+
+        self.delay = time()
         self.mixing = False
         self.choice = None
         self.computer_choice = None
@@ -380,8 +383,6 @@ class TaskRockPaperScissors(Task):
             )
         )
 
-        super().start()
-
     def update(self, event: pg.event) -> None:
         """Handles clicks, make computer choice and complete the task."""
         super().update()
@@ -391,7 +392,12 @@ class TaskRockPaperScissors(Task):
             mouse_hover = rect.collidepoint(pg.mouse.get_pos())
             mouse_click = event.type == pg.MOUSEBUTTONDOWN
 
-            if mouse_hover and mouse_click and self.choice not in [0, 1, 2]:
+            if (
+                mouse_hover
+                and mouse_click
+                and self.choice not in [0, 1, 2]
+                and (time() - self.delay) > 0.3
+            ):
                 Sound.click.play()
                 # if mouse clicked on button and not choosed yet
                 self.choice = i
@@ -461,6 +467,7 @@ class TaskRockPaperScissors(Task):
             self.screen.blit(self.choice_images[i], rect)
 
     def __draw_mixing(self):
+        """Draws mixing animation of the computer choice."""
         rand_img = self.computer_images[randint(0, 2)]
         self.screen.blit(rand_img, self.computer_rect)
 
@@ -481,13 +488,16 @@ class TaskTicTacToe(Task):
 
         self.game_over = False
 
+        # human, computer and board representation
         self.human = -1
         self.computer = +1
         self.board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
+        # which is going to move first and the side of the board rect
         self.first_move = int()
         side = self.window_rect.height * 0.9
 
+        # create Rect object (square for the board)
         self.board_rect = pg.Rect(
             int((self.window_rect.width - side) / 2 + self.window_rect.left),
             int(self.window_rect.height * 0.05 + self.window_rect.top),
@@ -495,9 +505,11 @@ class TaskTicTacToe(Task):
             int(side),
         )
 
+        # calculate the size of each cell and create a list to store them
         self.cell_side = int(self.board_rect.width / 3)
         self.cells = list()
 
+        # create Rect object for each cell
         for y in range(3):
             for x in range(3):
                 self.cells.append(
@@ -508,13 +520,26 @@ class TaskTicTacToe(Task):
                         self.cell_side,
                     )
                 )
+        # save last click time - to prevent too much clicking of the button
         self.last_click = float()
 
+        # get background and hover color from the biome context
         self.bg_color, self.bg_color_hover = self.biome.color
+
+        # create map indexed
+        # so we can use int to access the board cell
+
+        # 0 - [0, 0], 1 - [0, 1], 2 - [0, 2]
+        # 3 - [0, 0], 4 - [0, 1], 5 - [0, 2]
+        # 6 - [0, 0], 7 - [0, 1], 8 - [0, 2]
 
         self.map_indexes = dict(
             zip(range(0, 9), [(i, j) for i in range(3) for j in range(3)])
         )
+
+        # load the image of the X and O
+        # X is always the human
+        # O is always the computer
 
         self.x_image = scale(
             load(str(self.biome.image_from(X))).convert_alpha(), [self.cell_side] * 2
@@ -524,6 +549,7 @@ class TaskTicTacToe(Task):
             load(str(self.biome.image_from(O))).convert_alpha(), [self.cell_side] * 2
         )
 
+        # load the square grid image
         self.grid = scale(
             load(str(self.biome.image_from(TTT_GRID))).convert_alpha(),
             [self.board_rect.width, self.board_rect.height],
@@ -537,51 +563,76 @@ class TaskTicTacToe(Task):
         """
         super().start()
 
+        # create delay timer to prevent clicking instantly
+        # on cell after the click on the task
         self.delay = time()
+
+        # get random choice - who is going to be first
         self.turn = choice([self.human, self.computer])
 
     def update(self, event: pg.event) -> None:
         """Handle events, user, input and makes computer moves."""
         super().update()
 
+        # iterate all cells and check for events
         for i, cell in enumerate(self.cells):
+            # click and hover - this means that the cell is clicked
             mouse_hover = cell.collidepoint(pg.mouse.get_pos())
             mouse_click = event.type == pg.MOUSEBUTTONDOWN
 
-            x, y = self.map_indexes[i]
-            empty_cell = self.board[x][y] == 0
+            x, y = self.map_indexes[i]  # take indexes from int
+            empty_cell = self.board[x][y] == 0  # bool if the cell is empty
 
             if (
                 mouse_click
                 and mouse_hover
                 and empty_cell
-                and self.turn == self.human
-                and (time() - self.last_click) > 0.3
-                and (time() - self.delay) > 0.3
+                and self.turn == self.human  # ensure that is a human turn
+                and (time() - self.last_click) > 0.3  # prevent clicking too much
+                and (time() - self.delay) > 0.3  # prevent clicking after task click
             ):
+                # plays the clicking sound and saves last click
                 Sound.click.play()
                 self.last_click = time()
+
+                # inserts human move into the board and gives turn to the computer
                 self.__insert_human_move(i)
+                # reverses the turn
+                # 1 * -1 = -1
+                # -1 * -1 = 1
                 self.turn *= -1
 
         if not self.game_over and (
             self.__won(self.board, self.human) or len(self.__cells_left()) == 0
         ):
+            # it is a win if the human player or there are no cells left to be filled
+
+            # set one more timer to delay the switching to the game
             self.last = time()
+
+            # states variables set
             self.game_over = True
             self.win = True
 
         if self.turn == self.computer:
+            # if is computer turn - take the move and give turn to the human
             self.__make_computer_move()
             self.turn *= -1
 
         if not self.game_over and self.__won(self.board, self.computer):
+            # if the computer won
+            # set the same variables like in human win
+            # the only difference is self.win
             self.last = time()
             self.game_over = True
             self.win = False
 
         if self.game_over:
+            # if it game over - delay 0.5
+            # prevents instantly switching to the game
             if time() - self.last > 0.5:
+                # return the results
+                # respectivly the task is completed if the human won
                 if self.win:
                     return self._complete(True)
                 else:
@@ -590,49 +641,74 @@ class TaskTicTacToe(Task):
     def draw(self) -> None:
         """Draw all elements and hover states."""
         super().draw()
+
+        # fill the background of the board with color
         self.screen.fill(self.bg_color, self.board_rect)
 
+        # iterate every cell
         for i, cell in enumerate(self.cells):
             x, y = self.map_indexes[i]
+            # x, y are the indexes of the cell in matrix format
 
             if cell.collidepoint(pg.mouse.get_pos()) and self.board[x][y] == 0:
+                # if the cell is hovered - fill it with different color
                 self.screen.fill(self.bg_color_hover, cell)
 
+            # draw the X and O images for the human and computer
             if self.board[x][y] == self.human:
                 self.screen.blit(self.x_image, cell)
             elif self.board[x][y] == self.computer:
                 self.screen.blit(self.o_image, cell)
 
+        # draw the grid of
         self.screen.blit(self.grid, self.board_rect)
 
     def __won(self, board, player):
         """Checks  if given player is in winning positon."""
+        # the winning positions in the Tic Tac Toe are 8
+        # three horizontals
+        # three verticals
+        # two diagonals
         win_boards = [
-            [board[0][0], board[0][1], board[0][2]],
-            [board[1][0], board[1][1], board[1][2]],
-            [board[2][0], board[2][1], board[2][2]],
-            [board[0][0], board[1][0], board[2][0]],
-            [board[0][1], board[1][1], board[2][1]],
-            [board[0][2], board[1][2], board[2][2]],
-            [board[0][0], board[1][1], board[2][2]],
-            [board[2][0], board[1][1], board[0][2]],
+            [board[0][0], board[0][1], board[0][2]],  # horizontal, 1 - row
+            [board[1][0], board[1][1], board[1][2]],  # horizontal, 2 - row
+            [board[2][0], board[2][1], board[2][2]],  # horizontal, 3 - row
+            [board[0][0], board[1][0], board[2][0]],  # vertical, 1 - column
+            [board[0][1], board[1][1], board[2][1]],  # vertical, 2 - column
+            [board[0][2], board[1][2], board[2][2]],  # vertical, 3 - column
+            [
+                board[0][0],
+                board[1][1],
+                board[2][2],
+            ],  # diagonal, top-left <> bottom-right
+            [
+                board[2][0],
+                board[1][1],
+                board[0][2],
+            ],  # diagonal, top-right <> bottom-left
         ]
 
+        # check if the player is anywere in the winning positions
         if 3 * [player] in win_boards:
             return True
         return False
 
     def __cells_left(self):
         """Returns a list of cordinates of empty cells."""
+        # store the empty cells in a list
         cells = list()
+
+        # enumerate all the rows and each cell in it
         for x, row in enumerate(self.board):
             for y, cell in enumerate(row):
                 if cell == 0:
+                    # the cell is empty - add its cordinates to the list
                     cells.append([x, y])
         return cells
 
     def __insert_human_move(self, cell):
         """Inserts human move in the board."""
+        # take the x, y matrix indexes and insert the human symbol in the cell
         x, y = self.map_indexes[cell]
         self.board[x][y] = self.human
 

@@ -30,7 +30,6 @@ class UserData(Singleton):
 
     def load(self) -> None:
         """Load and unserialize user data from the file."""
-
         try:
             with open(str(USER_SETTINGS), "rb") as f:
                 self = pickle.load(f)
