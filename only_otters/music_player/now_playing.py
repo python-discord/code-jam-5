@@ -25,7 +25,7 @@ class NowPlayingWidget(QtWidgets.QFrame):
         self.audio_visualiser = AudioVisualiser(self.player)
 
         now_playing_font = QtGui.QFont('Raleway', 24)
-        self.now_playing_label = QtWidgets.QLabel('Now Playing: N/A')
+        self.now_playing_label = QtWidgets.QLabel('Not Playing Anything')
         self.now_playing_label.setStyleSheet('color: white;')
         self.now_playing_label.setFont(now_playing_font)
 
@@ -36,7 +36,7 @@ class NowPlayingWidget(QtWidgets.QFrame):
     def _media_changed(self, media):
         filename = media.canonicalUrl().fileName()
         song_name = '.'.join(filename.split('.')[:-1])
-        self.now_playing_label.setText(f'Now Playing: {song_name}')
+        self.now_playing_label.setText(song_name)
 
     def adjust_background(self):
         """Adjusts the background to make it fit"""

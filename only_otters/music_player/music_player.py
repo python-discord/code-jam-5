@@ -148,7 +148,7 @@ class MusicPlayer(QtWidgets.QWidget):
         text = "Did you know that ... " + fact.content + '. Thank you for listening to Leafify'
         file = as_callack_audio(text)
         self.play_song(file)
-        self.now_playing_widget.now_playing_label.setText('Now Playing: Advert Intermission')
+        self.now_playing_widget.now_playing_label.setText('Advert Intermission')
 
     def check_advert_intermission(self):
         """
