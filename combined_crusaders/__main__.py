@@ -13,7 +13,7 @@ if not pygame.image.get_extended():
     raise SystemExit("Sorry, extended image module required")
 
 
-def say(message) -> None:
+def say(message):
     """Send a message to the user.
     Currently just changes the program bar name cuz it's cute.
 
@@ -25,7 +25,7 @@ def say(message) -> None:
         pygame.display.set_caption(str(message))
 
 
-def score_to_image(score: int) -> str:
+def score_to_image(score: int):
     # TODO there must be a cleaner way to do this, especially when we have
     # more than just 3 states
     if score < 10000:
@@ -81,7 +81,7 @@ class ValueLabel(pygame.sprite.Sprite):
         self.image = self.font.render(text, 0, self.color)
 
     @property
-    def value(self) -> int:
+    def value(self):
         return self._value
 
     @value.setter
@@ -150,7 +150,7 @@ class UpgradeButton(pygame.sprite.Sprite):
         self.level_display = ValueLabel(level_coords, "Level", "")
 
     @property
-    def level(self) -> int:
+    def level(self):
         return self._level
 
     @level.setter
