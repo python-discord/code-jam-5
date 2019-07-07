@@ -11,6 +11,7 @@ try:
     import random
 except ImportError:
     print('Could not import modules. Please check your connection and try again later.')
+    quit()
 
 # Initialise pygame
 pygame.init()
