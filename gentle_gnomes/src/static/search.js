@@ -124,6 +124,9 @@ function getCity(location) {
  * @param   city    The city for which to get indicators.
  */
 function getIndicators(city) {
+    document.getElementById('city-name').innerText = city.name;
+    document.getElementById('city-admin').innerText = city.admin;
+
     const indicators = [
         'dry_spells',
         'extreme_cold_events',
