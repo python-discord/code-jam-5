@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import typing as t
+from dataclasses import dataclass
 
 import aiohttp
 
@@ -9,7 +10,8 @@ log = logging.getLogger(__name__)
 BASE_URL = 'https://app.climate.azavea.com/api'
 
 
-class City(t.NamedTuple):
+@dataclass(frozen=True)
+class City:
     name: str
     admin: str
     id: int

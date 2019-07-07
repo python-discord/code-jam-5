@@ -1,3 +1,4 @@
+import dataclasses
 import json
 import logging
 
@@ -18,6 +19,23 @@ async def index():
     lng = quart.request.args.get('lng')
 
     return await render_template('view/index.html', lat=lat, lng=lng)
+
+
+@bp.route('/location')
+async def location():
+    try:
+        latitude = str(quart.request.args['lat'])
+        longitude = str(quart.request.args['lng'])
+    except KeyError:
+        log.info('Failed to get coordinates from parameters.')
+        return quart.abort(400)
+
+    city = await app.azavea.get_nearest_city(latitude, longitude)
+    if not city:
+        log.info(f'Could not find a city for {latitude}, {longitude}')
+        return quart.abort(404)
+    else:
+        return quart.jsonify(dataclasses.asdict(city))
 
 
 @bp.route('/search', methods=['POST'])
