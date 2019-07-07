@@ -9,7 +9,7 @@ from .spawner import Spawner
 from .tile_layer import TileLayer
 from .ui import GameOverScreen, ScoreLabel, UiSpace, WaveLabel
 from .utils import keys
-from .wave import Wave, all_waves
+from .wave import all_waves
 
 
 def _object_collides_with(obj1, obj2):
