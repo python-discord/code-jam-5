@@ -1,4 +1,3 @@
-[flake8]
 max-line-length=100
 application_import_names=project
 ignore=W503,E226,W504
