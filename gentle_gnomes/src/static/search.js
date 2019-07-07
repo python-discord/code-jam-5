@@ -176,8 +176,36 @@ function getTopLocation(predictions, status) {
     });
 }
 
-form.addEventListener('submit', e => {
+/**
+ * Remove all children of an element.
+ *
+ * @param   id  The id of the element.
+ */
+function clear(id) {
+    const element = document.getElementById(id);
+    console.log(element);
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);
+    }
+}
+
+/**
+ * Clear the DOM of previous search results.
+ */
+function reset() {
+    const results = document.getElementById('results');
+    results.hidden = true;
+
+    clear('indicators');
+    clear('sidebar');
+
     document.getElementById('loading-spinner').hidden = false;
+}
+
+form.addEventListener('submit', e => {
+    e.preventDefault();
+    reset();
+
     const place = autocomplete.getPlace(); // eslint-disable-line no-undef
 
     if (place === undefined || place.geometry === undefined) {
@@ -191,6 +219,4 @@ form.addEventListener('submit', e => {
     } else {
         getCity(place.geometry.location);
     }
-
-    e.preventDefault();
 });
