@@ -11,7 +11,7 @@
                 "temperature": 0,
                 "co2": 2,
                 "habitable_land": 0,
-                "roi": 0.95
+                "roi": -0.95
             },
             {
                 "name": "State of the World Campaign II",
@@ -20,7 +20,7 @@
                 "temperature": 0,
                 "co2": 0,
                 "habitable_land": 0,
-                "roi": 0.95
+                "roi": -0.95
             },
             {
                 "name": "State of the World Campaign III",
@@ -29,7 +29,7 @@
                 "temperature": 1,
                 "co2": 3,
                 "habitable_land": 0,
-                "roi": 1.1
+                "roi": 0.1
             },
             {
                 "name": "State of the World Campaign IV",
@@ -38,7 +38,7 @@
                 "temperature": 0,
                 "co2": 0,
                 "habitable_land": 1,
-                "roi": 1.1
+                "roi": 0.1
             },
             {
                 "name": "State of the World Campaign V",
@@ -72,7 +72,7 @@
                 "temperature": -2,
                 "co2": -2,
                 "habitable_land": -2,
-                "roi": 1.10
+                "roi": 0.10
             },
             {
                 "name": "Presidential Fake News II",
@@ -81,7 +81,7 @@
                 "temperature": -4,
                 "co2": -4,
                 "habitable_land": -4,
-                "roi": 1.20
+                "roi": 0.20
             },
             {
                 "name": "Atmospheric Fake News I",
@@ -90,7 +90,7 @@
                 "temperature": -3,
                 "co2": -3,
                 "habitable_land": -3,
-                "roi": 1.20
+                "roi": 0.20
             },
             {
                 "name": "Atmospheric Fake News II",
@@ -99,7 +99,7 @@
                 "temperature": -6,
                 "co2": -6,
                 "habitable_land": -6,
-                "roi": 1.30
+                "roi": 0.30
             },
             {
                 "name": "Animal Slander I",
@@ -108,16 +108,16 @@
                 "temperature": -1,
                 "co2": -1,
                 "habitable_land": -1,
-                "roi": 1.35
+                "roi": 0.35
             },
             {
                 "name": "Animal Slander II",
-                "description": "Buy advertisements to help spread fake news about the previous presidents birthplace.",
+                "description": "Buy advertisements to help spread fake news attacking even more species.",
                 "bio": -4,
                 "temperature": -1,
                 "co2": -1,
                 "habitable_land": -1,
-                "roi": 1.45
+                "roi": 0.45
             }
         ]
     },
@@ -173,7 +173,7 @@
             },
             {
                 "name": "Fracking III",
-                "description": "A new pipeline spanning across America to lower crude oil costs.",
+                "description": "Finish establishing new locations.",
                 "bio": 0,
                 "temperature": -2,
                 "co2": -3,
@@ -191,8 +191,8 @@
                 "name": "Government Solar Contracts",
                 "description": "Lobby the government to use your solar panel installer.",
                 "bio": 0,
-                "temperature": 0,
-                "co2": -50,
+                "temperature": -3,
+                "co2": -5,
                 "habitable_land": 0,
                 "roi": -0.10
             },
