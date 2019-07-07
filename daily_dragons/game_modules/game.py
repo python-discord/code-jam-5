@@ -27,6 +27,9 @@ class Game:
 
         self.exit_msg = Fore.YELLOW + "Have a good day, thanks for playing!"
 
+        self.fail_msg = Fore.RED + "You have destroyed your planet. Enjoy the rest of your life " \
+                                   "knowing you've doomed humanity."
+
         self.successful_order_msg = Fore.GREEN + "Ok, we've sent that in!"
 
         self.cancelled_order_msg = Fore.RED + "Ok, we'll cancel that order."
@@ -84,7 +87,9 @@ class Game:
 
                 print(response, "\n\n")
 
-            if all(i > -10 for i in )
+            if all(i > -10 for i in self.earth.stats.values()):
+                self.quit_game = True
+                print(self.exit_msg)
 
     def _invest(self, option) -> str:
         try:

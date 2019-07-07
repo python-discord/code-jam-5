@@ -36,7 +36,6 @@ class Planet:
 
         return bio_div, temperature, co2, land
 
-
     @property
     def scoreboard(self) -> Dict[str, str]:
         """A dict of the stats for easy output by gui"""
@@ -89,7 +88,8 @@ class Planet:
             health.append("A mass extinction event has occurred.")
 
         if temperature >= 10:
-            health.append("Temperatures have been brought down to healthy levels, the ice caps have refrozen.")
+            health.append("Temperatures have been brought down to healthy levels, the ice caps have"
+                          " refrozen.")
         elif temperature >= 5:
             health.append("The ice caps are beginning to regrow.")
         elif temperature >= -5:
@@ -97,7 +97,8 @@ class Planet:
         elif temperature > -10:
             health.append("The ice caps are beginning to shrink.")
         else:
-            health.append("The ice caps have completely shrunk, and the world is now unbearably hot.")
+            health.append("The ice caps have completely shrunk, and the world is now unbearably "
+                          "hot.")
 
         return " ".join(health)
 
@@ -115,7 +116,8 @@ class Planet:
             elif stat > 10:
                 status_messages.append("You have caused a major net loss.")
             else:
-                status_messages.append("You have ruined this beyond the point of return. You've destroyed the world.")
+                status_messages.append("You have ruined this beyond the point of return. You've "
+                                       "destroyed the world.")
 
         current_stats = (
             f"bio_diversity: {status_messages[0]} \n"
