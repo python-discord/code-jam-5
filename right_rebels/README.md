@@ -1,4 +1,4 @@
-# Right Rebels - World Temperature Map
+# Right Rebels - World Temperature Anomaly Map
 
 Air surface temperature anomaly world map plotter - plot and visually see the temperature change ranging from 1850 - 2019.
 
@@ -64,9 +64,12 @@ world is getting warmer.
 
 ## Example usage
 
+![App screenshoot](https://i.imgur.com/HK7CZ3E.png)
+
 Select start date from the left and end date from the right side of the screen.
-Press `Plot`, the plotting will take some time depending on the step interval and selected year range.
-You can stop the plotting at any time.
+Press `Plot`, the plotting will take some time depending on the selected year range and step interval.
+You can stop the plotting at any time. First image will be a graph showing the temperature anomalies while
+the rest are world map plots to better visualize it.
 
 After that you can move the slider to move trough
 generated images or just click `Play` to play automatically. You can also press buttons

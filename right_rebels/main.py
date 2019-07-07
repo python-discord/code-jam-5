@@ -1,4 +1,4 @@
-# Temp plotter
+# World Temperature Anomaly Map
 # Copyright (C) 2019  Right Rebels
 #
 # This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ if __name__ == "__main__":
     # create org and app folders if not found
     app = QtWidgets.QApplication(sys.argv)
     app.setOrganizationName("Right_Rebels")
-    app.setApplicationName("Temp_Plotter")
+    app.setApplicationName("World Temperature Anomaly Map")
     app.setStyle("Fusion")
 
     path = QtCore.QStandardPaths.writableLocation(QtCore.QStandardPaths.AppConfigLocation)

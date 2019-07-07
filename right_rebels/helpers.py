@@ -1,4 +1,4 @@
-# Temp plotter
+# World Temperature Anomaly Map
 # Copyright (C) 2019  Right Rebels
 
 import h5py

@@ -1,4 +1,4 @@
-# Temp plotter
+# World Temperature Anomaly Map
 # Copyright (C) 2019  Right Rebels
 
 import sys
@@ -157,7 +157,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.move_year_right_button.pressed.connect(lambda: self.move_slider(self.year_step))
 
     def retranslate_ui(self):
-        self.setWindowTitle("Plotstats")
+        self.setWindowTitle("World Temperature Anomaly Map")
         self.plot_button.setText("Plot")
         self.stop_button.setText("Stop")
         self.animate_button.setText("Play")
@@ -361,6 +361,7 @@ class SettingsPop(QtWidgets.QDialog):
         self.show()
 
     def retranslate_ui(self):
+        self.setWindowTitle("Preferences")
         self.fps_label.setText("Playback speed [FPS]")
         self.step_label.setText("Step of plotter")
         self.color_map.setText("Choose color map")
@@ -472,7 +473,7 @@ class License(QtWidgets.QDialog):
         self.text = QtWidgets.QTextBrowser()
 
     def setup(self):
-        self.text.setText("Temp Plotter Copyright (C) 2019 Right Rebels\n"
+        self.text.setText("World Temperature Anomaly Map Copyright (C) 2019 Right Rebels\n"
                           "This program comes with ABSOLUTELY NO WARRANTY.\n"
                           "This is free software, and you are welcome to redistribute it")
         self.text.append('under certain conditions; <a href="https://www.gnu.org/licenses/">'
