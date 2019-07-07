@@ -60,7 +60,8 @@ class Trivia(commands.Cog):
         if isinstance(error, commands.BadArgument):
             return await ctx.send(str(error))
         if isinstance(error, commands.BadUnionArgument):
-            await ctx.send('Error encountered with parameters passed! Please see examples for help...')
+            await ctx.send('Error encountered with parameters passed! '
+                           'Please see examples for help...')
             return await ctx.send_help(ctx.command)
 
     def get_trivia_question(self, difficulty, category):
@@ -81,7 +82,8 @@ class Trivia(commands.Cog):
         return question
 
     def prepare_embed(self, difficulty, category):
-        """Returns a formatted discord embed, possible and correct answers for a trivia difficult and category.
+        """Returns a formatted discord embed, possible and correct
+        answers for a trivia difficult and category.
         """
         letters = ['A', 'B', 'C', 'D']
         results = self.get_trivia_question(difficulty, category)
@@ -101,8 +103,10 @@ class Trivia(commands.Cog):
 
     async def do_trivia(self, ctx, difficulty, category):
         """Run a single trivia question.
-        This function sends and adds reactions to a formatted embed, and waits for a response from the user.
-        It will then edit the message as appropriate if the answer is correct/incorrect, notifying the user the result.
+        This function sends and adds reactions to a formatted embed,
+        and waits for a response from the user.
+        It will then edit the message as appropriate if the answer is correct/incorrect,
+        notifying the user the result.
         """
         lookup = ['\N{REGIONAL INDICATOR SYMBOL LETTER A}',
                   '\N{REGIONAL INDICATOR SYMBOL LETTER B}',
@@ -138,14 +142,17 @@ class Trivia(commands.Cog):
         return correct
 
     @commands.group(invoke_without_command=True)
-    async def trivia(self, ctx, difficulty: typing.Union[DifficultyConverter, CategoryConverter] = None,
+    async def trivia(self, ctx, difficulty: typing.Union[DifficultyConverter,
+                                                         CategoryConverter] = None,
                      *, category: CategoryConverter = None):
         """Complete a single trivia round.
 
         Parameters
         -----------------
-        • Difficulty: a valid difficulty found with `>trivia difficulties`. This defaults to all difficulties.
-        • Category: a valid category found with `>trivia categories`. This defaults to include all categories.
+        • Difficulty: a valid difficulty found with `>trivia difficulties`.
+            This defaults to all difficulties.
+        • Category: a valid category found with `>trivia categories`.
+            This defaults to include all categories.
 
         Examples
         -----------------
@@ -168,12 +175,15 @@ class Trivia(commands.Cog):
     async def game(self, ctx, difficulty: typing.Union[DifficultyConverter, CategoryConverter] = None,
                    *, category: CategoryConverter = None):
         """Complete a trivia game with multiple rounds.
-        The bot will prompt you with how many rounds you wish to play. An appropriate answer would be `5`, or `20` etc.
+        The bot will prompt you with how many rounds you wish to play.
+        An appropriate answer would be `5`, or `20` etc.
 
         Parameters
         -----------------
-        • Difficulty: a valid difficulty found with `>trivia difficulties`. This defaults to all difficulties.
-        • Category: a valid category found with `>trivia categories`. This defaults to include all categories.
+        • Difficulty: a valid difficulty found with `>trivia difficulties`.
+            This defaults to all difficulties.
+        • Category: a valid category found with `>trivia categories`.
+            This defaults to include all categories.
 
         Examples
         -----------------
@@ -185,7 +195,8 @@ class Trivia(commands.Cog):
         """
         def check(m):
             return m.author == ctx.author and m.channel == ctx.channel
-        msg = await ctx.send('How many rounds would you like to play? A number like `5`, or `20` would be appropriate.')
+        msg = await ctx.send('How many rounds would you like to play? '
+                             'A number like `5`, or `20` would be appropriate.')
         try:
             rounds = await self.bot.wait_for('message', check=check, timeout=60.0)
         except asyncio.TimeoutError:

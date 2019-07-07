@@ -29,7 +29,8 @@ extensions = [
     'cogs.treefinder',
     'cogs.rankings',
     'cogs.reminders',
-    'cogs.trivia'
+    'cogs.trivia',
+    'cogs.farmer_game'
 ]
 
 
