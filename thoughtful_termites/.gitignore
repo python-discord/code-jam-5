@@ -104,4 +104,4 @@ venv.bak/
 .mypy_cache/
 
 # config
-bot/config.py
+shared/bot_config.py
