@@ -10,8 +10,8 @@ def detect_event_update(func):
     def inner(self, *args, **kwargs):
         new_message = func(self, *args, **kwargs)
         if new_message is not None and new_message != self.previous_message:
-                self.previous_message = new_message
-                self.previous_message_time = time.time()
+            self.previous_message = new_message
+            self.previous_message_time = time.time()
         return new_message
     return inner
 
