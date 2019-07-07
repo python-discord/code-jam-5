@@ -25,7 +25,7 @@ class ControlsWidget(QtWidgets.QFrame):
         self.main_layout.setContentsMargins(6, 6, 6, 6)
         self.setStyleSheet('QFrame#controls { background: qlineargradient(spread:pad, x1:0.494682, y1:0, x2:0.5, y2:1,'
                            'stop:0 rgba(136, 140, 141, 255), stop:1 rgba(113, 116, 117, 255)); }'
-                           'QPushButton { background: transparent; color: white; }')
+                           'QPushButton { background: rgba(0, 0, 0, 0); color: white; }')
 
         self.seeker = Seeker(self.player)
 
