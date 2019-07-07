@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, Tuple, Union
 from .planetary_effects import PlanetaryEffects
 from colorama import Fore
 
@@ -28,7 +28,7 @@ class Planet:
             "habitable_land": habitable_land,
         }
 
-    def _get_seperate_stats(self) -> List[int]:
+    def _get_seperate_stats(self) -> Tuple[Union[int, str], Union[int, str], Union[int, str], Union[int, str]]:
         bio_div = self.stats.get(
             "bio_diversity", "That wasn't here. Please restart the game."
         )
