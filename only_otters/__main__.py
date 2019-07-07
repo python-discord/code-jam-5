@@ -3,13 +3,14 @@ from PyQt5 import QtWidgets, QtGui
 from pathlib import Path
 import sys
 
+from .fonts import Raleway
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
-    font_path = Path('only_otters/fonts')
-    QtGui.QFontDatabase.addApplicationFont(str(font_path / 'Raleway-Regular.ttf'))
-    QtGui.QFontDatabase.addApplicationFont(str(font_path / 'Raleway-SemiBold.ttf'))
+    QtGui.QFontDatabase.addApplicationFont(Raleway.Regular.str)
+    QtGui.QFontDatabase.addApplicationFont(Raleway.SemiBold.str)
 
     gui = Leafify()
     gui.show()

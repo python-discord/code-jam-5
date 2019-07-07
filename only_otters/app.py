@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets, QtGui
 from .music_player import MusicPlayer
 from only_otters.images import icons
 
+
 class Leafify(QtWidgets.QMainWindow):
     """A music player designed to encourage action against climate change."""
 
