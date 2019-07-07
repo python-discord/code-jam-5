@@ -13,8 +13,7 @@ class InvestmentOptions:
         self.options = self.create_investements()
 
     def __str__(self) -> str:
-        menu = []
-        menu.append(Fore.CYAN + "Investment options:" + Fore.WHITE)
+        menu = [Fore.CYAN + "Investment options:" + Fore.WHITE]
         for key, i in self.options.items():
             if i.current_policy:
                 menu.append(f"{key}: {i.organization.name}")
@@ -32,7 +31,9 @@ class InvestmentOptions:
         """From a json file with CEOs, organization names and policies creates
             a dictionary of options for the player"""
         path = Path().cwd().resolve()
-        raw_json = self._parse_json(path / "resources" / "organizations.json")
+        # Comply with type hinting
+        path = str(path / "resources" / "organizations.json")
+        raw_json = self._parse_json(path)
         investement_list = []
         for entry in raw_json:
             org = Organization(entry["name"], entry["ceo"], entry["description"])
