@@ -40,6 +40,11 @@ def score_to_image(score: int) -> str:
 class TextButton(pygame.sprite.Sprite):
     def __init__(self, coords, text, clicked,
                  font=None, color=Color('#222222')):
+        """Button that displays text and performs an action on click.
+        clicked: Function to run when the button is clicked
+        image: Font with a rendered version of the button text
+        rect: pygame rect representing the button's boundaries
+        """
         pygame.sprite.Sprite.__init__(self)
         font = font or pygame.font.Font(None, 20)
         self.clicked = clicked
@@ -48,6 +53,14 @@ class TextButton(pygame.sprite.Sprite):
 
 
 class ValueLabel(pygame.sprite.Sprite):
+    """Label that displays text in the form {descriptor}: {value} {units}
+    descriptor, value, units: the parts of the label (see above)
+    coords: Normalized location of the label
+    font: pygame font to use when displaying the label
+    color: pygame color to use when displaying the label
+    update: Function to reflect changes in properties onto the UI
+    rect: pygame rect representing the label's boundaries
+    """
     def __init__(self, coords, descriptor, units):
         pygame.sprite.Sprite.__init__(self)
         self.descriptor = descriptor
@@ -78,27 +91,42 @@ class ValueLabel(pygame.sprite.Sprite):
 
 
 class StaticImage(pygame.sprite.Sprite):
+    """Image displayed on pygame window.
+    coords: Normalized location of the image
+    image: pygame image to be displayed
+    rect: pygame rect representing the image's boundaries
+    """
     def __init__(self, coords, image, centered=True):
         pygame.sprite.Sprite.__init__(self)
         self.coords = coords
         self.image = image
         self.rect = self.image.get_rect()
-        screen = pygame.display.get_surface()
-        self.area = screen.get_rect()
         self.rect.move_ip(*in_pixels(self.coords))
         if centered:
             self.rect.move_ip(-self.rect.w / 2, -self.rect.h / 2)
 
 
 class UpgradeButton(pygame.sprite.Sprite):
+    """Button to upgrade a property of the crank.
+    coords: Normalized location of the button
+    image: pygame image to be displayed on the button's surface
+    rect: pygame rect representing the image's boundaries
+    base_cost: Initial cost of the upgrade
+    cost: Current cost of the upgrade
+    cost_scaling: Logarithmic base to use when calculating cost from base_cost
+    type: The type of upgrade
+        Should be one of ["click_value", "crank_speed", "crank_inertia"]
+    parent: The parent object, of class ClimateClicker
+    cost_display: pygame display for the cost of the upgrade
+    level_display: pygame display for the level of the upgrade
+    level: Current level of the upgrade
+    """
     def __init__(self, parent, coords, base_cost, cost_scaling,
                  type, image, centered=False):
         pygame.sprite.Sprite.__init__(self)
         self.coords = coords
         self.image = image
         self.rect = self.image.get_rect()
-        screen = pygame.display.get_surface()
-        self.area = screen.get_rect()
         self.rect.move_ip(*in_pixels(coords))
         if centered:
             self.rect.move_ip(-self.rect.w / 2, -self.rect.h / 2)
@@ -135,7 +163,7 @@ class UpgradeButton(pygame.sprite.Sprite):
 
     def clicked(self):
         """Called when UI button is clicked. Purchase upgrade.
-        If user does not have enough watts, silently pass."""
+        If user does not have enough joules, silently pass."""
         if self.parent.score >= self.cost:
             self.parent.score -= self.cost
             self.level += 1
@@ -160,7 +188,31 @@ class UpgradeButton(pygame.sprite.Sprite):
 
 
 class Crank(pygame.sprite.Sprite):
-    """Hand Crank that rotates when clicked."""
+    """Hand Crank that rotates when clicked.
+    parent: Parent object, of class ClimateClicker
+    coords: Normalized location of the crank
+    image: Crank image base
+    crank_images: dynamic images for different speeds of the crank
+        Selected by current threshold of speed_intervals
+    rect: pygame rect representing the image's boundaries
+    click_sound: pygame sound to play when the crank completes a rotation
+    is_spinning: Whether the crank is in motion
+    rotation: The current rotation of the crank in degrees.
+        May exceed 360 if a rotation was completed in the previous frame
+    rotation_speed: Current rate of degrees/frame
+    rotation_speed_inc: The rotation speed to increase when clicked
+        Used along with rotation_speed_mul, before mul has been calculated
+    rotation_speed_base_decay: Initial rotation speed constant decrease
+    rotation_speed_decay: Curent rotation speed constant decrease
+    rotation_speed_mul: The rotation speed to multiple when clicked.
+        Used along with rotation_speed_inc, after inc has been calculated
+    rotation_speed_start: How fast to rotate on the first click
+    base_max_rotation_speed: Initial maximum speed for rotation
+    max_rotation_speed: Current maximum speed for rotation
+    min_rotation_speed: Minimum speed for rotation (stop rotation if lower)
+    speed_intervals: Thresholds for when the crank image should change
+        Adjusts crank_images active index
+    """
     def __init__(self, parent, coords, crank_images, click_sound):
         pygame.sprite.Sprite.__init__(self)
         self.parent = parent
@@ -169,10 +221,8 @@ class Crank(pygame.sprite.Sprite):
         self.crank_images = crank_images
         self.rect = self.image.get_rect()
         self.click_sound = click_sound
-        screen = pygame.display.get_surface()
-        self.area = screen.get_rect()
-        self.is_spinning = False
-        self.spinning = 0
+        self.is_spinning: bool = False
+        self.rotation = 0
         self.rect.move_ip(*in_pixels(coords))
         # The crank should center itself around its assigned screen location
         self.rect.move_ip(-self.rect.w / 2, -self.rect.h / 2)
@@ -185,7 +235,6 @@ class Crank(pygame.sprite.Sprite):
         self.base_max_rotation_speed = 25
         self.max_rotation_speed = self.base_max_rotation_speed
         self.min_rotation_speed = .5
-        # When to change image based on speed
         self.speed_intervals = [0, 20, 100]
 
     def update(self):
@@ -203,16 +252,14 @@ class Crank(pygame.sprite.Sprite):
     def _spin(self):
         "Spin the sprite for one frame"
         center = self.rect.center
-        self.spinning += self.rotation_speed
-        # TODO shouldn't this also depend on parent.time_delta?
-
-        num_revolutions, self.spinning = divmod(self.spinning, 360)
+        self.rotation += self.rotation_speed
+        num_revolutions, self.rotation = divmod(self.rotation, 360)
         if num_revolutions:
             self.click_sound.play()
             self.parent.score += num_revolutions * self.parent.click_value
 
         self.image = pygame.transform.rotate(self.get_spin_image(),
-                                             self.spinning)
+                                             self.rotation)
         self.rect = self.image.get_rect(center=center)
         self.rotation_speed -= self.rotation_speed * self.rotation_speed_decay
 
@@ -238,10 +285,32 @@ class Crank(pygame.sprite.Sprite):
 
 
 class ClimateClicker:
-    """Class should hold information about state of game
-    This includes current environment value and such.
-    Sprites and such should probably be held at class-level or module-level
-     instead? maybe? idk lol
+    """Main game class.
+    screen: pygame active display
+    machines: Collection of machine data with their count and cost
+    exit_requested: Whether an exit has been requested by user (exit if so)
+    click_value: How many joules to generate after a crank rotation
+    clock: Game clock, for limiting FPS
+    background: Currently active background image
+    overlay1: Canvas for displays further back
+    overlay2: Canvas for displays closer to the front
+    overlay_color: pygame color to use for the overlay
+    crank: crank object for generating joules
+    crank_overlay: crank-specific overlay
+    upgrade_buttons: Buttons to upgrade crank properties
+    save_button: Button used to save game
+    load_button: Button used to load a saved game
+    score_sprite: Rendered font showing the current score
+    speed_sprite: Rendered font showing the current speed
+    sprite_layers: Layers of the display to draw
+    events: Events object, for remembering history
+    last_update_time: Unix time of last frame
+    time_delta: Seconds since last frame
+    energy_per_second: Current watts from machines only; readonly
+    all_buttons: Helper collection of all buttons (text and upgrade)
+    score: Current score in watts
+    speed: Current speed in revolutions per second
+
     """
     def __init__(self, screen_size=(1024, 768), bg_color=Color('white')):
         pygame.mixer.pre_init(44100, -16, 2, 2048)
@@ -283,8 +352,8 @@ class ClimateClicker:
 
         self.save_button = TextButton((0.4, 0.1), "Save", self.save)
         self.load_button = TextButton((0.6, 0.1), "Load", self.load)
-        self.text_buttons = (self.save_button, self.load_button)
-        self.all_buttons = self.upgrade_buttons + self.text_buttons
+        text_buttons = (self.save_button, self.load_button)
+        self.all_buttons = self.upgrade_buttons + text_buttons
 
         self.score_sprite = ValueLabel(
             (0.02, 0.9), "Score", "Joules")
@@ -294,7 +363,7 @@ class ClimateClicker:
         gui_plain = pygame.sprite.RenderPlain(
             self.score_sprite,
             self.speed_sprite,
-            *self.all_buttons,
+            self.all_buttons,
             [button.cost_display for button in self.upgrade_buttons],
             [button.level_display for button in self.upgrade_buttons],
             *self.machines.values(),
@@ -372,11 +441,7 @@ class ClimateClicker:
         }
 
     def load_data(self, data: dict):
-        """Update the game state with the save data.
-
-        :param data: Data obtained from as_dict
-
-        """
+        """Update the game state with the save data."""
         self.score = data["score"]
         for machine, machine_count in data["machine_count"].items():
             self.machines[machine].count = machine_count
@@ -385,20 +450,22 @@ class ClimateClicker:
         self.events.event_list = data["history"]
 
     def save(self):
+        """Save current game data to a file"""
         with open("save_file.json", "w") as save_file:
             save_data = self.as_dict()
             json.dump(save_data, save_file)
         self.events.send("save")
 
     def load(self):
+        """Restore current game data from a file"""
         try:
             with open("save_file.json", "r") as save_file:
                 save_data = json.load(save_file)
         except FileNotFoundError:
             self.events.send("fail_load")
-            return
-        self.load_data(save_data)
-        self.events.send("load")
+        else:
+            self.load_data(save_data)
+            self.events.send("load")
 
     @property
     def score(self):
