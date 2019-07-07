@@ -6,13 +6,12 @@ from only_otters.resourcely import ensure_field
 
 import spacy
 
-NLP = spacy.load('en')
-
 import re
-
 from pathlib import Path
 
+
 __folder__ = Path(__file__).parent
+NLP = spacy.load('en')
 
 
 class CowspicaryFactFactory(FactFactory):

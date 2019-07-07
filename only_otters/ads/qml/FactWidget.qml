@@ -59,7 +59,7 @@ Item {
         width: god.width
         font.underline: true
         font.pixelSize: 10
-        padding: 2
+        padding: 5
 
         onLinkActivated: Qt.openUrlExternally(link)
     }

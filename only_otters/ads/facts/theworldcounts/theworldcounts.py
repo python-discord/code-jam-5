@@ -17,6 +17,7 @@ An application of the Remote Resource template to URL:
 https://www.theworldcounts.com/themes/our_environment
 """
 
+
 class TheWorldCountsFactFactory(FactFactory):
 
     def __init__(self):
@@ -47,7 +48,7 @@ class TheWorldCountsFactFactory(FactFactory):
             source=self.fetcher.url,
             factory=self
         )
-      
+
 
 __factory__ = TheWorldCountsFactFactory()
 __factory__.tags = ['counter', 'ui']
@@ -77,6 +78,7 @@ def postprocess(item):
             item['precision'] = None
 
     return item
+
 
 @__factory__.fetcher.pipe
 def valid(item):
