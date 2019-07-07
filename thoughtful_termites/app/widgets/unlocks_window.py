@@ -17,28 +17,30 @@ class UnlocksWindow(qt.QDialog):
             contents = f.read().strip()
             return int(contents)
 
-    def __init__(self, parent: qt.QWidget):
-        super().__init__(parent)
+    def __init__(self):
+        super().__init__()
 
         self.db = get_db()
 
         self.unlock_commentary_button = qt.QPushButton()
         self.unlock_commentary_button.setText("Climate Commentary")
-        self.unlock_commentary_button.addAction(self.on_unlock("commentary"))
+        self.unlock_commentary_button.clicked.connect(self.on_unlock("commentary"))
 
         self.unlock_rankings_button = qt.QPushButton()
         self.unlock_rankings_button.setText("Rankings Minigame")
-        self.unlock_rankings_button.addAction(self.on_unlock("rankings"))
+        self.unlock_rankings_button.clicked.connect(self.on_unlock("rankings"))
 
         self.unlock_hangman_button = qt.QPushButton()
         self.unlock_hangman_button.setText("Hangman")
-        self.unlock_hangman_button.addAction(self.on_unlock("hangman"))
+        self.unlock_hangman_button.clicked.connect(self.on_unlock("hangman"))
 
         self.unlock_treefinder_button = qt.QPushButton()
         self.unlock_treefinder_button.setText("Treefinder")
-        self.unlock_treefinder_button.addAction(self.on_unlock("treefinder"))
+        self.unlock_treefinder_button.clicked.connect(self.on_unlock("treefinder"))
 
         completed_goals = UnlocksWindow.completed_goals()
+
+        self.goals_label = qt.QLabel(f"Goals completed: {completed_goals}")
 
         if completed_goals < 1:
             self.unlock_commentary_button.setEnabled(False)
@@ -60,7 +62,10 @@ class UnlocksWindow(qt.QDialog):
 
         self.main_layout = qt.QVBoxLayout(self)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
-        self.main_layout.addChildLayout(self.layout)
+        self.main_layout.addWidget(self.goals_label)
+        self.main_layout.addLayout(self.layout)
+
+        self.setLayout(self.main_layout)
 
         self.setWindowTitle("Unlock Minigames")
 

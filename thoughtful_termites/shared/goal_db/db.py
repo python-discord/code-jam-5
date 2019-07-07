@@ -270,13 +270,13 @@ class GoalDB:
             yield Unlock.from_row(self, row)
 
     def get_unlock_by_id(self, unlock_id):
-        result = self.connection.execute("SELECT * FROM unlocks WHERE id=?", unlock_id)
+        result = self.connection.execute("SELECT * FROM unlocks WHERE id=?", (unlock_id, ))
 
         for row in result:
             return Unlock.from_row(self, row)
 
     def get_unlock_by_name(self, name):
-        result = self.connection.execute("SELECT * FROM unlocks WHERE name=?", name)
+        result = self.connection.execute("SELECT * FROM unlocks WHERE name=?", (name, ))
 
         for row in result:
             return Unlock.from_row(self, row)

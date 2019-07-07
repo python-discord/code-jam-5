@@ -61,7 +61,7 @@ class Unlock:
         :param commit: If true, changes will be committed immediately.
         """
         cursor = self.db.connection.execute(
-            "update unlocks set name=?, set is_unlocked=? where id=?",
+            "update unlocks set (name, is_unlocked)=(?, ?) where id=?",
             (self.name, 1 if self.is_unlocked else 0, self.id)
         )
 
