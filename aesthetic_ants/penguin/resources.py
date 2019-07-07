@@ -35,4 +35,3 @@ WALL_TILE = load_image("tiles/wall.png")
 
 # Levels
 LEVEL_1 = load_level("levels/1.level")
-

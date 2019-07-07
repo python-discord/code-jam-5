@@ -4,7 +4,6 @@ from .constants import CollisionType
 from .enemy import BigEnemy, FastEnemy
 from .player import Player
 from .resources import LEVEL_1
-from .snowball import Snowball
 from .space import Space
 from .tile_layer import TileLayer
 from .ui import GameOverScreen, ScoreLabel, UiSpace
@@ -129,4 +128,3 @@ class Game(pyglet.window.Window):
             self.player.unlock_weapons(self.score)
 
         enemy.on_collision_snowball(snowball)
-
