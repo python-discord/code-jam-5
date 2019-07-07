@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<h2 align="center">Various Vipers | saving the earth</h2>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<h2 align="center">Various Vipers | saving the earth</h2>
 <p align="center">
   (Python Discord code jam 5 submission)<br>
   <img src="https://i.imgur.com/S14ouvw.png" width="256">
@@ -59,7 +59,6 @@ To start the game, simply run:
 
 Your Pipenv lock file might be corrupt, try running command:
 
-```
 $ pipenv lock --pre --clear
 ```<h2 align="center">Various Vipers | saving the earth</h2>
 <p align="center">
@@ -87,7 +86,7 @@ To prepare for development, run commands (from this directory):
 $ pip install pipenv
 $ pipenv install --dev
 $ pipenv run precommit
-```
+
 
 ## Setup
 
@@ -98,7 +97,7 @@ Run commands (from this directory):
 ```
 $ pip install pipenv
 $ pipenv install
-```
+
 
 ## Start Game
 
@@ -124,7 +123,7 @@ Your Pipenv lock file might be corrupt, try running command:
 
 ```
 $ pipenv lock --pre --clear
-```## How to play
+## How to play
 
 The global temperature is drastically increasing. Your mission is to save the Earth through completing tasks - saving the forests and mountains ice, building solar panels and decreasing the pollution.
 
