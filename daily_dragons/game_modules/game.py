@@ -29,14 +29,20 @@ class Game:
             Fore.YELLOW + "Have a good day, thanks for playing!" + Style.RESET_ALL
         )
 
-        self.fail_msg = Fore.RED + "You have destroyed your planet. Enjoy the rest of your life " \
-                                   "knowing you've doomed humanity."
+        self.fail_msg = (
+            Fore.RED + "You have destroyed your planet. Enjoy the rest of your life "
+            "knowing you've doomed humanity."
+        )
 
-        self.success_ending = Fore.GREEN + "Congratuations! You've managed to save your world."
+        self.success_ending = (
+            Fore.GREEN + "Congratuations! You've managed to save your world."
+        )
 
-        self.medium_ending = Fore.YELLOW + "You managed to not destroy the world, but try better" \
-                                           " next time. You could have actually done some good " \
-                                           "in your life for once."
+        self.medium_ending = (
+            Fore.YELLOW + "You managed to not destroy the world, but try better"
+            " next time. You could have actually done some good "
+            "in your life for once."
+        )
 
         self.successful_order_msg = Fore.GREEN + "Ok, we've sent that in!"
 
@@ -80,12 +86,17 @@ class Game:
 
     def final_score(self) -> str:
         final_score = 0
+        for stat in self.earth.stats.values():
+            if stat >= 0:
+                final_score += stat * 10000
+            else:
+                final_score += stat * 5000
 
         return f"Final score: {final_score}"
 
     def main(self) -> None:
         while not self.quit_game:
-            if self.round > 10:
+            if self.round >= 10:
                 self.quit_game = True
 
                 if sum(i >= 10 for i in self.earth.stats.values()) >= 2:
@@ -103,7 +114,11 @@ class Game:
                 print(self.fail_msg)
 
             else:
-                print(Fore.BLUE + f"Welcome to round {self.round}.", self.investments, sep="\n")
+                print(
+                    Fore.BLUE + f"Welcome to round {self.round}.",
+                    self.investments,
+                    sep="\n",
+                )
                 player_input = input(Style.RESET_ALL + "")
                 response = self.parse_input(player_input)
 
