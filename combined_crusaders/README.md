@@ -3,6 +3,15 @@ A clicker based game where you work to power the earth through climate friendly 
 
 
 ## Setup
+
+### With pipenv
+
+Navigate to this directory and then use pipenv.  It should load all necessary dependencies.
+
+* `pipenv run start`
+
+### Without pipenv
+
 Create a virtual env and activate it (all commands from within this directory):
 
 * `python -m venv venv`
