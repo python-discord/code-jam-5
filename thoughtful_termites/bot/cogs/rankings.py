@@ -6,8 +6,7 @@ import discord
 from discord.ext import commands
 
 from thoughtful_termites.bot import unlocks
-
-RANKINGS_DATA_PATH = "./resources/rankings_data.csv"
+from thoughtful_termites.bot.resources import rankings_data_path
 
 
 class Rankings(commands.Cog):
@@ -23,7 +22,7 @@ class Rankings(commands.Cog):
         """
         self.bot = bot
 
-        with open(RANKINGS_DATA_PATH, "r", encoding="utf-8-sig") as f:
+        with open(rankings_data_path, "r", encoding="utf-8-sig") as f:
             self.raw_rankings = list(csv.DictReader(f))
 
     @staticmethod
@@ -168,7 +167,10 @@ class Rankings(commands.Cog):
                 correct += 1
 
         if correct == 0:
-            final_message = "Unfortunately, you got none of the ranks correct. Better luck next time!"
+            final_message = (
+                "Unfortunately, you got none of the ranks correct. "
+                "Better luck next time!"
+            )
         elif correct == 5:
             final_message = "Congratulations! You got all of the ranks correct."
         else:

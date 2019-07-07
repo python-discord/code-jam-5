@@ -137,12 +137,17 @@ class Hangman(commands.Cog):
         :param contents: The contents of the Hangman embed, placed at the top
         :return: A discord.Embed with all the Hangman information on it
         """
-        fmt = f"{contents}\n\n```{HANGMAN_STATES[6 - self.lives]}```\n\nThe word is: {self.revealed()}\n\nLives: {self.lives}"
+        fmt = (
+            f"{contents}\n\n```{HANGMAN_STATES[6 - self.lives]}```\n\n"
+            f"The word is: {self.revealed()}\n\n"
+            f"Lives: {self.lives}"
+        )
+
         embed = discord.Embed(colour=self.bot.colour,
                               title="Hangman Game",
                               description=fmt,
                               timestamp=datetime.utcnow())
-        
+
         return embed
 
     @commands.command()
@@ -157,7 +162,10 @@ class Hangman(commands.Cog):
             await ctx.send(unlocks.unlock_message("Hangman"))
             return
 
-        embed = self.hangman_embed("Welcome to Hangman! Start the game by reacting to this message.")
+        embed = self.hangman_embed(
+            "Welcome to Hangman! "
+            "Start the game by reacting to this message."
+        )
         message: discord.Message = await ctx.send(
             embed=embed
         )
@@ -209,9 +217,19 @@ class Hangman(commands.Cog):
         await message.delete()
 
         if self.lives == 0:
-            await ctx.send(content=f"Unfortunately, you died at {len(self.guesses)} guesses. The word was {self.word}.")
+            await ctx.send(
+                content=(
+                    f"Unfortunately, you died at {len(self.guesses)} guesses. "
+                    f"The word was {self.word}."
+                )
+            )
         else:
-            await ctx.send(content=f"Congratulations! You solved the puzzle in {len(self.guesses)} guesses.")
+            await ctx.send(
+                content=(
+                    f"Congratulations! "
+                    f"You solved the puzzle in {len(self.guesses)} guesses."
+                )
+            )
 
 
 def setup(bot):
