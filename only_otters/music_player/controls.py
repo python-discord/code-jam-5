@@ -25,7 +25,7 @@ class ControlsWidget(QtWidgets.QFrame):
         self.main_layout.setContentsMargins(6, 6, 6, 6)
         self.setStyleSheet('QFrame#controls { background: qlineargradient(spread:pad, x1:0.494682, y1:0, x2:0.5, y2:1,'
                            'stop:0 rgba(136, 140, 141, 255), stop:1 rgba(113, 116, 117, 255)); }'
-                           'QPushButton { background: rgba(0, 0, 0, 0); color: white; }')
+                           'QPushButton { border: none; background: none; color: white; }')
 
         self.seeker = Seeker(self.player)
 
@@ -35,6 +35,7 @@ class ControlsWidget(QtWidgets.QFrame):
         self.next_song_icon = QtGui.QIcon(imgButtons.Next.str)
 
         self.previous_song_button = QtWidgets.QPushButton(self.previous_song_icon, '')
+        # self.previous_song_button.setStyleSheet("background:none")
         self.previous_song_button.clicked.connect(self._previous_song)
         self.play_pause_button = QtWidgets.QPushButton(self.play_song_icon, '')
         self.play_pause_button.clicked.connect(self.toggle_play)
