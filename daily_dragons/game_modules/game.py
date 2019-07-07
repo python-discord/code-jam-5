@@ -106,6 +106,7 @@ class Game:
                 print(self.final_score())
 
             elif self.player.net_worth <= 0:
+                self.quit_game = True
                 print("You've run out of money.", self.exit_msg)
 
             elif not all(i > -10 for i in self.earth.stats.values()):
