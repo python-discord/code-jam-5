@@ -199,7 +199,7 @@ class Options:
         self.slider2 = Slider(self.screen, 2)
         self.volume_indicator2 = VolumeIndicator(self.screen, 2)
 
-    def draw(self, mouse_x: int, mouse_y: int, event):
+    def draw(self, mouse_x: int, mouse_y: int, event) -> str:
         """Hadle all options events and draw elements."""
         self.event = event
         self.mouse_x, self.mouse_y = mouse_x, mouse_y
@@ -241,6 +241,15 @@ class Options:
         return WindowState.options
 
     def __draw_infinity_bg(self):
+        """
+        Draws the infinity backround.
+
+        It uses two rectangles to swap the images.
+        The two rectangles are moving in one direction.
+
+        One of them is always with WIDTH ahead of the other rectangle.
+        So if it reaches the end, every rectangle goes back with -WIDTH.
+        """
         self.bg_rect_1.left += 1
         self.bg_rect_2.left += 1
 
@@ -252,7 +261,12 @@ class Options:
         self.screen.blit(self.background, self.bg_rect_1)
         self.screen.blit(self.background, self.bg_rect_2)
 
-    def __draw_volume_button(self, vol, vol_mute, slider):
+    def __draw_volume_button(self, vol, vol_mute, slider) -> None:
+        """
+        Draws the volume button of the two sliders.
+
+        The volume buttons mute the volume.
+        """
         clicked = self.event.type == pg.MOUSEBUTTONDOWN
 
         if slider.number == 1:
@@ -299,7 +313,12 @@ class Options:
             else:
                 vol.draw()
 
-    def __draw_fps_checker_button(self):
+    def __draw_fps_checker_button(self) -> None:
+        """
+        Draw the fps checker button.
+
+        Which toggle the displaying of the FPS.
+        """
         clicked = self.event.type == pg.MOUSEBUTTONDOWN
 
         if user_data.show_fps:
@@ -325,7 +344,13 @@ class Options:
             else:
                 self.fps_checker_btn.draw()
 
-    def __draw_boost_fps_checker_button(self):
+    def __draw_boost_fps_checker_button(self) -> None:
+        """
+        Draw the boost fps checker button.
+
+        Which toggle the boosting of the FPS.
+        With removing some animations in the game to increase performance.
+        """
         clicked = self.event.type == pg.MOUSEBUTTONDOWN
 
         if user_data.boost_fps:
