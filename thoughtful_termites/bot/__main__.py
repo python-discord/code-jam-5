@@ -2,7 +2,9 @@ import traceback as tb
 
 if __name__ == '__main__':
     try:
-        import thoughtful_termites.bot
+        from thoughtful_termites import bot
+        bot.run()
+
     except Exception:
         tb.print_exc()
         input('Press enter to exit.')

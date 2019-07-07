@@ -79,6 +79,7 @@ class ClimateBot(commands.Bot):
         return self.get_user(self.owner_id)
 
 
-config = Config.load(config_path)
-bot = ClimateBot()
-bot.run(config.bot_token)
+def run():
+    config = Config.load(config_path)
+    bot = ClimateBot()
+    bot.run(config.bot_token)
