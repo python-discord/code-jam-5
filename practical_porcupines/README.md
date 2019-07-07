@@ -1,5 +1,5 @@
 <h1 align="center">
-Practical Porcupines
+$ Practical Porcupines_
 </h1>
 
 ![Logo](../logo.png)
