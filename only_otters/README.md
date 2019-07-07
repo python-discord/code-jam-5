@@ -60,7 +60,7 @@ import numpy as np
 
 # the song is set to 1 channel so that it doesn’t contain duplicate samples
 song = AudioSegment.from_file("sample.mp3").set_channels(1)
-samples = np.array(song.get_array_of_samples)
+samples = np.array(song.get_array_of_samples())
 # the fft algorithm calculates the amps and frequencies
 fourier = np.fft.fft(samples)
 frequencies = np.fft.fftfreq(fourier.size, d=song.duration)
