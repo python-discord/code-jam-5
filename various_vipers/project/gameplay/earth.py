@@ -31,9 +31,7 @@ from .sun import Sun
 
 logger = logging.getLogger(__name__)
 game_vars = GameState()
-
 user_data = UserData()
-user_data.load()  # TODO :: check if can be removed
 
 
 class Earth(object):
