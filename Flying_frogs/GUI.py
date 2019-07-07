@@ -219,24 +219,28 @@ E1 = car(True,
          168,
          91,
          3)
+
 E2 = car(True,
-                [pygame.image.load('Cars\\2.png')],
-                10,
-                168,
-                94,
-                3)
+         [pygame.image.load('Cars\\2.png')],
+         10,
+         168,
+         94,
+         3)
+
 F1 = car(False,
-                [pygame.image.load('Cars\\P1.png')],
-                5,
-                265,
-                137,
-                5)
+         [pygame.image.load('Cars\\Blackcar.png')],
+         5,
+         168,
+         94,
+         5)
+
 F2 = car(False,
-                [pygame.image.load('Cars\\P2.png')],
-                7,
-                168,
-                101,
-                5)
+         [pygame.image.load('Cars\\Taxi.png')],
+         7,
+         168,
+         68,
+         5)
+
 
 # List of available vehicles to chose from
 vehicles = [E1, E2, F1, F2]
