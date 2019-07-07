@@ -1,6 +1,7 @@
 import aiohttp
 import discord
 import logging
+import traceback as tb
 
 from discord.ext import commands
 
@@ -61,6 +62,7 @@ class ClimateBot(commands.Bot):
             try:
                 self.load_extension(ext)
             except Exception as e:
+                tb.print_exc()
                 print(f'Failed to load {ext}: {e}')
 
     async def process_commands(self, message):
