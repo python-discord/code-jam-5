@@ -84,7 +84,7 @@ class NormalEnemy(Enemy):
 class BigEnemy(Enemy):
     speed_min = 20
     speed_max = 50
-    hearts = 2
+    hearts = 4
     enemy_image = ENEMY_BIG_IMAGE
 
 
@@ -98,7 +98,7 @@ class FastEnemy(Enemy):
 class Truck(Enemy):
     speed_min = 20
     speed_max = 40
-    hearts = 10
+    hearts = 15
     score = 100
     enemy_image = ENEMY_TRUCK_IMAGE
 
