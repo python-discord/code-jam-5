@@ -4,7 +4,9 @@ class Characters:
             self.name = str(member)
             self.member = member
             self.position = position
+            self.eliminated = False
             self.is_active = False
+            self.in_power = False
 
         def __str__(self):
             return type(self).__name__
@@ -12,7 +14,7 @@ class Characters:
         def powers(self):
             pass
 
-    class polluter(Player):
+    class Denier(Player):
         def __init__(self, *args, **kwargs):
             super().__init__(*args)
 
@@ -20,6 +22,6 @@ class Characters:
         def __init__(self, *args, **kwargs):
             super().__init__(*args)
 
-    class green_activist(Player):
+    class Activist(Player):
         def __init__(self, *args, **kwargs):
             super().__init__(*args)
