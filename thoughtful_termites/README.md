@@ -91,3 +91,8 @@ emoji to guess a letter.
 accidentally remove the trees!
   - Use `guess x y` to excavate a tile on the field.
   - Use `flag x y` to flag a certain tile.
+
+### Credits
+
+Program icon courtesy of https://www.iconfinder.com/icons/2189582/ecology_green_leaf_plant_spring_icon
+released under the Creative Commons Attribution 3.0 Unported license. https://creativecommons.org/licenses/by/3.0/
