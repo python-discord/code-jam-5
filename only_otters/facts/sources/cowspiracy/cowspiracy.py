@@ -28,8 +28,8 @@ class CowspicaryFactFactory(FactFactory):
 
     def _build_widget(self, factobj: Fact, parent: QWidget) -> QmlWidget:
         return QmlWidget(
-            dataobjs={'fact': factobj},
             qmlpath=qmlFactWidget.url,
+            context={'fact': factobj},
             parent=parent
         )
 

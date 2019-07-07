@@ -47,22 +47,20 @@ Item {
         Text {
             id: number
             text: format(core.value)
-            horizontalAlignment: Text.AlignRight
 
+            horizontalAlignment: Text.AlignRight
             font.pixelSize: 20
             font.bold: true
-
             color: "#fff"
 
         }
 
         Text {
             id: title
-
             text: core.fctext
-
-            font.pixelSize: 15
+            
             width: core.width * .9
+            font.pixelSize: 15
             wrapMode: Text.WordWrap
             color: "#fff"
         }

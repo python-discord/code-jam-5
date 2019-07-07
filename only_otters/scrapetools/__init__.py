@@ -1,1 +1,1 @@
-from hquery import HierarchicalXPathQuery  # noqa: F401
+from .hquery import HierarchicalXPathQuery  # noqa: F401

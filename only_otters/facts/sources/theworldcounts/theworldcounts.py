@@ -27,8 +27,8 @@ class TheWorldCountsFactFactory(FactFactory):
 
     def _build_widget(self, factobj: Fact, parent) -> QmlWidget:
         return QmlWidget(
-            dataobjs={'fact_counter': factobj},
             qmlpath=qmlCounter.url,
+            context={'fact_counter': factobj},
             parent=parent
         )
 
