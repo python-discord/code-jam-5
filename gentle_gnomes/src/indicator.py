@@ -1,3 +1,4 @@
+import asyncio
 import json
 from collections import Counter
 from itertools import chain
@@ -57,16 +58,17 @@ class Indicator:
         self.y = json.dumps(y.tolist())
 
 
+async def _create_indicator(name, city):
+    indicator = Indicator(name, city)
+    await indicator.populate_data()
+    return name, indicator
+
+
 async def get_top_indicators(city: City, n: int = 5) -> Tuple[Indicator, ...]:
     """Return the top n indicators with the highest rate of change."""
-    rates = Counter()
-    indicators = {}
+    tasks = [_create_indicator(name, city) for name in INDICATORS]
+    indicators = dict(await asyncio.gather(*tasks))
 
-    for name in INDICATORS:
-        indicator = Indicator(name, city)
-        await indicator.populate_data()
-
-        rates[name] = indicator.rate
-        indicators[name] = indicator
+    rates = Counter({name: abs(indicator.rate) for name, indicator in indicators.items()})
 
     return tuple(indicators[k] for k, _ in rates.most_common(n))
