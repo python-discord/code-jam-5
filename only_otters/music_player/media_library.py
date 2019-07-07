@@ -1,6 +1,7 @@
 # std
 import os
 from pathlib import Path
+from typing import Optional, Union
 
 # qt
 from PyQt5 import QtWidgets, QtCore, QtGui
@@ -9,7 +10,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 __folder__ = Path(__file__).parent
 
 
-def find_user_library():
+def find_user_library() -> Optional[Path]:
     """Attempts to retrieve the path to the user's default music library folder."""
     expected_path = Path('~/Music').expanduser()
     if expected_path.exists():
@@ -26,11 +27,13 @@ class MediaLibrary(QtWidgets.QFrame):
 
         ep = find_user_library()
         if ep is not None:
-            self.set_path(ep)
+            self.set_root_path(ep)
     
     def init_ui(self):
+
         layout = QtWidgets.QVBoxLayout()
         self.setLayout(layout)
+        
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.layout().setSpacing(0)
 
@@ -39,6 +42,7 @@ class MediaLibrary(QtWidgets.QFrame):
                                        'border-top-left-radius: 6px;'
                                        'border-top-right-radius: 6px;'
                                        'color: white;')
+
         self.title_layout = QtWidgets.QHBoxLayout()
         self.title_frame.setLayout(self.title_layout)
         self.layout().addWidget(self.title_frame)
@@ -54,22 +58,31 @@ class MediaLibrary(QtWidgets.QFrame):
 
         title_font = QtGui.QFont('Raleway', 16)
         title_font.setBold(True)
+
         self.media_library_title = QtWidgets.QLabel('Media Library...')
         self.media_library_title.setFont(title_font)
+
         self.title_layout.addWidget(self.media_library_title)
 
         self.filesystem_model = QtWidgets.QFileSystemModel()
         self.filesystem_model.setNameFilters(['*.mp3', '*.m4a', '*.wav', '*.m3u', '*.ogg', '*.wma'])
         self.filesystem_model.setNameFilterDisables(False)
         self.filesystem_model.setFilter(QtCore.QDir.AllEntries | QtCore.QDir.NoDotAndDotDot)
+
         self.music_tree = QtWidgets.QTreeView(self)
         self.music_tree.setModel(self.filesystem_model)
-        self.music_tree.hideColumn(1) # Size Column
-        self.music_tree.hideColumn(2) # Type Column
-        self.music_tree.hideColumn(3) # Date Modified Column
+
+        self.music_tree.hideColumn(1)  # Size Column
+        self.music_tree.hideColumn(2)  # Type Column
+        self.music_tree.hideColumn(3)  # Date Modified Column
+
         self.music_tree.setObjectName('music_library')
         self.music_tree.setHeaderHidden(True)
+
+        # Add slot
         self.music_tree.activated.connect(self.item_clicked)
+
+        # Add widget
         self.library_layout.addWidget(self.music_tree)
 
         self.change_path_button = QtWidgets.QPushButton('Change Path')
@@ -79,9 +92,10 @@ class MediaLibrary(QtWidgets.QFrame):
     def choose_path(self):
         folder_path = QtWidgets.QFileDialog.getExistingDirectory()
         if folder_path:
-            self.set_path(str(Path(folder_path)))
+            self.set_root_path(folder_path)
 
-    def set_path(self, path):
+    def set_root_path(self, path: Union[str, Path]):
+        """Set the root folder of the file explorer."""
         path = os.fspath(path)
         x = self.filesystem_model.setRootPath(path)
         self.music_tree.setRootIndex(x)

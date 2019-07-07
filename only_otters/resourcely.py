@@ -38,11 +38,11 @@ class Resource:
     md5hash: str = None
 
     @property
-    def str(self):
+    def str(self) -> str:
         return str(self.url)
 
     @property
-    def QUrl(self):
+    def QUrl(self) -> 'QUrl':
         """Return a QUrl object built from the original url."""
         from PyQt5.QtCore import QUrl
         return QUrl.fromLocalFile(os.fspath(self))
@@ -51,7 +51,7 @@ class Resource:
         return os.fspath(self.absolute)
 
     @property
-    def absolute(self):
+    def absolute(self) -> pathlib.Path:
         """Return the absolute path of the stored Path object."""
         return pathlib.Path(self.url).absolute()
 
@@ -153,7 +153,7 @@ _EXT_LOADERS = {
 }
 
 
-def from_located_file(filepath='resources.yml', location=None, near=None):
+def from_located_file(filepath='resources.yml', location=None, near=None) -> Namespace:
     """Load a resource namespace from a file located in the 'location' folder, or in the parent
     folder of the path provided in 'near'."""
 
@@ -184,6 +184,6 @@ def expand(resources: Namespace, context: dict):
         context[key] = value
 
 
-def get_domain_name(url):
+def get_domain_name(url) -> str:
     """Retrieve domain name without protocol prefix or subpath."""
     return re.search(r'https?://([\w.-]+?)(?:/.*)?$', url).groups()[0]

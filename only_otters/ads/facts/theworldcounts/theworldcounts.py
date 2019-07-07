@@ -21,7 +21,7 @@ https://www.theworldcounts.com/themes/our_environment
 
 
 class TheWorldCountsFactFactory(FactFactory):
-
+    """FactFactory implementation for the website https://www.theworldcounts.com."""
     def __init__(self):
         super().__init__()
         self.fetcher = HierarchicalXPathQuery.from_yml(__folder__ / 'theworldcounts.yml')
@@ -33,7 +33,7 @@ class TheWorldCountsFactFactory(FactFactory):
             parent=parent
         )
 
-    def _build_fact(self, record):
+    def _build_fact(self, record: dict) -> FactCounter:
 
         start = float(ensure_field(record, 'start'))
         offset = float(ensure_field(record, 'cursor'))
@@ -57,8 +57,8 @@ __factory__.tags = ['counter', 'ui']
 
 
 @__factory__.fetcher.pipe
-def postprocess(item):
-
+def postprocess(item: dict) -> dict:
+    """Postprocess a counter to extract data at a more granular level that hquery allows for."""
     for key in item:
         item[key] = item[key].strip()
 
@@ -83,5 +83,6 @@ def postprocess(item):
 
 
 @__factory__.fetcher.pipe
-def valid(item):
+def valid(item: str) -> bool:
+    """Ensure the item is a valid counter."""
     return item['start'] is not None

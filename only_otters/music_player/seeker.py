@@ -1,3 +1,4 @@
+# qt
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 
@@ -5,7 +6,7 @@ class Seeker(QtWidgets.QProgressBar):
 
     timestamp_updated = QtCore.pyqtSignal(str)
 
-    def __init__(self, player):
+    def __init__(self, player: 'MusicPlayer'):
         super().__init__()
         self.player = player
         self.player.positionChanged.connect(self.update_position)
@@ -31,7 +32,7 @@ class Seeker(QtWidgets.QProgressBar):
             """
         )
 
-    def update_position(self, milliseconds):
+    def update_position(self, milliseconds: int):
         if self.player.duration():
             self.setValue((milliseconds/self.player.duration())*self.maximum())
             duration = int(milliseconds / 1000)

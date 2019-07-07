@@ -1,7 +1,6 @@
 # local
 from only_otters.images import buttons as imgButtons
 from .seeker import Seeker
-
 # std
 from pathlib import Path
 
@@ -12,7 +11,7 @@ from PyQt5 import QtWidgets, QtMultimedia, QtGui
 class ControlsWidget(QtWidgets.QFrame):
     """Contains all the controls for a QMediaPlayer."""
 
-    def __init__(self, player):
+    def __init__(self, player: 'MusicPlayer'):
         super().__init__()
         self.player = player
         self.player.mediaStatusChanged.connect(self._update_controls_on_stop)
@@ -38,7 +37,6 @@ class ControlsWidget(QtWidgets.QFrame):
         self.next_song_icon = QtGui.QIcon(imgButtons.Next.str)
 
         self.previous_song_button = QtWidgets.QPushButton(self.previous_song_icon, '')
-        # self.previous_song_button.setStyleSheet("background:none")
         self.previous_song_button.clicked.connect(self._previous_song)
         self.play_pause_button = QtWidgets.QPushButton(self.play_song_icon, '')
         self.play_pause_button.clicked.connect(self.toggle_play)
@@ -57,11 +55,13 @@ class ControlsWidget(QtWidgets.QFrame):
         self.setLayout(self.main_layout)
 
     def _update_controls_on_stop(self, status):
+        """Update stop control button icon depending on status."""
         if status == self.player.EndOfMedia:
             self.play_pause_button.setIcon(self.play_song_icon)
             self.seeker.setValue(0)
         
     def _update_play_pause_button(self, state):
+        """Switch from play to pause icon depending on music player state."""
         if self.player.state() == self.player.PlayingState:
             self.play_pause_button.setIcon(self.pause_song_icon)
         else:

@@ -118,7 +118,8 @@ class MusicPlayer(QtWidgets.QWidget):
 
         self.setLayout(self.main_layout)
 
-    def play_song(self, song):
+    def play_song(self, song: str):
+        """Play a song given its file url in the local filesystem."""
         self.player.playlist().clear()
         self.controls.duration_label.setText('Loading...')
         url = QtCore.QUrl.fromLocalFile(song)
@@ -135,7 +136,8 @@ class MusicPlayer(QtWidgets.QWidget):
         self.controls.duration_label.setText('0')
         self.controls.play_pause_button.setIcon(QtGui.QIcon(imgButtons.Pause.str))
 
-    def disable_advert_controls(self, media):
+    def disable_advert_controls(self, media: QtMultimedia.QMediaContent):
+        """Disable player controls while an ad is playing."""
         if self.advert_in_progress:
             self.now_playing_widget.audio_visualiser.green_flames()
             self.controls.setEnabled(False)
@@ -145,11 +147,15 @@ class MusicPlayer(QtWidgets.QWidget):
             self.controls.setEnabled(True)
 
     def play_ad(self):
+        """Play an ad before a song is played."""
         self.advert_in_progress = True
+        
         fact = get_fact_by_tags('text')
         text = "Did you know that ... " + fact.content + '. Thank you for listening to Leafify'
+
         file = text_to_audio(text)
         self.play_song(file)
+
         self.now_playing_widget.now_playing_label.setText('Advert Intermission')
 
     def check_advert_intermission(self):
@@ -177,8 +183,17 @@ class MusicPlayer(QtWidgets.QWidget):
         self.foreground_label.raise_()
 
     def refresh_fact(self):
+        """Refresh the fact widget."""
+
+        # Delete previous widget
         self.fact_widget.deleteLater()
+
+        # Prepare widget
         self.fact_widget = get_fact_by_tags('ui').as_widget(self)
         self.fact_widget.setMinimumSize(300, 200)
+        
+        # Place widget
         self.sidebar_layout.insertWidget(1, self.fact_widget)
+        
+        # Reset timer
         self.refresh_fact_timer.start(self.fact_refresh_rate * 1000)

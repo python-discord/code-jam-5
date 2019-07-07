@@ -25,7 +25,12 @@ def raw(num: Union[int, float]) -> int:
     return num
 
 
-def counter(start, offset, per=1000, mininterval=1):
+def counter(
+    start: Union[int, float], 
+    offset: Union[int, float], 
+    per: int = 1000, 
+    mininterval: int = 1
+) -> (float, float):
     """
     Compute the minimum offset and delay that can be achieved given the initial increase value and
     starting value. This is used to build a counter with an increase value as tiny as possible, as

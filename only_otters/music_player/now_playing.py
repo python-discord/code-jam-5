@@ -5,13 +5,13 @@ from ..audio_visualiser import AudioVisualiser
 from pathlib import Path
 
 # qt
-from PyQt5 import QtWidgets, QtGui, QtCore
+from PyQt5 import QtWidgets, QtGui, QtCore, QtMultimedia
 
 
 class NowPlayingWidget(QtWidgets.QFrame):
     """Shows the music as it plays from a QMediaPlayer"""
 
-    def __init__(self, player):
+    def __init__(self, player: 'MusicPlayer'):
         super().__init__()
         self.player = player
         self.player.playlist().currentMediaChanged.connect(self._media_changed)
@@ -38,13 +38,14 @@ class NowPlayingWidget(QtWidgets.QFrame):
         self.main_layout.addWidget(self.now_playing_label)
         self.setLayout(self.main_layout)
 
-    def _media_changed(self, media):
+    def _media_changed(self, media: QtMultimedia.QMediaContent):
+        """Update 'Now playing' label when a new song is selected."""
         filename = media.canonicalUrl().fileName()
         song_name = '.'.join(filename.split('.')[:-1])
         self.now_playing_label.setText(song_name)
 
     def adjust_background(self):
-        """Adjusts the background to make it fit"""
+        """Adjusts the background to make it fit."""
         self.background_label.resize(self.width(), self.height())
         self.background_label.setPixmap(self.background_pixmap.scaled(
             self.width(), self.height(), QtCore.Qt.KeepAspectRatioByExpanding))
