@@ -8,6 +8,7 @@ from .space import Space
 from .spawner import Spawner
 from .tile_layer import TileLayer
 from .utils import keys
+from .wave import Wave
 
 
 class Game(pyglet.window.Window):
@@ -25,6 +26,7 @@ class Game(pyglet.window.Window):
 
         self.spawner = Spawner()
         self.spawner.add_spawn_point(0, 0)
+        self.spawner.wave = Wave.load('resources/waves/1.wave')
         self.space.add(self.spawner)
 
         # Create background layer
