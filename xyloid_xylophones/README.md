@@ -4,17 +4,17 @@
 In a desolate world wrought by the relentless onslaught of global warming one daring adventurer must make the most important decision of his life, will he make the right choices to make the world a better place?
 
 ## Starting the Game
-    for windows users please download [FFmpeg](https://ffmpeg.zeranoe.com/builds/)
+ for windows users please download [FFmpeg](https://ffmpeg.zeranoe.com/builds/)
         select version 4.x - same architecture as python - Shared
             extract contents of bin into xyloid_xylophones\game\lib
 
-    1. Install [Pipenv](https://docs.pipenv.org/en/latest/)
-    2. Run "pipenv update" in your command line
-    3. Run "python -m game"
+1. Install [Pipenv](https://docs.pipenv.org/en/latest/)
+2. Run "pipenv update" in your command line
+3. Run "python -m game"
 
 ## Playing the Game
-	- Interact with the game using your arrow keys or your mouse
-	- Follow along with the storyline to reach the end of the game
+- Interact with the game using your arrow keys or your mouse
+- Follow along with the storyline to reach the end of the game
 
 ## Credits
   * [Music Green meadows](https://www.marcelofernandezmusic.com/royalty-free-music) Copyright © 2019 · All Rights Reserved · Marcelo Fernandez Music
