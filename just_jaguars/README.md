@@ -19,3 +19,5 @@ You win by making the percent of fossil fuels less than or equal to the "emissio
 However, you lose by either not meeting the energy demands, or if your total emissions pass the limit.
 
 # What are you waiting for? Play!
+
+`python -m pip install -r requirements.txt; python main.py`
