@@ -94,5 +94,7 @@ accidentally remove the trees!
 
 ### Credits
 
-Program icon courtesy of https://www.iconfinder.com/icons/2189582/ecology_green_leaf_plant_spring_icon
-released under the Creative Commons Attribution 3.0 Unported license. https://creativecommons.org/licenses/by/3.0/
+Program icon courtesy of Vignesh P, accessed via 
+https://www.iconfinder.com/icons/2189582/ecology_green_leaf_plant_spring_icon
+
+Released under the Creative Commons Attribution 3.0 Unported license. https://creativecommons.org/licenses/by/3.0/
