@@ -6,10 +6,11 @@ from pyglet.image.codecs.png import PNGImageDecoder
 from math import floor
 from .input import mouse_input, handle_input
 from .textbox import TextBox
-from . import game_window, level_map, Resource, Item, player, zone_map, level_key, media, tick, \
-    time_display, keys, elapsed_time
-from config import location_scene, location_sound, location_music, zone_names, zone_height, zone_width, sprite_height, \
-    sprite_width, cut_scene_timeout, cut_scene_name, view_distance, cut_scene, quest_text_start, quest_text_end
+from . import game_window, level_map, Resource, Item, player, zone_map, level_key, media, \
+    time_display, keys
+from config import location_scene, location_sound, location_music, zone_names, zone_height, \
+    zone_width, sprite_height, \
+    sprite_width, cut_scene_timeout, cut_scene_name, view_distance, quest_text_start, quest_text_end
 from pathlib import Path
 
 
@@ -207,6 +208,9 @@ def render_loop():
 
 
 if __name__ == '__main__':
+    cut_scene = True
+    elapsed_time = 0
+    tick = 0
     game_window.push_handlers(on_draw=render_loop)  # Set the render loop handler.
 
     pyglet.clock.schedule(lambda dt: None)

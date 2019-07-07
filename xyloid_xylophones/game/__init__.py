@@ -1,7 +1,9 @@
 import pyglet
 from pyqtree import Index
-from config import game_width, game_height, char_sheet_cols, char_sheet_rows, sprite_row, sprite_up_col, \
-    sprite_down_col, sprite_right_col, zone_names, zone_width, zone_height, sprite_width, sprite_height
+from config import game_width, game_height, char_sheet_cols, char_sheet_rows, sprite_row, \
+    sprite_up_col, \
+    sprite_down_col, sprite_right_col, zone_names, zone_width, zone_height, sprite_width, \
+    sprite_height
 from os.path import join
 from pathlib import Path
 
@@ -63,14 +65,17 @@ class Player(Base):
     def load_player(self):
         '''Load all of the sprite sets for the player'''
         # image = pyglet.image.load('assets/char.png')
-        image = pyglet.image.load(join(Path(__file__).resolve().parents[1], Path('assets/char.png')))
+        image = pyglet.image.load(
+            join(Path(__file__).resolve().parents[1], Path('assets/char.png')))
 
-        self.sprite_grid = pyglet.image.ImageGrid(image, char_sheet_rows, char_sheet_cols)  # Load grid
+        self.sprite_grid = pyglet.image.ImageGrid(image, char_sheet_rows,
+                                                  char_sheet_cols)  # Load grid
 
         # Split the grid into subsections
         self.sprite_down = [self.sprite_grid[sprite_row, sprite_down_col],
                             self.sprite_grid[sprite_row, sprite_down_col + 1]]
-        self.sprite_up = [self.sprite_grid[sprite_row, sprite_up_col], self.sprite_grid[sprite_row, sprite_up_col + 1]]
+        self.sprite_up = [self.sprite_grid[sprite_row, sprite_up_col],
+                          self.sprite_grid[sprite_row, sprite_up_col + 1]]
         self.sprite_right = [self.sprite_grid[sprite_row, sprite_right_col],
                              self.sprite_grid[sprite_row, sprite_right_col + 1]]
         self.sprite = pyglet.sprite.Sprite(img=self.sprite_down[0])  # Initialize player
