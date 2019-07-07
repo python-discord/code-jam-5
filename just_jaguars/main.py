@@ -5,9 +5,8 @@ from assets import (
     solar, wind, hydro,
     geothermal, biomass, nuclear,
     hydrogen, ghg_capture_tech)  # Importing the images for the icons
+import tutorial  # Tutorial
 
-# tutorial:
-import tutorial
 tutorial.__dict__  # because flake8 ;-;
 
 # Details about the window:
