@@ -1,6 +1,9 @@
-from PyQt5 import QtWidgets, QtGui
+# locale
 from .music_player import MusicPlayer
 from only_otters.images import icons
+
+# qt
+from PyQt5 import QtWidgets, QtGui
 
 
 class Leafify(QtWidgets.QMainWindow):

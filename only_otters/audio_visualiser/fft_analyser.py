@@ -1,8 +1,13 @@
-from PyQt5 import QtCore
-from pydub import AudioSegment
-import numpy as np
+# std
 import time
 import os
+
+# qt
+from PyQt5 import QtCore
+
+# other
+from pydub import AudioSegment
+import numpy as np
 
 
 class FFTAnalyser(QtCore.QThread):

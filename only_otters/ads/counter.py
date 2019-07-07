@@ -1,21 +1,23 @@
-
-import time
 import re
+import time
+from typing import Union
 
 
 """
-Refresh limit is set to 1 ms. (mininterval)
 Compute the offset to apply on trigger.
 """
 
 
-def get_precision(num):
+def get_precision(num: Union[int, float]) -> int:
+    """Returns the precision of a number."""
     if type(num) == int:
         return 0
     return len(str(num).split('.')[1])
 
 
-def raw(num):
+def raw(num: Union[int, float]) -> int:
+    """Returns the full count of units in a number.
+    33.34 => 3334, 2.00065 => 200065, etc."""
     num = '%.100f' % num
     num = re.sub('0+$', '', num)
     num = num.replace('.', '')
@@ -24,7 +26,11 @@ def raw(num):
 
 
 def counter(start, offset, per=1000, mininterval=1):
-
+    """
+    Compute the minimum offset and delay that can be achieved given the initial increase value and
+    starting value. This is used to build a counter with an increase value as tiny as possible, as
+    to make the updating process as sleek as possible to the eye.
+    """
     offset_sign = offset > 0 or -1
     offset = abs(offset)
     ofraw = raw(offset)

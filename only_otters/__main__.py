@@ -1,12 +1,17 @@
+# locale
 from .app import Leafify
-from PyQt5 import QtWidgets, QtGui
+from .fonts import Raleway
+
+# std
 from pathlib import Path
 import sys
 
-from .fonts import Raleway
+# qt
+from PyQt5 import QtWidgets, QtGui
 
 
 if __name__ == '__main__':
+    
     app = QtWidgets.QApplication(sys.argv)
 
     QtGui.QFontDatabase.addApplicationFont(Raleway.Regular.str)

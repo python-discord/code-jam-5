@@ -1,8 +1,12 @@
-from PyQt5 import QtWidgets, QtMultimedia, QtGui
+# local
+from only_otters.images import buttons as imgButtons
 from .seeker import Seeker
+
+# std
 from pathlib import Path
 
-from only_otters.images import buttons as imgButtons
+# qt
+from PyQt5 import QtWidgets, QtMultimedia, QtGui
 
 
 class ControlsWidget(QtWidgets.QFrame):

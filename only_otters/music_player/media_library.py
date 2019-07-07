@@ -1,12 +1,16 @@
-from pathlib import Path
-from PyQt5 import QtWidgets, QtCore, QtGui
+# std
 import os
+from pathlib import Path
+
+# qt
+from PyQt5 import QtWidgets, QtCore, QtGui
 
 
 __folder__ = Path(__file__).parent
 
 
 def find_user_library():
+    """Attempts to retrieve the path to the user's default music library folder."""
     expected_path = Path('~/Music').expanduser()
     if expected_path.exists():
         return expected_path

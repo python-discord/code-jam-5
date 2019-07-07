@@ -17,6 +17,7 @@ def one_or_many(items: list, default=''):
 
 
 def pipe(*fns):
+    """Pipes the output of a function through a set of functions."""
     def decorator(fn):
         @wraps(fn)
         def wrapper(*a, **kw):
@@ -29,7 +30,8 @@ def pipe(*fns):
 
 
 def astype(typename):
-
+    """From a string name, retrieve the related callable which is expected to be a type converter
+    or a constructor of some sort."""
     try:
         type_ = globals()[typename]
     except KeyError:
@@ -42,6 +44,7 @@ def astype(typename):
 
 
 def flatten(array):
+    """Flattens a multi-dimensional iterable."""
     for item in array:
         if (
             isinstance(array, types.GeneratorType) or
@@ -50,30 +53,6 @@ def flatten(array):
             yield from item
         else:
             yield item
-
-
-def exceptprint(*e):
-
-    def decorator(fn, excepts=(Exception,)):
-
-        @wraps(fn)
-        def wrapper(*a, **kw):
-            try:
-                return fn(*a, **kw)
-            except excepts as ex:
-                print(
-                    'e=%s:%s, f=%s, args=%s, kw=%s' % (
-                        type(ex).__name__, ex,
-                        fn, a, kw
-                    )
-                )
-                raise
-        return wrapper
-
-    if len(e) == 1 and not isinstance(e[0], Exception):
-        return decorator(e[0])
-
-    return partial(decorator, excepts=e)
 
 
 class both_class_instance:

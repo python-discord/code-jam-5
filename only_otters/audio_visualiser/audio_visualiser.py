@@ -1,6 +1,13 @@
-from PyQt5 import QtWidgets, QtGui, QtCore
+# local
 from .fft_analyser import FFTAnalyser
+
+# std
 from pathlib import Path
+
+# qt
+from PyQt5 import QtWidgets, QtGui, QtCore
+
+# other
 import numpy as np
 
 

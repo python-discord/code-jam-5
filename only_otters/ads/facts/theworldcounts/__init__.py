@@ -1,1 +1,1 @@
-from .theworldcounts import __factory__
+from .theworldcounts import __factory__  # noqa

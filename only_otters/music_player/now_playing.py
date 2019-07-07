@@ -1,6 +1,11 @@
-from PyQt5 import QtWidgets, QtGui, QtCore
+# local
 from ..audio_visualiser import AudioVisualiser
+
+# std
 from pathlib import Path
+
+# qt
+from PyQt5 import QtWidgets, QtGui, QtCore
 
 
 class NowPlayingWidget(QtWidgets.QFrame):

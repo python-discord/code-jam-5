@@ -1,7 +1,5 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 
-# https://doc.qt.io/qt-5/stylesheet-examples.html
-
 
 class Seeker(QtWidgets.QProgressBar):
 
