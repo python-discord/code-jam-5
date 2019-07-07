@@ -1,10 +1,13 @@
 import json
+import logging
 
 import quart
 from quart import current_app as app
 from quart import render_template
 
 from . import indicator
+
+log = logging.getLogger(__name__)
 
 bp = quart.Blueprint('view', __name__)
 
@@ -32,6 +35,7 @@ async def search():
         async with app.app_context():
             results = await indicator.get_top_indicators(city)
     else:
+        log.info(f'Could not find a city for {latitude}, {longitude}')
         results = None
 
     return await render_template('view/results.html', city=city, results=results)
