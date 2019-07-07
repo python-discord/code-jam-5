@@ -1,17 +1,15 @@
 # local
 from only_otters.images import buttons as imgButtons
 from .seeker import Seeker
-# std
-from pathlib import Path
 
 # qt
-from PyQt5 import QtWidgets, QtMultimedia, QtGui
+from PyQt5 import QtWidgets, QtMultimedia, QtGui, QtCore
 
 
 class ControlsWidget(QtWidgets.QFrame):
     """Contains all the controls for a QMediaPlayer."""
 
-    def __init__(self, player: 'MusicPlayer'):
+    def __init__(self, player: 'MusicPlayer'):  # noqa: F821
         super().__init__()
         self.player = player
         self.player.mediaStatusChanged.connect(self._update_controls_on_stop)
@@ -20,14 +18,28 @@ class ControlsWidget(QtWidgets.QFrame):
         self.setFixedHeight(50)
         self.init_ui()
 
-
     def init_ui(self):
         """Create the UI."""
         self.main_layout = QtWidgets.QHBoxLayout()
         self.main_layout.setContentsMargins(6, 6, 6, 6)
-        self.setStyleSheet('QFrame#controls { background: qlineargradient(spread:pad, x1:0.494682, y1:0, x2:0.5, y2:1,'
-                           'stop:0 rgba(136, 140, 141, 255), stop:1 rgba(113, 116, 117, 255)); }'
-                           'QPushButton { border: none; background: none; color: white; }')
+        self.setStyleSheet("""
+            QFrame#controls {
+                background: qlineargradient(
+                    spread: pad,
+                    x1: 0.494682,
+                    y1: 0,
+                    x2: 0.5,
+                    y2: 1,
+                    stop: 0 rgba(136, 140, 141, 255),
+                    stop: 1 rgba(113, 116, 117, 255)
+                );
+            }
+            QPushButton {
+                border: none;
+                background: none;
+                color: white;
+            }
+        """)
 
         self.seeker = Seeker(self.player)
 
@@ -59,7 +71,7 @@ class ControlsWidget(QtWidgets.QFrame):
         if status == self.player.EndOfMedia:
             self.play_pause_button.setIcon(self.play_song_icon)
             self.seeker.setValue(0)
-        
+
     def _update_play_pause_button(self, state):
         """Switch from play to pause icon depending on music player state."""
         if self.player.state() == self.player.PlayingState:

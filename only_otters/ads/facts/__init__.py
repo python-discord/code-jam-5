@@ -21,6 +21,7 @@ def list_available_factories() -> List[FactFactory]:
         for dir in dirs
     ]
 
+
 print('Initializing fact factories...')
 FACTORIES: List[FactFactory] = list_available_factories()
 print('Done')

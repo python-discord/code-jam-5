@@ -19,7 +19,6 @@ class MusicPlayer(QtWidgets.QWidget):
     # Every {} songs, an ad will be played automatically
     total_songs_between_adverts: int = 1
 
-    # 
     fact_refresh_rate = 6
 
     def __init__(self):
@@ -72,7 +71,6 @@ class MusicPlayer(QtWidgets.QWidget):
         self.main_content_layout.addWidget(self.media_library)
         self.main_content_layout.addItem(self.vertical_spacer)
 
-        #
         self.fact_title_frame = QtWidgets.QFrame()
         self.fact_title_frame.setStyleSheet('background: #57bd4f;'
                                             'border-top-left-radius: 6px;'
@@ -96,7 +94,7 @@ class MusicPlayer(QtWidgets.QWidget):
                                             'border-bottom-left-radius: 6px;'
                                             'border-bottom-right-radius: 6px;'
                                             'color: white;')
-        
+
         self.refresh_fact_timer = QtCore.QTimer(self)
         self.refresh_fact_timer.timeout.connect(self.refresh_fact)
         self.refresh_fact_timer.start(self.fact_refresh_rate * 1000)
@@ -127,7 +125,10 @@ class MusicPlayer(QtWidgets.QWidget):
         if self.check_advert_intermission():
             self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))
         else:
-            self.player.playlist().insertMedia(self.player.playlist().nextIndex(), QtMultimedia.QMediaContent(url))
+            self.player.playlist().insertMedia(
+                self.player.playlist().nextIndex(),
+                QtMultimedia.QMediaContent(url)
+            )
 
             if self.player.playlist().mediaCount() == 1:
                 self.controls.toggle_play()
@@ -149,7 +150,7 @@ class MusicPlayer(QtWidgets.QWidget):
     def play_ad(self):
         """Play an ad before a song is played."""
         self.advert_in_progress = True
-        
+
         fact = get_fact_by_tags('text')
         text = "Did you know that ... " + fact.content + '. Thank you for listening to Leafify'
 
@@ -164,7 +165,7 @@ class MusicPlayer(QtWidgets.QWidget):
         Will play an ad after each song. 'ADVERT' is a on/off
         """
         if not self.advert_counter:
-            self.advert_counter = self.total_songs_between_adverts  # could be in an external config file
+            self.advert_counter = self.total_songs_between_adverts
             self.play_ad()
             return True
         else:
@@ -191,9 +192,9 @@ class MusicPlayer(QtWidgets.QWidget):
         # Prepare widget
         self.fact_widget = get_fact_by_tags('ui').as_widget(self)
         self.fact_widget.setMinimumSize(300, 200)
-        
+
         # Place widget
         self.sidebar_layout.insertWidget(1, self.fact_widget)
-        
+
         # Reset timer
         self.refresh_fact_timer.start(self.fact_refresh_rate * 1000)

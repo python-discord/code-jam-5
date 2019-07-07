@@ -15,7 +15,7 @@ class FFTAnalyser(QtCore.QThread):
 
     calculated_visual = QtCore.pyqtSignal(np.ndarray)
 
-    def __init__(self, player: 'MusicPlayer'):
+    def __init__(self, player: 'MusicPlayer'):  # noqa: F821
         super().__init__()
         self.player = player
         self.reset_media()

@@ -6,7 +6,7 @@ class Seeker(QtWidgets.QProgressBar):
 
     timestamp_updated = QtCore.pyqtSignal(str)
 
-    def __init__(self, player: 'MusicPlayer'):
+    def __init__(self, player: 'MusicPlayer'):  # noqa: F821
         super().__init__()
         self.player = player
         self.player.positionChanged.connect(self.update_position)

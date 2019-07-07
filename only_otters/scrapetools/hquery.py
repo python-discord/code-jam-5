@@ -239,9 +239,9 @@ class HierarchicalXPathQuery:
 
     @util.both_class_instance
     def register_pipe(
-        self, 
-        fn: callable, 
-        name: Optional[str] = None, 
+        self,
+        fn: callable,
+        name: Optional[str] = None,
         high: bool = False
     ):
         """Register a new pipe function so that it can be used in a query."""
@@ -383,10 +383,10 @@ class HierarchicalXPathQuery:
         return cls(**data)
 
     def __init__(
-        self, 
-        *, 
-        content: dict, 
-        url: Optional[str] = None, 
+        self,
+        *,
+        content: dict,
+        url: Optional[str] = None,
         dynamic: bool = False
     ):
         """
@@ -412,8 +412,8 @@ class HierarchicalXPathQuery:
         self.HIGHER_ORDER_MODES = {**self.HIGHER_ORDER_MODES}
 
     def get(
-        self, 
-        url: Optional[str] = None, 
+        self,
+        url: Optional[str] = None,
         dynamic: Optional[bool] = None
     ) -> str:
         """Fetch the content found at the provided url."""
@@ -431,8 +431,8 @@ class HierarchicalXPathQuery:
         return response.content
 
     def __call__(
-        self, 
-        url: Optional[str] = None, 
+        self,
+        url: Optional[str] = None,
         html: Optional[str] = None
     ) -> Generator:
         """Fetch remote content and run query against it."""

@@ -14,7 +14,7 @@ import numpy as np
 class AudioVisualiser(QtWidgets.QWidget):
     """Shows a visual representation of audio from a QMediaPlayer."""
 
-    def __init__(self, player: 'MusicPlayer'):
+    def __init__(self, player: 'MusicPlayer'):  # noqa: F821
         super().__init__()
         self.player = player
         self.setFixedSize(200, 200)

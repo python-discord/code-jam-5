@@ -46,7 +46,10 @@ from facts import new_facts
 
 
 def hotfetch(method):
-    """A decorator for FactFactory objects. Ensure that records have been fetched before proceeding."""
+    """
+    A decorator for FactFactory objects.
+    Ensure that records have been fetched before proceeding.
+    """
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         if not self.records:

@@ -26,9 +26,9 @@ def raw(num: Union[int, float]) -> int:
 
 
 def counter(
-    start: Union[int, float], 
-    offset: Union[int, float], 
-    per: int = 1000, 
+    start: Union[int, float],
+    offset: Union[int, float],
+    per: int = 1000,
     mininterval: int = 1
 ) -> (float, float):
     """

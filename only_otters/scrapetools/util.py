@@ -4,7 +4,7 @@ from typing import Union, List, Any, Iterable, Generator, Tuple
 
 
 def one_or_many(
-    items: List[Any], 
+    items: List[Any],
     default: Any = ''
 ) -> Union[List, Any]:
     """

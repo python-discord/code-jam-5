@@ -11,7 +11,7 @@ from PyQt5 import QtWidgets, QtGui, QtCore, QtMultimedia
 class NowPlayingWidget(QtWidgets.QFrame):
     """Shows the music as it plays from a QMediaPlayer"""
 
-    def __init__(self, player: 'MusicPlayer'):
+    def __init__(self, player: 'MusicPlayer'):  # noqa: F821
         super().__init__()
         self.player = player
         self.player.playlist().currentMediaChanged.connect(self._media_changed)

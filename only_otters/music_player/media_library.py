@@ -28,12 +28,12 @@ class MediaLibrary(QtWidgets.QFrame):
         ep = find_user_library()
         if ep is not None:
             self.set_root_path(ep)
-    
+
     def init_ui(self):
 
         layout = QtWidgets.QVBoxLayout()
         self.setLayout(layout)
-        
+
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.layout().setSpacing(0)
 
@@ -99,7 +99,7 @@ class MediaLibrary(QtWidgets.QFrame):
         path = os.fspath(path)
         x = self.filesystem_model.setRootPath(path)
         self.music_tree.setRootIndex(x)
-    
+
     def item_clicked(self, index):
         path = str(self.filesystem_model.filePath(index))
         if os.path.isfile(path):

@@ -36,7 +36,7 @@ def make_driver(headless: bool = True) -> webdriver:
 
 def fetch(url: str, wait: int = 0) -> bytes:
     """Fetch the content of the page through the puppet browser."""
-    
+
     global DRIVER, LOCK
 
     with LOCK:
