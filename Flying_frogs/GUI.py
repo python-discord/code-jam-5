@@ -214,10 +214,10 @@ class car(object):
 # Define cars
 # Replace these with actual cars. These are placeholders.
 E1 = car(True,
-         [pygame.image.load('Cars\\1.png')],
+         [pygame.image.load('Cars\\Electric.png')],
          5,
          168,
-         91,
+         92,
          3)
 
 E2 = car(True,
