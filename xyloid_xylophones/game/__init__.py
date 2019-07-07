@@ -13,6 +13,30 @@ from .gamemap import Map
 # Help
 assets_path = os.path.split(os.path.realpath(__file__))[0] + '/../assets/'
 grid = pyglet.image.load(assets_path + 'sheet.png')
+level_map = []
+level_map.append(None)
+level_map.append(grid.get_region(0,0,64,64))
+level_map.append(grid.get_region(64,0,64,64))
+level_map.append(grid.get_region(128,0,64,64))
+level_map.append(grid.get_region(192,0,64,64))
+level_map.append(grid.get_region(256,0,64,64))
+level_map.append(grid.get_region(320,0,64,64))
+level_map.append(grid.get_region(384,0,64,64))
+level_map.append(grid.get_region(448,0,64,64))
+level_map.append(grid.get_region(512,0,64,64))
+level_map.append(grid.get_region(576,0,64,64))
+level_map.append(grid.get_region(640,0,64,64))
+level_map.append(grid.get_region(704,0,64,64))
+level_map.append(grid.get_region(768,0,64,64))
+level_map.append(grid.get_region(832,0,64,64))
+level_map.append(grid.get_region(896,0,64,64))
+level_map.append(grid.get_region(960,0,64,64))
+level_map.append(grid.get_region(1024,0,64,64))
+level_map.append(grid.get_region(1088,0,64,64))
+level_map.append(grid.get_region(1152,0,64,64))
+level_map.append(grid.get_region(1216,0,64,64))
+
+'''
 b1 = grid.get_region(0,0,64,64)
 b2 = grid.get_region(64,0,64,64)
 b3 = grid.get_region(128,0,64,64)
@@ -55,7 +79,7 @@ level1map = Map(assets_path + 'myfile.map',
             18:b18,
             19:b19,
             20:b20})
-
+'''
 # 640x640 makes it easier to draw tiles
 game_window = pyglet.window.Window(width=game_width, height=game_height)
 
@@ -94,6 +118,7 @@ class Player(Base):
         self.adjustment = 0
     def load_player(self):
         '''Load all of the sprite sets for the player'''
+        #image = pyglet.image.load('assets/char.png')
         image = pyglet.image.load(os.path.join(Path(__file__).resolve().parents[1], Path('assets/char.png')))
 
         self.sprite_grid = pyglet.image.ImageGrid(image, char_sheet_rows, char_sheet_cols) #Load grid

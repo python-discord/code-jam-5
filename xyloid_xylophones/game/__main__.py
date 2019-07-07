@@ -5,12 +5,13 @@ from os.path import isfile, join, isdir, basename, splitext, realpath, split
 from pathlib import Path
 from pyglet import gl
 from pyglet.image.codecs.png import PNGImageDecoder
+from math import floor
 
 #from .render_loop import render_loop
 from . import game_window, player, zone_map, Item, sound_list, music_list, scene_list, Resource, tick
-from . import keys, time_display, elapsed_time, media, level1map
+from . import keys, time_display, elapsed_time, media, level_map
 from .gamemap import Map
-from random import getrandbits
+from random import getrandbits, random
 from .input import mouse_input, handle_input
 
 
@@ -45,6 +46,61 @@ def on_key_release(symbol, modifiers):
 def on_mouse_press(x, y, button, modifiers):
     mouse_input(x, y)
 
+
+def load_zones(file_name):
+    '''
+    load the map file
+    :return: None
+    '''
+    t = [[]]
+    i = 0
+    with open(file_name, 'rb') as f:
+        key = f.read(1)
+        while key != b'':
+            ikey = int.from_bytes(key, 'big')
+            if ikey > 0:
+                t[i].append(ikey)
+            else:
+                i += 1
+                t.append([])
+            key = f.read(1)
+    map_size = i
+
+    for i in zone_names:
+        for y in range(0, zone_height):
+            for x in range(0, zone_width):
+                item = Item('x%sy%s' % (x, y))
+                item.y = -1024 + (y * sprite_height)
+                item.x = -1024 + (x * sprite_width)
+                item.sprite = t[x-(floor(x/map_size)*map_size)][y-(floor(y/map_size)*map_size)]
+                # tiny offset for grid view
+                item.width = sprite_width - 1
+                item.height = sprite_height - 1
+                # boarder is not passable
+                if (y == player.x) & (x == player.y):
+                    item.Collision = False
+                elif (y == 0) | (x == 0) | (y == zone_height - 1) | (x == zone_width - 1):
+                    item.collision = True
+                else:
+                    item.collision = False  # not getrandbits(1)
+                # if collision draw as red
+                if item.collision:
+                    item.color = (255, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0, 0)
+                else:
+                    # otherwise draw as green
+                    item.color = (0, 255, 0, 0, 255, 0, 0, 255, 0, 0, 255, 0)
+                # double check we didn't create more then one in a square
+                if not zone_map[i].index.intersect(bbox=(item.x,
+                                                         item.y,
+                                                         item.x + item.width,
+                                                         item.y + item.height)):
+                    # print('created x%sy%s(%s,%s)' % (x, y, item.x, item.y))
+                    zone_map[i].index.insert(item, bbox=(
+                        item.x,
+                        item.y,
+                        item.x + item.width,
+                        item.y + item.height))
+
 def generate_random_zones():
     '''
     populate zone_map with a random maze
@@ -56,6 +112,7 @@ def generate_random_zones():
                 item = Item('x%sy%s' % (x, y))
                 item.y = -1024 + (y * sprite_height)
                 item.x = -1024 + (x * sprite_width)
+                item.sprite = int(random() * 20)
                 # tiny offset for grid view
                 item.width = sprite_width - 1
                 item.height = sprite_height - 1
@@ -83,8 +140,6 @@ def generate_random_zones():
                         item.y,
                         item.x + item.width,
                         item.y + item.height))
-                # else:
-                #     print('you failed at math! %s %s' % (item.x, item.y))
 
 
 def load_list(abstract_path):
@@ -147,10 +202,22 @@ def render_loop():
         else:
             cut_scene = False
     else:
-        level1map.draw()
-
+        #level1map.draw()
+        batch = pyglet.graphics.Batch()
+        sprites = []
+        offset_x = -1024 + ((4+(zone_width-(player.x))) * sprite_width)
+        offset_y = -1024 + ((4+(zone_height-player.y)) * sprite_height)
+        for i in zone_map[current_zone].index.intersect(bbox=(
+                -1024+((player.x-view_distance)*sprite_width),
+                -1024+((player.y-view_distance)*sprite_height),
+                -1024+((player.x+view_distance)*sprite_width),
+                -1024+((player.y+view_distance)*sprite_height))):
+            sprites.append(pyglet.sprite.Sprite(level_map[i.sprite],
+                i.x + offset_x, i.y + offset_y,
+                batch=batch))
+        batch.draw()
         # draw player fixed (static center)
-        player.sprite.draw() #Draw the player
+        player.sprite.draw()  # Draw the player
         player.adjustment = 0
         x = player.center_x
         y = player.center_y
@@ -175,7 +242,8 @@ if __name__ == '__main__':
     scene_list = load_list(location_scene)
     # sound_list = load_list(location_sound)
 
-    generate_random_zones()
+    #generate_random_zones()
+    load_zones(split(realpath(__file__))[0] + '/../assets/myfile.map')
     player.load_player()
 
     pyglet.clock.schedule_interval(handle_input, 0.15)
