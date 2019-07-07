@@ -10,6 +10,17 @@ level_map = []
 
 # map of no collision / collision
 level_key = [False,
+             # desert
+             False, False, False, False, True,
+             True, True, False, False, True,
+             True, True, False, False, False,
+             True, True, True, True, True,
+             # ice
+             False, False, False, False, True,
+             True, True, False, False, True,
+             True, True, False, False, False,
+             True, True, True, True, True,
+             # lush
              False, False, False, False, True,
              True, True, False, False, True,
              True, True, False, False, False,
