@@ -252,37 +252,55 @@
                 "name": "Goverment Coal Contracts",
                 "description": "Lobby the government to use your coal power plants exclusively.",
                 "bio": 0,
-                "temperature": 0,
-                "co2": 50,
-                "habitable_land": 0,
+                "temperature": -1,
+                "co2": -3,
+                "habitable_land": -2,
                 "roi": 0.15
             },
             {
                 "name": "Lower Emissions Standards",
                 "description": "Removes emissions standards that must be met by businesses.",
                 "bio": 0,
-                "temperature": 0,
-                "co2": 50,
+                "temperature": -1,
+                "co2": -3,
                 "habitable_land": 0,
                 "roi": 0.15
+            },
+            {
+                "name": "Increase Shipping Routes",
+                "description": "Improve upon foreign relations in order to export more oil. Increasing the risk of oil spills.",
+                "bio": -3,
+                "temperature": 0,
+                "co2": -3,
+                "habitable_land": -4,
+                "roi": 0.25
+            },
+            {
+                "name": "Expand Off-Sea Drilling",
+                "description": "Improve upon technologies to increase efficiency of deep sea oil rigs.",
+                "bio": -4,
+                "temperature": -2,
+                "co2": -3,
+                "habitable_land": -4,
+                "roi": 1.25
             },
             {
                 "name": "Nuclear Meltdown",
                 "description": "Sabotage the nuclear power plant on Five Mile Island to cause the biggest nuclear disaster since Chernobyl.",
-                "bio": 0,
-                "temperature": 0,
-                "co2": 50,
-                "habitable_land": 0,
+                "bio": -2,
+                "temperature": -1,
+                "co2": -4,
+                "habitable_land": -4,
                 "roi": 0.15
             },
             {
                 "name": "Sign one trillion dollar drilling deal",
-                "description": "Make a pact with your once long time enemy and now closest friend for Arctic oil drilling",
-                "bio": 0,
-                "temperature": 0,
-                "co2": 75,
-                "habitable_land": 0,
-                "roi": 0.20
+                "description": "Make a pact with your once long time enemy and now closest friend for Arctic oil drilling.",
+                "bio": -3,
+                "temperature": -2,
+                "co2": -4,
+                "habitable_land": -4,
+                "roi": 1000
             }
         ]
     },
