@@ -20,6 +20,7 @@ class Game(pyglet.window.Window):
         self.fps = fps
 
         self.player = Player(self.width / 2, self.height / 2)
+        self.player.game_over = self.game_over
 
         self.space = self.create_space()
         self.space.add(self.player)
@@ -73,6 +74,11 @@ class Game(pyglet.window.Window):
                                          tiles.collide_tiles,
                                          lambda _, _1: True)
 
+        self.space.add_collision_handler(CollisionType.PLAYER,
+                                         CollisionType.TILE_LAYER,
+                                         tiles.collide_tiles,
+                                         lambda _, _1: True)
+
         return tiles
 
     def create_ui(self) -> Space:
@@ -100,10 +106,16 @@ class Game(pyglet.window.Window):
 
     def on_collision_player_enemy(self, player, enemy):
         """When a player collides with an enemy, end the game"""
+        self.game_over()
+
+    def game_over(self, fell=False):
         if not self.is_over:
             self.is_over = True
             game_over_screen = GameOverScreen(self)
             self.ui_space.add(game_over_screen)
+            if fell:
+                self.space.remove(self.player)
+                self.remove_handlers(self.player)
 
     def on_collision_snowball_enemy(self, snowball, enemy):
         if not self.is_over:
