@@ -56,7 +56,7 @@ def load_zones(path_name):
             for l in content:
                 t.insert(v, l.split(','))
                 v += 1
-        map_size = v-1
+        map_size = v - 1
 
         for y in range(0, zone_height):
             for x in range(0, zone_width):
@@ -64,7 +64,7 @@ def load_zones(path_name):
                 item.y = -1024 + (y * sprite_height)
                 item.x = -1024 + (x * sprite_width)
                 item.sprite = int(t[map_size - (y - (floor(y / map_size) * map_size))][
-                    x - (floor(x / map_size) * map_size)])
+                                      x - (floor(x / map_size) * map_size)])
                 # tiny offset for grid view
                 item.width = sprite_width - 1
                 item.height = sprite_height - 1
@@ -165,7 +165,7 @@ def render_loop():
         # level1map.draw()
         batch = pyglet.graphics.Batch()
         sprites = []
-        offset_x = -1024 + ((4 + (zone_width - (player.x))) * sprite_width)
+        offset_x = -1024 + ((4 + (zone_width - player.x)) * sprite_width)
         offset_y = -1024 + ((4 + (zone_height - player.y)) * sprite_height)
         for i in zone_map[player.current_zone].index.intersect(bbox=(
                 -1024 + ((player.x - view_distance) * sprite_width),
@@ -216,7 +216,7 @@ if __name__ == '__main__':
     grid = pyglet.image.load(assets_path + 'sheet.png')
     level_map.append(None)
     for x in range(0, 41):
-        level_map.append(grid.get_region(x*64, 0, 64, 64))
+        level_map.append(grid.get_region(x * 64, 0, 64, 64))
 
     scene_list = load_list(location_scene)
     sound_list = load_list(location_sound)

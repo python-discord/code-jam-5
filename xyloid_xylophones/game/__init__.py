@@ -10,21 +10,14 @@ level_map = []
 
 # map of no collision / collision
 level_key = [False,
-             # desert
              False, False, False, False, True,
              True, True, False, False, True,
              True, True, False, False, False,
              True, True, True, True, True,
-             # ice
              False, False, False, False, True,
              True, True, False, False, True,
              True, True, False, False, False,
-             True, True, True, True, True,
-             # lush
-             False, False, False, False, True,
-             True, True, False, False, True,
-             True, True, False, False, False,
-             True, True, True, True, True]
+             True, True, True, False, False, True]
 
 # 640x640 makes it easier to draw tiles
 game_window = pyglet.window.Window(width=game_width, height=game_height)
