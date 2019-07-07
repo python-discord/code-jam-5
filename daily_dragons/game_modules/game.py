@@ -57,7 +57,7 @@ class Game:
     def planet_stats_msg(self) -> str:
         planet_stats_msg = "\n".join(
             [
-                "Earth's current stats:",
+                Fore.GREEN + "Earth's current stats:" + Fore.WHITE,
                 f"{self.earth.health_summary()}",
                 f"{self.earth}",
             ]
@@ -70,8 +70,9 @@ class Game:
         return player_stats_msg
 
     def final_score(self) -> str:
-        # return the final score board at the end of the game
-        pass
+        final_score = 0
+
+        return f"Final score: {final_score}"
 
     def main(self) -> None:
         while not self.quit_game:
@@ -101,7 +102,8 @@ class Game:
                 )
                 self.player.get_roi(chosen_investment.current_policy.roi)
                 chosen_investment.times_invested += 1
-                return self.successful_order_msg
+                print(self.successful_order_msg)
+                return self.planet_stats_msg()
             else:
                 return self.cancelled_order_msg
 
