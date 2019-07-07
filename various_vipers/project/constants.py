@@ -16,11 +16,6 @@ HEIGHT = 720
 # Print debug information about game function calls
 PROFILING = False
 
-# Game will be less detailed, but boost fps.
-# Drawing large, transparent images slow the game alot,
-#  this option disables inneficient detail draws.
-BOOST_FPS = False
-
 REPO_LINK = "https://github.com/skilldeliver/code-jam-5"
 
 
@@ -77,7 +72,7 @@ USER_SETTINGS = PurePath(PATH_DATA).joinpath("user_settings")
 DESERT_BGS = list(Path(PATH_BACKGROUNDS).joinpath("desert").glob("*.png"))
 CITY_BGS = list(Path(PATH_BACKGROUNDS).joinpath("city").glob("*.png"))
 FOREST_BGS = list(Path(PATH_BACKGROUNDS).joinpath("forest").glob("*.png"))
-MOUNTAINS_BGS = list(Path(PATH_BACKGROUNDS).joinpath("mountains").glob("*.png"))
+PLAINS_BGS = list(Path(PATH_BACKGROUNDS).joinpath("plains").glob("*.png"))
 
 OZONE_LAYER = PurePath(PATH_BACKGROUNDS).joinpath("ozone_layer.png")
 
@@ -171,8 +166,8 @@ class Color:
     city_hover = (25, 163, 137)
     desert = (240, 227, 194)
     desert_hover = (238, 208, 163)
-    mountains = (201, 118, 77)
-    mountains_hover = (189, 108, 68)
+    plains = (64, 156, 50)
+    plains_hover = (52, 138, 39)
 
 
 class WindowState:

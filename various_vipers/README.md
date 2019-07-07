@@ -125,7 +125,7 @@ Your Pipenv lock file might be corrupt, try running command:
 $ pipenv lock --pre --clear
 ## How to play
 
-The global temperature is drastically increasing. Your mission is to save the Earth through completing tasks - saving the forests and mountains ice, building solar panels and decreasing the pollution.
+The global temperature is drastically increasing. Your mission is to save the Earth through completing tasks - saving environment, building solar panels and decreasing the pollution.
 
 #### Tasks
 Every task is represented with a tile colored in the red spectrum. 

@@ -11,7 +11,7 @@ from project.constants import (
     Color,
     DESERT_BGS,
     FOREST_BGS,
-    MOUNTAINS_BGS,
+    PLAINS_BGS,
     TILES_GRASS,
     TILES_WATER,
     TILE_COLS,
@@ -67,8 +67,8 @@ class Biome(object):
             return (Color.desert, Color.desert_hover)
         elif isinstance(self, BiomeForest):
             return (Color.forest, Color.forest_hover)
-        elif isinstance(self, BiomeMountains):
-            return (Color.mountains, Color.mountains_hover)
+        elif isinstance(self, BiomePlains):
+            return (Color.plains, Color.plains_hover)
         else:
             raise NameError(f"Colors not found for biome: {type(self)}")
 
@@ -80,8 +80,8 @@ class Biome(object):
             return images("desert")
         elif isinstance(self, BiomeForest):
             return images("forest")
-        elif isinstance(self, BiomeMountains):
-            return images("mountains")
+        elif isinstance(self, BiomePlains):
+            return images("plains")
         else:
             raise NameError(f"Task image not found for biome: {type(self)}")
 
@@ -235,16 +235,16 @@ class BiomeForest(Biome):
     text_task_fail: str = "The forest was destroyed"
 
 
-class BiomeMountains(Biome):
-    """Mountain themed biome."""
+class BiomePlains(Biome):
+    """Plains themed biome."""
 
-    background_images: List[str] = MOUNTAINS_BGS
+    background_images: List[str] = PLAINS_BGS
 
     unique_tiles: List[str] = []
 
-    unique_tiles_chance: float = 0.8
-    city_tiles_chance: float = 0.1
-    water_tiles_chance: float = 0.1
+    unique_tiles_chance: float = 0.5
+    city_tiles_chance: float = 0.2
+    water_tiles_chance: float = 0.2
 
-    text_task_success: str = "Mountains saved"
-    text_task_fail: str = "Mountains not saved"
+    text_task_success: str = "Wind turbine built"
+    text_task_fail: str = "Waste dumped"
