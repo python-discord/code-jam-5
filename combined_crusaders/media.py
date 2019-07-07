@@ -6,6 +6,7 @@ import functools
 script_dir = os.path.split(os.path.abspath(__file__))[0]
 images_dir = os.path.join(script_dir, "images")
 sounds_dir = os.path.join(script_dir, "sounds")
+music_path = os.path.join(sounds_dir, "phyromusic.ogg")
 
 
 @functools.lru_cache()

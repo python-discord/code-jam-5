@@ -3,7 +3,7 @@ import time
 import pygame
 from pygame.rect import Rect
 from pygame.locals import KEYDOWN, K_ESCAPE, MOUSEBUTTONDOWN, QUIT, Color
-from media import sounds, images
+from media import sounds, images, music_path
 from machines import load_machines
 import events
 from util import in_pixels, in_norm
@@ -429,6 +429,9 @@ class ClimateClicker:
 
     def play(self):
         """Begin the game. Detect any exits and exit gracefully."""
+        pygame.mixer.music.load(music_path)
+        pygame.mixer.music.set_volume(0.2)
+        pygame.mixer.music.play(-1)
         while not self.exit_requested:
             self.update()
         pygame.quit()
