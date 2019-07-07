@@ -11,7 +11,7 @@
                 "temperature": 0,
                 "co2": 2,
                 "habitable_land": 0,
-                "roi": 0.0
+                "roi": 0.95
             },
             {
                 "name": "State of the World Campaign II",
@@ -20,7 +20,7 @@
                 "temperature": 0,
                 "co2": 0,
                 "habitable_land": 0,
-                "roi": 0.0
+                "roi": 0.95
             },
             {
                 "name": "State of the World Campaign III",
@@ -29,7 +29,7 @@
                 "temperature": 1,
                 "co2": 3,
                 "habitable_land": 0,
-                "roi": 0.0
+                "roi": 1.1
             },
             {
                 "name": "State of the World Campaign IV",
@@ -38,7 +38,7 @@
                 "temperature": 0,
                 "co2": 0,
                 "habitable_land": 1,
-                "roi": 0.0
+                "roi": 1.1
             },
             {
                 "name": "State of the World Campaign V",
@@ -47,7 +47,7 @@
                 "temperature": 2,
                 "co2": 5,
                 "habitable_land": 0,
-                "roi": 0.0
+                "roi": 1.2
             },
             {
                 "name": "State of the World Campaign VI",
@@ -56,7 +56,7 @@
                 "temperature": 0,
                 "co2": 0,
                 "habitable_land": 2,
-                "roi": 0.0
+                "roi": 1.2
             }
         ]
     },
@@ -66,13 +66,57 @@
         "description": "Propaganda organization of the global elite focusing on spreading lies for financial gain",
         "policies": [
             {
-                "name": "Spread Fake News",
+                "name": "Presidential Fake News I",
+                "description": "Buy advertisements to help spread fake news about the previous president's birthplace.",
+                "bio": -2,
+                "temperature": -2,
+                "co2": -2,
+                "habitable_land": -2,
+                "roi": 1.10
+            },
+            {
+                "name": "Presidential Fake News II",
+                "description": "Buy advertisements to help spread fake news about the previous president's religion.",
+                "bio": -4,
+                "temperature": -4,
+                "co2": -4,
+                "habitable_land": -4,
+                "roi": 1.20
+            },
+            {
+                "name": "Atmospheric Fake News I",
+                "bio": -2,
+                "temperature": -3,
+                "co2": -3,
+                "habitable_land": -3,
+                "roi": 1.20
+            },
+            {
+                "name": "Atmospheric Fake News II",
+                "description": "Buy advertisements to help spread more fake news about CO2 emissions.",
+                "bio": -3,
+                "temperature": -6,
+                "co2": -6,
+                "habitable_land": -6,
+                "roi": 1.30
+            },
+            {
+                "name": "Animal Slander I",
+                "description": "Buy advertisements to help spread fake news diminishing the public opinion of various species.",
+                "bio": -3,
+                "temperature": -1,
+                "co2": -1,
+                "habitable_land": -1,
+                "roi": 1.35
+            },
+            {
+                "name": "Animal Slander II",
                 "description": "Buy advertisements to help spread fake news about the previous presidents birthplace.",
-                "bio": 0,
-                "temperature": 0,
-                "co2": 0,
-                "habitable_land": 0,
-                "roi": 0.10
+                "bio": -4,
+                "temperature": -1,
+                "co2": -1,
+                "habitable_land": -1,
+                "roi": 1.45
             }
         ]
     },
