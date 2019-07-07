@@ -58,7 +58,8 @@ msgs = {
     "upgrade_crank_inertia": "YES! We be discoverin' perpetual motion!",
     "load": "Welcome back! Or maybe not, temporal mechanics confuses me.",
     "save": "Time ain't a toy, boy. You can't save energy by saving a game.",
-    "fail_load": "Y'ain't got any save file, boy!"
+    "fail_load": "Y'ain't got any save file, boy!",
+    "win": "YOU WIN! You've got enough energy to satisfy the Earth for a year!"
 }
 
 
@@ -108,6 +109,9 @@ class Events:
                 return None
             else:
                 return msgs["no_history"]
+
+        if "win" in short_history:
+            return msgs["win"]
 
         if short_history[-1] == "load":
             return msgs["load"]

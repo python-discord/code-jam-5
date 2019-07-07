@@ -110,6 +110,7 @@ class UpgradeButton(pygame.sprite.Sprite):
     """Button to upgrade a property of the crank.
     coords: Normalized location of the button
     image: pygame image to be displayed on the button's surface
+    locked_image: pygame image to use when the upgrade is at level 0
     rect: pygame rect representing the image's boundaries
     base_cost: Initial cost of the upgrade
     cost: Current cost of the upgrade
@@ -122,10 +123,11 @@ class UpgradeButton(pygame.sprite.Sprite):
     level: Current level of the upgrade
     """
     def __init__(self, parent, coords, base_cost, cost_scaling,
-                 type, image, centered=False):
+                 type, image, locked_image, centered=False):
         pygame.sprite.Sprite.__init__(self)
         self.coords = coords
-        self.image = image
+        self.image = locked_image
+        self.image_list = [locked_image, image]
         self.rect = self.image.get_rect()
         self.rect.move_ip(*in_pixels(coords))
         if centered:
@@ -155,6 +157,7 @@ class UpgradeButton(pygame.sprite.Sprite):
 
     @level.setter
     def level(self, value: int):
+        self.image = self.image_list[0 if value == 0 else 1]
         self._level = value
         self.cost = self.base_cost*(self.cost_scaling**self.level)
         self.apply_upgrades()
@@ -326,6 +329,8 @@ class ClimateClicker:
         self.click_value = 1
         self.clock = pygame.time.Clock()
 
+        self.congrats_message = 0
+
         self.background = images["environment_neutral"]
         self.screen.fill(bg_color)
         self.screen.blit(self.background, (0, 0))
@@ -343,11 +348,14 @@ class ClimateClicker:
         self.crank_overlay = StaticImage((0.5, 0.5), images['crank'])
         self.upgrade_buttons = (
             UpgradeButton(self, (0.01, 0.06), 10, 1.5, "crank_speed",
-                          images['upgrade_buttons1']),
+                          images['upgrade_buttons1'],
+                          images['locked_upgrade_buttons1']),
             UpgradeButton(self, (0.01, 0.185), 100, 10, "click_value",
-                          images['upgrade_buttons2']),
+                          images['upgrade_buttons2'],
+                          images['locked_upgrade_buttons2']),
             UpgradeButton(self, (0.01, 0.31), 100, 2, "crank_inertia",
-                          images['upgrade_buttons3'])
+                          images['upgrade_buttons3'],
+                          images['locked_upgrade_buttons3'])
         )
 
         self.save_button = TextButton((0.4, 0.1), "Save", self.save)
@@ -360,7 +368,7 @@ class ClimateClicker:
         self.speed_sprite = ValueLabel(
             (0.02, 0.85), "Speed", "Rotations per Second")
 
-        gui_plain = pygame.sprite.RenderPlain(
+        self.gui_plain = pygame.sprite.RenderPlain(
             self.score_sprite,
             self.speed_sprite,
             self.all_buttons,
@@ -374,7 +382,7 @@ class ClimateClicker:
         self.sprite_layers = (
             pygame.sprite.RenderPlain(self.crank),
             pygame.sprite.RenderPlain(self.crank_overlay),
-            gui_plain
+            self.gui_plain
         )
         self.events = events.Events(self)
         self.last_update_time = time.time()
@@ -410,6 +418,11 @@ class ClimateClicker:
                             self.score -= machine.cost
                             machine.count += 1
                             self.events.send(f"buy_machine_{machine.name}")
+
+        if self.score >= 5.67e5 and not self.congrats_message:
+            self.congrats_message = StaticImage((0.5, 0.8), images["congrats"])
+            self.gui_plain.add(self.congrats_message)
+            self.events.send("win")
 
         for sprite_layer in self.sprite_layers:
             sprite_layer.update()
