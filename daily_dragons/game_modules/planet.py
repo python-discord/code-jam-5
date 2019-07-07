@@ -77,7 +77,7 @@ class Planet:
         # Estimates have us around 9 million species
         # Extinction events appear to be ~75% of all species dying
         if bio_div >= 10:
-            health.append("Species have returned en masse and the ecosystem is doung wonderfully.")
+            health.append("Species have returned en masse and the ecosystem is doing wonderfully.")
         elif bio_div >= 5:
             health.append("Species thought to be extinct are beginning to return.")
         elif bio_div >= -5:
@@ -106,7 +106,7 @@ class Planet:
         status_messages = []
         for stat in self._get_seperate_stats():
             if stat > 10:
-                status_messages.append("You have caused a saved this stat.")
+                status_messages.append("You have saved this stat.")
             elif stat > 5:
                 status_messages.append("You have caused a major net gain.")
             elif stat > 0:
