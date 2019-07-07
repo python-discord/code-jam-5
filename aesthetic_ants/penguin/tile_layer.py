@@ -22,7 +22,7 @@ class Tile(pyglet.sprite.Sprite):
     """
     Represents an individual tile in a tiled layer
     """
-    def __init__(self, tile, *args, **kwargs):
+    def __init__(self, tile: TileType, *args, **kwargs):
         self.tile_type = tile
         super().__init__(*args, **kwargs)
 
@@ -33,7 +33,7 @@ class TileLayer(Object):
     """
     collision_type = CollisionType.TILE_LAYER
 
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int):
         self.tile_images = {
             TileType.WATER: WATER_TILE,
             TileType.ICE: ICE_TILE,
@@ -76,7 +76,7 @@ class TileLayer(Object):
                 tile.batch = None
         self.tiles = []
 
-    def load_tiles(self, tile_filename):
+    def load_tiles(self, tile_filename: str):
         """Loads a tile map from a level file"""
         with open(tile_filename, 'r') as level_file:
             level_data = level_file.readlines()
