@@ -4,7 +4,6 @@ import random
 
 from math import floor
 from pyglet.graphics import Batch
-from typing import List
 
 from .constants import CollisionType, TileType
 from .enemy import Enemy
@@ -59,6 +58,7 @@ class Tile(pyglet.sprite.Sprite):
     """
     Represents an individual tile in a tiled layer
     """
+
     def __init__(self, tile: TileType, *args, health=0, **kwargs):
         self.tile_type = tile
 
@@ -113,9 +113,7 @@ class TileLayer(Object):
                                           batch=self.batch)
 
     def update(self, dt: float, **kwargs):
-        enemies = list(filter(lambda obj: isinstance(obj, Enemy),
-                              self.space.objects))
-        self.decay_tiles(dt, enemies)
+        self.decay_tiles(dt)
 
     def draw(self):
         self.batch.draw()
@@ -173,33 +171,52 @@ class TileLayer(Object):
 
             other.collide_tile(self.tiles[y][x])
 
-    def decay_tiles(self, dt: float, enemies: List[Enemy]):
+    def enemy_decay_influence(self):
+        """Determines how much pollution enemies release"""
+        enemies = list(filter(lambda obj: isinstance(obj, Enemy), self.space.objects))
+        return len(enemies)
+
+    def neighbors(self, x, y):
+        grid_width = len(self.tiles[0])
+        grid_height = len(self.tiles)
+
+        for offset_x, offset_y in NEARBY_TILES:
+            # Skip out of bounds tiles
+            if not 0 <= x + offset_x < grid_width:
+                continue
+            if not 0 <= y + offset_y < grid_height:
+                continue
+
+            yield self.tiles[y + offset_y][x + offset_x]
+
+    def decay_tiles(self, dt: float):
+        """Updates the decay state of the map"""
+        # Decay carries over between ticks, as it's normalized by dt
         self.decay += DECAY_RATE * dt
-        self.decay += dt * ENEMY_DECAY_INFLUENCE * len(enemies)
+        self.decay += dt * ENEMY_DECAY_INFLUENCE * self.enemy_decay_influence()
 
         grid_width = len(self.tiles[0])
         grid_height = len(self.tiles)
 
-        for _ in range(round(self.decay)):
+        # Handle what decay we can this tick
+        while self.decay >= 1:
             self.decay -= 1
+
             x = random.randrange(grid_width)
             y = random.randrange(grid_height)
             tile = self.tiles[y][x]
-            if tile.tile_type in DECAY_MAP:
-                tile_weakness = 0
-                for offset_x, offset_y in NEARBY_TILES:
-                    # Skip out of bounds tiles
-                    if not 0 <= x + offset_x < grid_width:
-                        continue
-                    if not 0 <= y + offset_y < grid_height:
-                        continue
+            if tile.tile_type not in DECAY_MAP:
+                continue
 
-                    if self.tiles[y + offset_y][x + offset_x].tile_type in WEAK_TILES:
-                        tile_weakness += WEAK_TILE_DECAY_INFLUENCE
+            # Weak nearby tiles make a tile decay faster
+            tile_weakness = 0
+            for neighbor in self.neighbors(x, y):
+                if neighbor.tile_type in WEAK_TILES:
+                    tile_weakness += WEAK_TILE_DECAY_INFLUENCE
 
-                tile.health -= DECAY_VARIANCE[0] \
-                    + random.random() * DECAY_VARIANCE[1] \
-                    + tile_weakness
+            tile.health -= DECAY_VARIANCE[0] \
+                + random.random() * DECAY_VARIANCE[1] \
+                + tile_weakness
 
-                if tile.health < 0:
-                    self.set_tile(x, y, DECAY_MAP[tile.tile_type])
+            if tile.health < 0:
+                self.set_tile(x, y, DECAY_MAP[tile.tile_type])
