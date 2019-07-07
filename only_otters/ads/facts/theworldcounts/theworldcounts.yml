@@ -4,7 +4,7 @@ dynamic: false
 content:
   loc: //div[@id="main"]//a[@class="counter-link"]/div[@class="row"]
   prefix: $ { single, list, map:strip } # before the dict is built
-  # suffix: $ { postprocess } # after the dict is built
+  # postdict: $ { postprocess } # after the dict is built
   finally: $ { filter:valid, map:postprocess }
   body:
     figure:   div[1]/div[@class="counter-number"]/p/text()

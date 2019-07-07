@@ -78,7 +78,7 @@ def exceptprint(*e):
 
 class both_class_instance:
     """
-    Allow a method to both a class object and its instance objects.
+    Allow a method to apply to both a class object and its instance objects.
     Either will be passed as the first parameter of the method.
     A.do()
     A().do()

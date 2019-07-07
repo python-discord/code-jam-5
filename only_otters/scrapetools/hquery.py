@@ -9,21 +9,26 @@ import only_otters.scrapetools.autobrowser as autobrowser
 
 
 class Keywords:
+    """A simple structure to store the string representations of each keyword."""
+
     class Root:
+
         url: str = 'url'
         dynamic: bool = 'dynamic'
         content: dict = 'content'
 
     class Query:
+
         location: str = 'loc'
         properties: dict = 'properties'
         body: dict = 'body'
 
         prefix: str = 'prefix'
-        suffix: str = 'suffix'
+        postdict: str = 'postdict'
         postfix: str = 'finally'
 
     class Properties:
+
         propagation: str = 'propagate_queries'
         pipes: str = 'pipes'
 
@@ -169,6 +174,7 @@ class HierarchicalXPathQuery:
             expr = pipe_prefix + ' ' + expr
 
         regex = r'^\s*\$\s*([a-z]:)?([a-z]+)?\s*{\s*((?:[\w:]+\s*[,]?\s*)+)\s*}'
+        # Find examples here: https://regex101.com/r/pGzH6o/3
 
         pipes = []
         modes = []
@@ -177,8 +183,6 @@ class HierarchicalXPathQuery:
 
         while match is not None:
             _ho_mode, _modes, _pipes = match.groups()
-
-            # TODO: Resolve modes & pipes before runnning Xpath expr
 
             # Parse modes
             if _ho_mode is not None:
@@ -214,7 +218,7 @@ class HierarchicalXPathQuery:
     def resolve_xpath(self, element, expr: str, pipe_prefix: bool = None):
         """Resolve a composite XPath expression."""
         expr, pipes, modes, _ = self.resolve_pipe_expr(expr,
-                                                      pipe_prefix=pipe_prefix)
+                                                       pipe_prefix=pipe_prefix)
 
         result = element.xpath(expr)
 
@@ -259,27 +263,47 @@ class HierarchicalXPathQuery:
             return self.register_pipe(name, high=True)
         return partial(self.register_pipe, name=name, high=True)
 
-    def apply_pipes(self, fn: callable, pipe_properties: dict):
-
-        pipes = []
-
-        for name, kargs in pipe_properties.items():
-
-            target = self.PIPES.get(name)
-            if target is None:
-                raise KeyError('No such pipe function: %s' % name)
-
-            pipes.append(
-                partial(target, **kargs)
-            )
-
-        if pipes:
-            return util.pipe(*pipes)(fn)
-
-        return fn
-
     def process_query(self, tree, xquery: dict, **properties):
+        """
+        Process a hierarchical query. The following fields are available:
 
+        :body
+        A dictionary embodying what the resulting record should look like. Given the 'loc' element,
+        each key-value pair will have its pair replaced by the result of evaluating the expression.
+
+        ```
+        body: title: //title/text()
+        => { "title": "Google" }
+        ```
+
+        :loc
+        The XPath expression returning one or more elements to be used as root
+        for the query's relative XPath expressions. The principle is that the query
+        found in 'body' will be run on each of those elements, and return a dict per element.
+
+        :prefix
+        A pipe expression that will prepend every expression in the query's body.
+        This means that the pipes found in it will be executed AFTER the pipes already found
+        in the body expression.
+
+        :postdict
+
+        :finally
+        A pipe expression that will be run on the query result as a whole (the list of records).
+        Hence, $ { postprocess } will apply this pipe to every record.
+
+        Result := [finally] <= [postdict] <= {
+                                              [prefix] <= [pipes] <= //a/li
+                                              [prefix] <= [pipes] <= //a/li/text()
+                                              ...
+                                            }
+
+        Hence:
+            postdict: $ { postprocess }
+            is equivalent to
+            finally: $ { map:postprocess }
+
+        """
         ##
         postprocess = xquery.pop(Keywords.Query.postfix, None)
         if postprocess is not None:
@@ -297,7 +321,7 @@ class HierarchicalXPathQuery:
         loc_query = xquery[Keywords.Query.location]
         query = xquery[Keywords.Query.body]
         prefix = xquery.get(Keywords.Query.prefix)
-        suffix = xquery.get(Keywords.Query.suffix)
+        postdict = xquery.get(Keywords.Query.postdict)
 
         # Process properties
         properties = properties or {}
@@ -310,19 +334,14 @@ class HierarchicalXPathQuery:
 
         process_xpath = self.resolve_xpath
 
-        # Set up the pipes
-        pipe_properties = properties.get(Keywords.Properties.pipes)
-        if pipe_properties is not None:
-            process_xpath = self.apply_pipes(self.resolve_xpath, pipe_properties)
-
         # Apply prefix if provided
         if prefix is not None:
             process_xpath = partial(process_xpath, pipe_prefix=prefix)
 
-        # Resolve suffix 
-        suffix_pipes = []
-        if suffix is not None:
-            _, suffix_pipes, _, _ = self.resolve_pipe_expr(suffix)
+        # Resolve postdict
+        postdict_pipes = []
+        if postdict is not None:
+            _, postdict_pipes, _, _ = self.resolve_pipe_expr(postdict)
 
         for loc in tree.xpath(loc_query):
 
@@ -344,8 +363,8 @@ class HierarchicalXPathQuery:
 
                 result[key] = value
 
-            # Apply suffix expression
-            for pipe in suffix_pipes:
+            # Apply postdict expression
+            for pipe in postdict_pipes:
                 result = pipe(result)
 
             yield result
@@ -380,9 +399,7 @@ class HierarchicalXPathQuery:
         self.HIGHER_ORDER_MODES = {**self.HIGHER_ORDER_MODES}
 
     def get(self, url: str = None, dynamic: bool = None) -> str:
-        """Fetch the content found at the provided url, and runs the query
-        on the HTML received."""
-        url = url or self.url
+        """Fetch the content found at the provided url."""
 
         if dynamic is None:
             dynamic = self.dynamic
@@ -397,6 +414,7 @@ class HierarchicalXPathQuery:
         return response.content
 
     def __call__(self, url: str = None, html: str = None) -> dict:
+        """Fetch remote content and run query against it."""
 
         url = url or self.url
 
