@@ -17,11 +17,11 @@ class Keywords:
     class Query:
         location: str = 'loc'
         properties: dict = 'properties'
-        body: dict = 'query'
+        body: dict = 'body'
 
         prefix: str = 'prefix'
-        suffix: str = 'postfix'
-        postfix: str = 'postdict'
+        suffix: str = 'suffix'
+        postfix: str = 'finally'
 
     class Properties:
         propagation: str = 'propagate_queries'
@@ -325,6 +325,10 @@ class HierarchicalXPathQuery:
         if prefix is not None:
             process_xpath = partial(process_xpath, pipe_prefix=prefix)
 
+        suffix_pipes = []
+        if suffix is not None:
+            _, suffix_pipes, _, _ = cls.resolve_pipe_expr(suffix)
+
         for loc in tree.xpath(loc_query):
 
             result = {}
@@ -345,11 +349,9 @@ class HierarchicalXPathQuery:
 
                 result[key] = value
 
-            # Apply postfix expression
-            if suffix:
-                _, pipes, _, _ = cls.resolve_pipe_expr(suffix)
-                for pipe in pipes:
-                    result = pipe(result)
+            # Apply suffix expression
+            for pipe in suffix_pipes:
+                result = pipe(result)
 
             yield result
 
@@ -365,7 +367,7 @@ class HierarchicalXPathQuery:
         self.content = content
         self.dynamic = dynamic
 
-    def get(self, url: str = None, dynamic: bool = None) -> bytes:
+    def get(self, url: str = None, dynamic: bool = None) -> str:
 
         url = url or self.url
 
