@@ -27,6 +27,7 @@ extensions = [
     'cogs.climate_arguments',
     'cogs.hangman',
     'cogs.minesweeper',
+    'cogs.rankings',
     'cogs.reminders',
     'cogs.trivia'
 ]
