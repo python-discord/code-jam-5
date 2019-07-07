@@ -1,5 +1,12 @@
 # Evident Eels
 
+## Quick start
+
+```bash
+# Start a development server
+$ python start_server.py
+```
+
 ## Development Setup
 
 First, export `FLASK_APP` as `module.py`, which acts as the entry point for the app.
