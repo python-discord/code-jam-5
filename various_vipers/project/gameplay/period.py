@@ -37,21 +37,21 @@ class Period(object):
     # Maximum number of tasks that can be spawned
     task_max_count: int = 10
     # How many game ticks between task spawns (will be floored and converted to int)
-    task_spawn_freq: float = 420
-    # Maximum frequency for task spawns
-    task_spawn_freq_max: float = 30
+    task_spawn_freq: float = 60 * 5
     # How much to increase task spawn frequency with each game tick
-    task_spawn_freq_inc: float = 0.05
+    task_spawn_freq_inc: float = 1 / 10
+    # Maximum frequency for task spawns
+    task_spawn_freq_max: float = 60 / 2
 
     # How much heat goes up passively each game tick
-    heat_per_tick: float = 0.005
+    heat_per_tick: float = 1 / 60 / 2
     # How much heat goes up per task each game tick
-    heat_per_task: float = 0.005
+    heat_per_task: float = 1 / 60 / 10
 
     # Chance to spawn certain task types
-    maze_chance: float = 1.0
-    rps_chance: float = 1.0
-    ttt_chance: float = 1.0
+    maze_chance: float = 0.4
+    ttt_chance: float = 0.4
+    rps_chance: float = 0.2
 
     # Earth's age
     start_date: datetime = datetime.date(2000, 1, 1)
