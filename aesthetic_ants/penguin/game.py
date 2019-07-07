@@ -7,7 +7,7 @@ from .resources import LEVEL_1
 from .snowball import Snowball
 from .space import Space
 from .tile_layer import TileLayer
-from .ui import GameOverScreen, ScoreLabel
+from .ui import GameOverScreen, ScoreLabel, UiSpace
 from .utils import keys
 
 
@@ -82,10 +82,10 @@ class Game(pyglet.window.Window):
 
         return tiles
 
-    def create_ui(self) -> Space:
+    def create_ui(self) -> UiSpace:
         """Returns the user interface space"""
 
-        space = Space()
+        space = UiSpace()
 
         return space
 
@@ -121,6 +121,6 @@ class Game(pyglet.window.Window):
     def on_collision_snowball_enemy(self, snowball, enemy):
         if not self.is_over:
             self.score += enemy.score
-            self.score_label.label.text = str(self.score)
+            self.score_label.set_label(self.score)
 
         enemy.on_collision_snowball(snowball)
