@@ -16,14 +16,14 @@ class Sound:
     mixer.music.load(str(BG_MUSIC))
     mixer.music.play(-1)
 
-    click = mixer.Sound(str(SND["click3"]))
-    check = mixer.Sound(str(SND["switch1"]))
+    click = mixer.Sound(str(SND["click"]))
+    check = mixer.Sound(str(SND["check"]))
 
-    task_completed = mixer.Sound(str(SND["twoTone2"]))
-    task_failed = mixer.Sound(str(SND["phaserUp1"]))
+    task_completed = mixer.Sound(str(SND["task_completed"]))
+    task_failed = mixer.Sound(str(SND["task_failed"]))
 
-    task_click = mixer.Sound(str(SND["pepSound3"]))  # or powerUp4 phaserUp3 phaseJump1
-    game_over = mixer.Sound(str(SND["powerUp3"]))
+    task_click = mixer.Sound(str(SND["task_click"]))  # or powerUp4 phaserUp3 phaseJump1
+    game_over = mixer.Sound(str(SND["game_over"]))
 
     @staticmethod
     def update():

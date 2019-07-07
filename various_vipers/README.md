@@ -1,5 +1,4 @@
-﻿$ pipenv lock --pre --clear
-<h2 align="center">Various Vipers | saving the earth</h2>
+﻿<h2 align="center">Various Vipers | saving the earth</h2>
 <p align="center">
   (Python Discord code jam 5 submission)<br>
   <img src="https://i.imgur.com/S14ouvw.png" width="256">
