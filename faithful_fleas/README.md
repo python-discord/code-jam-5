@@ -1,6 +1,6 @@
 # Faithful Fleas
 
-This project on the theme climate change is a discord bot.
+This project on the theme climate change is a discord bot built using discord-py.
 
 Team members:
 - ~Qria#0019 (lead)~
