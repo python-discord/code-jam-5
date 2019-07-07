@@ -7,7 +7,7 @@ pyglet.resource.reindex()
 
 
 def main():
-    game = Game()
+    game = Game(fullscreen=True)
     game.run()
 
 
