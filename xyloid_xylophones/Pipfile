@@ -9,8 +9,6 @@ flake8 = "*"
 [packages]
 pyglet = "==1.4.0b1"
 pyqtree = "*"
-#bbox = "*"
-#pyglet-ffmpeg = "*"
 
 [requires]
 python_version = "3.7"

@@ -5,13 +5,14 @@ from . import keys
 from . import player, zone_map, current_display  # , level1map
 
 
-def mouse_input(x,y):
+def mouse_input(x, y):
     if (current_display == 'zone'):
-        move_towards_coord(x,y)
+        move_towards_coord(x, y)
     else:
-        #TODO
+        # TODO
         pass
     return
+
 
 def move_towards_coord(x, y):
     """Moves the player towards the (x,y) coordinate"""
@@ -70,7 +71,7 @@ def handle_input(dt=None):
                 move(new_move[0], new_move[1])
     else:
         pass
-        #player.update_sprite()
+        # player.update_sprite()
 
 
 def move(new_x, new_y):
