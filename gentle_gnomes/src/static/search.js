@@ -14,40 +14,55 @@ const placesService = new google.maps.places.PlacesService(map);
 const sessionToken = new google.maps.places.AutocompleteSessionToken();
 /* eslint-enable no-undef */
 
-function showResults(response) {
-    document.getElementById('loading-spinner').hidden = true;
-    const results = document.getElementById('results');
-    results.innerHTML = response;
 
-    for (let indicator of document.getElementsByClassName('indicator')) {
-        const graph = indicator.querySelector('.graph');
-        if (!graph) {
-            console.error(`Could not find a graph element for ${indicator.id}`);
-            continue;
-        }
-
-        const trace = {
-            x: JSON.parse(graph.dataset.x),
-            y: JSON.parse(graph.dataset.y),
-            mode: 'lines+markers',
-            type: 'scatter'
-        };
-
-        const layout = {
-            xaxis: {'title': 'year'},
-            yaxis: {'title': graph.dataset.units}
-        };
-
-        Plotly.newPlot(graph, [trace], layout, {responsive: true}); // eslint-disable-line no-undef
+function plot(indicator) {
+    const graph = indicator.querySelector('.graph');
+    if (!graph) {
+        console.error(`Could not find a graph element for ${graph.id}`);
+        return;
     }
 
-    /* eslint-disable no-undef */
-    $('#sidebar li:first-child a').tab('show');
-    $('[data-toggle="tooltip"]').tooltip();
-    /* eslint-enable no-undef */
+    const trace = {
+        x: JSON.parse(graph.dataset.x),
+        y: JSON.parse(graph.dataset.y),
+        mode: 'lines+markers',
+        type: 'scatter'
+    };
+
+    const layout = {
+        xaxis: {'title': 'year'},
+        yaxis: {'title': graph.dataset.units}
+    };
+
+    Plotly.newPlot(graph, [trace], layout, {responsive: true}); // eslint-disable-line no-undef
 }
 
-function setURL(location) {
+function showIndicator(response) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(response, 'text/html');
+
+    document.getElementById('sidebar').appendChild(doc.querySelector('.nav-item'));
+
+    const indicator = document.getElementById('indicators').appendChild(
+        doc.querySelector('.indicator')
+    );
+
+    plot(indicator);
+
+    document.getElementById('loading-spinner').hidden = true;
+
+    const results = document.getElementById('results');
+    if (results.hidden) {
+        results.hidden = false;
+
+        /* eslint-disable no-undef */
+        $('#sidebar li:first-child a').tab('show');
+        $('[data-toggle="tooltip"]').tooltip();
+        /* eslint-enable no-undef */
+    }
+}
+
+function getURLParams(location) {
     location = location.toJSON();
 
     // Truncate to 6 decimal places
@@ -55,25 +70,45 @@ function setURL(location) {
         location[key] = location[key].toFixed(6);
     }
 
-    const params = new URLSearchParams(location);
+    return new URLSearchParams(location);
+}
+
+function setURL(location) {
+    const params = getURLParams(location);
     history.pushState(null, null, `/?${params}`);
 
     // Clear search box
     inputName.value = '';
 }
 
-function setLocation(location) {
-    const formData = new FormData(form);
-    formData.set('location', JSON.stringify(location));
+function getCity(location) {
+    const params = getURLParams(location);
 
-    fetch(form.getAttribute('action'), {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => response.text())
-        .then(showResults)
+    fetch(`/location?${params}`)
+        .then(response => response.json())
+        .then(getIndicators)
         .then(() => setURL(location))
-        .catch(error => console.log('Error submitting form: ', error));
+        .catch(error => console.error(error));
+}
+
+function getIndicators(city) {
+    const indicators = [
+        'dry_spells',
+        'extreme_cold_events',
+        'extreme_heat_events',
+        'extreme_precipitation_events',
+        'heat_wave_incidents',
+        'total_precipitation',
+        'average_high_temperature',
+        'average_low_temperature',
+    ];
+
+    for (let indicator of indicators) {
+        fetch(`/search/${city.id}/${indicator}`)
+            .then(response => response.text())
+            .then(showIndicator)
+            .catch(error => console.log(`Error getting ${indicator}: `, error));
+    }
 }
 
 function getTopLocation(predictions, status) {
@@ -96,7 +131,7 @@ function getTopLocation(predictions, status) {
             return;
         }
 
-        setLocation(result.geometry.location);
+        getCity(result.geometry.location);
     });
 }
 
@@ -113,7 +148,7 @@ form.addEventListener('submit', e => {
 
         acService.getPlacePredictions(request, getTopLocation);
     } else {
-        setLocation(place.geometry.location);
+        getCity(place.geometry.location);
     }
 
     e.preventDefault();
