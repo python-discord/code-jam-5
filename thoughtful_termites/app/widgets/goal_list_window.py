@@ -28,12 +28,6 @@ class GoalListWindow(qt.QWidget):
             self.on_add_goal
         )
 
-        self.view_unlocks_button = qt.QPushButton()
-        self.view_unlocks_button.setText('View Unlocks')
-        self.view_unlocks_button.clicked.connect(
-            self.on_view_unlocks
-        )
-
         self.main_layout = qt.QVBoxLayout(self)
         """
         The layout containing all this window's widgets.
