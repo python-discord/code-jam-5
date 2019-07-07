@@ -5,8 +5,8 @@ from datetime import datetime
 import discord
 from discord.ext import commands
 
-from thoughtful_termites.bot import unlocks
 from thoughtful_termites.bot.resources import rankings_data_path
+from thoughtful_termites.bot.unlocks import has_unlocked
 
 
 class Rankings(commands.Cog):
@@ -24,6 +24,12 @@ class Rankings(commands.Cog):
 
         with open(rankings_data_path, "r", encoding="utf-8-sig") as f:
             self.raw_rankings = list(csv.DictReader(f))
+
+    async def cog_command_error(self, ctx, error):
+        """Error handler for the cog; returns errors to the user if required.
+        """
+        if isinstance(error, commands.CheckFailure):
+            return await ctx.send(str(error))
 
     @staticmethod
     def to_ranks(ls: list):
@@ -84,17 +90,13 @@ class Rankings(commands.Cog):
         return embed
 
     @commands.command()
-    async def rankings(self, ctx, *, member: discord.Member = None):
+    @has_unlocked('rankings')
+    async def rankings(self, ctx):
         """
         The Rankings command called by the user. Call >rankings to start.
 
         :param ctx: The context at which the command was called
-        :param member: The member that called the command
         """
-        if not unlocks.has_unlocked(ctx, "rankings"):
-            await ctx.send(unlocks.unlock_message("Rankings"))
-            return
-
         question_type = random.random()
         countries = random.sample(self.raw_rankings, 5)
 

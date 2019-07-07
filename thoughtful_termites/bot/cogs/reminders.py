@@ -204,7 +204,7 @@ class Reminders(commands.Cog):
         e = discord.Embed(colour=self.bot.colour,
                           title='Reminders',
                           description=fmt,
-                          timestamp=datetime.datetime.now())
+                          timestamp=datetime.datetime.utcnow())
         e.set_author(name=str(self.bot.owner), icon_url=self.bot.owner.avatar_url)
         await ctx.send(embed=e)
 
@@ -236,7 +236,7 @@ class Reminders(commands.Cog):
         e = discord.Embed(colour=self.bot.colour,
                           title=f'Reminder ID: {reminder_id}',
                           description=fmt,
-                          timestamp=datetime.datetime.now())
+                          timestamp=datetime.datetime.utcnow())
         e.set_author(name=str(self.bot.owner), icon_url=self.bot.owner.avatar_url)
         await ctx.send(embed=e)
 

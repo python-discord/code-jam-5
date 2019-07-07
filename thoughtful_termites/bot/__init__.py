@@ -1,6 +1,7 @@
 import aiohttp
 import discord
 import logging
+import traceback as tb
 
 from discord.ext import commands
 
@@ -9,7 +10,7 @@ from thoughtful_termites.shared.constants import config_path
 from thoughtful_termites.shared.bot_config import Config
 
 log = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 description = "A simple climate bot made for the 5th code jam."
 
@@ -22,6 +23,22 @@ extensions = [
     'cogs.trivia',
     'cogs.farmer_game',
 ]
+
+
+class Help(commands.DefaultHelpCommand):
+    def get_command_signature(self, command):
+        parent = command.full_parent_name
+        if len(command.aliases) > 0:
+            aliases = ', '.join(command.aliases)
+            fmt = f'[aliases: {aliases}]'
+            if parent:
+                fmt = f'{self.clean_prefix}{parent} {fmt}'
+            else:
+                fmt = f'{self.clean_prefix}{command.name} {fmt}'
+            alias = fmt
+        else:
+            alias = f'{self.clean_prefix}{parent} {command.name}'
+        return alias
 
 
 class ClimateBot(commands.Bot):
@@ -37,6 +54,7 @@ class ClimateBot(commands.Bot):
         self.owner_id = config.owner_id
         self.session = aiohttp.ClientSession(loop=self.loop)
         self.colour = discord.Colour.blurple()
+        self.help_command = Help()
 
         self.db = get_db()
 
@@ -44,6 +62,7 @@ class ClimateBot(commands.Bot):
             try:
                 self.load_extension(ext)
             except Exception as e:
+                tb.print_exc()
                 print(f'Failed to load {ext}: {e}')
 
     async def process_commands(self, message):
@@ -56,6 +75,9 @@ class ClimateBot(commands.Bot):
             f'Bot is logged in as {str(self.user)}'
             ' (ID: {self.user.id}). Prefix is >'
         )
+        cog = self.get_cog('ClimateArguments')
+        if not cog:
+            self.load_extension('cogs.climate_arguments')
 
     @property
     def owner(self):
