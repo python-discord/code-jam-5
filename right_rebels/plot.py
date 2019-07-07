@@ -25,8 +25,8 @@ matplotlib.use('Agg')
 
 
 class Plotter(QtCore.QThread):
-    PLOTS_DIR = "plots/"
-    NC_FILE_NAME = "Complete_TMAX_LatLong1.nc"
+    PLOTS_DIR = "data/plots/"
+    NC_FILE_NAME = "data/Complete_TMAX_LatLong1.nc"
     LONGITUDES, LATITUDES, DATES, TEMPERATURES, \
         TEMPERATURE_UNIT = helpers.get_variables_from_nc_file(NC_FILE_NAME)
     image_increment_signal = QtCore.pyqtSignal()
