@@ -19,7 +19,7 @@ class MusicPlayer(QtWidgets.QWidget):
     # Every {} songs, an ad will be played automatically
     total_songs_between_adverts: int = 1
 
-    fact_refresh_rate = 6
+    fact_refresh_rate = 8
 
     def __init__(self):
         super().__init__()

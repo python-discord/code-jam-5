@@ -1,0 +1,12 @@
+gTTS==2.0.3
+cachetools==3.0.0
+lxml==4.2.5
+spacy==2.0.18
+numpy==1.15.1
+requests==2.21.0
+selenium==3.141.0
+PyQt5==5.13.0
+dataclasses==0.6
+pydub==0.23.1
+typing==3.7.4
+PyYAML==5.1.1

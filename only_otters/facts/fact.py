@@ -146,6 +146,10 @@ class Fact(QObject):
 
 class ErrorFact(Fact):
 
+    """
+    A mock Fact object to be sent when an exception is caught while retrieving remote data.
+    """
+
     exception: Exception
     title: str
     content: str
