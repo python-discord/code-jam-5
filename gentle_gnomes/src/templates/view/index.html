@@ -1,9 +1,24 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1>{% block title %}Climate Change Search{% endblock %}</h1>
+<div class="jumbotron jumptrion-fluid text-uppercase">
+    <h1 class="display-4">Climate Change</h1>
+    <p class="lead">The effects are everywhere</p>
+    <hr class="my-5">
+    <p class="text-info mt-5">Enter a location to begin</p>
+    {% include "view/search.html" %}
+</div>
 {% endblock %}
 
+
 {% block content %}
-    {% include "view/search.html" %}
+<div class="text-center my-5" id="loading-spinner" hidden>
+    <div class="spinner-border" role="status" style="width: 4rem; height: 4rem;" >
+        <span class="sr-only">Loading...</span>
+    </div>
+    <h5 class="text-info py-4">Collecting data from nearest location...</h5>
+</div>
+<div id="map" style="display: none"></div>
+<div id="results" class="mx-auto" style="width: 100%"></div>
+<script src="{{ url_for('static', filename = 'search.js') }}"></script>
 {% endblock %}

@@ -1,22 +1,41 @@
 {% if results %}
-<h3 class="text-left my-2">{{ city.name }}, {{ city.admin }}</h1>
-    <ul class="nav flex-column">
-    {% for indicator in results %}
-        <li class="nav-item" >
-            <a class="nav-link" href="#{{ indicator.name }}">{{ indicator.label }}</a>
-        </li>
-    </ul>
-    {% endfor %}
-    {% for indicator in results %}
-    <div class="indicator my-5" id="{{ indicator.name }}">
-        <div class="row">
-            <div class="col-11"><h2 class="text-secondary">{{ indicator.label }}
-                <small class="text-muted">{{ '{0:0.2f}'.format(indicator.rate * 100) }}%</small></h2></div>
-            <div class="col"><span class="badge badge-info text-right" title="{{ indicator.description }}" style="cursor: default;">?</span></div>
-        </div>
-        <div class="graph" data-x="{{ indicator.x }}" data-y="{{ indicator.y }}" data-units="{{ indicator.units }}"></div>
+<div class="row">
+    <div class="position-sticky sticky-top col" >
+        <h3 class="text-left text-info my-2">{{ city.name }}</h3>
+        <h3 class="text-left text-info my-2">{{ city.admin }}</h3>
+        <hr class="my-1">
+        <ul class="nav nav-tabs flex-column" id="sidebar">
+            {% for indicator in results %}
+            <li class="nav-item" >
+                <a class="nav-link" id="{{ indicator.name }}-tab" data-toggle="tab" role="tab" href="#{{ indicator.name }}" aria-controls="{{ indicator.name }}" aria-selected="false">{{ indicator.label }}</a>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
-    {% endfor %}
+    <div class="col-9 tab-content ml-5">
+        {% for indicator in results %}
+        <div class="indicator my-5 tab-pane" id="{{ indicator.name }}" role="tabpanel" aria-labelledby="{{ indicator.name }}-tab" >
+            <div class="row">
+                <div class="col-10">
+                    <h2 class="text-secondary text-left">{{ indicator.label }}
+                        <small class="text-muted">{{ '{0:+0.2f}'.format(indicator.rate * 100) }}%</small>
+                    </h2>
+                </div>
+                <div class="col text-right"><button type="button" class="btn btn-info" data-toggle="popover" data-content="{{ indicator.description }}" title="More Info">More Info</button></div>
+            </div>
+            <div class="graph" data-x="{{ indicator.x }}" data-y="{{ indicator.y }}" data-units="{{ indicator.units }}"></div>
+        </div>
+        {% endfor %}
+    </div>
+    <script>
+     $(function () {
+         $('#sidebar li:last-child a').tab('show')
+     })
+     $(function () {
+         $('[data-toggle="popover"]').popover()
+     })
+    </script>
+</div>
 {% else %}
 <div class="alert alert-primary mx-auto" style="width: 50%" role="alert">
     Location not found.

@@ -5,20 +5,11 @@
 
 <div class="mx-auto" style="width: 50%">
     <form action="/search" method="post" id="search-form">
-        <div class="input-group mb-5">
+        <div class="input-group mb-2">
             <input type="text" name="name" class="form-control" id="name" required>
             <div class="input-group-append">
-                <input value="Search" class="btn btn-outline-secondary" type="submit" id="button-addon2">
+                <input value="Search" class="btn btn-outline-primary" type="submit" id="button-addon2">
             </div>
         </div>
     </form>
-    <div class="text-center my-5" id="loading-spinner" hidden>
-        <div class="spinner-border" role="status" style="width: 4rem; height: 4rem;" >
-            <span class="sr-only">Loading...</span>
-        </div>
-        <h5 class="text-info py-4">Locating nearest valid city...</h5>
-    </div>
 </div>
-<div id="map" style="display: none"></div>
-<div id="results" class="mx-auto" style="width: 50%"></div>
-<script src="{{ url_for('static', filename = 'search.js') }}"></script>
