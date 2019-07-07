@@ -18,7 +18,7 @@ class UnlocksWindow(qt.QDialog):
         else:
             return 0
 
-    def __init__(self, parent):
+    def __init__(self, parent: qt.QWidget):
         super().__init__(parent)
 
         self.db = get_db()
@@ -74,6 +74,9 @@ class UnlocksWindow(qt.QDialog):
         def inner():
             unlock = self.db.get_unlock_by_name(name)
             unlock.is_unlocked = True
+
+            qt.QMessageBox.about(self, "Success!", f"You have unlocked the '{name}' minigame.")
+
             unlock.update()
 
         return inner
