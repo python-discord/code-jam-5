@@ -51,6 +51,9 @@ function setURL(location) {
 
     const params = new URLSearchParams(location);
     history.pushState(null, null, `/?${params}`);
+
+    // Clear search box
+    inputName.value = '';
 }
 
 function setLocation(location) {
