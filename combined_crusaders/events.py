@@ -46,7 +46,7 @@ special_messages = [
     "Cake am lie",
     "Oh dang is that a gun -Uncle Ben",
     "With great power comes great responsibility -Uncle Ben"
-    ]
+]
 
 
 msgs = {
@@ -64,8 +64,11 @@ msgs = {
     "upgrade_crank_points": "Ah, gettin' more bang for yer crank, I see",
     "buy_solar_panel": "Plants survive on solar panels, ye can too!",
     "buy_wind_turbine": "Ah, quite a large crank right there!",
-    "upgrade_crank_inertia": "YES! We be discoverin' perpetual motion!"
-    }
+    "upgrade_crank_inertia": "YES! We be discoverin' perpetual motion!",
+    "load": "Welcome back! Or maybe not, temporal mechanics confuses me.",
+    "save": "Time ain't a toy, boy. You can't save energy by saving a game.",
+    "fail_load": "Y'ain't got any save file, boy!"
+}
 
 
 class Events:
@@ -104,6 +107,13 @@ class Events:
                 return None
             else:
                 return msgs["no_history"]
+
+        if short_history[-1] == "load":
+            return msgs["load"]
+        elif short_history[-1] == "save":
+            return msgs["save"]
+        elif short_history[-1] == "fail_load":
+            return msgs["fail_load"]
 
         if self.previous_message == msgs["went_away"]:
             return msgs["welcome_back"]
