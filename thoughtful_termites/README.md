@@ -36,7 +36,7 @@ unlock mini games.
 
 5. After you have finished a certain number of goals, you can go to
 the "Unlocks" window to unlock various minigames or features, accessible
-on the Discord bot. This is accessible from the 'View Unlocks' button
+on the Discord bot. This is accessible from the 'Unlock Minigames' button
 at the Control Panel.
 
 ### Minigames & Features
