@@ -214,26 +214,26 @@ class car(object):
 # Define cars
 # Replace these with actual cars. These are placeholders.
 E1 = car(True,
-         [pygame.image.load('Cars\\ElectricCar1.png')],
+         [pygame.image.load('Cars\\1.png')],
          5,
          168,
          91,
          3)
 E2 = car(True,
-                [pygame.image.load('Cars\\ElectricCar2.png')],
+                [pygame.image.load('Cars\\2.png')],
                 10,
                 168,
                 94,
                 3)
 F1 = car(False,
-                [pygame.image.load('Cars\\FossilCar1.png')],
-                10,
+                [pygame.image.load('Cars\\P1.png')],
+                5,
                 265,
                 137,
                 5)
 F2 = car(False,
-                [pygame.image.load('Cars\\FossilCar2.png')],
-                10,
+                [pygame.image.load('Cars\\P2.png')],
+                7,
                 168,
                 101,
                 5)
@@ -301,17 +301,27 @@ while run:
                     rules = False
 
     # Add a random new car at intervals
-    if pygame.time.get_ticks() % 100 == 0:
+    if pygame.time.get_ticks() % 75 == 0:
         random.choice(vehicles).show()
 
     # Move cars their assigned  distance
-    for item in onscreen:
-        item.x -= item.vel
+    for car in onscreen:
+        car.x -= car.vel
         # Move their hitbox with them
-        item.hitbox = (item.x, item.y, item.width, item.height)
+        car.hitbox = (car.x, car.y, car.width, car.height)
         # Remove them and change score if moved offscreen
-        if item.x < 0 - item.width:
-            item.letgo()
+        if car.x < 0 - car.width:
+            car.letgo()
+
+    # Check for collisions
+    for car in onscreen:
+        # car is the car coming up behind
+        for testcar in onscreen:
+            # testcar is the car that might be ahead
+            if not car == testcar:
+                if car.y == testcar.y and car.x < testcar.x + testcar.width and car.x > testcar.x:
+                    # car will travel directly behind testcar
+                    car.x = testcar.x + testcar.width
 
     # Clear screen and lose if score is below 0
     if score < 0:
