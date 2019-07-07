@@ -14,7 +14,11 @@ const placesService = new google.maps.places.PlacesService(map);
 const sessionToken = new google.maps.places.AutocompleteSessionToken();
 /* eslint-enable no-undef */
 
-
+/**
+ * Plot the data for the indicator using Plotly.js
+ *
+ * @param   indicator   The indicator element for which to plot the data.
+ */
 function plot(indicator) {
     const graph = indicator.querySelector('.graph');
     if (!graph) {
@@ -37,6 +41,11 @@ function plot(indicator) {
     Plotly.newPlot(graph, [trace], layout, {responsive: true}); // eslint-disable-line no-undef
 }
 
+/**
+ * Update the DOM to show the indicator.
+ *
+ * @param   response    The response with the HTML for the indicator.
+ */
 function showIndicator(response) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(response, 'text/html');
@@ -62,6 +71,14 @@ function showIndicator(response) {
     }
 }
 
+/**
+ * Return URL search parameters for the given location object.
+ *
+ * The latitude and longitude are truncated to 6 decimal places.
+ *
+ * @param   location            The location to convert.
+ * @returns {URLSearchParams}   The search parameters for the location.
+ */
 function getURLParams(location) {
     location = location.toJSON();
 
@@ -73,6 +90,11 @@ function getURLParams(location) {
     return new URLSearchParams(location);
 }
 
+/**
+ * Update the URL in the browser with a new location and clear the search box input.
+ *
+ * @param   location    The new location to put in the URL.
+ */
 function setURL(location) {
     const params = getURLParams(location);
     history.pushState(null, null, `/?${params}`);
@@ -81,6 +103,11 @@ function setURL(location) {
     inputName.value = '';
 }
 
+/**
+ * Get the nearest supported city for the given coordinates.
+ *
+ * @param   location    The location for which to find the nearest city.
+ */
 function getCity(location) {
     const params = getURLParams(location);
 
@@ -91,6 +118,11 @@ function getCity(location) {
         .catch(error => console.error(error));
 }
 
+/**
+ * Get indicator data for a city.
+ *
+ * @param   city    The city for which to get indicators.
+ */
 function getIndicators(city) {
     const indicators = [
         'dry_spells',
@@ -111,6 +143,12 @@ function getIndicators(city) {
     }
 }
 
+/**
+ * Get the location for the top autocomplete prediction.
+ *
+ * @param   predictions     The predictions from Google Autocomplete.
+ * @param   status          The status of the request for predictions.
+ */
 function getTopLocation(predictions, status) {
     // eslint-disable-next-line no-undef
     if (status !== google.maps.places.PlacesServiceStatus.OK) {
