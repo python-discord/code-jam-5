@@ -24,8 +24,8 @@ class Game(pyglet.window.Window):
         self.space = self.create_space()
         self.space.add(self.player)
         for _ in range(5):
-            self.space.add(BigEnemy())
-            self.space.add(FastEnemy())
+            self.space.add(BigEnemy(10, 5))
+            self.space.add(FastEnemy(15, 5))
 
         # Create background layer
         self.tiles = self.create_tiles()
