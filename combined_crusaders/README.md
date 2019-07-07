@@ -31,3 +31,7 @@ Install third party libraries:
 * Purchase additional machines to help you generate power
 
     * Solar panels and wind turbines are available to help you generate power and save humanity
+
+* Save and load your game between runs via the "Save" and "Load" buttons
+
+* Progress through various stages of the world and see what could become if we all focused on more sustainable forms of energy generation.
