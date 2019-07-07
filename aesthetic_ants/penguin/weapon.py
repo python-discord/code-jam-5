@@ -37,6 +37,8 @@ class Hand(Weapon):
 
 
 class SnowSpread(Weapon):
+    reload_delay = 0.625
+
     def get_projectiles(self, x, y, angle):
         for i in range(-2, 3):
             yield Snowball(x, y, angle + 10 * i, self.projectile_speed)
