@@ -1,26 +1,19 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        {% include "styling.html" %}
-    </head>
-    <body>
-        {% include "header.html" %}
+{% extends "base.html" %}
 
-        <div class="container">
-            <h1 class="display-4">Log in</h1>
-
-            <form action="/login" method="POST">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input class="form-control" type="text" name="username" placeholder="Username">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input class="form-control" type="password" name="password" placeholder="Password">
-                </div>
-                <input class="btn btn-outline-primary mb-2" type="submit">
-            </form>
+{% block content %}
+<div class="container">
+    <h1 class="display-4">Log in</h1>
+    {% include "flashes.html" %}
+    <form action="/login" method="POST">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" type="text" name="username" placeholder="Username">
         </div>
-	<p>New User? <a href="{{ url_for('signup') }}">Click to Register!</a></p>
-    </body>
-</html>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" type="password" name="password" placeholder="Password">
+        </div>
+        <input class="btn btn-outline-primary mb-2" type="submit">
+    </form>
+</div>
+{% endblock %}

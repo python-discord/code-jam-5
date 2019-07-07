@@ -1,34 +1,28 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        {% include "styling.html" %}
-    </head>
-    <body>
-        {% include "header.html" %}
-
-        <div class="container">
-            <h1 class="display-4">Currently available carpools</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">User</th>
-                        <th scope="col">ID</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Location</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for carpool in carpools %}
-                        <tr>
-                            <td>{{ carpool["user"] }}</td>
-                            <td>{{ carpool["id"] }}</td>
-                            <td>{{ carpool["date"] }}</td>
-                            <td>{{ carpool["location"] }}</td>
-                            <td><a class="btn btn-outline-secondary" href="/carpools/{{ carpool['id'] }}">View page</a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    {% include "flashes.html" %}
+    <h1 class="display-4">Currently available carpools</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">User</th>
+                <th scope="col">ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for carpool in carpools %}
+            <tr>
+                <td>{{ carpool["user"] }}</td>
+                <td>{{ carpool["id"] }}</td>
+                <td>{{ carpool["date"] }}</td>
+                <td>{{ carpool["location"] }}</td>
+                <td><a class="btn btn-outline-secondary" href="/carpools/{{ carpool['id'] }}">View page</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
