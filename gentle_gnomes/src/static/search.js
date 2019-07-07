@@ -40,6 +40,11 @@ function showResults(response) {
 
         Plotly.newPlot(graph, [trace], layout, {responsive: true}); // eslint-disable-line no-undef
     }
+
+    /* eslint-disable no-undef */
+    $('#sidebar li:first-child a').tab('show');
+    $('[data-toggle="tooltip"]').tooltip();
+    /* eslint-enable no-undef */
 }
 
 function setURL(location) {
