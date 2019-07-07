@@ -6,13 +6,13 @@ from thoughtful_termites.shared.constants import completed_goals_path
 class UnlocksWindow(qt.QDialog):
     @staticmethod
     def set_completed_goals(n: int):
-        with open(str(completed_goals_path), 'w') as f:
+        with open(completed_goals_path, 'w') as f:
             f.write(str(n))
 
     @staticmethod
     def completed_goals():
         if completed_goals_path.exists():
-            with open(str(completed_goals_path), "r") as f:
+            with open(completed_goals_path, "r") as f:
                 contents = f.read().strip()
                 return int(contents)
         else:
