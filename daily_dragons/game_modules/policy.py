@@ -20,5 +20,6 @@ class Policy:
             "" + Fore.CYAN + f"{str(self.name)}\n"
             "" + Fore.WHITE + f"{self.description}\n"
             f"{str(self.planetary_effects)}"
+            "" + Fore.GREEN + "ROI:\t\t" + Fore.WHITE + f"{self.roi*100}%"
         )
         return output
