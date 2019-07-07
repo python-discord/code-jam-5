@@ -18,8 +18,8 @@ class UnlocksWindow(qt.QDialog):
         else:
             return 0
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
 
         self.db = get_db()
 

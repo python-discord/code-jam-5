@@ -3,6 +3,7 @@ from thoughtful_termites.shared import qt
 from .goal_list import GoalList
 from .goal_list import GoalListItem
 from .edit_goal_window import EditGoalWindow
+from .unlocks_window import UnlocksWindow
 
 from thoughtful_termites.shared.goal_db import (
     GoalDB,
@@ -28,6 +29,12 @@ class GoalListWindow(qt.QWidget):
             self.on_add_goal
         )
 
+        self.view_unlocks_button = qt.QPushButton()
+        self.view_unlocks_button.setText('View Unlocks')
+        self.view_unlocks_button.clicked.connect(
+            self.on_view_unlocks
+        )
+
         self.main_layout = qt.QVBoxLayout(self)
         """
         The layout containing all this window's widgets.
@@ -36,6 +43,7 @@ class GoalListWindow(qt.QWidget):
         self.main_layout.setSpacing(0)
         self.main_layout.addWidget(self.goal_list)
         self.main_layout.addWidget(self.add_goal_button)
+        self.main_layout.addWidget(self.view_unlocks_button)
 
         self.setWindowTitle('Goal List')
 
@@ -63,4 +71,8 @@ class GoalListWindow(qt.QWidget):
             on_done
         )
 
+        window.exec()
+
+    def on_view_unlocks(self):
+        window = UnlocksWindow(self)
         window.exec()
