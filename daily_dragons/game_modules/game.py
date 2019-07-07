@@ -30,6 +30,12 @@ class Game:
         self.fail_msg = Fore.RED + "You have destroyed your planet. Enjoy the rest of your life " \
                                    "knowing you've doomed humanity."
 
+        self.success_ending =  Fore.GREEN + "Congratuations! You've managed to save your world."
+
+        self.medium_ending = Fore.YELLOW + "You managed to not destroy the world, but try better" \
+                                           " next time. You could have actually done some good " \
+                                           "in your life for once."
+
         self.successful_order_msg = Fore.GREEN + "Ok, we've sent that in!"
 
         self.cancelled_order_msg = Fore.RED + "Ok, we'll cancel that order."
@@ -77,19 +83,29 @@ class Game:
     def main(self) -> None:
         while not self.quit_game:
             self.round += 1
-            if self.round > 10 or self.player.net_worth <= 0:
+            if self.round > 10:
                 self.quit_game = True
+
+                if sum(i >= 10 for i in self.earth.stats.values()) >= 2:
+                    print(self.success_ending)
+                else:
+                    print(self.medium_ending)
+
                 print(self.final_score())
+
+            elif self.player.net_worth <= 0:
+                print("You've run out of money.", self.exit_msg)
+
+            elif not all(i > -10 for i in self.earth.stats.values()):
+                self.quit_game = True
+                print(self.fail_msg)
+
             else:
-                print(self.investments)
+                print(Fore.BLUE + f"Welcome to round {self.round}.", self.investments, sep="\n")
                 player_input = input(Style.RESET_ALL + "")
                 response = self.parse_input(player_input)
 
                 print(response, "\n\n")
-
-            if not all(i > -10 for i in self.earth.stats.values()):
-                self.quit_game = True
-                print(self.exit_msg)
 
     def _invest(self, option) -> str:
         try:
