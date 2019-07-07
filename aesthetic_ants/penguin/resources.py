@@ -24,8 +24,8 @@ PLAYER_IMAGE = load_image("penguin.png", centered=True)
 
 # Projectile images
 SNOWBALL_IMAGE = load_image("snowball.png", centered=True)
-ROCKET_IMAGE = load_image('rocket.png', centered=True)
-SNOWSPLOSION_IMAGE = load_image('snowsplosion.png', centered=True)
+ROCKET_IMAGE = load_image("snowball_rocket.png", centered=True)
+SNOWSPLOSION_IMAGE = load_image("snowsplosion.png", centered=True)
 
 # Tile images
 WATER_TILE = load_image("tiles/water.png")
