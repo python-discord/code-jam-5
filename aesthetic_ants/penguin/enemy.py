@@ -1,3 +1,5 @@
+import math
+
 from .snowball import Snowball
 from .constants import CollisionType, TileType
 from .object import PhysicalObject
@@ -18,6 +20,8 @@ class Enemy(PhysicalObject):
         self.hearts = self.hearts
 
     def update(self, dt):
+        self.rotation = -math.degrees(math.atan2(self.velocity_y, self.velocity_x))
+
         self.x += self.velocity_x * dt
         self.y += self.velocity_y * dt
 
