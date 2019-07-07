@@ -119,22 +119,6 @@
     },
     {
       "id":15,
-      "question":"The origin of The ICEMAN is:",
-      "options":["Iceland", "Ice-cream", "Ice-cube", "Iced-tea", "None of these."],
-      "type":"**crazy**",
-      "answer":0,
-      "fact":"👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻👻"
-    },
-    {
-      "id":16,
-      "question":"The season in which lemon's beared shines:",
-      "options":["Summer", "Winter", "I dont know", "All seasons", "Never"],
-      "type":"**crazy**",
-      "answer":0,
-      "fact":"**Come on guys, SPAM the answer in the TWITCH chat!**"
-    },
-    {
-      "id":17,
       "question":"How much more acidic are our oceans today? :",
       "options":["11%", "20%", "5%", "More than 26%"],
       "type":"mcq",
@@ -142,7 +126,7 @@
       "fact":"This speed of ocean acidification is also the fastest recorded in the past 65 Million years! According to the United Nations IPCC report: “Ocean acidification is quantified by decreases in pH. The pH of ocean surface water has decreased by 0.1 since the beginning of the industrial era (high confidence), corresponding to a 26% increase in hydrogen ion concentration.”"
     },
     {
-      "id":18,
+      "id":16,
       "question":"What is a “safe” level of greenhouse gas concentration in our air? :",
       "options":["350 ppm", "400 ppm", "450 ppm", "500 ppm"],
       "type":"mcq",
@@ -150,7 +134,7 @@
       "fact":"A stable level of 350 parts per million in our air is expected to lead to around 1.5 degrees Celsius of warming. But, we’ve already broken past 400 parts per million as of 2016, and we’re still rising. At 450 parts per million, scientists expect a 2-in-3 chance or more of warming by 2 degrees Celsius. To bring this back down to a safe level, we need to plant trees to absorb carbon dioxide from the air, and cut down our emissions to zero so we stop pumping more into the air. The good news? We have lots of solutions to do just this. The bad news? Not enough of us are convinced we need to change."
     },
     {
-      "id":19,
+      "id":17,
       "question":"Warming is expected to harm much of our wildlife, pushing wilderness to the brink. If it warms by 2 to 3 degrees Celsius, what % of our plants and animals are NOT likely to survive? :",
       "options":["30% to 60%", "20% to 30%", "10% to 20%", "0% to 10%"],
       "type":"mcq",
@@ -158,7 +142,7 @@
       "fact":"Research shows that we are in the midst of the Sixth Extinction, with recent extinction rates happening at speeds that have not been seen in the last 65 million years. Scientists have already catalogued species migrating “uphill and polewards” in search of cooler places to live. At higher temperature rises of 3.5 to 4 degrees Celsius, the proportion of our wildlife at risk of extinction rises to include 30% to 60% of birds and frogs, and 40% to 60% of corals."
     },
     {
-      "id":20,
+      "id":18,
       "question":"Which of the following is NOT a low-carbon source of energy?:",
       "options":["Solar Power", "Wind Power", "Natural Gas", "Biomass Power"],
       "type":"mcq",
@@ -166,7 +150,7 @@
       "fact":"According to the United Nations, natural gas releases a median value of 469,000 tonnes of carbon dioxide for every terawatt-hour of energy it generates. While this is LOWER than coal (around 1 million tonnes) and oil (around 840,000 tonnes), it is still much HIGHER than solar (46,000 tonnes), biomass (18,000 tonnes), nuclear (16,000 tonnes), wind (12,000 tonnes) and hydropower (4,000 tonnes).  Natural gas from fracking releases even MORE carbon dioxide, making it as dirty as coal."
     },
     {
-      "id":21,
+      "id":19,
       "question":"What is the average carbon footprint per person in the world in 2011? (includes emissions from burning fossils fuels and making cement, excludes deforestation, forest fires and other land use changes):",
       "options":["17 metric tons", "4.9 metric tons", "7.1 metric tons", "9.3 metric tons"],
       "type":"mcq",
@@ -174,7 +158,7 @@
       "fact":"According to the World Bank, this is the global average. In comparison, the average American emits 17 tonnes, Australian – 16.5 tonnes, Canadian – 14.1 tonnes, South Korean – 11.8 tonnes, Japanese  – 9.3 tonnes, German – 8.9 tonnes, Malaysian – 7.9 tonnes, New Zealander – 7.1 tonnes, Chinese – 6.7 tonnes, Thai – 4.5 tonnes, Singaporean – 4.3 tonnes, Indonesia – 2.3 tonnes, Vietnamese – 2 tonnes, Indian – 1.7 tonnes, Filipino – 0.9 tonnes, Nigerian – 0.5 tonnes, Kenyan – 0.3 tonnes, Cambodian – 0.3 tonnes and Ugandan – 0.1 tonne.  "
     },
     {
-      "id":22,
+      "id":20,
       "question":"We released 49 billion tonnes of greenhouse gases in 2010. What level do we need to stabilize at for a safe climate? :",
       "options":["25 billion tonnes a year", "40 billion tonnes a year", "100 billion tonnes a year", "Zero"],
       "type":"mcq",
