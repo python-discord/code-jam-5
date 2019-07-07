@@ -12,6 +12,21 @@ afterwards.
 
 # Setup
 
+Executables are located in daily_dragons/production. We have provided 
+.exe in production/windows and a .deb in production/linux. <br>
+<br>
+
+If neither of this work for you, or you'd prefer to run from source, 
+follow the below instructions:
+
+### With pipenv:
+```
+$ cd daily_dragons
+$ pipenv run python main.py
+```
+
+### Without pipenv:
+
 ```
 $ python3 -m pip install -r requirements.txt
 $ python3 main.py
