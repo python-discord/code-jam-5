@@ -74,6 +74,7 @@ class TileLayer(Object):
         for row in self.tiles:
             for tile in row:
                 tile.batch = None
+                tile.delete()
         self.tiles = []
 
     def load_tiles(self, tile_filename: str):
