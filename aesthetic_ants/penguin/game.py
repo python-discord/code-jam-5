@@ -68,6 +68,11 @@ class Game(pyglet.window.Window):
                                          tiles.collide_tiles,
                                          lambda _, _1: True)
 
+        self.space.add_collision_handler(CollisionType.ENEMY,
+                                         CollisionType.TILE_LAYER,
+                                         tiles.collide_tiles,
+                                         lambda _, _1: True)
+
         return tiles
 
     def create_ui(self) -> Space:
