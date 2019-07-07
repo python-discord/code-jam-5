@@ -5,6 +5,7 @@ from config import *
 from config import game_width, game_height, char_sheet_cols, char_sheet_rows, sprite_row, sprite_up_col, sprite_down_col, sprite_right_col
 from math import ceil
 import os
+from pathlib import Path
 
 from .gamemap import Map
 
@@ -93,7 +94,7 @@ class Player(Base):
         self.adjustment = 0
     def load_player(self):
         '''Load all of the sprite sets for the player'''
-        image = pyglet.image.load('assets/char.png')
+        image = pyglet.image.load(os.path.join(Path(__file__).resolve().parents[1], Path('assets/char.png')))
 
         self.sprite_grid = pyglet.image.ImageGrid(image, char_sheet_rows, char_sheet_cols) #Load grid
 
