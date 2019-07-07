@@ -17,6 +17,9 @@ class MusicPlayer(QtWidgets.QWidget):
     # Every {} songs, an ad will be played automatically
     total_songs_between_adverts: int = 1
 
+    # 
+    fact_refresh_rate = 6
+
     def __init__(self):
         super().__init__()
         self.player = QtMultimedia.QMediaPlayer()
@@ -71,10 +74,12 @@ class MusicPlayer(QtWidgets.QWidget):
         self.next_fact_button = QtWidgets.QPushButton("Next Fact", self)
         self.next_fact_button.clicked.connect(self.refresh_fact)
         
+        self.refresh_fact_timer = QtCore.QTimer(self)
+        self.refresh_fact_timer.timeout.connect(self.refresh_fact)
+        self.refresh_fact_timer.start(self.fact_refresh_rate * 1000)
+
         self.sidebar_layout.addWidget(self.fact_widget)
         self.sidebar_layout.addWidget(self.next_fact_button)
-
-        #
 
         self.contents_layout.addLayout(self.main_content_layout)
         self.contents_layout.addLayout(self.sidebar_layout)
@@ -152,3 +157,4 @@ class MusicPlayer(QtWidgets.QWidget):
         self.fact_widget = get_fact_by_tags('ui').as_widget(self)
         self.fact_widget.setMinimumSize(300, 80)
         self.sidebar_layout.insertWidget(0, self.fact_widget)
+        self.refresh_fact_timer.start(self.fact_refresh_rate * 1000)

@@ -38,6 +38,7 @@ class TheWorldCountsFactFactory(FactFactory):
             interval=inter,
             precision=int(ensure_field(record, 'precision')),
             text=ensure_field(record, 'title') + ', ' + ensure_field(record, 'subtitle').lower(),
+            source=self.fetcher.url,
             factory=self
         )
 
@@ -64,7 +65,7 @@ def postprocess(item):
             item['cursor'] = float(item['cursor'].split(',')[1])
             item['start'] = float(item['start'].split(',')[0].split('(')[1])
             item['precision'] = item['precision'].split(',')[2].strip()
-        except IndexError:
+        except (IndexError, ValueError):
             item['cursor'] = None
             item['start'] = None
             item['precision'] = None
