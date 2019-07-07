@@ -137,38 +137,32 @@ class Earth(object):
         """Will add missing indicators. Should be called when indicator could appear."""
         # Loop through all tiles. If tile has task, but no indicator - add it
         for biome_idx, biome in enumerate(self.biomes):
-            for tile_row in biome.tilemap:
-                for tile in tile_row:
-                    if tile.task is None:
-                        continue
+            for tile in biome.tilemap.tiles_with_task:
+                indicator = next((i for i in self.indicators if i.tile == tile), None)
 
-                    indicator = next(
-                        (i for i in self.indicators if i.tile == tile), None
+                # If tile is visible - dont need indicator
+                if tile in self.visible_tiles:
+                    if indicator:
+                        self.indicators.remove(indicator)
+                    continue
+
+                if indicator is None:
+                    indicator = Indicator(self.screen, tile, self.indicator_image)
+                    self.indicators.append(indicator)
+
+                # Calculate if the tile is to the left or right of the screen
+                biome_pos = biome_idx * BIOME_WIDTH
+                if self.current_biome_pos < biome_pos:
+                    distance_left = (
+                        self.max_position - biome_pos + self.current_biome_pos
                     )
-
-                    # If tile is visible - dont need indicator
-                    if tile in self.visible_tiles:
-                        if indicator:
-                            self.indicators.remove(indicator)
-                        continue
-
-                    if indicator is None:
-                        indicator = Indicator(self.screen, tile, self.indicator_image)
-                        self.indicators.append(indicator)
-
-                    # Calculate if the tile is to the left or right of the screen
-                    biome_pos = biome_idx * BIOME_WIDTH
-                    if self.current_biome_pos < biome_pos:
-                        distance_left = (
-                            self.max_position - biome_pos + self.current_biome_pos
-                        )
-                        distance_right = biome_pos - self.current_biome_pos
-                    else:
-                        distance_left = self.current_biome_pos - biome_pos
-                        distance_right = (
-                            self.max_position - self.current_biome_pos + biome_pos
-                        )
-                    indicator.flip(distance_left <= distance_right)
+                    distance_right = biome_pos - self.current_biome_pos
+                else:
+                    distance_left = self.current_biome_pos - biome_pos
+                    distance_right = (
+                        self.max_position - self.current_biome_pos + biome_pos
+                    )
+                indicator.flip(distance_left <= distance_right)
 
     def __prepare_draw_clouds(
         self,
@@ -388,8 +382,11 @@ class Earth(object):
     def __update_tiles(self, event: pg.event) -> None:
         """Calls update method of every tile in the game."""
         for biome in self.biomes:
-            for tile_row in biome.tilemap:
-                for tile in tile_row:
+            tilemap = biome.tilemap
+            for y, tile_row in enumerate(tilemap):
+                for x, tile in enumerate(tile_row):
+                    if tile.task is not None and tile.task.is_done:
+                        tilemap.del_task_by_coords(y, x)
                     tile.update(event)
 
     def __update_indicators(self) -> None:

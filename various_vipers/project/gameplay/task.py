@@ -27,7 +27,6 @@ from project.constants import (
     X,
 )
 from project.utils.notification import Notification
-from .biome import Biome
 from .game_state import GameState
 
 
@@ -49,7 +48,7 @@ class Task(object):
     heat_add_success: float = 0
     heat_add_failure: float = 0
 
-    def __init__(self, screen: pg.Surface, biome: Optional[Biome] = None):
+    def __init__(self, screen: pg.Surface, biome: Optional["Biome"] = None):
         self.screen = screen
         self.biome = biome
 

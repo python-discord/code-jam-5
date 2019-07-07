@@ -175,12 +175,13 @@ class Period(object):
         tile_x = tile_in_biome_idx - (tile_y * TILE_COLS)
 
         biome = self.biomes[biome_idx]
-        tile = biome.tilemap[tile_y][tile_x]
         new_task = random.choices(
             [TaskCursorMaze, TaskRockPaperScissors, TaskTicTacToe],
             weights=[self.maze_chance, self.rps_chance, self.ttt_chance],
         )
-        tile.task = new_task[0](self.screen, biome)
+        biome.tilemap.set_task_by_coords(
+            tile_y, tile_x, new_task[0](self.screen, biome)
+        )
 
         self.earth.fix_indicators()
 

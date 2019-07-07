@@ -67,9 +67,8 @@ class Tile:
     def update(self, event: pg.event) -> None:
         """Update is called every game tick."""
         # Check if this task was completed
-        if self.task and self.task.is_done:
+        if self.task is None:
             self.scale_n_current = 1
-            del self.task
 
         # Mouse over
         image_size = self._image_cache[self.scale_n_current].get_size()

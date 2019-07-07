@@ -18,6 +18,7 @@ from project.constants import (
     TILE_COLS,
     TILE_ROWS,
 )
+from .task import Task
 from .tile import Tile
 
 
@@ -51,7 +52,7 @@ class Biome(object):
     text_task_fail: str = ""
 
     def __init__(self):
-        self.tilemap = self.__generate_tilemap(TILE_COLS, TILE_ROWS)
+        self.tilemap = self.Tilemap(self, TILE_COLS, TILE_ROWS)
 
         # scale background to 0.8 of screen height
         self.background = load(
@@ -86,39 +87,107 @@ class Biome(object):
         else:
             raise NameError(f"Task image not found for biome: {type(self)}")
 
-    def __choose_tiles(self, k: int = 1) -> Generator[Tile, None, None]:
-        """Returns k number of random tiles based on set tile sprites and weights to spawn."""
-        other_tiles_chance = max(
-            1
-            - self.water_tiles_chance
-            + self.city_tiles_chance
-            + self.unique_tiles_chance,
-            0,
-        )
+    class Tilemap:
+        """Tilemap class holds a 2D array of tiles for the biome."""
 
-        # Group all tiles lists with their chances to spawn
-        tiles_lists = [
-            (self.other_tiles, other_tiles_chance),
-            (self.unique_tiles, self.unique_tiles_chance),
-            (self.city_tiles, self.city_tiles_chance),
-            (self.water_tiles, self.water_tiles_chance),
-        ]
-        # Remove empty lists
-        tiles_lists = [l for l in tiles_lists if len(l[0]) > 0]
+        def __init__(self, biome: "Biome", width: int = 10, height: int = 4):
+            self.biome = biome
 
-        # k number of non-empty styled tiles
-        chosen_tile_lists = random.choices(
-            [l[0] for l in tiles_lists], weights=[l[1] for l in tiles_lists], k=k
-        )
+            self._task_coords = []  # List of tuples (y, x) for which tiles has a task
+            self._tiles = []
+            for _ in range(height):
+                self._tiles.append(list(self.__choose_tiles(width)))
 
-        for tile_list in chosen_tile_lists:
-            yield Tile(str(random.choice(tile_list)))
+        @property
+        def rows(self) -> Generator[Tile, None, None]:
+            """Get rows of this tilemap."""
+            for row in self._tiles:
+                yield row
 
-    def __generate_tilemap(self, width: int = 10, height: int = 4) -> List[List[Tile]]:
-        tilemap = []
-        for _ in range(height):
-            tilemap.append(list(self.__choose_tiles(width)))
-        return tilemap
+        @property
+        def tiles_with_task(self) -> Generator[Tile, None, None]:
+            """Get tiles from this biome that have a task."""
+            for y, x in self._task_coords:
+                yield self._tiles[y][x]
+
+        @property
+        def tasks(self) -> Generator[Task, None, None]:
+            """Get tasks from this biome."""
+            for tile in self.tiles_with_task:
+                yield tile.task
+
+        @property
+        def task_count(self) -> int:
+            """Get task count in this biome."""
+            return len(self._task_coords)
+
+        def set_task_by_coords(self, y: int, x: int, task: Task) -> None:
+            """Add a task to tile in this biome. Find tile by coordinates."""
+            self._task_coords.append((y, x))
+            self._tiles[y][x].task = task
+            logger.debug("set task")
+
+        def set_task_by_tile(self, tile: Tile, task: Task) -> None:
+            """Add a task to tile in this biome."""
+            for y, row in enumerate(self._tiles):
+                for x, row_tile in enumerate(row):
+                    if tile == row_tile:
+                        self.set_task_by_coords(y, x, task)
+                        return
+
+        def del_task_by_coords(self, y: int, x: int) -> None:
+            """Remove a task from the tile in this biome. Find tile by coordintes."""
+            self._task_coords.remove((y, x))
+            del self._tiles[y][x].task
+            logger.debug("del task")
+
+        def del_task_by_tile(self, tile: Tile) -> None:
+            """Remove a task from the tile in this biome."""
+            for y, row in enumerate(self._tiles):
+                for x, row_tile in enumerate(row):
+                    if tile == row_tile:
+                        self.del_task_by_coords(y, x)
+                        return
+
+        def __iter__(self):
+            """Iterate through tiles in this biome."""
+            return iter(self._tiles)
+
+        def __getitem__(self, key: int):
+            """Get a tile from this biome."""
+            return self._tiles[key]
+
+        def __len__(self):
+            """Get length (rows) of tiles in this biome."""
+            return len(self._tiles)
+
+        def __choose_tiles(self, k: int = 1) -> Generator[Tile, None, None]:
+            """Returns k number of random tiles themed on biome and weights to spawn."""
+            other_tiles_chance = max(
+                1
+                - self.biome.water_tiles_chance
+                + self.biome.city_tiles_chance
+                + self.biome.unique_tiles_chance,
+                0,
+            )
+
+            # Group all tiles lists with their chances to spawn
+            tiles_lists = [
+                (self.biome.other_tiles, other_tiles_chance),
+                (self.biome.unique_tiles, self.biome.unique_tiles_chance),
+                (self.biome.city_tiles, self.biome.city_tiles_chance),
+                (self.biome.water_tiles, self.biome.water_tiles_chance),
+            ]
+            # Remove empty lists
+            tiles_lists = [l for l in tiles_lists if len(l[0]) > 0]
+
+            # k number of non-empty styled tiles
+            chosen_tile_lists = random.choices(
+                [l[0] for l in tiles_lists], weights=[l[1] for l in tiles_lists], k=k
+            )
+
+            for tile_list in chosen_tile_lists:
+                yield Tile(str(random.choice(tile_list)))
 
 
 class BiomeDesert(Biome):

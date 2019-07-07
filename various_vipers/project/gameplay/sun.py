@@ -52,13 +52,7 @@ class Sun:
 
         if game_vars.is_started:
             # Increase heat based on uncompleted task count
-            task_count = 0
-            # Get uncompleted task count. weeeee
-            for biome in self.biomes:
-                for row in biome.tilemap:
-                    for tile in row:
-                        if tile.task:
-                            task_count += 1
+            task_count = sum(b.tilemap.task_count for b in self.biomes)
 
             game_vars.current_heat += (
                 self.heat_per_tick + self.heat_per_task * task_count
