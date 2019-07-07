@@ -1,7 +1,8 @@
-# Leafify => Awareness Campaign Music Player
+
 
 <center>
-![leafify](images/spotleafy.png)
+   	</h1>Leafify </h1>
+	<img alt="leafify.png"  src="/images/spotleafy.png" />
 </center>
 
 Leafify is a simple, climate change / environment focused music player, which aims to encourage action against climate change/environmental crisis in a subtle but effective manner. The project allows you to play your music in a beautiful interface while also being reminded of interesting climate change facts. 
@@ -69,7 +70,7 @@ import numpy as np
 
 # the song is set to 1 channel so that it doesn’t contain duplicate samples
 song = AudioSegment.from_file("sample.mp3").set_channels(1)
-samples = np.array(song.get_array_of_samples())
+samples = np.array(song.get_array_of_samples)
 # the fft algorithm calculates the amps and frequencies
 fourier = np.fft.fft(samples)
 frequencies = np.fft.fftfreq(fourier.size, d=song.duration)
@@ -77,7 +78,7 @@ amps = 2/samples.size * np.abs(fourier)
 ```
 
 To learn more about FFTs go here https://www.nti-audio.com/en/support/know-how/fast-fourier-transform-fft
-### The visuals
+The visuals
 The audio visualiser is displayed using polar coordinate formulae, if you didn’t know, you can plot into a circle very easily using the equations
 
 ```
