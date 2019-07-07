@@ -1,5 +1,6 @@
 import pygame
 from random import randint, choice
+from time import sleep
 from assets import (
     natural_gas, oil, coal,
     solar, wind, hydro,
@@ -33,6 +34,7 @@ grayish_light_blue = (59, 131, 189)
 # Fonts used:
 pygame.font.init()
 arial = pygame.font.SysFont('Arial MT', 30)
+big_arial = pygame.font.SysFont('Arial', 120)
 
 # Game settings:
 fps = 60
@@ -66,6 +68,7 @@ percent_fossil_fuel = 100
 percent_green_energy = 0
 
 
+
 def percentage_update():
     """Updates the percentage of energy resources that are fossil fuels and green energies"""
     total = (num_of_fossil_fuels + num_of_green_energies)
@@ -83,17 +86,14 @@ def pollute():
 
 def check_if_lost():
     if atmospheric_ghg_levels >= greenhouse_gas_limit:
-        print('YOU LOST')
         return True
     elif energy_output < energy_demand:
-        print('YOU LOST')
         return True
     return False
 
 
 def check_if_won():
     if percent_fossil_fuel <= capture_offset:
-        print('YOU WON')
         return True
     return False
 
@@ -356,7 +356,7 @@ def display_row():
 
 # Used to make an FPS counter:
 frames = 0
-fps_text = arial.render('?/60', False, (0, 0, 0))  # FPS counter text on screen
+fps_text = arial.render('FPS: ?/60', False, (0, 0, 0))  # FPS counter text on screen
 
 
 def fps_counter():
@@ -370,8 +370,8 @@ def fps_counter():
 
 pause = False
 running = True
+tint = 0
 while running:
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -392,12 +392,11 @@ while running:
                 if event2.type == pygame.KEYUP:
                     if event2.key == pygame.K_p:
                         pause = False
-                if event2.type == pygame.QUIT:
+                elif event2.type == pygame.QUIT:
                     pause = False
                     running = False
 
-    check_if_lost()
-    check_if_won()
+
 
     window.fill(white)
 
@@ -408,11 +407,57 @@ while running:
 
     all_icons.update()
     all_icons.draw(window)
-
-    frames += 1
     fps_counter()
 
+    frames += 1
+
     pygame.display.update()
+
+    if check_if_lost() or check_if_won():
+        pause = True  # pause the game
+        pygame.display.update()
+
+        if check_if_lost():
+            color = '(255-(64*tint), 255-(192*tint), 255-(255*tint))'
+        elif check_if_won():
+            color = '(255-(255*tint), 255, 255-(128*tint))'
+        else:  # u wOT
+            continue
+
+        tint = 0
+        while tint <= 1:
+            window.fill(eval(color), special_flags=pygame.BLEND_MULT)
+            pygame.display.update()
+            tint += 0.05
+            clock.tick(fps)
+
+        from_color = eval(color)
+
+        tint = 0
+        while tint <= 1:
+            window.fill(eval(color))
+            pygame.display.update()
+            tint += 0.1
+            clock.tick(fps)
+
+        text = 'You '
+        if check_if_lost():
+            text += 'lost...'
+        elif check_if_won():
+            text += 'won!'
+        else:  # u wOT
+            continue
+
+        ending_text = big_arial.render(text, False, (0, 0, 0))
+        window.blit(ending_text, (100, 100))
+        pygame.display.update()
+
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+
+
     clock.tick(fps)
 
 pygame.quit()
