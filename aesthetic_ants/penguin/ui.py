@@ -123,6 +123,10 @@ class WeaponIndicator(Object):
     def update(self, dt):
         self.label.text = self.weapon_text(self.player.weapon)
 
+    def add_to_space(self, space):
+        super().add_to_space(space)
+        self.label.batch = space.batch
+
 
 class WaveLabel(Object):
     def __init__(self, window, space, number):
