@@ -108,6 +108,7 @@ class GameView:
         """
         # Check for gameover condition
         if game_vars.current_heat >= MAX_HEAT:
+            Sound.game_over.play()
             return WindowState.gameover
 
         self.period.draw()

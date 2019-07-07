@@ -72,10 +72,8 @@ class Game:
     def _draw(self):
         self.game_view.update(self.event)
 
-        # Will either be gameover or current window state
-        self.window_state = self.game_view.draw(self.event) or self.window_state
-
         if self.window_state == WindowState.main_menu:
+            self.game_view.draw(self.event)
             self.window_state = self.main_menu.draw(
                 self.mouse_x, self.mouse_y, self.event
             )
@@ -95,6 +93,8 @@ class Game:
         elif self.window_state == WindowState.quited:
             self.running = False
         elif self.window_state == WindowState.game:
+            # Will either be gameover or current window state
+            self.window_state = self.game_view.draw(self.event) or self.window_state
             game_vars.is_started = True
 
         if user_data.show_fps:
