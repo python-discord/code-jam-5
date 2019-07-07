@@ -84,11 +84,4 @@ class Planet:
         return " ".join(health)
 
     def __str__(self) -> str:
-        current_stats = (
-            f"bio_diversity: {str(self.bio_diversity)} \n"
-            f"temperature: {str(self.temperature)} \n"
-            f"co2: {str(self.co2)} \n"
-            f"habitable_land: {str(self.habitable_land)} \n"
-        )
-
-        return current_stats
+        return self.scoreboard
