@@ -15,22 +15,22 @@ from .resources import WATER_TILE, ICE_TILE, WEAK_ICE_TILE, WALL_TILE
 TILE_SIZE = 16
 
 # Ticks until a decayable tile decays
-ICE_HEALTH = 5
-WEAK_ICE_HEALTH = 2
+ICE_HEALTH = 25
+WEAK_ICE_HEALTH = 35
 
 # Base decay rate, per second
-DECAY_RATE = 3
+DECAY_RATE = 30
 
 # How much enemy number should weight the decay
 # Each enemy adds this much to DECAY_RATE while it is alive
-ENEMY_DECAY_INFLUENCE = 1
+ENEMY_DECAY_INFLUENCE = 5
 
 # How much nearby weak tiles should weight the decay
 # Each weak tile within NEARBY_TILES adds this to the decay rate
-WEAK_TILE_DECAY_INFLUENCE = 0.5
+WEAK_TILE_DECAY_INFLUENCE = 1.5
 
 # How much health is lost each "tick" of a tile, random within the range
-DECAY_VARIANCE = (0, 2)
+DECAY_VARIANCE = (0, 1)
 
 # Precomputed "nearby tiles" that influence tile decay
 NEARBY_TILES = list(itertools.product([-1, 0, 1], [-1, 0, 1]))
