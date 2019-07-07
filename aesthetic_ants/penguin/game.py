@@ -31,7 +31,6 @@ class Game(pyglet.window.Window):
 
         self.spawner = Spawner()
         self.spawner.add_spawn_point(64, self.height / 2)
-        self.spawner.add_spawn_point(self.width - 64, self.height / 2)
         self.spawner.wave = Wave.load('resources/waves/1.wave')
         self.space.add(self.spawner)
 
