@@ -1,4 +1,5 @@
 import pyglet
+from pyglet import gl
 
 
 class Map:
@@ -62,7 +63,6 @@ class Map:
                             x,
                             640 - y,
                             batch=batch)
-                    t.scale = 2
                     sprites.append(t)
                 except IndexError:
                     pass
