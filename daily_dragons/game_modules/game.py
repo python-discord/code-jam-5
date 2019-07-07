@@ -87,7 +87,7 @@ class Game:
 
                 print(response, "\n\n")
 
-            if all(i > -10 for i in self.earth.stats.values()):
+            if not all(i > -10 for i in self.earth.stats.values()):
                 self.quit_game = True
                 print(self.exit_msg)
 
