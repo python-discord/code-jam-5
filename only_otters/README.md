@@ -14,7 +14,7 @@ This is done in 3 ways:
 ## Features Summary
 
 * A environment-themed user interface;
-* The ability to play songs from your local computer as you select them through a file browser; (the program will attempt to use `~/Music` by default)
+* The ability to play songs from your local computer as you select them through a file browser; (the program will attempt to use `~/Music` as the root folder by default)
 * Between each song, an audio ad is played. This audio ad is a climate change fact scraped from the web from a list of curated sources, then played using `gtts`.
 * An audio visualizer circling around the Earth, which turns red for regular songs (to figure the earth burning, under the effect of impending global warming) and green for ads;
 * An embedded fact widget which refreshes itself every 6 seconds. The facts shown here are fetched by the same components has the audio ads.
@@ -147,9 +147,22 @@ $ { map:strip, map:upper }
 
 To easily extend the library of pipes available to use, we have implemented decorators `HierarchicalXPathQuery.pipe` and `HierarchicalXPathQuery.high_pipe` which allow you to easily register your own functions as pipe elements. They will be summonable under their associated nickname in a query you pass to the object that registered them.
 
+```python
+hxq = HierarchicalXPathQuery.from_yml('query.yml')
+
+@hxq.pipe
+def is_valid(item):
+  return 'doctor' in item
+
+# ...
+$ { filter:is_valid } //li/text()
+```
+
 ### QML WIdgets
 
-With this, there is minimal effort to be made out of adding new sources.
+To add on to this philosophy of least overhead cost on integrating new sources, we use Qt widgets written in QML to speed up the process. They represent a minor part of the Qt code written in this project, as they are meant to be simple.
+
+They are found in `qml`.
 
 ### Fact Factories
 
@@ -164,8 +177,46 @@ Fact factories each have a set of tags which allows for selecting between facts 
 Audio ads are provided by the fact factories in the same fashion as for the UI facts.
 Every song the user selects will first be preceded by an audio ad which read a fact aloud using `gtts`, a Python package which interfaces with Google Translate’s text-to-speech API. 
 
+
+## Self-contained tools
+
+**Hquery** is one of those. It should prove of use to more than just this situation.
+
+**Resourcely** is a package we wrote to handle resource folders. It simply parses a config file where you list your resources (take a look at the `images` folder), and enables you to import them through the Python import system. Each resource is stored in a `Resource` object.
+
+```
+images:
+  resources.yml
+  next.png
+  previous.png
+  play.png
+  pause.png
+```
+resources.yml:
+```yaml
+resources:
+  type: namespace # must specify this to be considered a namespace
+  buttons:
+    Next: next.png
+    Pause: pause.png
+    Previous: previous.png
+    Play: play.png
+  icons:
+    Logo: spotleafy.png
+```
+
+With just a few lines, you can open your resource folders to the rest of the package :
+```python
+import only_otters.resourcely as rly
+
+from argparse import Namespace
+
+__resources__: Namespace = rly.from_located_file(near=__file__)
+rly.expand(__resources__, globals())
+```
+
+
 ## Future features
 
 To make the ads more relevant to increase user engagement, we wanted to implement a progress bar to which each heard ad would add progress to. At completion, a tree would be planted, in the same fashion [Ecosia](https://www.ecosia.org/) does. This would give the user a goal to look forward to, and entice them to continue using the application (A sense of accomplishment and all that).
-
 
