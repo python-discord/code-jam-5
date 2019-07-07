@@ -87,6 +87,7 @@ class Game(pyglet.window.Window):
         if not self.is_over:
             self.score += enemy.score
             self.score_label.label.text = str(self.score)
+            self.player.unlock_weapons(self.score)
 
         snowball.on_collision_enemy(enemy)
 

@@ -46,6 +46,11 @@ class Player(PhysicalObject):
         for bullet in self.weapon.fire(self.x, self.y, self.rotation):
             self.space.add(bullet)
 
+    def unlock_weapons(self, score):
+        for weapon in self.weapons.values():
+            if score >= weapon.unlock_score:
+                weapon.locked = False
+
     def on_mouse_motion(self, x, y, dx, dy):
         self.rotation = degrees(angle_between(self.x, self.y, x, y))
 
@@ -63,6 +68,9 @@ class Player(PhysicalObject):
     def on_key_press(self, button, modifiers):
         weapon = self.weapons.get(button)
         if not weapon:
+            return
+
+        if weapon.locked:
             return
 
         self.weapon = weapon

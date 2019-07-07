@@ -6,8 +6,10 @@ from .snowball import RocketBall, Snowball
 class Weapon:
     reload_delay = 0.25
     projectile_speed = 600
+    unlock_score = 0
 
     def __init__(self):
+        self.locked = True
         self.reloading = False
 
     def reload(self, dt):
@@ -32,12 +34,15 @@ class Weapon:
 
 
 class Hand(Weapon):
+    locked = False
+
     def get_projectiles(self, x, y, angle):
         yield Snowball(x, y, angle, self.projectile_speed)
 
 
 class SnowSpread(Weapon):
     reload_delay = 0.625
+    unlock_score = 1000
 
     def get_projectiles(self, x, y, angle):
         for i in range(-2, 3):
@@ -46,6 +51,7 @@ class SnowSpread(Weapon):
 
 class RocketPropelledSnowball(Weapon):
     reload_delay = 1
+    unlock_score = 10000
 
     def get_projectiles(self, x, y, angle):
         yield RocketBall(x, y, angle, self.projectile_speed)
