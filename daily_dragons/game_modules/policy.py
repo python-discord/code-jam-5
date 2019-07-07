@@ -3,6 +3,10 @@ from colorama import Fore
 
 
 class Policy:
+    """Policies are an organizations current goals, such as lobbying or
+       changing laws to accomplish their goals. They can have positive
+       or negative planetary effects and an ROI (return on investment)"""
+
     def __init__(
         self,
         name: str,
