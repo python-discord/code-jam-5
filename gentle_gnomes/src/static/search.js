@@ -97,7 +97,7 @@ function getTopLocation(predictions, status) {
 form.addEventListener('submit', e => {
     const place = autocomplete.getPlace(); // eslint-disable-line no-undef
 
-    if (place === undefined) {
+    if (place === undefined || place.geometry === undefined) {
         const request = {
             componentRestrictions: restrictions,
             input: inputName.value,
