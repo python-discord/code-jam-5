@@ -92,3 +92,9 @@ emoji to guess a letter.
 accidentally remove the trees!
   - Use `guess x y` to excavate a tile on the field.
   - Use `flag x y` to flag a certain tile.
+  
+## Code Jam-specific stuff
+
+- If you want to bypass the unlocks, edit the file
+`shared/goal_db/completed_goals.txt` to any number above 8.
+If no such file exists, create one and put any number above 8 in.
