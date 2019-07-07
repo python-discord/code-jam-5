@@ -185,7 +185,7 @@ Every song the user selects will first be preceded by an audio ad which read a f
 
 **Hquery** is one of those. It should prove of use to more than just this situation.
 
-**Resourcely** is a package we wrote to handle resource folders. It simply parses a config file where you list your resources (take a look at the `images` folder), and enables you to import them through the Python import system. Each resource is stored in a `Resource` object.
+**Resourcely** is a module we wrote to handle resource folders. It simply parses a config file where you list your resources (take a look at the `images` folder), and enables you to import them through the Python import system. Each resource is stored in a `Resource` object.
 
 ```
 images:
@@ -218,11 +218,6 @@ __resources__: Namespace = rly.from_located_file(near=__file__)
 rly.expand(__resources__, globals())
 ```
 
-```python
-from images import icons
-
-window.setIcon(icons.Logo.url)
-```
 
 ## Future features
 
