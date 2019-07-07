@@ -36,10 +36,6 @@ class MyGame(arcade.Window):
 
         """ Game setup. Call to restart the game """
 
-        """# Background
-        self.background = arcade.load_texture("assets/images/sky1.png")
-        """
-
         # Create sprite lists
         self.player_list = arcade.SpriteList()
         self.platform_list = arcade.SpriteList()
@@ -73,15 +69,6 @@ class MyGame(arcade.Window):
 
         # Clear the screen
         arcade.start_render()
-
-        # Background
-        """
-        arcade.draw_texture_rectangle(constants.SCREEN_WIDTH//2,
-                                      constants.SCREEN_HEIGHT//2,
-                                      constants.SCREEN_WIDTH,
-                                      constants.SCREEN_WIDTH,
-                                      self.background)
-        """
 
         # Draw the sprites
         self.player_list.draw()

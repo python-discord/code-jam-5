@@ -1,3 +1,8 @@
-# Documentation for your team's project
+# Alternative Anteaters
 
-To do: Add documentation of your project here.
+
+## Quickstart
+
+1. Install arcade with `pip install arcade`
+2. Run game.py
+
