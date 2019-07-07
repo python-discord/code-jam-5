@@ -129,4 +129,4 @@ class MainMenu:
         date = realtime_to_ingame_delta_formatted(user_data.hiscore_modern)
         text = self.font.render(f"Highscore: {date}", True, Color.blue)
 
-        self.screen.blit(text, (0, HEIGHT - text.get_height()))
+        self.screen.blit(text, (0, HEIGHT - text.get_height() - 10))
