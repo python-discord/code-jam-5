@@ -15,5 +15,4 @@ pyqt5 = "*"
 python_version = "3.7"
 
 [scripts]
-thoughtful_termites = "python -m thoughtful_termites"
 lint = "python -m flake8"
