@@ -22,6 +22,7 @@ extensions = [
     'cogs.reminders',
     'cogs.trivia',
     'cogs.farmer_game',
+    'cogs.reacttest'
 ]
 
 
