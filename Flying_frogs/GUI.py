@@ -9,7 +9,7 @@ try:
     import pygame
     import random
 except ImportError as err:
-    print('Could not import modules. Please check you have got pygame. Error:\n' + err)
+    print('Could not import modules. Please check you have got pygame. Error:\n' + str(err))
     quit()
 
 # Initialise pygame
