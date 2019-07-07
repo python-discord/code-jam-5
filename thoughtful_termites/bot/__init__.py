@@ -18,7 +18,7 @@ extensions = [
     'cogs.hangman',
     'cogs.treefinder',
     'cogs.rankings',
-    # 'cogs.reminders',
+    'cogs.reminders',
     'cogs.trivia',
     'cogs.farmer_game',
 ]
