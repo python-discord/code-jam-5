@@ -10,6 +10,13 @@ Item {
 
     anchors.fill: parent
 
+    Rectangle {
+        id: background
+
+        anchors.fill: parent
+        color: "#422d1e"
+    }
+
     Column {
         
         spacing: 0
@@ -19,32 +26,38 @@ Item {
             id: wtitle
             text: god.title
 
+            width: god.width * .9
             font.pixelSize: 16
             font.bold: true
-
             wrapMode: Text.WordWrap
-            width: god.width
+            color: "#fff"
         }
 
         Text {
             id: wcontent
             text: god.content
+
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignJustify
-            width: god.width * 0.9
+            width: god.width * .9
+            color: "#fff"
         }
 
     }
 
     Text {
         id: wsource
-        // https://stackoverflow.com/questions/12536416/qml-text-element-hyperlink
-        text: "<html><a href='%1'/> %1 </a></html>".arg(god.source)// fact_counter.source
-        font.pixelSize: 12
-        color: "#888"
-        anchors.top: parent.top
+        text: '<html><a href="%1"/> %1 </a></html>'.arg(god.source)
+
+        anchors.bottom: parent.bottom
         anchors.right: parent.right
+
+        textFormat: Text.RichText
+        font.underline: true
+        font.pixelSize: 12
         padding: 2
+        color: "#ad8365"
+
         onLinkActivated: Qt.openUrlExternally(link)
     }
 

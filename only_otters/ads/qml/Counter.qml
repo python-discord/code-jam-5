@@ -29,6 +29,12 @@ Item {
         return num
     }
 
+    Rectangle {
+        id: background
+        anchors.fill: parent
+        color: "#422d1e"
+    }
+
     Column {
 
         spacing: 5
@@ -42,15 +48,19 @@ Item {
             font.pixelSize: 20
             font.bold: true
 
+            color: "#fff"
+
         }
 
         Text {
             id: title
-            text: god.fctext
-            font.pixelSize: 15
-            width: god.width
-            wrapMode: Text.WordWrap
 
+            text: god.fctext
+
+            font.pixelSize: 15
+            width: god.width * .9
+            wrapMode: Text.WordWrap
+            color: "#fff"
         }
 
     }
@@ -63,25 +73,20 @@ Item {
         onTriggered: parent.value += offset
     }
 
-    // Button {
-    //     text: "Next Fact"
-    //     font.pixelSize: 14
-    //     height: 20
-    //     padding: 0
-    //     highlighted: true
-    //     anchors.right: parent.right
-    //     anchors.top: parent.top
-    // }
-
     Text {
         id: wsource
-        // https://stackoverflow.com/questions/12536416/qml-text-element-hyperlink
-        text: "<html><a href='%1'/> %1 </a></html>".arg(fact_counter.source)// fact_counter.source
-        font.pixelSize: 12
-        color: "#888"
-        anchors.top: parent.top
+        
+        text: '<html><a href="%1"/> %1 </a></html>'.arg(fact_counter.source)
+
+        anchors.bottom: parent.bottom
         anchors.right: parent.right
+
+        textFormat: Text.RichText
+        font.underline: true
+        font.pixelSize: 12
         padding: 2
+        color: "#ad8365"
+
         onLinkActivated: Qt.openUrlExternally(link)
     }
 
