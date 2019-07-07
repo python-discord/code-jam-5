@@ -1,4 +1,5 @@
 import math
+import random
 
 import pyglet
 
@@ -14,7 +15,8 @@ class Enemy(PhysicalObject):
     score = 5
 
     unstun_time = 0.5
-    speed = 50
+    speed_min = 50
+    speed_max = 50
     hearts = 1
     enemy_image = ''
 
@@ -22,6 +24,7 @@ class Enemy(PhysicalObject):
         super().__init__(self.enemy_image, x, y)
         self.velocity_x = 1
         self.velocity_y = 1
+        self.speed = random.uniform(self.speed_min, self.speed_max)
 
         self.tracking = True
         self.player = player
@@ -72,13 +75,21 @@ class Enemy(PhysicalObject):
                     self.velocity_y *= -1
 
 
+class NormalEnemy(Enemy):
+    speed_min = 50
+    speed_max = 100
+    enemy_image = ENEMY_FAST_IMAGE
+
+
 class BigEnemy(Enemy):
-    speed = 50
+    speed_min = 20
+    speed_max = 50
     hearts = 2
     enemy_image = ENEMY_BIG_IMAGE
 
 
 class FastEnemy(Enemy):
-    speed = 100
+    speed_min = 100
+    speed_max = 250
     hearts = 1
     enemy_image = ENEMY_FAST_IMAGE

@@ -38,7 +38,7 @@ def _create_parser():
 
     rush_parser = subparsers.add_parser('rush', help='summons an enemy rush')
     rush_parser.set_defaults(func=command_rush)
-    rush_parser.add_argument('-t', '--type', type=enemy_class, nargs='?', default=enemy.FastEnemy)
+    rush_parser.add_argument('-t', '--type', type=enemy_class, nargs='?', default=enemy.NormalEnemy)
     rush_parser.add_argument('-c', '--count', type=int)
     rush_parser.add_argument('-d', '--delay', type=float)
 
