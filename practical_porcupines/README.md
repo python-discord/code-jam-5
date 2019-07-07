@@ -23,11 +23,9 @@ Alright, onto the more technical side:
 
 We have an api (named `flask_api`), a webportal (named `flask_webportal`) and a discord bot (named `discord_bot`). The api recives 2 dates formatted using (mainly) `%Y-%m-%d %T` formatting (UNIX). An example of this is: `2019-07-02 14:33:59` (at the time of writing). This would look like: `The 59th second of the 33rd minute of the 14th hour of the 2nd of July, 2019` if said in speech. Please note that the API can accept other dates, this formatting is just the preferred way :)
 
-**Once it has 2 dates, the `core` uses either historical data from a function we calculated using interpolation or predicts the future changes using *Machine Learning*.**
-
 Once it has those, the `core` returns those (it's one large frontend function) and the api (remember `flask_api`) returns the difference in water level between them two dates in millimeters, as either a prediction or as an accurate difference from histroical data.
 
-Say I put in somewhere in 1950 and somewhere in 2019, it would give me somewhere in the region of 20000mm but it'd be as accurate as it could, interpolating the points in-between the years, couples with machine learning to predict before the dataset that we selected to give a precise value.
+Say you put in somewhere in 1950 and somewhere in 2019, it would give me somewhere in the region of 20000mm but it'd be as accurate as it could, interpolating the points in-between the years, couples with machine learning to predict before the dataset that we selected to give a precise value.
 
 Once it sends out this return, we have a simple discord bot and webportal (webportal = a small website connected to the api, `flask_api`) that you can see the results on. For the discord bot (`discord_bot` in files), you could put 1950 and 2000 in like so: `?gmwl 1950 2000` and it would return an answer.
 
@@ -51,7 +49,7 @@ Below is the outline of what the dependancies do:
 
 ### Mini-project Notice
 
-***Please note that `discord_bot` or `flask_webportal` communicate **only** though the api, not just calling a shared function. The only shared infomation between these 3 projects is a config as not to collide with each others hosting and 2 exeptions that are 2x `class ExceptionName: pass`. Therefore in 10 minutes, you could easily seperate these 3 mini-projects into seperate repositories.***
+***Please note that `discord_bot` or `flask_webportal` communicate **only** though the api, not just calling a shared function. The only shared infomation between these 3 projects is a config as not to collide with each others hosting and a couple of exeptions that are 2x `class ExceptionName: pass`. Therefore in 10 minutes, you could easily seperate these 3 mini-projects into seperate repositories.***
 
 ### Dataset Acknowledgement
 
@@ -59,7 +57,7 @@ Below is the outline of what the dependancies do:
 
 ## Quickstart (Please read this section to start up the application)
 
-1. Please edit `CLIENT_TOKEN` from the `.env` file inside of the base folder, next to `Pipfile` to the bot's token
+1. Please edit `CLIENT_TOKEN` from the `.env` file inside of the base folder, next to `Pipfile` to the bot's token. If you do not know how to get a discord bot made and get the token, click [here](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token).
 2. Install pipenv with `pip install pipenv` (NOTE: May be `pip3` on Linux)
 3. Enter pipenv's shell with `pipenv shell`
 4. When in the pipenv shell, run `python -m practical_porcupines flask-api` to start the api
@@ -78,11 +76,11 @@ Below is the outline of what the dependancies do:
 
 - When connecting to the api (`flask_api`), it is favourable to use the `%Y-%m-%d %T` time formatting (UNIX annotations with `%`). An example of this is: `2019-06-29 23:02:05` (at the time of writing). This would look like: `The 5th second of the 2nd minute of the 23rd hour of the 29th of June 2019` if said in speech. The api can use other times but it is best to standardize with this method. Despite this, here are some of the other methods you can use: `%Y:%m:%d:%H:%M:%S`, `%H:%M:%S %d.%m.%Y`, `%m/%d/%Y %H:%M:%S`, `%d.%m.%Y`, `%m/%d/%Y`, `%Y-%m-%d %H:%M:%S`
 - Autoformat using `black` and try to do a final sweep with the custom `flake8` rulings.
-- Document everything in docstrings. `>` means overview of passing in, `<` means overview of returning, `x` is the execption handling and `-` are the argument specifics (use these like bullet points with them symbols).
+- Document everything in docstrings. `>` means overview of passing in (only used with 2+ args), `<` means overview of returning, `x` is the execption handling and `-` are the argument specifics (use these like bullet points with them symbols).
 
 ### API Error codes
 
-- `400`: API was given a bad date format (`DateFormatError()`)
+- `400`: API was given a bad date format (`DateFormatError`)
 - `1001`: API returning wrong values (usually happens in debugging when hooked upto a dummy api)
 - `1002`: Date is out of range of dataset. *NOTE: This http code is decrept but should stay for the sake of legacy*.
 
