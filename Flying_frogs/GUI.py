@@ -21,6 +21,8 @@ bg = pygame.image.load('Backgrounds//Background.png')
 onscreen = []
 # Player's score
 score = 25
+# Mistakes the player has made
+mistakes = 0
 # y coordinates of the three lanes
 lanes = [50, 300, 500]
 # Set up clock
@@ -90,6 +92,13 @@ def redraw():
         ScoreRect.center = (100, 40)
         win.blit(DisplayScore, ScoreRect)
 
+        # Display mistakes
+        DisplayMistakes = Scorefont.render(
+            'Mistakes: ' + str(mistakes), True, (0, 0, 0))
+        MistakesRect = DisplayMistakes.get_rect()
+        MistakesRect.center = (822, 40)
+        win.blit(DisplayMistakes, MistakesRect)
+        
     # Update display
     pygame.display.update()
 
@@ -179,6 +188,7 @@ class car(object):
     # What happens when destroyed
     def hit(self):
         global score
+        global mistakes
         # Reset x and y values
         self.y = random.choice(lanes)
         self.x = 922
@@ -187,12 +197,14 @@ class car(object):
             score -= self.scorechange
         elif not self.electric:
             score += self.scorechange
+            mistakes += 1
         # Remove itself from veiw
         onscreen.remove(self)
 
     # What happens when let go
     def letgo(self):
         global score
+        global mistakes
         # Reset x and y values
         self.y = random.choice(lanes)
         self.x = 922
@@ -201,6 +213,7 @@ class car(object):
             score += self.scorechange
         elif not self.electric:
             score -= self.scorechange
+            mistakes += 1
         # Remove itself from veiw
         onscreen.remove(self)
 
