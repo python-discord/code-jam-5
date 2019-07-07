@@ -37,7 +37,7 @@
 
     {% if lat is not none and lng is not none %}
         <script>
-            setLocation({
+            getCity({
                 toJSON: () => ({
                     lat: {{ lat }},
                     lng: {{ lng }},

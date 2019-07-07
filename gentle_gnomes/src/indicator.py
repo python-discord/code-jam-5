@@ -1,4 +1,5 @@
 import asyncio
+import json
 import typing as t
 from collections import Counter
 from itertools import chain
@@ -58,20 +59,9 @@ class Indicator:
 
         self.rate = stats.linregress(x, y)[0]
 
-        self.x = x.tolist()
-        self.y = y.tolist()
-
-    def to_dict(self) -> t.Dict:
-        """Return a dictionary representation of the indicator."""
-        return {
-            'name': self.name,
-            'label': self.label,
-            'description': self.description,
-            'units': self.units,
-            'rate': self.rate,
-            'x': self.x,
-            'y': self.y
-        }
+        # Convert to JSON just to be safe...
+        self.x = json.dumps(x.tolist())
+        self.y = json.dumps(y.tolist())
 
 
 async def _create_indicator(name, city):

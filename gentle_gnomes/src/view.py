@@ -43,13 +43,4 @@ async def search(city, indicator_name):
         indicator = Indicator(indicator_name, city)
         await indicator.populate_data()
 
-    indicator_dict = indicator.to_dict()
-    html = await render_template('view/indicator.html', indicator=indicator)
-    indicator_dict.update({'html': html})
-
-    response = {
-        'indicator': indicator_dict,
-        'nav_item': await render_template('view/nav_item.html', indicator=indicator),
-    }
-
-    return quart.jsonify(response)
+    return await render_template('view/indicator.html', indicator=indicator)
