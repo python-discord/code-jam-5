@@ -1,4 +1,6 @@
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
+
+# https://doc.qt.io/qt-5/stylesheet-examples.html
 
 
 class Seeker(QtWidgets.QProgressBar):
@@ -11,7 +13,25 @@ class Seeker(QtWidgets.QProgressBar):
         self.player.positionChanged.connect(self.update_position)
         self.setTextVisible(False)
         self.setRange(0, 1000)
-        self.setFixedHeight(10)
+        self.setFixedHeight(25)
+        self.dragging = False
+
+        self.setStyleSheet(
+            """
+            QProgressBar {
+                margin: 10px;
+                height: 5px;
+                border: 0px solid #555;
+                border-radius: 2px;
+                background-color: #666;
+            }
+
+            QProgressBar::chunk {
+                background-color: white;
+                width: 1px;
+            }
+            """
+        )
 
     def update_position(self, milliseconds):
         if self.player.duration():
@@ -35,3 +55,12 @@ class Seeker(QtWidgets.QProgressBar):
 
     def mouseReleaseEvent(self, event):
         self.dragging = False
+
+    def paintEvent(self, event):
+        """Painting the circle onto the seeker"""
+        super().paintEvent(event)
+        painter = QtGui.QPainter(self)
+        painter.setPen(QtGui.QColor("#c9c9c9"))
+        painter.setBrush(QtGui.QColor("#c9c9c9"))
+        seeker_x_offset = self.value() / self.maximum() * (self.width() - 10)
+        painter.drawEllipse(seeker_x_offset, 7, 10, 10)

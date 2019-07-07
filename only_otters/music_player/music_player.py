@@ -50,8 +50,10 @@ class MusicPlayer(QtWidgets.QWidget):
         self.foreground_label.setPixmap(self.foreground_image)
 
         self.contents_widget = QtWidgets.QFrame()
-        self.contents_widget.setStyleSheet('background: qlineargradient(spread:pad, x1:0.495, y1:0, x2:0.5, y2:1,'
-                                           ' stop:0 rgba(155, 118, 83, 255), stop:1 rgba(122, 93, 65, 255))')
+        self.contents_widget.setStyleSheet('background: qlineargradient(spread:pad, '
+                                           'x1:0.495, y1:0, x2:0.5, y2:1,'
+                                           'stop:0 rgba(155, 118, 83, 255),'
+                                           'stop:1 rgba(122, 93, 65, 255))')
         self.contents_widget.setSizePolicy(QtWidgets.QSizePolicy.Preferred,
                                            QtWidgets.QSizePolicy.Expanding)
         self.contents_layout = QtWidgets.QHBoxLayout()
@@ -169,7 +171,7 @@ class MusicPlayer(QtWidgets.QWidget):
         self.foreground_label.setPixmap(scaled)
 
         self.foreground_label.move(0, self.now_playing_widget.y() +
-                                        self.now_playing_widget.height() - scaled.height()*0.65)
+                                   self.now_playing_widget.height() - scaled.height()*0.65)
         self.foreground_label.resize(self.width(), scaled.height())
         self.foreground_label.raise_()
 

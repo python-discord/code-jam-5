@@ -7,9 +7,18 @@ from only_otters.resourcely import ensure_field
 from only_otters.ads.counter import counter
 
 from pathlib import Path
+from scrapetools.hquery import HierarchicalXPathQuery
+from scrapetools import autobrowser
+import sys
 
 __folder__ = Path(__file__).parent
 
+sys.path.append('../..')
+
+"""
+An application of the Remote Resource template to URL:
+https://www.theworldcounts.com/themes/our_environment
+"""
 
 class TheWorldCountsFactFactory(FactFactory):
 
@@ -41,7 +50,7 @@ class TheWorldCountsFactFactory(FactFactory):
             source=self.fetcher.url,
             factory=self
         )
-
+      
 
 __factory__ = TheWorldCountsFactFactory()
 __factory__.tags = ['counter', 'ui']
@@ -71,7 +80,6 @@ def postprocess(item):
             item['precision'] = None
 
     return item
-
 
 @__factory__.fetcher.pipe
 def valid(item):

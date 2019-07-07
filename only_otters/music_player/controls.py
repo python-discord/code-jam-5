@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtMultimedia, QtCore, QtGui
+from PyQt5 import QtWidgets, QtMultimedia, QtGui
 from .seeker import Seeker
 from pathlib import Path
 
