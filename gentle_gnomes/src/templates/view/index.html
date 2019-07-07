@@ -1,12 +1,48 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    <h1>{% block title %}Climate Change Search{% endblock %}</h1>
+    <div class="jumbotron jumptrion-fluid text-uppercase">
+        <h1 class="display-4">Climate Change</h1>
+        <p class="lead">The effects are everywhere</p>
+
+        <hr class="my-5">
+
+        <p class="text-info mt-5">Enter a location to begin</p>
+        {% include "view/search.html" %}
+    </div>
 {% endblock %}
 
 {% block content %}
-    {% include "view/search.html" %}
-    {% if results %}
-        {% include "view/results.html" %}
+    <div class="text-center my-5" id="loading-spinner" hidden>
+        <div class="spinner-border" role="status" style="width: 4rem; height: 4rem;" >
+            <span class="sr-only">Loading...</span>
+        </div>
+        <h5 class="text-info py-4">Collecting data from nearest location...</h5>
+    </div>
+
+    <div id="map" style="display: none"></div>
+    <div id="results" class="mx-auto" style="width: 100%" hidden>
+        <div class="row">
+            <div class="position-sticky sticky-top col">
+                <h3 class="text-left text-info my-2" id="city-name"></h3>
+                <h3 class="text-left text-info my-2" id="city-admin"></h3>
+                <hr class="my-1">
+                <ul class="nav nav-tabs flex-column" id="sidebar" role="tablist"></ul>
+            </div>
+            <div class="col-9 tab-content ml-5" id="indicators"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename = 'search.js') }}"></script>
+
+    {% if lat is not none and lng is not none %}
+        <script>
+            getCity({
+                toJSON: () => ({
+                    lat: {{ lat }},
+                    lng: {{ lng }},
+                })
+            });
+        </script>
     {% endif %}
 {% endblock %}

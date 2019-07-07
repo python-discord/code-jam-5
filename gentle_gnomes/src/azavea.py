@@ -1,11 +1,17 @@
-import aiohttp
+import asyncio
+import logging
 import typing as t
-import asyncio as aio
+from dataclasses import dataclass
+
+import aiohttp
+
+log = logging.getLogger(__name__)
 
 BASE_URL = 'https://app.climate.azavea.com/api'
 
 
-class City(t.NamedTuple):
+@dataclass(frozen=True)
+class City:
     name: str
     admin: str
     id: int
@@ -17,7 +23,7 @@ class City(t.NamedTuple):
 class Client:
     """Client for interacting with the Azavea Climate API."""
 
-    # Wait for async event loop to instanstiate
+    # Wait for async event loop to instantiate
     session: aiohttp.ClientSession = None
 
     def __init__(self, token: str):
@@ -27,13 +33,25 @@ class Client:
         if self.session is None:
             self.session = aiohttp.ClientSession(headers=self.headers)
 
-        async with self.session.get(BASE_URL + endpoint, **kwargs) as response:
-            return await response.json()
+        # Don't want to deal with recursion
+        while True:
+            log.debug(f'GET {endpoint}')
+            async with self.session.get(BASE_URL + endpoint, **kwargs) as response:
+                # Rate limited; sleep and try again.
+                if response.status == 429:
+                    retry_after = int(response.headers['Retry-After'])
+                    log.warning(f'Rate limited; trying again in {retry_after} seconds.')
+                    await asyncio.sleep(retry_after)
+
+                    continue
+                elif 'raise_for_status' in kwargs:
+                    response.raise_for_status()
+
+                return await response.json()
 
     async def teardown(self):
         if self.session is not None:
             await self.session.close()
-
 
     async def get_cities(self, **kwargs) -> t.Iterator[City]:
         """Return all available cities."""
@@ -53,8 +71,8 @@ class Client:
 
     async def get_nearest_city(
         self,
-        lat: float,
-        lon: float,
+        lat: str,
+        lon: str,
         limit: int = 1,
         **kwargs
     ) -> t.Optional[City]:
@@ -83,6 +101,12 @@ class Client:
         """Return the description and parameters of a specified indicator."""
         return await self._get(f'/indicator/{indicator}', **kwargs)
 
-    async def get_indicator_data(self, city: int, scenario: str, indicator: str, **kwargs) -> t.Dict:
+    async def get_indicator_data(
+        self,
+        city: int,
+        scenario: str,
+        indicator: str,
+        **kwargs
+    ) -> t.Dict:
         """Return derived climate indicator data for the requested indicator."""
         return await self._get(f'/climate-data/{city}/{scenario}/indicator/{indicator}', **kwargs)

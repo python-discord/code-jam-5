@@ -1,34 +1,46 @@
-import json
+import dataclasses
+import logging
 
 import quart
 from quart import current_app as app
 from quart import render_template
 
-from . import indicator
+from .indicator import Indicator
 
-bp = quart.Blueprint('view', __name__, url_prefix='/')
+log = logging.getLogger(__name__)
+
+bp = quart.Blueprint('view', __name__)
 
 
 @bp.route('/')
 async def index():
-    return await render_template('view/index.html')
+    lat = quart.request.args.get('lat')
+    lng = quart.request.args.get('lng')
+
+    return await render_template('view/index.html', lat=lat, lng=lng)
 
 
-@bp.route('/search', methods=['POST'])
-async def search():
+@bp.route('/location')
+async def location():
     try:
-        form = await quart.request.form
-        location = json.loads(form['location'])
-        latitude = location['lat']
-        longitude = location['lng']
-    except (json.JSONDecodeError, KeyError):
-        return render_template('view/results.html')
+        latitude = str(quart.request.args['lat'])
+        longitude = str(quart.request.args['lng'])
+    except KeyError:
+        log.info('Failed to get coordinates from parameters.')
+        return quart.abort(400)
 
     city = await app.azavea.get_nearest_city(latitude, longitude)
-    if city:
-        with app.app_context():
-            results = await indicator.get_top_indicators(city)
+    if not city:
+        log.info(f'Could not find a city for {latitude}, {longitude}')
+        return quart.abort(404)
     else:
-        results = None
+        return quart.jsonify(dataclasses.asdict(city))
 
-    return render_template('view/results.html', city=city, results=results)
+
+@bp.route('/search/<city>/<indicator_name>')
+async def search(city, indicator_name):
+    async with app.app_context():
+        indicator = Indicator(indicator_name, city)
+        await indicator.populate_data()
+
+    return await render_template('view/indicator.html', indicator=indicator)
