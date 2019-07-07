@@ -85,6 +85,7 @@
             },
             {
                 "name": "Atmospheric Fake News I",
+                "description": "Buy advertisements to help spread fake news about CO2 emissions.",
                 "bio": -2,
                 "temperature": -3,
                 "co2": -3,
