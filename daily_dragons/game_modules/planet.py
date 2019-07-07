@@ -28,7 +28,8 @@ class Planet:
             "habitable_land": habitable_land,
         }
 
-    def _get_seperate_stats(self) -> Tuple[Union[int, str], Union[int, str], Union[int, str], Union[int, str]]:
+    def _get_seperate_stats(self) -> Tuple[Union[int, str], Union[int, str],
+                                           Union[int, str], Union[int, str]]:
         bio_div = self.stats.get(
             "bio_diversity", "That wasn't here. Please restart the game."
         )
