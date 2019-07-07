@@ -87,13 +87,14 @@ def redraw():
         else:
             for item in onscreen:
                 # Check which image should be showing and show it
-                if item.movecount + 1 >= len(item.move)*10:
+                if item.movecount + 1 >= len(item.move) * 10:
                     item.movecount = 0
-                win.blit(item.move[item.movecount//10], (item.x, item.y))
+                win.blit(item.move[item.movecount // 10], (item.x, item.y))
                 item.movecount += 1
 
         # Display score
-        DisplayScore = Scorefont.render('Score: '+str(score), True, (0, 0, 0))
+        DisplayScore = Scorefont.render(
+            'Score: ' + str(score), True, (0, 0, 0))
         ScoreRect = DisplayScore.get_rect()
         ScoreRect.center = (100, 40)
         win.blit(DisplayScore, ScoreRect)
@@ -135,10 +136,16 @@ class button(object):
 
 
 # Define buttons
-playagain = button(pygame.image.load('Buttons//PlayAgainButton.png'), 200, 106, 365, 330)
+playagain = button(
+    pygame.image.load('Buttons//PlayAgainButton.png'),
+    200,
+    106,
+    365,
+    330)
 play = button(pygame.image.load('Buttons//PlayButton.png'), 200, 106, 365, 450)
 back = button(pygame.image.load('Buttons//Back.png'), 100, 82, 20, 150)
-rulesbutton = button(pygame.image.load('Buttons//RulesButton.png'), 200, 106, 365, 250)
+rulesbutton = button(pygame.image.load(
+    'Buttons//RulesButton.png'), 200, 106, 365, 250)
 
 
 # Car class
@@ -209,11 +216,20 @@ class car(object):
 
 # Define cars
 # Replace these with actual cars. These are placeholders.
-ambulance = car(False, [pygame.image.load('1.png'), pygame.image.load('2.png'), pygame.image.load('3.png'), pygame.image.load('2.png')], 5, 225, 110, 5)
-policecar = car(True, [pygame.image.load('P1.png'), pygame.image.load('P2.png'), pygame.image.load('P3.png'), pygame.image.load('P2.png')], 10, 225, 110, 3)
+# ambulance = car(False, [pygame.image.load('1.png'), pygame.image.load(
+#    '2.png'), pygame.image.load('3.png'), pygame.image.load('2.png')], 5, 225, 110, 5)
+policecar = car(True,
+                [pygame.image.load('P1.png'),
+                 pygame.image.load('P2.png'),
+                 pygame.image.load('P3.png'),
+                 pygame.image.load('P2.png')],
+                10,
+                225,
+                110,
+                3)
 
 # List of available vehicles to chose from
-vehicles = [ambulance, policecar]
+vehicles = [policecar]
 
 
 # To show if the game is running
@@ -235,17 +251,22 @@ while run:
             (a, b) = pygame.mouse.get_pos()
             # Check if car has been hit
             for i in onscreen:
-                if b < i.hitbox[1] + i.hitbox[3] and b > i.hitbox[1] and a > i.hitbox[0] and a < i.hitbox[0] + i.hitbox[2]:
+                if b < i.hitbox[1] + \
+                        i.hitbox[3] and b > i.hitbox[1] \
+                        and a > i.hitbox[0] and a < i.hitbox[0] + i.hitbox[2]:
                     i.hit()
 
             # Check if button has been clicked
             # On introducton screen
             if introduction:
-                if playagain.y + playagain.height and b > playagain.y and a > playagain.x and a < playagain.x + playagain.width:
+                if playagain.y + playagain.height and b > playagain.y \
+                        and a > playagain.x and a < playagain.x + playagain.width:
                     # Start game
                     playagain.pressed()
                     introduction = False
-                elif rulesbutton.y + rulesbutton.height and b > rulesbutton.y and a > rulesbutton.x and a < rulesbutton.x + rulesbutton.width:
+                elif rulesbutton.y + rulesbutton.height \
+                        and b > rulesbutton.y and a > rulesbutton.x \
+                        and a < rulesbutton.x + rulesbutton.width:
                     # Display rules screen
                     introduction = False
                     rules = True
@@ -259,7 +280,9 @@ while run:
 
             # If the player has won or lost
             elif lose or comp:
-                if b < playagain.y + playagain.height and b > playagain.y and a > playagain.x and a < playagain.x + playagain.width:
+                if b < playagain.y + \
+                        playagain.height and b > playagain.y \
+                        and a > playagain.x and a < playagain.x + playagain.width:
                     # Restart game
                     playagain.pressed()
                 if b < 250 + back.height and b > 250 and a > 290 and a < 290 + back.width:
@@ -277,7 +300,7 @@ while run:
         # Move their hitbox with them
         item.hitbox = (item.x, item.y, item.width, item.height)
         # Remove them and change score if moved offscreen
-        if item.x < 0-item.width:
+        if item.x < 0 - item.width:
             item.letgo()
 
     # Clear screen and lose if score is below 0
