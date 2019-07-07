@@ -2,21 +2,38 @@
 > A project by Thoughtful Termites (`@mathsman`, `@meta`, `@hanyuone`)
 for Code Jam 5
 
-Welcome to Savanna, our application that allows you, the user,
+Welcome to Savanna, our application that helps you, the user,
 to become more eco-friendly by setting environmentally green goals.
 
-Here's how Savanna works:
+### Installation and Setup
 
-1. Launch the app and create a goal, with a custom description.
+1. Install `pipenv` and run `pipenv install` on the project.
+2. Run `__main__.py` to start the control panel.
+3. Configure the bot using the 'Configure Bot' button.
+4. Configure goals and reminders using the 'Open Goals' button. More info
+on this in the Usage section below.
+5. Run bot using the 'Start Bot' button.
+
+
+### Goals
+
+1. Launch the goals list via the control panel and create a goal, 
+with a custom description.
 If you can't think of any ideas, you can press a button for the app to
 suggest a goal for you.
+
 2. You can set reminders for any environmental goal that you have by
-right-clicking it and selecting "Edit Reminders". Both weekly and daily
-reminders, which are sent through our Discord bot, are available.
-3. At any point in time, you may customise your goals by selecting "Edit
-Goal", or delete the goal by selecting "Delete".
-4. Once you have completed your goal, select "Complete" after
-right-clicking.
+right-clicking it and selecting "Edit Reminders". To add a reminder on a
+daily basis, the 'Add Daily Reminder' button is provided for convenience.
+
+3. You may customise your goals and reminders by selecting one or more, 
+right clicking and choosing "Edit". You can also delete them by selecting 
+"Delete".
+
+4. Once you believe you have completed your goal, select "Complete Goal" 
+after right-clicking it. This will accrue internal reward points used to 
+unlock mini games.
+
 5. After you have finished a certain number of goals, you can go to
 the "Unlock" window to unlock various minigames or features, accessible
 on the Discord bot.
@@ -45,10 +62,3 @@ emoji to guess a letter.
 accidentally remove the trees!
   - Use `guess x y` to excavate a tile on the field.
   - Use `flag x y` to flag a certain tile.
-
-### Installation
-
-1. Install `pipenv` and run `pipenv install` on the project.
-2. Set up the Discord bot (in `bot/`) and copy your bot token and client
-ID into their respective fields.
-3. Run `__main__.py` to start both the PyQT app and the Discord bot.
