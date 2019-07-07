@@ -86,12 +86,17 @@ class Game:
 
     def final_score(self) -> str:
         final_score = 0
+        for stat in self.earth.stats.values():
+            if stat >= 0:
+                final_score += stat * 10000
+            else:
+                final_score += stat * 5000
 
         return f"Final score: {final_score}"
 
     def main(self) -> None:
         while not self.quit_game:
-            if self.round > 10:
+            if self.round >= 10:
                 self.quit_game = True
 
                 if sum(i >= 10 for i in self.earth.stats.values()) >= 2:
