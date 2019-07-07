@@ -1,6 +1,5 @@
 import pygame
 from random import randint, choice
-from time import sleep
 from assets import (
     natural_gas, oil, coal,
     solar, wind, hydro,
@@ -66,7 +65,6 @@ capture_offset = num_of_ghg_capture_techs
 
 percent_fossil_fuel = 100
 percent_green_energy = 0
-
 
 
 def percentage_update():
@@ -396,8 +394,6 @@ while running:
                     pause = False
                     running = False
 
-
-
     window.fill(white)
 
     pollute()
@@ -456,7 +452,6 @@ while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-
 
     clock.tick(fps)
 
