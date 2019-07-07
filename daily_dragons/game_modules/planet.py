@@ -78,7 +78,7 @@ class Planet:
         """Provides a human readable summary of the health on the planet based on its stats"""
         health = []
 
-        bio_div, temperature, co2, land = self._get_seperate_stats()
+        bio_div, temperature, _, _ = self._get_seperate_stats()
 
         # Estimates have us around 9 million species
         # Extinction events appear to be ~75% of all species dying
