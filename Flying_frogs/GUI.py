@@ -16,6 +16,9 @@ pygame.display.set_caption('Climate Change Project')
 # Set up background
 bg = pygame.image.load('Backgrounds//Background.png')
 
+# Set up cursor
+hammer = pygame.image.load('Cursor//hammer.png')
+
 # Define control variables:
 # Veichles on screen
 onscreen = []
@@ -43,6 +46,8 @@ def redraw():
 
     # Introduction screen
     if introduction:
+        # Mouse
+        pygame.mouse.set_visible(True)
         # Background
         win.blit(pygame.image.load('Backgrounds//Introduction.png'), (0, 0))
         # Buttons
@@ -52,12 +57,16 @@ def redraw():
 
     # Rules screen
     elif rules:
+        # Mouse
+        pygame.mouse.set_visible(True)
         # Background
         win.blit(pygame.image.load('Backgrounds//Rules.png'), (0, 0))
         # Buttons
         win.blit(back.image, (back.x, back.y))
 
     elif meaning:
+        # Mouse
+        pygame.mouse.set_visible(True)
         # Background
         win.blit(pygame.image.load('Backgrounds//Meaning.png'), (0, 0))
         # Buttons
@@ -70,6 +79,8 @@ def redraw():
 
         # If the player has lost
         if lose:
+            # Mouse
+            pygame.mouse.set_visible(True)
             # Box
             win.blit(pygame.image.load('Boxes//LoseBox.png'), (276, 161))
             # Buttons
@@ -78,6 +89,8 @@ def redraw():
 
         # If the player has won
         elif comp:
+            # Mouse
+            pygame.mouse.set_visible(True)
             # Box
             win.blit(pygame.image.load('Boxes//WinBox.png'), (276, 161))
             # Buttons
@@ -92,6 +105,12 @@ def redraw():
                     item.movecount = 0
                 win.blit(item.move[item.movecount // 10], (item.x, item.y))
                 item.movecount += 1
+
+            # Hide mouse
+            pygame.mouse.set_visible(False)
+            (a, b) = pygame.mouse.get_pos()
+
+            win.blit(hammer, (a, b))
 
         # Display score
         DisplayScore = Scorefont.render(
@@ -137,8 +156,10 @@ class button(object):
         global onscreen
         global lose
         global comp
+        global mistakes
         onscreen = []
         score = 25
+        mistakes = 0
         lose = False
         comp = False
 
@@ -203,9 +224,9 @@ class car(object):
         # Change score appropriate to being electric or not
         if self.electric:
             score -= self.scorechange
+            mistakes += 1
         elif not self.electric:
             score += self.scorechange
-            mistakes += 1
         # Remove itself from veiw
         onscreen.remove(self)
 
