@@ -76,24 +76,6 @@ suggestions = (
 Collection of predefined suggestions.
 """
 
-
-# def random_suggestion_generator():
-#     while True:
-#         shuffled = random.sample(suggestions, len(suggestions))
-#         yield from shuffled
-#
-#
-# suggestion_generator = random_suggestion_generator()
-#
-#
-# def random_suggestion() -> GoalSuggestion:
-#     global suggestion_generator
-#     while True:
-#         try:
-#             return next(suggestion_generator)
-#         except StopIteration:
-#             suggestion_generator = random_suggestion_generator()
-
 _suggestions_iterator = iter(suggestions)
 
 
