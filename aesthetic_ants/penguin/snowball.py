@@ -1,6 +1,6 @@
 from math import radians
 
-from .constants import CollisionType
+from .constants import CollisionType, TileType
 from .object import PhysicalObject
 from .resources import ROCKET_IMAGE, SNOWBALL_IMAGE, SNOWSPLOSION_IMAGE
 from .utils import vector_from_angle
@@ -20,6 +20,10 @@ class Projectile(PhysicalObject):
 
     def on_collision_enemy(self, enemy):
         enemy.on_collision_snowball(self)
+
+    def collide_tile(self, tile):
+        if tile.tile_type == TileType.WALL:
+            self.space.remove(self)
 
 
 class Snowball(Projectile):
