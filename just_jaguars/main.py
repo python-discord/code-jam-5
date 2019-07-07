@@ -34,7 +34,7 @@ black = (0, 0, 0)
 white = (255, 255, 255)
 red = (255, 0, 0)
 
-icon_speed = 0.1  # y-pixels per millisecond.
+icon_speed = 2  # y-pixels per frame.
 
 """
 The following are the two energy types an icon can be, which energy sources
@@ -76,6 +76,7 @@ class Icon(pygame.sprite.Sprite):
         Every frame each icon falls down the screen at the specified
         speed. When it reaches the bottom it is removed.
         """
+        self.rect.y += icon_speed
         if self.rect.top > window_height:
             self.kill()
 
@@ -196,10 +197,6 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             icon_clicked(event)
 
-    frame_time = clock.get_time()
-    frame_speed = frame_time*icon_speed
-    for icon in all_icons:
-        icon.rect.y += frame_speed
 
     window.fill(white)
 
