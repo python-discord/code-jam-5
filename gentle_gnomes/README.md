@@ -1,5 +1,7 @@
 # Gentle Gnomes
 
+![](./src/static/images/logo.svg)
+
 ## Description
 
 You can search for any city in the United States and get climate change data for
@@ -49,3 +51,7 @@ poetry run start
 ```bash
 poetry run pytest
 ```
+
+## Attributions
+
+Logo by [Luis Prado](http://thenounproject.com/Luis/)

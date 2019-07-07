@@ -2,7 +2,10 @@
 
 {% block header %}
     <div class="jumbotron jumptrion-fluid text-uppercase">
-        <h1 class="display-4">Climate Change</h1>
+        <h1 class="display-4">
+            <img src="../static/images/logo.svg"/>
+            Climate Change
+        </h1>
         <p class="lead">The effects are everywhere</p>
 
         <hr class="my-5">
@@ -32,6 +35,14 @@
             <div class="col-9 tab-content ml-5" id="indicators"></div>
         </div>
     </div>
+
+    <footer class="footer my-3">
+        <div class="footer-copyright text-center">
+            Copyright © 2019 Gentle Gnomes
+            <br>
+            Logo by <a href="http://thenounproject.com/Luis/">Luis Prado</a>
+        </div>
+    </footer>
 
     <script src="{{ url_for('static', filename = 'search.js') }}"></script>
 

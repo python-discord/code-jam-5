@@ -183,7 +183,6 @@ function getTopLocation(predictions, status) {
  */
 function clear(id) {
     const element = document.getElementById(id);
-    console.log(element);
     while (element.firstChild) {
         element.removeChild(element.firstChild);
     }
