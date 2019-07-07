@@ -9,7 +9,7 @@ import pygame as pg
 from project.constants import Color, TILE_COLS, TILE_ROWS, WIDTH
 from project.utils.helpers import realtime_to_ingame_formatted
 from project.utils.user_data import UserData
-from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomeMountains
+from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomePlains
 from .earth import Earth
 from .game_state import GameState
 from .sun import Sun
@@ -69,9 +69,9 @@ class Period(object):
             BiomeDesert(),
             BiomeDesert(),
             BiomeDesert(),
-            BiomeMountains(),
-            BiomeMountains(),
-            BiomeMountains(),
+            BiomePlains(),
+            BiomePlains(),
+            BiomePlains(),
             BiomeForest(),
             BiomeForest(),
             BiomeForest(),

@@ -11,8 +11,11 @@ from project.constants import (
     Color,
     DESERT_BGS,
     FOREST_BGS,
-    MOUNTAINS_BGS,
+    PLAINS_BGS,
+    TILES_CITY,
+    TILES_DESERT,
     TILES_GRASS,
+    TILES_GROUND,
     TILES_WATER,
     TILE_COLS,
     TILE_ROWS,
@@ -32,14 +35,14 @@ class Biome(object):
     # One will be chosen randomly to be displayed.
     background_images: List[str] = []
 
-    other_tiles: List[str] = TILES_GRASS
+    other_tiles: List[str] = TILES_GROUND
 
     # Unique to theme tiles list
     unique_tiles: List[str] = []
     unique_tiles_chance: float = 0.3
 
     # Tiles that belong to cities
-    city_tiles: List[str] = []
+    city_tiles: List[str] = TILES_CITY
     city_tiles_chance: float = 0.2
 
     # Tiles that have water sources
@@ -67,8 +70,8 @@ class Biome(object):
             return (Color.desert, Color.desert_hover)
         elif isinstance(self, BiomeForest):
             return (Color.forest, Color.forest_hover)
-        elif isinstance(self, BiomeMountains):
-            return (Color.mountains, Color.mountains_hover)
+        elif isinstance(self, BiomePlains):
+            return (Color.plains, Color.plains_hover)
         else:
             raise NameError(f"Colors not found for biome: {type(self)}")
 
@@ -80,8 +83,8 @@ class Biome(object):
             return images("desert")
         elif isinstance(self, BiomeForest):
             return images("forest")
-        elif isinstance(self, BiomeMountains):
-            return images("mountains")
+        elif isinstance(self, BiomePlains):
+            return images("plains")
         else:
             raise NameError(f"Task image not found for biome: {type(self)}")
 
@@ -159,13 +162,12 @@ class Biome(object):
 
         def __choose_tiles(self, k: int = 1) -> Generator[Tile, None, None]:
             """Returns k number of random tiles themed on biome and weights to spawn."""
-            other_tiles_chance = max(
-                1
-                - self.biome.water_tiles_chance
+            sum_tiles_chance = (
+                self.biome.water_tiles_chance
                 + self.biome.city_tiles_chance
-                + self.biome.unique_tiles_chance,
-                0,
+                + self.biome.unique_tiles_chance
             )
+            other_tiles_chance = max(1 - sum_tiles_chance, 0)
 
             # Group all tiles lists with their chances to spawn
             tiles_lists = [
@@ -195,11 +197,11 @@ class BiomeDesert(Biome):
 
     background_images: List[str] = DESERT_BGS
 
-    unique_tiles: List[str] = []
+    unique_tiles: List[str] = TILES_DESERT
 
-    unique_tiles_chance: float = 0.6
-    city_tiles_chance: float = 0.05
-    water_tiles_chance: float = 0.05
+    unique_tiles_chance: float = 0.95
+    city_tiles_chance: float = 0.0
+    water_tiles_chance: float = 0.0
 
     text_task_success: str = "Solar panels installed"
     text_task_fail: str = "Factory was built"
@@ -210,10 +212,10 @@ class BiomeCity(Biome):
 
     background_images: List[str] = CITY_BGS
 
-    unique_tiles: List[str] = []
+    unique_tiles: List[str] = TILES_CITY
 
     unique_tiles_chance: float = 0.3
-    city_tiles_chance: float = 0.5
+    city_tiles_chance: float = 0.3
     water_tiles_chance: float = 0.05
 
     text_task_success: str = "Pollution decreased"
@@ -225,26 +227,26 @@ class BiomeForest(Biome):
 
     background_images: List[str] = FOREST_BGS
 
-    unique_tiles: List[str] = []
+    unique_tiles: List[str] = TILES_GRASS
 
-    unique_tiles_chance: float = 0.6
-    city_tiles_chance: float = 0.2
+    unique_tiles_chance: float = 0.8
+    city_tiles_chance: float = 0.0
     water_tiles_chance: float = 0.1
 
     text_task_success: str = "You saved the forest"
     text_task_fail: str = "The forest was destroyed"
 
 
-class BiomeMountains(Biome):
-    """Mountain themed biome."""
+class BiomePlains(Biome):
+    """Plains themed biome."""
 
-    background_images: List[str] = MOUNTAINS_BGS
+    background_images: List[str] = PLAINS_BGS
 
-    unique_tiles: List[str] = []
+    unique_tiles: List[str] = TILES_GRASS
 
-    unique_tiles_chance: float = 0.8
-    city_tiles_chance: float = 0.1
-    water_tiles_chance: float = 0.1
+    unique_tiles_chance: float = 0.5
+    city_tiles_chance: float = 0.0
+    water_tiles_chance: float = 0.2
 
-    text_task_success: str = "Mountains saved"
-    text_task_fail: str = "Mountains not saved"
+    text_task_success: str = "Wind turbine built"
+    text_task_fail: str = "Waste dumped"

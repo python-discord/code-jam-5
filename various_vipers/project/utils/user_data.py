@@ -11,14 +11,19 @@ class UserData(Singleton):
         each time the game is launched.
     """
 
-    sound_volume: float = 50
-    music_volume: float = 50
+    sound_volume: float = 30
+    music_volume: float = 25
 
     sound_mute: bool = False
     music_mute: bool = False
 
     show_fps: bool = False
+
+    # Game will be less detailed, but increases fps.
+    # Drawing large, transparent images slows the game alot,
+    #  this option disables inneficient detail draws.
     boost_fps: bool = False
+
     # Hiscores (seconds survived) in each game difficulty
     hiscore_medieval: float = 0
     hiscore_modern: float = 0

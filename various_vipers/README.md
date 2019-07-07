@@ -98,8 +98,6 @@ There are three different types of tasks.
 ![ttt task](docs/screenshots/ttt_forerst_task.png)
 
 
-
-
 #### Options
 All user settings are saved. But if you terminate the game with the X button of the pygame window,
 the user settings are going to be the last saved.
