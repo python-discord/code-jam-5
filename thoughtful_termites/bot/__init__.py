@@ -64,4 +64,3 @@ class ClimateBot(commands.Bot):
 config = Config.load(config_path)
 bot = ClimateBot()
 bot.run(config.bot_token)
-

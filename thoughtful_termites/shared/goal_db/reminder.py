@@ -2,7 +2,6 @@ import asyncio
 import sqlite3
 import weakref
 
-from functools import partial
 from typing import TYPE_CHECKING, Union
 
 from .reminder_time import ReminderTime

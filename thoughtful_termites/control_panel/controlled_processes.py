@@ -2,7 +2,6 @@ import multiprocessing as mp
 import subprocess as sp
 from thoughtful_termites.shared import qt
 from typing import Type
-# from thoughtful_termites.bridge import MessageHandler
 
 from pathlib import Path
 
@@ -32,17 +31,6 @@ class ControlledProcess(qt.QThread):
         else:
             self.start()
 
-# class BotProcess(mp.Process):
-#     def run(self) -> None:
-#         super().run()
-#
-#         from thoughtful_termites.bot import config
-#         from thoughtful_termites.bot import ClimateBot
-#
-#         bot = ClimateBot()
-#         # bot.loop.create_task(self.handler.inbox_loop())
-#         bot.run(config.bot_token)
-
 
 class GoalsProcess(mp.Process):
     def run(self) -> None:
@@ -70,19 +58,3 @@ class BotControlledProcess(ControlledProcess):
     def stop(self):
         if self.subprocess:
             self.subprocess.kill()
-
-
-# print(bot_script_path)
-
-# class UnlocksProcess(mp.Process):
-#     def run(self) -> None:
-#         super().run()
-
-
-# class ControlledProcesses:
-#     def __init__(self):
-#         self.processes = {
-#             'bot': ControlledProcess(BotProcess),
-#             'goals': ControlledProcess(GoalsProcess),
-#             'unlocks': ControlledProcess(UnlocksProcess)
-#         }

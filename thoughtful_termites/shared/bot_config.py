@@ -1,6 +1,7 @@
 import json
 import traceback as tb
 
+
 class Config:
     def __init__(self):
         self.bot_token: str = ''
