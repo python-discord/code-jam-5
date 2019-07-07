@@ -9,4 +9,12 @@
     {% if results %}
         {% include "view/results.html" %}
     {% endif %}
+    {% if lat is not none and lng is not none %}
+        <script>
+            setLocation({
+                lat: {{ lat }},
+                lng: {{ lng }}
+            });
+        </script>
+    {% endif %}
 {% endblock %}

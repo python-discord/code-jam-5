@@ -11,7 +11,10 @@ bp = quart.Blueprint('view', __name__)
 
 @bp.route('/')
 async def index():
-    return await render_template('view/index.html')
+    lat = quart.request.args.get('lat')
+    lng = quart.request.args.get('lng')
+
+    return await render_template('view/index.html', lat=lat, lng=lng)
 
 
 @bp.route('/search', methods=['POST'])
