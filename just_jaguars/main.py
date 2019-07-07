@@ -365,6 +365,7 @@ def fps_counter():
         fps_text = arial.render(f'FPS: {fps_displayed}/60', False, (0, 0, 0))
     window.blit(fps_text, (0, window_height - 20))
 
+
 def tutorial():
     """Credit goes to https://docs.opencv.org/master/dd/d43/tutorial_py_video_display.html"""
     import cv2
@@ -384,6 +385,7 @@ def tutorial():
 
 # test if the tutorial needs to be played
 
+
 try:
     tutorial_file = open('saves/tutorial.txt')  # error causing function 1
 
@@ -393,7 +395,7 @@ try:
 
     assert tutorial_content == 'done'  # error causing function 2
 
-except:
+except Exception:
     tutorial()
     with open('saves/tutorial.txt', 'w') as f:
         f.write('done')
