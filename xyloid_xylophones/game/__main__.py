@@ -65,7 +65,7 @@ def load_zones(path_name):
                 item.y = -1024 + (y * sprite_height)
                 item.x = -1024 + (x * sprite_width)
                 item.sprite = int(t[map_size - (y - (floor(y / map_size) * map_size))][
-                                      x - (floor(x / map_size) * map_size)])
+                              x - (floor(x / map_size) * map_size)])
                 # tiny offset for grid view
                 item.width = sprite_width - 1
                 item.height = sprite_height - 1
