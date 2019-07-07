@@ -146,6 +146,7 @@ class Game:
                 self.player.get_roi(chosen_investment.current_policy.roi)
                 chosen_investment.times_invested += 1
                 print(self.successful_order_msg)
+                print()
                 return self.planet_stats_msg()
             else:
                 return self.cancelled_order_msg
