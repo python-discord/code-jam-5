@@ -53,25 +53,21 @@ class FactFactory:
         self.records = []
         self.served_facts = 0
         self.tags = []
-
-    def fetcher(self):
-        raise NotImplementedError
+        self.fetcher = None
 
     def fetch(self) -> list:
+        
         new_records = []
+
         # fetch the remote data
         try:
             new_records = self.fetcher()
         except Exception as e:
             print(e)
+            # TODO:
             raise
 
-        print('::', type(new_records))
-
-        # if retrieval completed successfully
-        # otherwise, keep previous records
         self.records = list(new_records)
-        print(len(self.records))
         return self.records
 
     def _build_widget(self, factobj, parent) -> QmlWidget:
@@ -82,21 +78,24 @@ class FactFactory:
             parent=parent
         )
 
+    def _build_fact(self, record: dict):
+        raise NotImplementedError
+
     @hotfetch
     def get(self):
-        # Pull a random fact
-        record = random.choice(self.records)
-        f = self._build_fact(record)
 
         self.served_facts += 1
-        if self.served_facts > len(self.records):
+        if self.served_facts >= len(self.records):
             self.fetch()
 
-        return f
+        record = random.choice(self.records)
+        fact = self._build_fact(record)
+
+        return fact
 
     @hotfetch
     def get_widget(self) -> QmlWidget:
-        # Return a fact directly bundled in a widget
+        """Return a fact directly bundled in a widget."""
         return self._build_widget(self.get())
 
 

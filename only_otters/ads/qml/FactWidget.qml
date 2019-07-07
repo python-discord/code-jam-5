@@ -19,7 +19,7 @@ Item {
 
     Column {
         
-        spacing: 0
+        spacing: 5
         padding: 8
 
         Text {

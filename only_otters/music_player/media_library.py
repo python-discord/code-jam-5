@@ -6,6 +6,12 @@ import os
 __folder__ = Path(__file__).parent
 
 
+def find_user_library():
+    expected_path = Path('~/Music').expanduser()
+    if expected_path.exists():
+        return expected_path
+
+
 class MediaLibrary(QtWidgets.QFrame):
 
     song_triggered = QtCore.pyqtSignal(str)
@@ -13,6 +19,10 @@ class MediaLibrary(QtWidgets.QFrame):
     def __init__(self):
         super().__init__()
         self.init_ui()
+
+        ep = find_user_library()
+        if ep is not None:
+            self.set_path(ep)
     
     def init_ui(self):
         layout = QtWidgets.QVBoxLayout()
@@ -68,6 +78,7 @@ class MediaLibrary(QtWidgets.QFrame):
             self.set_path(str(Path(folder_path)))
 
     def set_path(self, path):
+        path = os.fspath(path)
         x = self.filesystem_model.setRootPath(path)
         self.music_tree.setRootIndex(x)
     

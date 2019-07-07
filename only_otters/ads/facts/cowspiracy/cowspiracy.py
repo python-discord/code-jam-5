@@ -28,7 +28,7 @@ class CowspicaryFactFactory(FactFactory):
         )
 
     def _build_fact(self, record):
-        print(record)
+        # print(record)
         return Fact(
             _title='Did you know that ... ',
             _content=ensure_field(record, 'content'),
