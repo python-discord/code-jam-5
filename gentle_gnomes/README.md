@@ -18,6 +18,9 @@ The data is retrieved from the
 framework used is [Quart](https://pgjones.gitlab.io/quart/index.html). The front
 end was done using [Bootstrap](https://getbootstrap.com/).
 
+The Azavea Climate API has kind of brutal rate limits. Sorry if you end up
+waiting a minute for a search!
+
 ## Installation
 
 ### Requirements
