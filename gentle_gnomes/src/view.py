@@ -37,7 +37,7 @@ async def location():
         return quart.jsonify(dataclasses.asdict(city))
 
 
-@bp.route('/search/<city>/<indicator_name>', methods=['POST'])
+@bp.route('/search/<city>/<indicator_name>')
 async def search(city, indicator_name):
     async with app.app_context():
         indicator = Indicator(indicator_name, city)
