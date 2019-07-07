@@ -9,6 +9,7 @@ from project.constants import (
     BG_CLOUDS_SCROLL_SPEED,
     BG_SCROLL_SPEED,
     BIOME_WIDTH,
+    BOOST_FPS,
     CLOUD_LAYERS_BG,
     CLOUD_LAYERS_FG,
     Color,
@@ -82,11 +83,13 @@ class Earth(object):
 
         self.ozone_image = load(str(OZONE_LAYER)).convert_alpha()
         self.ozone_image = pg.transform.scale(self.ozone_image, (WIDTH, HEIGHT // 10))
+        self.ozone_pos = (0, int(HEIGHT // 3))
 
         self.polution_image = pg.Surface(
             (WIDTH, int(2 * HEIGHT // 3) - self.ozone_image.get_rect().h // 2)
         )
         self.polution_image.fill(Color.desert)
+        self.polution_pos = (0, HEIGHT - self.polution_image.get_height())
 
         self.indicator_image = load(str(INDICATOR_ARROW)).convert_alpha()
 
@@ -125,7 +128,8 @@ class Earth(object):
         self.__draw_clouds()
         if game_vars.is_started:
             self.__draw_biomes()
-            self.__draw_polution()
+            if not BOOST_FPS:
+                self.__draw_polution()
         sun.draw()  # Need to draw sun before indicators
         self.__draw_indicators()
         self.__draw_notification()
@@ -327,7 +331,7 @@ class Earth(object):
 
     def __draw_polution(self) -> None:
         # Ozone layer - horizontal line, transparency depends on current heat.
-        ozone_alpha = fit_to_range(game_vars.current_heat, 0, MAX_HEAT, 0, 75)
+        ozone_alpha = fit_to_range(game_vars.current_heat, 0, MAX_HEAT, 0, 50)
         _ozone = self.ozone_image.copy()
         _ozone.fill((255, 255, 255, ozone_alpha), None, pg.BLEND_RGBA_MULT)
 
@@ -335,10 +339,8 @@ class Earth(object):
         polution_alpha = fit_to_range(game_vars.current_heat, 0, MAX_HEAT, 0, 150)
         self.polution_image.set_alpha(polution_alpha)
 
-        self.screen.blit(
-            self.polution_image, (0, HEIGHT - self.polution_image.get_height())
-        )
-        self.screen.blit(_ozone, (0, int(HEIGHT // 3)))
+        self.screen.blit(self.polution_image, self.polution_pos)
+        self.screen.blit(_ozone, self.ozone_pos)
 
     def __draw_indicators(self) -> None:
         for indicator in self.indicators:

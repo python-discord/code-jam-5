@@ -13,6 +13,14 @@ FPS = 300
 WIDTH = 960
 HEIGHT = 720
 
+# Print debug information about game function calls
+PROFILING = False
+
+# Game will be less detailed, but boost fps.
+# Drawing large, transparent images slow the game alot,
+#  this option disables inneficient detail draws.
+BOOST_FPS = False
+
 
 # Biomes are transformed to squares
 # Width of a single biome (biomes can be chained together)
@@ -156,6 +164,7 @@ class Color:
     sky = (207, 239, 252)
     orange = (225, 92, 30)
     green = (0, 255, 0)
+    purple = (127, 63, 191)
     forest = (118, 222, 162)
     forest_hover = (96, 204, 142)
     city = (30, 188, 158)
