@@ -44,3 +44,5 @@ Install third party libraries:
 * Save and load your game between runs via the "Save" and "Load" buttons
 
 * Progress through various stages of the world and see what could become if we all focused on more sustainable forms of energy generation.
+
+* Try to generate enough power for an entire year of the real world's needs! (Unless you're presenting this on a livestream, in which case you can just cheat with the save file) ^_^

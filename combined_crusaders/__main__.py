@@ -419,9 +419,10 @@ class ClimateClicker:
                             machine.count += 1
                             self.events.send(f"buy_machine_{machine.name}")
 
-        if self.score >= 5.67 * (10**5) and not self.congrats_message:
+        if self.score >= 5.67e5 and not self.congrats_message:
             self.congrats_message = StaticImage((0.5, 0.8), images["congrats"])
             self.gui_plain.add(self.congrats_message)
+            self.events.send("win")
 
         for sprite_layer in self.sprite_layers:
             sprite_layer.update()
