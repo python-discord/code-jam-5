@@ -150,19 +150,19 @@ class TaskCursorMaze(Task):
 
         # Prepare images for the maze
         self.start_image = scale(
-            load_img(self.biome.image_from(MAZE_START)), self.cell_size
+            load_img(self.biome.image_from(MAZE_START), False), self.cell_size
         )
 
         self.end_image = scale(
-            load_img(self.biome.image_from(MAZE_END)), self.cell_size
+            load_img(self.biome.image_from(MAZE_END), False), self.cell_size
         )
 
         self.path_image = scale(
-            load_img(self.biome.image_from(MAZE_PATH)), self.cell_size
+            load_img(self.biome.image_from(MAZE_PATH), False), self.cell_size
         )
 
         self.wall_image = scale(
-            load_img(self.biome.image_from(MAZE_WALL)), self.cell_size
+            load_img(self.biome.image_from(MAZE_WALL), False), self.cell_size
         )
 
     def start(self) -> None:
@@ -394,7 +394,7 @@ class TaskRockPaperScissors(Task):
         # till the human makes a choice
         self.computer_images.append(
             scale(
-                load_img(self.biome.image_from(QUESTION_MARK)),
+                load_img(self.biome.image_from(QUESTION_MARK), False),
                 [self.computer_rect_side] * 2,
             )
         )
@@ -541,9 +541,13 @@ class TaskTicTacToe(Task):
         # X is always the human
         # O is always the computer
 
-        self.x_image = scale(load_img(self.biome.image_from(X)), [self.cell_side] * 2)
+        self.x_image = scale(
+            load_img(self.biome.image_from(X), False), [self.cell_side] * 2
+        )
 
-        self.o_image = scale(load_img(self.biome.image_from(O)), [self.cell_side] * 2)
+        self.o_image = scale(
+            load_img(self.biome.image_from(O), False), [self.cell_side] * 2
+        )
 
         # load the square grid image
         self.grid = scale(
