@@ -7,7 +7,7 @@ from .resources import LEVEL_1
 from .space import Space
 from .spawner import Spawner
 from .tile_layer import TileLayer
-from .ui import GameOverScreen, ScoreLabel, UiSpace, WaveLabel
+from .ui import GameOverScreen, ScoreLabel, UiSpace, WaveLabel, WeaponIndicator
 from .utils import keys
 from .wave import all_waves
 
@@ -49,6 +49,9 @@ class Game(pyglet.window.Window):
 
         self.score_label = ScoreLabel(self, self.ui_space)
         self.ui_space.add(self.score_label)
+
+        self.weapon_label = WeaponIndicator(self, self.ui_space, self.player)
+        self.ui_space.add(self.weapon_label)
 
         self.wave_transitioning = False
         self.waves = enumerate(all_waves(), 1)
