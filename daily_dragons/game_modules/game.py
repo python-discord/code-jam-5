@@ -150,7 +150,7 @@ class Game:
 
             try:
                 if args[0].casefold() == "invest":
-
+                    self.round += 1
                     return self._invest(args[1])
                 else:
                     return self.investments.options.get(args[1], self.error_msg)
