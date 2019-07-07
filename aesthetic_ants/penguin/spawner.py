@@ -4,7 +4,10 @@ from .object import Object
 
 
 class Spawner(Object):
-    def __init__(self):
+    def __init__(self, player):
+        # Required for enemy tracking
+        self.player = player
+
         self.spawn_points = []
         self.wave = None
         self.delay = 0
@@ -32,7 +35,7 @@ class Spawner(Object):
                 break
             else:
                 x, y = random.choice(self.spawn_points)
-                self.space.add(thing(x, y))
+                self.space.add(thing(x, y, self.player))
         else:
             # We finished the wave!
             self.wave = None
