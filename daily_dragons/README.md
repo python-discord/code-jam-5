@@ -10,3 +10,7 @@ decision you make will have consequences on the world around you.
 For better or worse, your mission is to make as much money as you
 can, but remember: wealth is useless if you no longer have a planet
 afterwards.
+
+# Setup
+
+`$pip install -r requirements.txt`

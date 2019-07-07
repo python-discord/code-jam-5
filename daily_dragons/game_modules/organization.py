@@ -11,5 +11,5 @@ class Organization:
         self.description = description
 
     def __str__(self) -> str:
-        summary = f"{self.name}\n{self.description}\n"
+        summary = f"{self.name}\nCEO: {self.ceo}\n{self.description}\n"
         return summary

@@ -16,7 +16,10 @@ class InvestmentOptions:
         menu = []
         menu.append(Fore.CYAN + "Investment options:" + Fore.WHITE)
         for key, i in self.options.items():
-            menu.append(f"{key}: {i.organization.name}")
+            if i.current_policy:
+                menu.append(f"{key}: {i.organization.name}")
+            else:
+                menu.append(Fore.RED + f"{key}: {i.organization.name}" + Fore.WHITE)
         return "\n".join(menu)
 
     def _parse_json(self, file_location: str) -> Dict:
