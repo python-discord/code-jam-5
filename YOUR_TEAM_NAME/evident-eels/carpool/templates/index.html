@@ -14,7 +14,7 @@
     <tbody>
       {% for carpool in carpools %}
       <tr>
-        <td>{{ carpool["user"] }}</td>
+        <td>{{ carpool["creator"]["name"] }}</td>
         <td>{{ carpool["id"] }}</td>
         <td>{{ carpool["time_created"].strftime("%d-%m-%Y %H:%M:%S") }}</td>
         <td>{{ carpool["location"] }}</td>

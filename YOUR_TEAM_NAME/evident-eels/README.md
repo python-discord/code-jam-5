@@ -8,9 +8,9 @@ First, export `FLASK_APP` as `module.py`, which acts as the entry point for the 
 # For Ubuntu
 $ export FLASK_APP=module.py
 # For Windows CMD
-$ set FLASK_APP=hello.py
+$ set FLASK_APP=module.py
 # For Windows PowerShell
-$ $env:FLASK_APP = "hello.py"
+$ $env:FLASK_APP = "module.py"
 ```
 
 After that's complete, the following commands are at your disposal:

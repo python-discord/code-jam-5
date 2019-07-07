@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    {% include "styling.html" %}
-  </head>
+{% extends "base.html" %} {% block content %}
 
-  <body>
-    {% include "header.html" %}
-
-    <div class="container">
-      <h1 class="display-4">{{ carpool["name"] }}</h1>
-      <p>by: {{ carpool["creator"]["name"] }}</p>
-      <p>{{ carpool["summary"] }}</p>
-    </div>
-  </body>
-</html>
+<div class="container">
+  <h1 class="display-4">{{ carpool["name"] }}</h1>
+  <p>by: {{ carpool["creator"]["name"] }}</p>
+  <p>{{ carpool["summary"] }}</p>
+</div>
+{% endblock %}
