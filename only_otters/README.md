@@ -218,6 +218,11 @@ __resources__: Namespace = rly.from_located_file(near=__file__)
 rly.expand(__resources__, globals())
 ```
 
+```python
+from images import icons
+
+window.setIcon(icons.Logo.url)
+```
 
 ## Future features
 
