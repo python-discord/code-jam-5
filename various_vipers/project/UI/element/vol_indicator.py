@@ -7,7 +7,7 @@ from project.constants import Color, SliderProperties
 class VolumeIndicator:
     """Volume indicator to show the volume."""
 
-    def __init__(self, screen: Surface, number):
+    def __init__(self, screen: Surface, number: float):
         self.screen = screen
         self.number = number
 

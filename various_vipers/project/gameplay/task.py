@@ -37,10 +37,6 @@ game_vars = GameState()
 class Task(object):
     """Generic class for game Task on earth."""
 
-    # Marked when task is completed or closed, so it can be deleted
-    is_done: bool = False
-    # Time when task started
-    time_start: Optional[time] = None
     # Time limit in seconds until the task closes
     time_limit: float = 10
 
@@ -52,6 +48,12 @@ class Task(object):
         self.screen = screen
         self.biome = biome
 
+        # Marked when task is completed or closed, so it can be deleted
+        self.is_done = False
+        # Time when task started
+        self.time_start = None
+
+        # Background window of task
         self.window_rect = pg.Rect(
             int(WIDTH * 0.1), int(HEIGHT * 0.1), int(WIDTH * 0.8), int(HEIGHT * 0.8)
         )
@@ -72,12 +74,12 @@ class Task(object):
             self.time_start = time()
 
     def update(self) -> None:
-        """Update is called every game tick."""
+        """Check if the task was completed."""
         if self.time_start and self._time_left <= 0:
             self._complete(False)
 
     def draw(self) -> None:
-        """Draw is called every game tick."""
+        """Draw background for the task."""
         self.screen.fill(self.biome.color[0], self.window_rect)
         if self.time_start:
             self._draw_timer()
@@ -89,11 +91,14 @@ class Task(object):
         else:
             Sound.task_failed.play()
 
+        # Set that task was closed
         game_vars.open_task = None
+        # Add/reduce heat depending on results
         game_vars.current_heat += (
             self.heat_add_success if successful else self.heat_add_failure
         )
 
+        # Screen notification to informa on task result
         game_vars.notification = Notification(
             self.biome.text_task_success if successful else self.biome.text_task_fail,
             Color.green if successful else Color.red,
@@ -102,6 +107,7 @@ class Task(object):
         self.is_done = True
 
     def _draw_timer(self) -> None:
+        """Draw time left for this task before it closes."""
         font = pg.font.Font(None, 70)
         time_left = self._time_left
         timer = font.render(f"{time_left:.2f}s", True, pg.Color("red"))
@@ -114,7 +120,7 @@ class TaskCursorMaze(Task):
     """
     Cursor Maze - players needs to move mouse cursor from point A to B without touching walls.
 
-    Task should not take more than 10s to complete.
+    Task should not take more than 15s to complete.
     Maze is generated automatically and is different each time.
     Task is themed around the biome this task spawned in.
     """
@@ -125,23 +131,17 @@ class TaskCursorMaze(Task):
 
     time_limit: float = 15
 
-    maze: List["Cell"]
-
     maze_start: Tuple[int, int] = (5, 7)  # Y, X
     # width and height include the border of the maze
     maze_width: int = 15
     maze_height: int = 11
 
-    # If the player has started the maze - moved mouse over start
-    started: bool = False
-
-    wall_image: pg.Surface
-    path_image: pg.Surface
-    start_image: pg.Surface
-    end_image: pg.Surface
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.maze = []
+        # If the player has started the maze - moved mouse over start
+        self.started = False
 
         self.cell_size = (
             self.window_rect.width // self.maze_width,
@@ -192,7 +192,6 @@ class TaskCursorMaze(Task):
         """Draw the maze."""
         super().draw()
 
-        # Draw the maze
         for cell in self.maze:
             # Only draw the starting cell if player has not started the maze
             if self.started or cell.cell_type == self.CellType.START:
@@ -208,20 +207,23 @@ class TaskCursorMaze(Task):
         We are keeping track of longest path from start that will be set as maze solution.
         """
         # farthest point from starting point
-        self.maze = []
         farthest = (0, None)
+        # Template row for the maze
         row = (
             [self.CellType.WALL]
             + ([self.CellType.UNVISITED] * (self.maze_width - 2))
             + [self.CellType.WALL]
         )
+        # Initial 2D array for the maze
         cells = (
             [[self.CellType.WALL] * (self.maze_width)]
             + [row[:] for _ in range(self.maze_height - 2)]
             + [[self.CellType.WALL] * (self.maze_width)]
         )
 
-        def deeper(prev_y: int, prev_x: int, new_y: int, new_x: int, n: int = 0):
+        def deeper(
+            prev_y: int, prev_x: int, new_y: int, new_x: int, n: int = 0
+        ) -> None:
             """
             Recursively navigate through maze map.
 
@@ -271,8 +273,9 @@ class TaskCursorMaze(Task):
         cells[self.maze_start[0]][self.maze_start[1]] = self.CellType.START
         cells[farthest[1][0]][farthest[1][1]] = self.CellType.END
 
-        # Convert 2D array of CellType to 1D array of Cell
+        self.maze = []
         y = self.window_rect.y
+        # Convert 2D array of CellType to 1D array of Cell
         for row in cells:
             x = self.window_rect.x
             for cell in row:
@@ -466,7 +469,7 @@ class TaskRockPaperScissors(Task):
         for i, rect in enumerate(self.choice_rects):
             self.screen.blit(self.choice_images[i], rect)
 
-    def __draw_mixing(self):
+    def __draw_mixing(self) -> None:
         """Draws mixing animation of the computer choice."""
         rand_img = self.computer_images[randint(0, 2)]
         self.screen.blit(rand_img, self.computer_rect)
@@ -663,7 +666,7 @@ class TaskTicTacToe(Task):
         # draw the grid of
         self.screen.blit(self.grid, self.board_rect)
 
-    def __won(self, board, player):
+    def __won(self, board: List[List[int]], player: int) -> bool:
         """Checks  if given player is in winning positon."""
         # the winning positions in the Tic Tac Toe are 8
         # three horizontals
@@ -693,7 +696,7 @@ class TaskTicTacToe(Task):
             return True
         return False
 
-    def __cells_left(self):
+    def __cells_left(self) -> List[List[int]]:
         """Returns a list of cordinates of empty cells."""
         # store the empty cells in a list
         cells = list()
@@ -706,13 +709,13 @@ class TaskTicTacToe(Task):
                     cells.append([x, y])
         return cells
 
-    def __insert_human_move(self, cell):
+    def __insert_human_move(self, cell: int) -> None:
         """Inserts human move in the board."""
         # take the x, y matrix indexes and insert the human symbol in the cell
         x, y = self.map_indexes[cell]
         self.board[x][y] = self.human
 
-    def __make_computer_move(self):
+    def __make_computer_move(self) -> None:
         """The main algorithm for making a computer move."""
         # win in the next move
         for cell in self.__cells_left():

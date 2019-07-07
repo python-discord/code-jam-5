@@ -2,14 +2,13 @@ import datetime
 import logging
 import random
 import time
-from typing import List, Optional
 
 import pygame as pg
 
 from project.constants import Color, TILE_COLS, TILE_ROWS, WIDTH
 from project.utils.helpers import realtime_to_ingame_formatted
 from project.utils.user_data import UserData
-from .biome import Biome, BiomeCity, BiomeDesert, BiomeForest, BiomePlains
+from .biome import BiomeCity, BiomeDesert, BiomeForest, BiomePlains
 from .earth import Earth
 from .game_state import GameState
 from .sun import Sun
@@ -29,11 +28,14 @@ class Period(object):
       tile styles, tasks, images and chances to spawn cities.
     """
 
-    # List of biomes, that will be looped through
-    biomes: List[Biome]
+    # Earth's age
+    start_date: datetime = datetime.date(2000, 1, 1)
 
-    # Time passed after the last task spawn
-    time_of_last_task_spawn: Optional[int] = None
+    # Chance to spawn certain task types
+    maze_chance: float = 0.4
+    ttt_chance: float = 0.4
+    rps_chance: float = 0.2
+
     # Maximum number of tasks that can be spawned
     task_max_count: int = 10
     # How many game ticks between task spawns (will be floored and converted to int)
@@ -48,25 +50,10 @@ class Period(object):
     # How much heat goes up per task each game tick
     heat_per_task: float = (1 / 60) * (9 / 100)
 
-    # Chance to spawn certain task types
-    maze_chance: float = 0.4
-    ttt_chance: float = 0.4
-    rps_chance: float = 0.2
-
-    # Earth's age
-    start_date: datetime = datetime.date(2000, 1, 1)
-    # Time when game started
-    start_time: time = None
-    # Time when game ended
-    end_time: time = None
-    # Time when the game was last paused
-    pause_time: time = None
-    # Time how long the game was paused for
-    pause_time_sum: float = 0
-
     def __init__(self, screen: pg.Surface):
         self.screen = screen
 
+        # List of earth's map biomes
         self.biomes = [
             BiomeDesert(),
             BiomeDesert(),
@@ -81,6 +68,17 @@ class Period(object):
             BiomeCity(),
             BiomeCity(),
         ]
+
+        # Time when game started
+        self.start_time = None
+        # Time when game ended
+        self.end_time = None
+        # Time when the game was last paused
+        self.pause_time = None
+        # Time how long the game was paused for
+        self.pause_time_sum = 0
+        # Time passed after the last task spawn
+        self.time_of_last_task_spawn = None
 
         self.earth = Earth(self.screen, self.biomes)
         self.sun = Sun(
@@ -115,7 +113,7 @@ class Period(object):
         return time.time() - self.start_time - self.pause_time_sum
 
     def update(self, event: pg.event) -> None:
-        """Update gets called every game tick."""
+        """Update earth, sun and handle tasks spawns."""
         self.earth.update(event)
         self.sun.update(event)
 
@@ -128,7 +126,7 @@ class Period(object):
             self.end_time = time.time()
 
     def draw(self) -> None:
-        """Draw gets called every game tick."""
+        """Draw the sky, earth and survived date."""
         self.screen.fill(Color.sky)
         self.earth.draw(self.sun)
         self.draw_age()
@@ -136,12 +134,14 @@ class Period(object):
     def draw_age(self) -> None:
         """Draw how long the earth lived."""
         if self.start_time is not None:
+            # If paused - dont count the age
             if game_vars.is_paused:
                 if not self.pause_time:
                     self.pause_time = time.time()
                 self.pause_time_sum = time.time() - self.pause_time
             else:
                 self.pause_time = None
+
             font = pg.font.Font(None, 50)
             text = realtime_to_ingame_formatted(self.elapsed, self.start_date)
             age_indicator = font.render(text, True, pg.Color("black"))
@@ -151,7 +151,9 @@ class Period(object):
             )
 
     def __handle_task_spawn(self) -> None:
+        """Logic to check if task should be spawned and updates spawn frequency."""
         task_count = sum(b.tilemap.task_count for b in self.biomes)
+        # If we are not at the tasks limit and the timing is right
         if task_count < self.task_max_count and (
             self.time_of_last_task_spawn is None
             or self.time_of_last_task_spawn >= self.task_spawn_freq
@@ -160,6 +162,8 @@ class Period(object):
             self.__spawn_task()
         else:
             self.time_of_last_task_spawn += 1
+
+        # Handle tasks spawn frequency
         self.task_spawn_freq = self.task_spawn_freq - self.task_spawn_freq_inc
         self.task_spawn_freq = max(self.task_spawn_freq, self.task_spawn_freq_max)
 

@@ -22,7 +22,7 @@ from project.constants import (
 )
 from project.gameplay.game_state import GameState
 from project.gameplay.period import Period
-from project.utils.helpers import realtime_to_ingame_delta_formatted
+from project.utils.helpers import draw_infinity_bg, realtime_to_ingame_delta_formatted
 
 
 logger = logging.getLogger(__name__)
@@ -57,14 +57,15 @@ class GameOver:
             image_hover=home_btn_img_h,
         )
 
-    def draw(self, mouse_x: int, mouse_y: int, event, period: Period):
-        """Hadle all options events and draw elements."""
-        self.__draw_infinity_bg()
+    def draw(self, mouse_x: int, mouse_y: int, event, period: Period) -> WindowState:
+        """Handle all gameover events and draw elements."""
+        draw_infinity_bg(self.screen, self.background, self.bg_rect_1, self.bg_rect_2)
         self.__draw_text_(period)
 
         if self.home_btn.rect.collidepoint(mouse_x, mouse_y):
             self.home_btn.draw(hover=True)
 
+            # Clicked "main menu" button - reset the game
             if event.type == pg.MOUSEBUTTONDOWN:
                 Sound.click.play()
                 game_vars.reset_game = True
@@ -73,19 +74,12 @@ class GameOver:
 
         return WindowState.gameover
 
-    def __draw_infinity_bg(self):
-        self.bg_rect_1.left += 1
-        self.bg_rect_2.left += 1
+    def __draw_text_(self, period: Period) -> None:
+        """
+        Draw all text for this screen.
 
-        if self.bg_rect_1.left == WIDTH:
-            self.bg_rect_1.left = -WIDTH
-        if self.bg_rect_2.left == WIDTH:
-            self.bg_rect_2.left = -WIDTH
-
-        self.screen.blit(self.background, self.bg_rect_1)
-        self.screen.blit(self.background, self.bg_rect_2)
-
-    def __draw_text_(self, period: Period):
+        Text to draw - title, subtitle, current score, best score.
+        """
         font = pg.font.Font(None, 100)
         font2 = pg.font.Font(None, 50)
         font3 = pg.font.Font(None, 60)
@@ -113,18 +107,17 @@ class GameOver:
         ]
 
         current_offset = 0
+        # Go through the list of information on what to draw that we made earlier
         for offset, pre_image, text in lines:
             current_offset += offset
+            # Middle of the screen, adding offset from our info list
             x2 = int(WIDTH // 2) - int(text.get_width() // 2)
             y2 = int(HEIGHT // 3) + current_offset
 
+            # If we want to draw an image - draw it to the left of the text
             if pre_image is not None:
-                x1 = x2 - pre_image.get_width() - 5
-                y1 = (
-                    y2
-                    + int(text.get_height() // 2)
-                    - int(pre_image.get_height() // 2)
-                    - 5
-                )
+                w, h = pre_image.get_size()
+                x1 = x2 - w - 5
+                y1 = y2 + int(text.get_height() // 2) - int(h // 2) - 5
                 self.screen.blit(pre_image, (x1, y1))
             self.screen.blit(text, (x2, y2))

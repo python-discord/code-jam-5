@@ -52,7 +52,7 @@ class Game:
         self.window_state = WindowState.main_menu
         self.game_view = GameView(self.screen)
 
-    def run(self):
+    def run(self) -> None:
         """Draw and get events."""
         self.clock.tick(FPS)
         self._get_events()
@@ -61,7 +61,8 @@ class Game:
         if game_vars.reset_game:
             self.reset()
 
-    def _get_events(self):
+    def _get_events(self) -> None:
+        """Catch and set pygame events."""
         self.mouse_x, self.mouse_y = pg.mouse.get_pos()
 
         for event in pg.event.get():
@@ -69,7 +70,8 @@ class Game:
             if event.type == pg.QUIT:
                 self.running = False
 
-    def _draw(self):
+    def _draw(self) -> None:
+        """Root draw function which runs once every game tick."""
         self.game_view.update(self.event)
 
         if self.window_state == WindowState.main_menu:
@@ -103,6 +105,7 @@ class Game:
         pg.display.flip()
 
     def _draw_fps(self) -> None:
+        """Draw fps indicator in the corner of the screen."""
         font = pg.font.Font(None, 50)
         fps_indicator = font.render(str(int(self.clock.get_fps())), True, Color.orange)
         self.screen.blit(fps_indicator, (WIDTH - fps_indicator.get_width(), 0))

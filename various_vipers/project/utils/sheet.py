@@ -1,3 +1,5 @@
+from pathlib import PurePath
+
 from pygame import Surface
 
 from project.utils.helpers import load_img
@@ -6,10 +8,12 @@ from project.utils.helpers import load_img
 class Sheet:
     """Represents tool for extracting images from spritesheet."""
 
-    def __init__(self, sheet_path):
+    def __init__(self, sheet_path: PurePath):
         self.spritesheet = load_img(sheet_path)
 
-    def get_image(self, x, y, width, height, alpha=False):
+    def get_image(
+        self, x: int, y: int, width: int, height: int, alpha: bool = False
+    ) -> Surface:
         """
         Extracts sprite of given point (x, y) (left, top) and width and height.
 

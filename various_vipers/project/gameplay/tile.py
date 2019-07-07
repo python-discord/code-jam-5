@@ -1,18 +1,12 @@
 from __future__ import annotations
 
 import logging
-from typing import Optional, TYPE_CHECKING
 
 import pygame as pg
 
 from project.constants import TILE_WIDTH
 from project.utils.helpers import load_img
 from .game_state import GameState
-
-if TYPE_CHECKING:
-    # Avoid cyclic imports
-    # https://stackoverflow.com/a/39757388
-    from .task import Task
 
 
 logger = logging.getLogger(__name__)
@@ -31,12 +25,6 @@ class Tile:
     pos_x: int = 0
     pos_y: int = 0
 
-    # Current task associated with this tile
-    # Tiles with tasks have different appearance
-    task: Optional[Task] = None
-    # If currently hovering over the tile
-    is_hovering: bool = False
-
     # Variables to handle tile transformation
     # Storing scale as x multiplier to be able to use dict key
     scale_n_max: float = 20  # How many times we can scale up
@@ -46,6 +34,12 @@ class Tile:
 
     def __init__(self, image: str):
         self._image = load_img(image)
+
+        # Current task associated with this tile
+        # Tiles with tasks have different appearance
+        self.task = None
+        # If currently hovering over the tile
+        self.is_hovering = False
 
         scale_percent = TILE_WIDTH / self._image.get_width()
         new_height = int(self._image.get_height() * scale_percent)
@@ -66,17 +60,18 @@ class Tile:
             scale_n += 1
 
     def update(self, event: pg.event) -> None:
-        """Update is called every game tick."""
+        """Update tile size, tint; check if we clicked on task."""
         # Check if this task was completed
         if self.task is None:
             self.scale_n_current = 1
 
-        # Mouse over
+        # Get tile size to check for collision with mouse
         image_size = self._image_cache[self.scale_n_current].get_size()
         tile_rect = pg.Rect(
             (self.pos_x, self.pos_y), (image_size[0], image_size[1] // 2)
         )
         if not game_vars.open_task and tile_rect.collidepoint(pg.mouse.get_pos()):
+            # We clicked on tile - start the task
             if event.type == pg.MOUSEBUTTONDOWN and self.task is not None:
                 self.task.start()
             self.is_hovering = True

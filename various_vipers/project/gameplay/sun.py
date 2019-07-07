@@ -33,6 +33,7 @@ class Sun:
         self.heat_per_tick = heat_per_tick
         self.heat_per_task = heat_per_task
 
+        # Thermometer to display heat
         self.thermo = load_img(THERMO)
         self.thermo_fill = load_img(THERMO_FILL)
 
@@ -48,7 +49,7 @@ class Sun:
             self._image_cache.append(pg.transform.rotate(self.image, angle))
 
     def update(self, event: pg.event) -> None:
-        """Update is called every game tick."""
+        """Update sun angle, position and heat value."""
         self.update_angle()
 
         if game_vars.is_started:
@@ -61,11 +62,12 @@ class Sun:
             game_vars.current_heat = min(max(game_vars.current_heat, 0), MAX_HEAT)
 
     def draw(self) -> None:
-        """Draw is called every game tick."""
+        """~~Draw~~ Praise the sun."""
         self.screen.blit(
             self._image_cache[int(self.angle)], self.image.get_rect(center=(0, 0))
         )
 
+        # If game started - draw the thermometer, which gets filled based on heat value
         if game_vars.is_started:
             percent = game_vars.current_heat / MAX_HEAT
             fill_rect = self.thermo_fill.get_rect()

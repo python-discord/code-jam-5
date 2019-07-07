@@ -6,17 +6,18 @@ from os import listdir
 from pathlib import Path, PurePath
 
 
-LOG_LEVEL = logging.DEBUG
+LOG_LEVEL = logging.INFO
 
-FPS = 60
+FPS: float = 60
 
-WIDTH = 960
-HEIGHT = 720
+WIDTH: int = 960
+HEIGHT: int = 720
 
-# Print debug information about game function calls
-PROFILING = False
+# Print debug information about game function calls.
+# Will need to set LOG_LEVEL to debug to see the results.
+PROFILING: bool = False
 
-REPO_LINK = "https://github.com/skilldeliver/code-jam-5"
+REPO_LINK: str = "https://github.com/skilldeliver/code-jam-5"
 
 
 # Biomes are transformed to squares
@@ -40,9 +41,9 @@ SECONDS_TO_DAYS: float = 30
 INDICATOR_WIDTH: int = 100
 
 # How many pixels the background is allowed to move in 1 game tick
-BG_SCROLL_SPEED = 20
-BG_CLOUDS_SCROLL_SPEED = 1
-FG_CLOUDS_SCROLL_SPEED = 2
+BG_SCROLL_SPEED: float = 20
+BG_CLOUDS_SCROLL_SPEED: float = 1
+FG_CLOUDS_SCROLL_SPEED: float = 2
 
 
 PATH_PROJECT = PurePath(__file__).parent

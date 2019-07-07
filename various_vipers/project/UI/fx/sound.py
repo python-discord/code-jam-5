@@ -22,13 +22,13 @@ class Sound:
     task_completed = mixer.Sound(str(SND["task_completed"]))
     task_failed = mixer.Sound(str(SND["task_failed"]))
 
-    task_click = mixer.Sound(str(SND["task_click"]))  # or powerUp4 phaserUp3 phaseJump1
+    task_click = mixer.Sound(str(SND["task_click"]))
     game_over = mixer.Sound(str(SND["game_over"]))
 
     @staticmethod
-    def update():
+    def update() -> None:
         """Updates the volume of the sounds and music."""
-        # edit the volume to be in 0.0 - 1.0 range
+        # Volume has to be in 0.0 - 1.0 range
 
         if user_data.sound_mute:
             user_data.sound_volume = 0

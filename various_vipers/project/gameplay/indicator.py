@@ -14,28 +14,25 @@ logger = logging.getLogger(__name__)
 class Indicator:
     """Indicator to show the way towards task."""
 
-    image: Surface
-
     # Indicator arrow pulses (moving x coordinates)
     max_x_offset: int = 30  # max x pulse offset from initial position
-    current_offset: int = 0
     pulse_speed: int = 3
-    pulse_direction: int = 1
 
     def __init__(
         self, screen: Surface, tile: Tile, image: Surface, is_left: bool = True
     ):
         self.screen = screen
         self.tile = tile
-        self.is_left = is_left
+        self.is_left = is_left  # Is facing left
+
+        self.pulse_direction = int(self.is_left)
+        self.current_offset = 0
 
         self.image = image
         scale_percent = INDICATOR_WIDTH / self.image.get_width()
         new_height = int(self.image.get_height() * scale_percent)
         self.image = scale(self.image, (INDICATOR_WIDTH, new_height))
         self.image = flip(self.image, not self.is_left, False)
-
-        self.pulse_direction = 1
 
         self.__update_pos()
 

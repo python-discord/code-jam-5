@@ -1,6 +1,6 @@
 """Contains a slider model."""
 
-from pygame import Rect, Surface, mouse
+from pygame import Rect, Surface, event, mouse
 
 from project.UI.fx.sound import Sound
 from project.constants import SLIDER_BODY, SLIDER_INDICATOR, SliderProperties
@@ -14,7 +14,7 @@ user_data = UserData()
 class Slider:
     """Represents a volume slider."""
 
-    def __init__(self, screen: Surface, number):
+    def __init__(self, screen: Surface, number: float):
         """Sets rectangle object for the slider."""
         self.screen = screen
         self.number = number
@@ -66,7 +66,7 @@ class Slider:
         self.screen.blit(self.body_img, self.slider_body)
         self.screen.blit(self.indicator_img, self.slider_indicator)
 
-    def move_indicator(self, x, y, event) -> None:
+    def move_indicator(self, x: int, y: int, event: event) -> None:
         """Moves the indicator on the x axis and saves the changes."""
         b = mouse.get_pressed()[0]
 
@@ -98,7 +98,7 @@ class Slider:
         else:
             self.click = False
 
-    def update(self):
+    def update(self) -> None:
         """Updates the slider indicator position after mute or unmute."""
         self.__calculate_indicator_properties()
         self.slider_indicator = Rect(self.x_i, self.y_i, self.width_i, self.height_i)

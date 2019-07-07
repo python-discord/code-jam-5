@@ -27,14 +27,13 @@ from .biome import Biome
 from .game_state import GameState
 from .indicator import Indicator
 from .sun import Sun
-from .tile import Tile
 
 
 logger = logging.getLogger(__name__)
 game_vars = GameState()
 
 user_data = UserData()
-user_data.load()
+user_data.load()  # TODO :: check if can be removed
 
 
 class Earth(object):
@@ -44,45 +43,31 @@ class Earth(object):
     Includes logic for handling background and game tasks.
     """
 
-    # :: Clouds
-    # pools - preloaded pool of images to choose from
-    cloud_layers_bg_pool: List[pg.Surface]
-    cloud_layers_bg: List[pg.Surface]
-    current_cloud_bg_pos: float = 0
-
-    cloud_layers_fg_pool: List[pg.Surface]
-    cloud_layers_fg: List[pg.Surface]
-    current_cloud_fg_pos: float = 0
-
-    # :: Indicators
-    indicators: List[Indicator]
-    indicator_image: pg.Surface
-
-    # :: Other
-    current_biome_pos: float = 0
-    biomes: List[Biome]
-    max_position: float
-
     # Parameters to handle biomes entry after starting game
     entry_y_offset: float = HEIGHT // 3
     entry_speed: float = entry_y_offset // 50
-
-    visible_tiles: List[Tile]
 
     def __init__(self, screen: pg.Surface, biomes: List[Biome]):
         self.screen = screen
 
         self.biomes = biomes
 
+        # Background cloud layer
         self.cloud_layers_bg_pool = [load_img(image) for image in CLOUD_LAYERS_BG]
         self.cloud_layers_bg = []
+        self.current_cloud_bg_pos = 0
+
+        # Foreground (in front of background :)) cloud layer
         self.cloud_layers_fg_pool = [load_img(image) for image in CLOUD_LAYERS_FG]
         self.cloud_layers_fg = []
+        self.current_cloud_fg_pos = 0
 
+        # Ozone layer (purple line)
         self.ozone_image = load_img(OZONE_LAYER)
         self.ozone_image = pg.transform.scale(self.ozone_image, (WIDTH, HEIGHT // 10))
         self.ozone_pos = (0, int(HEIGHT // 3))
 
+        # Polution (yellow screen tint)
         self.polution_image = pg.Surface(
             (WIDTH, int(2 * HEIGHT // 3) - self.ozone_image.get_rect().h // 2)
         )
@@ -90,19 +75,22 @@ class Earth(object):
         self.polution_pos = (0, HEIGHT - self.polution_image.get_height())
 
         self.indicator_image = load_img(INDICATOR_ARROW)
-
         self.indicators = []
+
         self.visible_tiles = []
 
+        self.current_biome_pos = 0
         # Calculate max position by added the width of all bg images
         self.max_position = sum(biome.background.get_width() for biome in self.biomes)
 
     def update(self, event: pg.event) -> None:
         """Update game logic with each game tick."""
         if game_vars.is_started:
+            # Scroll the earth into view when the game starts
             if self.entry_y_offset > 0:
                 self.entry_y_offset = max(self.entry_y_offset - self.entry_speed, 0)
 
+            # If we are not doing a task - we can move the background
             if not game_vars.open_task:
                 key_pressed = pg.key.get_pressed()
 
@@ -124,11 +112,15 @@ class Earth(object):
     def draw(self, sun: Sun) -> None:
         """Draw all images related to the earth."""
         self.__draw_clouds()
+
+        # If the game was started - draw biomes and polution
         if game_vars.is_started:
             self.__draw_biomes()
             if not user_data.boost_fps:
                 self.__draw_polution()
+
         sun.draw()  # Need to draw sun before indicators
+
         self.__draw_indicators()
         self.__draw_notification()
 
@@ -200,6 +192,7 @@ class Earth(object):
         return draw_args
 
     def __draw_clouds(self) -> None:
+        """Draw cloud layers."""
         draw_bg_args = self.__prepare_draw_clouds(
             self.cloud_layers_bg_pool,
             self.cloud_layers_bg,
@@ -328,6 +321,7 @@ class Earth(object):
         return (i, _position - self.current_biome_pos)
 
     def __draw_polution(self) -> None:
+        """Draw ozone layer and polution (yellow tint)."""
         # Ozone layer - horizontal line, transparency depends on current heat.
         ozone_alpha = fit_to_range(game_vars.current_heat, 0, MAX_HEAT, 0, 50)
         _ozone = self.ozone_image.copy()
@@ -341,27 +335,31 @@ class Earth(object):
         self.screen.blit(_ozone, self.ozone_pos)
 
     def __draw_indicators(self) -> None:
+        """Draw indicators showing tasks positions."""
         for indicator in self.indicators:
             indicator.draw()
 
     def __draw_notification(self) -> None:
+        """Draw notification text."""
         if game_vars.notification:
             game_vars.notification = game_vars.notification.draw(self.screen)
 
     def __scroll_left(self) -> None:
+        """Camera moving left."""
         self.current_biome_pos -= BG_SCROLL_SPEED
         self.current_cloud_bg_pos += BG_CLOUDS_SCROLL_SPEED
         self.current_cloud_fg_pos += FG_CLOUDS_SCROLL_SPEED
         self.fix_indicators()
 
     def __scroll_right(self) -> None:
+        """Camera moving right."""
         self.current_biome_pos += BG_SCROLL_SPEED
         self.current_cloud_bg_pos -= BG_CLOUDS_SCROLL_SPEED * 2
         self.current_cloud_fg_pos -= FG_CLOUDS_SCROLL_SPEED * 2
         self.fix_indicators()
 
     def __update_positions(self) -> None:
-        """Correct current position based on min and max values."""
+        """Correct current biome and cloud positions based on min and max values."""
         if self.current_biome_pos > self.max_position:
             self.current_biome_pos = 0
         elif self.current_biome_pos < 0:

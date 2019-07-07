@@ -1,14 +1,14 @@
 from datetime import datetime, timedelta
 from pathlib import PurePath
 
-from pygame import Surface
+from pygame import Rect, Surface
 from pygame.image import load
 
-from project.constants import SECONDS_TO_DAYS
+from project.constants import SECONDS_TO_DAYS, WIDTH
 
 
 def load_img(path: PurePath, convert_alpha: bool = True) -> Surface:
-    """Loads an image from path. Optionally user per-pixel alpha conversion."""
+    """Loads an image from path. Optionally enable/disable per-pixel alpha conversion."""
     if convert_alpha:
         return load(str(path)).convert_alpha()
     return load(str(path)).convert()
@@ -48,3 +48,25 @@ def realtime_to_ingame_formatted(sec: float, start_dt: datetime) -> str:
 def realtime_to_ingame_delta_formatted(sec: float) -> str:
     """Converts seconds (realtime) to text, how long the earth lived."""
     return ingame_delta_formatted(realtime_to_ingame_delta(sec))
+
+
+def draw_infinity_bg(screen: Surface, image: Surface, rect1: Rect, rect2: Rect) -> None:
+    """
+    Draws the infinity backround.
+
+    It uses two rectangles to swap the images.
+    The two rectangles are moving in one direction.
+
+    One of them is always with WIDTH ahead of the other rectangle.
+    So if it reaches the end, every rectangle goes back with -WIDTH.
+    """
+    rect1.left += 1
+    rect2.left += 1
+
+    if rect1.left == WIDTH:
+        rect1.left = -WIDTH
+    if rect2.left == WIDTH:
+        rect2.left = -WIDTH
+
+    screen.blit(image, rect1)
+    screen.blit(image, rect2)

@@ -21,9 +21,9 @@ user_data = UserData()
 class GameState(Singleton):
     """Class keeps variables and states related to the gameplay."""
 
-    open_task: Task = None
+    open_task: Task = None  # Currently open task
     current_heat: float = 0
-    is_started: bool = False
+    is_started: bool = False  # Is the game started, or are we in another screen
     is_paused: bool = False
 
     # Notification to be displayed on screen

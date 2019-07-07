@@ -18,6 +18,9 @@ if __name__ == "__main__":
 
     game = Game()
 
+    # Check if we want to profile the game
+    # This will enable and start gathering information
+    #   about function calls, time it takes to run them, etc.
     if PROFILING:
         import cProfile
         import pstats
@@ -30,6 +33,7 @@ if __name__ == "__main__":
     while game.running:
         game.run()
 
+    # End profiling and print results
     if PROFILING:
         pr.disable()
         p_stream = io.StringIO()

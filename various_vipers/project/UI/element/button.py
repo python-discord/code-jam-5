@@ -1,5 +1,7 @@
 """Contains a function for generating new main menu buttons and button model."""
 
+from typing import List
+
 import pygame as pg
 from pygame import Rect
 
@@ -8,7 +10,7 @@ from project.constants import HEIGHT, WIDTH
 
 def generate_main_buttons(
     screen: pg.Surface, btn_w: int, btn_h: int, btn_count: int, gap: int, images: list
-) -> list:
+) -> List["Button"]:
     """
     Generates new buttons in main menu pattern.
 
@@ -73,7 +75,7 @@ class Button:
         self.image_hover = pg.transform.scale(self.image_hover, (width, height))
         self.rect = Rect(x, y, width, height)
 
-    def draw(self, hover=False) -> None:
+    def draw(self, hover: bool = False) -> None:
         """Draws the button on the screen."""
         if hover:
             self.screen.blit(self.image_hover, self.rect)

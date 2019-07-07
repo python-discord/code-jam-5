@@ -140,7 +140,7 @@ class Biome(object):
         def del_task_by_coords(self, y: int, x: int) -> None:
             """Remove a task from the tile in this biome. Find tile by coordintes."""
             self._task_coords.remove((y, x))
-            del self._tiles[y][x].task
+            self._tiles[y][x].task = None
 
         def del_task_by_tile(self, tile: Tile) -> None:
             """Remove a task from the tile in this biome."""

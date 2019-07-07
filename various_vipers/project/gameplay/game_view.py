@@ -1,6 +1,5 @@
 import logging
 import time
-from typing import List
 
 import pygame as pg
 
@@ -27,12 +26,6 @@ game_vars = GameState()
 class GameView:
     """GameView hold the information about all things related to the main game."""
 
-    # Background images that will be looping
-    BG_images: List[str] = []
-
-    # Delay before repeated pausing/unpausing of the game
-    pause_start: float = 0
-
     def __init__(self, screen: pg.Surface, difficulty: int = 1):
         """
         Initializer for GameView class.
@@ -41,6 +34,9 @@ class GameView:
         difficulty - 0, 1, 2. Difficulty increases with number.
         """
         self.screen = screen
+
+        # Delay before repeated pausing/unpausing of the game
+        self.pause_start = 0
 
         # Pause window
         self.window_rect = pg.Rect(
@@ -87,7 +83,7 @@ class GameView:
             raise TypeError(f"Unknown difficulty level passed: {difficulty}")
 
     def update(self, event: pg.event) -> None:
-        """Update gets called every game tick."""
+        """Update period and handle pauses."""
         if (
             game_vars.is_started
             and game_vars.open_task is None
@@ -119,6 +115,8 @@ class GameView:
         return None
 
     def _draw_pause_window(self, event: pg.event) -> None:
+        """Draw the pause window."""
+        # Background
         self.screen.blit(self.window_image, self.window_rect)
 
         font = pg.font.Font(None, 60)
@@ -135,10 +133,12 @@ class GameView:
         self._draw_buttons(event)
 
     def _draw_buttons(self, event: pg.event) -> None:
+        """Draw buttons for the pause window."""
         mouse_x, mouse_y = pg.mouse.get_pos()
         if self.resume_btn.rect.collidepoint(mouse_x, mouse_y):
             self.resume_btn.draw(hover=True)
 
+            # Click resume button
             if event.type == pg.MOUSEBUTTONDOWN:
                 Sound.click.play()
                 game_vars.is_paused = False
@@ -148,6 +148,7 @@ class GameView:
         if self.exit_btn.rect.collidepoint(mouse_x, mouse_y):
             self.exit_btn.draw(hover=True)
 
+            # Click exit button; reset the game
             if event.type == pg.MOUSEBUTTONDOWN:
                 Sound.click.play()
                 game_vars.reset_game = True

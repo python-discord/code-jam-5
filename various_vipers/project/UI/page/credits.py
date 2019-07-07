@@ -18,7 +18,7 @@ from project.constants import (
     WIDTH,
     WindowState,
 )
-from project.utils.helpers import load_img
+from project.utils.helpers import draw_infinity_bg, load_img
 
 
 logger = logging.getLogger(__name__)
@@ -53,10 +53,10 @@ class Credits:
             image_hover=back_btn_img_h,
         )
 
-    def draw(self, mouse_x: int, mouse_y: int, event) -> None:
+    def draw(self, mouse_x: int, mouse_y: int, event: pg.event) -> None:
         """Hadle all options events and draw elements."""
         # draw the infinity background and credits layout
-        self.__draw_infinity_bg()
+        draw_infinity_bg(self.screen, self.background, self.bg_rect_1, self.bg_rect_2)
         self.screen.blit(self.credits, (0, 0, WIDTH, HEIGHT))
 
         # check if back buttn is hovered
@@ -73,27 +73,3 @@ class Credits:
             # if it is not hover draw its normal state
             self.back_btn.draw()
         return WindowState.credit
-
-    def __draw_infinity_bg(self) -> None:
-        """
-        Draws the infinity backround.
-
-        It uses two rectangles to swap the images.
-        The two rectangles are moving in one direction.
-
-        One of them is always with WIDTH ahead of the other rectangle.
-        So if it reaches the end, every rectangle goes back with -WIDTH.
-        """
-        # increase their position on the x axis with one pixel
-        self.bg_rect_1.left += 1
-        self.bg_rect_2.left += 1
-
-        # if the rects reach the end they go with -WIDTH back
-        if self.bg_rect_1.left == WIDTH:
-            self.bg_rect_1.left = -WIDTH
-        if self.bg_rect_2.left == WIDTH:
-            self.bg_rect_2.left = -WIDTH
-
-        # draw them on the screen.
-        self.screen.blit(self.background, self.bg_rect_1)
-        self.screen.blit(self.background, self.bg_rect_2)

@@ -20,7 +20,7 @@ from project.constants import (
     WIDTH,
     WindowState,
 )
-from project.utils.helpers import load_img
+from project.utils.helpers import draw_infinity_bg, load_img
 from project.utils.user_data import UserData
 
 
@@ -204,7 +204,7 @@ class Options:
         self.event = event
         self.mouse_x, self.mouse_y = mouse_x, mouse_y
 
-        self.__draw_infinity_bg()
+        draw_infinity_bg(self.screen, self.background, self.bg_rect_1, self.bg_rect_2)
 
         if self.back_btn.rect.collidepoint(mouse_x, mouse_y):
             self.back_btn.draw(hover=True)
@@ -240,28 +240,9 @@ class Options:
         self.music_label.draw()
         return WindowState.options
 
-    def __draw_infinity_bg(self):
-        """
-        Draws the infinity backround.
-
-        It uses two rectangles to swap the images.
-        The two rectangles are moving in one direction.
-
-        One of them is always with WIDTH ahead of the other rectangle.
-        So if it reaches the end, every rectangle goes back with -WIDTH.
-        """
-        self.bg_rect_1.left += 1
-        self.bg_rect_2.left += 1
-
-        if self.bg_rect_1.left == WIDTH:
-            self.bg_rect_1.left = -WIDTH
-        if self.bg_rect_2.left == WIDTH:
-            self.bg_rect_2.left = -WIDTH
-
-        self.screen.blit(self.background, self.bg_rect_1)
-        self.screen.blit(self.background, self.bg_rect_2)
-
-    def __draw_volume_button(self, vol, vol_mute, slider) -> None:
+    def __draw_volume_button(
+        self, vol: Button, vol_mute: Button, slider: Slider
+    ) -> None:
         """
         Draws the volume button of the two sliders.
 
