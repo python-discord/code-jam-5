@@ -113,6 +113,7 @@ class Plotter(QtCore.QThread):
         start_date_index = helpers.find_nearest_index(Plotter.DATES, start_date_decimal)
         # end_date_index + 1 to make end_date inclusive
         end_date_index = helpers.find_nearest_index(Plotter.DATES, end_date_decimal) + 1
+        self.status_signal.emit("Processing line graph")
         self.create_graph(start_date_index, end_date_index)
         for count, date_index in enumerate(range(start_date_index, end_date_index, step)):
             if not self.stop_plot:
@@ -139,7 +140,7 @@ class Plotter(QtCore.QThread):
         # we won't be able to see it other than
         # it being extra red (aka we won't know if it's +11 or +15)
         plot.clim(-10, 10)
-        file_path = f"{Plotter.PLOTS_DIR}plot{count}.png"
+        file_path = f"{Plotter.PLOTS_DIR}plot{count + 1}.png"
         # bbox_inches="tight" remove whitespace around the image
         # facecolor=(0.94, 0.94, 0.94) , background color of image
         plot.savefig(file_path, dpi=142, bbox_inches="tight", facecolor=(0.94, 0.94, 0.94))
@@ -182,9 +183,10 @@ class Plotter(QtCore.QThread):
         axis.set(xlabel="Month", ylabel="Average Air Surface Temperature Anomaly (C)")
 
         # Save the plot to image file
-        file_path = f"{Plotter.PLOTS_DIR}graph.png"
-        plot.savefig(file_path, dpi=142, bbox_inches="tight", facecolor=(0.94, 0.94, 0.94))
+        file_path = f"{Plotter.PLOTS_DIR}plot0.png"
+        plot.savefig(file_path, dpi=130, bbox_inches="tight", facecolor=(0.94, 0.94, 0.94))
         plot.close()
+        self.image_increment_signal.emit()
 
 
 if __name__ == "__main__":
