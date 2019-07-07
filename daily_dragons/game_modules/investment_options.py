@@ -10,7 +10,7 @@ from .policy import Policy
 
 class InvestmentOptions:
     def __init__(self) -> None:
-        self.options = self.create_investements()
+        self.options = self.create_investments()
 
     def __str__(self) -> str:
         menu = [Fore.CYAN + "Investment options:" + Fore.WHITE]
@@ -27,14 +27,14 @@ class InvestmentOptions:
             raw_json = json.loads(json_file.read())
         return raw_json
 
-    def create_investements(self) -> Dict:
+    def create_investments(self) -> Dict:
         """From a json file with CEOs, organization names and policies creates
             a dictionary of options for the player"""
         path = Path().cwd().resolve()
         # Comply with type hinting
         path = str(path / "resources" / "organizations.json")
         raw_json = self._parse_json(path)
-        investement_list = []
+        investment_list = []
         for entry in raw_json:
             org = Organization(entry["name"], entry["ceo"], entry["description"])
             policy_list = []
@@ -53,10 +53,10 @@ class InvestmentOptions:
                 )
                 policy_list.append(policy)
             new_investment = Investment(org, policy_list)
-            investement_list.append(new_investment)
+            investment_list.append(new_investment)
 
-        investement_options = {}
-        for index, investment in enumerate(investement_list):
-            investement_options[str(index + 1)] = investment
+        investment_options = {}
+        for index, investment in enumerate(investment_list):
+            investment_options[str(index + 1)] = investment
 
-        return investement_options
+        return investment_options
