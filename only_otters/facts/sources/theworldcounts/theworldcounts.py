@@ -58,9 +58,9 @@ __factory__.tags = ['counter', 'ui']
 @__factory__.fetcher.pipe
 def postprocess(item: dict) -> dict:
     """Postprocess a counter to extract data at a more granular level that hquery allows for."""
-    
+
     item = {**item}
-    
+
     for key in item:
         item[key] = item[key].strip()
 
