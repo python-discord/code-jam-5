@@ -38,7 +38,6 @@ class Plotter(QtCore.QThread):
         self.end_date = end_date
         self.step = step
         self.stop_plot = False
-        # https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
         self.color_map = plot.get_cmap(color_map)
         self.world_map = Plotter.get_map_format()
         if parent_window is not None:
@@ -58,6 +57,12 @@ class Plotter(QtCore.QThread):
             self.status_signal.emit(f"{self.PLOTS_DIR} directory not found, exiting")
             return False
         return True
+
+    @staticmethod
+    def get_color_maps():
+        # https://matplotlib.org/3.1.0/tutorials/colors/colormaps.html
+        color_maps = ["seismic", "coolwarm", "bwr", "gnuplot2", "jet"]
+        return color_maps
 
     @staticmethod
     def get_map_format():
@@ -102,9 +107,10 @@ class Plotter(QtCore.QThread):
 
     def start_plotting(self, start_date_decimal, end_date_decimal, step):
         start_date_index = helpers.find_nearest_index(Plotter.DATES, start_date_decimal)
-        end_date_index = helpers.find_nearest_index(Plotter.DATES, end_date_decimal)
         # end_date_index + 1 to make end_date inclusive
-        for count, date_index in enumerate(range(start_date_index, end_date_index + 1, step)):
+        end_date_index = helpers.find_nearest_index(Plotter.DATES, end_date_decimal) + 1
+        self.create_graph(start_date_index, end_date_index)
+        for count, date_index in enumerate(range(start_date_index, end_date_index, step)):
             if not self.stop_plot:
                 self.status_signal.emit(f"Processing image {count + 1}/"
                                         f"{((end_date_index - start_date_index) // step) + 1}")
@@ -132,6 +138,47 @@ class Plotter(QtCore.QThread):
         file_path = f"{Plotter.PLOTS_DIR}plot{count}.png"
         # bbox_inches="tight" remove whitespace around the image
         # facecolor=(0.94, 0.94, 0.94) , background color of image
+        plot.savefig(file_path, dpi=142, bbox_inches="tight", facecolor=(0.94, 0.94, 0.94))
+        plot.close()
+
+    def create_graph(self, start_date_index, end_date_index):
+        """
+            Creates graph with data from TEMPERATURES from range DATES[start_date_index]
+            to DATES[end_date_index]
+            Output is saved as graph.png
+            Works with step value, example step of 12 will only plot values for each year.
+            Note that end_date doesn't necessarily has to be plotted, for example if step
+            is 12 and start_date = 1998.125 , end_date = 2000.7083333333333 the last plotted
+            date will be 2000.125
+        """
+        # Slice the TEMPERATURES array so that values only fall in start_date to end_date range
+        # Remember that the format of TEMPERATURE array is [[time][latitude][longitude]]
+        sliced_temperatures = Plotter.TEMPERATURES[start_date_index:end_date_index]
+
+        # Find the mean value of temperature anomaly for each step in sliced_temperatures
+        # Exclude nan values - those are just areas with no measurements, like parts of oceans
+        # and in older dates part of land masses without weather stations.
+        # We don't necessarily calculate the mean for each date, depending on the step value.
+        # If, for example, step is 3 then each third temperature sublist will be calculated.
+        temperature_means_to_plot = [np.nanmean(sliced_temperatures[i]) for i in
+                                     range(0, len(sliced_temperatures), self.step)]
+
+        # Slice the DATES array so that values only fall in start_date to end_date range
+        sliced_dates = Plotter.DATES[start_date_index:end_date_index]
+
+        # Depending on step, not all dates from sliced_dates will be plotted, example for
+        # step 3 each third date will be plotted.
+        dates_to_plot = [sliced_dates[i] for i in range(0, len(sliced_dates), self.step)]
+
+        # Create the plot space upon which to plot the data
+        figure, axis = plot.subplots()
+
+        # Add the x-axis and the y-axis to the plot
+        axis.plot(dates_to_plot, temperature_means_to_plot, color="red", linewidth=0.5)
+        axis.set(xlabel="Month", ylabel="Average Air Surface Temperature Anomaly (C)")
+
+        # Save the plot to image file
+        file_path = f"{Plotter.PLOTS_DIR}graph.png"
         plot.savefig(file_path, dpi=142, bbox_inches="tight", facecolor=(0.94, 0.94, 0.94))
         plot.close()
 
