@@ -5,7 +5,7 @@ import random
 
 from discord.ext import commands
 
-from thoughtful_termites.bot import unlocks
+from thoughtful_termites.bot.unlocks import has_unlocked
 from thoughtful_termites.bot.resources import climate_arguments_path
 
 
@@ -16,7 +16,16 @@ class ClimateArguments(commands.Cog):
         with open(climate_arguments_path) as fp:
             self.raw_climate_arguments = json.load(fp)
 
+    async def cog_command_error(self, ctx, error):
+        """Error handler for the cog; returns errors to the user if required.
+        """
+        if isinstance(error, (commands.BadArgument, commands.MissingRequiredArgument,
+                              commands.CheckFailure)
+                      ):
+            return await ctx.send(str(error))
+
     @commands.command(aliases=['cc', 'climcom'])
+    @has_unlocked('climate')
     async def climate_commentary(self, ctx, argument_id: int = None):
         """Get a random climate commentary.
 
@@ -36,10 +45,6 @@ class ClimateArguments(commands.Cog):
         `?cc`
         `?climcom`
         """
-        if not unlocks.has_unlocked(ctx, "commentary"):
-            await ctx.send(unlocks.unlock_message("Climate Commentary"))
-            return
-
         if not argument_id:
             argument_id = random.randint(0, len(self.raw_climate_arguments) - 1)
 

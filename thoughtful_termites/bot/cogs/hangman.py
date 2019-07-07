@@ -6,7 +6,7 @@ import string
 from datetime import datetime
 from discord.ext import commands
 
-from thoughtful_termites.bot import unlocks
+from thoughtful_termites.bot.unlocks import has_unlocked
 
 WORDS_PATH = "./resources/hangman_words.txt"
 
@@ -87,6 +87,12 @@ class Hangman(commands.Cog):
         self.guesses = []
         self.lives = 6
 
+    async def cog_command_error(self, ctx, error):
+        """Error handler for the cog; returns errors to the user if required.
+        """
+        if isinstance(error, commands.CheckFailure):
+            return await ctx.send(str(error))
+
     def revealed(self):
         """
         Displays the word as capital letters and underscores (e.g. "_ _ _ _" for a
@@ -151,17 +157,13 @@ class Hangman(commands.Cog):
         return embed
 
     @commands.command()
-    async def hangman(self, ctx, *, member: discord.Member = None):
+    @has_unlocked('hangman')
+    async def hangman(self, ctx):
         """
         The Hangman command called by the user. Call >hangman to start.
 
         :param ctx: The context at which the command was called
-        :param member: The member that called the command
         """
-        if not unlocks.has_unlocked(ctx, "hangman"):
-            await ctx.send(unlocks.unlock_message("Hangman"))
-            return
-
         embed = self.hangman_embed(
             "Welcome to Hangman! "
             "Start the game by reacting to this message."
