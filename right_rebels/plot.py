@@ -97,9 +97,10 @@ class Plotter(QtCore.QThread):
 
     def start_plotting(self, start_date_decimal, end_date_decimal, step):
         start_date_index = helpers.find_nearest_index(Plotter.DATES, start_date_decimal)
-        end_date_index = helpers.find_nearest_index(Plotter.DATES, end_date_decimal)
         # end_date_index + 1 to make end_date inclusive
-        for count, date_index in enumerate(range(start_date_index, end_date_index + 1, step)):
+        end_date_index = helpers.find_nearest_index(Plotter.DATES, end_date_decimal) + 1
+        self.create_graph(start_date_index, end_date_index)
+        for count, date_index in enumerate(range(start_date_index, end_date_index, step)):
             if not self.stop_plot:
                 self.status_signal.emit(f"Processing image {count + 1}/"
                                         f"{((end_date_index - start_date_index) // step) + 1}")
@@ -130,24 +131,19 @@ class Plotter(QtCore.QThread):
         plot.savefig(file_path, dpi=142, bbox_inches="tight", facecolor=(0.94, 0.94, 0.94))
         plot.close()
 
-    def create_graph(self):
+    def create_graph(self, start_date_index, end_date_index):
         """
-            Creates graph with data from TEMPERATURES from range start_date to end_date
+            Creates graph with data from TEMPERATURES from range DATES[start_date_index]
+            to DATES[end_date_index]
             Output is saved as graph.png
             Works with step value, example step of 12 will only plot values for each year.
             Note that end_date doesn't necessarily has to be plotted, for example if step
             is 12 and start_date = 1998.125 , end_date = 2000.7083333333333 the last plotted
             date will be 2000.125
         """
-
-        # We need to slice the arrays so it only has values from start_date to end_date
-        dates_start_index = helpers.find_nearest_index(Plotter.DATES, self.start_date)
-        # +1 to make the end_date included
-        dates_end_index = helpers.find_nearest_index(Plotter.DATES, self.end_date) + 1
-
         # Slice the TEMPERATURES array so that values only fall in start_date to end_date range
         # Remember that the format of TEMPERATURE array is [[time][latitude][longitude]]
-        sliced_temperatures = Plotter.TEMPERATURES[dates_start_index:dates_end_index]
+        sliced_temperatures = Plotter.TEMPERATURES[start_date_index:end_date_index]
 
         # Find the mean value of temperature anomaly for each step in sliced_temperatures
         # Exclude nan values - those are just areas with no measurements, like parts of oceans
@@ -158,21 +154,18 @@ class Plotter(QtCore.QThread):
                                      range(0, len(sliced_temperatures), self.step)]
 
         # Slice the DATES array so that values only fall in start_date to end_date range
-        sliced_dates = Plotter.DATES[dates_start_index:dates_end_index]
+        sliced_dates = Plotter.DATES[start_date_index:end_date_index]
 
         # Depending on step, not all dates from sliced_dates will be plotted, example for
         # step 3 each third date will be plotted.
         dates_to_plot = [sliced_dates[i] for i in range(0, len(sliced_dates), self.step)]
 
-        # Set plot size for the plot
-        plot.rcParams["figure.figsize"] = (8, 8)
-
         # Create the plot space upon which to plot the data
-        fig, ax = plot.subplots()
+        figure, axis = plot.subplots()
 
         # Add the x-axis and the y-axis to the plot
-        ax.plot(dates_to_plot, temperature_means_to_plot, color="red", linewidth=0.5)
-        ax.set(xlabel="Month", ylabel="Average Air Surface Temperature Anomaly (C)")
+        axis.plot(dates_to_plot, temperature_means_to_plot, color="red", linewidth=0.5)
+        axis.set(xlabel="Month", ylabel="Average Air Surface Temperature Anomaly (C)")
 
         # Save the plot to image file
         file_path = f"{Plotter.PLOTS_DIR}graph.png"
