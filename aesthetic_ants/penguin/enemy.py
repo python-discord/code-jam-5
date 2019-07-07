@@ -75,6 +75,12 @@ class Enemy(PhysicalObject):
                     self.velocity_y *= -1
 
 
+class NormalEnemy(Enemy):
+    speed_min = 50
+    speed_max = 100
+    enemy_image = ENEMY_FAST_IMAGE
+
+
 class BigEnemy(Enemy):
     speed_min = 20
     speed_max = 50
