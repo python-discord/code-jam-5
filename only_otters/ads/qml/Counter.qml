@@ -76,16 +76,18 @@ Item {
     Text {
         id: wsource
         
-        text: '<html><a href="%1"/> %1 </a></html>'.arg(fact_counter.source)
+        text: '<html><a href="%1" style="color: #ad8365"> %1 </a></html>'.arg(fact_counter.source)
 
         anchors.bottom: parent.bottom
         anchors.right: parent.right
 
+        wrapMode: Text.WrapAnywhere
         textFormat: Text.RichText
+        horizontalAlignment: Text.AlignRight
+        width: god.width
         font.underline: true
-        font.pixelSize: 12
+        font.pixelSize: 10
         padding: 2
-        color: "#ad8365"
 
         onLinkActivated: Qt.openUrlExternally(link)
     }
