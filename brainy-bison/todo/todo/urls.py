@@ -1,4 +1,4 @@
-"""todo URL Configuration
+"""Todo url configgruration.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from todo_list import views
+from todo_list import views  # noqa
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('todo_list.urls'))
+    path('', include('todo_list.urls'))
 ]
