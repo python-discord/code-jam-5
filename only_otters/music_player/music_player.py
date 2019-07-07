@@ -161,7 +161,6 @@ class MusicPlayer(QtWidgets.QWidget):
             return True
         else:
             self.advert_counter -= 1
-            self.controls.enabled()
             return False
 
     def resizeEvent(self, event):

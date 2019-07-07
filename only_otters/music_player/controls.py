@@ -86,12 +86,6 @@ class ControlsWidget(QtWidgets.QFrame):
         if self.player.state() == QtMultimedia.QMediaPlayer.PausedState:
             self.toggle_play()
 
-    def enabled(self, status: bool = True):
-        """Enable or disable the control buttons."""
-        self.previous_song_button.setEnabled(status)
-        self.next_song_button.setEnabled(status)
-        self.play_pause_button.setEnabled(status)
-
     def _open_file(self):
         """Opens an audio file and adds it to the playlist."""
         song = QtWidgets.QFileDialog.getOpenFileName(self, "Open Song", "", "Sound Files (*.mp3)")
