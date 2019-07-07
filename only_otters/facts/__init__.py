@@ -46,7 +46,14 @@ def get_fact_by_tags(*tags) -> Fact:
     if not eligible_factories:
         raise UserWarning('No available factories for the provided tags: %s' % tags)
 
-    return random.choice(eligible_factories).get()
+    fact = None
+    while not fact:
+        try:
+            fact = random.choice(eligible_factories).get()
+        except ValueError:
+            continue
+
+    return fact
 
 
 def get_text_fact() -> Fact:
