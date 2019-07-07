@@ -36,9 +36,11 @@ class ControlPanel(qt.QWidget):
             lambda: self.open_goals_button.setText('Open Goals')
         )
 
+        leaf_icon = qt.QIcon(str(leaf_icon_path))
+
         self.system_tray_icon = qt.QSystemTrayIcon()
         self.system_tray_icon.setToolTip('Climate Bot')
-        self.system_tray_icon.setIcon(qt.QIcon(str(leaf_icon_path)))
+        self.system_tray_icon.setIcon(leaf_icon)
         self.system_tray_icon.setVisible(True)
         self.system_tray_icon.activated.connect(
             self.on_tray_icon_activation
@@ -72,6 +74,7 @@ class ControlPanel(qt.QWidget):
         self.setMaximumHeight(0)
         self.setFixedWidth(360)
         self.setWindowTitle('Climate Bot')
+        self.setWindowIcon(leaf_icon)
 
     def event(self, event: qt.QEvent) -> bool:
         if event.type() == qt.QEvent.WindowStateChange:
