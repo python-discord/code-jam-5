@@ -8,10 +8,17 @@ to become more eco-friendly by setting environmentally green goals.
 ### Installation and Setup
 
 1. Install `pipenv` and run `pipenv install` on the project.
+
 2. Run `__main__.py` to start the control panel.
-3. Configure the bot using the 'Configure Bot' button.
+
+3. Configure the bot using the 'Configure Bot' button. This will require
+you to set up your own Discord bot
+[here](https://discordapp.com/developers/applications/). Enter in the
+bot's token and client ID as prompted.
+
 4. Configure goals and reminders using the 'Open Goals' button. More info
 on this in the Usage section below.
+
 5. Run bot using the 'Start Bot' button.
 
 
@@ -36,7 +43,7 @@ unlock mini games.
 
 5. After you have finished a certain number of goals, you can go to
 the "Unlocks" window to unlock various minigames or features, accessible
-on the Discord bot. This is accessible from the 'View Unlocks' button
+on the Discord bot. This is accessible from the 'Unlock Minigames' button
 at the Control Panel.
 
 ### Minigames & Features
@@ -45,7 +52,28 @@ We have a large variety of minigames and features on our Discord bot,
 including:
 
 - `>trivia`: A general trivia game that tests the user's knowledge.
-- `>farmer`: A farming simulator, which you play once a day.
+- `>farmertown`: Are you the best farmer in the town?
+
+    Play a game of FarmerTown with the bot.
+    This game is complex - read carefully!
+
+    - You can sow a crop every 12 hours
+    - You can get the results of that crop 12 hours later
+    - Each crop has differing levels of drought risk, and germination rates.
+        Generally, the higher the risk, the higher the profit.
+    - The aim of the game is to get the most money.
+    - If a drought occurs, the germination rate is 0, and the profit is 0. Costs are the same.
+    - Costs are calculated by the raw cost of the crop * the tonnes put in
+    - Profit is calculated by the sale price * tonnes put in * germination rate.
+
+    How to get started:
+    - Create an account with `>farmertown create`
+    - See a list of crops to plant with `>farmertown croplist`
+    - Sow a crop with `>farmertown sow CROP_NAME_HERE`
+    - Wait 12 hours
+    - Find the results of the crop and add this to your bank balance with `>farmertown results`
+    - Repeat!
+    - Check your balance with `>farmertown balance`
 
 Some minigames are available once you finish a certain number of goals:
 
