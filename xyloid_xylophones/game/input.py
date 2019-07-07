@@ -2,7 +2,7 @@
 import pyglet
 from config import current_zone, game_width, game_height
 from . import keys
-from . import player, zone_map, current_display
+from . import player, zone_map, current_display, level1map
 
 
 def mouse_input(x,y):
@@ -50,16 +50,20 @@ def handle_input(dt=None):
         new_y = player.y
         if pyglet.window.key.UP in keys:
             new_y += 1
-            player.update_sprite("up") #Update player image
+            level1map.player_y -= 1
+            player.update_sprite("up")
         if pyglet.window.key.DOWN in keys:
             new_y -= 1
-            player.update_sprite("down") #Update player image
+            level1map.player_y += 1
+            player.update_sprite("down")
         if pyglet.window.key.LEFT in keys:
             new_x -= 1
-            player.update_sprite("left") #Update player image
+            level1map.player_x -= 1
+            player.update_sprite("left")
         if pyglet.window.key.RIGHT in keys:
             new_x += 1
-            player.update_sprite("right") #Update player image
+            level1map.player_x += 1
+            player.update_sprite("right")
         if (new_x != player.x) | (new_y != player.y):
             new_move = allowed_move(new_x, new_y)
             if (new_move[0] != player.x) | (new_y != player.y):

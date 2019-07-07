@@ -1,15 +1,66 @@
 import pyglet
+from pyglet import gl
 from pyqtree import Index
 from config import *
 from config import game_width, game_height, char_sheet_cols, char_sheet_rows, sprite_row, sprite_up_col, sprite_down_col, sprite_right_col
 from math import ceil
+import os
+
+from .gamemap import Map
+
+
+# Help
+assets_path = os.path.split(os.path.realpath(__file__))[0] + '/../assets/'
+grid = pyglet.image.load(assets_path + 'sheet.png')
+b1 = grid.get_region(0,0,64,64)
+b2 = grid.get_region(64,0,64,64)
+b3 = grid.get_region(128,0,64,64)
+b4 = grid.get_region(192,0,64,64)
+b5 = grid.get_region(256,0,64,64)
+b6 = grid.get_region(320,0,64,64)
+b7 = grid.get_region(384,0,64,64)
+b8 = grid.get_region(448,0,64,64)
+b9 = grid.get_region(512,0,64,64)
+b10 = grid.get_region(576,0,64,64)
+b11 = grid.get_region(640,0,64,64)
+b12 = grid.get_region(704,0,64,64)
+b13 = grid.get_region(768,0,64,64)
+b14 = grid.get_region(832,0,64,64)
+b15 = grid.get_region(896,0,64,64)
+b16 = grid.get_region(960,0,64,64)
+b17 = grid.get_region(1024,0,64,64)
+b18 = grid.get_region(1088,0,64,64)
+b19 = grid.get_region(1152,0,64,64)
+b20 = grid.get_region(1216,0,64,64)
+level1map = Map(assets_path + 'myfile.map',
+        {
+            1: b1,
+            2: b2,
+            3: b3,
+            4: b4,
+            5:b5,
+            6:b6,
+            7:b7,
+            8:b8,
+            9:b9,
+            10:b10,
+            11:b11,
+            12:b12,
+            13:b13,
+            14:b14,
+            15:b15,
+            16:b16,
+            17:b17,
+            18:b18,
+            19:b19,
+            20:b20})
 
 # 640x640 makes it easier to draw tiles
 game_window = pyglet.window.Window(width=game_width, height=game_height)
 
-# fps_display = pyglet.window.FPSDisplay(game_window)
+time_display = pyglet.window.FPSDisplay(game_window)
 
-time_display = pyglet.clock.ClockDisplay()
+media = pyglet.media.Player()
 
 #List of current pressed keys
 keys = set()
@@ -93,6 +144,12 @@ class Item(Player):
     contains: str = 'default_nothing'
 
 
+class Resource:
+    full_path: str = ''
+    stream: None
+    data: None
+
+
 zone_map = {}
 for i in zone_names:
     zone_map[i] = Zone(Index(bbox=(-1024, -1024, 1024, 1024)))
@@ -111,7 +168,10 @@ player.height = sprite_height
 player.x_vel = 0
 player.y_vel = 0
 
-cut_scenes = {}
+tick = 0
+elapsed_time = 0
+
+scene_list = {}
 sound_list = {}
 music_list = {}
 

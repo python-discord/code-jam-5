@@ -5,7 +5,7 @@ game_height = 640
 #Locations
 location_sound = 'assets/sounds/'
 location_music = 'assets/music/'
-location_scenes = 'assets/scenes/'
+location_scene = 'assets/scenes/'
 
 # zone names
 zone_names = ['desolate wasteland', 'northern tundra', 'lush forest']
@@ -38,8 +38,8 @@ zone_width = 32
 zone_height = 32
 
 # cut scene timeout (0 = wait for action=keypress|mouseClick)
-cut_scene = False
-cut_scene_timeout = 100
+cut_scene = True
+cut_scene_timeout = 9
 cut_scene_name = 'default_cut_scene'
 
 __all__ = [
@@ -54,4 +54,9 @@ __all__ = [
     'cut_scene',
     'cut_scene_timeout',
     'cut_scene_name',
+    'location_sound',
+    'location_music',
+    'location_scene',
+    'game_width',
+    'game_height'
 ]
