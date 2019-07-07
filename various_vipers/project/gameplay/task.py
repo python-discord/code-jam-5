@@ -65,6 +65,8 @@ class Task(object):
 
     def start(self, start_timer: bool = True) -> None:
         """Start playing the task."""
+        Sound.task_click.play()
+
         game_vars.open_task = self
         if start_timer:
             self.time_start = time()

@@ -18,8 +18,12 @@ class Sound:
 
     click = mixer.Sound(str(SND["click3"]))
     check = mixer.Sound(str(SND["switch1"]))
+
     task_completed = mixer.Sound(str(SND["twoTone2"]))
     task_failed = mixer.Sound(str(SND["phaserUp1"]))
+
+    task_click = mixer.Sound(str(SND["pepSound3"]))  # or powerUp4 phaserUp3 phaseJump1
+    game_over = mixer.Sound(str(SND["powerUp3"]))
 
     @staticmethod
     def update():
@@ -42,5 +46,7 @@ class Sound:
         Sound.check.set_volume(sound_vol)
         Sound.task_completed.set_volume(sound_vol)
         Sound.task_failed.set_volume(sound_vol)
+        Sound.task_click.set_volume(sound_vol)
+        Sound.game_over.set_volume(sound_vol)
 
         mixer.music.set_volume(music_vol)
