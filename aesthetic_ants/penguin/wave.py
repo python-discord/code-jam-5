@@ -1,8 +1,12 @@
 import argparse
+import itertools
 import inspect
 import shlex
 
+import pyglet
+
 from . import enemy
+from .resources import loader
 
 
 def enemy_class(type):
@@ -67,10 +71,21 @@ class Wave:
 
     @classmethod
     def load(cls, filename):
-        with open(filename) as f:
-            return cls(f.read())
+        text = loader.text(filename)
+        return cls(text.text)
 
     def _next_instruction(self):
         instruction = next(self.instructions)
         args = _PARSER.parse_args(shlex.split(instruction))
         return args.func(args)
+
+
+def all_waves():
+    for i in itertools.count(1):
+        try:
+            yield Wave.load(f'waves/{i}.wave')
+        except pyglet.resource.ResourceNotFoundException:
+            break
+
+    while True:
+        yield Wave.load('waves/endless.wave')
