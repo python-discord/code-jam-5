@@ -78,7 +78,7 @@ class AudioVisualiser(QtWidgets.QWidget):
 
     def red_flames(self):
         self.flames = [QtCore.Qt.red, QtGui.QColor('#E86100'), QtCore.Qt.yellow]
-    
+
     def green_flames(self):
         self.flames = [QtGui.QColor('#54ff47'), QtGui.QColor('#4be83f'), QtGui.QColor('#43d638')]
 

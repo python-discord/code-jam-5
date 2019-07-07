@@ -1,1 +1,1 @@
-from .quiz import *
+from .quiz import *  # noqa

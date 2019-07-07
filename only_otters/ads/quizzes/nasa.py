@@ -1,5 +1,4 @@
 from ad_resource import Resource
-import json
 
 
 FETCH_QUIZZES_TEMPLATE = Resource(
@@ -21,25 +20,25 @@ QUIZ_TEMPLATE = Resource(
     query={
         'questions': {
 
-            'container': '//div[@class="interface-wrapper"]/article'
+            'container': '//div[@class="interface-wrapper"]/article',
             'query': {
 
                 'img': '',
                 'counter': 'header[class="interface-top"]/div[class="count"]/div/text()',
-                'name': 'header[class="interface-top"]/h2[class="question_short"]/text() {TAIL}',   # Might need a tail on first child
-                'content': 'header[class="interface-top"]/div[class="question"]/p[class="question_long"]/text()',
+                # Might need a tail on first child
+                'name': 'header[class="interface-top"]/h2[class="question_short"]/text() {TAIL}',
+                'content': 'header[class="interface-top"]'
+                           '/div[class="question"]/p[class="question_long"]/text()',
 
                 'options': {
-                    'container': 'div[class="interface-middle"]/div[class="answer_column"]/div[class="answers"]/ul/li/label',
+                    'container': 'div[class="interface-middle"]/div[class="answer_column"]'
+                                 '/div[class="answers"]/ul/li/label',
                     'query': {
-                        'index': ''
-                        'text': 
+                        'index': '',
+                        'text': ''
                     }
                 }
-
-
             }
         }
     }
 )
-

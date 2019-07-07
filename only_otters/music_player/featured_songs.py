@@ -29,7 +29,7 @@ class FeaturedSongs(QtWidgets.QFrame):
         self.setObjectName('featured_songs')
         self.init_ui()
         self.load_songs()
-    
+
     def load_songs(self):
         """Load songs from config file."""
         images_path = Path('only_otters/images').absolute()
@@ -41,6 +41,7 @@ class FeaturedSongs(QtWidgets.QFrame):
         songs = ensure_field(yaml_data, 'songs')
 
         for song in songs:
+
             self.add_featured_song(images_path / ensure_field(song, 'img'), 
                                    songs_path / ensure_field(song, 'audio'))
 
@@ -56,7 +57,8 @@ class FeaturedSongs(QtWidgets.QFrame):
         title_font.setBold(True)
         self.featured_songs_title = QtWidgets.QLabel('Help Save The Planet...')
         self.featured_songs_title.setFont(title_font)
-        self.featured_songs_subtitle = QtWidgets.QLabel('Listen to one of these songs to do your part!')
+        self.featured_songs_subtitle = QtWidgets.QLabel('Listen to one of these'
+                                                        ' songs to do your part!')
         title_font.setPointSize(9)
 
         self.featured_songs_subtitle.setFont(title_font)
@@ -70,7 +72,7 @@ class FeaturedSongs(QtWidgets.QFrame):
         self.main_layout.addLayout(self.featured_songs_layout)
 
         self.setLayout(self.main_layout)
-    
+
     def add_featured_song(self, imgfile: str, audiofile: str):
 
         imgfile = os.fspath(imgfile)
