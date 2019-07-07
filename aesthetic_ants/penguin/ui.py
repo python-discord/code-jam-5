@@ -25,8 +25,21 @@ class GameOverScreen(Object):
                                        anchor_x='center',
                                        anchor_y='center')
 
+        self.shadow = pyglet.text.Label("Game Over!",
+                                        font_name="Times New Roman",
+                                        font_size=36,
+                                        color=(0, 0, 0, 255),
+                                        x=(window.width // 2) + 1,
+                                        y=(window.height // 2) - 1,
+                                        anchor_x='center',
+                                        anchor_y='center')
+
     def add_to_space(self, space):
         super().add_to_space(space)
+
+        self.shadow.batch = space.batch
+        self.shadow.group = space.background
+
         self.label.batch = space.batch
         self.label.group = space.foreground
 
