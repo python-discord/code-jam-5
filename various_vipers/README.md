@@ -75,7 +75,7 @@ The global temperature is drastically increasing. Your mission is to save the Ea
 
 `Mouse click` - to start a task
 
-#### Tasks
+## Tasks
 Every task is represented with a tile colored in the red spectrum. 
 
 ![task tile](docs/screenshots/task_tile.png)
@@ -95,10 +95,10 @@ There are three different types of tasks.
 
 3) **Tic tac toe** - you are playing against the computer. If you make a tie it still counts as a win.
 
-![ttt task](docs/screenshots/ttt_forerst_task.png)
+![ttt task](docs/screenshots/ttt_forest_task.png)
 
 
-#### Options
+## Options
 All user settings are saved. But if you terminate the game with the X button of the pygame window,
 the user settings are going to be the last saved.
 
@@ -112,3 +112,16 @@ Show fps and boost fps checkers.
 
 **Show fps** displays a number of the fps in the top right corner.
 **Boost fps** removes some animations in the game to increase the performance. 
+
+## Credits
+
+#### Music from https://filmmusic.io
+"The Snow Queen" by Kevin MacLeod (https://incompetech.com)
+License: CC BY (http://creativecommons.org/licenses/by/4.0/)
+
+#### Artwork from https://kenney.nl/assets
+License: CC0 1.0 Universal (https://creativecommons.org/publicdomain/zero/1.0/) 
+
+#### Event 
+Code jam event organization from (https://pythondiscord.com)
+Sincere thanks to all of the team of Python Discord and sponsors of this event
