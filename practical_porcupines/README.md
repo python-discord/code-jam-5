@@ -1,16 +1,20 @@
-# practical-porcupines Documentation
+<h1 align="center">
+Practical Porcupines
+</h1>
 
-## Dataset Acknowledgement
+![Logo](../logo.png)
 
-*GSFC. 2017. Global Mean Sea Level Trend from Integrated Multi-Mission Ocean Altimeters TOPEX/Poseidon, Jason-1, OSTM/Jason-2 Version 4.2 Ver. 4.2 PO.DAAC, CA, USA. Dataset accessed [2019-06-30] at [http://dx.doi.org/10.5067/GMSLM-TJ42](http://dx.doi.org/10.5067/GMSLM-TJ42).*
-
-## Human-friendly Overview
+## **Overview**
 
 Hello welcome to the Practical Pourcupine project, made for the 5th [Python Discord](https://pythondiscord.com/) code jam! The theme of this code-jam was about climate change, as you can see from the top-level README.md, found [here](https://github.com/scOwez/code-jam-5/blob/master/README.md).
 
-We have 3 "mini-projects" (3 different projects that *could* be in seperate repos but due to the code jam, are all housed under one roof). We have the `flask_api`; this is the api part of our web-based project. This API gets a request and uses interpolation and when needed, machine learning to either predict or state the change in the global water level.
+We have 3 "mini-projects" (3 different projects that *could* be in seperate repos but due to the code jam, are all housed under one roof). We have the `flask_api`; this is the api part of our web-based project. **This API gets a request and uses interpolation to return and predict the Global Median Water Level**.
 
-The two other "mini-projects" are the ones sending and handling the returns, one is called `discord_bot` & it is a Discord Bot (duh)! The other is a web-portal (`flask_webportal`) made using flask and a small bit of bootstrap for the css, allowing users to send requests over a website if it where in production. This is similar to the discord_bot but showcases another, more flexible usecase for this api.
+The *Global Median Water Level* is a mesurement used by organizations like NASA to monitor the rise/fall in sea level, year by year. Our dataset uses the GMWL in 10-day intervals, starting from 1993 and ending in Febuary 2019.
+
+The two other "mini-projects" are the ones sending and handling the returns, one is called `discord_bot` & it is a Discord Bot *(duh)*! The other is a web-portal (`flask_webportal`) made using Flask and a small bit of Bootstrap for styling purposes, allowing users to experiance and interact with our api as if it was a full production enviroment. This is similar to the discord_bot but showcases another, more flexible usecase for this api.
+
+By doing all of this, we have effectivly created a production-ready ecosystem around our steady RESTful API using multipule technologies to accomplish this feat in the codejam deadline.
 
 ### Technical side
 
@@ -37,10 +41,20 @@ Below is the outline of what the dependancies do:
 - `requests`: Syncronous, easy to use api requests for flask_webportal to contact flask_api.
 - `flake8`: Linter specfic for `code-jam-5` (required for review)
 - `black`: Developer-used autolinter for sake of standardized clarity
+- `python-dotenv`: For the `.env` file with pipenv
+- `toml`: A small library for toml files (`config.toml`)
+- `scipy`: Interpolation & prediction (the maths part of the core for `flask_api`)
+- `flask-wtf`: WTForms plugin for flask, allows the dateform used to function properly with POSTs
+
+## Important Extras
 
 ### Mini-project Notice
 
 ***Please note that `discord_bot` or `flask_webportal` communicate **only** though the api, not just calling a shared function. The only shared infomation between these 3 projects is a config as not to collide with each others hosting and 2 exeptions that are 2x `class ExceptionName: pass`. Therefore in 10 minutes, you could easily seperate these 3 mini-projects into seperate repositories.***
+
+### Dataset Acknowledgement
+
+*GSFC. 2017. Global Mean Sea Level Trend from Integrated Multi-Mission Ocean Altimeters TOPEX/Poseidon, Jason-1, OSTM/Jason-2 Version 4.2 Ver. 4.2 PO.DAAC, CA, USA. Dataset accessed [2019-06-30] at [http://dx.doi.org/10.5067/GMSLM-TJ42](http://dx.doi.org/10.5067/GMSLM-TJ42).*
 
 ## Quickstart (Please read this section to start up the application)
 
@@ -51,7 +65,9 @@ Below is the outline of what the dependancies do:
 5. To start the webportal, **open a new terminal** and repeat step 3 & 4 with `flask-webportal` instead of `flask-api`
 6. To start the discord bot, **open a new terminal** and repeat step 3 & 4 with `discord-bot` instead of `flask-api`. Make sure you have step 1 set properly for this one
 
-## Development Notes
+---
+
+## **Development Section**
 
 ### General Notes
 
