@@ -26,7 +26,7 @@ bg = pygame.image.load('Backgrounds//Background.png')
 # Veichles on screen
 onscreen = []
 # Player's score
-score = 0
+score = 25
 # y coordinates of the three lanes
 lanes = [50, 300, 500]
 # Set up clock
@@ -127,7 +127,7 @@ class button(object):
         global lose
         global comp
         onscreen = []
-        score = 0
+        score = 25
         lose = False
         comp = False
 
@@ -220,8 +220,8 @@ E1 = car(True,
          92,
          3)
 
-E2 = car(True,
-         [pygame.image.load('Cars\\2.png')],
+E2 = car(False,
+         [pygame.image.load('Cars\\Jeep.png')],
          10,
          168,
          94,
@@ -234,7 +234,7 @@ F1 = car(False,
          94,
          5)
 
-F2 = car(False,
+F2 = car(True,
          [pygame.image.load('Cars\\Taxi.png')],
          7,
          168,
@@ -333,7 +333,7 @@ while run:
         onscreen = []
 
     # Clear screen and win if score is above 100
-    if score >= 100:
+    if score >= 50:
         onscreen = []
         comp = True
 
