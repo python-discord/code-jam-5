@@ -25,7 +25,9 @@ class Game:
 
         self.error_msg = Fore.RED + "Unrecognized input, try again or type help"
 
-        self.exit_msg = Fore.YELLOW + "Have a good day, thanks for playing!"
+        self.exit_msg = (
+            Fore.YELLOW + "Have a good day, thanks for playing!" + Style.RESET_ALL
+        )
 
         self.fail_msg = Fore.RED + "You have destroyed your planet. Enjoy the rest of your life " \
                                    "knowing you've doomed humanity."
@@ -64,7 +66,7 @@ class Game:
     def planet_stats_msg(self) -> str:
         planet_stats_msg = "\n".join(
             [
-                "Earth's current stats:",
+                Fore.GREEN + "Earth's current stats:" + Fore.WHITE,
                 f"{self.earth.health_summary()}",
                 f"{self.earth}",
             ]
@@ -77,12 +79,12 @@ class Game:
         return player_stats_msg
 
     def final_score(self) -> str:
-        # return the final score board at the end of the game
-        pass
+        final_score = 0
+
+        return f"Final score: {final_score}"
 
     def main(self) -> None:
         while not self.quit_game:
-            self.round += 1
             if self.round > 10:
                 self.quit_game = True
 
@@ -122,7 +124,8 @@ class Game:
                 )
                 self.player.get_roi(chosen_investment.current_policy.roi)
                 chosen_investment.times_invested += 1
-                return self.successful_order_msg
+                print(self.successful_order_msg)
+                return self.planet_stats_msg()
             else:
                 return self.cancelled_order_msg
 
@@ -139,6 +142,7 @@ class Game:
         }
 
         if token.isdigit():
+            self.round += 1
             return self.investments.options.get(token, self.error_msg)
         elif token.casefold() == "exit":
             self.quit_game = True
@@ -150,7 +154,7 @@ class Game:
 
             try:
                 if args[0].casefold() == "invest":
-
+                    self.round += 1
                     return self._invest(args[1])
                 else:
                     return self.investments.options.get(args[1], self.error_msg)
