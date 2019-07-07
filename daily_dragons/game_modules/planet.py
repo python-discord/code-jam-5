@@ -28,7 +28,7 @@ class Planet:
             "habitable_land": habitable_land,
         }
 
-    def _get_seperate_stats(self) -> Tuple[Union[int, str], Union[int, str],
+    def _get_separate_stats(self) -> Tuple[Union[int, str], Union[int, str],
                                            Union[int, str], Union[int, str]]:
         bio_div = self.stats.get(
             "bio_diversity", "That wasn't here. Please restart the game."
@@ -46,7 +46,7 @@ class Planet:
     @property
     def scoreboard(self) -> Dict[str, str]:
         """A dict of the stats for easy output by gui"""
-        bio_div, temperature, co2, land = self._get_seperate_stats()
+        bio_div, temperature, co2, land = self._get_separate_stats()
         current_stats = (
             Fore.GREEN
             + f"Biodiversity:\t"
@@ -79,7 +79,7 @@ class Planet:
         """Provides a human readable summary of the health on the planet based on its stats"""
         health = []
 
-        bio_div, temperature, _, _ = self._get_seperate_stats()
+        bio_div, temperature, _, _ = self._get_separate_stats()
 
         # Estimates have us around 9 million species
         # Extinction events appear to be ~75% of all species dying
@@ -121,7 +121,7 @@ class Planet:
 
     def __str__(self) -> str:
         status_messages = []
-        for stat in self._get_seperate_stats():
+        for stat in self._get_separate_stats():
             if stat > 10:
                 status_messages.append(
                     f"You have saved this stat. (current level: {stat})"
