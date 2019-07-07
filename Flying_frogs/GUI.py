@@ -214,20 +214,19 @@ class car(object):
 
 # Define cars
 # Replace these with actual cars. These are placeholders.
-# ambulance = car(False, [pygame.image.load('1.png'), pygame.image.load(
-#    '2.png'), pygame.image.load('3.png'), pygame.image.load('2.png')], 5, 225, 110, 5)
+E1 = car(True, [pygame.image.load('Cars\\ElectricCar1.png')], 5, 168, 91, 5)
 policecar = car(True,
-                [pygame.image.load('P1.png'),
-                 pygame.image.load('P2.png'),
-                 pygame.image.load('P3.png'),
-                 pygame.image.load('P2.png')],
+                [pygame.image.load('Cars\\P1.png'),
+                 pygame.image.load('Cars\\P2.png'),
+                 pygame.image.load('Cars\\P3.png'),
+                 pygame.image.load('Cars\\P2.png')],
                 10,
                 225,
                 110,
                 3)
 
 # List of available vehicles to chose from
-vehicles = [policecar]
+vehicles = [policecar, E1]
 
 
 # To show if the game is running
