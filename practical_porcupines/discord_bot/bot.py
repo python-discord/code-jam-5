@@ -77,7 +77,8 @@ async def gmwl(ctx, date_1, date_2):
                 "API error!",
                 "There was a error when sending/getting data from the "
                 "api and serializing it!"
-                "\nPlease make sure to start the api before starting the discord bot.",
+                "\nPlease make sure to start the api before starting "
+                "the discord bot.",
                 0xA31523,
                 discord,
             )

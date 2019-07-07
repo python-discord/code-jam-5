@@ -1,7 +1,5 @@
 import requests
 from flask import Flask, render_template, request, flash
-from urllib3 import HTTPConnectionPool
-
 from practical_porcupines.utils import ConfigApi
 from practical_porcupines.flask_webportal.forms import DatePickerForm
 
@@ -29,9 +27,10 @@ def index():
 
         try:
             api_response = requests.get(api_url, data=request_body).json()
-        except requests.exceptions.ConnectionError as e:
+        except requests.exceptions.ConnectionError:
             flash(
-                "Cant connect to the api. Please make sure to start the api before starting the flask-webportal."
+                "Cannot connect to the Api, Please make sure to start "
+                "flask-api before starting flask-webportal!"
             )
 
             return render_template("index.html", form=date_picker_form)
