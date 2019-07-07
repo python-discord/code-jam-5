@@ -324,23 +324,32 @@ class TaskRockPaperScissors(Task):
         """User clicks on task."""
         super().start()
 
+        # set delay timer, mixing animation bool, and the choices of players
         self.delay = time()
         self.mixing = False
         self.choice = None
         self.computer_choice = None
 
+        # other timers and states for the game
         self.game_over = False
         self.win = False
         self.timer = 0
         self.last = 0
 
+        # get the colors from the current biombe
         self.color, self.color_hover = self.biome.color
 
+        # calculate the size of the human choice rects and computer one
+        # the human area of rects will be 1/9 of the whole task window
+        # the computer area of rects will be 2/3 of the whole task window
         self.choice_rect_side = int(self.window_rect.height / 3)
         self.computer_rect_side = self.window_rect.height
 
+        # store the three human choice rectangles in a list
         self.choice_rects = list()
 
+        # create all human choice rectangles
+        # they move from top to bottom on the y axis
         for i in range(3):
             self.choice_rects.append(
                 pg.Rect(
@@ -351,6 +360,7 @@ class TaskRockPaperScissors(Task):
                 )
             )
 
+        # create the large rectangle of the computer choice
         self.computer_rect = pg.Rect(
             self.window_rect.left + self.choice_rect_side,
             self.window_rect.top,
@@ -358,24 +368,35 @@ class TaskRockPaperScissors(Task):
             self.computer_rect_side,
         )
 
+        # the biome getters of the images of elements
         self.images = [ROCK, PAPER, SCISSORS]
+
+        # store the images of the elements with different sizes
+        # because the rectanglea are different
         self.choice_images = list()
         self.computer_images = list()
 
+        # iterate the images
         for img in self.images:
+            # load it from current biome and
+            # scale it for human choice
             self.choice_images.append(
                 scale(
                     load(str(self.biome.image_from(img))).convert_alpha(),
                     [self.choice_rect_side] * 2,
                 )
             )
-
+            # load it from current biome and
+            # scale it for computer choice
             self.computer_images.append(
                 scale(
                     load(str(self.biome.image_from(img))).convert_alpha(),
                     [self.computer_rect_side] * 2,
                 )
             )
+        # one more extra image for the computer
+        # it is a question mark and displays it
+        # till the human makes a choice
         self.computer_images.append(
             scale(
                 load(str(self.biome.image_from(QUESTION_MARK))).convert_alpha(),
@@ -395,7 +416,7 @@ class TaskRockPaperScissors(Task):
             if (
                 mouse_hover
                 and mouse_click
-                and self.choice not in [0, 1, 2]
+                and self.choice not in [0, 1, 2]  # asserts that the human didn't chose
                 and (time() - self.delay) > 0.3
             ):
                 Sound.click.play()
