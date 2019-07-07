@@ -1,7 +1,7 @@
 
 <h1 align="center"> [Only Otters] Leafify </h1>
 <p align="center">
-  (Python Discord code jam 5 submission)<br>
+  <a href="https://github.com/python-discord/code-jam-5"> PythonDiscord/Code-Jam-5 </a> submission <br>
   <img src="images/spotleafy.png" width="256">
 </p>
 
