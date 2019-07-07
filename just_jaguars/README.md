@@ -1,4 +1,4 @@
-# [insert name]
+# Iconic Energy, Inc.
 
 ### Table of Contents
 

@@ -11,7 +11,7 @@ window_width = 1152
 aspect_ratio = 9 / 16
 window_height = int(aspect_ratio * window_width)
 window_icon = None
-window_title = 'Name of game'
+window_title = 'Iconic Energy, Inc.'
 
 # Boiler-plate:
 pygame.init()
