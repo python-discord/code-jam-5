@@ -1,24 +1,15 @@
+"""Module to handle events.
+'Events' refers to any notable action that the user has performed.
+"""
 import time
 import random
 
 
-def timeit(func):
-    def inner(*args, **kwargs):
-        start_time = time.time()
-        result = func(*args, **kwargs)
-        time_delta = time.time() - start_time
-        if time_delta > 1:
-            print(f"{func.__name__} took {time_delta} seconds")
-        return result
-    return inner
-
-
 def detect_event_update(func):
+    """Using the result of a message function, update the class properties."""
     def inner(self, *args, **kwargs):
         new_message = func(self, *args, **kwargs)
-        if new_message == self.previous_message:
-            new_message = None
-        if new_message is not None:
+        if new_message is not None and new_message != self.previous_message:
                 self.previous_message = new_message
                 self.previous_message_time = time.time()
         return new_message
@@ -72,8 +63,15 @@ msgs = {
 
 
 class Events:
-    def __init__(self, master):
-        self.master = master
+    """Class to hold a history of user actions
+    parent: Parent object, of class ClimateClicker
+    start_time: Unix time at the start of the game
+    previous_message_time: Unix time at the last event
+    previous_message: Last event message
+    event_list: Full history of events
+    """
+    def __init__(self, parent):
+        self.parent = parent
         current_time = time.time()
         self.start_time = current_time
         self.previous_message_time = current_time
@@ -82,14 +80,17 @@ class Events:
         # TODO there's probably a more optimal data structure for this
 
     def send(self, event: str):
+        """Receive an event code.
+        Will be called when the user has performed a notable action.
+        """
         self.event_list.append((event, time.time()))
 
-    @timeit
     @detect_event_update
     def get_current_message(self,
                             max_history_length=100):
         """Returns what the current message should be.
-        Return None if the message should not change."""
+        Return None if the message should not change.
+        """
         current_time = time.time()
         time_delta = current_time - self.previous_message_time
         full_history = [event for event, event_time in self.event_list]
@@ -136,16 +137,16 @@ class Events:
             # Following messages aren't important enough to overwrite that fast
             return None
 
-        if self.master.speed_sprite.value > 500:
+        if self.parent.speed_sprite.value > 500:
             return msgs["crank_fast_4"]
-        if self.master.speed_sprite.value > 100:
+        if self.parent.speed_sprite.value > 100:
             return msgs["crank_fast_3"]
-        if self.master.speed_sprite.value > 50:
+        if self.parent.speed_sprite.value > 50:
             return msgs["crank_fast_2"]
-        if self.master.speed_sprite.value > 10:
+        if self.parent.speed_sprite.value > 10:
             return msgs["crank_fast_1"]
 
-        if "crank" in short_history and self.master.energy_per_second > 100:
+        if "crank" in short_history and self.parent.energy_per_second > 100:
             return msgs["unnecessary_crank"]
         if len(set(short_history)) == 1:
             if short_history[0] == "crank":

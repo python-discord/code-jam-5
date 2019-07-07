@@ -1,3 +1,6 @@
+"""Module to deal with organization of machines.
+'Machines' references the purchasable items which produce energy over time.
+"""
 import media
 import pygame
 from pygame.locals import Color
@@ -5,13 +8,20 @@ from util import in_pixels
 
 
 class Machine(pygame.sprite.Sprite):
-    def __init__(self,
-                 name: str,
-                 cost: int,
-                 energy_per_second: int,
-                 image,
-                 coords: tuple,
-                 ):
+    """Holds information about machines
+    font: pygame font to use for text on the machine button
+    name: name of the machine
+    text_color: pygame color to use for text on the machine button
+    cost: Cost of the machine in Joules
+    energy_per_second: Wattage of one unit of the machine
+    image: pygame image to use on the machine button
+    rect: pygame rect representing the machine button's boundaries
+    count_sprite: Rendered text displaying the number of a given machine
+    cost_sprite: Rendered text displaying the cost of a given machine
+    count: The count of a given machine (how many there are)
+    """
+    def __init__(self, name: str, cost: int, energy_per_second: int,
+                 image, coords: tuple):
         pygame.sprite.Sprite.__init__(self)
         self.font = pygame.font.Font(None, 20)
         self.name = name
@@ -29,7 +39,7 @@ class Machine(pygame.sprite.Sprite):
             center=count_coords_abs)
         self.cost_sprite = pygame.sprite.Sprite()
         self.cost_sprite.image = self.font.render(
-            f"{self.cost} Watts", 0, self.text_color)
+            f"{self.cost} Joules", 0, self.text_color)
         cost_coords_abs = (
             self.count_sprite.rect.x,
             self.count_sprite.rect.y + 2 * self.count_sprite.rect.h)
@@ -49,6 +59,7 @@ class Machine(pygame.sprite.Sprite):
 
 
 def load_machines():
+    """Get the default machines"""
     return {
         "solar_panel": Machine("solar_panel",
                                60,
