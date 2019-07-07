@@ -10,15 +10,16 @@ from .utils import angle_between, keys
 from .weapon import Weapon
 
 
-FALL_RATE = 1
-FALL = 24
-FALL_RATIO = 100
+FALL_RATE = 60
+FALL_SCALE = 60
+FALL_MAX = 30
 
 
 class Player(PhysicalObject):
     speed = 90
     collision_type = CollisionType.PLAYER
     falling = 0
+    water_tiles = 0
     previous_coordinates = None
 
     def __init__(self, x, y):
@@ -29,12 +30,22 @@ class Player(PhysicalObject):
         self.weapon = Weapon()
 
     def update(self, dt):
-        if self.falling > 0:
-            if self.falling < 4 * FALL_RATE:
-                self.falling = 0
-            else:
-                self.falling -= 4 * FALL_RATE
+        # Fall into water if there's too much under our feet
+        if self.water_tiles >= 4:
+            self.falling += FALL_RATE * dt
+
+        # If we're on full land, climb back up
+        if self.water_tiles == 0 and self.falling > 0:
+            self.falling -= FALL_RATE * 2 * dt
+
+        if self.falling:
+            self.falling += FALL_RATE * dt
             self.update_size()
+
+        if self.falling > FALL_MAX:
+            self.game_over(True)
+
+        self.water_tiles = 0
 
         self.previous_coordinates = (self.x, self.y)
 
@@ -60,13 +71,12 @@ class Player(PhysicalObject):
 
     def collide_tile(self, tile):
         if tile.tile_type == TileType.WATER:
-            self.falling += FALL_RATE
-            self.update_size()
-            if self.falling > FALL:
-                self.game_over(True)
+            self.water_tiles += 1
         elif tile.tile_type == TileType.WALL:
             self.x, self.y = self.previous_coordinates
 
     def update_size(self):
-        self.image.width = max(1, self.original_width * (1 - (self.falling / FALL_RATIO)))
-        self.image.height = max(1, self.original_height * (1 - (self.falling / FALL_RATIO)))
+        self.image.width = max(1, self.original_width * (1 - (self.falling / FALL_SCALE)))
+        self.image.height = max(1, self.original_height * (1 - (self.falling / FALL_SCALE)))
+        self.image.anchor_x = self.image.width // 2
+        self.image.anchor_y = self.image.height // 2
