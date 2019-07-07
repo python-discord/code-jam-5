@@ -35,7 +35,7 @@ class CowspicaryFactFactory(FactFactory):
 
     def _build_fact(self, record: dict) -> Fact:
         return Fact(
-            _title='Did you know that ... ',
+            _title=record.get('title') or 'Did you know that ... ',
             _content=ensure_field(record, 'content'),
             _source=self.fetcher.url,
             data=record,

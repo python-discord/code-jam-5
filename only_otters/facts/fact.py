@@ -52,7 +52,7 @@ class FactFactory:
         self.fetcher: HierarchicalXPathQuery = None
 
     def fetch(self) -> list:
-
+        """Fetch the remote data through the Hquery object."""
         self.served_facts = 0
         new_records: List[Dict[str, Any]] = []
 
@@ -60,14 +60,22 @@ class FactFactory:
         try:
             new_records = self.fetcher()
         except Exception as e:
-            print(e)
-            raise
+            new_records = [
+                ErrorFact(
+                    title='Error',
+                    content='Could not retrieve remote data for source %s: (%s)%s' % (
+                        self.fetcher.url, type(e), e),
+                    source=self.fetcher.url,
+                    exception=e,
+                    factory=self
+                )
+            ]
 
         self.records = list(new_records)
         return self.records
 
     def _build_widget(self, factobj: 'Fact', parent: QWidget) -> QmlWidget:
-        """TODO:# build widget then return it"""
+        """Build a widget depending on the source and fact object."""
         return QmlWidget(
             qmlpath=FactWidget.url,
             context={'fact': factobj},
@@ -90,6 +98,10 @@ class FactFactory:
             self.fetch()
 
         record: dict = random.choice(self.records)
+
+        if isinstance(record, ErrorFact):
+            return record
+
         fact: Fact = self._build_fact(record)
 
         return fact
@@ -102,6 +114,10 @@ class FactFactory:
 
 @dataclass
 class Fact(QObject):
+
+    """
+    A simple dataclass with its attributes exposed to QML.
+    """
 
     _title: str
     _content: str
@@ -126,3 +142,39 @@ class Fact(QObject):
     @pyqtProperty('QString', constant=True)
     def source(self) -> str:
         return self._source
+
+
+class ErrorFact(Fact):
+
+    exception: Exception
+    title: str
+    content: str
+    source: str
+    factory: FactFactory
+
+    def __init__(
+        self,
+        *,
+        exception: Exception,
+        title: str,
+        content: str,
+        source: str,
+        factory: FactFactory
+    ):
+
+        super().__init__(
+            _title=title,
+            _content=content,
+            _source=source,
+            data={},
+            factory=factory
+        )
+
+        self.exception = exception
+
+    def as_widget(self, parent: QWidget) -> QmlWidget:
+        return QmlWidget(
+            qmlpath=FactWidget.url,
+            context={'fact': self},
+            parent=parent
+        )
