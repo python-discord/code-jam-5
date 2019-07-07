@@ -78,7 +78,7 @@ The global temperature is drastically increasing. Your mission is to save the Ea
 ## Tasks
 Every task is represented with a tile colored in the red spectrum. 
 
-<p align="center">
+<p align="left">
   <br>
   <img src="docs/screenshots/task_tile.png" width="256">
 </p>
@@ -86,7 +86,7 @@ Every task is represented with a tile colored in the red spectrum.
 
 There are indicators on the sides of the screen which guide you where are the tasks.
 
-<p align="center">
+<p align="left">
   <br>
   <img src="docs/screenshots/indicator.png" width="256">
 </p>
@@ -98,7 +98,7 @@ There are three different types of tasks.
 1) **Cursor maze** - to begin you hover over starting position displayed as a square with image on it. After that the maze reveals itself and you should follow the path to the end point without touching the walls.
 
 
-<p align="center">
+<p align="left">
   <br>
   <img src="docs/screenshots/maze_forest_task.png" width="256">
 </p>
@@ -109,7 +109,7 @@ There are three different types of tasks.
 3) **Tic tac toe** - you are playing against the computer. If you make a tie it still counts as a win.
 
 
-<p align="center">
+<p align="left">
   <br>
   <img src="docs/screenshots/ttt_forest_task.png" width="256">
 </p>
@@ -121,14 +121,14 @@ the user settings are going to be the last saved.
 
 Sound and music volume sliders and mute buttons.
 
-<p align="center">
+<p align="left">
   <br>
   <img src="docs/screenshots/volume_sliders.png" width="256">
 </p>
 
 Show fps and boost fps checkers.
 
-<p align="center">
+<p align="left">
   <br>
   <img src="docs/screenshots/fps_checkers.png" width="256">
 </p>
