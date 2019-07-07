@@ -12,7 +12,14 @@ Install `pipenv` first
 pip install pipenv
 ```
 
-Then go to the `aesthetic_ants` directory and install the dependencies using `pipenv`
+Install the project and go into the `aesthetic_ants` directory
+```
+git clone https://github.com/Ikusaba-san/code-jam-5.git
+cd code-jam-5
+cd aesthetic_ants
+```
+
+Install the dependencies using `pipenv`
 ```
 pipenv install
 ```
