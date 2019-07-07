@@ -171,6 +171,8 @@ class Color:
     desert_hover = (238, 208, 163)
     plains = (64, 156, 50)
     plains_hover = (52, 138, 39)
+    blue1 = (107, 169, 193)
+    blue = (30, 167, 225)
 
 
 class WindowState:

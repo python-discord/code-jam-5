@@ -8,18 +8,25 @@ import time
 import webbrowser
 
 import pygame as pg
+from pygame.font import Font
 
 from project.UI.element.button import Button, generate_main_buttons
 from project.UI.fx.sound import Sound
 from project.constants import (
     BUTTONS as BTN,
     ButtonProperties,
+    Color,
     HEIGHT,
     REPO_LINK,
     WIDTH,
     WindowState,
 )
 from project.utils.helpers import load_img
+from project.utils.helpers import realtime_to_ingame_delta_formatted
+from project.utils.user_data import UserData
+
+user_data = UserData()
+user_data.load()
 
 
 logger = logging.getLogger(__name__)
@@ -39,6 +46,7 @@ class MainMenu:
         self.__load_set_github_button()
 
         self.last_click = int()
+        self.font = Font(None, 40)
 
     def __load_images(self):
         img_paths = [
@@ -70,6 +78,7 @@ class MainMenu:
             else:
                 button.draw()
         self.__draw_github_button()
+        self.__draw_highscores()
 
         return WindowState.main_menu
 
@@ -115,3 +124,9 @@ class MainMenu:
                 webbrowser.open(REPO_LINK)
         else:
             self.github_btn.draw()
+
+    def __draw_highscores(self):
+        date = realtime_to_ingame_delta_formatted(user_data.hiscore_modern)
+        text = self.font.render(f"Highscore: {date}", True, Color.blue)
+
+        self.screen.blit(text, (0, HEIGHT - text.get_height()))

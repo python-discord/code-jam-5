@@ -104,7 +104,13 @@ There are three different types of tasks.
 </p>
 
 
-2) **Rock, paper, scissors** - some things are a question of luck. You have 1/3 chance of winning this task.
+2) **Rock, paper, scissors (but with trashcans)** - some things are a question of luck. You have 1/3 chance of winning this task. It is a win if your choice and the computer are the same trashcan.
+
+<p align="left">
+  <br>
+  <img src="docs/screenshots/rps_desert_task.png" width="256">
+</p>
+
 
 3) **Tic tac toe** - you are playing against the computer. If you make a tie it still counts as a win.
 

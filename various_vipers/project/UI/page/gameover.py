@@ -4,7 +4,6 @@ GameOver page.
 Handling input and making changes.
 """
 import logging
-from time import time
 
 import pygame as pg
 
