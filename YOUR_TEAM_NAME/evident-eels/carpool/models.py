@@ -16,6 +16,8 @@ class Carpool(db.Model):
     summary = db.Column(db.String(128))
     time_created = db.Column(db.DateTime(), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    from_location = db.Column(db.string(32))
+    to_location = db.Column(db.string(32))
 
     @staticmethod
     def get_all():
@@ -32,8 +34,6 @@ class User(UserMixin, db.Model):
         db.String(200), primary_key=False, unique=False, nullable=False
     )
     email = db.Column(db.String(40), index=True, unique=True, nullable=False)
-    # created_on = db.Column(db.DateTime, index=False, unique=False, nullable=True)
-    # last_login = db.Column(db.DateTime, index=False, unique=False, nullable=True)
     carpools = db.relationship(
         "Carpool",
         secondary=passengers,
