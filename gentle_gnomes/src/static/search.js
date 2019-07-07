@@ -42,6 +42,21 @@ function showResults(response) {
     }
 }
 
+function setURL(location) {
+    location = location.toJSON();
+
+    // Truncate to 6 decimal places
+    for (const key in location) {
+        location[key] = location[key].toFixed(6);
+    }
+
+    const params = new URLSearchParams(location);
+    history.pushState(null, null, `/?${params}`);
+
+    // Clear search box
+    inputName.value = '';
+}
+
 function setLocation(location) {
     const formData = new FormData(form);
     formData.set('location', JSON.stringify(location));
@@ -52,6 +67,7 @@ function setLocation(location) {
     })
         .then(response => response.text())
         .then(showResults)
+        .then(() => setURL(location))
         .catch(error => console.log('Error submitting form: ', error));
 }
 
