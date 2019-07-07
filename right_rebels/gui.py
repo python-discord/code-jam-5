@@ -394,6 +394,8 @@ class SettingsPop(QtWidgets.QDialog):
     def show_license(self):
         w = License(self)
         w.setup()
+        w.close_signal.connect(lambda: self.license_button.setEnabled(True))
+        self.license_button.setEnabled(False)
 
     def closeEvent(self, *args, **kwargs):
         super(QtWidgets.QDialog, self).closeEvent(*args, **kwargs)
@@ -462,6 +464,7 @@ class CrashPop(QtWidgets.QDialog):
 
 
 class License(QtWidgets.QDialog):
+    close_signal = QtCore.pyqtSignal()
 
     def __init__(self, parent=None):
         super(License, self).__init__(parent)
@@ -479,3 +482,7 @@ class License(QtWidgets.QDialog):
         self.setLayout(self.main_layout)
         self.setWindowFlag(QtCore.Qt.WindowContextHelpButtonHint, False)
         self.show()
+
+    def closeEvent(self, *args, **kwargs):
+        super(QtWidgets.QDialog, self).closeEvent(*args, **kwargs)
+        self.close_signal.emit()
