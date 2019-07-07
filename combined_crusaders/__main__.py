@@ -127,7 +127,7 @@ class UpgradeButton(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.coords = coords
         self.image = locked_image
-        self.image_list = [locked_image,image]
+        self.image_list = [locked_image, image]
         self.rect = self.image.get_rect()
         self.rect.move_ip(*in_pixels(coords))
         if centered:
