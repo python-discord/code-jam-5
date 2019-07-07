@@ -38,7 +38,7 @@ The `requirements.txt` is there for reference.
 Here are some things for you to try while in the player:
 
 * Select a song in the media library. If nothing appears there, you must click on 'Change Path' and select a folder which contains audio files (supported extensions: `'*.mp3', '*.m4a', '*.wav', '*.m3u', '*.ogg', '*.wma'`). Double-click on the song to get it to be played;
-* An audio should be played everytime you select a song;
+* An audio ad should be played everytime you select a song;
 * Update the fact widget by clicking on `Next Fact`, or wait 8 seconds, after which it wil refresh itself;
 * Tinker with the slider to nagivate through the song;
 * You can go directly to each fact's source by clicking the provided hyperlink at the bottom of the widget;
