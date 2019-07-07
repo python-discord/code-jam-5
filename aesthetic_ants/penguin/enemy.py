@@ -1,5 +1,3 @@
-import random
-
 from .snowball import Snowball
 from .constants import CollisionType, TileType
 from .object import PhysicalObject
