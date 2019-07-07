@@ -78,24 +78,41 @@ The global temperature is drastically increasing. Your mission is to save the Ea
 ## Tasks
 Every task is represented with a tile colored in the red spectrum. 
 
-![task tile](docs/screenshots/task_tile.png)
+<p align="center">
+  <br>
+  <img src="docs/screenshots/task_tile.png" width="256">
+</p>
+
 
 There are indicators on the sides of the screen which guide you where are the tasks.
 
-![indicator](docs/screenshots/indicator.png)
+<p align="center">
+  <br>
+  <img src="docs/screenshots/indicator.png" width="256">
+</p>
+
 
 With completing each task you decrease the global temperature.
 There are three different types of tasks.
 
 1) **Cursor maze** - to begin you hover over starting position displayed as a square with image on it. After that the maze reveals itself and you should follow the path to the end point without touching the walls.
 
-![maze task](docs/screenshots/maze_forest_task.png)
+
+<p align="center">
+  <br>
+  <img src="docs/screenshots/maze_forest_task.png" width="256">
+</p>
+
 
 2) **Rock, paper, scissors** - some things are a question of luck. You have 1/3 chance of winning this task.
 
 3) **Tic tac toe** - you are playing against the computer. If you make a tie it still counts as a win.
 
-![ttt task](docs/screenshots/ttt_forest_task.png)
+
+<p align="center">
+  <br>
+  <img src="docs/screenshots/ttt_forest_task.png" width="256">
+</p>
 
 
 ## Options
@@ -104,11 +121,17 @@ the user settings are going to be the last saved.
 
 Sound and music volume sliders and mute buttons.
 
-![volume sliders](docs/screenshots/volume_sliders.png)
+<p align="center">
+  <br>
+  <img src="docs/screenshots/volume_sliders.png" width="256">
+</p>
 
 Show fps and boost fps checkers.
 
-![fps checkers](docs/screenshots/fps_checkers.png)
+<p align="center">
+  <br>
+  <img src="docs/screenshots/fps_checkers.png" width="256">
+</p>
 
 **Show fps** displays a number of the fps in the top right corner.
 **Boost fps** removes some animations in the game to increase the performance. 
@@ -122,6 +145,5 @@ License: CC BY (http://creativecommons.org/licenses/by/4.0/)
 #### Artwork from https://kenney.nl/assets
 License: CC0 1.0 Universal (https://creativecommons.org/publicdomain/zero/1.0/) 
 
-#### Event 
-Code jam event organization from (https://pythondiscord.com)
+#### Event from https://pythondiscord.com
 Sincere thanks to all of the team of Python Discord and sponsors of this event
