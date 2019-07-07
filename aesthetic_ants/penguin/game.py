@@ -106,7 +106,7 @@ class Game(pyglet.window.Window):
 
     def on_collision_player_enemy(self, player, enemy):
         """When a player collides with an enemy, end the game"""
-        self.game_over()
+        self.game_over(fell=False)
 
     def game_over(self, fell=False):
         if not self.is_over:

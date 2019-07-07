@@ -43,7 +43,7 @@ class Player(PhysicalObject):
             self.update_size()
 
         if self.falling > FALL_MAX:
-            self.game_over(True)
+            self.game_over(fell=True)
 
         self.water_tiles = 0
 
