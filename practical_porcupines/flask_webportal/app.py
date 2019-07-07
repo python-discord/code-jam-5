@@ -1,5 +1,7 @@
 import requests
 from flask import Flask, render_template, request, flash
+from urllib3 import HTTPConnectionPool
+
 from practical_porcupines.utils import ConfigApi
 from practical_porcupines.flask_webportal.forms import DatePickerForm
 
@@ -27,10 +29,16 @@ def index():
 
         try:
             api_response = requests.get(api_url, data=request_body).json()
+        except requests.exceptions.ConnectionError as e:
+            flash(
+                "Cant connect to the api. Please make sure to start the api before starting the flask-webportal."
+            )
+
+            return render_template("index.html", form=date_picker_form)
         except Exception as e:
             flash(
                 "An unknown error occurred when fetching data from "
-                f"the api and serializing the response! The api is probably down."
+                f"the api and serializing the response! Full error: '{e}'."
             )
 
             return render_template("index.html", form=date_picker_form)

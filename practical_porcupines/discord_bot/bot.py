@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from aiohttp import ClientConnectorError
 from practical_porcupines.utils import (  # fmt: off
     ApiReturnBad,
     ConfigBot,
@@ -69,6 +70,19 @@ async def gmwl(ctx, date_1, date_2):
         )
 
         return
+
+    except ClientConnectorError:
+        await ctx.send(
+            embed=embed_generator(
+                "API error!",
+                "There was a error when sending/getting data from the "
+                "api and serializing it!"
+                "\nPlease make sure to start the api before starting the discord bot.",
+                0xA31523,
+                discord,
+            )
+        )
+        return
     except Exception as e:
         await ctx.send(
             embed=embed_generator(
@@ -80,8 +94,8 @@ async def gmwl(ctx, date_1, date_2):
                 discord,
             )
         )
-
         return
+
     else:
         embed_color = 0x3BA315
         embed_desc_text = (
