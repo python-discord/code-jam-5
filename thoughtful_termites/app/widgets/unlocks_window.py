@@ -74,6 +74,9 @@ class UnlocksWindow(qt.QDialog):
         def inner():
             unlock = self.db.get_unlock_by_name(name)
             unlock.is_unlocked = True
+
+            qt.QMessageBox.about(self, "Success!", f"You have unlocked the '{name}' minigame.")
+
             unlock.update()
 
         return inner

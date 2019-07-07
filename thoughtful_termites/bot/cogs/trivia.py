@@ -65,7 +65,7 @@ class Trivia(commands.Cog):
         self.trivia_difficulties = set(n['difficulty'].lower() for n in self.raw_trivia_questions)
 
     async def cog_command_error(self, ctx, error):
-        if isinstance(error, commands.BadArgument):
+        if isinstance(error, (commands.BadArgument, commands.CheckFailure)):
             return await ctx.send(str(error))
         if isinstance(error, commands.BadUnionArgument):
             await ctx.send('Error encountered with parameters passed! '

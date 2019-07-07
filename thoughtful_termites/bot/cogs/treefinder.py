@@ -5,7 +5,7 @@ from datetime import datetime
 import discord
 from discord.ext import commands
 
-from thoughtful_termites.bot import unlocks
+from thoughtful_termites.bot.unlocks import has_unlocked
 
 
 class Tile(enum.Enum):
@@ -21,24 +21,6 @@ class Treefinder(commands.Cog):
     """
     The cog that contains the mechanics of a Treefinder game.
     """
-    def create_board(self):
-        """
-        Generates an empty Treefinder board, which is what `self.board`
-        defaults to.
-
-        :return: A 2D array (self.height * self.width) populated with Tile.EMPTY
-        """
-        board = []
-
-        for x in range(self.height):
-            row = []
-
-            for y in range(self.width):
-                row.append(Tile.EMPTY)
-
-            board.append(row)
-
-        return board
 
     def __init__(self, bot, width=9, height=9, trees=10):
         """
@@ -60,6 +42,31 @@ class Treefinder(commands.Cog):
         self.flags = []
 
         self.mine_guessed = False
+
+    async def cog_command_error(self, ctx, error):
+        """Error handler for the cog; returns errors to the user if required.
+        """
+        if isinstance(error, commands.CheckFailure):
+            return await ctx.send(str(error))
+
+    def create_board(self):
+        """
+        Generates an empty Treefinder board, which is what `self.board`
+        defaults to.
+
+        :return: A 2D array (self.height * self.width) populated with Tile.EMPTY
+        """
+        board = []
+
+        for x in range(self.height):
+            row = []
+
+            for y in range(self.width):
+                row.append(Tile.EMPTY)
+
+            board.append(row)
+
+        return board
 
     def in_bounds(self, x, y):
         """
@@ -217,18 +224,14 @@ class Treefinder(commands.Cog):
             return "flag", int(x), int(y)
 
     @commands.command()
-    async def treefinder(self, ctx, *, member: discord.Member = None):
+    @has_unlocked('treefinder')
+    async def treefinder(self, ctx):
         """
         The treefinder command called by the user. Call >treefinder to start.
 
         :param ctx: The context at which the command was called
-        :param member: The member that called the command
         """
-        if not unlocks.has_unlocked(ctx, "treefinder"):
-            await ctx.send(unlocks.unlock_message("Treefinder"))
-            return
-
-        ctx.send(
+        await ctx.send(
             "Your task is to find all the trees in this area. "
             "Be careful not to accidentally cut down a tree!\n\n"
             "Type `guess x y` to excavate a tile, "
