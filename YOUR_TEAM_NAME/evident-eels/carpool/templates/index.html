@@ -8,7 +8,8 @@
         <th scope="col">User</th>
         <th scope="col">ID</th>
         <th scope="col">Date</th>
-        <th scope="col">Location</th>
+        <th scope="col">From</th>
+        <th scope="col">To</th>
       </tr>
     </thead>
     <tbody>
@@ -17,7 +18,8 @@
         <td>{{ carpool["creator"]["name"] }}</td>
         <td>{{ carpool["id"] }}</td>
         <td>{{ carpool["time_created"].strftime("%d-%m-%Y %H:%M:%S") }}</td>
-        <td>{{ carpool["location"] }}</td>
+        <td>{{ carpool["from_location"] }}</td>
+        <td>{{ carpool["to_location"] }}</td>
         <td>
           <a
             class="btn btn-outline-secondary"

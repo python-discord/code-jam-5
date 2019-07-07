@@ -16,8 +16,8 @@ class Carpool(db.Model):
     summary = db.Column(db.String(128))
     time_created = db.Column(db.DateTime(), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    from_location = db.Column(db.string(32))
-    to_location = db.Column(db.string(32))
+    from_location = db.Column(db.String(32))
+    to_location = db.Column(db.String(32))
 
     @staticmethod
     def get_all():
