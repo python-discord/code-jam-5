@@ -53,6 +53,7 @@ We have a large variety of minigames and features on our Discord bot,
 including:
 
 - `>trivia`: A general trivia game that tests the user's knowledge.
+- `>reacttest`: Test your reaction speed with this minigame!
 - `>farmertown`: Are you the best farmer in the town?
 
     Play a game of FarmerTown with the bot.
@@ -76,10 +77,6 @@ including:
     - Repeat!
     - Check your balance with `>farmertown balance`
 
-    Note:
-    - You can disable the cooldowns imposed upon `>farmertown sow` and `>farmertown results` with
-        `>farmertown ignore_cooldowns`. Less fun, but it makes testing easy...
-
 Some minigames are available once you finish a certain number of goals:
 
 - `>climate_commentary` (1 goal): Offers a variety of different comments
@@ -102,6 +99,9 @@ accidentally remove the trees!
 - If you want to bypass the unlocks, edit the file
 `shared/goal_db/completed_goals.txt` to any number above 8.
 If no such file exists, create one and put any number above 8 in.
+
+- You can disable the cooldowns imposed upon `>farmertown sow` and `>farmertown results` with
+  `>farmertown ignore_cooldowns`. Less fun, but it makes testing easy...
 
 ### Credits
 
