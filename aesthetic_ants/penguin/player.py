@@ -63,6 +63,15 @@ class Player(PhysicalObject):
             self.firing = False
 
     def on_key_press(self, button, modifiers):
+        if button == key.R:
+            self.weapon.reload()
+            return
+
+        # Avoid switching weapons while our current weapon is reloading
+        # as that might be cheaty
+        if self.weapon.reloading:
+            return
+
         weapon = self.weapons.get(button)
         if not weapon:
             return
