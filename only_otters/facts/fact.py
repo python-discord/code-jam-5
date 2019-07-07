@@ -61,7 +61,13 @@ class FactFactory:
             new_records = self.fetcher()
         except Exception as e:
             print(e)
-            raise
+            new_records = [
+                {
+                    'title': 'Error',
+                    'content': 'Could not retrieve remote data for source %s' % self.fetcher.url,
+                    'source': self.fetcher.url
+                }
+            ]
 
         self.records = list(new_records)
         return self.records
