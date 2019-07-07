@@ -74,3 +74,12 @@ def exceptprint(*e):
         return decorator(e[0])
 
     return partial(decorator, excepts=e)
+
+
+class both:
+
+    def __init__(self, meth):
+        self.meth = meth
+
+    def __get__(self, instance, owner):
+        return partial(self.meth, instance or owner)
