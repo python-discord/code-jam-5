@@ -12,7 +12,7 @@ class Game:
         self.investments = InvestmentOptions()
 
         self.quit_game = False
-        self.round = 0
+        self.round = 1
 
         help_options = (
             "stats: view current player stats",
@@ -60,8 +60,7 @@ class Game:
             "will have an impact on your planet.",
             "",
             "You can view the effects a certain option will",
-            "have by typing the name or number of it. To",
-            # TODO: add rules / game explaination
+            "have by typing the number of it. To",
             "select an option type 'invest [option]'. For more",
             "help, you can type 'help'.",
             "",
@@ -96,7 +95,7 @@ class Game:
 
     def main(self) -> None:
         while not self.quit_game:
-            if self.round >= 10:
+            if self.round > 10:
                 self.quit_game = True
 
                 if sum(i >= 10 for i in self.earth.stats.values()) >= 2:
@@ -157,7 +156,6 @@ class Game:
         }
 
         if token.isdigit():
-            self.round += 1
             return self.investments.options.get(token, self.error_msg)
         elif token.casefold() == "exit":
             self.quit_game = True

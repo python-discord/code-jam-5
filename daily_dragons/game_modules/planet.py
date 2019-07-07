@@ -111,6 +111,8 @@ class Planet:
                 status_messages.append("You have caused a major net gain.")
             elif stat > 0:
                 status_messages.append("You have caused a net gain.")
+            elif stat == 0:
+                status_messages.append("This stat is at the starting baseline.")
             elif stat > -5:
                 status_messages.append("You have caused a net loss.")
             elif stat > -10:
