@@ -30,9 +30,9 @@ matplotlib.use('Agg')
 
 class Plotter(QtCore.QThread):
     PLOTS_DIR = "data/plots/"
-    NC_FILE_NAME = "data/Complete_TMAX_LatLong1.nc"
+    NC_FILE_PATH = "data/Complete_TMAX_LatLong1.nc"
     LONGITUDES, LATITUDES, DATES, TEMPERATURES, \
-        TEMPERATURE_UNIT = helpers.get_variables_from_nc_file(NC_FILE_NAME)
+        TEMPERATURE_UNIT = helpers.get_variables_from_nc_file(NC_FILE_PATH)
     image_increment_signal = QtCore.pyqtSignal()
     status_signal = QtCore.pyqtSignal(str)
 
@@ -52,15 +52,6 @@ class Plotter(QtCore.QThread):
 
     def stop(self):
         self.stop_plot = True
-
-    def file_checks(self):
-        if not os.path.isfile(self.NC_FILE_NAME):
-            self.status_signal.emit(f"{self.NC_FILE_NAME} file not found, exiting")
-            return False
-        if os.path.isdir(f"/{self.PLOTS_DIR}"):
-            self.status_signal.emit(f"{self.PLOTS_DIR} directory not found, exiting")
-            return False
-        return True
 
     @staticmethod
     def get_color_maps():
@@ -88,6 +79,14 @@ class Plotter(QtCore.QThread):
 
     @staticmethod
     def get_display_date(decimal_date):
+        """
+            Data format from data set is decimal with year and fraction of
+            year reported, with each value corresponding to the midpoint
+            of the respective month.
+            Example decimal_date 1950.041 is January 1950.
+            :param decimal_date: decimal date to convert, only months can be passed
+            :return:  String representation of date in format Month Year ,example:January 1950
+        """
         month = decimal_date % 1
         months = {"0.041": "January",
                   "0.125": "February",
@@ -110,6 +109,13 @@ class Plotter(QtCore.QThread):
             os.remove(os.path.join(Plotter.PLOTS_DIR, file))
 
     def start_plotting(self, start_date_decimal, end_date_decimal, step):
+        """
+            Plots world map images from range start_date_decimal to end_date_decimal
+            in steps and saves them in data folder.
+            :param start_date_decimal: year with month in decimal format
+            :param end_date_decimal: year with month in decimal format
+            :param step: Step on which to plot. 12 means only plot each year
+        """
         start_date_index = helpers.find_nearest_index(Plotter.DATES, start_date_decimal)
         # end_date_index + 1 to make end_date inclusive
         end_date_index = helpers.find_nearest_index(Plotter.DATES, end_date_decimal) + 1
@@ -126,6 +132,12 @@ class Plotter(QtCore.QThread):
         self.status_signal.emit("")
 
     def create_plot(self, count, date_index):
+        """
+            Plots and saves a single world map image to the data folder.
+            :param count: Current number of image processed. If it's the first image it's 0.
+                          Needed for name of saved image (plot0, plot1 etc)
+            :param date_index: Index for DATES array from which we will get data.
+        """
         plot.figure(count)
         color_mesh = self.world_map.pcolormesh(Plotter.LONGITUDES, Plotter.LATITUDES,
                                                np.squeeze(Plotter.TEMPERATURES[date_index]),

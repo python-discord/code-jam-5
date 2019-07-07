@@ -5,7 +5,7 @@ import h5py
 import numpy as np
 
 
-def get_variables_from_nc_file(nc_file_name):
+def get_variables_from_nc_file(nc_file_path):
     """
         Nc file source: http://berkeleyearth.org/data/
         netCDF-4+ files are already using data model implementing HDF5
@@ -39,7 +39,7 @@ def get_variables_from_nc_file(nc_file_name):
             Units: Degrees C
     """
     # Don't close the connection since we need it to load data from disk
-    h5py_file = h5py.File(nc_file_name, "r")
+    h5py_file = h5py.File(nc_file_path, "r")
     lon = h5py_file["longitude"]
     lat = h5py_file["latitude"]
     dates = h5py_file["time"]
