@@ -38,7 +38,14 @@ Mouse to aim and throw snowballs at the evil business men.
 Try to fend off as many business people as you can; these guys will accelerate
 the warming of your precious world and will melt all the ice around you!
 
-Be careful not to fall into the acid water, either.
+"But penguins can swim," you say.
+
+Ah but see, the water is very acidic as a result of these bad business people
+warming the planet. So acidic, that if the penguin falls into the water, it will
+die.
+
+So, be very careful and don't fall into the water.
+
 
 ## Credits
 Ikusaba-san = Leader
