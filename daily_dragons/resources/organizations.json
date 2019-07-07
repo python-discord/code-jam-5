@@ -306,15 +306,24 @@
     },
     {
         "name": "Future Energy Institute",
-        "ceo": "",
+        "ceo": "Sunny Florence",
         "description": "Organization focusing on making renewables the exclusive energy source",
         "policies": [
             {
-                "name": "Electric Vehicle Incentives",
-                "description": "Offers consumers a tax credit for purchasing Electric Vehicles.",
+                "name": "Hybrid Vehicle Incentives",
+                "description": "Offers consumers a tax credit for purchasing Hybrid Vehicles.",
                 "bio": 0,
                 "temperature": 0,
-                "co2": -20,
+                "co2": 1,
+                "habitable_land": 0,
+                "roi": 0.05
+            },
+            {
+                "name": "Solar For Your Home",
+                "description": "Offers consumers a tax credit for installing solar panels to power their home.",
+                "bio": 0,
+                "temperature": 1,
+                "co2": 2,
                 "habitable_land": 0,
                 "roi": 0.05
             },
@@ -323,9 +332,36 @@
                 "description": "Raises the standards of vehicles",
                 "bio": 0,
                 "temperature": 0,
-                "co2": -50,
+                "co2": 5,
                 "habitable_land": 0,
                 "roi": -0.10
+            },
+            {
+                "name": "Electric Vehicle Incentives",
+                "description": "Offers consumers a tax credit for purchasing Electric Vehicles.",
+                "bio": 0,
+                "temperature": 1,
+                "co2": 2,
+                "habitable_land": 0,
+                "roi": 0.05
+            },
+            {
+                "name": "Wind For Your Home",
+                "description": "Offers consumers a tax credit for purchasing wind turbines for their home.",
+                "bio": 0,
+                "temperature": 2,
+                "co2": 4,
+                "habitable_land": 0,
+                "roi": 0.05
+            },
+            {
+                "name": "Corporate Mandates",
+                "description": "Will force corporations to switch to 100% renewable energy.",
+                "bio": 0,
+                "temperature": 6,
+                "co2": 6,
+                "habitable_land": 0,
+                "roi": 1.05
             }
         ]
     }
