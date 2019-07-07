@@ -58,8 +58,10 @@ class Biome(object):
         self.tilemap = self.Tilemap(self, TILE_COLS, TILE_ROWS)
 
         # scale background to 0.8 of screen height
-        self.background = load_img(random.choice(self.background_images))
-        self.background = scale(self.background, (BIOME_WIDTH, BIOME_WIDTH))
+        self.background = load_img(random.choice(self.background_images), False)
+        scale_percent = BIOME_WIDTH / self.background.get_width()
+        new_height = int(self.background.get_height() * scale_percent)
+        self.background = scale(self.background, (BIOME_WIDTH, new_height))
 
     @property
     def color(self) -> Tuple[Color, Color]:
