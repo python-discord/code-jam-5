@@ -1,13 +1,41 @@
 {% if results %}
-    <p>Showing results for nearest city: {{ city.name }}, {{ city.admin }}</p>
-    {% for indicator in results %}
-        <div class="indicator" id="{{ indicator.name }}">
-            <h3>{{ indicator.label }}</h3>
-            <p>{{ indicator.description }}</p>
-            <p>{{ '{0:0.2f}'.format(indicator.rate * 100) }} % change</p>
-            <div class="graph" data-x="{{ indicator.x }}" data-y="{{ indicator.y }}" data-units="{{ indicator.units }}"></div>
+    <div class="row">
+        <div class="position-sticky sticky-top col">
+            <h3 class="text-left text-info my-2">{{ city.name }}</h3>
+            <h3 class="text-left text-info my-2">{{ city.admin }}</h3>
+            <hr class="my-1">
+            <ul class="nav nav-tabs flex-column" id="sidebar" role="tablist">
+                {% for indicator in results %}
+                    <li class="nav-item">
+                        <a class="nav-link" id="{{ indicator.name }}-tab" data-toggle="tab" role="tab" href="#{{ indicator.name }}" aria-controls="{{ indicator.name }}" aria-selected="false">
+                            {{ indicator.label }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
-    {% endfor %}
+        <div class="col-9 tab-content ml-5">
+            {% for indicator in results %}
+                <div class="indicator my-5 tab-pane" id="{{ indicator.name }}" role="tabpanel" aria-labelledby="{{ indicator.name }}-tab">
+                    <div class="row">
+                        <div class="col-10">
+                            <h2 class="text-secondary text-left">{{ indicator.label }}
+                                <small class="text-muted">
+                                    {{ '{0:+0.2f}'.format(indicator.rate * 100) }}%
+                                </small>
+                            </h2>
+                        </div>
+                        <div class="col text-right">
+                            <button type="button" class="btn btn-info" data-toggle="tooltip" title="{{ indicator.description }}">
+                                More Info
+                            </button>
+                        </div>
+                    </div>
+                    <div class="graph" data-x="{{ indicator.x }}" data-y="{{ indicator.y }}" data-units="{{ indicator.units }}"></div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% else %}
     <div class="alert alert-primary mx-auto" style="width: 50%" role="alert">
         Location not found.
