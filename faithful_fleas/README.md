@@ -1,14 +1,13 @@
 # Faithful Fleas
 
-A discord bot which gives you weather updates, also tells you about 
-the climate in the near future and much more!
+This project on the theme climate change is a discord bot.
 
-Team :
-- ~Qria#0019~
+Team members:
+- ~Qria#0019 (lead)~
 - Iceman#6508
 - ~remedcu#4836~
 
-## Geting started.
+# Geting started.
 These instructions will get you a copy of the project up and running on your local machine for development and testing
  purposes.
 
@@ -36,6 +35,3 @@ Bot:
 This project is very tiny and contains only 2 features:
 - A quiz game.
 - Weather forecast.
-
-
-
