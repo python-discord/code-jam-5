@@ -52,7 +52,28 @@ We have a large variety of minigames and features on our Discord bot,
 including:
 
 - `>trivia`: A general trivia game that tests the user's knowledge.
-- `>farmer`: A farming simulator, which you play once a day.
+- `>farmertown`: Are you the best farmer in the town?
+
+    Play a game of FarmerTown with the bot.
+    This game is complex - read carefully!
+
+    - You can sow a crop every 12 hours
+    - You can get the results of that crop 12 hours later
+    - Each crop has differing levels of drought risk, and germination rates.
+        Generally, the higher the risk, the higher the profit.
+    - The aim of the game is to get the most money.
+    - If a drought occurs, the germination rate is 0, and the profit is 0. Costs are the same.
+    - Costs are calculated by the raw cost of the crop * the tonnes put in
+    - Profit is calculated by the sale price * tonnes put in * germination rate.
+
+    How to get started:
+    - Create an account with `>farmertown create`
+    - See a list of crops to plant with `>farmertown croplist`
+    - Sow a crop with `>farmertown sow CROP_NAME_HERE`
+    - Wait 12 hours
+    - Find the results of the crop and add this to your bank balance with `>farmertown results`
+    - Repeat!
+    - Check your balance with `>farmertown balance`
 
 Some minigames are available once you finish a certain number of goals:
 
