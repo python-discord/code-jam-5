@@ -19,6 +19,7 @@ class Player(PhysicalObject):
     speed = 90
     collision_type = CollisionType.PLAYER
     falling = 0
+    previous_coordinates = None
 
     def __init__(self, x, y):
         super().__init__(PLAYER_IMAGE, x=x, y=y)
@@ -34,6 +35,9 @@ class Player(PhysicalObject):
             else:
                 self.falling -= 4 * FALL_RATE
             self.update_size()
+
+        self.previous_coordinates = (self.x, self.y)
+
         if keys[key.W]:
             self.y += dt * self.speed
         if keys[key.S]:
@@ -60,6 +64,8 @@ class Player(PhysicalObject):
             self.update_size()
             if self.falling > FALL:
                 self.game_over(True)
+        elif tile.tile_type == TileType.WALL:
+            self.x, self.y = self.previous_coordinates
 
     def update_size(self):
         self.image.width = max(1, self.original_width * (1 - (self.falling / FALL_RATIO)))
