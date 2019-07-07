@@ -1,9 +1,3 @@
-'''
-To do:
--Tell user to install pygame
--Make cars
-'''
-
 # Import modules
 try:
     import pygame
@@ -67,7 +61,7 @@ def redraw():
         # If the player has lost
         if lose:
             # Box
-            win.blit(pygame.image.load('LoseBox.png'), (276, 161))
+            win.blit(pygame.image.load('Boxes//LoseBox.png'), (276, 161))
             # Buttons
             win.blit(playagain.image, (playagain.x, playagain.y))
             win.blit(back.image, (290, 250))
@@ -75,7 +69,7 @@ def redraw():
         # If the player has won
         elif comp:
             # Box
-            win.blit(pygame.image.load('WinBox.png'), (276, 161))
+            win.blit(pygame.image.load('Boxes//WinBox.png'), (276, 161))
             # Buttons
             win.blit(playagain.image, (playagain.x, playagain.y))
             win.blit(back.image, (290, 250))
@@ -211,8 +205,7 @@ class car(object):
         onscreen.remove(self)
 
 
-# Define cars
-# Replace these with actual cars. These are placeholders.
+# Define cars (E stands for electric and F for fossil)
 E1 = car(True,
          [pygame.image.load('Cars\\Electric.png')],
          5,
@@ -220,11 +213,11 @@ E1 = car(True,
          92,
          3)
 
-E2 = car(False,
-         [pygame.image.load('Cars\\Jeep.png')],
-         10,
+E2 = car(True,
+         [pygame.image.load('Cars\\Taxi.png')],
+         7,
          168,
-         94,
+         68,
          3)
 
 F1 = car(False,
@@ -234,12 +227,13 @@ F1 = car(False,
          94,
          5)
 
-F2 = car(True,
-         [pygame.image.load('Cars\\Taxi.png')],
-         7,
+F2 = car(False,
+         [pygame.image.load('Cars\\Jeep.png')],
+         10,
          168,
-         68,
+         72,
          5)
+
 
 
 # List of available vehicles to chose from
