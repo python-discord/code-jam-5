@@ -13,6 +13,7 @@ class ControlsWidget(QtWidgets.QFrame):
         super().__init__()
         self.player = player
         self.player.mediaStatusChanged.connect(self._update_controls_on_stop)
+        self.player.playlist().currentMediaChanged.connect(self._update_play_pause_button)
         self.setObjectName('controls')
         self.setFixedHeight(50)
         self.init_ui()
@@ -43,9 +44,6 @@ class ControlsWidget(QtWidgets.QFrame):
         self.duration_label.setFont(QtGui.QFont('Raleway'))
         self.seeker.timestamp_updated.connect(self.duration_label.setText)
 
-        # debug
-        self.play_pause_button.clicked.connect(self._open_file)
-
         self.main_layout.addWidget(self.previous_song_button)
         self.main_layout.addWidget(self.play_pause_button)
         self.main_layout.addWidget(self.next_song_button)
@@ -58,16 +56,21 @@ class ControlsWidget(QtWidgets.QFrame):
         if status == self.player.EndOfMedia:
             self.play_pause_button.setIcon(self.play_song_icon)
             self.seeker.setValue(0)
+        
+    def _update_play_pause_button(self, state):
+        if self.player.state() == self.player.PlayingState:
+            self.play_pause_button.setIcon(self.pause_song_icon)
+        else:
+            self.play_pause_button.setIcon(self.play_song_icon)
 
     def toggle_play(self):
         """Toggle between play and pause."""
         if self.player.state() == self.player.PlayingState:
-            self.play_pause_button.setIcon(self.play_song_icon)
             self.player.pause()
+            self.play_pause_button.setIcon(self.play_song_icon)
         elif self.player.playlist().mediaCount():
-            self.play_pause_button.setIcon(self.pause_song_icon)
             self.player.play()
-
+            self.play_pause_button.setIcon(self.pause_song_icon)
 
     def _next_song(self):
         """Plays the next song in the playlist."""
@@ -80,7 +83,7 @@ class ControlsWidget(QtWidgets.QFrame):
         """Plays previous song in the playlist."""
         self.player.playlist().previous()
         if self.player.state() == QtMultimedia.QMediaPlayer.PausedState:
-            self._toggle_play()
+            self.toggle_play()
 
     def enabled(self, status: bool = True):
         """Enable or disable the control buttons."""
@@ -90,26 +93,13 @@ class ControlsWidget(QtWidgets.QFrame):
 
     def _open_file(self):
         """Opens an audio file and adds it to the playlist."""
-        # song = QtWidgets.QFileDialog.getOpenFileName(self, "Open Song", "", "Sound Files (*.mp3)")
+        song = QtWidgets.QFileDialog.getOpenFileName(self, "Open Song", "", "Sound Files (*.mp3)")
 
-        # if song[0]:
-        #     url = QtCore.QUrl.fromLocalFile(song[0])
+        if song[0]:
+            url = QtCore.QUrl.fromLocalFile(song[0])
 
-        #     if not self.player.playlist().mediaCount():
-        #         self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))
-        #         self._toggle_play()
-        #     else:
-        #         self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))
-
-
-
-        file = as_callack_audio("Green tip number 34:"
-            "This is over Anakin! I have the high ground."
-            "?"
-            "You underestimate my power."
-        )
-
-        url = QtCore.QUrl.fromLocalFile(file)
-
-        self.player.setMedia(QtMultimedia.QMediaContent(url))
-        self.player.play()
+            if not self.player.playlist().mediaCount():
+                self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))
+                self.toggle_play()
+            else:
+                self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))

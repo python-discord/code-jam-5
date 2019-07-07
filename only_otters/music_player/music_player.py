@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets, QtMultimedia, QtGui, QtCore
 from .controls import ControlsWidget
 from .now_playing import NowPlayingWidget
 from .featured_songs import FeaturedSongs
+from only_otters.images import buttons as imgButtons
 from pathlib import Path
 
 from only_otters.ads.facts import get_fact_by_tags
@@ -21,8 +22,10 @@ class MusicPlayer(QtWidgets.QWidget):
         self.player = QtMultimedia.QMediaPlayer()
         self.playlist = QtMultimedia.QMediaPlaylist()
         self.player.setPlaylist(self.playlist)
+        self.player.playlist().currentMediaChanged.connect(self.disable_advert_controls)
+        self.advert_in_progress = False
 
-        self.advert_counter = 0  # self.__class__.total_songs_between_adverts
+        self.advert_counter = self.total_songs_between_adverts - 1
 
         self.init_ui()
 
@@ -56,13 +59,8 @@ class MusicPlayer(QtWidgets.QWidget):
 
         self.featured_songs = FeaturedSongs()
         self.featured_songs.chosen_song.connect(self.play_song)
-        self.featured_songs.chosen_song.connect(self.now_playing_widget.audio_visualiser.green_flames)
-
-        self.open_file_button = QtWidgets.QPushButton('Open File to Play')
-        self.open_file_button.clicked.connect(self.open_file)
 
         self.main_content_layout.addWidget(self.featured_songs)
-        self.main_content_layout.addWidget(self.open_file_button)
         self.main_content_layout.addItem(self.vertical_spacer)
 
         #
@@ -82,52 +80,59 @@ class MusicPlayer(QtWidgets.QWidget):
 
         self.controls = ControlsWidget(self.player)
 
-        self.player.mediaStatusChanged.connect(self.status_changed)
-
         self.main_layout.addWidget(self.now_playing_widget)
         self.main_layout.addWidget(self.contents_widget)
         self.main_layout.addWidget(self.controls)
 
         self.setLayout(self.main_layout)
 
-    def open_file(self):
-        song = QtWidgets.QFileDialog.getOpenFileName(self, "Open Song", "", "Sound Files (*.mp3)")
-        if song:
-            self.now_playing_widget.audio_visualiser.red_flames()
-            self.play_song(song[0])
-
     def play_song(self, song):
+        self.player.playlist().clear()
         self.controls.duration_label.setText('Loading...')
         url = QtCore.QUrl.fromLocalFile(song)
-        self.player.playlist().insertMedia(self.player.playlist().nextIndex(), QtMultimedia.QMediaContent(url))
-        if self.player.playlist().mediaCount() == 1:
-            self.controls.toggle_play()
-        else:
-            self.controls._next_song()
-        self.controls.duration_label.setText('0')
 
-    def status_changed(self, status):
+        if self.check_advert_intermission():
+            self.player.playlist().addMedia(QtMultimedia.QMediaContent(url))
+        else:
+            self.player.playlist().insertMedia(self.player.playlist().nextIndex(), QtMultimedia.QMediaContent(url))
+
+            if self.player.playlist().mediaCount() == 1:
+                self.controls.toggle_play()
+            else:
+                self.controls._next_song()
+        self.controls.duration_label.setText('0')
+        self.controls.play_pause_button.setIcon(QtGui.QIcon(imgButtons.Pause.str))
+
+    def disable_advert_controls(self, media):
+        if self.advert_in_progress:
+            self.now_playing_widget.audio_visualiser.green_flames()
+            self.controls.setEnabled(False)
+            self.advert_in_progress = False
+        else:
+            self.now_playing_widget.audio_visualiser.red_flames()
+            self.controls.setEnabled(True)
+
+    def play_ad(self):
+        self.advert_in_progress = True
+        fact = get_fact_by_tags('text')
+        text = "Did you know that ..." + fact.content
+        file = as_callack_audio(text)
+        self.play_song(file)
+        self.now_playing_widget.now_playing_label.setText('Now Playing: Advert Intermission')
+
+    def check_advert_intermission(self):
         """
         Callback for every time the media player's status changes.
         Will play an ad after each song. 'ADVERT' is a on/off
         """
-        if status == self.player.EndOfMedia:
-            if not self.advert_counter:
-                self.advert_counter = self.__class__.total_songs_between_adverts  # could be in an external config file
-                self.controls.enabled(False)
-                self.play_ad()
-            else:
-                self.advert_counter -= 1
-                self.controls.enabled()
-
-    def play_ad(self):
-        fact = get_fact_by_tags('text')
-        text = "Did you know that ..." + fact.content
-        file = as_callack_audio(text)
-        url = QtCore.QUrl.fromLocalFile(file)
-        self.player.setMedia(QtMultimedia.QMediaContent(url))
-        self.player.play()
-
+        if not self.advert_counter:
+            self.advert_counter = self.total_songs_between_adverts  # could be in an external config file
+            self.play_ad()
+            return True
+        else:
+            self.advert_counter -= 1
+            self.controls.enabled()
+            return False
 
     def resizeEvent(self, event):
         """Handles the positioning and sizing of the moon foreground image."""
@@ -139,7 +144,6 @@ class MusicPlayer(QtWidgets.QWidget):
                                         self.now_playing_widget.height() - scaled.height()*0.65)
         self.foreground_label.resize(self.width(), scaled.height())
         self.foreground_label.raise_()
-
 
     def refresh_fact(self):
         self.fact_widget.deleteLater()
