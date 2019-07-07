@@ -147,6 +147,13 @@
             ],
             "version": "==4.19.18"
         },
+        "pyqt5-stubs": {
+            "hashes": [
+                "sha256:070afa9557a886363146794623f85141ae5aef12408b8335fa583507f5207cb7"
+            ],
+            "index": "pypi",
+            "version": "==5.12.1.0"
+        },
         "websockets": {
             "hashes": [
                 "sha256:0e2f7d6567838369af074f0ef4d0b802d19fa1fee135d864acc656ceefa33136",

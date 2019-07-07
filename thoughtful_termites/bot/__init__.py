@@ -16,10 +16,11 @@ description = "A simple climate bot made for the 5th code jam."
 extensions = [
     'cogs.climate_arguments',
     'cogs.hangman',
-    'cogs.minesweeper',
+    'cogs.treefinder',
     'cogs.rankings',
     # 'cogs.reminders',
-    'cogs.trivia'
+    'cogs.trivia',
+    'cogs.farmer_game',
 ]
 
 

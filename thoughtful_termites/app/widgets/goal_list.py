@@ -57,6 +57,13 @@ class GoalList(qt.QListWidget):
 
             edit_goal_window.exec()
 
+        def on_complete():
+            UnlocksWindow.set_completed_goals(UnlocksWindow.completed_goals() + len(selected_items))
+
+            for item in selected_items:
+                item.goal.delete()
+                self.takeItem(self.row(item))
+
         def on_delete():
             for item in selected_items:  # type: GoalListItem
                 item.goal.delete()
@@ -69,6 +76,7 @@ class GoalList(qt.QListWidget):
             menu = qt.QMenu()
             menu.addAction('Edit Goal', on_edit_goal)
             menu.addAction('Edit Reminders', on_edit_reminders)
+            menu.addAction('Complete Goal', on_complete)
             menu.addAction('Delete', on_delete)
 
             menu.exec(self.mapToGlobal(pos))

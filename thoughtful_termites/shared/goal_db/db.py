@@ -10,9 +10,11 @@ from .goal import Goal
 from .reminder import Reminder
 from .reminder_day import ReminderDay
 from .reminder_time import ReminderTime
+from .unlocks import Unlock
+from .farmertown import FarmerTownMain, FarmerTownDecision
 
 cd = Path(__file__).parent
-creation_script_path = cd/'create_goal_db.sqlite'
+creation_script_path = cd / 'create_goal_db.sqlite'
 """
 script used to create the goals/reminders database
 """
@@ -148,7 +150,7 @@ class GoalDB:
         :return: Goal with given name.
         """
         result = self.connection.execute(
-            "SELECT * FROM goals WHERE name=?", (goal_name, )
+            "SELECT * FROM goals WHERE name=?", (goal_name,)
         )
         for row in result:
             return Goal.from_row(self, row)
@@ -193,6 +195,7 @@ class GoalDB:
         :param: goal_name: the goal name of the reminder.
         :return: Reminder with the given goal name.
         """
+
         result = self.connection.execute(
             'SELECT * FROM reminders INNER JOIN goals '
             'ON goals.id = reminders.goal_id WHERE goals.name=?',
@@ -218,6 +221,7 @@ class GoalDB:
         :param: goal_id: The goal ID of the reminder.
         :return: Reminder with the given goal ID
         """
+
         result = self.connection.execute(
             "SELECT * FROM reminders WHERE goal_id=?", (goal_id, )
         )
@@ -279,3 +283,45 @@ class GoalDB:
     async def get_next_reminder_async(self):
         """Coroutine helper to get the next reminder."""
         return await self.loop.run_in_executor(None, self.get_next_reminder)
+
+    def get_unlocks(self):
+        result = self.connection.execute("SELECT * FROM unlocks")
+
+        for row in result:
+            yield Unlock.from_row(self, row)
+
+    def get_unlock_by_id(self, unlock_id):
+        result = self.connection.execute("SELECT * FROM unlocks WHERE id=?", (unlock_id, ))
+
+        for row in result:
+            return Unlock.from_row(self, row)
+
+    def get_unlock_by_name(self, name):
+        result = self.connection.execute("SELECT * FROM unlocks WHERE name=?", (name, ))
+
+        for row in result:
+            return Unlock.from_row(self, row)
+
+    async def create_farm(self, user_id, farmer_name):
+        """Create a farmer town account with given user id and farmer name.
+        :param: user_id: The user id to create account for.
+        :param: farmer_name: The user's farmer name.
+        """
+        def execute():
+            self.connection.execute("INSERT INTO farmertown (user_id, farmer_name) "
+                                    "VALUES (?, ?)", (user_id, farmer_name))
+            self.connection.commit()
+
+        await self.loop.run_in_executor(None, execute)
+
+    async def get_farmertown(self, user_id):
+        """Get a FarmerTown account for a given user_id
+        :param: user_id: The user id to fetch account for.
+        :return: :class:`FarmerTownMain` - the farmer town account.
+        """
+        def fetch():
+            return self.connection.execute("SELECT * FROM farmertown WHERE user_id=?", (user_id, ))
+        result = await self.loop.run_in_executor(None, fetch)
+        for row in result:
+            return FarmerTownMain(self, row)
+
