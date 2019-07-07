@@ -14,37 +14,6 @@ from PyQt5.QtCore import pyqtProperty, QObject
 from PyQt5.QtWidgets import QWidget
 
 
-"""
-TODO:
-The idea is to have each source inherit from the following classes.
-
-Each source module has its own unique FactFactory object '__factory__', which yields
-Fact objects.
-
-A fact object has 4 fields at the least:
-* title
-* content
-* source (url)
-* data (the original record)
-
-+ the factory it originates from.
-
-f = Fact()
-
-f.widget (property)
-should return a widget to display the fact in the interface.
-There should be a default widget with {title, content, source}
-if the source factory doesn't specify one
-
-
-And all this wrapped in
-
-from facts import new_facts
-
-
-"""
-
-
 def hotfetch(method):
     """
     A decorator for FactFactory objects.
@@ -92,7 +61,6 @@ class FactFactory:
             new_records = self.fetcher()
         except Exception as e:
             print(e)
-            # TODO:
             raise
 
         self.records = list(new_records)
@@ -101,13 +69,13 @@ class FactFactory:
     def _build_widget(self, factobj: 'Fact', parent: QWidget) -> QmlWidget:
         """TODO:# build widget then return it"""
         return QmlWidget(
-            dataobjs={'fact': factobj},
             qmlpath=FactWidget.url,
+            context={'fact': factobj},
             parent=parent
         )
 
     def _build_fact(self, record: dict) -> 'Fact':
-        """TODO"""
+        """Build a Fact object from a dict record."""
         raise NotImplementedError
 
     @hotfetch
