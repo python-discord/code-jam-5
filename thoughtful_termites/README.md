@@ -8,10 +8,17 @@ to become more eco-friendly by setting environmentally green goals.
 ### Installation and Setup
 
 1. Install `pipenv` and run `pipenv install` on the project.
+
 2. Run `__main__.py` to start the control panel.
-3. Configure the bot using the 'Configure Bot' button.
+
+3. Configure the bot using the 'Configure Bot' button. This will require
+you to set up your own Discord bot
+[here](https://discordapp.com/developers/applications/). Enter in the
+bot's token and client ID as prompted.
+
 4. Configure goals and reminders using the 'Open Goals' button. More info
 on this in the Usage section below.
+
 5. Run bot using the 'Start Bot' button.
 
 
