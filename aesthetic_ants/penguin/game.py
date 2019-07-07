@@ -4,6 +4,7 @@ from .constants import CollisionType
 from .enemy import Enemy
 from .object import Object
 from .player import Player
+from .resources import LEVEL_1
 from .snowball import Snowball
 from .space import Space
 from .tile_layer import TileLayer
@@ -60,7 +61,7 @@ class Game(pyglet.window.Window):
     def create_tiles(self) -> TileLayer:
         """Creates the tile background layer"""
         tiles = TileLayer(0, 0)
-        tiles.load_tiles("resources/levels/1.level")
+        tiles.load_tiles(LEVEL_1)
 
         self.space.add_collision_handler(CollisionType.SNOWBALL,
                                          CollisionType.TILE_LAYER,

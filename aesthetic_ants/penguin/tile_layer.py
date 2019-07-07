@@ -77,23 +77,22 @@ class TileLayer(Object):
                 tile.delete()
         self.tiles = []
 
-    def load_tiles(self, tile_filename: str):
+    def load_tiles(self, level):
         """Loads a tile map from a level file"""
-        with open(tile_filename, 'r') as level_file:
-            level_data = level_file.readlines()
-            self.erase_tiles()
+        level_data = level.text.split("\n")
+        self.erase_tiles()
 
-            for y, line in enumerate(level_data):
-                row = []
-                for x, serialized_tile in enumerate(line.strip()):
-                    tile_type = TILE_SERIALIZATION_MAP[serialized_tile]
-                    tile = Tile(tile_type,
-                                self.tile_images[tile_type],
-                                x=x * TILE_SIZE + self.x,
-                                y=y * TILE_SIZE + self.y,
-                                batch=self.batch)
-                    row.append(tile)
-                self.tiles.append(row)
+        for y, line in enumerate(level_data):
+            row = []
+            for x, serialized_tile in enumerate(line):
+                tile_type = TILE_SERIALIZATION_MAP[serialized_tile]
+                tile = Tile(tile_type,
+                            self.tile_images[tile_type],
+                            x=x * TILE_SIZE + self.x,
+                            y=y * TILE_SIZE + self.y,
+                            batch=self.batch)
+                row.append(tile)
+            self.tiles.append(row)
 
     def collide_tiles(self, other, _):
         """Determine which tiles collide with the passed object,
