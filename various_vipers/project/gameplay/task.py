@@ -77,7 +77,7 @@ class Task(object):
 
     def draw(self) -> None:
         """Draw is called every game tick."""
-        self.screen.fill(Color.black, self.window_rect)
+        self.screen.fill(self.biome.color[0], self.window_rect)
         if self.time_start:
             self._draw_timer()
 

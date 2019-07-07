@@ -25,7 +25,7 @@ class Notification:
 
         font = pg.font.Font(None, 50)
         text_surface = font.render(self.text, False, self.color)
-        text_surface.set_alpha(alpha)
+        # text_surface.set_alpha(alpha)
 
         w = int(WIDTH // 2) - int(text_surface.get_width() // 2)
         h = int(HEIGHT // 6)
