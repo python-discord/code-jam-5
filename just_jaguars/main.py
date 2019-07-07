@@ -7,7 +7,6 @@ from assets import (
     hydrogen, ghg_capture_tech
 )  # Importing the images for the icons
 from random import randint, choice
-from time import time
 
 # Details about the window
 window_width = 1152
@@ -17,6 +16,14 @@ window_icon = None
 window_title = 'Name of game'
 
 fps = 60
+
+# Globals (2 green + 2 dirty)
+energy_output = 22
+emission_output = 20
+overall = {
+    'green': 2,
+    'dirty': 2
+}
 
 # Fonts
 pygame.font.init()
@@ -69,7 +76,6 @@ class Icon(pygame.sprite.Sprite):
         Every frame each icon falls down the screen at the specified
         speed. When it reaches the bottom it is removed.
         """
-        # self.rect.y += icon_speed
         if self.rect.top > window_height:
             self.kill()
 
@@ -83,14 +89,22 @@ def icon_clicked(event):
                 print(f'You LEFT clicked on a {icon.type} icon! '
                       f'It has an energy output of {icon.energy_output} '
                       f'and an emission output of {icon.emission_output}.')
-                icon.kill()
             elif event.button == 3:  # Right-click
                 print(f'You RIGHT clicked on a {icon.type} icon! '
                       f'It has an energy output of {icon.energy_output} '
                       f'and an emission output of {icon.emission_output}.')
-                icon.kill()
             else:
                 pass
+            icon.kill()
+
+            global energy_output, energy_output_text
+            global emission_output, emission_output_text
+
+            energy_output += icon.energy_output
+            emission_output += icon.emission_output
+
+            energy_output_text = arial.render(str(energy_output), False, (0, 0, 0))
+            emission_output_text = arial.render(str(emission_output), False, (0, 0, 0))
 
 
 # Boiler-plate:
@@ -165,6 +179,9 @@ fps_displayed = str(60)
 
 fps_text = arial.render('?/60', False, (0, 0, 0))
 
+energy_output_text = arial.render(str(energy_output), False, (0, 0, 0))
+emission_output_text = arial.render(str(emission_output), False, (0, 0, 0))
+
 while running:
     frames += 1
 
@@ -192,6 +209,9 @@ while running:
     all_icons.draw(window)
 
     window.blit(fps_text,(0,0)) # fps
+
+    window.blit(energy_output_text, (25, 200))
+    window.blit(emission_output_text, (25, 400))
 
     pygame.display.update()
     clock.tick(fps)
