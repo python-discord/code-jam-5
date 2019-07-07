@@ -82,8 +82,6 @@ class Task(object):
 
     def _complete(self, successful: bool) -> None:
         """Called when task was completed."""
-        logger.debug(successful)
-
         if successful:
             Sound.task_completed.play()
         else:

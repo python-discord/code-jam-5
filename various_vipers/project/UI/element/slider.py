@@ -1,7 +1,6 @@
 """Contains a slider model."""
 
-import pygame as pg
-from pygame import Rect
+from pygame import Rect, Surface, mouse
 
 from project.UI.fx.sound import Sound
 from project.constants import SLIDER_BODY, SLIDER_INDICATOR, SliderProperties
@@ -15,7 +14,7 @@ user_data = UserData()
 class Slider:
     """Represents a volume slider."""
 
-    def __init__(self, screen: pg.Surface, number):
+    def __init__(self, screen: Surface, number):
         """Sets rectangle object for the slider."""
         self.screen = screen
         self.number = number
@@ -66,7 +65,7 @@ class Slider:
 
     def move_indicator(self, x, y, event) -> None:
         """Moves the indicator on the x axis and saves the changes."""
-        b = pg.mouse.get_pressed()[0]
+        b = mouse.get_pressed()[0]
 
         if b and self.click:
             if (

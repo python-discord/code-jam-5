@@ -1,7 +1,7 @@
 import logging
 import random
 
-import pygame as pg
+from pygame import Surface
 from pygame.transform import flip, scale
 
 from project.constants import HEIGHT, INDICATOR_WIDTH, WIDTH
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class Indicator:
     """Indicator to show the way towards task."""
 
-    image: pg.Surface
+    image: Surface
 
     # Indicator arrow pulses (moving x coordinates)
     max_x_offset: int = 30  # max x pulse offset from initial position
@@ -23,7 +23,7 @@ class Indicator:
     pulse_direction: int = 1
 
     def __init__(
-        self, screen: pg.Surface, tile: Tile, image: pg.Surface, is_left: bool = True
+        self, screen: Surface, tile: Tile, image: Surface, is_left: bool = True
     ):
         self.screen = screen
         self.tile = tile

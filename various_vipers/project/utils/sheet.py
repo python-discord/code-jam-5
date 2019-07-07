@@ -1,4 +1,4 @@
-import pygame as pg
+from pygame import Surface
 
 from project.utils.helpers import load_img
 
@@ -15,7 +15,7 @@ class Sheet:
 
         Alpha boolean keyword argument for converting the sprite in alpha or non-alpha.
         """
-        image = pg.Surface((width, height))
+        image = Surface((width, height))
         image.blit(self.spritesheet, (0, 0), (x, y, width, height))
         image.set_colorkey((0, 0, 0))
         image.set_alpha(255)

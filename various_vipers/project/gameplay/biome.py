@@ -123,7 +123,6 @@ class Biome(object):
             """Add a task to tile in this biome. Find tile by coordinates."""
             self._task_coords.append((y, x))
             self._tiles[y][x].task = task
-            logger.debug("set task")
 
         def set_task_by_tile(self, tile: Tile, task: Task) -> None:
             """Add a task to tile in this biome."""
@@ -137,7 +136,6 @@ class Biome(object):
             """Remove a task from the tile in this biome. Find tile by coordintes."""
             self._task_coords.remove((y, x))
             del self._tiles[y][x].task
-            logger.debug("del task")
 
         def del_task_by_tile(self, tile: Tile) -> None:
             """Remove a task from the tile in this biome."""

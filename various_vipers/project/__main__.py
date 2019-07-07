@@ -36,5 +36,3 @@ if __name__ == "__main__":
         ps = pstats.Stats(pr, stream=p_stream).sort_stats(SortKey.CUMULATIVE)
         ps.print_stats()
         logger.debug(p_stream.getvalue())
-
-    quit()

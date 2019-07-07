@@ -1,4 +1,4 @@
-import pygame as pg
+from pygame import mixer
 
 from project.constants import BG_MUSIC, SOUNDS_BUTTONS as SND
 from project.utils.user_data import UserData
@@ -10,16 +10,16 @@ user_data = UserData()
 class Sound:
     """Represents all sounds and settings for the UI."""
 
-    pg.mixer.pre_init(44100, -16, 2, 2048)
-    pg.mixer.init()
-    pg.mixer.music.set_volume(0)
-    pg.mixer.music.load(str(BG_MUSIC))
-    pg.mixer.music.play(-1)
+    mixer.pre_init(44100, -16, 2, 2048)
+    mixer.init()
+    mixer.music.set_volume(0)
+    mixer.music.load(str(BG_MUSIC))
+    mixer.music.play(-1)
 
-    click = pg.mixer.Sound(str(SND["click3"]))
-    check = pg.mixer.Sound(str(SND["switch1"]))
-    task_completed = pg.mixer.Sound(str(SND["twoTone2"]))
-    task_failed = pg.mixer.Sound(str(SND["phaserUp1"]))
+    click = mixer.Sound(str(SND["click3"]))
+    check = mixer.Sound(str(SND["switch1"]))
+    task_completed = mixer.Sound(str(SND["twoTone2"]))
+    task_failed = mixer.Sound(str(SND["phaserUp1"]))
 
     @staticmethod
     def update():
@@ -43,4 +43,4 @@ class Sound:
         Sound.task_completed.set_volume(sound_vol)
         Sound.task_failed.set_volume(sound_vol)
 
-        pg.mixer.music.set_volume(music_vol)
+        mixer.music.set_volume(music_vol)

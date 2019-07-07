@@ -21,6 +21,8 @@ PROFILING = False
 #  this option disables inneficient detail draws.
 BOOST_FPS = False
 
+REPO_LINK = "https://github.com/skilldeliver/code-jam-5"
+
 
 # Biomes are transformed to squares
 # Width of a single biome (biomes can be chained together)
@@ -46,8 +48,6 @@ INDICATOR_WIDTH: int = 100
 BG_SCROLL_SPEED = 20
 BG_CLOUDS_SCROLL_SPEED = 1
 FG_CLOUDS_SCROLL_SPEED = 2
-
-REPO_LINK = "https://github.com/skilldeliver/code-jam-5"
 
 
 PATH_PROJECT = PurePath(__file__).parent

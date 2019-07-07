@@ -1,7 +1,8 @@
 import time
 from typing import Optional
 
-import pygame as pg
+from pygame import Surface
+from pygame.font import Font
 
 from project.constants import Color, HEIGHT, WIDTH
 from project.utils.helpers import fit_to_range
@@ -17,13 +18,13 @@ class Notification:
 
         self.start = time.time()
 
-    def draw(self, screen: pg.Surface) -> Optional["Notification"]:
+    def draw(self, screen: Surface) -> Optional["Notification"]:
         """Draw notification on screen. Returns self if it still has drawign to do."""
         alpha = fit_to_range(
             min(time.time() - self.start, self.duration), 0, self.duration, 400, 0
         )
 
-        font = pg.font.Font(None, 50)
+        font = Font(None, 50)
         text_surface = font.render(self.text, False, self.color)
         # text_surface.set_alpha(alpha)
 

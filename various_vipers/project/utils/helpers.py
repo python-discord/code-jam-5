@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta
 from pathlib import PurePath
 
 from pygame import Surface
@@ -20,27 +20,27 @@ def fit_to_range(val: float, a: float, b: float, a1: float, b1: float) -> float:
     return new_value
 
 
-def realtime_to_ingame_delta(sec: float) -> datetime.timedelta:
+def realtime_to_ingame_delta(sec: float) -> timedelta:
     """Converts seconds (realtime) to timedelta (ingame)."""
-    return datetime.timedelta(days=SECONDS_TO_DAYS * sec)
+    return timedelta(days=SECONDS_TO_DAYS * sec)
 
 
-def realtime_to_ingame(sec: float, start_dt: datetime.datetime) -> datetime.datetime:
+def realtime_to_ingame(sec: float, start_dt: datetime) -> datetime:
     """Converts seconds (realtime) to datetime (ingame), starting from given dt."""
     return start_dt + realtime_to_ingame_delta(sec)
 
 
-def ingame_delta_formatted(dt: datetime.timedelta) -> str:
+def ingame_delta_formatted(dt: timedelta) -> str:
     """Returns formatted ingame duration survived (text)."""
     return f"{dt.days // 365} years {dt.days % 365} days"
 
 
-def ingame_formatted(dt: datetime.datetime) -> str:
+def ingame_formatted(dt: datetime) -> str:
     """Returns formatted ingame timedate(text)."""
     return dt.strftime("%Y - %B")
 
 
-def realtime_to_ingame_formatted(sec: float, start_dt: datetime.datetime) -> str:
+def realtime_to_ingame_formatted(sec: float, start_dt: datetime) -> str:
     """Converts seconds (realtime) to text, how long the earth lived."""
     return ingame_formatted(realtime_to_ingame(sec, start_dt))
 
