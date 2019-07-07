@@ -2,7 +2,7 @@ import sys
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-import plot
+from plot import Plotter
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -203,7 +203,7 @@ class MainWindow(QtWidgets.QMainWindow):
         start_date = self.start_year.value() + (1 + self.start_month.currentIndex() * 2) / 24
         end_date = self.end_year.value() + (1 + self.end_month.currentIndex() * 2) / 24
 
-        self.worker = plot.Plotter(start_date, end_date, self.plot_step, self.color_map, self)
+        self.worker = Plotter(start_date, end_date, self.plot_step, self.color_map, self)
         self.worker.image_increment_signal.connect(self.add_image)
         self.worker.finished.connect(self.del_worker)
         self.worker.status_signal.connect(self.set_status)
@@ -228,7 +228,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.image_slider.setValue(self.image_slider.value() + amount)
 
     def change_image(self, index):
-        pixmap = QtGui.QPixmap(f"plots/plot{index}")
+        pixmap = QtGui.QPixmap(f"{Plotter.PLOTS_DIR}plot{index}")
         self.image_label.setPixmap(pixmap)
 
     def date_changed(self):
@@ -403,7 +403,7 @@ class ColorMapChooser(QtWidgets.QDialog):
         self.move(self.start_pos)
         self.main_layout.addWidget(self.color_list)
         self.setLayout(self.main_layout)
-        self.color_list.addItems(plot.Plotter.get_color_maps())
+        self.color_list.addItems(Plotter.get_color_maps())
 
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint, True)
         self.setWindowFlags(QtCore.Qt.Popup)

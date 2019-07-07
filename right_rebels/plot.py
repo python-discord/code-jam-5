@@ -15,10 +15,10 @@ matplotlib.use('Agg')
 
 
 class Plotter(QtCore.QThread):
-    PLOTS_DIR = "plots/"
-    NC_FILE_NAME = "Complete_TMAX_LatLong1.nc"
+    PLOTS_DIR = "data/plots/"
+    NC_FILE_PATH = "data/Complete_TMAX_LatLong1.nc"
     LONGITUDES, LATITUDES, DATES, TEMPERATURES, \
-    TEMPERATURE_UNIT = helpers.get_variables_from_nc_file(NC_FILE_NAME)
+    TEMPERATURE_UNIT = helpers.get_variables_from_nc_file(NC_FILE_PATH)
     image_increment_signal = QtCore.pyqtSignal()
     status_signal = QtCore.pyqtSignal(str)
 
@@ -181,9 +181,7 @@ class Plotter(QtCore.QThread):
 
 
 if __name__ == "__main__":
-    """p = Plotter(1994.125, 2000.7083333333333, 1, "seismic")
+    p = Plotter(1994.125, 2000.7083333333333, 1, "seismic")
     p.start()
     while not p.isFinished():
-        time.sleep(10)"""
-    p = Plotter(1998.125, 2000.7083333333333, 7, "seismic")
-    p.create_graph()
+        time.sleep(10)
