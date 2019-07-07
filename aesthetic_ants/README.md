@@ -39,6 +39,8 @@ Mouse to aim and throw snowballs at the evil business men.
 
 R to reload your weapon.
 
+1, 2, and 3 to switch to a weapon (See "Weapons")
+
 ### Summmary
 
 Try to fend off as many business people as you can; these guys will accelerate
