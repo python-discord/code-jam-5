@@ -5,16 +5,15 @@ verify_ssl = true
 
 [dev-packages]
 flake8 = "*"
+pyqt5-stubs = "*"
 
 [packages]
-pywin32 = "*"
 "discord.py" = "*"
 pyqt5 = "*"
-pyqt5-stubs = "*"
 
 [requires]
 python_version = "3.7"
 
 [scripts]
-start = "python -m thoughtful_termites"
+thoughtful_termites = "python -m thoughtful_termites"
 lint = "python -m flake8"
