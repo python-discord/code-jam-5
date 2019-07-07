@@ -11,7 +11,10 @@ from .reminder import Reminder
 from .reminder_day import ReminderDay
 from .reminder_time import ReminderTime
 from .unlocks import Unlock
-from .farmertown import FarmerTownMain, FarmerTownDecision
+from .farmertown import (
+    FarmerTownMain,
+    # FarmerTownDecision,
+)
 
 cd = Path(__file__).parent
 creation_script_path = cd / 'create_goal_db.sqlite'
@@ -324,4 +327,3 @@ class GoalDB:
         result = await self.loop.run_in_executor(None, fetch)
         for row in result:
             return FarmerTownMain(self, row)
-

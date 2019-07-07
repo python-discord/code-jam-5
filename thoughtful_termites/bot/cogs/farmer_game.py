@@ -7,7 +7,7 @@ from datetime import datetime
 
 from discord.ext import commands
 
-CROP_DATA_LOCATION = './resources/crop_data.json'
+from thoughtful_termites.bot.resources import crop_data_path
 
 
 def readable_time(delta_seconds):
@@ -155,7 +155,7 @@ class FarmerTown(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        with open(CROP_DATA_LOCATION) as fp:
+        with open(crop_data_path) as fp:
             self.raw_crop_data = json.load(fp)
 
         self.crop_data = CropData(self.raw_crop_data, bot.db)

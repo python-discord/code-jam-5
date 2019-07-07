@@ -1,6 +1,7 @@
 from thoughtful_termites.shared import qt
 from .reminder_list_window import ReminderListWindow
 from .edit_goal_window import EditGoalWindow
+from .unlocks_window import UnlocksWindow
 
 from thoughtful_termites.shared.goal_db import GoalDB
 

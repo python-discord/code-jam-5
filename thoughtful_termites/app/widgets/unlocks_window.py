@@ -1,21 +1,22 @@
-from thoughtful_termites.app import qt
-from thoughtful_termites.shared.constants import get_db
-
-
-COMPLETED_GOALS_PATH = "./resources/completed_goals.txt"
+from thoughtful_termites.shared import qt
+from thoughtful_termites.shared.database import get_db
+from thoughtful_termites.shared.constants import completed_goals_path
 
 
 class UnlocksWindow(qt.QDialog):
     @staticmethod
     def set_completed_goals(n: int):
-        with open(COMPLETED_GOALS_PATH, "w") as f:
+        with open(completed_goals_path, 'w') as f:
             f.write(str(n))
 
     @staticmethod
     def completed_goals():
-        with open(COMPLETED_GOALS_PATH, "r") as f:
-            contents = f.read().strip()
-            return int(contents)
+        if completed_goals_path.exists():
+            with open(completed_goals_path, "r") as f:
+                contents = f.read().strip()
+                return int(contents)
+        else:
+            return 0
 
     def __init__(self):
         super().__init__()

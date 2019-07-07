@@ -1,7 +1,7 @@
 import sqlite3
 import weakref
 
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .db import GoalDB

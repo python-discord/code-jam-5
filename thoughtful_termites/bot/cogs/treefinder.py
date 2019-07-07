@@ -240,7 +240,10 @@ class Treefinder(commands.Cog):
 
         # The user must click on a 0 in their first click, so we set up a special
         # "first turn"
-        response = await self.bot.wait_for("message", check=lambda r: r.content.startswith("guess "))
+        response = await self.bot.wait_for(
+            "message", check=lambda r: r.content.startswith("guess ")
+        )
+
         _, x, y = self.parse_command(response.content)
 
         self.populate_trees(x, y)

@@ -6,15 +6,14 @@ import random
 from discord.ext import commands
 
 from thoughtful_termites.bot import unlocks
-
-CLIMATE_ARGUMENT_PATH = './resources/climate_arguments.json'
+from thoughtful_termites.bot.resources import climate_arguments_path
 
 
 class ClimateArguments(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        with open(CLIMATE_ARGUMENT_PATH) as fp:
+        with open(climate_arguments_path) as fp:
             self.raw_climate_arguments = json.load(fp)
 
     @commands.command(aliases=['cc', 'climcom'])
@@ -45,7 +44,9 @@ class ClimateArguments(commands.Cog):
             argument_id = random.randint(0, len(self.raw_climate_arguments) - 1)
 
         if not 0 < argument_id < len(self.raw_climate_arguments):
-            raise commands.BadArgument(f'Argument ID must be between 0 and {len(self.raw_climate_arguments)}')
+            raise commands.BadArgument(
+                f'Argument ID must be between 0 and {len(self.raw_climate_arguments)}'
+            )
 
         choice = self.raw_climate_arguments[argument_id]
         embed = discord.Embed(colour=self.bot.colour,
