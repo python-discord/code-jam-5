@@ -1,2 +1,1 @@
-python >= 3.6
-arcade
+arcade>=2.0.9
