@@ -125,6 +125,9 @@ class Game(pyglet.window.Window):
 
     def transition_wave(self):
         self.wave_transitioning = True
+        if self.is_over:
+            return
+
         wave_number, wave = next(self.waves)
         wave_text = WaveLabel(self, self.ui_space, wave_number)
         self.ui_space.add(wave_text)
