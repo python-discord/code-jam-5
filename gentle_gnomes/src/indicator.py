@@ -18,7 +18,7 @@ INDICATORS = (
 
 
 class Indicator:
-    def __init__(self, name: str, city: City):
+    def __init__(self, name: str, city: int):
         self.name = name
         self.city = city
 
@@ -32,7 +32,7 @@ class Indicator:
     async def _get_data(self) -> t.List[t.Dict]:
         tasks = []
         for scenario in ('historical', 'RCP85'):
-            tasks.append(app.azavea.get_indicator_data(self.city.id, scenario, self.name))
+            tasks.append(app.azavea.get_indicator_data(self.city, scenario, self.name))
 
         return await asyncio.gather(*tasks)
 
