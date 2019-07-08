@@ -2,7 +2,7 @@ from table import GameBoard
 from random import choices, shuffle
 from characters import Characters as char
 from tkinter import Tk, Label, Button, simpledialog
-from PIL import Image, ImageTk
+from PIL import ImageTk
 
 
 positives = ['Impose zero emmisions in urban centres',
@@ -55,11 +55,11 @@ class Game1(GameBoard):
         players = [player.name for player in self.players]
         while True:
             if self.root:
-                eliminated = simpledialog.askstring(title=f'{self.active}' ,prompt='Who to remove? ')
+                eliminate = simpledialog.askstring(title=f'{self.active}', prompt='Who to remove? ')
             else:
-                eliminated = input('who to remove?')
+                eliminate = input('who to remove?')
             try:
-                player = players.index(eliminated)
+                player = players.index(eliminate)
             except (ValueError, TypeError):
                 print('Not an option')
                 continue
@@ -79,7 +79,7 @@ class Game1(GameBoard):
                     enact = int(simpledialog.askstring(title='Executive Order', prompt=prompt))
                 else:
                     enact = int(input(prompt))
-                if enact not in [1,2,3]:
+                if enact not in [1, 2, 3]:
                     raise ValueError
             except (ValueError, TypeError):
                 continue
@@ -100,10 +100,11 @@ class Game1(GameBoard):
         self.active.is_active = False
 
     def game_over(self):
-        if self.boss[0].eliminated == True:
+        if self.boss[0].eliminated:
             self.boss_removed = True
         return sum(1 for item in self.enacted if item in negatives) >= 3 or self.boss[0].eliminated
         # return len(self.players) > 2
+
 
 class Root(Tk):
     def __init__(self, game):
@@ -126,6 +127,7 @@ def main():
     game = Game1(['AXAS', 'AE', 'BTE', 'CJ', 'SHLX', 'SNP', 'CHK'])
     x = Root(game)
     x.mainloop()
+
 
 if __name__ == '__main__':
     main()
