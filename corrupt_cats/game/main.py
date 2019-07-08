@@ -371,7 +371,8 @@ class Game(arcade.Window):
                     + "[-] We should protect our planet, otherwise our 'simulation' can be real."
                 )
                 self.game_over = True
-                if not self.paused: self.switch_mode()
+                if not self.paused:
+                    self.switch_mode()
 
     def switch_mode(self):
         self.paused = bool(self.paused ^ 1)  # opposite
