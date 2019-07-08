@@ -7,7 +7,7 @@ from carpool.models import User
 class SignupForm(FlaskForm):
     """User Signup Form."""
 
-    name = StringField("Name", validators=[DataRequired(message=("Your name here"))])
+    name = StringField("Name", validators=[DataRequired(message=('Please enter a username'))])
     email = StringField(
         "Email",
         validators=[
@@ -21,10 +21,10 @@ class SignupForm(FlaskForm):
         validators=[
             DataRequired(message="Please enter a passwrod."),
             Length(min=6, message=("Please select a stronger password.")),
-            EqualTo("confirm", message="Passwords must match"),
         ],
     )
-    confirm = PasswordField("Confirm Your Password")
+    confirm = PasswordField("Confirm Your Password", validators=[
+        EqualTo('password', message="Passwords must match")])
     submit = SubmitField("Register")
 
     def validate_username(self, username):
@@ -42,15 +42,6 @@ class LoginForm(FlaskForm):
     """User Login Form."""
 
     username = StringField("Username", validators=[DataRequired()])
-    email = StringField(
-        "Email",
-        validators=[
-            DataRequired("Please enter a valid emaill address."),
-            Email("Please enter a valid email address."),
-        ],
-    )
     password = PasswordField(
-        "Password", validators=[DataRequired("Do not forget your password!?")]
-    )
-    remember_me = BooleanField("Remember Me")
+        "Password", validators=[DataRequired("Do not forget your password!?")])
     submit = SubmitField("Log In")

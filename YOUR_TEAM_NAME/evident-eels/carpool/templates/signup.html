@@ -5,25 +5,38 @@
         {% include "flashes.html" %}
 
         <h1 class="display-4">Sign up</h1>
-        <form action="{{ url_for('signup') }}" method="POST">
+        <form action="" method="POST">
+		{{ form.hidden_tag() }}
             <div class="form-group">
-                <label for="username">Username</label>
-                <input class="form-control" type="text" name="username" placeholder="Username">
+                {{ form.name.label }}<br>
+                <input class="form-control" type="text" name="name" placeholder="Username">
+				 {% for error in form.name.errors %}
+				<span style="color: red;">[{{ error }}]</span>
+				{% endfor %}
             </div>
             <div class="form-group">
-                <label for="email">Email</label>
+                {{ form.email.label }}
                 <input class="form-control" type="email" name="email" placeholder="Email" aria-describedby="emailNotice">
                 <small id="emailNotice" class="form-text text-muted">This may be public</small>
+				{% for error in form.email.errors %}
+				<span style="color: red;">[{{ error }}]</span>
+				{% endfor %}
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
+                {{ form.password.label }}
                 <input class="form-control" type="password" name="password" placeholder="Password">
+				{% for error in form.password.errors %}
+				<span style="color: red;">[{{ error }}]</span>
+				{% endfor %}
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input class="form-control" type="password" name="confirm_password" placeholder="Confirm password">
+                {{ form.confirm.label }}
+                <input class="form-control" type="password" name="confirm" placeholder="Confirm password">
             </div>
-            <input class="btn btn-outline-primary mb-2" type="submit">
+			 {% for error in form.confirm.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+			<p>{{ form.submit() }}</p>
         </form>
     </div>
 {% endblock %}
