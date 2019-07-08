@@ -1,3 +1,5 @@
+![corrupt_cats](https://cdn.discordapp.com/attachments/592793538727772190/597884573568729088/MOSHED-2019-7-8-23-18-31.gif)
+
 # Documentation: CorruptClimate
 
 ## Description
