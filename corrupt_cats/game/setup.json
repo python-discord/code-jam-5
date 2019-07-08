@@ -1,3 +1,11 @@
 {
-	"temperature_system": "C"
+    "population": {
+        "min": 500000,
+        "max": 100000000
+    },
+    "start_temp": {
+        "min": -30,
+        "max": 30
+    },
+    "temperature_system": "C"
 }
