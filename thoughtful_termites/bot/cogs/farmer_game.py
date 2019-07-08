@@ -48,6 +48,9 @@ def cooldown_check():
             await ctx.db_stats.update_last_used()
             return True
 
+        if ctx.db_stats.ignore_cooldowns:
+            return True
+
         delta = datetime.now() - ctx.db_stats.last_used
         if delta.total_seconds() < 43200:  # 12 hours
             raise commands.CheckFailure(f'You\'re on cooldown! Please wait another '
@@ -196,6 +199,20 @@ class FarmerTown(commands.Cog):
         """
         if ctx.invoked_subcommand is None:
             await ctx.send_help(ctx.command)
+
+    @farmertown.command()
+    @requires_account()
+    async def ignore_cooldowns(self, ctx, toggle: bool = True):
+        """Helper command to ignore cooldowns imposed
+        upon `>farmertown sow` and `farmertown results`
+
+        Parameters
+        ---------------
+        • toggle: `True` or `False`, depending on if you want to enable/disable cooldowns.
+            Defaults to True.
+        """
+        await ctx.db_stats.toggle_ignore_cooldowns(toggle)
+        await ctx.send('All Done \N{WHITE HEAVY CHECK MARK}')
 
     @farmertown.command()
     async def cropinfo(self, ctx, *, crop: CropConverter = None):

@@ -28,6 +28,12 @@ class GoalList(qt.QListWidget):
         self.setSelectionMode(self.ExtendedSelection)
 
     def on_context_menu(self, pos: qt.QPoint):
+        """
+        Callback invoked when a context menu is requested for the
+        goal list.
+
+        :param pos: Position of click.
+        """
         item: GoalListItem = self.itemAt(pos)
         selected_items = self.selectedItems()
 

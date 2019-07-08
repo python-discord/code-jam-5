@@ -14,8 +14,11 @@ class FarmerTownMain:
         The owner's farmer name
     cash: int
         The account balance
+    ignore_cooldowns: bool
+        Whether to ignore cooldowns or not.
     """
-    __slots__ = ('db', 'result', 'id', 'user_id', 'farmer_name', 'cash', 'debt', 'banked')
+    __slots__ = ('db', 'result', 'id', 'user_id', 'farmer_name', 'cash', 'debt', 'banked',
+                 'ignore_cooldowns')
 
     def __init__(self, db, result):
         self.db = db
@@ -27,6 +30,7 @@ class FarmerTownMain:
         self.cash: int = result['cash'] or 0
         self.debt: int = result['debt'] or 0
         self.banked: int = result['banked'] or 0
+        self.ignore_cooldowns = result['ignore_cooldowns'] or False
 
     @property
     def last_used(self):
@@ -118,6 +122,25 @@ class FarmerTownMain:
                 (to_add, self.user_id)
             )
 
+            self.db.connection.commit()
+
+        return await self.db.loop.run_in_executor(None, execute)
+
+    async def toggle_ignore_cooldowns(self, toggle):
+        """Update settings to ignore cooldowns according to the toggle passed.
+        :param: toggle: whether to ignore cooldowns or not.
+        """
+        def execute():
+            if toggle:
+                self.db.connection.execute(
+                    "UPDATE farmertown SET ignore_cooldowns = 'True' WHERE user_id=?",
+                    (self.user_id,)
+                )
+            else:
+                self.db.connection.execute(
+                    "UPDATE farmertown SET ignore_cooldowns = NULL WHERE user_id=?",
+                    (self.user_id,)
+                )
             self.db.connection.commit()
 
         return await self.db.loop.run_in_executor(None, execute)

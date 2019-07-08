@@ -14,7 +14,8 @@ to become more eco-friendly by setting environmentally green goals.
 3. Configure the bot using the 'Configure Bot' button. This will require
 you to set up your own Discord bot
 [here](https://discordapp.com/developers/applications/). Enter in the
-bot's token and client ID as prompted.
+bot's token and client ID as prompted. **NOTE: You need to create a new
+server and invite the bot to that server to run commands.**
 
 4. Configure goals and reminders using the 'Open Goals' button. More info
 on this in the Usage section below.
@@ -52,6 +53,7 @@ We have a large variety of minigames and features on our Discord bot,
 including:
 
 - `>trivia`: A general trivia game that tests the user's knowledge.
+- `>reacttest`: Test your reaction speed with this minigame!
 - `>farmertown`: Are you the best farmer in the town?
 
     Play a game of FarmerTown with the bot.
@@ -91,3 +93,19 @@ emoji to guess a letter.
 accidentally remove the trees!
   - Use `guess x y` to excavate a tile on the field.
   - Use `flag x y` to flag a certain tile.
+  
+### Code Jam-specific stuff
+
+- If you want to bypass the unlocks, edit the file
+`shared/goal_db/completed_goals.txt` to any number above 8.
+If no such file exists, create one and put any number above 8 in.
+
+- You can disable the cooldowns imposed upon `>farmertown sow` and `>farmertown results` with
+  `>farmertown ignore_cooldowns`. Less fun, but it makes testing easy...
+
+### Credits
+
+Program icon courtesy of Vignesh P, accessed via 
+https://www.iconfinder.com/icons/2189582/ecology_green_leaf_plant_spring_icon
+
+Released under the Creative Commons Attribution 3.0 Unported license. https://creativecommons.org/licenses/by/3.0/

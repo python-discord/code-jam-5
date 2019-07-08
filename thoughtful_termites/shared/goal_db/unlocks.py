@@ -17,6 +17,13 @@ class Unlock:
 
     @classmethod
     def from_row(cls, db: 'GoalDB', row: sqlite3.Row):
+        """
+        Create a new Unlock class from a SQLite row.
+
+        :param db: The database where the row is
+        :param row: The row that's been fetched
+        :return: an Unlock class encapsulating the contents of the row
+        """
         result = cls()
 
         result.id = row["id"]
@@ -28,6 +35,15 @@ class Unlock:
 
     @classmethod
     def create_new(cls, db: 'GoalDB', name, is_unlocked):
+        """
+        Create a new Unlock class, which is both sent to the database
+        and returned back to the user.
+
+        :param db: The database which is going to be updated
+        :param name: The name of the minigame
+        :param is_unlocked: Whether that minigame is unlocked or not
+        :return: An Unlock class that encapsulates that data
+        """
         cursor = db.connection.cursor()
         cursor.execute(
             "insert into unlocks (name, is_unlocked) values (?, ?)",

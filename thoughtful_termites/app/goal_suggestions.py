@@ -32,8 +32,8 @@ class GoalSuggestion:
 suggestions = (
     GoalSuggestion(
         'Drive Less',
-        'Take public transport or a bike ride on some days instead of '
-        'driving.'
+        'Take public transport, walk or a ride a bike on some days '
+        'instead of driving.'
     ),
 
     GoalSuggestion(
@@ -51,28 +51,30 @@ suggestions = (
         'Line Dry Clothes',
         'Use a line to dry your clothes instead of a dryer.'
     ),
+
+    GoalSuggestion(
+        'Cook At Home',
+        'Cook at home instead of ordering takeaway.'
+    ),
+
+    GoalSuggestion(
+        'Hand Wash Clothes',
+        'Hand wash clothes instead of using a washing machine.'
+    ),
+
+    GoalSuggestion(
+        'Hand Wash Dishes',
+        'Hand wash dishes instead of using a dish washer.'
+    ),
+
+    GoalSuggestion(
+        'Take Shorter Showers',
+        'Try to reduce time spent in the shower.'
+    ),
 )
 """
 Collection of predefined suggestions.
 """
-
-
-# def random_suggestion_generator():
-#     while True:
-#         shuffled = random.sample(suggestions, len(suggestions))
-#         yield from shuffled
-#
-#
-# suggestion_generator = random_suggestion_generator()
-#
-#
-# def random_suggestion() -> GoalSuggestion:
-#     global suggestion_generator
-#     while True:
-#         try:
-#             return next(suggestion_generator)
-#         except StopIteration:
-#             suggestion_generator = random_suggestion_generator()
 
 _suggestions_iterator = iter(suggestions)
 
