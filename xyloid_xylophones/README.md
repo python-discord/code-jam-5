@@ -1,3 +1,5 @@
+![Xyloid Xylophones logo](./logo.png)
+
 # Xyloid Dreams
 
 ## Description
