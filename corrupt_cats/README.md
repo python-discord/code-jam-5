@@ -15,7 +15,7 @@ Requires python 3.6.7+ (and pip)
 Firstly, change your directory to `corrupt_cats`
 
 ```
-$ cd <code_jam_root_level>/corrupt_cats
+$ cd <code_jam_root>/corrupt_cats
 ```
 
 Secondly, install all required dependencies:
@@ -47,15 +47,26 @@ Just run it and have fun watching humanity disappear -.-)/
 ## Quick file index
 
 `main.py` - contains main code of the project
+
 `config.json`, `setup.json` - config files, it is not recommended to touch them
+
 `ui/classes.py` - contains code of NSprite
+
 `sounds`, `sprites`, `pixel_font.ttf` - assets for the project
+
+
 `core/accidents.py` - contains code of different Accidents
+
 `core/constants.py` - contains constants used in the project
+
 `core/country.py` - includes code or Country class
+
 `core/temperature.py` - sets up structure of Temperature class
-`core/utils/functions.py` - has all functions that are needed (or not needed) in the project
+
+`core/utils/functions.py` - has all functions that are needed (or not needed) in the 
+
 `core/utils/lists.py` - has lists used in Country name generation
+
 `core/utils/name_gen.py` - generates random names for Country objects
 
 ## In case any problems appear...
@@ -70,4 +81,4 @@ If you are recieving an error, contact `NeKitGuyPro[DSS]#1110` on Discord or `Ne
 
 ### Event
 
-Big thanks to all organisators from [pythondiscord.com](https://pythondiscord.com/)
+Big thanks to all organisators from [pythondiscord.com](https://pythondiscord.com/) <3
