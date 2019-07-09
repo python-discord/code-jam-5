@@ -151,5 +151,11 @@ License: CC BY (http://creativecommons.org/licenses/by/4.0/)
 #### Artwork from https://kenney.nl/assets
 License: CC0 1.0 Universal (https://creativecommons.org/publicdomain/zero/1.0/) 
 
-#### Event from https://pythondiscord.com
-Sincere thanks to all of the team of Python Discord and sponsors of this event
+#### Development from Various Vipers
+Horiwix#4181
+Skilldeliver#0515
+
+<p align="left">
+  <br>
+  <img src="docs/screenshots/various_vipers_logo.png" width="256">
+</p>
