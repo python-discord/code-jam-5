@@ -1,0 +1,10 @@
+rush -c 100 -d 0.025
+rush -c 100 -d 0.025
+rush -t "FastEnemy" -c 15 -d 0.05
+sleep 3
+rush -t "BigEnemy" -c 30 -d 0.1
+rush -t "FastEnemy" -c 30 -d 0.1
+rush -t "Truck" -c 10 -d 0.1
+sleep 2
+rush -t "FastEnemy" -c 50 -d 0.05
+rush -t "Truck" -c 10 -d 0.005

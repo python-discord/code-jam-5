@@ -1,0 +1,7 @@
+rush -c 20 -d 0.2
+sleep 0.2
+rush -c 20 -d 0.15
+sleep 0.2
+rush -c 20 -d 0.1
+sleep 0.2
+rush -t "FastEnemy" -c 20 -d 0.05

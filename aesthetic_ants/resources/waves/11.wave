@@ -1,0 +1,4 @@
+rush -c 100 -d 0.1
+rush -t "FastEnemy" -c 50 -d 0.1
+rush -t "BigEnemy" -c 50 -d 0.1
+rush -t "Truck" -c 3 -d 0
