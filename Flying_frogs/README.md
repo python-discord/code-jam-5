@@ -1,4 +1,5 @@
 # Flying Frogs
+![Flying frogs logo](https://avatars3.githubusercontent.com/u/52217686?s=200&v=4)
 
 A game to destroy non-electric cars. Your score increases or decreases depending on what cars you let go or destroy and the aim is to gain as many points as possible. It is a GUI based game written entirely in python using pygame.
 
