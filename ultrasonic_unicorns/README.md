@@ -6,9 +6,10 @@ This projects goal was to deliver some climate news via an Alexa enabled device.
 load an database of extreme weather events. The user asks for records from that state and the device returns a random
 record as speech to the end device. This interaction was to be the first of a few. 
 
-Example interaction:
+Example interaction fromt he Alexa Developers Test Console which is a fully compliant "Alexa Device" used for testing:
 
 ![](images/alexa-skill-console.png)
+
 
 Should you choose to setup your own version of this skill in the alexa console you can start with the contents of `alexa.json`
 
