@@ -1,0 +1,12 @@
+should_debug=true
+
+[api]
+domain="127.0.0.1"
+port=5000
+
+[web_portal]
+domain="127.0.0.1"
+port=5001
+
+[bot]
+prefix="?"

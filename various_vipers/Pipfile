@@ -1,0 +1,26 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+flake8-bugbear = "*"
+flake8-import-order = "*"
+flake8-tidy-imports = "*"
+flake8-todo = "*"
+flake8-string-format = "*"
+flake8-docstrings = "*"
+pre-commit = "*"
+black = "==19.3b0"
+
+[packages]
+pygame = "*"
+
+[requires]
+python_version = "3.7"
+
+[scripts]
+lint = "python -m flake8"
+precommit = "pre-commit install"
+start = "python -m project"
