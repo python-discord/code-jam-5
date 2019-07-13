@@ -22,7 +22,7 @@ jobs:
   - task: UsePythonVersion@0
     displayName: 'Set Python version'
     inputs:
-      versionSpec: '3.6.x' # Using 3.6 for extra library support
+      versionSpec: '3.7.x'
       addToPath: true
 
   - script: sudo pip3 install setuptools
