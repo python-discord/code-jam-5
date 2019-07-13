@@ -20,7 +20,9 @@ class ReactTest(commands.Cog):
             return user == ctx.author and str(reaction.emoji) == '\N{OCTAGONAL SIGN}'
 
         embed = discord.Embed(colour=0x0000ff)
-        embed.set_author(name="Press the reaction when the embed turns green", icon_url=ctx.author.avatar_url)
+        embed.set_author(
+            name="Press the reaction when the embed turns green", icon_url=ctx.author.avatar_url
+        )
         send = await ctx.send(embed=embed)
         await send.add_reaction('\N{OCTAGONAL SIGN}')
         # random delay time
