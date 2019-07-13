@@ -3,10 +3,13 @@ This is a Python template for Alexa to get you building skills (conversations) q
 """
 
 from __future__ import print_function
-import requests
+
 import json
 import random
 import tempfile
+
+import requests
+
 
 # --------------- Helpers that build all of the responses ----------------------
 
@@ -107,12 +110,12 @@ def parseData(state):
         date = record['date']
         location = record['location']
         # we should ultimately only return one record but here is everything for now
-        message = "On {}  an {} of {} was recorded in {}, {} ".format(
+        message = "On {0}  an {1} of {2} was recorded in {3}, {4} ".format(
             date, type, value, location, stateData
         )
         records.append(message)
 
-    return(records)
+    return (records)
 
 
 def return_record(state):
@@ -122,7 +125,7 @@ def return_record(state):
     :return:
     """
 
-    return random.choice(parseData(state))
+    return random.choice(parseData(state))  # noqa
 
 
 def handle_session_end_request():
