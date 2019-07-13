@@ -59,8 +59,8 @@ class WLDifference:
         # preform calc
         return (
             # fmt: off
-            self.evaluate_timestamp(max(dates)) -
-            self.evaluate_timestamp(min(dates)),
+            self.evaluate_timestamp(max(dates))
+            - self.evaluate_timestamp(min(dates)),
             True if is_pred_1 or is_pred_2 else False  # prediction
         )
 
