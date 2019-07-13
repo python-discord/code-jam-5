@@ -1,0 +1,3 @@
+rush -t "BigEnemy" -c 30 -d 0.1
+sleep 2
+rush -t "FastEnemy" -c 10 -d 0.25

@@ -1,0 +1,31 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+black = "*"
+
+[packages]
+flask = "*"
+discord-py = "*"
+requests = "*"
+flask-restful = "*"
+flask-sqlalchemy = "*"
+aiohttp = "*"
+toml = "*"
+numpy = "*"
+scipy = "*"
+sklearn = "*"
+python-dotenv = "*"
+flask-wtf = "*"
+
+[requires]
+python_version = "3.6"
+
+[scripts]
+lint = "python -m flake8"
+
+[pipenv]
+allow_prereleases = true

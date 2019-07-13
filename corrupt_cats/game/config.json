@@ -1,0 +1,55 @@
+{
+    "country_amount": 10,
+    "descriptions": [
+        {
+            "0": "{} is a cold country, and it's start temperature was {}.",
+            "1": "{} has 'temperate' climate, with start temperature of {}.",
+            "2": "{} is a hot country, having start temperature equal to {}."
+        },
+        {
+            "0": "People in {} are not used to high temperatures, but they handle low temperatures well.",
+            "1": "People living in {} are used to both low and high temperatures. However, very low/high temperatures are dangerous to them.",
+            "2": "People that live in {} are not used to cold temperatures, but they don't feel bad in high temperatures."
+        },
+        "Current population of {} is {}.",
+        "{} has encountered {} accidents.",
+        "List of all possible accidents in {}: [{}].",
+        "Current CFC level in {} is {}."
+    ],
+    "accidents": {
+        "Tsunami": {
+            "description": "Tsunami is an extremely dangerous natural disaster, which causes a lot of damage and can kill thousands of people.",
+            "min_affect": 100,
+            "max_affect": 50000
+        },
+        "Wildfire": {
+            "description": "Wildfires are among the deadliest happenings in nature. They happen when temperature is way too high, and can kill hundreds of people.",
+            "min_affect": 20,
+            "max_affect": 10000,
+            "damage_per_day": 10
+        },
+        "Flood": {
+            "description": "A flood is an overflow of water that submerges land that is usually dry. People lose their homes, and some of them may die.",
+            "min_affect": 10,
+            "max_affect": 1000,
+            "damage_per_day": 5
+        },
+        "Tornado": {
+            "description": "A tornado is a violent and dangerous rotating column of air that is in contact with the surface of the Earth. It can cause powerful damage to buildings, and can kill hundreds of people.",
+            "min_affect": 10,
+            "max_affect": 10000,
+            "damage_per_day": 5
+        },
+        "Heatwave": {
+            "description": "A heat wave is a period of unusually and excessively hot weather, which causes humans to get exhausted and may result in their death.",
+            "min_affect": 50,
+            "max_affect": 20000,
+            "damage_per_day": 1
+        },
+        "Earthquake": {
+            "description": "Earthquake is the shaking of the surface of the Earth, which can be violent enough to destroy buildings and kill thousands of people.",
+            "min_affect": 0,
+            "max_affect": 50000
+        }
+    }
+}

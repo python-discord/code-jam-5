@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>About Practical Porcupine</h1>
+<hr>
+<h3>What does it do?</h3>
+<p class="lead">Practical Porcupine is a project hacked together for the 5th Python code jam, with the theme of
+    <b>Global Warming</b>. This web-portal connects to an api (that you are most likely running on your computer right
+    now (If you are, it may be <a href="http://127.0.0.1:5000">here</a>)! It gets 2 dates, as seen on
+    the <a href="{{ url_for('index') }}">home</a> page and calculates the difference between the GMWL (Global Mean Water
+    Level) in mm.
+    <br><br>
+    To save database space and <i>show off</i>, we have a large dataset that has been interpolated to give you precise
+    times of the GMWL. There is also a simple prediction algorithm that <i>was</i> going to be machine learning but
+    there was not enough time to test unforunatly.</p>
+<h3>Who are we?</h3>
+<ul class="lead">
+    <li>Discord: scOwez#7734, <a href="https://github.com/scOwez">GitHub</a>, <a
+            href="https://gitlab.com/scOwez">GitLab</a> <i>(GitLab used more)</i>
+        <ul>
+            <li><i>Team lead</i></li>
+            <li>Core api</li>
+            <li>Webportal (helper)</li>
+            <li>Discord bot</li>
+        </ul>
+    </li>
+    <li>Discord: Leterax#6932, <a href="https://github.com/Leterax">GitHub</a>
+        <ul>
+            <li><i>Team member</i></li>
+            <li>Data interpolation</li>
+            <li>Core</li>
+        </ul>
+    </li>
+    <li>Discord: madewithrealfruit#8127, <a href="https://github.com/kieran-flaherty">GitHub</a>
+        <ul>
+            <li><i>Team member</i></li>
+            <li>Data collection</li>
+            <li>Data parsing</li>
+            <li>Webportal (main dev)</li>
+        </ul>
+    </li>
+</ul>
+{% endblock %}
