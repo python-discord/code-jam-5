@@ -17,7 +17,6 @@ def login():
     """
     Log in to an account
     """
-    
     if current_user.is_authenticated:
         return redirect(url_for("index"))
     form = LoginForm()
@@ -52,6 +51,7 @@ def login():
             flash("Incorrect username or password", "danger")
             return render_template("login.html")
     '''
+
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -108,6 +108,7 @@ def signup():
         )
         return redirect(url_for("login"))
     '''
+
 
 @app.route("/logout", methods=["GET", "POST"])
 def logout():

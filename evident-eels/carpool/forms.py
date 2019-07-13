@@ -1,4 +1,4 @@
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from flask_wtf import FlaskForm
 from carpool.models import User
