@@ -6,7 +6,6 @@ from __future__ import print_function
 
 import json
 import random
-import tempfile
 
 import requests
 
@@ -94,9 +93,7 @@ def get_welcome_response():
 
 def parseData(state):
     req = requests.get('https://weather-1283198235129847.s3.amazonaws.com/weatherExtremesJSON.json')
-    temp = tempfile.NamedTemporaryFile(prefix="weather_", suffix="_codejam5")
-    open(temp.name, 'wb').write(req.content)
-    jdata = json.loads(open(temp.name).read())
+    jdata = json.loads(req.content)
     records = []
     # grab all useful records
     state = state.lower()
@@ -114,8 +111,7 @@ def parseData(state):
             date, type, value, location, stateData
         )
         records.append(message)
-
-    return (records)
+    return records
 
 
 def return_record(state):
