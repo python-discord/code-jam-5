@@ -5,11 +5,8 @@ verify_ssl = true
 
 [dev-packages]
 flake8 = "*"
-pyqt5-stubs = "*"
 
 [packages]
-"discord.py" = "*"
-pyqt5 = "*"
 
 [requires]
 python_version = "3.7"
