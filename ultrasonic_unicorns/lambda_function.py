@@ -6,7 +6,6 @@ from __future__ import print_function
 import requests
 import json
 import random
-import tempfile
 
 # --------------- Helpers that build all of the responses ----------------------
 
