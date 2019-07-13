@@ -2,7 +2,7 @@ import random
 import math
 import warnings
 
-from mysterious_moose.src.world import World, world_regions, INDUSTRY_TO_CO2
+from src.world import World, world_regions, INDUSTRY_TO_CO2
 
 VIRULENCE_FACTOR = 0.1
 

@@ -67,7 +67,7 @@ class World:
 
     def _load_regions(self):
         regions = {}
-        with open('../data/regions.txt', 'r') as region_file:
+        with open('data/regions.txt', 'r') as region_file:
             for line in region_file:
                 split_line = line.split('\t')
                 name = split_line[0]

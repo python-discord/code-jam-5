@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 if ! [ -d venv/ ]; then
-  python -m venv venv
-  source venv/Scripts/activate
-  python -m pip install -r requirements.txt
+  python3.7 -m venv venv
+  source venv/bin/activate
+  python3.7 -m pip install -r requirements.txt
 else
-  source venv/Scripts/activate
+  source venv/bin/activate
 fi
-python -m src
+python3.7 -m src

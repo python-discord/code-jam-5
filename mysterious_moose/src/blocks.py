@@ -64,7 +64,7 @@ class BlockGraphic:
 
 def get_blocks(renderer):
     """ reads data/blocks.json and creates relevant Block objects """
-    blocks_file = open("data/blocks.json")
+    blocks_file = open("src/data/blocks.json")
     blocks_list = json.load(blocks_file)
     market_blocks = []
     player_blocks = []
