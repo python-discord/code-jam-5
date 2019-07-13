@@ -108,7 +108,7 @@ def parseData(state):
             date, type, value, location, stateData
         )
         records.append(message)
-    return(records)
+    return records
 
 
 def return_record(state):
