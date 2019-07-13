@@ -2,8 +2,17 @@
 
 [![Build Status](https://nectr.dev/buildStatus/icon?job=ultrasonic-unicorn)](https://nectr.dev/job/ultrasonic-unicorn/)
 
-This is a living document.  Feel free to make any corrections or additions you 
-think would be helpful.
+This projects goal was to deliver some climate news via an Alexa enabled device. The first versions functionality was to
+load an database of extreme weather events. The user asks for records from that state and the device returns a random
+record as speech to the end device. This interaction was to be the first of a few. 
+
+Example interaction:
+
+![](images/alexa-skill-console.png)
+
+Should you choose to setup your own version of this skill in the alexa console you can start with the contents of `alexa.json`
+
+However please note that the skill presently isn't passing the verification steps required by Amazon. 
 
 [github_page]: https://github.com/PseudoDesign/code-jam-5
 [repository]: https://github.com/PseudoDesign/code-jam-5.git
