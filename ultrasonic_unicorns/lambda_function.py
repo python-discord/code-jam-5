@@ -112,7 +112,7 @@ def parseData(state):
         )
         records.append(message)
     return records
-  
+
 
 def return_record(state):
     """
