@@ -31,8 +31,8 @@ jobs:
   - script: sudo pip3 install pipenv
     displayName: 'Install Pipenv'
 
-  - script: pipenv install --dev
+  - script: sudo pip3 install flake8
     displayName: 'Install project dependencies'
 
-  - script: pipenv run lint
+  - script: sudo flake8
     displayName: 'Lint the project'
