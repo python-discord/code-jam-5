@@ -1,0 +1,8 @@
+
+
+url: https://www.globalgiving.org/learn/climate-change-facts
+content:
+  loc: //div[@class="learn_post_intro"]/../p
+  query:
+    content: text()
+    source: small/a/@href

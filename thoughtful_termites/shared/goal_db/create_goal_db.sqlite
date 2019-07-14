@@ -1,0 +1,55 @@
+pragma journal_mode=wal;
+pragma foreign_keys=on;
+
+drop table if exists goals;
+drop table if exists reminders;
+drop table if exists unlocks;
+drop table if exists farmerdecisions;
+drop table if exists farmertown;
+
+create table goals(
+	id integer primary key,
+	name text,
+	desc text
+);
+
+create table reminders(
+	id integer primary key,
+	day integer,
+	time integer,
+	goal_id integer,
+	foreign key (goal_id) references goals(id) on delete cascade
+);
+
+CREATE TABLE farmertown(
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER,
+    farmer_name TEXT,
+    cash INTEGER,
+    debt INTEGER,
+    banked INTEGER,
+    last_used NUMERIC,
+    ignore_cooldowns TEXT
+);
+
+CREATE TABLE farmerdecisions(
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER,
+    crop_name TEXT,
+    drought TEXT,
+    germination NUMERIC,
+    profit INTEGER,
+    loss INTEGER,
+    used NUMERIC
+);
+
+create table unlocks(
+    id integer primary key,
+    name text,
+    is_unlocked integer
+);
+
+insert into unlocks (name, is_unlocked) values ("commentary", 0);
+insert into unlocks (name, is_unlocked) values ("hangman", 0);
+insert into unlocks (name, is_unlocked) values ("treefinder", 0);
+insert into unlocks (name, is_unlocked) values ("rankings", 0);

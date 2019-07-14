@@ -1,0 +1,2 @@
+pygame==1.9.6 # make sure the game doesn't die when pygame has an update
+opencv-python==4.1.0.25 # for the tutorial

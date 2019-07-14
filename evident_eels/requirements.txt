@@ -1,0 +1,4 @@
+Flask==1.0.3
+Flask-Login==0.4.1
+Flask-SQLAlchemy==2.4.0
+Flask-WTF==0.14.2
