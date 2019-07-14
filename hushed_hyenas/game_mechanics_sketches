@@ -1,0 +1,96 @@
+When the player chooses the country, show all their starting indexes and rates
+Rate different countries on different difficulties based on their default indexes
+
+News:
+-> News that show on top of the screen with logs of what happened during the given turn
+5 types/levels: unrelated (1), mixed results (2), good (3), bad (4), catastrophic (5).
+
+unrelated -> to make the game fun (we can use the year the player is on to make fitting jokes) (color gray)
+    60'~80's news:
+    "Stars Wars movie filming is canceled due to high electrical energy used. Turns out those lasers don't power themselves"
+    "Pink Floyd Tour canceled after first show used up the whole energy city had for the whole month. The band says
+        they'll be happy to play on the dark side of the town"
+    "A public poll shows people are spending more energy on electric heaters after the start of the cold war"
+    "9 in 10 people of your country do not know what the cold war is. The one who knows is in the military"
+    "Scientists says that world temperatures are rising due to high number of home refrigerators being used worldwide.
+        According to Mr. Midgley, all the earth's cold is being trapped inside 4 billion refrigerators"
+    "Mr. Midgley published a new research where he's proved that ceiling and wall fans are causing hurricanes"
+    "Mr. Midgley, again, says he's discovered a way to revert climate change: everybody should throw their
+        refrigerator's ice cubes into the ocean"
+    "After a whole year of snow falling almost in every corner of the world, Mr. Midgley says he knows nothing and
+        announced his retirement"
+    "Free nuclear fusion energy is a reality, says scientist, we just need to learn how to do it"
+    "RMS Titanic reaches its destiny safely after hitting a small chunk of ice in the ocean"
+    "All the Ice Sculptures business worldwide have declared bankruptcy, says World Bank"
+
+    90~10's news:
+    "After "Star Wars: The Phantom Menace" script is leaked people are happy the franchise got canceled 30 years ago"
+    "Microsoft's head says Windows95 will be the last one to ever be launched due to its low energy use"
+    "Programmers for Climate Change Convention ends in confusion after fight over using tabs or spaces"
+    "The series finale of Game of Thrones lowered the Public Well being index of your nation by x%"
+    "Drake's song "Hotline Bling" is under investigation for being related to higher temperatures in the US this year"
+    "The blockbuster "Mad Max: Fury Road" shows a sequel of the world we live in, says director"
+    "Lost's last episode is an homage to our own world, which will also have a crappy ending, says fan"
+    "Pearl Harbor movie filming canceled due to the harbor being flooded by the advancing ocean"
+    "Award winning Dwight Schrute's movie "Recyclops" to gain sequels: "Recyclops Reloaded" and "Recyclops Revolution""
+    "The Simpsons predicted nuclear power scandal in episode where Homer pushes big red button for no reason"
+
+mixed results -> good news for the indexes (color blue)
+    "Your X index is up Y% and your N index is down because of Z"
+    "President PLAYER_NAME canceled Formula 1 race to save fuel, Public well being, acceptance and co2 emissions
+        are down x%"
+
+good -> tendency to decrease indexes up to 5% (color green)
+    "Your X index is down Y% because of Z"
+    "In order to save energy, President PLAYER_NAME sanctions law that prohibits people of ever ironing their clothes.
+        People are so happy that public well being index is up x% and energy use is down y%"
+
+bad -> indexes decreasing from 5 to 20% (color orange)
+    "Your X index is down Y% and it also affected your Z index which is down N%"
+
+catastrophic -> something irreversible happened (color red)
+    "Your X index is down X%, XYZ thing just happened"
+        XYZ = whole glacier melted, 1 whole year without raining, all crops are dead, whole country flooded, bees are
+         extinct etc
+    "The Amazon River, the biggest in the world, dries up and becomes the world's biggest desert"
+    "Plants can no longer recognize what season we are on. They now bloom at random moments of the year"
+
+
+Game status:
+-> Indexes that have the power to end the game
+Environmental:
+    Co2 emissions (low is good, high is bad: decreased by green initiatives and increased by non-green)
+    Energy use (low is good, high is bad: decreased by upgrades that force people to use less energy etc)
+    Renewable energy usage/production (low is bad, high is good: increased by research, decreased by selling it)
+    Average temperature (too low is bad, too high is bad)
+Social:
+    Public well being index (low is bad, high is good: affected by temperature, co2, currency value)
+    Public acceptance (low is bad, high is good: affected by unpopular/popular laws)
+Political:
+    Right parties acceptance (low is bad, high is good: affected by decisions that affect the country's economy/structure)
+    Left parties acceptance (low is bad, high is good: affected by decisions that affect the country's economy/structure)
+Economical:
+    Currency value (low currency value is bad, high is good: affected by technological advancement)
+    Income < spending
+        We could standardize the currency as dollars or carbon footprints
+
+
+Upgrades:
+We could divide upgrades in tiers that will show up as the game goes by:
+Tiers 1 (best) to 5 (worst), starting the game with tier 5.
+
+Tier 5:
+    Paint all houses roofs white so they reflect more solar light -> decreases average temperature
+    Invest in renewable energy research -> decreases co2 emissions by a little bit
+Tier 4:
+    Increase the price of electrical energy for the home consumer -> decrease energy use and public acceptance
+Tier 3:
+    Increase the price of electrical energy for factories -> decrease energy and devalues currency
+    Invest in renewable energy research and implementation -> decreases co2 and values currency and income
+    Sell renewable technology to other country for a high price -> decrease acceptance of both political parties and
+        gives money
+Tier 2:
+    Force all factories to have at least 50% of its energy being renewable -> decrease energy and devalues currency
+Tier 1:
+    Switch country's energy generation from coal to renewable sources (requires having purchased research earlier)
+    Buy renewable technology from another country (cost more but don't require prior upgrades purchased)
