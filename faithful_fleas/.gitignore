@@ -1,4 +1,4 @@
-k# Byte-compiled / optimized / DLL files
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -82,7 +82,7 @@ celerybeat-schedule
 *.sage.py
 
 # Environments
-.env # for pipenv
+.env
 .venv
 env/
 venv/
@@ -103,9 +103,5 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# VSCode settings
-.vscode/
-
-# JetBrains IDE
-.idea/
+.idea
 *.db
