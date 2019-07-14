@@ -1,0 +1,3 @@
+resources:
+  Counter: Counter.qml
+  FactWidget: FactWidget.qml

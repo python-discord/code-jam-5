@@ -1,0 +1,29 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+selenium = "*"
+
+[packages]
+pyqt5 = "*"
+numpy = "*"
+pydub = "*"
+cachetools = "*"
+gtts = "*"
+lxml = "*"
+requests = "*"
+cached-property = "*"
+pyyaml = "*"
+spacy = "*"
+selenium = "*"
+
+[requires]
+python_version = "3.7"
+
+[scripts]
+lint = "python -m flake8"
+start = "python -m only_otters"
+setup-nlp = "python -m spacy download en"
