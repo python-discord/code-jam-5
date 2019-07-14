@@ -16,7 +16,7 @@ These instructions will get you a copy of the project up and running on your loc
 ## Environment Variables
 - DISCORD_TOKEN : You bot token.
 - DISCORD_PREFIX : Prefix for your bot.
-- DARKSKY_KEY : key to access dark sky API.(Use this key: 28cad89555ae28fe91de855b665727e9)
+- DARKSKY_KEY : key to access dark sky API.
  
 ## Running the bot
 Pre-task:
