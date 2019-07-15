@@ -97,7 +97,7 @@ It needs to be in **1º x 1º Latitude-Longitude Grid** format.
 
 ## Authors
 
-* **[martmists](https://github.com/martmists)** - *Team leader*
+* **[Martmists](https://github.com/martmists)** - *Team leader*
 * **[Numerlor](https://github.com/Numerlor)** - *Frontend, refactoring*
 * **[Braindead](https://github.com/albertopoljak)** - *Backend, refactoring*
 
